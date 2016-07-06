@@ -1,0 +1,18 @@
+For the OS shared virtualMachine
+-Installed Virtualbox
+-Installed virutalMachine Tiny7 in shared directory between the two OS
+-Tiny7 deleted from register without eliminating archives
+-Obtained Tiny7 disk and moved outside Tiny7 folder
+-deleted Tiny7 folder
+-from windows created new virtualMachine "Tiny7-win" with the Tiny7 disk
+-from linux created new virutalMachine "Tiny7-linux" with the same Tiny7 disk
+-shared folder can be created independet in each virtual machine in each OS
+
+Inside virtualMachine disk of Tiny7
+-installed Tiny7
+-installed Guest additions
+-installed python xy
+-installed all RRtoolbox dependencies
+-installed graphviz or a zip file can be extracted
+-added enviroment path to graphviz
+-installed pycharm

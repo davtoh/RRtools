@@ -1,0 +1,92 @@
+
+def persist(functions,filename=None):
+    ############ DEPECRATED
+    """
+    save memoized internal functions to file an read when run
+    :param functions: list of internal memoized functions Ex: ["foo1",...,"fooN"]
+    :param filename: path to cache file
+    :return: original function with persistence
+    """
+    def getlastglobals():
+        return inspect.stack()[2][0].f_locals
+    func = functions[0].func_closure[0].cell_contents.func
+    if not filename:
+        filename = os.path.basename(func.func_globals["__file__"]).split(".")[0]+".pkl"
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args,**kwargs):
+            try:
+                temp = session.readSession(filename)
+                for funtion in functions:
+                    func.func_globals[funtion.func_name] = temp[funtion.func_name]
+            except:
+                print(filename + " could not be readed")
+            result = fn(*args,**kwargs)
+            tosave = {}
+            for funtion in functions:
+                    tosave[funtion.func_name] = func.func_globals[funtion.func_name]
+            session.saveSession(filename, tosave)
+            return result
+        return wrapper
+    return decorator
+
+def persist2(functions,filename=None):
+    import os,functools,session
+    """
+    save memoized internal functions to file an read when run
+    :param functions: list of internal memoized functions Ex: ["foo1",...,"fooN"]
+    :param filename: path to cache file
+    :return: original function with persistence
+    """
+    if not filename:
+        filename = os.path.basename(globals()["__file__"]).split(".")[0]+".pkl"
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args,**kwargs):
+            try:
+                temp = session.readSession(filename)
+                for funtion in functions:
+                    globals()[funtion] = temp[funtion]
+            except:
+                print(filename + " could not be readed")
+            result = fn(*args,**kwargs)
+            tosave = {}
+            for funtion in functions:
+                    tosave[funtion] = globals()[funtion]
+            session.saveSession(filename, tosave)
+            return result
+        return wrapper
+    return decorator
+
+import inspect,functools,os
+def persist(functions,filename=None):
+    """
+    save memoized internal functions to file an read when run
+    :param functions: list of internal memoized functions Ex: ["foo1",...,"fooN"]
+    :param filename: path to cache file
+    :return: original function with persistence
+    """
+    func = functions[0].func_closure[0].cell_contents.func
+    a = functions[0].func_closure[0].cell_contents.func.func_globals
+    b = functions[1].func_closure[0].cell_contents.func.func_globals
+    assert a==b
+    if not filename:
+        filename = os.path.basename(func.func_globals["__file__"]).split(".")[0]+".pkl"
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args,**kwargs):
+            assert fn.func_globals==globals()
+            try:
+                temp = session.readSession(filename)
+                for funtion in functions:
+                    func.func_globals[funtion.func_name] = temp[funtion.func_name]
+            except:
+                print(filename + " could not be readed")
+            result = fn(*args,**kwargs)
+            tosave = {}
+            for funtion in functions:
+                    tosave[funtion.func_name] = func.func_globals[funtion.func_name]
+            session.saveSession(filename, tosave)
+            return result
+        return wrapper
+    return decorator

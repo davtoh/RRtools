@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>RRtoolbox.lib.arrayops.filters.FilterBase</OriginalElement>
+  <nodes>
+    <node x="404.25" y="653.0">RRtoolbox.lib.arrayops.filters.highpass</node>
+    <node x="98.25" y="674.0">RRtoolbox.lib.arrayops.filters.bandpass</node>
+    <node x="1261.375" y="816.0">RRtoolbox.lib.arrayops.filters.invertedbandstop</node>
+    <node x="403.1875" y="153.0">RRtoolbox.lib.arrayops.filters.FilterBase</node>
+    <node x="904.125" y="653.0">RRtoolbox.lib.arrayops.filters.lowpass</node>
+    <node x="0.0" y="816.0">RRtoolbox.lib.arrayops.filters.invertedbandpass</node>
+    <node x="660.6875" y="0.0">_abcoll.Callable</node>
+    <node x="1205.125" y="674.0">RRtoolbox.lib.arrayops.filters.bandstop</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="RRtoolbox.lib.arrayops.filters.invertedbandpass" target="RRtoolbox.lib.arrayops.filters.bandpass">
+      <point x="82.25" y="-25.0" />
+      <point x="246.75" y="791.0" />
+      <point x="241.25" y="791.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.invertedbandpass" target="_abcoll.Callable">
+      <point x="-82.25" y="-25.0" />
+      <point x="82.25" y="791.0" />
+      <point x="87.75" y="791.0" />
+      <point x="87.75" y="113.0" />
+      <point x="679.8303571428571" y="113.0" />
+      <point x="-114.85714285714289" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.invertedbandstop" target="RRtoolbox.lib.arrayops.filters.bandstop">
+      <point x="-81.75" y="-25.0" />
+      <point x="1343.125" y="791.0" />
+      <point x="1348.125" y="791.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.FilterBase" target="_abcoll.Callable">
+      <point x="0.0" y="-225.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.highpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="70.25" y="-56.5" />
+      <point x="615.0" y="633.0" />
+      <point x="696.8125" y="633.0" />
+      <point x="-97.875" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.highpass" target="_abcoll.Callable">
+      <point x="-70.25" y="-56.5" />
+      <point x="474.5" y="623.0" />
+      <point x="392.6875" y="623.0" />
+      <point x="392.6875" y="133.0" />
+      <point x="756.4017857142858" y="133.0" />
+      <point x="-38.28571428571422" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.lowpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="-70.25" y="-56.5" />
+      <point x="974.375" y="633.0" />
+      <point x="892.5625" y="633.0" />
+      <point x="97.875" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.bandstop" target="_abcoll.Callable">
+      <point x="71.5" y="-35.5" />
+      <point x="1419.625" y="123.0" />
+      <point x="871.2589285714284" y="123.0" />
+      <point x="76.57142857142844" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.invertedbandstop" target="_abcoll.Callable">
+      <point x="81.75" y="-25.0" />
+      <point x="1506.625" y="791.0" />
+      <point x="1501.625" y="791.0" />
+      <point x="1501.625" y="113.0" />
+      <point x="909.5446428571429" y="113.0" />
+      <point x="114.85714285714289" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.bandpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="71.5" y="-35.5" />
+      <point x="312.75" y="633.0" />
+      <point x="501.0625" y="633.0" />
+      <point x="-293.625" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.lowpass" target="_abcoll.Callable">
+      <point x="70.25" y="-56.5" />
+      <point x="1114.875" y="633.0" />
+      <point x="1196.6875" y="633.0" />
+      <point x="1196.6875" y="133.0" />
+      <point x="832.9732142857142" y="133.0" />
+      <point x="38.28571428571422" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.bandpass" target="_abcoll.Callable">
+      <point x="-71.5" y="-35.5" />
+      <point x="169.75" y="123.0" />
+      <point x="718.1160714285713" y="123.0" />
+      <point x="-76.57142857142867" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.bandstop" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="-71.5" y="-35.5" />
+      <point x="1276.625" y="623.0" />
+      <point x="1088.3125" y="623.0" />
+      <point x="293.625" y="225.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6467268623024831" x="838.9057591623036" y="464.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+</Diagram>
+

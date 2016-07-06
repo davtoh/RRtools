@@ -1,0 +1,15 @@
+cd Downloads/
+#manual can be found in "doc/html/index.html
+tar -xf sip-4.17.tar.gz 
+cd sip-4.17/
+python configure.py
+make
+sudo make install
+"insert password"
+
+cd ..
+tar -xf PyQt-x11-gpl-4.11.4.tar.gz
+cd PyQt-x11-gpl-4.11.4/
+python configure-ng.py
+"accept the license"
+# make files will be created

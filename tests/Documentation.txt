@@ -1,0 +1,2 @@
+$python asift.py --feature=sift-flann im1_1.jpg im1_2.jpg
+$asift.exe --feature=sift-flann im1_1.jpg im1_2.jpg

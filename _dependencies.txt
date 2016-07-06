@@ -1,0 +1,16 @@
+# three party
+opencv-python==2.4.11 # for image manipulation
+numpy==1.9.2 # for array manipulation and Memory-mapped file
+dill==0.2.4 # for serializing manipulation
+joblib>=0.8.4 # for memoization and Memory-mapped file
+pycallgraph==1.0.1
+pyqtgraph==0.9.10 # for image array visualization and visual interfaces (it got pyqt in it)
+
+matplotlib==1.4.3
+clipboard==0.0.4 or pyperclip>=1.5.26
+
+#imagemagic?
+#wand (candidate over opencv) http://www.imagemagick.org/script/api.php ; http://docs.wand-py.org/en/0.4.1/
+#vigra (candidate over opencv) http://ukoethe.github.io/vigra/
+#h5py (candidate over serializing) https://www.hdfgroup.org/ ; http://www.h5py.org/ ; https://pypi.python.org/pypi/h5py
+#PostgreSQL (candidate over serializing) http://www.postgresql.org/about/ ; https://wiki.postgresql.org/wiki/Python
