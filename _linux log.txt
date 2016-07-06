@@ -1,0 +1,5 @@
+- installed virtualBox
+- installed dropbox
+- installed chromium and pepperflashplugin-nonfree (flash for chromium)
+-anable outomount for common partition at "Accessories/Disks" acording to "http://askubuntu.com/a/461539" and "http://www.computerandyou.net/2011/05/how-to-mount-a-windows-partition-on-linux-automatically-on-each-start-up/"
+-enable hibernate 

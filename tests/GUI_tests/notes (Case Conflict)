@@ -1,0 +1,9 @@
+inside FlowChart: 
+	self.graphicsItem().updateTerminals()
+	self.sigTerminalAdded.emit(self, term)
+
+inside a NodeGraphicsItem:
+	self.bounds #describes it boundaries
+	
+inside FlowchartWidget:
+	self.nodeMenu # it is the pop up menu when right cliked it is created by self.buildMenu(pos) that is called externally by self.showViewMenu(event)

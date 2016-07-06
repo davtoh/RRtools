@@ -1,0 +1,233 @@
+__author__ = 'Davtoh'
+import cv2
+import numpy as np
+from plotim import plotim
+from stitch import padVH
+from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
+from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad
+from overlay import overlay
+from hypothesis3_polygon_test import graphpolygontest
+
+#http://stackoverflow.com/questions/14725181/speed-up-iteration-over-numpy-arrays-opencv-cv2-image
+#http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html
+
+pallet = [[0,0,0],[255,255,255],[0,0,255]]
+pallet = np.array(pallet,np.uint8)
+
+
+fn1 = r'C:\Users\Davtoh\Dropbox\PYTHON\projects\tesis\im4_1.jpg'
+name = fn1.split('\\')[-1].split(".")[0]
+
+fore = cv2.imread(fn1)
+fore = cv2.resize(fore,(300,300))
+
+P = brightness(fore)
+thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+thresh = (thresh+20)%240
+thresh,sure_fg = cv2.threshold(P,thresh,1,cv2.THRESH_BINARY)
+
+markers = np.ones_like(sure_fg).astype("int32")
+markers[sure_bg==1]=0
+markers[sure_fg==1]=2
+
+plotc = plotim(name+" markers",pallet[markers])
+plotc.show()
+
+cv2.watershed(fore,markers)
+
+#markers = pad(markers,1,2)
+water = pallet[markers]
+plotc = plotim(name+" watershed",water)
+plotc.show()
+
+
+kernel = np.ones((100,100),np.uint8)
+thresh,lastthresh = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY)
+#dilation = cv2.dilate(thresh,kernel,iterations = 1)
+#erosion = cv2.erode(dilation,kernel,iterations = 1)
+
+plotc = plotim(name+" overlayed lastthresh",overlay(fore.copy(),lastthresh*255,alfa=lastthresh))
+plotc.show()
+
+# find biggest area
+contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+print "objects: ",len(contours)
+index = 0
+maxarea = 0
+#objectarea = np.sum(lastthresh)
+for i in xrange(len(contours)):
+    area = cv2.contourArea(contours[i])
+    if area>maxarea:
+        index = i
+        maxarea = area
+
+print "area contour:",maxarea,"index: ",index
+cnt = contours[index]
+
+"""
+# FIND ROI
+ROI = np.zeros(P.shape,dtype=np.uint8)
+cv2.drawContours(ROI,[cnt],0,1,-1)
+plotc = plotim(name+" ROI",ROI)
+plotc.show()"""
+
+ellipse = cv2.fitEllipse(cnt)
+mask = np.ones(P.shape,dtype=np.uint8)
+cv2.ellipse(mask,ellipse,0,-1)
+fore[mask>0]=0
+plotc = plotim(name+" result",fore)
+plotc.show()
+
+
+
+
+##########################################3
+
+__author__ = 'Davtoh'
+import cv2
+import numpy as np
+from plotim import plotim
+from tesisfunctions import brightness, spoint2opointfunc
+
+fn = r'C:\Users\Davtoh\Dropbox\PYTHON\projects\tesis\im1_2.jpg'
+name = fn.split('\\')[-1].split(".")[0] # get image name
+
+scaled_shape = (300,300) # shape of scaled image to process
+img = cv2.imread(fn) # read image
+sz = img.shape[0:2] # get original image size
+scalepoints = spoint2opointfunc(scaled_shape,sz) # make rescaling function: scaled point -to- original point function
+scaled_img = cv2.resize(img,scaled_shape) # resize to scaled image
+
+P = brightness(scaled_img) # get scaled image brightness
+thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU) # obtain over threshold
+thresh = (thresh+20)%240
+thresh,sure_fg = cv2.threshold(P,thresh,1,cv2.THRESH_BINARY) # obtain under threshold
+
+markers = np.ones_like(sure_fg).astype("int32") # make background markers
+markers[sure_bg==1]=0 # mark unknown markers
+markers[sure_fg==1]=2 # mark sure object markers
+
+cv2.watershed(scaled_img,markers) # get watershed on markers
+
+thresh,lastthresh = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY) # get binary image of contour
+# find biggest area and contour
+contours,hierarchy = cv2.findContours(lastthresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+index = 0
+maxarea = 0
+for i in xrange(len(contours)):
+    area = cv2.contourArea(contours[i])
+    if area>maxarea:
+        index = i
+        maxarea = area
+cnt = contours[index]
+cnt2 = np.int32(scalepoints(cnt)) # rescale contour to original image contour
+ellipse = cv2.fitEllipse(cnt2) # get ellipse for original image to simulate lens
+mask = np.ones(sz,dtype=np.uint8) # create mask
+cv2.ellipse(mask,ellipse,0,-1) # project lens over mask
+
+# simulate lens
+img[mask>0]=0 # use mask to project black color over original image
+
+plotc = plotim(name+" result",img) # show result
+plotc.show()
+
+
+####################################
+
+
+__author__ = 'Davtoh'
+import cv2
+import numpy as np
+from plotim import plotim
+from tesisfunctions import brightness, spoint2opointfunc
+
+fn = r'C:\Users\Davtoh\Dropbox\PYTHON\projects\tesis\im1_2.jpg'
+name = fn.split('\\')[-1].split(".")[0] # get image name
+
+scaled_shape = (300,300) # shape of scaled image to process
+img = cv2.imread(fn) # read image
+sz = img.shape[0:2] # get original image size
+scalepoints = spoint2opointfunc(scaled_shape,sz) # make rescaling function: scaled point -to- original point function
+scaled_img = cv2.resize(img,scaled_shape) # resize to scaled image
+
+P = brightness(scaled_img) # get scaled image brightness
+thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU) # obtain over threshold
+dist_transform = cv2.distanceTransform(sure_bg,cv2.DIST_LABEL_PIXEL,5)
+ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),1,0)  # obtain under threshold
+
+#thresh,sure_fg = cv2.threshold(P,240,1,cv2.THRESH_BINARY) # obtain under threshold for optic disc
+
+markers = np.ones_like(sure_fg).astype("int32") # make background markers
+markers[sure_bg==1]=0 # mark unknown markers
+markers[sure_fg==1]=2 # mark sure object markers
+
+cv2.watershed(scaled_img,markers) # get watershed on markers
+
+thresh,lastthresh = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY) # get binary image of contour
+# find biggest area and contour
+contours,hierarchy = cv2.findContours(lastthresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+index = 0
+maxarea = 0
+for i in xrange(len(contours)):
+    area = cv2.contourArea(contours[i])
+    if area>maxarea:
+        index = i
+        maxarea = area
+cnt = contours[index]
+cnt2 = np.int32(scalepoints(cnt)) # rescale contour to original image contour
+ellipse = cv2.fitEllipse(cnt2) # get ellipse for original image to simulate lens
+mask = np.ones(sz,dtype=np.uint8) # create mask
+cv2.ellipse(mask,ellipse,0,-1) # project lens over mask
+
+# simulate lens
+img[mask>0]=0 # use mask to project black color over original image
+
+plotc = plotim(name+" result",img) # show result
+plotc.show()
+
+
+######################################
+
+def simulateLens(img, scaled_shape = (300,300), parameters = (10,30,None)):
+    sz = img.shape[0:2] # get original image size
+    scalepoints = spoint2opointfunc(scaled_shape,sz) # make rescaling function: scaled point -to- original point function
+    scaled_img = cv2.resize(img,scaled_shape) # resize to scaled image
+    fore2 = scaled_img.copy()
+
+    if parameters is not None:
+        myfilter = filter(*parameters) # alfa,beta1,beta2
+        fore2=myfilter(fore2.astype("float"))*255#*fore.astype("float")
+        fore2 = fore2.astype("uint8")
+
+    P = brightness(fore2) # get scaled image brightness
+    thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU) # obtain over threshold
+    if thresh > 200:
+        thresh = (thresh+20)%240
+    else:
+        thresh = (thresh+100)%240
+    thresh,sure_fg = cv2.threshold(P,thresh,1,cv2.THRESH_BINARY)
+
+    markers = np.ones_like(sure_fg).astype("int32") # make background markers
+    markers[sure_bg==1]=0 # mark unknown markers
+    markers[sure_fg==1]=2 # mark sure object markers
+
+    cv2.watershed(scaled_img,markers) # get watershed on markers
+
+    thresh,lastthresh = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY) # get binary image of contour
+    # find biggest area and contour
+    contours,hierarchy = cv2.findContours(lastthresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    index = 0
+    maxarea = 0
+    for i in xrange(len(contours)):
+        area = cv2.contourArea(contours[i])
+        if area>maxarea:
+            index = i
+            maxarea = area
+    cnt = contours[index]
+    cnt2 = np.int32(scalepoints(cnt)) # rescale contour to original image contour
+    ellipse = cv2.fitEllipse(cnt2) # get ellipse for original image to simulate lens
+    mask = np.ones(sz,dtype=np.uint8) # create mask
+    cv2.ellipse(mask,ellipse,0,-1) # project lens over mask
+    # simulate lens
+    img[mask>0]=0 # use mask to project black color over original image
+    return img,mask

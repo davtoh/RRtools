@@ -1,0 +1,4 @@
+memoization, caching, persistence
+serializing and de-serializing a Python object structure
+https://docs.python.org/2/glossary.html
+https://docs.python.org/2/library/persistence.html

@@ -1,0 +1,3 @@
+
+class CreateProps(object):
+    pass
