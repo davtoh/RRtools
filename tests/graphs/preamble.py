@@ -70,7 +70,8 @@ def mm2inch(*tupl):
 
 def generateGrid(num,cols=3, invert = False):
     """
-    returns an instance of GridSpec
+    returns an instance of GridSpec.
+
     :param num: number of figures
     :param cols: number of columns
     :return: gs -> GridSpec instance, use as: ax = fig.add_subplot(gs[i])
@@ -84,6 +85,363 @@ def generateGrid(num,cols=3, invert = False):
     if invert:
         return gridspec.GridSpec(cols,rows) # grid for each plot
     return gridspec.GridSpec(rows, cols) # grid for each plot
+
+class LatexGraph(object):
+    """
+    representation of a subfigure in latex. This class is used in
+    :class:`LatexMultipleGraph`.
+
+    .. notes::
+
+        needs to import the subcaption package as \usepackage{subcaption}
+    """
+    def __init__(self, filename, caption = None, label = None,
+                 width = None, position = None):
+        """
+
+        :param filename:
+        :param caption:
+        :param label:
+        :param width:
+        :param position:
+        :return:
+        """
+        self.filename = filename
+        self.caption = caption
+        self.label = label
+        self.width = width # width of image
+        self.position = position # position of subfigure
+
+    @property
+    def width(self):
+        if self._width is None:
+            return r"\textwidth"
+        if isinstance(self._width,str):
+            return self._width
+        return r"{}\textwidth".format(self._width)
+    @width.setter
+    def width(self,value):
+        self._width = value
+    @width.deleter
+    def width(self):
+        self._width = None
+
+    @property
+    def position(self):
+        if self._width is None:
+            return r"t"
+        return self._position
+    @position.setter
+    def position(self,value):
+        self._position = value
+    @position.deleter
+    def position(self):
+        self._position = None
+
+    @property
+    def filename(self):
+        return self._filename
+    @filename.setter
+    def filename(self,value):
+        self._filename = value
+    @filename.deleter
+    def filename(self):
+        self._filename = None
+
+    @property
+    def caption(self):
+        if self._caption is None:
+            return ""
+        return self._caption
+    @caption.setter
+    def caption(self,value):
+        self._caption = value
+    @caption.deleter
+    def caption(self):
+        self._caption = None
+
+    @property
+    def label(self):
+        if self._label is None:
+            return ""
+        return self._label
+    @label.setter
+    def label(self,value):
+        self._label = value
+    @label.deleter
+    def label(self):
+        self._label = None
+
+    @property
+    def formatted_caption(self):
+        c,l = self.caption,self.label
+        if c == "" and l == "":
+            return ""
+        if c == "":
+            return r"\label{%s}" % (l)
+        if l == "":
+            return r"\caption{%s}" % (c)
+        return r"\caption{%s\label{%s}}" % (c,l)
+
+    def __str__(self):
+        space = "   "
+        begin = r"\begin{subfigure}[%s]{%s}" % (self.position,self.width)
+        fig = r"\includegraphics[width=\textwidth]{%s}" % (self.filename)
+        cap = r"%s" % (self.formatted_caption)
+        if cap != "":
+            cap = "\n{}{}".format(space,cap)
+        end = r"\end{subfigure}"
+        return "{}\n{}{}{}\n{}".format(begin,space,fig,cap,end)
+
+class LatexMultipleGraph(object):
+    """
+
+    .. notes::
+
+        * needs to import the subcaption package as \usepackage{subcaption}
+            to use subfigure environment.
+        * needs to import the caption package as \usepackage{caption}
+            to use captionbox environment.
+        * Similar functionality can be found in pylatex python package
+            https://jeltef.github.io/PyLaTeX/latest/examples/subfigure.html
+    """
+    def __init__(self, graphs, caption = None, label = None,
+                 position = None, subpositions = None, num_rows = None):
+        """
+
+        :param graphs: list of LatexGraph objects
+        :param caption:
+        :param label:
+        :param position:
+        :param subpositions:
+        :param num_rows:
+        :return:
+        """
+        self._graphs = None
+        self.row_limit = 3
+        self.num_rows = num_rows
+        self.caption = caption
+        self.label = label
+        self.position = position # position of subfigure
+        self.subpositions = subpositions
+        self.graphs = graphs
+
+    @property
+    def position(self):
+        if self._position is None:
+            return r"h"
+        return self._position
+    @position.setter
+    def position(self,value):
+        self._position = value
+    @position.deleter
+    def position(self):
+        self._position = None
+
+    @property
+    def caption(self):
+        if self._caption is None:
+            return ""
+        return self._caption
+    @caption.setter
+    def caption(self,value):
+        self._caption = value
+    @caption.deleter
+    def caption(self):
+        self._caption = None
+
+    @property
+    def label(self):
+        if self._label is None:
+            return ""
+        return self._label
+    @label.setter
+    def label(self,value):
+        self._label = value
+    @label.deleter
+    def label(self):
+        self._label = None
+
+    @property
+    def formatted_caption(self):
+        c,l = self.caption,self.label
+        if c == "" and l == "":
+            return ""
+        if c == "":
+            return r"\label{%s}" % (l)
+        if l == "":
+            return r"\captionbox{%s}[\textwidth][c]{%s}" % (c,"\n%s\n")
+        return r"\captionbox{%s\label{%s}}[\textwidth][c]{%s}" % (c,l,"\n%s\n")
+
+    @property
+    def num_rows(self):
+        return self._num_rows
+    @num_rows.setter
+    def num_rows(self,value):
+        if self.graphs and value is None:
+            # calculate num_rows
+            self.calculate_rows(self.graphs)
+        else:
+            self._num_rows = value
+    @num_rows.deleter
+    def num_rows(self):
+        del self._num_rows
+
+    @property
+    def graphs(self):
+        return self._graphs
+    @graphs.setter
+    def graphs(self,value):
+        if value is not None:
+            if self.check_plain(value):
+                value = self.formatted_graphs(value)
+            elif not self.check_formatted(value):
+                raise Exception("graphs are not well formated")
+
+        self._graphs = value
+
+    @graphs.deleter
+    def graphs(self):
+        del self._graphs
+
+    def calculate_rows(self, graphs):
+        """
+        calculates self.num_rows according to graphs.
+        """
+        if len(graphs)<self.row_limit:
+            self._num_rows = len(graphs)
+        else:
+            self._num_rows = self.row_limit
+
+    def check_formatted(self, graphs = None, position = False):
+        """
+        checks that list of graphs is well formatted.
+
+        :return: If position is False gives True if check is passed, False if not.
+                Else if position is True, gives the index at which the check failed.
+        """
+        if graphs is None:
+            graphs = self.graphs
+        for i, graph_row in enumerate(graphs):
+            for j, graph in enumerate(graph_row):
+                if not isinstance(graph,LatexGraph):
+                    if position:
+                        return i,j
+                    return False
+        if position:
+            return
+        return True
+
+    def check_plain(self, graphs = None, position = False):
+        """
+        checks that list of graphs is plain.
+
+        :return: If position is False gives True if check is passed, False if not.
+                Else if position is True, gives the index at which the check failed.
+        """
+        if graphs is None:
+            graphs = self.graphs
+        for i, graph in enumerate(graphs):
+            if not isinstance(graph,LatexGraph):
+                if position:
+                    return i
+                return False
+        if position:
+            return
+        return True
+
+    def formatted_graphs(self, graphs = None):
+        """
+        formats list of graphs assuming that they are not
+        formatted but plain.
+
+        :param graphs: plain list of graphs
+        :return: formatted list of graphs
+        """
+        if graphs is None:
+            graphs = self.graphs
+
+        # calculate num_rows if it is None
+        if self.num_rows is None and graphs is not None:
+            self.calculate_rows(graphs)
+
+        num = len(graphs) # get limit of graphs
+        rows = [] # initialize rows
+        i = 0 # index counter
+        while num>0:
+            cols = [] # initialize columns
+
+            # maximum number of columns
+            if num > self.num_rows:
+                ncols = self.num_rows
+            else:
+                ncols = num # remaining
+
+            # append number of columns
+            for _ in xrange(ncols):
+                cols.append(graphs[i])
+                num -= 1 # decrease graphs
+                i += 1 # increase index
+
+            rows.append(cols)
+
+        return rows
+
+
+    def plain_graphs(self, graphs = None):
+        """
+        gives list of graphs assuming that they are formatted.
+
+        :param graphs: formatted list of graphs
+        :return: plain list of graphs
+        """
+        if graphs is None:
+            graphs = self.graphs
+
+
+        plain = []
+        # Method: walk lists
+        for graph_row in graphs:
+            for graph in graph_row:
+                plain.append(graph)
+
+        return plain
+
+    @property
+    def str_graphs(self):
+        rows = [] # init list of string for rows
+        # process rows
+        for graph_row in self.graphs:
+            # width of each image in a row
+            width = 1.0/len(graph_row)
+            cols = [] # init list of string for columns
+
+            # process each image in the row
+            for graph in graph_row:
+                graph.width = width # assign width to graph
+
+                # if global position assign it
+                if self.subpositions is not None:
+                    graph.position = self.subpositions
+
+                # convert to the string
+                cols.append(str(graph))
+
+            # append side by side using r'~'
+            rows.append('\n~\n'.join(cols))
+
+        # append under each row using r'\\'
+        return '\n\\\\\n'.join(rows)
+
+    def __str__(self):
+        begin = r"\begin{figure}[%s]" % (self.position)
+        cap = r"%s" % (self.formatted_caption)
+        if cap == "":
+            cap = self.str_graphs
+        else:
+            cap = cap % (self.str_graphs)
+        end = r"\end{figure}"
+        return "{}\n{}\n{}".format(begin,cap,end)
 
 class graph_data(object):
     shows = True
