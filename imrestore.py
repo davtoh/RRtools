@@ -203,79 +203,79 @@ class VariableNotDeletable(Exception):
     pass
 
 class ImRestore(object):
+    """
+    Restore images by merging and stitching techniques.
+
+    :param filenames: list of images or string to path which uses glob filter in path.
+            Loads image array from path, url, server, string
+            or directly from numpy array (supports databases)
+    :param debug: (0) flag to print debug messages
+            0 -> do not print messages.
+            1 -> print messages.
+            2 -> print messages and show results
+                (consumes significantly more memory).
+            3 -> print messages, show results and additional data
+                (consumes significantly more memory).
+    :param feature: (None) feature instance. It contains the configured
+            detector and matcher.
+    :param pool: (None) use pool Ex: 4 to use 4 CPUs.
+    :param cachePath: (None) saves memoization to specified path and
+            downloaded images.
+    :param clearCache: (0) clear cache flag.
+            * 0 do not clear.
+            * 1 All CachePath is cleared before use.
+            * 2 re-compute data but other cache data is left intact.
+            Notes: using cache can result in unspected behaviour
+                if some configurations does not match to the cached data.
+    :param loader: (None) custom loader function used to load images
+            to merge. If None it loads the original images in color.
+    :param pshape: (400,400) process shape, used to load pseudo images
+            to process features and then results are converted to the
+            original images. If None it loads the original images to
+            process the features but it can incur to performance penalties
+            if images are too big and RAM memory is scarce.
+    :param loadshape:
+    :param baseImage: (None) First image to merge to.
+            * None -> takes first image from raw list.
+            * True -> selects image with most features.
+            * Image Name.
+    :param selectMethod: (None) Method to sort images when matching. This
+            way the merging order can be controlled.
+            * (None) Best matches.
+            * Histogram Comparison: Correlation, Chi-squared,
+                Intersection, Hellinger or any method found in hist_map
+            * Entropy.
+            * custom function of the form: rating,fn <-- selectMethod(fns)
+    :param distanceThresh: (0.75) filter matches by distance ratio.
+    :param inlineThresh: (0.2) filter homography by inlineratio.
+    :param rectangularityThresh: (0.5) filter homography by rectangularity.
+    :param ransacReprojThreshold: (5.0) maximum allowed reprojection error
+            to treat a point pair as an inlier.
+    :param centric: (False) tries to attach as many images as possible to
+            each matching. It is quicker since it does not have to process
+            too many match computations.
+    :param hist_match: (False) apply histogram matching to foreground
+            image with merge image as template
+    :param grow_scene: If True, allow the restored image to grow in shape if
+            necessary at the merging process.
+    :param expert: Path to an expert database. If provided it will use this data
+            to generate the mask used when merging to the restored image.
+    :param maskforeground:
+            * True, limit features area using foreground mask of input images.
+                This mask is calculated to threshold a well defined object.
+            * Callable, Custom function to produce the foreground image which
+                receives the input gray image and must return the mask image
+                where the keypoints will be processed.
+    :param save: (False)
+            * True, saves in path with name restored_{base_image}
+            * False, does not save
+            * Image name used to save the restored image.
+    :param overwrite: If True and the destine filename for saving already
+            exists then it is replaced, else a new filename is generated
+            with an index "{filename}_{index}.{extenssion}"
+    """
 
     def __init__(self, filenames, **opts):
-        """
-        Restore images by merging and stitching techniques.
-
-        :param filenames: list of images or string to path which uses glob filter in path.
-                Loads image array from path, url, server, string
-                or directly from numpy array (supports databases)
-        :param debug: (0) flag to print debug messages
-                0 -> do not print messages.
-                1 -> print messages.
-                2 -> print messages and show results
-                    (consumes significantly more memory).
-                3 -> print messages, show results and additional data
-                    (consumes significantly more memory).
-        :param feature: (None) feature instance. It contains the configured
-                detector and matcher.
-        :param pool: (None) use pool Ex: 4 to use 4 CPUs.
-        :param cachePath: (None) saves memoization to specified path and
-                downloaded images.
-        :param clearCache: (0) clear cache flag.
-                * 0 do not clear.
-                * 1 All CachePath is cleared before use.
-                * 2 re-compute data but other cache data is left intact.
-                Notes: using cache can result in unspected behaviour
-                    if some configurations does not match to the cached data.
-        :param loader: (None) custom loader function used to load images
-                to merge. If None it loads the original images in color.
-        :param pshape: (400,400) process shape, used to load pseudo images
-                to process features and then results are converted to the
-                original images. If None it loads the original images to
-                process the features but it can incur to performance penalties
-                if images are too big and RAM memory is scarce.
-        :param loadshape:
-        :param baseImage: (None) First image to merge to.
-                * None -> takes first image from raw list.
-                * True -> selects image with most features.
-                * Image Name.
-        :param selectMethod: (None) Method to sort images when matching. This
-                way the merging order can be controlled.
-                * (None) Best matches.
-                * Histogram Comparison: Correlation, Chi-squared,
-                    Intersection, Hellinger or any method found in hist_map
-                * Entropy.
-                * custom function of the form: rating,fn <-- selectMethod(fns)
-        :param distanceThresh: (0.75) filter matches by distance ratio.
-        :param inlineThresh: (0.2) filter homography by inlineratio.
-        :param rectangularityThresh: (0.5) filter homography by rectangularity.
-        :param ransacReprojThreshold: (5.0) maximum allowed reprojection error
-                to treat a point pair as an inlier.
-        :param centric: (False) tries to attach as many images as possible to
-                each matching. It is quicker since it does not have to process
-                too many match computations.
-        :param hist_match: (False) apply histogram matching to foreground
-                image with merge image as template
-        :param grow_scene: If True, allow the restored image to grow in shape if
-                necessary at the merging process.
-        :param expert: Path to an expert database. If provided it will use this data
-                to generate the mask used when merging to the restored image.
-        :param maskfeature:
-                * True, limit features area using foreground mask of input images.
-                    This mask is calculated to threshold a well defined object.
-                * Callable, Custom function to produce the foreground image which
-                    receives the input gray image and must return the mask image
-                    where the keypoints will be processed.
-        :param save: (False)
-                * True, saves in path with name restored_{base_image}
-                * False, does not save
-                * Image name used to save the restored image.
-        :param overwrite: If True and the destine filename for saving already
-                exists then it is replaced, else a new filename is generated
-                with an index "{filename}_{index}.{extenssion}"
-        """
         # for debug
         self.FLAG_DEBUG = opts.get("debug",1)
 
@@ -407,7 +407,7 @@ class ImRestore(object):
 
         self.save = opts.get("save",False)
         self.grow_scene = opts.get("grow_scene",True)
-        self.maskfeature = opts.get("maskfeature",False)
+        self.maskforeground = opts.get("maskforeground",False)
         self.overwrite = opts.get("overwrite",False)
 
         # processing variables
@@ -459,9 +459,9 @@ class ImRestore(object):
             :param img: gray image
             :return:
             """
-            if callable(self.maskfeature):
-                mask = self.maskfeature(img)
-            if self.maskfeature is True:
+            if callable(self.maskforeground):
+                mask = self.maskforeground(img)
+            if self.maskforeground is True:
                 mask = foreground(img)
 
             if self.FLAG_DEBUG > 2:
@@ -895,30 +895,33 @@ class ImRestore(object):
         pass
 
 class RetinalRestore(ImRestore):
+    """
+    Restore retinal images by merging and stitching techniques. These parameters are
+    added to :class:`ImRestore`:
+
+    :param heavynoise: True to process noisy images, False to
+        process normal images.
+    :param lens: flag to determine if lens are applied. True
+        to simulate lens, False to not apply lens.
+    :param enclose: flag to enclose and return only retinal area.
+        True to return ROI, false to leave image "as is".
+    """
     def __init__(self, filenames, **opts):
-        """
-        :param heavynoise: True to process noisy images, False to
-            process normal images.
-        :param lens: flag to determine if lens are applied. True
-            to simulate lens, False to not apply lens.
-        :param enclose: flag to enclose and return only retinal area.
-            True to return ROI, false to leave image "as is".
-        """
         super(RetinalRestore,self).__init__(filenames, **opts)
-        self.maskfeature = opts.get("maskfeature",lambda img: retinal_mask(img,True))
+        self.maskforeground = opts.get("maskforeground",lambda img: retinal_mask(img,True))
         self.heavynoise=opts.get("heavynoise",False)
         self.lens = opts.get("lens",True)
         self.enclose = opts.get("enclose",False)
 
-    __init__.__doc__ = ImRestore.__init__.__doc__+__init__.__doc__
+    #__init__.__doc__ = ImRestore.__init__.__doc__+__init__.__doc__
 
     def post_process_fore_Mask(self, back, fore):
         """
-        function evaluated just after superposition and before overlay
+        Function evaluated just after superposition and before overlay.
 
-        :param back:
-        :param fore:
-        :return:
+        :param back: background image
+        :param fore: foreground image
+        :return: alpha mask
         """
 
         def _mask(back,fore):
@@ -938,7 +941,7 @@ class RetinalRestore(ImRestore):
 
         def get_beta_params(P):
             """
-            automatically find parameters for bright alpha masks.
+            Automatically find parameters for bright alpha masks.
 
             :param P: gray image
             :return: beta1,beta2
@@ -952,7 +955,7 @@ class RetinalRestore(ImRestore):
 
         def mask(back, fore):
             """
-            get bright alpha mask (using Otsu method)
+            Get bright alpha mask (using Otsu method)
 
             :param back: BGR background image
             :param fore: BGR foreground image
@@ -997,7 +1000,7 @@ class RetinalRestore(ImRestore):
 
     def post_process_restoration(self, image):
         """
-        post-process a merged retinal image.
+        Post-process a merged retinal image.
 
         :param image: retinal image
         :return: filtered and with simulated lens

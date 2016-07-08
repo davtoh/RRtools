@@ -46,6 +46,10 @@ def scan_ports(host):
     return filter(bool, p.map(ping_host, range(1, 65536)))
 
 class Conection:
+    """
+    represent a connection to interchange objects between servers and clients.
+    """
+
     def __init__(self, conn):
         self.conn = conn
         self.len = 0

@@ -1,0 +1,13 @@
+
+# command to generate
+$ sphinx-apidoc -F -H RRtoolbox -A davtoh -V 0.1 -R 1 -o /mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/documentation /mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox /mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox/temp
+
+#  place this in conf.py
+import sys,os
+sys.path.insert(0, os.path.abspath("../")) # add RRtools path
+
+# command to generate html
+$ make html
+
+# command to generate pdf
+$ make latexpdf

@@ -22,7 +22,7 @@ __author__ = 'Davtoh'
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 # FLAGS
 FLAG_MEMOIZE = True
-FLAG_DEBUG = True
+FLAG_DEBUG = False
 # global variables
 FLOAT = float32
 INT = int32
@@ -83,17 +83,17 @@ def getModules(package, exclude = None):
 class directoryManager(object):
     """
     Manage the configured variables, paths and files.
+
+    :param path: (None) path to configuration file. If None uses default path.
+    :param raiseError: True to raise when not attribute in ConfigFile.
+    :param autosave: (True) if True saves at each change.
+
+    .. note:: Any attribute that is not in ConfigFile returns None.
+              Use raiseError to control this behaviour.
     """
     def __init__(self, path = None, raiseError = True, autosave = False):
         """
         Initializes ConfigFile.
-
-        :param path: (None) path to configuration file. If None uses default path.
-        :param raiseError: True to raise when not attribute in ConfigFile.
-        :param autosave: (True) if True saves at each change.
-
-        .. note:: Any attribute that is not in ConfigFile returns None.
-                  Use raiseError to control this behaviour.
         """
         if path is None:
             path = str(_directory('ConfigFile.pkl') - self.default["MAINPATH"])

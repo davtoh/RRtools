@@ -6,14 +6,18 @@ from RRtoolbox.lib.inspector import funcData
 # TODO: see info under mylibs to come up with a way to convert functions to flowchar nodes.
 
 class nodeGenerator:
+    """
+    Generate Nodes.
+
+    :param nodeName: name of the node class. if None, it generates name on the fly from wrapped function
+    :param terminals: generic inputs and outputs. if None, it generates
+            terminals on the fly from wrapped function
+    :param uiTemplate: template to use in UI controls. if None, it uses Node class
+    :param nodeClass: class to use to generate the node. if None, it uses a convenient
+            Node class on the fly from wrapped function
+    """
     def __init__(self,nodeName=None,terminals=None,uiTemplate=None,nodeClass=None,classTemplate="{}Node",selfAs=None,addfuncs=None):
         """ define a customized NodeGenerator
-        :param nodeName: name of the node class. if None, it generates name on the fly from wrapped function
-        :param terminals: generic inputs and outputs. if None, it generates
-                terminals on the fly from wrapped function
-        :param uiTemplate: template to use in UI controls. if None, it uses Node class
-        :param nodeClass: class to use to generate the node. if None, it uses a convenient
-                Node class on the fly from wrapped function
         :return:
         """
         # these are totally needed for the node creation

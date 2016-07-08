@@ -21,12 +21,14 @@ feature_name = 'sift-flann'
 # ----------------------------SPECIALIZED FUNCTIONS---------------------------- #
 
 class Feature(object):
-    def __init__(self,pool=pool,useASIFT = True, debug = True):
-        """
+    """
+    Class to manage detection and computation of features
 
-        :param pool: multiprocessing pool (dummy, it uses multithreading)
-        :param useASIFT:
-        """
+    :param pool: multiprocessing pool (dummy, it uses multithreading)
+    :param useASIFT: if True adds Affine perspectives to the detector.
+    :param debug: if True prints to the stdout debug messages.
+    """
+    def __init__(self,pool=pool,useASIFT = True, debug = True):
         self.pool=pool
         self.detector = None
         self.matcher = None

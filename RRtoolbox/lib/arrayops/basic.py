@@ -344,12 +344,16 @@ def overlaypng(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     :param under: if True, place back as fore and fore as back.
     :param flag: (experimental)
 
-            0. normally replace inverted transparency of alpha in back (N); (2) superpose alpha in back (V).
-            1. bloat and replace inverted transparency of alpha in back; (2) superpose bgr in back (V).
-            2. (2) superpose inverted transparent COLOR of alpha in back.
-            3. (2) superpose inverted transparent COLOR of alpha in back.
-            4. superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back.
-            5. superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back.
+            0. Normally replace inverted transparency of alpha in back (N);
+                superpose alpha in back (V).
+            1. Bloat and replace inverted transparency of alpha in back;
+                superpose bgr in back (V).
+            2. Superpose inverted transparent COLOR of alpha in back.
+            3. Superpose inverted transparent COLOR of alpha in back.
+            4. Superpose transparent of alpha in back;
+                superpose transparent COLOR of alpha in back.
+            5. Superpose transparent of alpha in back;
+                superpose transparent COLOR of alpha in back.
     :return: overlayed array
 
     .. seealso:: :func:`overlay`, :func:`overlay2`
@@ -388,12 +392,16 @@ def overlay(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     :param under: if True, place back as fore and fore as back.
     :param flag: (experimental)
 
-            0. normally replace inverted transparency of alpha in back (N); (2) superpose alpha in back (V).
-            1. bloat and replace inverted transparency of alpha in back; (2) superpose bgr in back (V).
-            2. (2) superpose inverted transparent COLOR of alpha in back.
-            3. (2) superpose inverted transparent COLOR of alpha in back.
-            4. superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back.
-            5. superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back.
+            0. Normally replace inverted transparency of alpha in back (N);
+                superpose alpha in back (V).
+            1. Bloat and replace inverted transparency of alpha in back;
+                superpose bgr in back (V).
+            2. Superpose inverted transparent COLOR of alpha in back.
+            3. Superpose inverted transparent COLOR of alpha in back.
+            4. Superpose transparent of alpha in back;
+                superpose transparent COLOR of alpha in back.
+            5. Superpose transparent of alpha in back;
+                superpose transparent COLOR of alpha in back.
     :return: overlayed array
 
     .. seealso:: :func:`overlay2`

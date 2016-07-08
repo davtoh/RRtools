@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.axes
 import matplotlib.figure
 from multiprocessing import Process
-from config import FLAG_DEBUG
+from RRtoolbox.lib.config import FLAG_DEBUG
 wins = [0] # keeps track of image number through different processes
 
 def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, daemon = False):
@@ -51,7 +51,7 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
 
 if __name__ == "__main__":
     import argparse
-    from serverServices import parseString as _parseString
+    from RRtoolbox.lib.serverServices import parseString as _parseString
     #import sys
     #if FLAG_DEBUG: print sys.argv
     parser = argparse.ArgumentParser(description='fast plot of images.')

@@ -24,7 +24,8 @@ class Node(QtCore.QObject):
     to other by wires between their terminals. A flowchart is, itself, also a special subclass of Node.
     This allows Nodes within the flowchart to connect to the input/output nodes of the flowchart itself.
 
-    Optionally, a node class can implement the ctrlWidget() method, which must return a QWidget (usually containing other widgets) that will be displayed in the flowchart control panel. Some nodes implement fairly complex control widgets, but most nodes follow a simple form-like pattern: a list of parameter names and a single value (represented as spin box, checkLoaded box, etc..) for each parameter. To make this easier, the CtrlNode subclass allows you to instead define a simple data structure that CtrlNode will use to automatically generate the control widget.     """
+    Optionally, a node class can implement the ctrlWidget() method, which must return a QWidget (usually containing other widgets) that will be displayed in the flowchart control panel. Some nodes implement fairly complex control widgets, but most nodes follow a simple form-like pattern: a list of parameter names and a single value (represented as spin box, checkLoaded box, etc..) for each parameter. To make this easier, the CtrlNode subclass allows you to instead define a simple data structure that CtrlNode will use to automatically generate the control widget.
+    """
 
     sigOutputChanged = QtCore.Signal(object)   # self
     sigClosed = QtCore.Signal(object)
