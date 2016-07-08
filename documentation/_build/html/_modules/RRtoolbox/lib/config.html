@@ -123,17 +123,17 @@
 <div class="viewcode-block" id="directoryManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager">[docs]</a><span class="k">class</span> <span class="nc">directoryManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manage the configured variables, paths and files.</span>
+
+<span class="sd">    :param path: (None) path to configuration file. If None uses default path.</span>
+<span class="sd">    :param raiseError: True to raise when not attribute in ConfigFile.</span>
+<span class="sd">    :param autosave: (True) if True saves at each change.</span>
+
+<span class="sd">    .. note:: Any attribute that is not in ConfigFile returns None.</span>
+<span class="sd">              Use raiseError to control this behaviour.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">raiseError</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">autosave</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes ConfigFile.</span>
-
-<span class="sd">        :param path: (None) path to configuration file. If None uses default path.</span>
-<span class="sd">        :param raiseError: True to raise when not attribute in ConfigFile.</span>
-<span class="sd">        :param autosave: (True) if True saves at each change.</span>
-
-<span class="sd">        .. note:: Any attribute that is not in ConfigFile returns None.</span>
-<span class="sd">                  Use raiseError to control this behaviour.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_directory</span><span class="p">(</span><span class="s1">&#39;ConfigFile.pkl&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">[</span><span class="s2">&quot;MAINPATH&quot;</span><span class="p">])</span>

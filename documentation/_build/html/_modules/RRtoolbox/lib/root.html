@@ -84,14 +84,12 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    simple logger to save stdout output</span>
 <span class="sd">    so anything printed in the console is logged to a file.</span>
+
+<span class="sd">    :param path: path to logging file</span>
+<span class="sd">    :param mode: mode for opening the file.</span>
+<span class="sd">    :param chain: if True closes previous logs and continues with new log</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">chain</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param path: path to logging file</span>
-<span class="sd">        :param mode: mode for opening the file.</span>
-<span class="sd">        :param chain: if True closes previous logs and continues with new log</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_chain</span> <span class="o">=</span> <span class="n">chain</span>

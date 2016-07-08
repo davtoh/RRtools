@@ -61,12 +61,14 @@
 <span class="c1"># ----------------------------SPECIALIZED FUNCTIONS---------------------------- #</span>
 
 <div class="viewcode-block" id="Feature"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.descriptors.Feature">[docs]</a><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span><span class="n">useASIFT</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to manage detection and computation of features</span>
 
-<span class="sd">        :param pool: multiprocessing pool (dummy, it uses multithreading)</span>
-<span class="sd">        :param useASIFT:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">    :param pool: multiprocessing pool (dummy, it uses multithreading)</span>
+<span class="sd">    :param useASIFT: if True adds Affine perspectives to the detector.</span>
+<span class="sd">    :param debug: if True prints to the stdout debug messages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span><span class="p">,</span><span class="n">useASIFT</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pool</span><span class="o">=</span><span class="n">pool</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">matcher</span> <span class="o">=</span> <span class="bp">None</span>

@@ -139,7 +139,23 @@
 
 <div class="viewcode-block" id="Logger"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.Logger">[docs]</a><span class="k">class</span> <span class="nc">Logger</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Logger for decorated functions.</span>
+<span class="sd">    Logger for decorated functions. Holds important information of an instanced object and</span>
+<span class="sd">    can be used with @trace decorator for traceback purposes.</span>
+
+<span class="sd">    :param func: object reference.</span>
+<span class="sd">    :param funcname: object name.</span>
+<span class="sd">    :param inputs: inputs pass to the object.</span>
+<span class="sd">    :param outputs: outputs given by the object execution.</span>
+<span class="sd">    :param time: initial time of execution.</span>
+<span class="sd">    :param exectime: time of execution in seconds.</span>
+<span class="sd">    :param writer: writer function where messages are passed.</span>
+<span class="sd">    :param eventHandle: event function where object is</span>
+<span class="sd">            passed when Logger.broadcast() is called.</span>
+<span class="sd">    :param msg_report: message format to use in reports.</span>
+<span class="sd">    :param msg_no_executed: massage format to pass to writer when object</span>
+<span class="sd">            has not been executed and Logger.report() is called.</span>
+<span class="sd">    :param msg_executed: massage format to use when object is</span>
+<span class="sd">            executed and Logger.broadcast() is called.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">eventHandle</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="nb">file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
@@ -153,21 +169,6 @@
     <span class="n">_msg_executed</span> <span class="o">=</span> <span class="s2">&quot;{self.funcname} has been executed...&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Holds important information of an instanced object and</span>
-<span class="sd">        can be used with @trace decorator for traceback purposes.</span>
-
-<span class="sd">        :param func: object reference.</span>
-<span class="sd">        :param funcname: object name.</span>
-<span class="sd">        :param inputs: inputs pass to the object.</span>
-<span class="sd">        :param outputs: outputs given by the object execution.</span>
-<span class="sd">        :param time: initial time of execution.</span>
-<span class="sd">        :param exectime: time of execution in seconds.</span>
-<span class="sd">        :param writer: writer function where messages are passed.</span>
-<span class="sd">        :param eventHandle: event function where object is passed when Logger.broadcast() is called.</span>
-<span class="sd">        :param msg_report: message format to use in reports.</span>
-<span class="sd">        :param msg_no_executed: massage format to pass to writer when object</span>
-<span class="sd">                has not been executed and Logger.report() is called.</span>
-<span class="sd">        :param msg_executed: massage format to use when object is executed and Logger.broadcast() is called.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">renew</span><span class="p">()</span> <span class="c1"># initialize info variables.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>

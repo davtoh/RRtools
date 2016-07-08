@@ -347,6 +347,10 @@
 <span class="sd">        * filtering is better to eliminate noise</span>
 <span class="sd">        * images look more cartoon-like</span>
 
+<span class="sd">    :param d: distance</span>
+<span class="sd">    :param sigmaColor: sigma in color</span>
+<span class="sd">    :param sigmaSpace: sigma in space</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d_h</span> <span class="o">=</span> <span class="n">bilateraP</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span><span class="n">shift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">beta1</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mi">27</span>
@@ -357,11 +361,6 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        replace bilateral limit parameters. It can be a</span>
 <span class="sd">        instance from bilateraP or a value.</span>
-
-<span class="sd">        :param d: distance</span>
-<span class="sd">        :param sigmaColor: sigma in color</span>
-<span class="sd">        :param sigmaSpace: sigma in space</span>
-<span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>

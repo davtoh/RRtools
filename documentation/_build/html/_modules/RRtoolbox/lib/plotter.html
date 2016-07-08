@@ -549,7 +549,9 @@
 <span class="sd">    Show and image with events, animations, controls, internal</span>
 <span class="sd">    commands and highly customizable by code.</span>
 
-<span class="sd">    It implements: self.createfunc, self.pressedkey, self.mousefunc, self.closefunc, self.close.</span>
+<span class="sd">    :param win: window name</span>
+<span class="sd">    :param im: image of numpy array</span>
+<span class="sd">    :param bgrcolor: default color to use for transparent or background color.</span>
 
 <span class="sd">    .. warning:: plotim is deprecated and will be replaced in the future (it was made to</span>
 <span class="sd">                test concepts). Originally it was made for windows but some functions</span>
@@ -558,11 +560,6 @@
     <span class="c1"># for rendered visualization</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span><span class="mi">243</span><span class="p">,</span><span class="mi">238</span><span class="p">)):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        :param win: window name</span>
-<span class="sd">        :param im: image of numpy array</span>
-<span class="sd">        :param bgrcolor: default color to use for transparent or background color.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># clipboard has to be imported internally due to incompatibility with pyplot or Process</span>
         <span class="c1"># it just simply creates a weird IOError</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1562,25 +1559,25 @@
         <span class="k">return</span> <span class="n">r</span></div></div>
 
 <div class="viewcode-block" id="matchExplorer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer">[docs]</a><span class="k">class</span> <span class="nc">matchExplorer</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Draws a set of keypoint pairs obtained on a match method of a descriptor</span>
+<span class="sd">    on two images imgf and imgb. (backend: plotim).</span>
+
+<span class="sd">    :param win: window&#39;s name (str)</span>
+<span class="sd">    :param img1: image1 (numpy array)</span>
+<span class="sd">    :param img2: image2 (numpy array)</span>
+<span class="sd">    :param kp_pairs: zip(keypoint1, keypoint2)</span>
+<span class="sd">    :param status: obtained from cv2.findHomography</span>
+<span class="sd">    :param H: obtained from cv2.findHomography (default=None)</span>
+<span class="sd">    :param show: if True shows plotim using block and daemon, else do not show</span>
+<span class="sd">    :param block: if True it wait for window close, else it detaches</span>
+<span class="sd">    :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end</span>
+<span class="sd">    :return: plotim object with visualization as self.rimg (image with matching result) (default=None)</span>
+
+<span class="sd">    .. note:: It supports BGR and gray images.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">img1</span><span class="p">,</span> <span class="n">img2</span><span class="p">,</span> <span class="n">kp_pairs</span><span class="o">=</span><span class="p">(),</span> <span class="n">status</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        This function draws a set of keypoint pairs obtained on a match method of a descriptor</span>
-<span class="sd">        on two images imgf and imgb. (backend: plotim).</span>
-
-<span class="sd">        :param win: window&#39;s name (str)</span>
-<span class="sd">        :param img1: image1 (numpy array)</span>
-<span class="sd">        :param img2: image2 (numpy array)</span>
-<span class="sd">        :param kp_pairs: zip(keypoint1, keypoint2)</span>
-<span class="sd">        :param status: obtained from cv2.findHomography</span>
-<span class="sd">        :param H: obtained from cv2.findHomography (default=None)</span>
-<span class="sd">        :param show: if True shows plotim using block and daemon, else do not show</span>
-<span class="sd">        :param block: if True it wait for window close, else it detaches</span>
-<span class="sd">        :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end</span>
-<span class="sd">        :return: plotim object with visualization as self.rimg (image with matching result) (default=None)</span>
-
-<span class="sd">        .. note:: It supports BGR and gray images.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">## GET INITIAL VISUALIZATION</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
             <span class="n">img1</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
@@ -1987,6 +1984,9 @@
 
 
 <div class="viewcode-block" id="imtester"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester">[docs]</a><span class="k">class</span> <span class="nc">imtester</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Used to test some concepts as thresholds and filters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="s2">&quot;imtester plot&quot;</span><span class="p">):</span>
 

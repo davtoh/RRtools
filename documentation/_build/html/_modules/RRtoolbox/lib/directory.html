@@ -484,17 +484,17 @@
 <div class="viewcode-block" id="directory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.directory">[docs]</a><span class="k">class</span> <span class="nc">directory</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    semi-mutable string representation of a inmutable string with support for path representations.</span>
+
+<span class="sd">    :param data: list, directory instance, dictionary or string.</span>
+<span class="sd">    :param ispath: True to add support for paths.</span>
+<span class="sd">    :param copy: when data is a directory if copy is True then this instance data is independent</span>
+<span class="sd">            of the passed directory otherwise both directories are a reference to the same</span>
+<span class="sd">            dictionary data but they are not the same object.</span>
+<span class="sd">    :param kwargs: additional data to add in directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates and initializes directory.</span>
-
-<span class="sd">        :param data: list, directory instance, dictionary or string.</span>
-<span class="sd">        :param ispath: True to add support for paths.</span>
-<span class="sd">        :param copy: when data is a directory if copy is True then this instance data is independent</span>
-<span class="sd">                of the passed directory otherwise both directories are a reference to the same</span>
-<span class="sd">                dictionary data but they are not the same object.</span>
-<span class="sd">        :param kwargs: additional data to add in directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO overcome limitation of string not being mutable. use basestring?</span>
         <span class="c1"># TODO keep string inheritance, keep string methods, but enable mutabilite</span>
@@ -685,6 +685,12 @@
 <div class="viewcode-block" id="FileDirectory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.FileDirectory">[docs]</a><span class="k">class</span> <span class="nc">FileDirectory</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Saves contents of a file as with directories.</span>
+
+<span class="sd">    :param data: list, directory instance, dictionary or string.</span>
+<span class="sd">    :param filename: name of file.</span>
+<span class="sd">    :param path: path to folder where file is (it must finish in /).</span>
+<span class="sd">    :param notes: optional description string</span>
+<span class="sd">    :param kwargs: additional data to add in directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">notes</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FileDirectory</span><span class="p">,</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="bp">False</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>

@@ -43,23 +43,328 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="rrtoolbox-tools-lens-module">
-<h2>RRtoolbox.tools.lens module<a class="headerlink" href="#rrtoolbox-tools-lens-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools.lens">
+<span id="rrtoolbox-tools-lens-module"></span><h2>RRtoolbox.tools.lens module<a class="headerlink" href="#module-RRtoolbox.tools.lens" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="RRtoolbox.tools.lens.drawCircle">
+<code class="descclassname">RRtoolbox.tools.lens.</code><code class="descname">drawCircle</code><span class="sig-paren">(</span><em>array</em>, <em>cnt</em>, <em>color=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/lens.html#drawCircle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.lens.drawCircle" title="Permalink to this definition">¶</a></dt>
+<dd><p>project circle over array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>array</strong> &#8211; array to draw circle</li>
+<li><strong>cnt</strong> &#8211; contours of segmentation to fit circle</li>
+<li><strong>color</strong> &#8211; color of lens</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.lens.drawEllipse">
+<code class="descclassname">RRtoolbox.tools.lens.</code><code class="descname">drawEllipse</code><span class="sig-paren">(</span><em>array</em>, <em>cnt</em>, <em>color=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/lens.html#drawEllipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.lens.drawEllipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>project ellipse over array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>array</strong> &#8211; array to draw ellipse</li>
+<li><strong>cnt</strong> &#8211; contours of segmentation to fit ellipse</li>
+<li><strong>color</strong> &#8211; color of lens</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.lens.fitLens">
+<code class="descclassname">RRtoolbox.tools.lens.</code><code class="descname">fitLens</code><span class="sig-paren">(</span><em>img</em>, <em>mask</em>, <em>color=0</em>, <em>asEllipse=False</em>, <em>addmask=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/lens.html#fitLens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.lens.fitLens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place lens-like object in image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; image to place lens</li>
+<li><strong>mask</strong> &#8211; mask to fit lens</li>
+<li><strong>color</strong> &#8211; color of the lens</li>
+<li><strong>asEllipse</strong> &#8211; True to fit lens as a ellipse, False to fit circle.</li>
+<li><strong>addmask</strong> &#8211; return additional mask parameter</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">image with simulated lens</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.lens.simulateLens">
+<code class="descclassname">RRtoolbox.tools.lens.</code><code class="descname">simulateLens</code><span class="sig-paren">(</span><em>img</em>, <em>threshfunc=None</em>, <em>pshape=(300</em>, <em>300)</em>, <em>color=0</em>, <em>asEllipse=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/lens.html#simulateLens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.lens.simulateLens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place lens-like object in image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; image to place lens.</li>
+<li><strong>threshfunc</strong> &#8211; function to segment retinal area and get its mask.</li>
+<li><strong>pshape</strong> &#8211; shape to resize processing image to increase performance.</li>
+<li><strong>color</strong> &#8211; color of the lens.</li>
+<li><strong>asEllipse</strong> &#8211; True to fit lens as a ellipse, False to fit circle.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">image with simulated lens.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="rrtoolbox-tools-restoration-module">
 <h2>RRtoolbox.tools.restoration module<a class="headerlink" href="#rrtoolbox-tools-restoration-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="rrtoolbox-tools-segmentation-module">
-<h2>RRtoolbox.tools.segmentation module<a class="headerlink" href="#rrtoolbox-tools-segmentation-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools.segmentation">
+<span id="rrtoolbox-tools-segmentation-module"></span><h2>RRtoolbox.tools.segmentation module<a class="headerlink" href="#module-RRtoolbox.tools.segmentation" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.find_optic_disc">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">find_optic_disc</code><span class="sig-paren">(</span><em>img</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#find_optic_disc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.find_optic_disc" title="Permalink to this definition">¶</a></dt>
+<dd><p>find optic disk in image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; BGR image</li>
+<li><strong>P</strong> &#8211; gray image</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">optic_disc, Crs, markers, watershed</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.getBrightAlpha">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">getBrightAlpha</code><span class="sig-paren">(</span><em>backgray</em>, <em>foregray</em>, <em>window=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#getBrightAlpha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.getBrightAlpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get alpha transparency for merging foreground to background gray image according to brightness.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>backgray</strong> &#8211; background image. (as float)</li>
+<li><strong>foregray</strong> &#8211; foreground image. (as float)</li>
+<li><strong>window</strong> &#8211; window used to customizing alfa. It can be a binary or alfa mask, values go from 0 for transparency
+to any value where the maximum is visible i.e a window with all the same values does nothing.
+A binary mask can be used, where 0 is transparent and 1 is visible.
+If not window is given alfa is not altered and the intended alfa is returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">alfa mask</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.get_beta_params">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_beta_params</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_beta_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_beta_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>automatically find parameters for bright alpha masks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>P</strong> &#8211; gray image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">beta1,beta2</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.layeredfloods">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">layeredfloods</code><span class="sig-paren">(</span><em>img</em>, <em>gray=None</em>, <em>backmask=None</em>, <em>step=1</em>, <em>connectivity=4</em>, <em>weight=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#layeredfloods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.layeredfloods" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; </li>
+<li><strong>gray</strong> &#8211; </li>
+<li><strong>backmask</strong> &#8211; </li>
+<li><strong>step</strong> &#8211; </li>
+<li><strong>connectivity</strong> &#8211; </li>
+<li><strong>weight</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.retina_markers_thresh">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retina_markers_thresh</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retina_markers_thresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retina_markers_thresh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retinal markers thresholds to find background,
+retinal area and optic disc with flares based
+in the histogram</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>P</strong> &#8211; gray image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">min,b1,b2,max</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.retinal_mask">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retinal_mask</code><span class="sig-paren">(</span><em>img</em>, <em>biggest=False</em>, <em>addalpha=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retinal_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retinal_mask" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; </li>
+<li><strong>biggest</strong> &#8211; </li>
+<li><strong>addalpha</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.retinal_mask_simple">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retinal_mask_simple</code><span class="sig-paren">(</span><em>img</em>, <em>parameters=(10</em>, <em>30</em>, <em>None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retinal_mask_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retinal_mask_simple" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="rrtoolbox-tools-selectors-module">
-<h2>RRtoolbox.tools.selectors module<a class="headerlink" href="#rrtoolbox-tools-selectors-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools.selectors">
+<span id="rrtoolbox-tools-selectors-module"></span><h2>RRtoolbox.tools.selectors module<a class="headerlink" href="#module-RRtoolbox.tools.selectors" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="RRtoolbox.tools.selectors.entropy">
+<code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">entropy</code><span class="sig-paren">(</span><em>imlist</em>, <em>loadfunc=None</em>, <em>invert=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entropy function modified from:</p>
+<p>Yan Liu, Feihong Yu, An automatic image fusion algorithm for unregistered multiply multi-focus images,
+Optics Communications, Volume 341, 15 April 2015, Pages 101-113, ISSN 0030-4018,
+<a class="reference external" href="http://dx.doi.org/10.1016/j.optcom.2014.12.015">http://dx.doi.org/10.1016/j.optcom.2014.12.015</a>.
+(<a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0030401814011559">http://www.sciencedirect.com/science/article/pii/S0030401814011559</a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>imlist</strong> &#8211; list of path to images or arrays</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sortedD,sortedImlist,D,fns</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>where sortedD is the ranking of the Entropy test, D = [D0,...,DN] D0&gt;DN</dt>
+<dd>sortedImlist is fns sorted to match sortedD,
+D is the list of the absolute difference between entropy and the root mean square, D = <a href="#id1"><span class="problematic" id="id2">|E-RMS|</span></a></dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.tools.selectors.entropyPlot">
+<em class="property">class </em><code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">entropyPlot</code><span class="sig-paren">(</span><em>images</em>, <em>win='Entropy tests'</em>, <em>func=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim" title="RRtoolbox.lib.plotter.plotim"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.plotter.plotim</span></code></a></p>
+<p>Plot entropy test</p>
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.getData">
+<code class="descname">getData</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.getData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.getImage">
+<code class="descname">getImage</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.getImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.getImage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.keyfunc">
+<code class="descname">keyfunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.keyfunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.keyfunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.nextim">
+<code class="descname">nextim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.nextim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.nextim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.previousim">
+<code class="descname">previousim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.previousim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.previousim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.entropyPlot.selectlist">
+<code class="descname">selectlist</code><span class="sig-paren">(</span><em>imlist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.selectlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.selectlist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.selectors.hist_comp">
+<code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">hist_comp</code><span class="sig-paren">(</span><em>imlist</em>, <em>loadfunc=None</em>, <em>method='correlation'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#hist_comp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.hist_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Histogram comparison</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>imlist</strong> &#8211; list of path to images or arrays</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">comparison</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="rrtoolbox-tools-sticher-module">
-<h2>RRtoolbox.tools.sticher module<a class="headerlink" href="#rrtoolbox-tools-sticher-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools.sticher">
+<span id="rrtoolbox-tools-sticher-module"></span><h2>RRtoolbox.tools.sticher module<a class="headerlink" href="#module-RRtoolbox.tools.sticher" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="RRtoolbox.tools.sticher.stich">
+<code class="descclassname">RRtoolbox.tools.sticher.</code><code class="descname">stich</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/sticher.html#stich"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.sticher.stich" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RRtoolbox.tools" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -73,12 +378,12 @@
   <ul>
 <li><a class="reference internal" href="#">RRtoolbox.tools package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#rrtoolbox-tools-lens-module">RRtoolbox.tools.lens module</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools.lens">RRtoolbox.tools.lens module</a></li>
 <li><a class="reference internal" href="#rrtoolbox-tools-restoration-module">RRtoolbox.tools.restoration module</a></li>
-<li><a class="reference internal" href="#rrtoolbox-tools-segmentation-module">RRtoolbox.tools.segmentation module</a></li>
-<li><a class="reference internal" href="#rrtoolbox-tools-selectors-module">RRtoolbox.tools.selectors module</a></li>
-<li><a class="reference internal" href="#rrtoolbox-tools-sticher-module">RRtoolbox.tools.sticher module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools.segmentation">RRtoolbox.tools.segmentation module</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools.selectors">RRtoolbox.tools.selectors module</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools.sticher">RRtoolbox.tools.sticher module</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools">Module contents</a></li>
 </ul>
 </li>
 </ul>
