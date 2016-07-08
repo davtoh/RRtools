@@ -1,0 +1,860 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.tools.restoration &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.tools.restoration</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># ----------------------------    IMPORTS    ---------------------------- #</span>
+<span class="c1"># three-party</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1"># custom</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.config</span> <span class="kn">import</span> <span class="n">MANAGER</span><span class="p">,</span> <span class="n">FLAG_DEBUG</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.cache</span> <span class="kn">import</span> <span class="n">memoizedDict</span><span class="p">,</span> <span class="n">memoize</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.directory</span> <span class="kn">import</span> <span class="n">getData</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.plotter</span> <span class="kn">import</span> <span class="n">matchExplorer</span><span class="p">,</span><span class="n">fastplt</span><span class="p">,</span> <span class="n">plotPointsContour</span><span class="p">,</span> <span class="n">plt</span><span class="p">,</span> <span class="n">plotim</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.arrayops.convert</span> <span class="kn">import</span> <span class="n">invertH</span><span class="p">,</span><span class="n">sh2oh</span><span class="p">,</span><span class="n">spairs2opairs</span><span class="p">,</span> <span class="n">translateQuadrants</span><span class="p">,</span> <span class="n">dict2keyPoint</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.arrayops.basic</span> <span class="kn">import</span> <span class="n">overlay</span><span class="p">,</span><span class="n">superpose</span><span class="p">,</span><span class="n">vertexesAngles</span><span class="p">,</span> <span class="n">relativeQuadrants</span><span class="p">,</span> <span class="n">getTransformedCorners</span><span class="p">,</span><span class="n">transformPoint</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.arrayops.filters</span> <span class="kn">import</span> <span class="n">bilateralFilter</span><span class="p">,</span> <span class="n">normsigmoid</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.descriptors</span> <span class="kn">import</span> <span class="n">ASIFT</span><span class="p">,</span><span class="n">MATCH</span><span class="p">,</span> <span class="n">inlineRatio</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.image</span> <span class="kn">import</span> <span class="n">pathLoader</span><span class="p">,</span><span class="n">loadFunc</span><span class="p">,</span><span class="n">imcoors</span><span class="p">,</span> <span class="n">hist_match</span><span class="p">,</span> <span class="n">try_loads</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.tools.segmentation</span> <span class="kn">import</span> <span class="n">getBrightAlpha</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.root</span> <span class="kn">import</span> <span class="n">TimeCode</span>
+
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+
+<div class="viewcode-block" id="watchData"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.watchData">[docs]</a><span class="k">def</span> <span class="nf">watchData</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">onlyTest</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show data of format obtained from testRates</span>
+
+<span class="sd">    :param request: (fore_name,back_name)</span>
+<span class="sd">    :param loader: image loader from path</span>
+<span class="sd">    :param data: dictionary containing requests (each request is a key).</span>
+<span class="sd">    :param onlyTest: if True show only test results, else also show stitched images and some other data.</span>
+<span class="sd">    :return: request data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;request is: &quot;</span><span class="p">,</span><span class="n">request</span>
+    <span class="n">temp</span> <span class="o">=</span>  <span class="n">data</span><span class="p">[</span><span class="n">request</span><span class="p">]</span>
+    <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">scaled_back</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pathLoader</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">loader</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">temp</span><span class="p">:</span>
+        <span class="n">kp_pairs</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;kp_pairs&quot;</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;H&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">H</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1">#shapes = original_fore.shape,scaled_fore.shape,original_back.shape,scaled_back.shape</span>
+            <span class="c1">#H2 = sh2oh(H,*shapes) #### sTM to oTM</span>
+            <span class="c1">#kp_pairs2 = spairs2opairs(kp_pairs,*shapes)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plotPointsContour</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">])</span> <span class="c1"># FIXME, causes crashes, i left it purportedly here to solve the problem</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">plotPointsContour</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;rotatedBox&quot;</span><span class="p">],</span> <span class="n">lcor</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">asum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;angles&quot;</span><span class="p">])</span>
+            <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;rectangularity: {rectangularity}:{rotatedRectangularity}, quadrant sum: {quadrant_sum},</span>
+<span class="s2">                  ragularity: {regularity}, inline rate: {inlineRatio}&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">temp</span><span class="p">)</span>
+            <span class="c1">#ax.figure.canvas.set_window_title(txt)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">onlyTest</span><span class="p">:</span>
+                <span class="n">win</span><span class="p">,</span><span class="n">mwin</span> <span class="o">=</span> <span class="s2">&quot;stitch&quot;</span><span class="p">,</span><span class="s2">&quot;mask for stitch&quot;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">mask1</span> <span class="o">=</span> <span class="n">getBrightAlpha</span><span class="p">(</span><span class="n">scaled_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">scaled_fore</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+                    <span class="n">m1</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">mask1</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">mwin</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">mwin</span><span class="p">,</span> <span class="s2">&quot;crashed&quot;</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">merged1</span> <span class="o">=</span> <span class="n">superpose</span><span class="p">(</span><span class="n">scaled_back</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">mask1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">p1</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">merged1</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">win</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">win</span><span class="p">,</span> <span class="s2">&quot;crashed&quot;</span>
+
+                <span class="n">win</span><span class="p">,</span><span class="n">mwin</span> <span class="o">=</span> <span class="s2">&quot;inverted stitch&quot;</span><span class="p">,</span> <span class="s2">&quot;mask for inverted stitch&quot;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">mask2</span> <span class="o">=</span> <span class="n">getBrightAlpha</span><span class="p">(</span><span class="n">scaled_fore</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">scaled_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+                    <span class="n">m2</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">mask2</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">mwin</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">mwin</span><span class="p">,</span> <span class="s2">&quot;crashed&quot;</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">merged2</span> <span class="o">=</span> <span class="n">superpose</span><span class="p">(</span><span class="n">scaled_fore</span><span class="p">,</span><span class="n">scaled_back</span><span class="p">,</span> <span class="n">invertH</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">mask2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">p2</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">merged2</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">win</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">win</span><span class="p">,</span> <span class="s2">&quot;crashed&quot;</span>
+
+            <span class="n">notes</span> <span class="o">=</span> <span class="s2">&quot;inlines/lines:{inlines}/{lines},</span><span class="se">\n</span><span class="s2">overall test: {overall_test}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">temp</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s2">&quot;quadrants:&quot;</span><span class="p">,</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;quadrants_translated&quot;</span><span class="p">]</span>
+                <span class="k">print</span> <span class="n">notes</span>
+            <span class="n">win</span> <span class="o">=</span> <span class="s1">&#39;matching result: &#39;</span><span class="o">+</span><span class="n">notes</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">vis</span> <span class="o">=</span> <span class="n">matchExplorer</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">scaled_back</span><span class="p">,</span> <span class="n">kp_pairs</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">fastplt</span><span class="p">(</span><span class="n">vis</span><span class="o">.</span><span class="n">img</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="n">win</span><span class="p">,</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">win</span><span class="p">,</span> <span class="s2">&quot; crashed&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Homography is None&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="s1">&#39;matching result: None&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">vis</span> <span class="o">=</span> <span class="n">matchExplorer</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">scaled_back</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+            <span class="n">fastplt</span><span class="p">(</span><span class="n">vis</span><span class="o">.</span><span class="n">img</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="n">win</span><span class="p">,</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="n">win</span><span class="p">,</span> <span class="s2">&quot; crashed&quot;</span>
+    <span class="k">return</span> <span class="n">temp</span></div>
+
+<div class="viewcode-block" id="qualifyData"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.qualifyData">[docs]</a><span class="k">def</span> <span class="nf">qualifyData</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">saveTo</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">autoqualify</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">showOnlyPassedTest</span><span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">clear</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Qualify data of format obtained from testRates.</span>
+
+<span class="sd">    :param data: dictionary containing all data</span>
+<span class="sd">    :param loader: use loader for images</span>
+<span class="sd">    :param saveTo: save data to path</span>
+<span class="sd">    :param autoqualify: qualify all data without asking human intervention and using algorithm</span>
+<span class="sd">    :param showOnlyPassedTest: if True shows only the goods tests to qualify, else do not show.</span>
+<span class="sd">    :param clear: re-do all saved tests.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">rzyf</span><span class="p">,</span><span class="n">rzxf</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span><span class="mi">400</span> <span class="c1"># dimensions to scale foregrounds</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">rzxf</span><span class="p">,</span> <span class="n">rzyf</span><span class="p">))</span>
+    <span class="n">requests</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="c1">#for request in requests:</span>
+    <span class="c1">#    watchData(request,loader,data,True)</span>
+    <span class="k">if</span> <span class="n">saveTo</span><span class="p">:</span> <span class="c1"># persists</span>
+        <span class="n">qualification</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;qualification&quot;</span><span class="p">)</span>
+        <span class="n">algorithmFails</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;algorithmFails&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+            <span class="n">qualification</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">algorithmFails</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># just save to normal dictionary</span>
+        <span class="n">qualification</span><span class="p">,</span><span class="n">algorithmFails</span> <span class="o">=</span> <span class="p">{},{}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">request</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">requests</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s2">&quot;test No{} of {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">requests</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">request</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">qualification</span><span class="p">:</span> <span class="c1"># qualify</span>
+            <span class="n">overall_test</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">autoqualify</span> <span class="ow">or</span> <span class="n">showOnlyPassedTest</span><span class="p">:</span>
+                <span class="n">temp</span> <span class="o">=</span>  <span class="n">data</span><span class="p">[</span><span class="n">request</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">temp</span><span class="p">:</span>
+                    <span class="n">overall_test</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;overall_test&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">overall_test</span> <span class="o">=</span> <span class="bp">False</span>
+
+                <span class="k">if</span> <span class="n">autoqualify</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="s2">&quot;qualification {} was given to request: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">overall_test</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">showOnlyPassedTest</span> <span class="ow">or</span> <span class="n">showOnlyPassedTest</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overall_test</span><span class="p">:</span>
+                    <span class="n">qualification</span><span class="p">[</span><span class="n">request</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">overall_test</span><span class="p">,</span><span class="s2">&quot;autoqualified&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span> <span class="c1"># only let pass those that were good to be qualified</span>
+
+            <span class="n">watchData</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="n">loader</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;did these match? (y/n):&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span><span class="s2">&quot;y&quot;</span><span class="p">,</span><span class="s2">&quot;yeah&quot;</span><span class="p">,</span><span class="s2">&quot;true&quot;</span><span class="p">):</span>
+                <span class="n">correct</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">correct</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="n">overall_test</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">overall_test</span> <span class="o">!=</span> <span class="n">correct</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s2">&quot;test seem to have failed with {}/{}(auto/user) qualification in request {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">overall_test</span><span class="p">,</span><span class="n">correct</span><span class="p">,</span><span class="n">request</span><span class="p">)</span>
+                <span class="n">algorithmFails</span><span class="p">[</span><span class="n">request</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">overall_test</span><span class="p">,</span><span class="n">correct</span><span class="p">)</span>
+            <span class="n">notes</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s2">&quot;notes?: &quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">overall_test</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">qualification</span><span class="p">[</span><span class="n">request</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span><span class="p">,</span><span class="s2">&quot;autoqualified {} with notes: &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">overall_test</span><span class="p">)</span><span class="o">+</span><span class="n">notes</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">qualification</span><span class="p">[</span><span class="n">request</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span><span class="p">,</span><span class="n">notes</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">request</span><span class="p">,</span> <span class="s2">&quot;was marked as&quot;</span><span class="p">,</span> <span class="n">correct</span>
+    <span class="k">return</span> <span class="n">qualification</span><span class="p">,</span><span class="n">algorithmFails</span></div>
+
+<div class="viewcode-block" id="asif_demo"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.asif_demo">[docs]</a><span class="k">def</span> <span class="nf">asif_demo</span><span class="p">(</span><span class="n">fn_back</span> <span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">fn_fore</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Demo to test ASIFT, Merge, Plotters.</span>
+
+<span class="sd">    :param fn_back: file name of background image</span>
+<span class="sd">    :param fn_fore: file name of foreground image</span>
+<span class="sd">    :param **opts: demo options</span>
+<span class="sd">        flag options:</span>
+<span class="sd">        flag_filter_scaled (False): filter scaled images</span>
+<span class="sd">        flag_filter_original (False): filter original images</span>
+<span class="sd">        flag_filter_out (False): filter pos-processed images</span>
+<span class="sd">        flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography</span>
+<span class="sd">        flag_show_match (True): show match keypoint of scaled images</span>
+<span class="sd">        flag_show_result (True): show restored image</span>
+<span class="sd">        flag_save_perspective (False): save calculated perspective of foreground image</span>
+<span class="sd">        flag_save_result (False): save restored image</span>
+
+<span class="sd">        value obtions:</span>
+<span class="sd">        fore_scale (400,400): tuple of W,H to convert original foreground to scaled image</span>
+<span class="sd">        back_scale (400,400): tuple of W,H to convert original background to scaled image</span>
+<span class="sd">        feature: (&#39;sift-flann&#39;) use base descriptor</span>
+<span class="sd">    :return: dictionary of results</span>
+<span class="sd">            if there is not match the keys are:</span>
+<span class="sd">                [&#39;status&#39;, &#39;kp1&#39;, &#39;kp2&#39;, &#39;kp_pairs&#39;, &#39;desc1&#39;, &#39;desc2&#39;,&#39;H&#39;]</span>
+<span class="sd">            if there is match then additional keys are:</span>
+<span class="sd">                [&#39;img_perspective&#39;, &#39;img_restored&#39;, &#39;H_original&#39;, &#39;kp_pairs_original&#39;]</span>
+<span class="sd">            if flag_invertH additional kes: [&#39;H_inverted&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">flag_filter_scaled</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_filter_scaled&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">flag_filter_original</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_filter_original&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">flag_filter_out</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_filter_out&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">flag_invertH</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_invertH&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">flag_show_match</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_show_match&quot;</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">flag_show_result</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_show_result&quot;</span><span class="p">,</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">flag_save_perspective</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_save_perspective&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">flag_save_result</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_save_result&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">feature_name</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">,</span><span class="s1">&#39;sift-flann&#39;</span><span class="p">)</span>
+
+    <span class="c1">#### LOADING</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">fn_fore</span><span class="p">:</span> <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn_fore</span><span class="p">)</span>
+    <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;im1_2.jpg&#39;</span><span class="p">)</span>
+    <span class="n">original_fore</span> <span class="o">=</span> <span class="n">try_loads</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="c1"># foreground</span>
+
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">fn_back</span><span class="p">:</span> <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn_back</span><span class="p">)</span>
+    <span class="n">ls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;im1_1.jpg&#39;</span><span class="p">)</span>
+    <span class="n">original_back</span> <span class="o">=</span> <span class="n">try_loads</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="c1"># background</span>
+
+    <span class="c1">#### SCALING</span>
+    <span class="n">rzyf</span><span class="p">,</span><span class="n">rzxf</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fore_scale&quot;</span><span class="p">,(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">))</span> <span class="c1"># dimensions to scale foreground</span>
+    <span class="n">scaled_fore</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">original_fore</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2GRAY</span><span class="p">),</span> <span class="p">(</span><span class="n">rzxf</span><span class="p">,</span> <span class="n">rzyf</span><span class="p">))</span>
+
+    <span class="n">rzyb</span><span class="p">,</span><span class="n">rzxb</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;back_scale&quot;</span><span class="p">,(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">))</span> <span class="c1"># dimensions to scale background</span>
+    <span class="n">scaled_back</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">original_back</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2GRAY</span><span class="p">),</span> <span class="p">(</span><span class="n">rzxb</span><span class="p">,</span> <span class="n">rzyb</span><span class="p">))</span>
+
+    <span class="c1">#### PRE-PROCESSING</span>
+    <span class="k">if</span> <span class="n">flag_filter_scaled</span><span class="p">:</span>  <span class="c1"># persistent by @root.memoize</span>
+        <span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span>
+        <span class="n">scaled_fore</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">scaled_fore</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="n">scaled_back</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">scaled_back</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s2">&quot;merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">flag_filter_original</span><span class="p">:</span>  <span class="c1"># persistent by @root.memoize</span>
+        <span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span>
+        <span class="n">original_fore</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">original_fore</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="n">original_back</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">original_back</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s2">&quot;merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># dictionary to contain results</span>
+    <span class="c1">#### FEATURE DETECTOR  # persistent by @root.memoize</span>
+    <span class="k">print</span> <span class="s2">&quot;finding keypoints with its descriptos...&quot;</span>
+    <span class="c1">#result = ASIFT_multiple([scaled_fore, scaled_back]) # OR use ASIFT for each image</span>
+    <span class="n">kp1</span><span class="p">,</span><span class="n">desc1</span> <span class="o">=</span> <span class="n">ASIFT</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;kp1&quot;</span><span class="p">],</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;desc1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp1</span><span class="p">,</span><span class="n">desc1</span> <span class="c1"># collect descriptors foreground</span>
+    <span class="n">kp2</span><span class="p">,</span><span class="n">desc2</span> <span class="o">=</span> <span class="n">ASIFT</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">scaled_back</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;kp2&quot;</span><span class="p">],</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;desc2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp2</span><span class="p">,</span><span class="n">desc2</span> <span class="c1"># collect descriptors background</span>
+
+    <span class="c1">#### MATCHING  # persistent by @root.memoize</span>
+    <span class="k">print</span> <span class="s2">&quot;matching...&quot;</span>
+    <span class="c1">#H, status, kp_pairs = MATCH_multiple(result)[0] # OR use MATCH</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">kp_pairs</span> <span class="o">=</span> <span class="n">MATCH</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span><span class="n">kp1</span><span class="p">,</span><span class="n">desc1</span><span class="p">,</span><span class="n">kp2</span><span class="p">,</span><span class="n">desc2</span><span class="p">)</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;H&quot;</span><span class="p">],</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">],</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;kp_pairs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">status</span><span class="p">,</span> <span class="n">kp_pairs</span> <span class="c1"># collect match results</span>
+
+    <span class="k">if</span> <span class="n">H</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+
+        <span class="n">original_fore</span> <span class="o">=</span> <span class="n">hist_match</span><span class="p">(</span><span class="n">original_fore</span><span class="p">,</span> <span class="n">original_back</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flag_invertH</span><span class="p">:</span>
+            <span class="n">kp_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="n">kp_pairs</span><span class="p">]</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="n">invertH</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;H_inverted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span> <span class="c1"># collect inversion of H</span>
+            <span class="n">tmp1</span><span class="p">,</span><span class="n">tmp2</span><span class="p">,</span><span class="n">tmp3</span><span class="p">,</span><span class="n">tmp4</span> <span class="o">=</span> <span class="n">original_fore</span><span class="p">,</span><span class="n">scaled_fore</span><span class="p">,</span><span class="n">original_back</span><span class="p">,</span><span class="n">scaled_back</span>
+            <span class="n">original_fore</span><span class="p">,</span><span class="n">scaled_fore</span><span class="p">,</span><span class="n">original_back</span><span class="p">,</span><span class="n">scaled_back</span> <span class="o">=</span> <span class="n">tmp3</span><span class="p">,</span><span class="n">tmp4</span><span class="p">,</span><span class="n">tmp1</span><span class="p">,</span><span class="n">tmp2</span>
+
+        <span class="n">shapes</span> <span class="o">=</span> <span class="n">original_fore</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">scaled_fore</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">original_back</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">scaled_back</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">H2</span> <span class="o">=</span> <span class="n">sh2oh</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="o">*</span><span class="n">shapes</span><span class="p">)</span> <span class="c1">#### sTM to oTM</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;H_original&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">H2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">kp_pairs2</span> <span class="o">=</span> <span class="n">spairs2opairs</span><span class="p">(</span><span class="n">kp_pairs</span><span class="p">,</span><span class="o">*</span><span class="n">shapes</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;kp_pairs_original&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp_pairs2</span>
+
+        <span class="k">if</span> <span class="n">flag_show_match</span><span class="p">:</span> <span class="c1"># show matching</span>
+            <span class="n">win</span> <span class="o">=</span> <span class="s1">&#39;matching result&#39;</span>
+            <span class="k">print</span> <span class="s2">&quot;waiting to close match explorer...&quot;</span>
+            <span class="n">vis</span> <span class="o">=</span> <span class="n">matchExplorer</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">original_fore</span><span class="p">,</span> <span class="n">original_back</span><span class="p">,</span> <span class="n">kp_pairs2</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">H2</span><span class="p">)</span>
+            <span class="c1">#vis = matchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)</span>
+
+        <span class="c1"># get perspective from the scaled to original Transformation matrix</span>
+        <span class="n">bgra_fore</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">original_fore</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2BGRA</span><span class="p">)</span> <span class="c1"># convert BGR to BGRA</span>
+        <span class="n">fore_in_back</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpPerspective</span><span class="p">(</span><span class="n">bgra_fore</span><span class="p">,</span><span class="n">H2</span><span class="p">,(</span><span class="n">original_back</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">original_back</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># get perspective</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;img_perspective&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fore_in_back</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># collect perspective</span>
+        <span class="n">foregray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">fore_in_back</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGRA2GRAY</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="c1"># convert formats to float</span>
+        <span class="n">fore_in_back</span> <span class="o">=</span> <span class="n">fore_in_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="c1"># convert to float to make operations</span>
+        <span class="n">saveas</span> <span class="o">=</span> <span class="s2">&quot;perspective.png&quot;</span>
+        <span class="k">if</span> <span class="n">flag_save_perspective</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">saveas</span><span class="p">,</span><span class="n">fore_in_back</span><span class="p">)</span> <span class="c1"># save perspective</span>
+            <span class="k">print</span> <span class="s2">&quot;perspective saved as: &quot;</span><span class="o">+</span><span class="n">saveas</span>
+        <span class="c1"># find alpha and do overlay</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">fore_in_back</span><span class="p">[:,:,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="c1"># testing damage by iteration</span>
+            <span class="n">backgray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">original_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">),</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">fore_in_back</span><span class="p">[:,:,</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span> <span class="n">n</span> <span class="o">=</span> <span class="n">getBrightAlpha</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span> <span class="n">foregray</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="c1">#### GET ALFA MASK</span>
+            <span class="n">fastplt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">original_back</span> <span class="o">=</span> <span class="n">overlay</span><span class="p">(</span><span class="n">original_back</span><span class="p">,</span> <span class="n">fore_in_back</span><span class="p">)</span> <span class="c1">#### MERGING</span>
+        <span class="n">original_back</span> <span class="o">=</span> <span class="n">original_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="c1"># convert back to uint8</span>
+        <span class="c1">#### POS-PROCESSING</span>
+        <span class="k">if</span> <span class="n">flag_filter_out</span><span class="p">:</span> <span class="c1"># filter  # persistent by @root.memoize</span>
+            <span class="c1"># http://docs.opencv.org/modules/imgproc/doc/filtering.html</span>
+            <span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span> <span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span> <span class="c1"># best guess: (50,100,10), opencv: (9,75,75), d=-1 is filter distance until sigma</span>
+            <span class="n">original_back</span> <span class="o">=</span> <span class="n">bilateralFilter</span><span class="p">(</span><span class="n">original_back</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+            <span class="n">saveas</span> <span class="o">=</span> <span class="s2">&quot;merged_bilateralfilter_d_{}_sigmaColor_{}_sigmaSapace_{}.png&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;bilateral filtered d={},sigmaColor={},sigmaSpace={}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">saveas</span> <span class="o">=</span> <span class="s2">&quot;merged_nofilter.png&quot;</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;merged image&quot;</span>
+        <span class="k">print</span> <span class="s2">&quot;image merged...&quot;</span>
+        <span class="k">if</span> <span class="n">flag_show_result</span><span class="p">:</span> <span class="c1"># plot result</span>
+            <span class="n">fastplt</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">original_back</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">),</span> <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flag_save_result</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">saveas</span><span class="p">,</span><span class="n">original_back</span><span class="p">)</span> <span class="c1"># save result</span>
+            <span class="k">print</span> <span class="s2">&quot;result saved as: &quot;</span><span class="o">+</span><span class="n">saveas</span>
+        <span class="n">results</span><span class="p">[</span><span class="s2">&quot;img_restored&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_back</span> <span class="c1"># collect image result</span>
+        <span class="k">print</span> <span class="s2">&quot;process finished... &quot;</span>
+        <span class="c1">#raw_input(&quot;&quot;)</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+<div class="viewcode-block" id="asif_demo2"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.asif_demo2">[docs]</a><span class="k">def</span> <span class="nf">asif_demo2</span><span class="p">(</span><span class="n">fn_back</span> <span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">fn_fore</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Demo to test ASIFT, Merge, Plotters,etc while extending images.</span>
+
+<span class="sd">    :param fn_back: file name of background image</span>
+<span class="sd">    :param fn_fore: file name of foreground image</span>
+<span class="sd">    :param **opts: demo options</span>
+<span class="sd">        flag options:</span>
+<span class="sd">        flag_filter_scaled (False): filter scaled images</span>
+<span class="sd">        flag_filter_original (False): filter original images</span>
+<span class="sd">        flag_filter_out (False): filter pos-processed images</span>
+<span class="sd">        flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography</span>
+<span class="sd">        flag_show_match (True): show match keypoint of scaled images</span>
+<span class="sd">        flag_show_result (True): show restored image</span>
+<span class="sd">        flag_save_perspective (False): save calculated perspective of foreground image</span>
+<span class="sd">        flag_save_result (False): save restored image</span>
+
+<span class="sd">        value obtions:</span>
+<span class="sd">        fore_scale (400,400): tuple of W,H to convert original foreground to scaled image</span>
+<span class="sd">        back_scale (400,400): tuple of W,H to convert original background to scaled image</span>
+<span class="sd">        feature: (&#39;sift-flann&#39;) use base descriptor</span>
+<span class="sd">    :return: dictionary of results</span>
+<span class="sd">            if there is not match the keys are:</span>
+<span class="sd">                [&#39;status&#39;, &#39;kp1&#39;, &#39;kp2&#39;, &#39;kp_pairs&#39;, &#39;desc1&#39;, &#39;desc2&#39;,&#39;H&#39;]</span>
+<span class="sd">            if there is match then additional keys are:</span>
+<span class="sd">                [&#39;img_perspective&#39;, &#39;img_restored&#39;, &#39;H_original&#39;, &#39;kp_pairs_original&#39;]</span>
+<span class="sd">            if flag_invertH additional kes: [&#39;H_inverted&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">feature_name</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">,</span><span class="s1">&#39;sift-flann&#39;</span><span class="p">)</span>
+    <span class="c1">#### LOADING</span>
+    <span class="n">fn_fore</span> <span class="o">=</span> <span class="n">fn_fore</span> <span class="ow">or</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;im1_2.jpg&#39;</span> <span class="c1"># foreground is placed to background</span>
+    <span class="c1">#original_fore = cv2.imread(fn_fore) # foreground</span>
+    <span class="k">print</span> <span class="n">fn_fore</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span>
+
+    <span class="n">fn_back</span> <span class="o">=</span> <span class="n">fn_back</span> <span class="ow">or</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;im1_1.jpg&#39;</span> <span class="c1"># background</span>
+    <span class="c1">#original_back = cv2.imread(fn_back) # background</span>
+    <span class="k">print</span> <span class="n">fn_back</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span>
+
+    <span class="c1">#### SCALING</span>
+    <span class="n">rzyf</span><span class="p">,</span><span class="n">rzxf</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fore_scale&quot;</span><span class="p">,(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">))</span> <span class="c1"># dimensions to scale foreground</span>
+    <span class="n">scaled_fore</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">fn_fore</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">rzxf</span><span class="p">,</span> <span class="n">rzyf</span><span class="p">))</span>
+
+    <span class="n">rzyb</span><span class="p">,</span><span class="n">rzxb</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;back_scale&quot;</span><span class="p">,(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">))</span> <span class="c1"># dimensions to scale background</span>
+    <span class="n">scaled_back</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">fn_back</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">rzxb</span><span class="p">,</span> <span class="n">rzyb</span><span class="p">))</span>
+
+    <span class="c1">#### FEATURE DETECTOR  # persistent by @root.memoize</span>
+    <span class="k">print</span> <span class="s2">&quot;finding keypoints with its descriptos...&quot;</span>
+    <span class="c1">#result = ASIFT_multiple([scaled_fore, scaled_back]) # OR use ASIFT for each image</span>
+    <span class="n">kp1</span><span class="p">,</span><span class="n">desc1</span> <span class="o">=</span> <span class="n">ASIFT</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">kp2</span><span class="p">,</span><span class="n">desc2</span> <span class="o">=</span> <span class="n">ASIFT</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">scaled_back</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="c1">#### MATCHING  # persistent by @root.memoize</span>
+    <span class="k">print</span> <span class="s2">&quot;matching...&quot;</span>
+    <span class="c1">#H, status, kp_pairs = MATCH_multiple(result)[0] # OR use MATCH</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">kp_pairs</span> <span class="o">=</span> <span class="n">MATCH</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span><span class="n">kp1</span><span class="p">,</span><span class="n">desc1</span><span class="p">,</span><span class="n">kp2</span><span class="p">,</span><span class="n">desc2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">H</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1">#shapes = original_fore.shape,scaled_fore.shape,original_back.shape,scaled_back.shape</span>
+        <span class="c1">#H2 = sh2oh(H,*shapes) #### sTM to oTM</span>
+        <span class="c1">#kp_pairs2 = spairs2opairs(kp_pairs,*shapes)</span>
+        <span class="k">print</span> <span class="s2">&quot;waiting to close match explorer...&quot;</span>
+        <span class="n">win</span><span class="p">,</span><span class="n">mwin</span> <span class="o">=</span> <span class="s2">&quot;stitch&quot;</span><span class="p">,</span><span class="s2">&quot;mask for stitch&quot;</span>
+        <span class="n">mask1</span> <span class="o">=</span> <span class="n">getBrightAlpha</span><span class="p">(</span><span class="n">scaled_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">scaled_fore</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">mask1</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">mwin</span><span class="p">)</span>
+        <span class="n">merged1</span> <span class="o">=</span> <span class="n">superpose</span><span class="p">(</span><span class="n">scaled_back</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">mask1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">merged1</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">win</span><span class="p">)</span>
+        <span class="n">win</span><span class="p">,</span><span class="n">mwin</span> <span class="o">=</span> <span class="s2">&quot;inverted stitch&quot;</span><span class="p">,</span> <span class="s2">&quot;mask for inverted stitch&quot;</span>
+        <span class="n">mask2</span> <span class="o">=</span> <span class="n">getBrightAlpha</span><span class="p">(</span><span class="n">scaled_fore</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">scaled_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">mask2</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">mwin</span><span class="p">)</span>
+        <span class="n">merged2</span> <span class="o">=</span> <span class="n">superpose</span><span class="p">(</span><span class="n">scaled_fore</span><span class="p">,</span><span class="n">scaled_back</span><span class="p">,</span> <span class="n">invertH</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">mask2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">fastplt</span><span class="p">(</span><span class="n">merged2</span><span class="p">,</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="n">win</span><span class="p">)</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="s1">&#39;matching result&#39;</span>
+        <span class="n">vis</span> <span class="o">=</span> <span class="n">matchExplorer</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">scaled_back</span><span class="p">,</span> <span class="n">kp_pairs</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="extractCSV"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.extractCSV">[docs]</a><span class="k">def</span> <span class="nf">extractCSV</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">saveTo</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">csv</span>
+    <span class="n">saveTo</span> <span class="o">=</span> <span class="n">saveTo</span> <span class="ow">or</span> <span class="n">testRates</span><span class="o">.</span><span class="n">func_name</span><span class="o">+</span><span class="s2">&quot;.csv&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">saveTo</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="n">wr</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="s1">&#39;excel&#39;</span><span class="p">)</span>
+        <span class="n">wr</span><span class="o">.</span><span class="n">writerows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># save columns # FIXME not implemented yet</span></div>
+
+<div class="viewcode-block" id="getDicDescriptor"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.getDicDescriptor">[docs]</a><span class="k">def</span> <span class="nf">getDicDescriptor</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">feature_name</span><span class="p">,</span> <span class="n">dic</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param path:</span>
+<span class="sd">    :param loader:</span>
+<span class="sd">    :param feature_name:</span>
+<span class="sd">    :param dic:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dic</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dic</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dic</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;finding ASIFT of {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">kps</span><span class="p">,</span><span class="n">desc</span> <span class="o">=</span> <span class="n">ASIFT</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span> <span class="n">im</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kps</span><span class="p">:</span>
+            <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="n">dic</span><span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">kps</span><span class="p">,</span><span class="n">desc</span>
+        <span class="k">return</span> <span class="n">kps</span><span class="p">,</span><span class="n">desc</span></div>
+
+<div class="viewcode-block" id="testRates"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.testRates">[docs]</a><span class="k">def</span> <span class="nf">testRates</span><span class="p">(</span><span class="n">images</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param opts:</span>
+<span class="sd">    feature = &#39;sift-flann&#39;</span>
+<span class="sd">    loader = &quot;400,400&quot;</span>
+<span class="sd">    saveTo = None,</span>
+<span class="sd">    autoqualify = False,</span>
+<span class="sd">    showOnlyPassedTest= False,</span>
+<span class="sd">    clearAll = False,</span>
+<span class="sd">    clearData = clearAll,</span>
+<span class="sd">    clearQualification = clearAll</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">checkrelativity</span><span class="p">(</span><span class="n">angles</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">angles</span> <span class="k">if</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mf">1.571</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="c1"># at least one is less than 90.01 degress</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">checkquadrands</span><span class="p">(</span><span class="n">quadrants</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">string_</span><span class="p">:</span>
+            <span class="n">quadrants</span> <span class="o">=</span> <span class="n">translateQuadrants</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span> <span class="c1"># translate to string</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="n">feature_name</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">,</span><span class="s1">&#39;sift-flann&#39;</span><span class="p">)</span>
+    <span class="n">saveTo</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;saveTo&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span><span class="c1">#&quot;/mnt/4E443F99443F82AF/restoration_data/&quot;</span>
+    <span class="n">clearAll</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clearAll&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">saveTo</span><span class="p">:</span>
+        <span class="n">descriptors</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;descriptors&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clearData&quot;</span><span class="p">,</span><span class="n">clearAll</span><span class="p">):</span>
+            <span class="n">descriptors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">descriptors</span><span class="p">,</span><span class="n">shapes</span><span class="p">,</span><span class="n">data</span> <span class="o">=</span> <span class="p">{},{},{}</span>
+    <span class="c1">#### LOADING</span>
+    <span class="k">if</span> <span class="n">images</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s2">&quot;looking in path {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">])</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;*.jpg&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s2">&quot;looking as {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># iterator containing data</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">images</span>
+    <span class="c1">#fns = fns[:3]</span>
+    <span class="k">print</span> <span class="s2">&quot;testing {} files...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">))</span>
+    <span class="c1">#### SCALING</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;loader&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">rzyf</span><span class="p">,</span><span class="n">rzxf</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span><span class="mi">400</span> <span class="c1"># dimensions to scale foregrounds</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">rzxf</span><span class="p">,</span> <span class="n">rzyf</span><span class="p">))</span>
+    <span class="c1">#ims = pathLoader(fns,loader) # load just when needed</span>
+    <span class="n">addNewData</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># add any posterior custom data that was forgotten in the calculation</span>
+    <span class="n">counter</span><span class="p">,</span><span class="n">countNone</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
+    <span class="c1">#### MATCHING</span>
+    <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;matching...&quot;</span><span class="p">,</span><span class="n">endmsg</span><span class="o">=</span><span class="s2">&quot;Overall time is &quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">fore_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fns</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">back_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fns</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">j</span><span class="o">&gt;</span><span class="n">i</span><span class="p">:</span> <span class="c1"># do not test itself and inverted tests</span>
+                    <span class="n">counter</span> <span class="o">+=</span><span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;comparision No.{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                        <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;finding keypoints with its descriptors...&quot;</span><span class="p">):</span>
+                            <span class="c1"># FIXME inefficient code ... just 44 descriptors generate 946 Homographies</span>
+                            <span class="p">(</span><span class="n">kps1</span><span class="p">,</span><span class="n">desc1</span><span class="p">)</span> <span class="o">=</span> <span class="n">getDicDescriptor</span><span class="p">(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">loader</span><span class="p">,</span><span class="n">feature_name</span><span class="p">,</span><span class="n">descriptors</span><span class="p">)</span>
+                            <span class="p">(</span><span class="n">kps2</span><span class="p">,</span><span class="n">desc2</span><span class="p">)</span> <span class="o">=</span> <span class="n">getDicDescriptor</span><span class="p">(</span><span class="n">back_name</span><span class="p">,</span><span class="n">loader</span><span class="p">,</span><span class="n">feature_name</span><span class="p">,</span><span class="n">descriptors</span><span class="p">)</span>
+                            <span class="n">H</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">kp_pairs</span> <span class="o">=</span> <span class="n">MATCH</span><span class="p">(</span><span class="n">feature_name</span><span class="p">,</span><span class="n">kps1</span><span class="p">,</span><span class="n">desc1</span><span class="p">,</span><span class="n">kps2</span><span class="p">,</span><span class="n">desc2</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">H</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                                <span class="n">countNone</span> <span class="o">+=</span><span class="mi">1</span>
+                                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;comparison {},{} is None&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)</span>
+                                <span class="n">data</span><span class="p">[(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">None</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">projection</span> <span class="o">=</span> <span class="n">getTransformedCorners</span><span class="p">(</span><span class="n">kps1</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;shape&quot;</span><span class="p">][:</span><span class="mi">2</span><span class="p">],</span><span class="n">H</span><span class="p">)</span>
+                                <span class="n">angles</span> <span class="o">=</span> <span class="n">vertexesAngles</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span> <span class="c1"># angles in radians</span>
+                                <span class="n">relativity_test</span> <span class="o">=</span> <span class="n">checkrelativity</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+                                <span class="n">quadrants</span> <span class="o">=</span> <span class="n">relativeQuadrants</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span>
+                                <span class="n">quadrants_translated</span> <span class="o">=</span> <span class="n">translateQuadrants</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)</span>
+                                <span class="n">quadrants_test</span> <span class="o">=</span> <span class="n">checkquadrands</span><span class="p">(</span><span class="n">quadrants_translated</span><span class="p">)</span>
+                                <span class="n">inlines</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                                <span class="n">lines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                                <span class="n">c</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span>
+                                <span class="n">inlineratio</span> <span class="o">=</span> <span class="n">inlineRatio</span><span class="p">(</span><span class="n">inlines</span><span class="p">,</span><span class="n">lines</span><span class="p">)</span>
+                                <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="p">,</span>
+                                            <span class="n">status</span><span class="o">=</span><span class="n">status</span><span class="p">,</span>
+                                            <span class="n">kp_pairs</span><span class="o">=</span><span class="n">kp_pairs</span><span class="p">,</span>
+                                            <span class="n">kps1</span><span class="o">=</span><span class="n">kps1</span><span class="p">,</span>
+                                            <span class="n">kps2</span><span class="o">=</span><span class="n">kps2</span><span class="p">,</span>
+                                            <span class="n">inlines</span><span class="o">=</span><span class="n">inlines</span><span class="p">,</span>
+                                            <span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span><span class="p">,</span>
+                                            <span class="n">projection</span> <span class="o">=</span> <span class="n">projection</span><span class="p">,</span>
+                                            <span class="n">quadrants</span> <span class="o">=</span> <span class="n">quadrants</span><span class="p">,</span>
+                                            <span class="n">angles</span> <span class="o">=</span> <span class="n">angles</span><span class="p">,</span>
+                                            <span class="n">relativity_test</span> <span class="o">=</span> <span class="n">relativity_test</span><span class="p">,</span>
+                                            <span class="n">quadrants_test</span> <span class="o">=</span> <span class="n">quadrants_test</span><span class="p">,</span>
+                                            <span class="n">quadrants_translated</span><span class="o">=</span><span class="n">quadrants_translated</span><span class="p">,</span>
+                                            <span class="n">area_rec</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rectangularArea</span><span class="p">,</span>
+                                            <span class="n">area</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">area</span><span class="p">,</span>
+                                            <span class="n">rotatedBox</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rotatedBox</span><span class="p">,</span>
+                                            <span class="n">rotatedRectangularity</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rotatedRectangularity</span><span class="p">,</span>
+                                            <span class="n">regularity</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">regularity</span><span class="p">,</span>
+                                            <span class="n">rectangularity</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">rectangularity</span><span class="p">,</span>
+                                            <span class="n">inlineRatio</span> <span class="o">=</span> <span class="n">inlineratio</span><span class="p">,</span>
+                                            <span class="n">overall_test</span> <span class="o">=</span> <span class="n">inlineratio</span><span class="o">&gt;</span><span class="mf">0.8</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">rectangularity</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="p">,</span>
+                                            <span class="n">quadrant_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">quadrants</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+                                <span class="n">data</span><span class="p">[(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">temp</span> <span class="c1"># return temporal data to memoized dict</span>
+                    <span class="k">elif</span> <span class="n">addNewData</span><span class="p">:</span> <span class="c1"># add data after calculations.</span>
+                        <span class="n">temp</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)]</span> <span class="c1"># get from memoized dict temporal data</span>
+                        <span class="k">if</span> <span class="n">temp</span><span class="p">:</span>
+                            <span class="k">pass</span> <span class="c1">#data[(fore_name,back_name)] = temp[0]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">countNone</span> <span class="o">+=</span><span class="mi">1</span>
+                            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;comparison {},{} is None&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fore_name</span><span class="p">,</span><span class="n">back_name</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;{} of {} were None while calculating...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">countNone</span><span class="p">,</span><span class="n">counter</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;qualify&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;Qualifying data...&quot;</span><span class="p">):</span>
+            <span class="n">qualification</span><span class="p">,</span><span class="n">algorithmFails</span> <span class="o">=</span> <span class="n">qualifyData</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span> <span class="n">saveTo</span><span class="o">=</span><span class="n">saveTo</span><span class="p">,</span>
+                                                       <span class="n">autoqualify</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;autoqualify&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">),</span>
+                                                       <span class="n">showOnlyPassedTest</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;showOnlyPassedTest&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">),</span>
+                                                       <span class="n">clear</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clearQualification&quot;</span><span class="p">,</span><span class="n">clearAll</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span><span class="n">descriptors</span><span class="p">,</span><span class="n">loader</span><span class="p">,</span><span class="n">qualification</span><span class="p">,</span><span class="n">algorithmFails</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">,</span><span class="n">descriptors</span><span class="p">,</span><span class="n">loader</span></div>
+
+<div class="viewcode-block" id="stitch_multiple"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.restoration.stitch_multiple">[docs]</a><span class="k">def</span> <span class="nf">stitch_multiple</span><span class="p">(</span><span class="n">images</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">opts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param opts:</span>
+<span class="sd">    feature = &#39;sift-flann&#39;</span>
+<span class="sd">    loader = &quot;400,400&quot;</span>
+<span class="sd">    saveTo = None,</span>
+<span class="sd">    autoqualify = False,</span>
+<span class="sd">    showOnlyPassedTest= False,</span>
+<span class="sd">    clearAll = False,</span>
+<span class="sd">    clearData = clearAll,</span>
+<span class="sd">    clearQualification = clearAll</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Notes:</span>
+<span class="sd">    * inlineratio is really useful to determine if a match is adequate for a merging, but</span>
+<span class="sd">    it is not good to use when stitching more than 2 images because each time the stitching</span>
+<span class="sd">    grown the ratios decrease. inlineratio</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">RRtoolbox.lib.descriptors</span> <span class="kn">import</span> <span class="n">init_feature</span><span class="p">,</span> <span class="n">ASIFT_iter</span><span class="p">,</span><span class="n">filter_matches</span>
+
+    <span class="n">centric</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># tries to attach as many images as possible to each match process</span>
+    <span class="c1"># centric is quicker since it does not have to process too many match computations</span>
+
+    <span class="n">feature_name</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;feature&quot;</span><span class="p">,</span><span class="s1">&#39;sift-flann&#39;</span><span class="p">)</span>
+    <span class="n">saveTo</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;saveTo&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span><span class="c1">#&quot;/mnt/4E443F99443F82AF/restoration_data/&quot;</span>
+    <span class="n">clearAll</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clearAll&quot;</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">saveTo</span><span class="p">:</span>
+        <span class="n">descriptors_dic</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;descriptors&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">memoizedDict</span><span class="p">(</span><span class="n">saveTo</span><span class="o">+</span><span class="s2">&quot;data&quot;</span><span class="p">)</span> <span class="c1"># this is the result of testRates if it exists</span>
+        <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;clearData&quot;</span><span class="p">,</span><span class="n">clearAll</span><span class="p">):</span>
+            <span class="n">descriptors_dic</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">descriptors_dic</span><span class="p">,</span><span class="n">shapes</span><span class="p">,</span><span class="n">data</span> <span class="o">=</span> <span class="p">{},{},{}</span>
+    <span class="c1">#### LOADING</span>
+    <span class="k">if</span> <span class="n">images</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s2">&quot;looking in path {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">])</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;*.jpg&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s2">&quot;looking as {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># iterator containing data</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">images</span>
+    <span class="c1">#fns = fns[:3]</span>
+    <span class="k">print</span> <span class="s2">&quot;testing {} files...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">))</span>
+    <span class="c1">#### SCALING</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;loader&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">loader</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">rzyf</span><span class="p">,</span><span class="n">rzxf</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span><span class="mi">800</span> <span class="c1"># dimensions to scale foregrounds</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="p">(</span><span class="n">rzxf</span><span class="p">,</span> <span class="n">rzyf</span><span class="p">))</span>
+    <span class="c1">#ims = pathLoader(fns,loader) # load just when needed</span>
+
+    <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+    <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;finding descriptors...&quot;</span><span class="p">,</span><span class="n">endmsg</span><span class="o">=</span><span class="s2">&quot;Overall time is &quot;</span><span class="p">):</span>
+        <span class="n">descriptors_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="sd">&quot;&quot;&quot; # this is used if no memoizeDict is used</span>
+<span class="sd">        for i,(kps,desc) in enumerate(ASIFT_iter(ims,feature_name)):</span>
+<span class="sd">            descriptors_list.append((len(kps),i,kps,desc))</span>
+<span class="sd">            if FLAG_DEBUG: print &quot;computing descriptor {}/{}...&quot;.format(i,len(ims))&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fns</span><span class="p">):</span>
+            <span class="n">kps</span><span class="p">,</span><span class="n">desc</span> <span class="o">=</span> <span class="n">getDicDescriptor</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">loader</span><span class="p">,</span><span class="n">feature_name</span><span class="p">,</span><span class="n">descriptors_dic</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kps</span><span class="p">:</span>
+                <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># statistical data</span>
+                <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt_original&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span>
+            <span class="n">descriptors_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">kps</span><span class="p">),</span><span class="n">i</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">kps</span><span class="p">,</span><span class="n">desc</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;descriptor {}/{}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">))</span>
+
+    <span class="c1">#### MATCHING</span>
+    <span class="n">matcher</span> <span class="o">=</span> <span class="n">init_feature</span><span class="p">(</span><span class="n">feature_name</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># it must get matcher object of cv2 here to prevent conflict with memoizers</span>
+    <span class="c1"># BFMatcher.knnMatch() returns k best matches where k is specified by the user</span>
+    <span class="n">descriptors_list</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># descendant: from bigger to least</span>
+    <span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">kps_base</span><span class="p">,</span><span class="n">desc_base</span> <span class="o">=</span> <span class="n">descriptors_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># select first with most descriptors</span>
+    <span class="n">used</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="c1"># select first image path</span>
+    <span class="n">failed</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># registry for failed images</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># load first image</span>
+
+    <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;matching...&quot;</span><span class="p">,</span><span class="n">endmsg</span><span class="o">=</span><span class="s2">&quot;Overall time is &quot;</span><span class="p">):</span>
+        <span class="c1"># TODO make a merger to take a first image and then stitch more to it</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">kps_remain</span><span class="p">,</span><span class="n">desc_remain</span> <span class="o">=</span> <span class="p">[],[]</span> <span class="c1"># initialize keypoint and descriptor list of candidates</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">kps</span><span class="p">,</span><span class="n">desc</span> <span class="ow">in</span> <span class="n">descriptors_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span> <span class="c1"># append only those which are not in the base image</span>
+                    <span class="n">kps_remain</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">kps</span><span class="p">)</span>
+                    <span class="n">desc_remain</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kps</span><span class="p">:</span>
+                        <span class="k">assert</span> <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="p">[]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">kps_remain</span><span class="p">:</span> <span class="c1"># if there is not image remaining to stitch break</span>
+                <span class="k">print</span> <span class="s2">&quot;all images used&quot;</span>
+                <span class="k">break</span>
+
+            <span class="n">desc_remain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">desc_remain</span><span class="p">)</span> <span class="c1"># convert descriptors to array</span>
+            <span class="c1"># select only those with good hamming distance</span>
+            <span class="n">raw_matches</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">knnMatch</span><span class="p">(</span><span class="n">desc_remain</span><span class="p">,</span> <span class="n">trainDescriptors</span> <span class="o">=</span> <span class="n">desc_base</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">#2</span>
+            <span class="c1"># If k=2, it will draw two match-lines for each keypoint.</span>
+            <span class="c1"># So we have to pass a status if we want to selectively draw it.</span>
+            <span class="c1">#p1, p2, kp_pairs = filter_matches(kps_remain, kps_base, raw_matches) #ratio test of 0.75</span>
+            <span class="c1"># descriptors_dic[kp_pairs[0][0][&quot;name&quot;]][0]</span>
+            <span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.75</span> <span class="c1"># filter ratio</span>
+            <span class="n">classified</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">raw_matches</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">distance</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">:</span> <span class="c1"># by Hamming distance</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">kp1</span> <span class="o">=</span> <span class="n">kps_remain</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">queryIdx</span><span class="p">]</span>  <span class="c1"># keypoint with Index of the descriptor in query descriptors</span>
+                    <span class="n">kp2</span> <span class="o">=</span> <span class="n">kps_base</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">trainIdx</span><span class="p">]</span>  <span class="c1"># keypoint with Index of the descriptor in train descriptors</span>
+
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">kp1</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span>
+                    <span class="k">assert</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">used</span>
+                    <span class="k">assert</span> <span class="n">kp2</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">used</span>
+
+                    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">classified</span><span class="p">:</span>
+                        <span class="n">classified</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">kp1</span><span class="p">,</span><span class="n">kp2</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">classified</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">kp1</span><span class="p">,</span><span class="n">kp2</span><span class="p">)]</span>
+
+            <span class="n">ordered</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">),</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">classified</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># order with best matches</span>
+
+            <span class="k">for</span> <span class="n">v</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="n">ordered</span><span class="p">:</span>
+                <span class="n">mkp1</span><span class="p">,</span><span class="n">mkp2</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">classified</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="c1"># probably good matches</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">([</span><span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">mkp1</span><span class="p">])</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">([</span><span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">mkp2</span><span class="p">])</span>
+                <span class="n">H</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findHomography</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RANSAC</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">H</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="c1"># test recursivity</span>
+                    <span class="n">H</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findHomography</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">status</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="p">]),</span>
+                                                   <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">([</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span><span class="n">status</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span><span class="p">]),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RANSAC</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+                <span class="c1"># FIXME it seems that when the keypoints correspond to a slanted image the homography cannot</span>
+                <span class="c1"># minimize the error resulting in erratic transformation functions resulting in it been discarded</span>
+                <span class="c1"># H should work for the merged image, status specifies the inlier and outlier points</span>
+                <span class="k">if</span> <span class="n">H</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="c1">#first test</span>
+                    <span class="n">scaled_fore</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="c1"># load fore image</span>
+                    <span class="n">h</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span> <span class="n">scaled_fore</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="c1">#mkp1[0][&quot;shape&quot;][:2]</span>
+                    <span class="n">projection</span> <span class="o">=</span> <span class="n">getTransformedCorners</span><span class="p">((</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">),</span><span class="n">H</span><span class="p">)</span> <span class="c1"># get corners of dore projection over back</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span> <span class="c1"># class to calculate statistical data</span>
+                    <span class="n">lines</span><span class="p">,</span> <span class="n">inlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">status</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+                    <span class="n">inlineratio</span> <span class="o">=</span> <span class="n">inlineRatio</span><span class="p">(</span><span class="n">inlines</span><span class="p">,</span><span class="n">lines</span><span class="p">)</span> <span class="c1"># ratio to determine how good fore is in back</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;inlines/lines: {}/{}={} and rect {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">inlines</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">inlineratio</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">rotatedRectangularity</span><span class="p">)</span>
+                    <span class="n">merged2</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">drawKeypoints</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">merged</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">),</span>
+                                          <span class="p">[</span><span class="n">dict2keyPoint</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">kps_base</span><span class="p">],</span>
+                                          <span class="n">flags</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+                    <span class="n">matchExplorer</span><span class="p">(</span><span class="s2">&quot;match &quot;</span><span class="o">+</span><span class="n">text</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">merged2</span><span class="p">,</span> <span class="n">classified</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">status</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">inlineratio</span><span class="o">&gt;</span><span class="mf">0.2</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">rotatedRectangularity</span><span class="o">&gt;</span><span class="mf">0.5</span><span class="p">:</span> <span class="c1"># second test</span>
+                        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># clean fail registry</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">failed</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                            <span class="k">except</span><span class="p">:</span>
+                                <span class="k">break</span>
+                        <span class="n">merged</span><span class="p">,</span> <span class="n">H_back</span><span class="p">,</span> <span class="n">H_fore</span> <span class="o">=</span> <span class="n">superpose</span><span class="p">(</span><span class="n">merged</span><span class="p">,</span> <span class="n">scaled_fore</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="c1"># create new base</span>
+                        <span class="c1">#fastplt(merged,&quot;gray&quot;)</span>
+                        <span class="c1">#plotim(&quot;last added with &quot;+text,merged).show()</span>
+                        <span class="n">projection</span> <span class="o">=</span> <span class="n">getTransformedCorners</span><span class="p">((</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">),</span><span class="n">H_fore</span><span class="p">)</span>
+                        <span class="n">newkps</span><span class="p">,</span> <span class="n">newdesc</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+                        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                        # newkps, newdesc = [], []</span>
+<span class="sd">                        # THIS WORKS BUT DOES NOT UPDATE OTHER DATA THAT IS USED FOR VISUALIZATION</span>
+<span class="sd">                        # MAKING THE NOTION THAT THE ALGORITHM IS NOT WORKING</span>
+<span class="sd">                        for kp,dsc in zip(kps_base,desc_base):</span>
+<span class="sd">                            pt = tuple(transformPoint(kp[&quot;pt&quot;],H_back))</span>
+<span class="sd">                            kp[&quot;pt&quot;] = pt</span>
+<span class="sd">                            kp[&quot;modified&quot;].append((&quot;H_back&quot;,H_back))</span>
+<span class="sd">                            if cv2.pointPolygonTest(projection, pt, False) == -1: #include only those outside fore</span>
+<span class="sd">                                newkps.append(kp)</span>
+<span class="sd">                                newdesc.append(dsc)</span>
+<span class="sd">                        _,_,_,kps,desc = filter(lambda x: x[2] == k, descriptors_list)[0] # get all the keypoints in that photo</span>
+<span class="sd">                        # not all fore points are in back</span>
+<span class="sd">                        for kp in kps: # update keypoint positions</span>
+<span class="sd">                            kp[&quot;pt&quot;] = tuple(transformPoint(kp[&quot;pt&quot;],H_fore))</span>
+<span class="sd">                            kp[&quot;modified&quot;].append((&quot;H_fore&quot;,H_fore))</span>
+<span class="sd">                        newkps.extend(kps)</span>
+<span class="sd">                        newdesc.extend(desc)</span>
+<span class="sd">                        #kps_base = newkps</span>
+<span class="sd">                        #desc_base = np.array(newdesc)</span>
+<span class="sd">                        &#39;&#39;&#39;</span>
+                        <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">kps</span><span class="p">,</span><span class="n">desc</span> <span class="ow">in</span> <span class="n">descriptors_list</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span> <span class="c1"># append only those which are not in the base image</span>
+                                <span class="k">for</span> <span class="n">kp</span><span class="p">,</span><span class="n">dsc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kps</span><span class="p">,</span><span class="n">desc</span><span class="p">):</span> <span class="c1"># kps,desc</span>
+                                    <span class="n">pt</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">transformPoint</span><span class="p">(</span><span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">],</span><span class="n">H_back</span><span class="p">))</span>
+                                    <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pt</span>
+                                    <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;H_back&quot;</span><span class="p">,</span><span class="n">H_back</span><span class="p">))</span>
+                                    <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">pointPolygonTest</span><span class="p">(</span><span class="n">projection</span><span class="p">,</span> <span class="n">pt</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="c1">#include only those outside fore</span>
+                                        <span class="n">newkps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+                                        <span class="n">newdesc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dsc</span><span class="p">)</span>
+                            <span class="k">elif</span> <span class="n">path</span> <span class="o">==</span> <span class="n">k</span><span class="p">:</span>
+                                <span class="k">for</span> <span class="n">kp</span><span class="p">,</span><span class="n">dsc</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kps</span><span class="p">,</span><span class="n">desc</span><span class="p">):</span> <span class="c1"># kps,desc</span>
+                                    <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">transformPoint</span><span class="p">(</span><span class="n">kp</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">],</span><span class="n">H_fore</span><span class="p">))</span>
+                                    <span class="n">kp</span><span class="p">[</span><span class="s2">&quot;modified&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s2">&quot;H_fore&quot;</span><span class="p">,</span><span class="n">H_fore</span><span class="p">))</span>
+                                    <span class="n">newkps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span>
+                                    <span class="n">newdesc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dsc</span><span class="p">)</span>
+
+                        <span class="n">kps_base</span> <span class="o">=</span> <span class="n">newkps</span>
+                        <span class="n">desc_base</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">newdesc</span><span class="p">)</span>
+                        <span class="n">used</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">kps_base</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">desc_base</span><span class="p">)</span>
+                        <span class="c1">#mkp1 = deepcopy(mkp1) # copy keypoints of fore</span>
+                        <span class="c1">#for kp in mkp1:</span>
+                        <span class="c1">#    kp[&quot;pt&quot;] = kp[&quot;pt_original&quot;] # restore its original keypoints for visualization</span>
+                        <span class="c1"># visualize the match if data is in merged</span>
+                        <span class="c1">#vis = matchExplorer(&quot;match in merged&quot;, scaled_fore, merged, zip(mkp1,mkp2), status, H_fore)</span>
+                        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                        # draw keypoints in image</span>
+<span class="sd">                        plotim(&quot;keypoints&quot;,</span>
+<span class="sd">                               cv2.drawKeypoints(cv2.cvtColor(merged,cv2.COLOR_GRAY2BGR),</span>
+<span class="sd">                                          [dict2keyPoint(i) for i in kps_base],</span>
+<span class="sd">                                          flags=4, color=(0,0,255))).show()&quot;&quot;&quot;</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">centric</span><span class="p">:</span>
+                            <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">failed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">failed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">classified</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">failed</span><span class="p">):</span>
+                <span class="k">print</span> <span class="s2">&quot;Ended, these images do not fit: &quot;</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">classified</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">print</span> <span class="n">i</span>
+                <span class="k">break</span>
+
+    <span class="n">base</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">ext</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">used</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;merged_&quot;</span><span class="o">+</span><span class="n">name</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">base</span><span class="p">,</span><span class="s2">&quot;/home/davtoh/Desktop/&quot;</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">ext</span><span class="p">)),</span><span class="n">merged</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html</span>
+    <span class="n">memoize</span><span class="o">.</span><span class="n">ignoreAll</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">asif_demo</span><span class="p">(</span><span class="s2">&quot;im1_2.jpg&quot;</span><span class="p">,</span><span class="s2">&quot;im1_1.jpg&quot;</span><span class="p">)</span>
+    <span class="c1">#asif_demo2()</span>
+    <span class="n">images</span><span class="o">=</span><span class="s2">&quot;../TESIS/DATA_RAW/IMAGES/RETINA/*.jpg&quot;</span>
+    <span class="c1">#stitch_multiple(images=images,</span>
+    <span class="c1">#                saveTo = &quot;/mnt/4E443F99443F82AF/restoration_data/&quot;, clearAll=False)</span>
+    <span class="c1">#testRates(images=images,</span>
+                <span class="c1">#saveTo = &quot;/mnt/4E443F99443F82AF/restoration_data/&quot;,autoqualify=True,qualify=True,showOnlyPassedTest=True)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, davtoh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

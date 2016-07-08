@@ -444,17 +444,17 @@ def joinPath(absolute,relative):
 class directory(str):
     """
     semi-mutable string representation of a inmutable string with support for path representations.
+
+    :param data: list, directory instance, dictionary or string.
+    :param ispath: True to add support for paths.
+    :param copy: when data is a directory if copy is True then this instance data is independent
+            of the passed directory otherwise both directories are a reference to the same
+            dictionary data but they are not the same object.
+    :param kwargs: additional data to add in directory.
     """
     def __new__(cls, data, ispath = None, copy = False, **kwargs):
         """
         Creates and initializes directory.
-
-        :param data: list, directory instance, dictionary or string.
-        :param ispath: True to add support for paths.
-        :param copy: when data is a directory if copy is True then this instance data is independent
-                of the passed directory otherwise both directories are a reference to the same
-                dictionary data but they are not the same object.
-        :param kwargs: additional data to add in directory.
         """
         # TODO overcome limitation of string not being mutable. use basestring?
         # TODO keep string inheritance, keep string methods, but enable mutabilite
@@ -645,6 +645,12 @@ class directory(str):
 class FileDirectory(directory):
     """
     Saves contents of a file as with directories.
+
+    :param data: list, directory instance, dictionary or string.
+    :param filename: name of file.
+    :param path: path to folder where file is (it must finish in /).
+    :param notes: optional description string
+    :param kwargs: additional data to add in directory.
     """
     def __new__(cls, data, filename, path, notes = None):
         self = super(FileDirectory,cls).__new__(cls,data,False,False)

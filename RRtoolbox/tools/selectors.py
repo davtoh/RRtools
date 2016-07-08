@@ -80,6 +80,9 @@ def hist_comp(imlist, loadfunc = None, method= "correlation"):
     return comparison
 
 class entropyPlot(plotim):
+    """
+    Plot entropy test
+    """
     def __init__(self,images,win="Entropy tests",func= None):
         if func is None:
             def loadfunc(im,size = (400,400)):

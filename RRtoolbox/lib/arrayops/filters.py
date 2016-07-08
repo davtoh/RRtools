@@ -307,6 +307,10 @@ class BilateralParameters(object):
         * filtering is better to eliminate noise
         * images look more cartoon-like
 
+    :param d: distance
+    :param sigmaColor: sigma in color
+    :param sigmaSpace: sigma in space
+
     """
     d_h = bilateraP(scale = 31,shift=15, alpha=150, beta1 = 60, beta2=800, name = "d")
     d = 27
@@ -317,11 +321,6 @@ class BilateralParameters(object):
         """
         replace bilateral limit parameters. It can be a
         instance from bilateraP or a value.
-
-        :param d: distance
-        :param sigmaColor: sigma in color
-        :param sigmaSpace: sigma in space
-        :return:
         """
         if d is not None:
             self.d = d

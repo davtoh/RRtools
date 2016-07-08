@@ -1,0 +1,515 @@
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter A
+  \item addto() (in module RRtoolbox.lib.root), \hyperpage{52}
+  \item affine\_skew() (in module RRtoolbox.lib.descriptors), \hyperpage{34}
+  \item all (RRtoolbox.lib.cache.resourceManager attribute), \hyperpage{29}
+  \item alpha (RRtoolbox.lib.arrayops.filters.FilterBase attribute), \hyperpage{21}
+  \item angle() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{3}
+  \item angle2D() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{3}
+  \item angleXY() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{4}
+  \item anorm() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{4}
+  \item anorm2() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{4}
+  \item apply2kp\_pairs() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item applythresh() (RRtoolbox.lib.plotter.imtester static method), \hyperpage{44}
+  \item ASIFT() (in module RRtoolbox.lib.descriptors), \hyperpage{32}
+  \item asift() (RRtoolbox.core.rrbox method), \hyperpage{59}
+  \item ASIFT\_iter() (in module RRtoolbox.lib.descriptors), \hyperpage{33}
+  \item ASIFT\_multiple() (in module RRtoolbox.lib.descriptors), \hyperpage{33}
+  \item Asyncronous (class in RRtoolbox.lib.inspector), \hyperpage{40}
+  \item axesIntercept() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{4}
+
+  \indexspace
+  \bigletter B
+  \item background() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item background() (in module RRtoolbox.lib.plotter), \hyperpage{42}
+  \item bandpass (class in RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item bandstop (class in RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item beta1 (RRtoolbox.lib.arrayops.filters.FilterBase attribute), \hyperpage{22}
+  \item beta2 (RRtoolbox.lib.arrayops.filters.FilterBase attribute), \hyperpage{22}
+  \item biggestCnt() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item biggestCntData() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item bilateralFilter() (in module RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item BilateralParameters (class in RRtoolbox.lib.arrayops.filters), \hyperpage{21}
+  \item bilateraP (class in RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item boxPads() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item brightness() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item broadcast() (RRtoolbox.lib.inspector.Logger method), \hyperpage{41}
+  \item builtcmd() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+  \item builtincmd() (RRtoolbox.lib.plotter.plotim method), \hyperpage{46}
+  \item builtincontrol() (RRtoolbox.lib.plotter.plotim method), \hyperpage{46}
+  \item builtinplot() (RRtoolbox.lib.plotter.plotim method), \hyperpage{46}
+  \item builtinwindow() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item bytes2units() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{29}
+
+  \indexspace
+  \bigletter C
+  \item cache (class in RRtoolbox.lib.cache), \hyperpage{27}
+  \item cachedir (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item cachedProperty() (in module RRtoolbox.lib.cache), \hyperpage{27}
+  \item call\_and\_shelve() (RRtoolbox.lib.cache.DynamicMemoizedFunc method), \hyperpage{26}
+  \item centerM() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item centerS() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item centerSM() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item changedir() (in module RRtoolbox.lib.directory), \hyperpage{35}
+  \item checkDir() (in module RRtoolbox.lib.directory), \hyperpage{35}
+  \item checkFile() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item checkFromSession() (in module RRtoolbox.lib.session), \hyperpage{55}
+  \item checkPath() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item checkURL() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item clean() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item clear() (RRtoolbox.lib.cache.DynamicMemoizedFunc method), \hyperpage{26}
+  \item clear() (RRtoolbox.lib.cache.memoizedDict method), \hyperpage{28}
+  \item close() (RRtoolbox.lib.root.stdoutLOG method), \hyperpage{53}
+  \item close() (RRtoolbox.lib.root.stdoutSIM method), \hyperpage{53}
+  \item closefunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item cmdfunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item cnt2pts() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item cnt\_hist() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item compress (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item computeAll() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item computeEdge() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item computefunc() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+  \item Conection (class in RRtoolbox.lib.serverServices), \hyperpage{53}
+  \item config() (RRtoolbox.lib.descriptors.Feature method), \hyperpage{33}
+  \item ConfigTool (class in RRtoolbox.lib.config), \hyperpage{31}
+  \item contour2points() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item contours2mask() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item contoursArea() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item Controlstdout() (in module RRtoolbox.lib.root), \hyperpage{51}
+  \item conv3H4H() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item convert() (RRtoolbox.lib.root.FactorConvert method), \hyperpage{51}
+  \item convert2bgr() (in module RRtoolbox.lib.plotter), \hyperpage{42}
+  \item convert2bgra() (in module RRtoolbox.lib.plotter), \hyperpage{43}
+  \item convert2sample() (RRtoolbox.lib.root.FactorConvert method), \hyperpage{51}
+  \item convertXY() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{5}
+  \item convexityRatio() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{6}
+  \item copy() (RRtoolbox.lib.directory.directory method), \hyperpage{37}
+  \item correctPath() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item correctSep() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item correctSTRBuiltin() (RRtoolbox.lib.directory.directory method), \hyperpage{37}
+  \item create() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{28}
+
+  \indexspace
+  \bigletter D
+  \item d (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute), \hyperpage{21}
+  \item d\_h (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute), \hyperpage{21}
+  \item decorateInstanceMethods() (in module RRtoolbox.lib.root), \hyperpage{52}
+  \item decoratePath() (in module RRtoolbox.lib.directory), \hyperpage{36}
+  \item default (RRtoolbox.lib.config.directoryManager attribute), \hyperpage{31}
+  \item deleteFromSession() (in module RRtoolbox.lib.session), \hyperpage{55}
+  \item detectAndCompute() (RRtoolbox.lib.descriptors.Feature method), \hyperpage{33}
+  \item detectType() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+  \item dict2keyPoint() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item directory (class in RRtoolbox.lib.directory), \hyperpage{36}
+  \item directoryManager (class in RRtoolbox.lib.config), \hyperpage{31}
+  \item done() (RRtoolbox.lib.inspector.Asyncronous method), \hyperpage{40}
+  \item done() (RRtoolbox.lib.inspector.graphTraceOutput method), \hyperpage{42}
+  \item drawCircle() (in module RRtoolbox.tools.lens), \hyperpage{56}
+  \item drawEllipse() (in module RRtoolbox.tools.lens), \hyperpage{57}
+  \item drawline() (RRtoolbox.lib.plotter.matchExplorer method), \hyperpage{45}
+  \item drawrelation() (RRtoolbox.lib.plotter.matchExplorer method), \hyperpage{45}
+  \item DynamicMemoizedFunc (class in RRtoolbox.lib.cache), \hyperpage{26}
+
+  \indexspace
+  \bigletter E
+  \item echo() (in module RRtoolbox.lib.plotter), \hyperpage{43}
+  \item edger (class in RRtoolbox.lib.plotter), \hyperpage{43}
+  \item enabled (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item entropy() (in module RRtoolbox.tools.selectors), \hyperpage{58}
+  \item entropyPlot (class in RRtoolbox.tools.selectors), \hyperpage{59}
+  \item entroyTest() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{6}
+  \item errorbackground (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{47}
+  \item eventHandle (RRtoolbox.lib.inspector.Logger attribute), \hyperpage{41}
+  \item exactFactorIndex() (RRtoolbox.lib.root.FactorConvert method), \hyperpage{51}
+
+  \indexspace
+  \bigletter F
+  \item f() (in module RRtoolbox.core), \hyperpage{59}
+  \item factor (RRtoolbox.lib.root.FactorConvert attribute), \hyperpage{51}
+  \item FactorConvert (class in RRtoolbox.lib.root), \hyperpage{51}
+  \item factors (RRtoolbox.lib.root.FactorConvert attribute), \hyperpage{51}
+  \item fastplt() (in module RRtoolbox.lib.plotter), \hyperpage{43}
+  \item Feature (class in RRtoolbox.lib.descriptors), \hyperpage{33}
+  \item file (RRtoolbox.lib.inspector.Logger attribute), \hyperpage{41}
+  \item FileDirectory (class in RRtoolbox.lib.directory), \hyperpage{35}
+  \item filter\_matches() (in module RRtoolbox.lib.descriptors), \hyperpage{34}
+  \item FilterBase (class in RRtoolbox.lib.arrayops.filters), \hyperpage{21}
+  \item filterdata() (RRtoolbox.lib.directory.directory static method), \hyperpage{37}
+  \item filterFactory() (in module RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item filters (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute), \hyperpage{21}
+  \item find\_near() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{6}
+  \item find\_optic\_disc() (in module RRtoolbox.tools.segmentation), \hyperpage{57}
+  \item findmaxima() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{6}
+  \item findminima() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item findModules() (in module RRtoolbox.lib.config), \hyperpage{32}
+  \item fitLens() (in module RRtoolbox.tools.lens), \hyperpage{57}
+  \item flush() (RRtoolbox.lib.root.stdoutLOG method), \hyperpage{53}
+  \item flush() (RRtoolbox.lib.root.stdoutSIM method), \hyperpage{53}
+  \item flushSession() (in module RRtoolbox.lib.session), \hyperpage{55}
+  \item foreground() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{24}
+  \item formatcmd() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item formatinfo() (RRtoolbox.lib.plotter.imtester static method), \hyperpage{44}
+  \item func (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item funcData() (in module RRtoolbox.lib.inspector), \hyperpage{41}
+
+  \indexspace
+  \bigletter G
+  \item generateParser() (RRtoolbox.shell.shell method), \hyperpage{60}
+  \item generateServer() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item get\_beta\_params() (in module RRtoolbox.tools.segmentation), \hyperpage{58}
+  \item get\_tracer\_class() (RRtoolbox.lib.inspector.graphTrace method), \hyperpage{42}
+  \item get\_x\_space() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item getBrightAlpha() (in module RRtoolbox.tools.segmentation), \hyperpage{57}
+  \item getData() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item getData() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item getdataVH() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item getDocParameters() (in module RRtoolbox.shell), \hyperpage{60}
+  \item getDocParamLines() (in module RRtoolbox.shell), \hyperpage{60}
+  \item getEnviromentSession() (in module RRtoolbox.lib.session), \hyperpage{55}
+  \item getFactor() (RRtoolbox.lib.root.FactorConvert method), \hyperpage{51}
+  \item getFileHandle() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item getFileSize() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item gethull() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item getImage() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item getLen() (RRtoolbox.lib.serverServices.Conection method), \hyperpage{53}
+  \item getModules() (in module RRtoolbox.lib.config), \hyperpage{32}
+  \item getObj() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item getOtsuThresh() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item getPackagePath() (in module RRtoolbox.lib.config), \hyperpage{32}
+  \item getParameters() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item getParser() (RRtoolbox.shell.shell method), \hyperpage{60}
+  \item getPath() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item getSep() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item getShortenedPath() (in module RRtoolbox.lib.directory), \hyperpage{38}
+  \item getSizeOf() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{29}
+  \item getSOpointRelation() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item getSplitted() (in module RRtoolbox.lib.directory), \hyperpage{39}
+  \item getTools() (RRtoolbox.lib.config.ConfigTool static method), \hyperpage{31}
+  \item getTransformedCorners() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item getTransparency() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{7}
+  \item glob() (in module RRtoolbox.lib.root), \hyperpage{53}
+  \item graph\_filter() (in module RRtoolbox.lib.plotter), \hyperpage{44}
+  \item graphTrace (class in RRtoolbox.lib.inspector), \hyperpage{41}
+  \item graphTraceOutput (class in RRtoolbox.lib.inspector), \hyperpage{42}
+
+  \indexspace
+  \bigletter H
+  \item help() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item highpass (class in RRtoolbox.lib.arrayops.filters), \hyperpage{22}
+  \item hist\_cdf() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item hist\_comp() (in module RRtoolbox.tools.selectors), \hyperpage{59}
+  \item histogram() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+
+  \indexspace
+  \bigletter I
+  \item ignore (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item ignore (RRtoolbox.lib.cache.Memoizer attribute), \hyperpage{26}
+  \item im2imFormat() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+  \item im2shapeFormat() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+  \item imtester (class in RRtoolbox.lib.plotter), \hyperpage{44}
+  \item increment\_if\_exits() (in module RRtoolbox.lib.directory), \hyperpage{39}
+  \item init() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item init\_feature() (in module RRtoolbox.lib.descriptors), \hyperpage{34}
+  \item initClient() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item initServer() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item inlineRatio() (in module RRtoolbox.lib.descriptors), \hyperpage{35}
+  \item instability\_bf() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+  \item invertedbandpass (class in RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+  \item invertedbandstop (class in RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+  \item invertH() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+  \item invertM() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+  \item invertSM() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{8}
+  \item isActiveWindow() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item isAlive() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item isBFILTER (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item isCLAHE (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item isCreatable() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item isEQUA (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item isGettable() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item isnumpy() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{9}
+  \item isSIZE (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+
+  \indexspace
+  \bigletter J
+  \item joinPath() (in module RRtoolbox.lib.directory), \hyperpage{39}
+
+  \indexspace
+  \bigletter K
+  \item keepAlive() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{29}
+  \item keyfunc() (RRtoolbox.lib.plotter.matchExplorer method), \hyperpage{45}
+  \item keyfunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item keyfunc() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item keyPoint2tuple() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+
+  \indexspace
+  \bigletter L
+  \item layeredfloods() (in module RRtoolbox.tools.segmentation), \hyperpage{58}
+  \item limitaxis() (in module RRtoolbox.lib.plotter), \hyperpage{44}
+  \item load() (in module RRtoolbox.lib.inspector), \hyperpage{42}
+  \item load() (RRtoolbox.lib.config.directoryManager method), \hyperpage{31}
+  \item load() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item Logger (class in RRtoolbox.lib.inspector), \hyperpage{41}
+  \item lookinglob() (in module RRtoolbox.lib.root), \hyperpage{53}
+  \item lowpass (class in RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+
+  \indexspace
+  \bigletter M
+  \item makeFile() (RRtoolbox.lib.directory.FileDirectory method), \hyperpage{35}
+  \item makememory() (RRtoolbox.lib.cache.Memoizer method), \hyperpage{26}
+  \item makeoverlay() (RRtoolbox.lib.plotter.plotim method), \hyperpage{47}
+  \item makeVis() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{9}
+  \item mapper() (in module RRtoolbox.lib.cache), \hyperpage{28}
+  \item margin (RRtoolbox.lib.cache.resourceManager attribute), \hyperpage{29}
+  \item mask\_watershed() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item MATCH() (in module RRtoolbox.lib.descriptors), \hyperpage{33}
+  \item MATCH\_multiple() (in module RRtoolbox.lib.descriptors), \hyperpage{34}
+  \item matchExplorer (class in RRtoolbox.lib.plotter), \hyperpage{45}
+  \item matrixIntercept() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{9}
+  \item maxMemory (RRtoolbox.lib.cache.resourceManager attribute), \hyperpage{29}
+  \item maxth (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item memoize() (RRtoolbox.lib.cache.Memoizer method), \hyperpage{27}
+  \item memoizedDict (class in RRtoolbox.lib.cache), \hyperpage{28}
+  \item Memoizer (class in RRtoolbox.lib.cache), \hyperpage{26}
+  \item memoizers (RRtoolbox.lib.cache.Memoizer attribute), \hyperpage{27}
+  \item MemorizedFunc (class in RRtoolbox.lib.cache), \hyperpage{27}
+  \item Memory (class in RRtoolbox.lib.cache), \hyperpage{27}
+  \item mkPath() (in module RRtoolbox.lib.directory), \hyperpage{39}
+  \item mmap\_mode (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item mousefunc() (RRtoolbox.lib.plotter.matchExplorer method), \hyperpage{45}
+  \item mousefunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{48}
+  \item multiple\_otsu() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item multiple\_superpose() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{9}
+
+  \indexspace
+  \bigletter N
+  \item nearFactorIndex() (RRtoolbox.lib.root.FactorConvert method), \hyperpage{51}
+  \item nextim() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item noisy() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{9}
+  \item NoParserFound, \hyperpage{60}
+  \item normalize() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{10}
+  \item normalize2() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{10}
+  \item normalizeCustom() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{10}
+  \item normsigmoid() (in module RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+  \item notCallable, \hyperpage{28}
+  \item notCreatable, \hyperpage{28}
+  \item NotMemorizedFunc (class in RRtoolbox.lib.cache), \hyperpage{27}
+
+  \indexspace
+  \bigletter O
+  \item objectGetter (class in RRtoolbox.lib.cache), \hyperpage{28}
+  \item onmouse() (RRtoolbox.lib.plotter.plotim static method), \hyperpage{48}
+  \item onTrackbar1() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item onTrackbar2() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item optimizeObject() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{29}
+  \item overlay() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{10}
+  \item overlay2() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{10}
+  \item overlaypng() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{12}
+  \item overlayXY() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{11}
+
+  \indexspace
+  \bigletter P
+  \item pad\_to\_fit\_H() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{12}
+  \item padVH() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{12}
+  \item parse() (RRtoolbox.shell.shell method), \hyperpage{60}
+  \item parser\_fastplt() (RRtoolbox.shell.shell method), \hyperpage{60}
+  \item parser\_loadFunc() (RRtoolbox.shell.shell method), \hyperpage{60}
+  \item parseString() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item parts() (RRtoolbox.lib.root.FactorConvert static method), \hyperpage{52}
+  \item ping() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item plotatpointer() (RRtoolbox.lib.plotter.plotim method), \hyperpage{48}
+  \item plotatxy() (RRtoolbox.lib.plotter.plotim method), \hyperpage{49}
+  \item plotim (class in RRtoolbox.lib.plotter), \hyperpage{46}
+  \item plotintime() (RRtoolbox.lib.plotter.plotim method), \hyperpage{49}
+  \item plotPointsContour() (in module RRtoolbox.lib.plotter), \hyperpage{45}
+  \item points2contour() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+  \item points2mask() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{13}
+  \item points2vectos() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+  \item points\_generator() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{13}
+  \item polygonArea() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{13}
+  \item polygonArea\_calcule() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{13}
+  \item polygonArea\_contour() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{14}
+  \item polygonArea\_fill() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{14}
+  \item previousim() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item printline() (RRtoolbox.lib.root.stdoutLOG method), \hyperpage{53}
+  \item printline() (RRtoolbox.lib.root.stdoutSIM method), \hyperpage{53}
+  \item printlines() (RRtoolbox.lib.root.stdoutLOG method), \hyperpage{53}
+  \item printlines() (RRtoolbox.lib.root.stdoutSIM method), \hyperpage{53}
+  \item process\_as\_blocks() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{14}
+  \item pts2cnt() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+
+  \indexspace
+  \bigletter Q
+  \item quadrant() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{14}
+  \item quickOps() (in module RRtoolbox.lib.directory), \hyperpage{39}
+
+  \indexspace
+  \bigletter R
+  \item random\_points() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{14}
+  \item randomColor() (RRtoolbox.lib.plotter.matchExplorer static method), \hyperpage{45}
+  \item raw() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item rcv() (RRtoolbox.lib.serverServices.Conection method), \hyperpage{53}
+  \item rcvPickle() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item readSession() (in module RRtoolbox.lib.session), \hyperpage{56}
+  \item real2render() (RRtoolbox.lib.plotter.plotim method), \hyperpage{49}
+  \item recursiveMap() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item recv\_into() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item recvall() (RRtoolbox.lib.serverServices.Conection method), \hyperpage{54}
+  \item register() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{29}
+  \item register() (RRtoolbox.lib.cache.retriever method), \hyperpage{30}
+  \item relativeQuadrants() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item relativeVectors() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item reloadFunc() (in module RRtoolbox.lib.inspector), \hyperpage{42}
+  \item render2real() (RRtoolbox.lib.plotter.plotim method), \hyperpage{50}
+  \item renew() (RRtoolbox.lib.inspector.Logger method), \hyperpage{41}
+  \item report() (RRtoolbox.lib.inspector.Logger method), \hyperpage{41}
+  \item repr2list() (RRtoolbox.lib.directory.directory static method), \hyperpage{37}
+  \item repr2str() (RRtoolbox.lib.directory.directory static method), \hyperpage{37}
+  \item rescale() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item reset() (RRtoolbox.lib.config.directoryManager method), \hyperpage{32}
+  \item resetGetter() (RRtoolbox.lib.cache.resourceManager static method), \hyperpage{30}
+  \item resourceManager (class in RRtoolbox.lib.cache), \hyperpage{29}
+  \item retina\_markers\_thresh() (in module RRtoolbox.tools.segmentation), \hyperpage{58}
+  \item retinal\_mask() (in module RRtoolbox.tools.segmentation), \hyperpage{58}
+  \item retinal\_mask\_simple() (in module RRtoolbox.tools.segmentation), \hyperpage{58}
+  \item retriever (class in RRtoolbox.lib.cache), \hyperpage{30}
+  \item rmFile() (in module RRtoolbox.lib.directory), \hyperpage{40}
+  \item rmPath() (in module RRtoolbox.lib.directory), \hyperpage{40}
+  \item rrbox (class in RRtoolbox.core), \hyperpage{59}
+  \item RRtoolbox (module), \hyperpage{60}
+  \item RRtoolbox.core (module), \hyperpage{59}
+  \item RRtoolbox.lib (module), \hyperpage{56}
+  \item RRtoolbox.lib.arrayops (module), \hyperpage{26}
+  \item RRtoolbox.lib.arrayops.basic (module), \hyperpage{3}
+  \item RRtoolbox.lib.arrayops.convert (module), \hyperpage{18}
+  \item RRtoolbox.lib.arrayops.filters (module), \hyperpage{21}
+  \item RRtoolbox.lib.arrayops.mask (module), \hyperpage{24}
+  \item RRtoolbox.lib.cache (module), \hyperpage{26}
+  \item RRtoolbox.lib.config (module), \hyperpage{31}
+  \item RRtoolbox.lib.descriptors (module), \hyperpage{32}
+  \item RRtoolbox.lib.directory (module), \hyperpage{35}
+  \item RRtoolbox.lib.inspector (module), \hyperpage{40}
+  \item RRtoolbox.lib.plotter (module), \hyperpage{42}
+  \item RRtoolbox.lib.root (module), \hyperpage{51}
+  \item RRtoolbox.lib.serverServices (module), \hyperpage{53}
+  \item RRtoolbox.lib.session (module), \hyperpage{55}
+  \item RRtoolbox.run (module), \hyperpage{60}
+  \item RRtoolbox.shell (module), \hyperpage{60}
+  \item RRtoolbox.tools (module), \hyperpage{59}
+  \item RRtoolbox.tools.lens (module), \hyperpage{56}
+  \item RRtoolbox.tools.segmentation (module), \hyperpage{57}
+  \item RRtoolbox.tools.selectors (module), \hyperpage{58}
+  \item RRtoolbox.tools.sticher (module), \hyperpage{59}
+  \item rx1 (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{50}
+  \item rx2 (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{50}
+  \item ry1 (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{50}
+  \item ry2 (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{50}
+
+  \indexspace
+  \bigletter S
+  \item save() (RRtoolbox.lib.config.directoryManager method), \hyperpage{32}
+  \item save() (RRtoolbox.lib.inspector.graphTraceOutput method), \hyperpage{42}
+  \item save() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item save() (RRtoolbox.lib.plotter.plotim method), \hyperpage{50}
+  \item saveSession() (in module RRtoolbox.lib.session), \hyperpage{56}
+  \item saveSource() (RRtoolbox.lib.inspector.graphTrace method), \hyperpage{42}
+  \item saveSource() (RRtoolbox.lib.inspector.graphTraceOutput method), \hyperpage{42}
+  \item scan\_ports() (in module RRtoolbox.lib.serverServices), \hyperpage{54}
+  \item selectlist() (RRtoolbox.tools.selectors.entropyPlot method), \hyperpage{59}
+  \item send() (RRtoolbox.lib.serverServices.Conection method), \hyperpage{54}
+  \item send\_from() (in module RRtoolbox.lib.serverServices), \hyperpage{55}
+  \item sendLen() (RRtoolbox.lib.serverServices.Conection method), \hyperpage{54}
+  \item sendPickle() (in module RRtoolbox.lib.serverServices), \hyperpage{55}
+  \item separePointsByAxis() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item sh2oh() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{19}
+  \item shell (class in RRtoolbox.shell), \hyperpage{60}
+  \item shell\_processor() (in module RRtoolbox.shell), \hyperpage{60}
+  \item shell\_processor\_parser() (in module RRtoolbox.shell), \hyperpage{60}
+  \item show() (RRtoolbox.lib.plotter.plotim method), \hyperpage{50}
+  \item showfunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{50}
+  \item showgray (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item sigmaColor (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute), \hyperpage{21}
+  \item sigmaSpace (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute), \hyperpage{21}
+  \item sigmoid() (in module RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+  \item SimKeyPoint (class in RRtoolbox.lib.arrayops.convert), \hyperpage{18}
+  \item simulateLens() (in module RRtoolbox.tools.lens), \hyperpage{57}
+  \item size (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item smooth() (in module RRtoolbox.lib.arrayops.filters), \hyperpage{23}
+  \item source (RRtoolbox.lib.inspector.graphTrace attribute), \hyperpage{42}
+  \item spairs2opairs() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{20}
+  \item split() (RRtoolbox.lib.root.FactorConvert static method), \hyperpage{52}
+  \item splitPoints() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{15}
+  \item spoint2opointfunc() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{20}
+  \item standarizePoints() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item start() (RRtoolbox.lib.inspector.Asyncronous method), \hyperpage{40}
+  \item start() (RRtoolbox.lib.inspector.Syncronous method), \hyperpage{41}
+  \item stdoutLOG (class in RRtoolbox.lib.root), \hyperpage{53}
+  \item stdoutSIM (class in RRtoolbox.lib.root), \hyperpage{53}
+  \item stich() (in module RRtoolbox.tools.sticher), \hyperpage{59}
+  \item stop() (RRtoolbox.lib.inspector.Syncronous method), \hyperpage{41}
+  \item strdifference() (in module RRtoolbox.lib.directory), \hyperpage{40}
+  \item superpose() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item Syncronous (class in RRtoolbox.lib.inspector), \hyperpage{41}
+
+  \indexspace
+  \bigletter T
+  \item textbackground (RRtoolbox.lib.plotter.plotim attribute), \hyperpage{50}
+  \item th1 (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item th2 (RRtoolbox.lib.plotter.edger attribute), \hyperpage{43}
+  \item thresh\_biggestCnt() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item thresh\_hist() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item threshold\_opening() (in module RRtoolbox.lib.arrayops.mask), \hyperpage{25}
+  \item throwError() (RRtoolbox.lib.inspector.Logger method), \hyperpage{41}
+  \item Time\_ (RRtoolbox.lib.inspector.Logger attribute), \hyperpage{41}
+  \item TimeCode() (in module RRtoolbox.lib.root), \hyperpage{52}
+  \item TimeOutException, \hyperpage{54}
+  \item tools() (in module RRtoolbox.core), \hyperpage{59}
+  \item tools2() (in module RRtoolbox.core), \hyperpage{59}
+  \item toTupple() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{20}
+  \item tracer (RRtoolbox.lib.inspector.Logger attribute), \hyperpage{41}
+  \item tracer() (in module RRtoolbox.lib.inspector), \hyperpage{42}
+  \item tracer() (RRtoolbox.lib.inspector.Asyncronous method), \hyperpage{40}
+  \item TransferExeption, \hyperpage{54}
+  \item transformPoint() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item transformPoints() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item translateQuadrants() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{20}
+  \item tuple2keyPoint() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{21}
+  \item Type\_ (RRtoolbox.lib.inspector.Logger attribute), \hyperpage{41}
+
+  \indexspace
+  \bigletter U
+  \item unit (RRtoolbox.lib.cache.resourceManager attribute), \hyperpage{30}
+  \item unit\_vector() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item units2bytes() (RRtoolbox.lib.cache.resourceManager method), \hyperpage{30}
+  \item update() (RRtoolbox.lib.cache.objectGetter method), \hyperpage{29}
+  \item update() (RRtoolbox.lib.directory.directory method), \hyperpage{37}
+  \item update\_left() (RRtoolbox.lib.directory.directory method), \hyperpage{37}
+  \item update\_right() (RRtoolbox.lib.directory.directory method), \hyperpage{37}
+  \item updaterenderer() (RRtoolbox.lib.plotter.matchExplorer method), \hyperpage{45}
+  \item updaterenderer() (RRtoolbox.lib.plotter.plotim method), \hyperpage{50}
+  \item updateSession() (in module RRtoolbox.lib.session), \hyperpage{56}
+  \item updatevisualization() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+  \item usedMemory (RRtoolbox.lib.cache.resourceManager attribute), \hyperpage{30}
+
+  \indexspace
+  \bigletter V
+  \item vectorsAngles() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{16}
+  \item vectorsQuadrants() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{17}
+  \item vectos2points() (in module RRtoolbox.lib.arrayops.convert), \hyperpage{21}
+  \item verbose (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute), \hyperpage{26}
+  \item vertexesAngles() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{17}
+  \item view\_as\_blocks() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{17}
+  \item view\_as\_windows() (in module RRtoolbox.lib.arrayops.basic), \hyperpage{17}
+  \item visualize() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+
+  \indexspace
+  \bigletter W
+  \item windowfunc() (RRtoolbox.lib.plotter.edger method), \hyperpage{43}
+  \item windowfunc() (RRtoolbox.lib.plotter.imtester method), \hyperpage{44}
+  \item windowfunc() (RRtoolbox.lib.plotter.plotim method), \hyperpage{51}
+  \item write() (RRtoolbox.lib.root.stdoutLOG method), \hyperpage{53}
+  \item write() (RRtoolbox.lib.root.stdoutSIM method), \hyperpage{53}
+  \item writer() (RRtoolbox.lib.inspector.Logger method), \hyperpage{41}
+
+\end{theindex}

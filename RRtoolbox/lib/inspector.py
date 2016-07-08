@@ -99,7 +99,23 @@ def tracer(instance, broadcast = True, report = True):
 
 class Logger(object):
     """
-    Logger for decorated functions.
+    Logger for decorated functions. Holds important information of an instanced object and
+    can be used with @trace decorator for traceback purposes.
+
+    :param func: object reference.
+    :param funcname: object name.
+    :param inputs: inputs pass to the object.
+    :param outputs: outputs given by the object execution.
+    :param time: initial time of execution.
+    :param exectime: time of execution in seconds.
+    :param writer: writer function where messages are passed.
+    :param eventHandle: event function where object is
+            passed when Logger.broadcast() is called.
+    :param msg_report: message format to use in reports.
+    :param msg_no_executed: massage format to pass to writer when object
+            has not been executed and Logger.report() is called.
+    :param msg_executed: massage format to use when object is
+            executed and Logger.broadcast() is called.
     """
     eventHandle = None
     file = sys.stdout
@@ -113,21 +129,6 @@ class Logger(object):
     _msg_executed = "{self.funcname} has been executed..."
     def __init__(self, **kwargs):
         """
-        Holds important information of an instanced object and
-        can be used with @trace decorator for traceback purposes.
-
-        :param func: object reference.
-        :param funcname: object name.
-        :param inputs: inputs pass to the object.
-        :param outputs: outputs given by the object execution.
-        :param time: initial time of execution.
-        :param exectime: time of execution in seconds.
-        :param writer: writer function where messages are passed.
-        :param eventHandle: event function where object is passed when Logger.broadcast() is called.
-        :param msg_report: message format to use in reports.
-        :param msg_no_executed: massage format to pass to writer when object
-                has not been executed and Logger.report() is called.
-        :param msg_executed: massage format to use when object is executed and Logger.broadcast() is called.
         """
         self.renew() # initialize info variables.
         self.__dict__.update(kwargs)

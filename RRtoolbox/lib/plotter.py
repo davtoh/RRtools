@@ -509,7 +509,9 @@ class plotim(object):
     Show and image with events, animations, controls, internal
     commands and highly customizable by code.
 
-    It implements: self.createfunc, self.pressedkey, self.mousefunc, self.closefunc, self.close.
+    :param win: window name
+    :param im: image of numpy array
+    :param bgrcolor: default color to use for transparent or background color.
 
     .. warning:: plotim is deprecated and will be replaced in the future (it was made to
                 test concepts). Originally it was made for windows but some functions
@@ -518,11 +520,6 @@ class plotim(object):
     # for rendered visualization
 
     def __init__(self, win, im = np.array([[1]]), bgrcolor = (250,243,238)):
-        '''
-        :param win: window name
-        :param im: image of numpy array
-        :param bgrcolor: default color to use for transparent or background color.
-        '''
         # clipboard has to be imported internally due to incompatibility with pyplot or Process
         # it just simply creates a weird IOError
         try:
@@ -1522,25 +1519,25 @@ class plotim(object):
         return r
 
 class matchExplorer(plotim):
+    """
+    Draws a set of keypoint pairs obtained on a match method of a descriptor
+    on two images imgf and imgb. (backend: plotim).
+
+    :param win: window's name (str)
+    :param img1: image1 (numpy array)
+    :param img2: image2 (numpy array)
+    :param kp_pairs: zip(keypoint1, keypoint2)
+    :param status: obtained from cv2.findHomography
+    :param H: obtained from cv2.findHomography (default=None)
+    :param show: if True shows plotim using block and daemon, else do not show
+    :param block: if True it wait for window close, else it detaches
+    :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end
+    :return: plotim object with visualization as self.rimg (image with matching result) (default=None)
+
+    .. note:: It supports BGR and gray images.
+    """
 
     def __init__(self, win, img1, img2, kp_pairs=(), status = None, H = None, show=True, block= True, daemon=True):
-        """
-        This function draws a set of keypoint pairs obtained on a match method of a descriptor
-        on two images imgf and imgb. (backend: plotim).
-
-        :param win: window's name (str)
-        :param img1: image1 (numpy array)
-        :param img2: image2 (numpy array)
-        :param kp_pairs: zip(keypoint1, keypoint2)
-        :param status: obtained from cv2.findHomography
-        :param H: obtained from cv2.findHomography (default=None)
-        :param show: if True shows plotim using block and daemon, else do not show
-        :param block: if True it wait for window close, else it detaches
-        :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end
-        :return: plotim object with visualization as self.rimg (image with matching result) (default=None)
-
-        .. note:: It supports BGR and gray images.
-        """
         ## GET INITIAL VISUALIZATION
         if len(img1.shape)<3:
             img1 = cv2.cvtColor(img1,cv2.COLOR_GRAY2BGR)
@@ -1947,6 +1944,9 @@ class edger(plotim):
 
 
 class imtester(plotim):
+    """
+    Used to test some concepts as thresholds and filters
+    """
 
     def __init__(self,img, win="imtester plot"):
 

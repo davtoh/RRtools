@@ -44,14 +44,12 @@ class stdoutLOG:
     """
     simple logger to save stdout output
     so anything printed in the console is logged to a file.
+
+    :param path: path to logging file
+    :param mode: mode for opening the file.
+    :param chain: if True closes previous logs and continues with new log
     """
     def __init__(self, path, mode = "w+", chain = False):
-        """
-        :param path: path to logging file
-        :param mode: mode for opening the file.
-        :param chain: if True closes previous logs and continues with new log
-        :return:
-        """
         self._path = path
         self._mode = mode
         self._chain = chain

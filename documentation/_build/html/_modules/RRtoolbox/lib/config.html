@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.lib.config &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.lib.config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    .. moduleauthor:: David Toro &lt;davsamirtor@gmail.com&gt;</span>
+<span class="sd">    :platform: Unix, Windows</span>
+<span class="sd">    :synopsis: Looking for a reference? look here!.</span>
+
+<span class="sd">    This module contains all config data to the package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">directory</span> <span class="k">as</span> <span class="n">_directory</span>
+<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">FileDirectory</span> <span class="k">as</span> <span class="n">_FileDirectory</span>
+<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">correctPath</span> <span class="k">as</span> <span class="n">_correctPath</span>
+<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">serializer</span>
+<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">updateSession</span> <span class="k">as</span> <span class="n">_updateSession</span>
+<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">readSession</span> <span class="k">as</span> <span class="n">_readSession</span>
+<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">saveSession</span> <span class="k">as</span> <span class="n">_saveSession</span>
+<span class="kn">import</span> <span class="nn">pkgutil</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float32</span><span class="p">,</span> <span class="n">int32</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+
+<span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
+<span class="c1"># FLAGS</span>
+<span class="n">FLAG_MEMOIZE</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">FLAG_DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="c1"># global variables</span>
+<span class="n">FLOAT</span> <span class="o">=</span> <span class="n">float32</span>
+<span class="n">INT</span> <span class="o">=</span> <span class="n">int32</span>
+
+<span class="c1"># ----------------------------ConfigTool FUNCTIONS---------------------------- #</span>
+
+<div class="viewcode-block" id="getPackagePath"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.getPackagePath">[docs]</a><span class="k">def</span> <span class="nf">getPackagePath</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the path of a package object.</span>
+
+<span class="sd">    :param package: package object or path (str).</span>
+<span class="sd">    :return: path to the package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">package</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span> <span class="c1"># if path</span>
+        <span class="k">return</span> <span class="n">package</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># if imported package</span>
+        <span class="k">return</span> <span class="n">package</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="findModules"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.findModules">[docs]</a><span class="k">def</span> <span class="nf">findModules</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">exclude</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find modules from a package.</span>
+
+<span class="sd">    :param package: imported packaged or path (str).</span>
+<span class="sd">    :param exclude: list of modules to exclude.</span>
+<span class="sd">    :return: dictionary containing importer, ispkg</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">getPackagePath</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+    <span class="n">modules</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">importer</span><span class="p">,</span> <span class="n">modname</span><span class="p">,</span> <span class="n">ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">walk_packages</span><span class="p">([</span><span class="n">path</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">and</span> <span class="n">modname</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">modules</span><span class="p">[</span><span class="n">modname</span><span class="p">]</span> <span class="o">=</span> <span class="n">importer</span><span class="p">,</span><span class="n">ispkg</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Found submodule {0} (is a package: {1})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">modname</span><span class="p">,</span> <span class="n">ispkg</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">FLAG_DEBUG</span> <span class="ow">and</span> <span class="n">modules</span> <span class="o">==</span> <span class="p">{}:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;No modules have been found&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">modules</span></div>
+
+<div class="viewcode-block" id="getModules"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.getModules">[docs]</a><span class="k">def</span> <span class="nf">getModules</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">exclude</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import modules from a package.</span>
+
+<span class="sd">    :param package: imported packaged or path (str).</span>
+<span class="sd">    :return: dictionary containing imported modules.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">getPackagePath</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+    <span class="n">modules</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">importer</span><span class="p">,</span> <span class="n">modname</span><span class="p">,</span> <span class="n">ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">walk_packages</span><span class="p">([</span><span class="n">path</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">and</span> <span class="n">modname</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">modules</span><span class="p">[</span><span class="n">modname</span><span class="p">]</span> <span class="o">=</span> <span class="n">importer</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Imported submodule {0}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">modname</span><span class="p">,</span> <span class="n">ispkg</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">modules</span></div>
+
+<span class="c1"># TODO&gt; make a function to update fields in the config file</span>
+<span class="c1"># TODO&gt; make a function just to update the MAINPATH relative to the config file for the other direcoties to update too</span>
+
+<span class="c1"># ----------------------------CLASSES---------------------------- #</span>
+
+<div class="viewcode-block" id="directoryManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager">[docs]</a><span class="k">class</span> <span class="nc">directoryManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manage the configured variables, paths and files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">raiseError</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">autosave</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes ConfigFile.</span>
+
+<span class="sd">        :param path: (None) path to configuration file. If None uses default path.</span>
+<span class="sd">        :param raiseError: True to raise when not attribute in ConfigFile.</span>
+<span class="sd">        :param autosave: (True) if True saves at each change.</span>
+
+<span class="sd">        .. note:: Any attribute that is not in ConfigFile returns None.</span>
+<span class="sd">                  Use raiseError to control this behaviour.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">_directory</span><span class="p">(</span><span class="s1">&#39;ConfigFile.pkl&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">[</span><span class="s2">&quot;MAINPATH&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span> <span class="o">=</span> <span class="n">raiseError</span> <span class="c1"># raise error if not directory found</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">autosave</span> <span class="o">=</span> <span class="n">autosave</span> <span class="c1"># flag to save at each change</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># directories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        get directories from dictionary representing environment variables.</span>
+
+<span class="sd">        :return: dictionary of directories.</span>
+
+<span class="sd">        .. note:: Only directories in the scope of the module are detected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># PATHS</span>
+        <span class="n">MAINPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="n">_correctPath</span><span class="p">(</span><span class="n">__file__</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;don&#39;t change!&quot;</span><span class="p">)</span>
+        <span class="n">TOOLPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;tools&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="n">LIBPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="n">TEMPPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="n">TESTPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="n">SAVEPATH</span> <span class="o">=</span> <span class="n">TEMPPATH</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1">#return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="directoryManager.reset"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the configuration file to default variables.</span>
+
+<span class="sd">        :return: False, if error. Dictionary of new data, if successful.</span>
+
+<span class="sd">        .. warning:: All custom data is lost in configuration file.</span>
+
+<span class="sd">        .. warning:: ConfigFile is purposely not updated. Call manually method load()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Creating default {} file...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_saveSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s2">&quot;{} has been reset successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="directoryManager.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        loads the configuration file and update.</span>
+
+<span class="sd">        :return: loaded configuration file dictionary.</span>
+
+<span class="sd">        .. warning:: Unsaved instance variables will be replaced by configuration file variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Loading {}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">vars</span> <span class="o">=</span> <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+            <span class="nb">vars</span> <span class="o">=</span>  <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Default {} read successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">vars</span></div>
+
+<div class="viewcode-block" id="directoryManager.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        saves configuration file.</span>
+
+<span class="sd">        :param mode: 0- delete and save, 1- update without replace,</span>
+<span class="sd">                2- update replacing variables.</span>
+<span class="sd">        :return: False, if error. Dictionary of new data, if successful.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mode</span><span class="p">:</span>
+                <span class="n">_updateSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="n">mode</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># to delete and replace</span>
+                <span class="n">_saveSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+
+    <span class="k">def</span> <span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        retrieves value from default or loaded</span>
+<span class="sd">        :param item:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">autosave</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">autosave</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    def __getattr__(self, item): # this is called as last resort</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Allows to load self.object instead of self[&quot;object&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        return self[item]&#39;&#39;&#39;</span></div>
+
+<span class="n">MANAGER</span> <span class="o">=</span> <span class="n">directoryManager</span><span class="p">()</span> <span class="c1"># configure directories</span>
+
+
+<div class="viewcode-block" id="ConfigTool"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.ConfigTool">[docs]</a><span class="k">class</span> <span class="nc">ConfigTool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manage the configured Tools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># CONTENTS</span>
+    <span class="n">_init_tool</span> <span class="o">=</span> <span class="n">_FileDirectory</span><span class="p">([</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    __author__ = &#39;Davtoh&#39;</span>
+<span class="s2">    import sys</span>
+<span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;LIBPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)</span>
+<span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;MAINPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)&quot;&quot;&quot;</span><span class="p">]</span>
+                            <span class="p">,</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;contents of __init__.py file in TOOLPATH directory&quot;</span>
+                            <span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;__init__.py&quot;</span>
+                            <span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TOOLPATH&quot;</span><span class="p">])</span>
+
+    <span class="n">_init_box</span> <span class="o">=</span> <span class="n">_FileDirectory</span><span class="p">([</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    __author__ = &#39;Davtoh&#39;</span>
+<span class="s2">    import sys</span>
+<span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;LIBPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)</span>
+<span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TOOLPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)&quot;&quot;&quot;</span><span class="p">]</span>
+                           <span class="p">,</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;contents of __init__.py file in MAINPATH directory&quot;</span>
+                           <span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;__init__.py&quot;</span>
+                           <span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;MAINPATH&quot;</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ConfigTool.getTools"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.ConfigTool.getTools">[docs]</a>    <span class="k">def</span> <span class="nf">getTools</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtains the tools of a directory for the RRtoolbox.</span>
+
+<span class="sd">        :param package: path to the directory or package object.</span>
+<span class="sd">        :return: a dictionary of imported modules.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">getPackagePath</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+        <span class="c1">#sys.path.insert(0,path)</span>
+        <span class="n">modname</span> <span class="o">=</span> <span class="s2">&quot;__init__&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pkgutil</span><span class="o">.</span><span class="n">get_importer</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;No &quot;</span><span class="o">+</span><span class="n">modname</span><span class="o">+</span><span class="s2">&quot; file found at &quot;</span><span class="o">+</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">modname</span><span class="o">+</span><span class="s2">&quot; could not be loaded from &quot;</span><span class="o">+</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">return</span> <span class="n">getModules</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="n">modname</span><span class="p">])</span></div></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1">#MANAGER._default = {}</span>
+    <span class="c1">#print MANAGER.TEMPPATH</span>
+    <span class="n">MANAGER</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="c1">#tools = ConfigTool()</span>
+    <span class="c1">#tools._init_tool.makeFile()</span>
+    <span class="c1">#tools._init_box.makeFile()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, davtoh.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

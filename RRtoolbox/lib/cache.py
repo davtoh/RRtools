@@ -597,17 +597,17 @@ class retriever(MutableMapping):
 class resourceManager(retriever):
     """
     keep track of references, create objects on demand, manage their memory and optimize for better performance.
+
+    :param maxMemory: (None) max memory in specified unit to keep in check optimization (it does
+                    not mean that memory never surpasses maxMemory).
+    :param margin: (0.8) margin from maxMemory to trigger optimization.
+                    It is in percentage of maxMemory ranging from 0 (0%) to maximum 1 (100%).
+                    So optimal memory is inside range: maxMemory*margin < Memory < maxMemory
+    :param unit: (MB) maxMemory unit, it can be GB (Gigabytes), MB (Megabytes), B (bytes)
+    :param all: if True used memory is from all alive references,
+                    if False used memory is only from keptAlive references.
     """
     def __init__(self, maxMemory = None, margin = 0.8, unit = "MB", all = True):
-        """
-        :param maxMemory: (None) max memory in specified unit to keep in check optimization (it does
-                        not mean that memory never surpasses maxMemory).
-        :param margin: (0.8) margin from maxMemory to trigger optimization.
-                        It is in percentage of maxMemory ranging from 0 (0%) to maximum 1 (100%).
-                        So optimal memory is inside range: maxMemory*margin < Memory < maxMemory
-        :param unit: (MB) maxMemory unit, it can be GB (Gigabytes), MB (Megabytes), B (bytes)
-        :return:
-        """
         super(resourceManager, self).__init__()
         #self.references is a dictionary containing all the references
         #self._lastkey is effectively the last key to use when Manager is called
@@ -618,7 +618,7 @@ class resourceManager(retriever):
         self._conv = 1 # convert to any unit: equivalence with bytes from unit
         self._margin = None # private data of margin
         self._limit = None # private data representing _maxMemory*_margin in bytes
-        self._all = False
+        self._all = all
         self.blacklist = set() # key of objects likely to destroy
         self.whitelist = set() # key of objects likely to keep in memory and only delete in extreme cases
         self.keptAlive = {} # objects currently being kept alive
@@ -1014,20 +1014,19 @@ class memoizedDict(MutableMapping):
     """
     memoized dictionary with keys and values persisted to files.
 
+    :param path: path to save memo file
+    :param mode: loading mode from memo file {None, 'r+', 'r', 'w+', 'c'}
+
+    .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added
+                and throw an error if not successful. But if saveAtKey is False this process
+                will be carried out when the memoizedDict instance is being destroyed in
+                a proper deletion, that is, if the program ends unexpectedly all data will be
+                lost or if data cannot be saved it will be lost without warning.
+
     .. warning:: Some data structures cannot be memoize, so this structure is not save yet.
                 Use at your own risk.
     """
     def __init__(self, path, mode = None):
-        """
-        :param path: path to save memo file
-        :param mode: loading mode from memo file {None, 'r+', 'r', 'w+', 'c'}
-
-        .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added
-                    and throw an error if not successful. But if saveAtKey is False this process
-                    will be carried out when the memoizedDict instance is being destroyed in
-                    a proper deletion, that is, if the program ends unexpectedly all data will be
-                    lost or if data cannot be saved it will be lost without warning.
-        """
         #from directory import checkFile, checkDir, mkPath, rmFile
         from directory import mkPath
         import cPickle
@@ -1177,71 +1176,3 @@ class memoizedDict(MutableMapping):
             return False
         else:
             return True
-
-class _memoizedDict_old(MutableMapping):
-    """
-    dictionary memoized to file.
-
-    .. warning:: Some data structures cannot be memoize, so this structure is not save yet.
-                Use at your own risk.
-    """
-    def __init__(self, path, mode = None, saveAtKey = True):
-        """
-        :param path: path to save memo file
-        :param mode: loading mode from memo file {None, 'r+', 'r', 'w+', 'c'}
-        :param saveAtKey: if True saves at each key insertion, if false only saves on deletion.
-
-        .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added
-                    and throw an error if not successful. But if saveAtKey is False this process
-                    will be carried out when the memoizedDict instance is being destroyed in
-                    a proper deletion, that is, if the program ends unexpectedly all data will be
-                    lost or if data cannot be saved it will be lost without warning.
-        """
-        self._path = path
-        self._mode = mode
-        self._loader = joblib.load
-        self._saver = joblib.dump
-        self._saveAtKey = saveAtKey
-        self._dict = {}
-        self._load()
-
-    def _load(self):
-        """
-        Loads memo file.
-        """
-        try:
-            self._dict = self._loader(self._path, self._mode)
-        except IOError:
-            self._save()
-
-    def _save(self, key = None):
-        """
-        Saves memo file.
-
-        :param key: only saves key (Not implemented)
-        """
-        # TODO: I have considered to save each key separately, so only one key is lost if an error and not all data.
-        # TODO: the grow of keys must not affect performance, thus memoization must be per key and not all keys as a whole.
-        try:
-            self._saver(self._dict, self._path)
-        except OSError:
-            " Race condition in the creation of the directory "
-
-    def __getitem__(self, key):
-        return self._dict[key]
-
-    def __setitem__(self, key, value):
-        self._dict[key] = value
-        if self._saveAtKey: self._save(key)
-
-    def __delitem__(self, key):
-        del self._dict[key]
-
-    def __iter__(self):
-        return iter(self._dict)
-
-    def __len__(self):
-        return len(self._dict)
-
-    #def __del__(self):
-        #self._save()

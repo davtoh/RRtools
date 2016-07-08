@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-    Bundle of methods for handling images. Rather than manipulating specialized operations in images methods
-    in this module are used for loading, outputting and format-converting methods, as well as color manipulation.
+    Bundle of methods for handling images. Rather than manipulating specialized
+    operations in images methods in this module are used for loading, outputting
+    and format-converting methods, as well as color manipulation.
 
     SUPPORTED FORMATS
 
@@ -204,7 +205,8 @@ def rgb2qi(rgb):
     if len(rgb.shape) != 3:
         raise ValueError("rgb2QImage can only convert 3D arrays")
     if rgb.shape[2] not in (3, 4):
-        raise ValueError("rgb2QImage can expects the last dimension to contain exactly three (R,G,B) or four (R,G,B,A) channels")
+        raise ValueError("rgb2QImage can expects the last dimension to contain "
+                         "exactly three (R,G,B) or four (R,G,B,A) channels")
 
     h, w, channels = rgb.shape
     # Qt expects 32bit BGRA data for color images:
@@ -500,7 +502,8 @@ class imFactory:
     def get_np2qi(self):
         return {"im":np2qi}
 
-def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=None, mmode = None, mpath = None, throw = True):
+def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=None,
+             mmode = None, mpath = None, throw = True):
     """
     Creates a function that loads image array from path, url,
     server, string or directly from numpy array (supports databases).
@@ -569,6 +572,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 "", uses path directory;
                 "*", uses working directory;
                 else, uses specified directory.
+
     .. note:: If mmode is None and mpath is given it creates mmap file but loads from it to memory.
              It is useful to create physical copy of data to keep loading from (data can be reloaded
              even if original file is moved or deleted).
@@ -671,9 +675,82 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
     return func # factory function
 
 class imLoader:
-    def __init__(self,path, flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=None, mmode = None, mpath = None, throw = True):
-        """:param path: path to image
     """
+    Class to load image array from path, url,
+    server, string or directly from numpy array (supports databases).
+
+    :param flag: (default: 0) 0 to read as gray, 1 to read as BGR, -1 to
+                read as BGRA, 2 to read as RGB, -2 to read as RGBA.
+
+                It supports openCV flags:
+                    * cv2.CV_LOAD_IMAGE_COLOR
+                    * cv2.CV_LOAD_IMAGE_GRAYSCALE
+                    * cv2.CV_LOAD_IMAGE_UNCHANGED
+
+                +-------+-------------------------------+--------+
+                | value | openCV flag                   | output |
+                +=======+===============================+========+
+                | (2)   | N/A                           | RGB    |
+                +-------+-------------------------------+--------+
+                | (1)   | cv2.CV_LOAD_IMAGE_COLOR       | BGR    |
+                +-------+-------------------------------+--------+
+                | (0)   | cv2.CV_LOAD_IMAGE_GRAYSCALE   | GRAY   |
+                +-------+-------------------------------+--------+
+                | (-1)  | cv2.CV_LOAD_IMAGE_UNCHANGED   | BGRA   |
+                +-------+-------------------------------+--------+
+                | (-2)  | N/A                           | RGBA   |
+                +-------+-------------------------------+--------+
+
+    :param dsize: (None) output image size; if it equals zero, it is computed as:
+
+                \texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}
+
+    :param dst: (None) output image; it has the size dsize (when it is non-zero) or the
+                size computed from src.size(), fx, and fy; the type of dst is uint8.
+    :param fx: scale factor along the horizontal axis; when it equals 0, it is computed as
+
+                \texttt{(double)dsize.width/src.cols}
+
+    :param fy: scale factor along the vertical axis; when it equals 0, it is computed as
+
+                \texttt{(double)dsize.height/src.rows}
+
+    :param interpolation: interpolation method compliant with opencv:
+
+                +-----+-----------------+-------------------------------------------------------+
+                |flag | Operation       | Description                                           |
+                +=====+=================+=======================================================+
+                |(0)  | INTER_NEAREST   | nearest-neighbor interpolation                        |
+                +-----+-----------------+-------------------------------------------------------+
+                |(1)  | INTER_LINEAR    | bilinear interpolation (used by default)              |
+                +-----+-----------------+-------------------------------------------------------+
+                |(2)  | INTER_CUBIC     | bicubic interpolation over 4x4 pixel neighborhood     |
+                +-----+-----------------+-------------------------------------------------------+
+                |(3)  | INTER_AREA      | resampling using pixel area relation.                 |
+                |     |                 | It may be a preferred method for image decimation,    |
+                |     |                 | as it gives moire’-free results. But when the image   |
+                |     |                 | is zoomed, it is similar to the INTER_NEAREST method. |
+                +-----+-----------------+-------------------------------------------------------+
+                |(4)  | INTER_LANCZOS4  | Lanczos interpolation over 8x8 pixel neighborhood     |
+                +-----+-----------------+-------------------------------------------------------+
+
+    :param mmode: (None) mmode to create mapped file. if mpath is specified loads image, converts
+                to mapped file and then loads mapping file with mode {None, 'r+', 'r', 'w+', 'c'}
+                (it is slow for big images). If None, loads mapping file to memory (useful to keep
+                image copy for session even if original image is deleted or modified).
+    :param mpath: (None) path to create mapped file.
+                None, do not create mapping file
+                "", uses path directory;
+                "*", uses working directory;
+                else, uses specified directory.
+
+    .. note:: If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+             It is useful to create physical copy of data to keep loading from (data can be reloaded
+             even if original file is moved or deleted).
+    """
+    def __init__(self,path, flag = 0, dsize= None, dst=None, fx=None, fy=None,
+                 interpolation=None, mmode = None, mpath = None, throw = True):
+
         self.path = path
         self._flag = flag
         self._dsize = dsize
@@ -716,22 +793,20 @@ class imLoader:
 class pathLoader(MutableSequence):
     """
     Class to standardize loading images from list of paths and offer lazy evaluations.
+
+    :param fns: list of paths
+    :param loader: path loader (loadcv,loadsfrom, or function from loadFunc)
+
+    .. olsosee:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`
+
+    Example::
+
+        fns = ["/path to/image 1.ext","/path to/image 2.ext"]
+        imgs = pathLoader(fns)
+        print imgs[0] # loads image in path 0
+        print imgs[1] # loads image in path 1
     """
     def __init__(self, fns = None, loader = None):
-        """
-
-        :param fns: list of paths
-        :param loader: path loader (loadcv,loadsfrom, or function from loadFunc)
-
-        .. olsosee:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`
-
-        Example::
-
-            fns = ["/path to/image 1.ext","/path to/image 2.ext"]
-            imgs = pathLoader(fns)
-            print imgs[0] # loads image in path 0
-            print imgs[1] # loads image in path 1
-        """
         # create factory functions
         self._fns = fns or []
         self._loader = loader or loadFunc()
@@ -759,19 +834,20 @@ class pathLoader(MutableSequence):
 
 class loaderDict(resourceManager):
     """
-    Class to standardize loading images and manage memory efficiently.
+    Class to standardize loading objects and manage memory efficiently.
+
+    :param loader: default loader for objects (e.g. load from file or create instance object)
+    :param maxMemory: (None) max memory in specified unit to keep in check optimization (it does
+                    not mean that memory never surpasses maxMemory).
+    :param margin: (0.8) margin from maxMemory to trigger optimization.
+                    It is in percentage of maxMemory ranging from 0 (0%) to maximum 1 (100%).
+                    So optimal memory is inside range: maxMemory*margin < Memory < maxMemory
+    :param unit: (MB) maxMemory unit, it can be GB (Gigabytes), MB (Megabytes), B (bytes)
+    :param all: if True used memory is from all alive references,
+                    if False used memory is only from keptAlive references.
+    :param config: (Not Implemented)
     """
     def __init__(self, loader = None, maxMemory = None, margin = 0.8, unit = "MB", all = True, config = None):
-        """
-
-        :param loader:
-        :param maxMemory:
-        :param margin:
-        :param unit:
-        :param all:
-        :param config:
-        :return:
-        """
         super(loaderDict, self).__init__(maxMemory, margin, unit, all)
         # create factory functions
         #if config is None: from config import MANAGER as config
@@ -1270,20 +1346,22 @@ def limitaxispoints(c,maxc,minc=0):
     return tuple(x)
 
 class getCoors(plotim):
-    def __init__(self, im, win = "get coordinates", updatefunc=drawcoorpoints, unique=True, col_out=black, col_in=red):
-        """
-        Create window to select points from image.
+    """
+    Create window to select points from image.
 
-        :param im: image to get points.
-        :param win: window name.
-        :param updatefunc: function to draw interaction with points.(e.g. limitaxispoints, drawcoorperspective, etc.).
-        :param prox: proximity to identify point.
-        :param radius: radius of drawn points.
-        :param unique: If True no point can be repeated, else selected points can be repeated.
-        :param col_out: outer color of point.
-        :param col_in: inner color of point.
-        :return:
-        """
+    :param im: image to get points.
+    :param win: window name.
+    :param updatefunc: function to draw interaction with points.
+            (e.g. limitaxispoints, drawcoorperspective, etc.).
+    :param prox: proximity to identify point.
+    :param radius: radius of drawn points.
+    :param unique: If True no point can be repeated,
+            else selected points can be repeated.
+    :param col_out: outer color of point.
+    :param col_in: inner color of point.
+    """
+    def __init__(self, im, win = "get coordinates", updatefunc=drawcoorpoints,
+                 unique=True, col_out=black, col_in=red):
         # functions
         super(getCoors,self).__init__(win,im)
         # assign functions
