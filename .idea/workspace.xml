@@ -2,116 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010a93a0-81da-46b7-b1b3-17c63fae435b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RRtoolbox/lib/.fuse_hidden000010ce00000003" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/RRtoolbox/tools/.fuse_hidden0000110700000002" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Eq_HomogeniousTransform.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Eq_others.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Eq_polygonArea.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_collect_matrix.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_custom_func.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_decomposition.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_lambify.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_tests.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/Ex_wrap_array.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/HomogeniousTransform.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/NOTES" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/_garbage.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/libreOffice.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/noise.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/polygonArea.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/preamble.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/printer.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/prototype_libreOffice.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/review_latexprinter.odt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/test_decomposition.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/test_decomposition_image.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/test_libreOffice.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/util.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/wrapped_code_0.f90" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/wrapped_code_0.h" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/equations/wrapper_module_0.so" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/TEST.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/__init__.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/all.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/bilateral.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_Filters_all.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_Filters_chain.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_Filters_chain2.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_filters_centric.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_filters_centric.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_filters_centric2.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_invertedbandpass.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_invertedbandpass.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_invertedbandstop.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/classes_invertedbandstop.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/complete.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_comparison.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all_separated_2cols.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all_separated_2cols.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all_separated_3cols.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_all_separated_3cols.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_inverted.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_inverted_separated.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_separated.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_with_self.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/filters_response_with_self.svg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_CLAHE.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_bilateralFilter.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_bilateralFilter_parameters.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_convexityRatio.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_decomposition.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_entropy.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_features.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_filter_prototypes.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_find_brightest.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_getBrightAlpha.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_histogram_comparison.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_histogram_equalization.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_histogram_matching.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_numpy_image.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_overlay.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_polygonArea.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_rectangularity.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_smooth_hist_max_min.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/graph_spacial_filters.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_entropy/IMG_20160519_172637.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_entropy/IMG_20160519_172645.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_entropy/IMG_20160519_172650.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_entropy/IMG_20160519_172654.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_entropy/IMG_20160519_172655.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_histogram_comparison/comp_retina.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_histogram_comparison/lena.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_histogram_comparison/pattern.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_histogram_comparison/retina_bad.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/images_graph_histogram_comparison/retina_good.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/preamble.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/svg2pdf.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/threshs.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/zoomed_in1.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/zoomed_in1_pixels.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tests/graphs/zoomed_in2_pixels.png" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RRtoolbox/lib/fastplt.py" afterPath="$PROJECT_DIR$/tests/deprecated/fastplt.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/doctrees/RRtoolbox.lib.doctree" afterPath="$PROJECT_DIR$/documentation/_build/doctrees/RRtoolbox.lib.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/doctrees/RRtoolbox.tools.doctree" afterPath="$PROJECT_DIR$/documentation/_build/doctrees/RRtoolbox.tools.doctree" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/doctrees/environment.pickle" afterPath="$PROJECT_DIR$/documentation/_build/doctrees/environment.pickle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/objects.inv" afterPath="$PROJECT_DIR$/documentation/_build/html/objects.inv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolFC/lib/flowchart/Node.py" afterPath="$PROJECT_DIR$/RRtoolFC/lib/flowchart/Node.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolFC/lib/nodeFactory.py" afterPath="$PROJECT_DIR$/RRtoolFC/lib/nodeFactory.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/cache.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/cache.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/config.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/directory.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/directory.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/image.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/inspector.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/inspector.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/root.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/serverServices.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/serverServices.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/tools/selectors.py" afterPath="$PROJECT_DIR$/RRtoolbox/tools/selectors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imrestore.py" afterPath="$PROJECT_DIR$/imrestore.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.html" afterPath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.lib.html" afterPath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.lib.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.tools.html" afterPath="$PROJECT_DIR$/documentation/_build/html/RRtoolbox.tools.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/arrayops/basic.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/arrayops/basic.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/arrayops/filters.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/arrayops/filters.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/cache.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/cache.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/config.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/config.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/descriptors.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/descriptors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/directory.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/directory.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/inspector.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/inspector.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/plotter.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/plotter.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/root.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/root.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/serverServices.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/lib/serverServices.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/tools/selectors.html" afterPath="$PROJECT_DIR$/documentation/_build/html/_modules/RRtoolbox/tools/selectors.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/genindex.html" afterPath="$PROJECT_DIR$/documentation/_build/html/genindex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/index.html" afterPath="$PROJECT_DIR$/documentation/_build/html/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/py-modindex.html" afterPath="$PROJECT_DIR$/documentation/_build/html/py-modindex.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/_build/html/searchindex.js" afterPath="$PROJECT_DIR$/documentation/_build/html/searchindex.js" />
     </list>
     <ignored path="RRtools.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -337,7 +251,18 @@
     <favorites_list name="RRtools" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="image.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7255245">
+              <caret line="777" column="33" selection-start-line="777" selection-start-column="33" selection-end-line="777" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -392,7 +317,6 @@
         <option value="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/directory.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/cache.py" />
-        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/inspector.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
@@ -404,6 +328,7 @@
         <option value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
         <option value="$PROJECT_DIR$/documentation/conf.py" />
         <option value="$PROJECT_DIR$/documentation/README" />
+        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
       </list>
     </option>
   </component>
@@ -472,6 +397,56 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="thesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="equations" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtoolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtoolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -899,15 +874,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="-1" width="1368" height="749" extended-state="7" />
-    <editor active="false" />
+    <frame x="-1" y="-1" width="1368" height="749" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32695374" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2185008" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34130782" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.80223286" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2688822" sideWeight="0.7862839" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2688822" sideWeight="0.7862839" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3508772" sideWeight="0.60800606" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14354067" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37799042" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
@@ -1422,7 +1397,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/RRtoolbox/lib/image.py</url>
-          <line>1464</line>
+          <line>1465</line>
           <option name="timeStamp" value="918" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -1612,14 +1587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="605" column="89" selection-start-line="605" selection-start-column="89" selection-end-line="607" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1352" column="28" selection-start-line="1352" selection-start-column="28" selection-end-line="1352" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -1888,6 +1855,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.825">
           <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7255245">
+          <caret line="777" column="33" selection-start-line="777" selection-start-column="33" selection-end-line="777" selection-end-column="33" />
           <folding />
         </state>
       </provider>

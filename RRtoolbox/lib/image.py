@@ -762,9 +762,10 @@ class imLoader:
         self._mpath = mpath
         self._throw = throw
         self.load = loadFunc(flag, dsize, dst, fx, fy, interpolation, mmode, mpath, throw)
-    i = loadFunc.__doc__.find(":param")
-    __init__.__doc__ = loadFunc.__doc__[:i] + __init__.__doc__ + loadFunc.__doc__[i:] # builds documentation dynamically
-    del i # job done, delete
+
+    #i = loadFunc.__doc__.find(":param")
+    #__init__.__doc__ = loadFunc.__doc__[:i] + __init__.__doc__ + loadFunc.__doc__[i:] # builds documentation dynamically
+    #del i # job done, delete
     def __call__(self):
         return self.load(self.path)
     def getConfiguration(self,**kwargs):
