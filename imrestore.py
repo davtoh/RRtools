@@ -155,7 +155,7 @@ Notes:
         parts and merge them if overlapped or even take advantage of these
         to restore images by completing lacking information or enhancing
         poorly illuminated parts in the image. A drawback of this is that
-        if not well processed and precise information if given or calculated
+        if not well processed and precise information is given or calculated
         the result could be if not equal worse than the initial images.
 
     Lens simulation for retinal photos: As its name implies, it is a
@@ -209,12 +209,15 @@ class ImRestore(object):
     :param filenames: list of images or string to path which uses glob filter in path.
             Loads image array from path, url, server, string
             or directly from numpy array (supports databases)
-    :param debug: (0) flag to print debug messages
+    :param debug: (0) flag to print messages and debug data.
             0 -> do not print messages.
-            1 -> print messages.
-            2 -> print messages and show results
+            1 -> print normal messages.
+            2 -> print normal and debug messages.
+            3 -> print all messages and show main results.
                 (consumes significantly more memory).
-            3 -> print messages, show results and additional data
+            4 -> print all messages and show all stage results.
+                (consumes significantly more memory).
+            5 -> print all messages, show all results and additional data.
                 (consumes significantly more memory).
     :param feature: (None) feature instance. It contains the configured
             detector and matcher.
@@ -260,7 +263,7 @@ class ImRestore(object):
             necessary at the merging process.
     :param expert: Path to an expert database. If provided it will use this data
             to generate the mask used when merging to the restored image.
-    :param maskforeground:
+    :param maskforeground:(False)
             * True, limit features area using foreground mask of input images.
                 This mask is calculated to threshold a well defined object.
             * Callable, Custom function to produce the foreground image which
@@ -277,7 +280,7 @@ class ImRestore(object):
 
     def __init__(self, filenames, **opts):
         # for debug
-        self.FLAG_DEBUG = opts.get("debug",1)
+        self.verbosity = opts.get("debug", 1)
 
         # for multiprocessing
         self.pool = opts.get("pool",None)
@@ -292,11 +295,11 @@ class ImRestore(object):
         self.feature = opts.get("feature",None)
         # init detector and matcher to compute descriptors
         if self.feature is None:
-            self.feature = Feature(pool=self.pool,debug=self.FLAG_DEBUG)
+            self.feature = Feature(pool=self.pool, debug=self.verbosity)
             self.feature.config(name='a-sift-flann')
         else:
             self.feature.pool = self.pool
-            self.feature.debug = self.FLAG_DEBUG
+            self.feature.debug = self.verbosity
 
         # select method to order images to feed in superposition
         self.selectMethod = opts.get("selectMethod",None)
@@ -340,11 +343,11 @@ class ImRestore(object):
         self.cachePath = opts.get("cachePath",None)
         if self.cachePath is not None:
             self.feature_dic = memoizedDict(self.cachePath+"descriptors")
-            if self.FLAG_DEBUG: print "Cache path is in {}".format(self.feature_dic._path)
+            if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
             self.clearCache = opts.get("clearCache",0)
             if self.clearCache==1:
                 self.feature_dic.clear()
-                if self.FLAG_DEBUG: print "Cache path cleared"
+                if self.verbosity: print "Cache path cleared"
         else:
             self.feature_dic = {}
 
@@ -355,16 +358,16 @@ class ImRestore(object):
         ################################## GET IMAGES ####################################
         if filenames is None or len(filenames)==0: # if images is empty use demonstration
             test = MANAGER["TESTPATH"]
-            if self.FLAG_DEBUG: print "Looking in DEMO path {}".format(test)
+            if self.verbosity: print "Looking in DEMO path {}".format(test)
             fns = glob(test + "*")
         elif isinstance(filenames, basestring):
             # if string assume it is a path
-            if self.FLAG_DEBUG:print "Looking as {}".format(filenames)
+            if self.verbosity:print "Looking as {}".format(filenames)
             fns = glob(filenames)
         elif not isinstance(filenames, basestring) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
-            if self.FLAG_DEBUG:print "Looking as {}".format(filenames)
+            if self.verbosity:print "Looking as {}".format(filenames)
             fns = glob(filenames)
         else: # iterator containing data
             fns = filenames # list file names
@@ -397,7 +400,7 @@ class ImRestore(object):
 
         self.baseImage = baseImage
 
-        if self.FLAG_DEBUG: print "No. images {}...".format(len(fns))
+        if self.verbosity: print "No. images {}...".format(len(fns))
 
         # make loader
         self.loader = opts.get("loader",None) # BGR loader
@@ -464,14 +467,14 @@ class ImRestore(object):
             if self.maskforeground is True:
                 mask = foreground(img)
 
-            if self.FLAG_DEBUG > 2:
+            if self.verbosity > 4:
                 fastplt(overlay(img.copy(),mask*255,alpha=mask*0.5),block=True,
                         title="{} mask to detect features".format(getData(path)[-2]))
             return mask
 
         with TimeCode("Computing features...\n",
                       endmsg="Computed feature time was {time}\n",
-                      enableMsg=self.FLAG_DEBUG):
+                      enableMsg=self.verbosity):
 
             self._feature_list = [] # list of key points and descriptors
             for index,path in enumerate(fns):
@@ -484,7 +487,7 @@ class ImRestore(object):
                     if self.loadshape != shape:
                         raise KeyError
                 except (KeyError, ValueError) as e: # not memorized
-                    if self.FLAG_DEBUG: print "Processing features for {}...".format(path)
+                    if self.verbosity: print "Processing features for {}...".format(path)
                     img = cv2.cvtColor(self.loadImage(path),cv2.COLOR_BGR2GRAY)
                     if self.pshape is None: # get features directly from original
                         kps, desc = self.feature.detectAndCompute(img, getMask(img))
@@ -519,7 +522,7 @@ class ImRestore(object):
 
                 # number of key-points, index, path, key-points, descriptors
                 self._feature_list.append((len(kps),index,path,kps,desc))
-                if self.FLAG_DEBUG: print "\rFeatures {}/{}...".format(index+1,len(fns)),
+                if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
         return self._feature_list
 
     def restore(self):
@@ -545,7 +548,7 @@ class ImRestore(object):
         else:
             raise Exception("baseImage must be None, True or String")
 
-        if self.FLAG_DEBUG: print "baseImage is", baseImage
+        if self.verbosity: print "baseImage is", baseImage
         self.used = [baseImage] # select first image path
         # load first image for merged image
         self.restored = self.loadImage(baseImage,self.loadshape)
@@ -556,28 +559,28 @@ class ImRestore(object):
             if self._orderValue == 1: # entropy
                 comparison = zip(*entropy(fns,
                              loadfunc=loadFunc(1,self.pshape),invert=False)[:2])
-                if self.FLAG_DEBUG: print "Configured to sort by entropy..."
+                if self.verbosity: print "Configured to sort by entropy..."
             elif self._orderValue == 2: # histogram comparison
                 comparison = hist_comp(fns,
                             loadfunc=loadFunc(1,self.pshape),method=self.selectMethod)
-                if self.FLAG_DEBUG:
+                if self.verbosity:
                     print "Configured to sort by {}...".format(self.selectMethod)
             elif self._orderValue == 3:
                 comparison = self.selectMethod(fns)
-                if self.FLAG_DEBUG: print "Configured to sort by Custom Function..."
+                if self.verbosity: print "Configured to sort by Custom Function..."
             else:
                 raise Exception("DEBUG: orderValue {} does "
                     "not correspond to {}".format(self._orderValue,self.selectMethod))
-        elif self.FLAG_DEBUG: print "Configured to sort by best matches"
+        elif self.verbosity: print "Configured to sort by best matches"
 
         with TimeCode("Restoring ...\n",
-            endmsg= "Restoring overall time was {time}\n",
-            enableMsg= self.FLAG_DEBUG):
+                      endmsg= "Restoring overall time was {time}\n",
+                      enableMsg= self.verbosity):
 
             while True:
                 with TimeCode("Matching ...\n",
-                    endmsg= "Matching overall time was {time}\n",
-                    enableMsg= self.FLAG_DEBUG):
+                              endmsg= "Matching overall time was {time}\n",
+                              enableMsg= self.verbosity):
                     ################### remaining keypoints to match ####################
                     # initialize key-point and descriptor base list
                     kps_remain,desc_remain = [],[]
@@ -588,7 +591,7 @@ class ImRestore(object):
                             desc_remain.extend(desc)
 
                     if not kps_remain: # if there is not image remaining to stitch break
-                        if self.FLAG_DEBUG: print "All images used"
+                        if self.verbosity: print "All images used"
                         break
 
                     desc_remain = np.array(desc_remain) # convert descriptors to array
@@ -631,14 +634,14 @@ class ImRestore(object):
                         # get only key-points
                         p1 = np.float32([kp["pt"] for kp in mkp1])
                         p2 = np.float32([kp["pt"] for kp in mkp2])
-                        if self.FLAG_DEBUG > 1:
+                        if self.verbosity > 4:
                             print 'Calculating Homography for {}...'.format(path)
 
                         # Calculate homography of fore over back
                         H, status = cv2.findHomography(p1, p2,
                                     cv2.RANSAC, self.ransacReprojThreshold)
                     else: # not sufficient key-points
-                        if self.FLAG_DEBUG > 1:
+                        if self.verbosity > 1:
                             print 'Not enough key-points for {}...'.format(path)
                         H = None
 
@@ -664,16 +667,16 @@ class ImRestore(object):
                             inlines, lines, inlineratio, c.rotatedRectangularity,
                             ("failed","succeeded")[Test])
 
-                        if self.FLAG_DEBUG>1: print text
+                        if self.verbosity>1: print text
 
-                        if self.FLAG_DEBUG > 2: # show matches
+                        if self.verbosity > 3: # show matches
                             matchExplorer("Match " + text, fore,
                                           self.restored, classified[path], status, H)
 
                         ####################### probability test ########################
                         if Test: # second test
 
-                            if self.FLAG_DEBUG>1: print "Test succeeded..."
+                            if self.verbosity>1: print "Test succeeded..."
                             while path in self.failed: # clean path in fail registry
                                 try: # race-conditions safe
                                     self.failed.remove(path)
@@ -691,15 +694,15 @@ class ImRestore(object):
 
                 # if all classified have failed then end
                 if set(classified.keys()) == set(self.failed):
-                    if self.FLAG_DEBUG:
+                    if self.verbosity:
                         print "Restoration finished, these images do not fit: "
                         for index in classified.keys():
                             print index
                     break
 
         with TimeCode("Post-processing ...\n",
-            endmsg= "Post-processing overall time was {time}\n",
-            enableMsg= self.FLAG_DEBUG):
+                      endmsg= "Post-processing overall time was {time}\n",
+                      enableMsg= self.verbosity):
             processed = self.post_process_restoration(self.restored)
             if processed is not None:
                 self.restored = processed
@@ -743,7 +746,7 @@ class ImRestore(object):
             fn = increment_if_exits(fn)
 
         r = cv2.imwrite(fn,self.restored)
-        if self.FLAG_DEBUG and r:
+        if self.verbosity and r:
             print "Saved: {}".format(fn)
             return True, fn
         else:
@@ -767,7 +770,7 @@ class ImRestore(object):
         if self.histMatch: # apply histogram matching
             fore = hist_match(fore, self.restored)
 
-        if self.FLAG_DEBUG > 1: print "Merging..."
+        if self.verbosity > 1: print "Merging..."
 
         # pre process alpha mask
         alpha = self.pre_process_fore_Mask(self.restored,fore,H)
@@ -837,17 +840,20 @@ class ImRestore(object):
         if alpha is None: # create valid mask for stitching
             alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
 
+        if self.verbosity > 3: # show merging result
+            fastplt(alpha, title="alpha mask from {}".format(path))
+
         self.restored = overlay(self.restored, fore, alpha) # overlay fore on top of back
 
         if H_fore is None: # H is not modified use itself
             H_fore = H
 
-        if self.FLAG_DEBUG > 1: # show merging result
+        if self.verbosity > 4: # show merging result
             plotim("Last added from {}".format(path), self.restored).show()
 
         ####################### update base features #######################
         # make projection to test key-points inside it
-        if self.FLAG_DEBUG > 1: print "Updating key-points..."
+        if self.verbosity > 1: print "Updating key-points..."
         # fore projection in restored image
         projection = getTransformedCorners(fore.shape[:2],H_fore)
         # update key-points
@@ -874,13 +880,13 @@ class ImRestore(object):
         kps_base = newkps
         desc_base = np.array(newdesc)
 
-        if self.FLAG_DEBUG > 2: # show keypints in merging
+        if self.verbosity > 4: # show keypints in merging
             plotim("merged Key-points", # draw key-points in image
                    cv2.drawKeypoints(
                        im2shapeFormat(self.restored,self.restored.shape[:2]+(3,)),
                               [dict2keyPoint(index) for index in kps_base],
                               flags=4, color=(0,0,255))).show()
-        if self.FLAG_DEBUG: print "This image has been merged: {}...".format(path)
+        if self.verbosity: print "This image has been merged: {}...".format(path)
         self.used.append(path) # update used
 
         return self.restored
@@ -910,7 +916,7 @@ class RetinalRestore(ImRestore):
         super(RetinalRestore,self).__init__(filenames, **opts)
         self.maskforeground = opts.get("maskforeground",lambda img: retinal_mask(img,True))
         self.heavynoise=opts.get("heavynoise",False)
-        self.lens = opts.get("lens",True)
+        self.lens = opts.get("lens",False)
         self.enclose = opts.get("enclose",False)
 
     #__init__.__doc__ = ImRestore.__init__.__doc__+__init__.__doc__
@@ -1098,7 +1104,11 @@ def shell(args=None, namespace=None):
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description="Restore images by merging and stitching "
                                                  "techniques.",
-                                     epilog=__doc__)
+                                     epilog=__doc__ +
+                                            "\nContributions and bug reports are appreciated."
+                                            "\nauthor: David Toro"
+                                            "\ne-mail: davsamirtor@gmail.com"
+                                            "\nproject: https://github.com/davtoh/RRtools")
     parser.add_argument('filenames', nargs='*',
                         help='List of images or path to images using * in folder. '
                              'It loads image array from path, url, server, string'
@@ -1107,15 +1117,17 @@ def shell(args=None, namespace=None):
                              'to the parser it creates a list of filtered files in '
                              'the path. Use quotes in shell to prevent this behaviour '
                              'an let imrestore do it instead e.g. "/path/to/images/*.jpg"')
-    parser.add_argument('-d','--debug',type=int,default=1,
-                       help='''flag to print debug messages
+    parser.add_argument('-v','--verbosity',type=int,default=1,
+                       help="""(0) flag to print messages and debug data.
                                 0 -> do not print messages.
-                                1 -> print messages.
-                                2 -> print messages and show results
+                                1 -> print normal messages.
+                                2 -> print normal and debug messages.
+                                3 -> print all messages and show main results.
                                     (consumes significantly more memory).
-                                3 -> print messages, show results and additional data
+                                4 -> print all messages and show all results.
                                     (consumes significantly more memory).
-                                "path" -> expert variables''')
+                                5 -> print all messages, show all results and additional data.
+                                    (consumes significantly more memory).""")
     parser.add_argument('-f','--feature', type=feature_creator,
                        help='Configure detector and matcher')
     parser.add_argument('-u','--pool', action='store', type=int,
@@ -1150,7 +1162,7 @@ def shell(args=None, namespace=None):
                             'Intersection, Hellinger or any method found in hist_map'
                             '* Entropy'
                             '* custom function of the form: rating,fn <-- selectMethod(fns)')
-    parser.add_argument('-a','--distanceThresh', type = float, default=0.75,
+    parser.add_argument('-d','--distanceThresh', type = float, default=0.75,
                        help='Filter matches by distance ratio')
     parser.add_argument('-i','--inlineThresh', type = float, default=0.2,
                        help='Filter homography by inlineratio')
@@ -1169,14 +1181,30 @@ def shell(args=None, namespace=None):
     parser.add_argument('-s','--save', default=True,
                        help='Customize image name used to save the restored image.'
                             'By default it saves in path with name restored_{base_image}')
-    parser.add_argument('--restorer',choices = ['RetinalRestore','ImRestore'],
+    parser.add_argument('-o','--overwrite', default=False,
+                        help = 'If True and the destine filename for saving already'
+                            'exists then it is replaced, else a new filename is generated'
+                            'with an index "{filename}_{index}.{extenssion}"')
+    parser.add_argument('-g','--grow_scene', action='store_true',
+                       help='Flag to allow image to grow the scene so that that the final '
+                            'image can be larger than the base image')
+    parser.add_argument('-y','--heavynoise', action='store_true',
+                       help='Flag to process noisy images, else process normal images')
+    parser.add_argument('-a','--lens', action='store_true',
+                       help='Flag to apply lens to retinal area. Else do not apply lens')
+    parser.add_argument('-k','--enclose', action='store_true',
+                       help='Flag to enclose and return only retinal area. '
+                            'Else leaves image "as is"')
+    parser.add_argument('-z','--restorer',choices = ['RetinalRestore','ImRestore'],
                         default='RetinalRestore',
                        help='imrestore is for images in general but it can be parametrized. '
                             'By default it has the profile "retinalRestore" for retinal '
                             'images but its general behaviour can be restorerd by '
                             'changing it to "imrestore"')
-    parser.add_argument('--expert', default=None,
-                       help='path to expert variables')
+    parser.add_argument('-x','--expert', default=None,
+                       help='path to the expert variables')
+    parser.add_argument('-q','--console', default=False, action='store_true',
+                       help='Enter interactive mode to let user execute commands in console')
 
     # parse sys and get argument variables
     args = vars(parser.parse_args(args=args, namespace=namespace))
@@ -1187,26 +1215,33 @@ def shell(args=None, namespace=None):
     args['filenames'] = [p for p in args['filenames'] if os.path.isfile(p) or "*" in p]
 
     # print parsed arguments
-    if args['debug']>2:
+    if args['verbosity']>1:
         print "Parsed Arguments\n",args
 
     # use configuration
     r = args.pop("restorer")
     if r == 'RetinalRestore':
-        if args['debug']: print "Configured for retinal restoration..."
-        obj = RetinalRestore(**args)
+        if args['verbosity']: print "Configured for retinal restoration..."
+        self = RetinalRestore(**args)
     elif r == 'ImRestore':
-        if args['debug']: print "Configured for general restoration..."
-        obj = ImRestore(**args)
+        if args['verbosity']: print "Configured for general restoration..."
+        self = ImRestore(**args)
     else:
         raise Exception("no restoration class called {}".format(r))
 
     if namespace is not None:
         # update namespace from early stages so it can have access to the restorer
-        namespace.restorer = obj
+        namespace.restorer = self
 
-    # start restoration
-    obj.restore()
+    if args['console']:
+        print "interactive ON."
+        print "restoring instance is 'namespace.restorer' or 'self'"
+        print "Ex: type 'self.restore()' to proceed with restoration."
+        #import pdb; pdb.set_trace()
+        import code; code.interact(local=locals())
+    else:
+        # start restoration
+        self.restore()
 
     return namespace # return given namespace
 

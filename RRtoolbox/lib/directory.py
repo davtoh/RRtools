@@ -13,7 +13,7 @@
 """
 __author__ = 'Davtoh'
 
-import os
+import os, sys
 from functools import wraps
 import shutil
 from glob import glob
@@ -24,9 +24,19 @@ from glob import glob
 #import requests
 
 try:
-    from urllib.request import urlopen # urllib.urlopen disappears in python 3
+    from urllib.request import urlopen, URLError # urllib.urlopen disappears in python 3
 except ImportError:
-    from urllib2 import urlopen
+    from urllib2 import urlopen, URLError
+
+def resource_path(relative_path=""):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    # based on http://stackoverflow.com/a/37920111/5288758
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 def getFileHandle(path):
     """
@@ -39,8 +49,8 @@ def getFileHandle(path):
     # this function intents to overcome this limitation
     try:
         f = urlopen(path)
-    except ValueError:  # invalid URL
-        f = open(path)
+    except (ValueError,URLError):  # invalid URL
+        f = open(path,'rb')
     return f
 
 def getFileSize(path):

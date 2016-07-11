@@ -268,7 +268,21 @@ def rcvPickle(addr=addr, timeout = None):
             except:
                 pass
 
+def string_is_socket_address(string):
+    try:
+        host,addr = string.split(":")
+        int(addr)
+        return True
+    except:
+        return False
+
 def parseString(string, timeout=3):
+    """
+
+    :param string:
+    :param timeout:
+    :return:
+    """
     if isinstance(string,basestring):
         host,addr = string.split(":")
         return rcvPickle((host,int(addr)),timeout=timeout)
