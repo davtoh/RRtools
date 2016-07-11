@@ -29,6 +29,7 @@ from directory import getData,strdifference,changedir, checkFile, getFileHandle
 import matplotlib.axes
 import matplotlib.figure
 from plotter import plotim, limitaxis
+from serverServices import parseString, string_is_socket_address
 __author__ = 'Davtoh'
 
 supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png","pbm","pgm","ppm","sr","ras","tiff","tif")
@@ -363,8 +364,7 @@ def interpretImage(toparse, flags):
     :return: image or None if not successfull
     """
     # test it is from server
-    if ":" in toparse: #process request to server
-        from serverServices import parseString
+    if string_is_socket_address(toparse): #process request to server
         toparse = parseString(toparse,5)
     # test is object itself
     if type(toparse).__module__ == np.__name__: # test numpy array
@@ -582,7 +582,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
     def errorFunc(im,path):
         if im is None:
             if checkFile(path):
-                if getData(path)[-1] in supported_formats:
+                if getData(path)[-1][1:] in supported_formats:
                     raise Exception("Not enough permissions to load {}".format(path))
                 else:
                     raise Exception("Failed to load {}. Format not supported".format(path))

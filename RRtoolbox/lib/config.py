@@ -10,6 +10,7 @@ from __future__ import division
 from directory import directory as _directory
 from directory import FileDirectory as _FileDirectory
 from directory import correctPath as _correctPath
+from directory import resource_path as _resource_path
 from session import serializer
 from session import updateSession as _updateSession
 from session import readSession as _readSession
@@ -22,7 +23,7 @@ __author__ = 'Davtoh'
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 # FLAGS
 FLAG_MEMOIZE = True
-FLAG_DEBUG = False
+FLAG_DEBUG = True
 # global variables
 FLOAT = float32
 INT = int32
@@ -115,11 +116,21 @@ class directoryManager(object):
         """
 
         # PATHS
-        MAINPATH = _directory(_correctPath(__file__, -1), notes ="don't change!")
+        # where package is located, if package is installed this can be converted
+        # to a virtual folder which does not exists physically and cannot be found
+        # in disk
+        SOURCEPATH = _directory(_correctPath(__file__, -1), notes ="don't change!")
+        # lib path is inside package
+        LIBPATH = _directory("lib") - SOURCEPATH
+        # where additional folders will be located and package folder is.
+        MAINPATH = _directory(_resource_path(), notes ="don't change!")
+        # add more tools to this folder, iniside package is a tools folder too
         TOOLPATH = _directory("tools") - MAINPATH
-        LIBPATH = _directory("lib") - MAINPATH
+        # place temporal files in this folder
         TEMPPATH = _directory("temp") - MAINPATH
+        # tests should be found in tests folder
         TESTPATH = _directory("tests") - MAINPATH
+        # save path is where results are placed
         SAVEPATH = TEMPPATH.copy()
         #return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}
         return {key:val for key,val in locals().iteritems() if key != "self"}
@@ -134,15 +145,15 @@ class directoryManager(object):
 
         .. warning:: ConfigFile is purposely not updated. Call manually method load()
         """
-        if FLAG_DEBUG: print "Creating default {} file...".format(self._path)
+        if FLAG_DEBUG: print "Creating default '{}' file...".format(self._path)
         try:
             data = _saveSession(str(self._path), self.default)
             if FLAG_DEBUG:
-                print "{} has been reset successfully...".format(self._path)
+                print "'{}' has been reset successfully...".format(self._path)
             return data
-        except IOError:
-            return False
-        except:
+        except Exception as e:
+            if self._raiseError:
+                raise e
             return False
 
     def load(self):
@@ -153,15 +164,21 @@ class directoryManager(object):
 
         .. warning:: Unsaved instance variables will be replaced by configuration file variables.
         """
-        if FLAG_DEBUG: print "Loading {}...".format(self._path)
+        if FLAG_DEBUG: print "Loading '{}'...".format(self._path)
         try:
             vars = _readSession(str(self._path))
         except IOError:
-            if FLAG_DEBUG: print "{} not found...".format(self._path)
-            self.reset()
-            vars =  _readSession(str(self._path))
+            if FLAG_DEBUG: print "'{}' not found...".format(self._path)
+            # not tolerable as error and should not be caught
+            data = self.reset()
+            try:
+                vars =  _readSession(str(self._path))
+            except Exception as e:
+                import sys
+                raise Exception("Trying to read '{}' with writted "
+                                "session as '{}'".format(self._path,data)), None, sys.exc_info()[2]
 
-        if FLAG_DEBUG: print "Default {} read successfully...".format(self._path)
+        if FLAG_DEBUG: print "Default '{}' read successfully...".format(self._path)
         self._loaded.update(vars)
         return vars
 
@@ -180,7 +197,9 @@ class directoryManager(object):
             else: # to delete and replace
                 _saveSession(str(self._path), self._loaded)
                 return True
-        except IOError:
+        except IOError as e:
+            if self._raiseError:
+                raise e
             return False
 
     def _retrieve(self, item):
