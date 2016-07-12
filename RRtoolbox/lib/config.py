@@ -23,7 +23,7 @@ __author__ = 'Davtoh'
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 # FLAGS
 FLAG_MEMOIZE = True
-FLAG_DEBUG = True
+FLAG_DEBUG = False
 # global variables
 FLOAT = float32
 INT = int32

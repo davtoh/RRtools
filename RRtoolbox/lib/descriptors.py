@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ----------------------------    IMPORTS    ---------------------------- #
-
+from __future__ import division
 # multiprocessing
 import itertools as it
 from multiprocessing.pool import ThreadPool as Pool

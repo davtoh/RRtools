@@ -90,17 +90,17 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
     else: # Workaround to solve problem multiprocessing with matplotlib this sends to shell
         from serverServices import generateServer,sendPickle
         s,addr = generateServer()
-        props = ["python '{script}'".format(script = os.path.abspath(__file__))]
+        props = ['python "{script}"'.format(script = os.path.abspath(__file__))]
         props.append("{}:{}".format(*addr))
         if FLAG_DEBUG: print "generated server at {}".format(addr)
         d = dict(cmap=cmap,title=title,win=win,num=wins[0])
-        props.extend(["--{} '{}'".format(key,val) for key,val in d.items() if val is not None])
+        props.extend(['--{} "{}"'.format(key,val) for key,val in d.items() if val is not None])
         if block: props.append("--block")
         if daemon: props.append("--daemon")
         txt = " ".join(props)
         sendPickle(image,s,timeout=servertimeout, threaded = True)
         if FLAG_DEBUG: print "sending",txt
-        def myplot(): os.system(txt)
+        def myplot(): os.system(txt) # FIXME under windows this cannot be pickled thus multiprocessed
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()

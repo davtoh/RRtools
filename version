@@ -35,7 +35,7 @@ VSVersionInfo(
         StringStruct(u'InternalName', u'ImRestore'),
         StringStruct(u'OriginalFilename', u'imrestore.exe'),
         StringStruct(u'FileVersion', u'96, 12, 19, 1'),
-        StringStruct(u'FileDescription', u'Restorer general or retinal images'),
+        StringStruct(u'FileDescription', u'Restore general or retinal images'),
         StringStruct(u'LegalCopyright', u''),
         StringStruct(u'LegalTrademarks', u''),])
       ]),
