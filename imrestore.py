@@ -280,7 +280,7 @@ class ImRestore(object):
 
     def __init__(self, filenames, **opts):
         # for debug
-        self.verbosity = opts.get("debug", 1)
+        self.verbosity = opts.get("verbosity", 1)
 
         # for multiprocessing
         self.pool = opts.get("pool",None)
@@ -841,7 +841,7 @@ class ImRestore(object):
             alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
 
         if self.verbosity > 3: # show merging result
-            fastplt(alpha, title="alpha mask from {}".format(path))
+            fastplt(alpha, title="alpha mask from {}".format(path),block=True)
 
         self.restored = overlay(self.restored, fore, alpha) # overlay fore on top of back
 

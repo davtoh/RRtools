@@ -446,11 +446,11 @@ class imFactory:
             if throw and im is None:
                 if checkFile(path):
                     if getData(path)[-1] in supported_formats:
-                        raise Exception("Not enough permissions to load {}".format(path))
+                        raise Exception("Not enough permissions to load '{}'".format(path))
                     else:
-                        raise Exception("Failed to load {}. Format not supported".format(path))
+                        raise Exception("Failed to load '{}'. Format not supported".format(path))
                 else:
-                    raise Exception("Missing file {}".format(path))
+                    raise Exception("Missing file '{}'".format(path))
         return {None:errorFunc}
 
     def get_loadFunc(self, flag=None):
@@ -583,11 +583,11 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
         if im is None:
             if checkFile(path):
                 if getData(path)[-1][1:] in supported_formats:
-                    raise Exception("Not enough permissions to load {}".format(path))
+                    raise Exception("Not enough permissions to load '{}'".format(path))
                 else:
-                    raise Exception("Failed to load {}. Format not supported".format(path))
+                    raise Exception("Failed to load '{}'. Format not supported".format(path))
             else:
-                raise Exception("Missing file {}".format(path))
+                raise Exception("Missing file '{}'".format(path))
 
     RGB = False
     if abs(flag)==2: # determine if needs to do conversion from BGR to RGB
