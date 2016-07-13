@@ -122,7 +122,7 @@ class directoryManager(object):
         SOURCEPATH = _directory(_correctPath(__file__, -1), notes ="don't change!")
         # lib path is inside package
         LIBPATH = _directory("lib") - SOURCEPATH
-        # where additional folders will be located and package folder is.
+        # where additional folders will be located, what holds SOURCEPATH
         MAINPATH = _directory(_resource_path(), notes ="don't change!")
         # add more tools to this folder, iniside package is a tools folder too
         TOOLPATH = _directory("tools") - MAINPATH
@@ -131,7 +131,7 @@ class directoryManager(object):
         # tests should be found in tests folder
         TESTPATH = _directory("tests") - MAINPATH
         # save path is where results are placed
-        SAVEPATH = TEMPPATH.copy()
+        SAVEPATH = TESTPATH.copy()
         #return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}
         return {key:val for key,val in locals().iteritems() if key != "self"}
 
