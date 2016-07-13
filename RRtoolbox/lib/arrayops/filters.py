@@ -9,12 +9,12 @@ import numpy as np
 #from math import exp
 from sympy.functions import exp
 
-from RRtoolbox.lib.cache import memoize
-from RRtoolbox.lib.config import MANAGER
+#from RRtoolbox.lib.cache import memoize
+#from RRtoolbox.lib.config import MANAGER
 
 __author__ = 'Davtoh'
 
-@memoize(MANAGER["TEMPPATH"]) # convert cv2.bilateralfilter to memoized bilateral filter
+#@memoize(MANAGER["TEMPPATH"]) # convert cv2.bilateralfilter to memoized bilateral filter
 def bilateralFilter(im,d,sigmaColor,sigmaSpace):
     """
     Apply bilateral Filter.

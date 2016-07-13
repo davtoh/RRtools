@@ -279,6 +279,33 @@ class ImRestore(object):
     """
 
     def __init__(self, filenames, **opts):
+        self.log_saved = [] # keeps track of last saved file.
+
+        ################################## GET IMAGES ####################################
+        if filenames is None or len(filenames)==0: # if images is empty use demonstration
+            #test = MANAGER["TESTPATH"]
+            #if self.verbosity: print "Looking in DEMO path {}".format(test)
+            #fns = glob(test + "*")
+            raise Exception("List of filenames is Empty")
+        elif isinstance(filenames, basestring):
+            # if string assume it is a path
+            if self.verbosity:print "Looking as {}".format(filenames)
+            fns = glob(filenames)
+        elif not isinstance(filenames, basestring) and \
+                        len(filenames) == 1 and "*" in filenames[0]:
+            filenames = filenames[0] # get string
+            if self.verbosity:print "Looking as {}".format(filenames)
+            fns = glob(filenames)
+        else: # iterator containing data
+            fns = filenames # list file names
+
+        # check images
+        if not len(fns)>1:
+            raise Exception("list of images must be "
+                            "greater than 1, got {}".format(len(fns)))
+
+        self.filenames = fns
+
         # for debug
         self.verbosity = opts.get("verbosity", 1)
 
@@ -342,7 +369,7 @@ class ImRestore(object):
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
         self.cachePath = opts.get("cachePath",None)
         if self.cachePath is not None:
-            self.feature_dic = memoizedDict(self.cachePath+"descriptors")
+            self.feature_dic = memoizedDict(os.path.join(self.cachePath,"descriptors"))
             if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
             self.clearCache = opts.get("clearCache",0)
             if self.clearCache==1:
@@ -354,30 +381,6 @@ class ImRestore(object):
         self.expert = opts.get("expert",None)
         if self.expert is not None:
             self.expert = memoizedDict(self.expert) # convert path
-
-        ################################## GET IMAGES ####################################
-        if filenames is None or len(filenames)==0: # if images is empty use demonstration
-            test = MANAGER["TESTPATH"]
-            if self.verbosity: print "Looking in DEMO path {}".format(test)
-            fns = glob(test + "*")
-        elif isinstance(filenames, basestring):
-            # if string assume it is a path
-            if self.verbosity:print "Looking as {}".format(filenames)
-            fns = glob(filenames)
-        elif not isinstance(filenames, basestring) and \
-                        len(filenames) == 1 and "*" in filenames[0]:
-            filenames = filenames[0] # get string
-            if self.verbosity:print "Looking as {}".format(filenames)
-            fns = glob(filenames)
-        else: # iterator containing data
-            fns = filenames # list file names
-
-        # check images
-        if not len(fns)>1:
-            raise Exception("list of images must be "
-                            "greater than 1, got {}".format(len(fns)))
-
-        self.filenames = fns
 
         # to select base image ahead of any process
         baseImage = opts.get("baseImage",None)
@@ -747,10 +750,11 @@ class ImRestore(object):
 
         r = cv2.imwrite(fn,self.restored)
         if self.verbosity and r:
-            print "Saved: {}".format(fn)
+            if self.verbosity: print "Saved: {}".format(fn)
+            self.log_saved.append(fn)
             return True, fn
         else:
-            print "{} could not be saved".format(fn)
+            if self.verbosity: print "{} could not be saved".format(fn)
             return False, fn
 
     def merge(self, path, H, shape = None):
@@ -1050,10 +1054,30 @@ def True_or_String(string):
     """
     Process string to get string.
 
-    :return: "" then it is true, else returns the string
+    :return: "" then it is True, else returns the string
     """
     if string == "":
         return True
+    return string
+
+def False_or_String(string):
+    """
+    Process string to get string.
+
+    :return: "" then it is False, else returns the string
+    """
+    if string == "":
+        return False
+    return string
+
+def None_or_String(string):
+    """
+    Process string to get string.
+
+    :return: "" then it is None, else returns the string
+    """
+    if string == "":
+        return None
     return string
 
 def feature_creator(string):
@@ -1079,11 +1103,25 @@ def tuple_creator(string):
     """
     if string == "":
         return None
-    return tuple([int(i) for i in string.split(",")])
+    tp = []
+    for i in string.split(","):
+        try:
+            tp.append(int(i))
+        except:
+            tp.append(i)
+    return tuple(tp)
 
 def loader_creator(string):
-    # TODO interpret string to get loader with any feature
-    return
+    """
+    creates an image loader:
+    :param string: flag, x size, y size. Ex: 0,100,100 loads images of shape
+            (100,100) in gray scale.
+    :return: loader
+    """
+    if string == "":
+        return None
+    flag,x,y = tuple_creator(string)
+    return loadFunc(flag,(x,y))
 
 class NameSpace(object):
     pass
@@ -1141,19 +1179,24 @@ def shell(args=None, namespace=None):
                             '* 2 re-compute data but other cache data is left intact.'
                             'Notes: using cache can result in unspected behaviour '
                             'if some configurations does not match to the cached data.')
-    parser.add_argument('-l','--loader', type=loader_creator,
-                       help='custom loader function used to load images '
-                            'to merge. If None it loads the original images in color')
-    parser.add_argument('-p','--pshape', default=(400,400), type=tuple_creator,
+    parser.add_argument('-l','--loader', type=loader_creator, nargs='?',
+                       help='Custom loader function used to load images '
+                            'to merge. By default or if -l flag is empty it loads the '
+                            'original images in color. The format is "-l colorflag, x, y" '
+                            'where colorflag is -1,0,1 for BGRA, gray and BGR images '
+                            'and the load shape are represented by x and y')
+    parser.add_argument('-p','--pshape', default=(400,400), type=tuple_creator, nargs='?',
                        help='Process shape used to load pseudo images '
-                            'to process features and then results are converted to the '
-                            'original images. If None (e.g "") it loads the original '
+                            'to process features and then convert to the '
+                            'original images. By default pshape is 400,400'
+                            'If the -p flag is empty it loads the original '
                             'images to process the features but it can incur to performance'
                             ' penalties if images are too big and RAM memory is scarce')
-    parser.add_argument('-b','--baseImage', default=True, type=True_or_String,
-                       help='First image to merge to. If None (e.g "") '
-                            'selects image with most features'
-                            'or specify image Name to use from path')
+    parser.add_argument('-b','--baseImage', default=True, type=None_or_String, nargs='?',
+                       help='Specify image''s name to use from path as first image to merge '
+                            'in the empty restored image. By default it selects the image '
+                            'with most features. If the -b flag is empty it selects the '
+                            'first image in filenames as base image')
     parser.add_argument('-m','--selectMethod',
                        help='Method to sort images when matching. This '
                             'way the merging order can be controlled.'
@@ -1178,9 +1221,10 @@ def shell(args=None, namespace=None):
     parser.add_argument('-t','--hist_match', action='store_true',
                        help='Apply histogram matching to foreground '
                             'image with merge image as template')
-    parser.add_argument('-s','--save', default=True,
+    parser.add_argument('-s','--save', default=True, type = False_or_String, nargs='?',
                        help='Customize image name used to save the restored image.'
-                            'By default it saves in path with name restored_{base_image}')
+                            'By default it saves in path with name restored_{base_image}.'
+                            'if the -s flag is specified empty it does not saves')
     parser.add_argument('-o','--overwrite', default=False,
                         help = 'If True and the destine filename for saving already'
                             'exists then it is replaced, else a new filename is generated'

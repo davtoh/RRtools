@@ -359,16 +359,22 @@ def Controlstdout(disable = True):
     finally:
         sys.stdout = buffer
 
-def glob(path):
+def glob(path, contents="*", check = os.path.isfile):
     """
     Return a list of paths matching a pathname pattern with valid files.
 
     :param path: path to process ing glob filter
+    :param contents: If path is a folder then looks for contents using
+    :param check: function to filter contents. it must receive the path
+            and return True to let it pass and False to suppress it.
     :return: return list of files
     """
     from glob import glob
     fns = glob(path)
-    return [p for p in fns if os.path.isfile(p)]
+    # special case: Folder
+    if len(fns) == 1 and not os.path.isfile(fns[0]):
+        fns = glob(os.path.join(fns[0], contents))
+    return [p for p in fns if check(p)]
 
 def lookinglob(pattern, path, ext=None, returnAll = False, raiseErr = False):
     """
