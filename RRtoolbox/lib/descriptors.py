@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 # custom
 from config import MANAGER, FLAG_DEBUG
-from cache import memoize
+#from cache import memoize
 from arrayops import SimKeyPoint, normsigmoid
 
 # ----------------------------    GLOBALS    ---------------------------- #
@@ -204,7 +204,7 @@ def affine_skew(tilt, phi, img, mask=None):
     Ai = cv2.invertAffineTransform(A)
     return img, mask, Ai
 
-@memoize(MANAGER["TEMPPATH"],ignore=["pool"])
+#@memoize(MANAGER["TEMPPATH"],ignore=["pool"])
 def ASIFT(feature_name, img, mask=None, pool=pool):
     """
     asift(feature_name, img, mask=None, pool=None) -> keypoints, descrs
@@ -296,7 +296,7 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
     p2 = np.float32([kp["pt"] for kp in mkp2])
     return p1, p2, zip(mkp1, mkp2) # p1, p2, kp_pairs
 
-@memoize(MANAGER["TEMPPATH"])
+#@memoize(MANAGER["TEMPPATH"])
 def MATCH(feature_name,kp1,desc1,kp2,desc2):
     """
     Use matcher and asift output to obtain Transformation matrix (TM).

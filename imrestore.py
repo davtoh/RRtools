@@ -202,6 +202,17 @@ class VariableNotSettable(Exception):
 class VariableNotDeletable(Exception):
     pass
 
+def check_valid(fn):
+    """
+    checks that a file is valid for loading.
+    :param fn: filename
+    :return: True for valid, False for invalid.
+    """
+    test = os.path.isfile(fn)
+    if test and getData(fn)[-2].startswith("_"):
+        return False
+    return test
+
 class ImRestore(object):
     """
     Restore images by merging and stitching techniques.
@@ -269,33 +280,37 @@ class ImRestore(object):
             * Callable, Custom function to produce the foreground image which
                 receives the input gray image and must return the mask image
                 where the keypoints will be processed.
+    :param noisefunc: True to process noisy images or provide function.
     :param save: (False)
-            * True, saves in path with name restored_{base_image}
+            * True, saves in path with name _restored_{base_image}
             * False, does not save
             * Image name used to save the restored image.
     :param overwrite: If True and the destine filename for saving already
             exists then it is replaced, else a new filename is generated
-            with an index "{filename}_{index}.{extenssion}"
+            with an index "{filename}_{index}.{extension}"
     """
 
     def __init__(self, filenames, **opts):
         self.log_saved = [] # keeps track of last saved file.
 
+        # for debug
+        self.verbosity = opts.get("verbosity", 1)
+
         ################################## GET IMAGES ####################################
         if filenames is None or len(filenames)==0: # if images is empty use demonstration
             #test = MANAGER["TESTPATH"]
             #if self.verbosity: print "Looking in DEMO path {}".format(test)
-            #fns = glob(test + "*")
+            #fns = glob(test + "*",check=check_valid)
             raise Exception("List of filenames is Empty")
         elif isinstance(filenames, basestring):
             # if string assume it is a path
-            if self.verbosity:print "Looking as {}".format(filenames)
-            fns = glob(filenames)
+            if self.verbosity: print "Looking as {}".format(filenames)
+            fns = glob(filenames,check=check_valid)
         elif not isinstance(filenames, basestring) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
-            if self.verbosity:print "Looking as {}".format(filenames)
-            fns = glob(filenames)
+            if self.verbosity: print "Looking as {}".format(filenames)
+            fns = glob(filenames,check=check_valid)
         else: # iterator containing data
             fns = filenames # list file names
 
@@ -305,9 +320,6 @@ class ImRestore(object):
                             "greater than 1, got {}".format(len(fns)))
 
         self.filenames = fns
-
-        # for debug
-        self.verbosity = opts.get("verbosity", 1)
 
         # for multiprocessing
         self.pool = opts.get("pool",None)
@@ -365,6 +377,7 @@ class ImRestore(object):
         self.loadshape = opts.get("loadshape",None) # shape to load images for merging
         self.minKps = 3 # minimum len of key-points to find Homography
         self.histMatch = opts.get("hist_match",False)
+        self.denoise=opts.get("denoise", None)
 
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
         self.cachePath = opts.get("cachePath",None)
@@ -418,6 +431,23 @@ class ImRestore(object):
 
         # processing variables
         self._feature_list = None
+
+    @property
+    def denoise(self):
+        return self._noisefunc
+    @denoise.setter
+    def denoise(self, value):
+        if value is False:
+            value = None
+        if value is True:
+            value = "mild"
+        if value in ("mild","heavy","normal",None) or callable(value):
+            self._noisefunc = value
+        else:
+            raise Exception("denoise '{}' not recognised".format(value))
+    @denoise.deleter
+    def denoise(self):
+        del self._noisefunc
 
     @property
     def feature_list(self):
@@ -724,7 +754,10 @@ class ImRestore(object):
                 if path is not a string it would be replaced with the string
                 "{path}restored_{name}{ext}" to format with the formatting
                 "{path}", "{name}" and "{ext}" from the baseImage variable.
-        :return: status, saved path
+        :param overwrite: If True and the destine filename for saving already
+            exists then it is replaced, else a new filename is generated
+            with an index "{filename}_{index}.{extension}"
+        :return: saved path, status (True for success and False for fail)
         """
         if path is None:
             path = self.save
@@ -740,7 +773,7 @@ class ImRestore(object):
             for i,(n,b) in enumerate(zip(data,(bbase, bpath, bname, bext))):
                 if not n: data[i] = b
         else:
-            data = bbase,bpath,"restored_",bname,bext
+            data = bbase,bpath,"_restored_",bname,bext
         # joint parts to get string
         fn = "".join(data)
         mkPath(getPath(fn))
@@ -748,14 +781,13 @@ class ImRestore(object):
         if not overwrite:
             fn = increment_if_exits(fn)
 
-        r = cv2.imwrite(fn,self.restored)
-        if self.verbosity and r:
+        if cv2.imwrite(fn,self.restored):
             if self.verbosity: print "Saved: {}".format(fn)
             self.log_saved.append(fn)
-            return True, fn
+            return fn, True
         else:
             if self.verbosity: print "{} could not be saved".format(fn)
-            return False, fn
+            return fn, False
 
     def merge(self, path, H, shape = None):
         """
@@ -896,7 +928,20 @@ class ImRestore(object):
         return self.restored
 
     def post_process_restoration(self, image):
-        pass
+        """
+        Post-process a merged retinal image.
+
+        :param image: retinal image
+        :return: filtered and with simulated lens
+        """
+        if callable(self.denoise):
+            return self.denoise(image)
+        # detect how much noise to process and convert it to beta parameters
+        if self.denoise is not None:
+            # slower but interactive for heavy noise
+            # filter using parameters and bilateral filter
+            params = getBilateralParameters(image.shape, self.denoise)
+            return cv2.bilateralFilter(image, *params)
 
     def post_process_fore_Mask(self, back, fore):
         pass
@@ -909,8 +954,6 @@ class RetinalRestore(ImRestore):
     Restore retinal images by merging and stitching techniques. These parameters are
     added to :class:`ImRestore`:
 
-    :param heavynoise: True to process noisy images, False to
-        process normal images.
     :param lens: flag to determine if lens are applied. True
         to simulate lens, False to not apply lens.
     :param enclose: flag to enclose and return only retinal area.
@@ -919,7 +962,7 @@ class RetinalRestore(ImRestore):
     def __init__(self, filenames, **opts):
         super(RetinalRestore,self).__init__(filenames, **opts)
         self.maskforeground = opts.get("maskforeground",lambda img: retinal_mask(img,True))
-        self.heavynoise=opts.get("heavynoise",False)
+        self.denoise=opts.get("denoise", True)
         self.lens = opts.get("lens",False)
         self.enclose = opts.get("enclose",False)
 
@@ -942,7 +985,7 @@ class RetinalRestore(ImRestore):
             :param fore: BGR foreground image
             :return: alpha mask
             """
-            # TODO, not working for every retianl scenario
+            # TODO, not working for every retinal scenario
             foregray = brightness(fore)
             # get window with Otsu to prevent expansion
             thresh,w = cv2.threshold(foregray,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
@@ -1015,14 +1058,9 @@ class RetinalRestore(ImRestore):
         :param image: retinal image
         :return: filtered and with simulated lens
         """
-        # detect how much noise to process and convert it to beta parameters
-        if self.heavynoise: # slower but interactive for heavy noise
-            params = getBilateralParameters(image.shape)
-        else:
-            params = 15,82,57 # 21,75,75 # faster and for low noise
-
-        # filter using parameters and bilateral filter
-        image = cv2.bilateralFilter(image, *params)
+        image_ = super(RetinalRestore,self).post_process_restoration(image)
+        if image_ is not None:
+            image = image_
 
         # simulation of lens
         if self.lens:
@@ -1050,36 +1088,6 @@ class RetinalRestore(ImRestore):
 
         return image
 
-def True_or_String(string):
-    """
-    Process string to get string.
-
-    :return: "" then it is True, else returns the string
-    """
-    if string == "":
-        return True
-    return string
-
-def False_or_String(string):
-    """
-    Process string to get string.
-
-    :return: "" then it is False, else returns the string
-    """
-    if string == "":
-        return False
-    return string
-
-def None_or_String(string):
-    """
-    Process string to get string.
-
-    :return: "" then it is None, else returns the string
-    """
-    if string == "":
-        return None
-    return string
-
 def feature_creator(string):
     """
     Converts a string to a feature object.
@@ -1089,8 +1097,6 @@ def feature_creator(string):
             "a-" or "-flann" are optional.
     :return: feature object
     """
-    if string == "":
-        return None
     return Feature().config(string)
 
 def tuple_creator(string):
@@ -1098,11 +1104,9 @@ def tuple_creator(string):
     Process string to get tuple.
 
     :param string: string parameters with "," (colon) as separator
-            Ex: param1,param2,param3
-    :return: "" then it is true, else returns the tuple
+            Ex: param1,param2,...,paramN
+    :return: tuple
     """
-    if string == "":
-        return None
     tp = []
     for i in string.split(","):
         try:
@@ -1113,18 +1117,67 @@ def tuple_creator(string):
 
 def loader_creator(string):
     """
-    creates an image loader:
+    creates an image loader.
+
     :param string: flag, x size, y size. Ex: 0,100,100 loads images of shape
             (100,100) in gray scale.
     :return: loader
     """
-    if string == "":
-        return None
     flag,x,y = tuple_creator(string)
     return loadFunc(flag,(x,y))
 
+def denoise_creator(string):
+    """
+    creates an function to de-noise images using bilateral filter.
+
+    :param string: d, sigmaColor, sigmaSpace. Ex: 27,75,75 creates the
+            filter to de-noise images.
+    :return: denoiser
+    """
+    d, sigmaColor, sigmaSpace = tuple_creator(string)
+    def denoiser(image):
+        return cv2.bilateralFilter(image, d, sigmaColor, sigmaSpace)
+    return denoiser
+
+def string_interpreter(empty=None, commahandler=None, handle=None):
+    """
+    create a string interpreter
+    :param empty: (None) variable to handle empty strings
+    :param commahandler: (tuple_creator) function to handle comma separated strings
+    :return: interpreter function
+    """
+    def interprete_string(string):
+        if string == "":
+            return empty
+        if string.lower() == "none":
+            return None
+        if string.lower() == "true":
+            return True
+        if string.lower() == "false":
+            return False
+        if "," in string:
+            if commahandler is None:
+                return tuple_creator(string)
+            else:
+                return commahandler(string)
+        if handle is None:
+            return string
+        else:
+            return handle(string)
+    interprete_string.__doc__="""
+        Interpret strings.
+
+        :param string: string to interpret.
+        :return: interpreted string. If empty string (i.e. '') it returns {}.
+                If 'None' returns None. If 'True' returns True. If 'False' returns False.
+                If comma separated it applies {} else applies {}.
+        """.format(empty, commahandler, handle)
+    return interprete_string
+
 class NameSpace(object):
-    pass
+    """
+    used to store variables
+    """
 
 def shell(args=None, namespace=None):
     """
@@ -1148,13 +1201,16 @@ def shell(args=None, namespace=None):
                                             "\ne-mail: davsamirtor@gmail.com"
                                             "\nproject: https://github.com/davtoh/RRtools")
     parser.add_argument('filenames', nargs='*',
-                        help='List of images or path to images using * in folder. '
-                             'It loads image array from path, url, server, string'
+                        help='List of images or path to images. Glob operations can be '
+                             'achieved using the wildcard sign "*". '
+                             'It can load image from files, urls, servers, strings'
                              'or directly from numpy arrays (supports databases)'
                              'Because the shell process wildcards before it gets '
                              'to the parser it creates a list of filtered files in '
                              'the path. Use quotes in shell to prevent this behaviour '
-                             'an let imrestore do it instead e.g. "/path/to/images/*.jpg"')
+                             'an let the restorer do it instead e.g. "/path/to/images/*.jpg". '
+                             'if "*" is used then folders and filenames that start with an '
+                             'underscore "_" are ignored by the restorer')
     parser.add_argument('-v','--verbosity',type=int,default=1,
                        help="""(0) flag to print messages and debug data.
                                 0 -> do not print messages.
@@ -1166,8 +1222,8 @@ def shell(args=None, namespace=None):
                                     (consumes significantly more memory).
                                 5 -> print all messages, show all results and additional data.
                                     (consumes significantly more memory).""")
-    parser.add_argument('-f','--feature', type=feature_creator,
-                       help='Configure detector and matcher')
+    parser.add_argument('-f','--feature', type=string_interpreter(commahandler=feature_creator),
+                        help='Configure detector and matcher')
     parser.add_argument('-u','--pool', action='store', type=int,
                        help='Use pool Ex: 4 to use 4 CPUs')
     parser.add_argument('-c','--cachePath',default=None,
@@ -1179,21 +1235,21 @@ def shell(args=None, namespace=None):
                             '* 2 re-compute data but other cache data is left intact.'
                             'Notes: using cache can result in unspected behaviour '
                             'if some configurations does not match to the cached data.')
-    parser.add_argument('-l','--loader', type=loader_creator, nargs='?',
-                       help='Custom loader function used to load images '
+    parser.add_argument('-l','--loader', type=string_interpreter(commahandler=loader_creator),
+                        nargs='?', help='Custom loader function used to load images '
                             'to merge. By default or if -l flag is empty it loads the '
                             'original images in color. The format is "-l colorflag, x, y" '
                             'where colorflag is -1,0,1 for BGRA, gray and BGR images '
                             'and the load shape are represented by x and y')
-    parser.add_argument('-p','--pshape', default=(400,400), type=tuple_creator, nargs='?',
-                       help='Process shape used to load pseudo images '
+    parser.add_argument('-p','--pshape', default=(400,400), type=string_interpreter(),
+                        nargs='?', help='Process shape used to load pseudo images '
                             'to process features and then convert to the '
                             'original images. By default pshape is 400,400'
                             'If the -p flag is empty it loads the original '
                             'images to process the features but it can incur to performance'
                             ' penalties if images are too big and RAM memory is scarce')
-    parser.add_argument('-b','--baseImage', default=True, type=None_or_String, nargs='?',
-                       help='Specify image''s name to use from path as first image to merge '
+    parser.add_argument('-b','--baseImage', default=True, type=string_interpreter(), nargs='?',
+                        help='Specify image''s name to use from path as first image to merge '
                             'in the empty restored image. By default it selects the image '
                             'with most features. If the -b flag is empty it selects the '
                             'first image in filenames as base image')
@@ -1221,19 +1277,27 @@ def shell(args=None, namespace=None):
     parser.add_argument('-t','--hist_match', action='store_true',
                        help='Apply histogram matching to foreground '
                             'image with merge image as template')
-    parser.add_argument('-s','--save', default=True, type = False_or_String, nargs='?',
-                       help='Customize image name used to save the restored image.'
-                            'By default it saves in path with name restored_{base_image}.'
-                            'if the -s flag is specified empty it does not saves')
-    parser.add_argument('-o','--overwrite', default=False,
+    parser.add_argument('-s','--save', default=True, type = string_interpreter(False), nargs='?',
+                        help='Customize image name used to save the restored image.'
+                            'By default it saves in path with name "_restored_{base_image}".'
+                            'if the -s flag is specified empty it does not save. Formatting '
+                            'is supported so for example the default name can be achived as '
+                            '"-s {path}_restored_{name}{ext}"')
+    parser.add_argument('-o','--overwrite', action='store_true',
                         help = 'If True and the destine filename for saving already'
                             'exists then it is replaced, else a new filename is generated'
-                            'with an index "{filename}_{index}.{extenssion}"')
+                            'with an index "{filename}_{index}.{extension}"')
     parser.add_argument('-g','--grow_scene', action='store_true',
                        help='Flag to allow image to grow the scene so that that the final '
                             'image can be larger than the base image')
-    parser.add_argument('-y','--heavynoise', action='store_true',
-                       help='Flag to process noisy images, else process normal images')
+    parser.add_argument('-y','--denoise', default=None,
+                        type=string_interpreter(False,commahandler=denoise_creator),
+                       help="Flag to process noisy images. Use mild, normal, heavy or "
+                            "provide parameters for a bilateral filter as "
+                            "'--denoise d,sigmaColor,sigmaSpace' as for example "
+                            "'--denoise 27,75,75'. By default it is None which can be "
+                            "activated according to the restorer, if an empty flag is "
+                            "provided as '--denoise' it deactivates de-noising images.")
     parser.add_argument('-a','--lens', action='store_true',
                        help='Flag to apply lens to retinal area. Else do not apply lens')
     parser.add_argument('-k','--enclose', action='store_true',
@@ -1247,16 +1311,28 @@ def shell(args=None, namespace=None):
                             'changing it to "imrestore"')
     parser.add_argument('-x','--expert', default=None,
                        help='path to the expert variables')
-    parser.add_argument('-q','--console', default=False, action='store_true',
+    parser.add_argument('-q','--console', action='store_true',
                        help='Enter interactive mode to let user execute commands in console')
+    parser.add_argument('-w','--debug', action='store_true',
+                       help='Enter debug mode to let programmers find bugs')
+    parser.add_argument('--onlykeys', action='store_true',
+                       help='Only compute keypoints. This is useful when --cachePath is '
+                            'used and the user wants to have the keypoints cached beforehand')
 
     # parse sys and get argument variables
     args = vars(parser.parse_args(args=args, namespace=namespace))
 
+    if args['debug']:
+        print "debug ON."
+        import pdb; pdb.set_trace()
+
     # this is needed because the shell process wildcards before it gets to argparse
     # creating a list in the path thus it must be filtered. Use quotes in shell
     # to prevent this behaviour
-    args['filenames'] = [p for p in args['filenames'] if os.path.isfile(p) or "*" in p]
+    if len(args['filenames'])>1:
+        args['filenames'] = [p for p in args['filenames'] if check_valid(p) or "*" in p]
+    else:
+        args['filenames'] = args['filenames'][0]
 
     # print parsed arguments
     if args['verbosity']>1:
@@ -1281,8 +1357,9 @@ def shell(args=None, namespace=None):
         print "interactive ON."
         print "restoring instance is 'namespace.restorer' or 'self'"
         print "Ex: type 'self.restore()' to proceed with restoration."
-        #import pdb; pdb.set_trace()
         import code; code.interact(local=locals())
+    elif args['onlykeys']:
+        self.compute_keypoints()
     else:
         # start restoration
         self.restore()

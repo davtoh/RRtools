@@ -36,7 +36,7 @@ def resource_path(relative_path=""):
         base_path = sys._MEIPASS
     except Exception:
         #base_path = os.path.abspath(".") # working dir
-        bases_path = correctPath(__file__, -2)
+        base_path = correctPath(__file__, -2)
     return os.path.join(base_path, relative_path)
 
 def getFileHandle(path):
@@ -204,6 +204,7 @@ def strdifference(s1,s2):
         return False
 
     ls1,ls2,state,equal,diff1,diff2= [],[],[],[],[],[]
+    i=0
     for i in xrange(min(len(s1),len(s2))):
         if s1[i]==s2[i]:
             equal.append(s1[i])

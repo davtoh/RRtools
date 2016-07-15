@@ -312,8 +312,7 @@ class BilateralParameters(object):
     :param sigmaSpace: sigma in space
 
     """
-    d_h = bilateraP(scale = 31,shift=15, alpha=150, beta1 = 60, beta2=800, name = "d")
-    d = 27
+    d = bilateraP(scale = 31,shift=15, alpha=150, beta1 = 60, beta2=800, name = "d")
     sigmaColor = bilateraP(scale = 50, name = "sigmaColor")
     sigmaSpace = bilateraP(scale = 25, name = "sigmaSpace")
 
@@ -355,5 +354,22 @@ class BilateralParameters(object):
         """
         return [i(np.min(shape[:2])) for i in self.filters]
 
-getBilateralParameters = BilateralParameters()
+def getBilateralParameters(shape,mode=None):
+    """
+    Calculate from shape bilateral parameters.
+
+    :param shape: image shape
+    :param mode:
+    :return:
+    """
+    #15,82,57 # 21,75,75 # faster and for low noise
+    if mode == "mild" or mode is None:
+        mode = 9
+    elif mode == "heavy":
+        mode = None
+    elif mode == "normal":
+        mode = 27
+    else:
+        raise Exception("Bilateral Parameter mode '{}' not recognised".format(mode))
+    return BilateralParameters(mode)(shape[:2])
 

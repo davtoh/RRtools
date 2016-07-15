@@ -18,14 +18,17 @@
 """
 from __future__ import division
 from config import FLOAT,INT,MANAGER
-import glob
 import cv2
+import os
 import numpy as np
-from arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAngles, overlay, standarizePoints, splitPoints
+from arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAngles, overlay, \
+    standarizePoints, splitPoints
+from root import glob
 from pyqtgraph import QtGui
 from cache import cache, resourceManager
 from collections import MutableSequence
-from directory import getData,strdifference,changedir, checkFile, getFileHandle
+from directory import getData, strdifference, changedir, checkFile, getFileHandle, \
+    increment_if_exits, mkPath
 import matplotlib.axes
 import matplotlib.figure
 from plotter import plotim, limitaxis
@@ -244,34 +247,98 @@ def bgra2bgr(im,bgrcolor = colors["white"]):
         im2[:,:,c] = im[:,:,c]*(im[:,:,3]/255.0) + im2[:,:,c]*(1.0-im[:,:,3]/255.0)
     return im2
 
-def saveAs(fn, base = "", ext = "jpg"):
+def convertAs(fns, base = None, folder = None, name=None, ext = None,
+              overwrite = False, loader = None, simulate=False):
     """
     Reads a file and save as other file based in a pattern.
 
-    :param fn: file name or glob name.
-    :param base: replacing string for base name.
-    :param ext: replacing string for extension.
-    :return: True if successful save.
+    :param fns: file name or list of file names. It supports glob operations.
+            By default glob operations ignore folders.
+    :param base: path to place images.
+    :param folder: (None) folder to place images in base's path.
+            If True it uses the folder in which image was loaded.
+            If None, not folder is used.
+    :param name: string for formatting new name of image with the {name} tag.
+            Ex: if name is 'new_{name}' and image is called 'img001' then the
+            formatted new image's name is 'new_img001'
+    :param ext: (None) extension to save all images. If None uses the same extension
+            as the loaded image.
+    :param overwrite: (False) If True and the destine filename for saving already
+            exists then it is replaced, else a new filename is generated
+            with an index "{name}_{index}.{extension}"
+    :param loader: (None) loader for the image file to change image attributes.
+            If None reads the original images untouched.
+    :param simulate: (False) if True, no saving is performed but the status is returned
+            to confirm what images where adequately processed.
+    :return: list of statuses (0 - no error, 1 - image not loaded,
+            2 - image not saved, 3 - error in processing image)
     """
-    filelist = glob.glob(fn) # list of files
-    mainparts = getData(fn) # get main path parts
-    if not ext.startswith("."): ext = "."+ext # correct extension
+    if loader is None:
+        loader = loadFunc(1)
+    if isinstance(fns, basestring):
+        filelist = glob(fns) # list
+    else: # is an iterator
+        filelist = []
+        for f in fns:
+            filelist.extend(glob(f))
+    if base is None:
+        base = ''
+    # ensures that path from base ends with separator
+    if base:
+        base = os.path.join(base,"")
+    replaceparts = getData(base) # from base get parts
+    # ensures that extension starts with point "."
+    if isinstance(ext,basestring) and not ext.startswith("."):
+        ext = "."+ext # correct extension
+
+    status = []
     for file in filelist:
-        replaceparts = getData(base) # from base get parts
         parts = getData(file) # file parts
-        if replaceparts[0]: parts[0] = replaceparts[0] # replace drive
-        if replaceparts[1]: parts[1] = replaceparts[1] # replace root
-        if replaceparts[2]: # to replace basic name
-            diff1,diff2,index = strdifference(mainparts[2],parts[2])
-            for i in xrange(len(diff2)):
-                if i not in index:
-                    diff2[i] = replaceparts[2]
-                    break
-            parts[2] = "".join(diff2)
-        parts[3] = ext # replace extension
-        im = cv2.imread(file)
-        cv2.imwrite("".join(parts),im)
-    return True
+        # replace drive
+        if replaceparts[0]:
+            parts[0] = replaceparts[0]
+        # replace root
+        if replaceparts[1]:
+            if folder is True:
+                parts[1] = os.path.join(replaceparts[1],
+                                        os.path.split(os.path.split(parts[1])[0])[1],"")
+            elif isinstance(folder,basestring):
+                parts[1] = os.path.join(replaceparts[1], folder, "")
+            else:
+                parts[1] = replaceparts[1]
+        # to replace basic name
+        if isinstance(name,basestring):
+            parts[2] = name.format(name=parts[2])
+        if isinstance(ext,basestring):
+            parts[3] = ext # replace extension
+        newfile = "".join(parts)
+        if not overwrite:
+            newfile = increment_if_exits(newfile)
+
+        try:
+            im = loader(file)
+
+            # image not loaded
+            if im is None:
+                status.append((file,1,newfile))
+                continue
+
+            # image successfully saved
+            if simulate:
+                status.append((file,0,newfile))
+                continue
+            else:
+                mkPath("".join(parts[:2]))
+                if cv2.imwrite(newfile,im):
+                    status.append((file,0,newfile))
+                    continue
+
+            # image not saved
+            status.append((file,2,newfile))
+        except:
+            # an error in the process
+            status.append((file,3,newfile))
+    return status
 
 def checkLoaded(obj, fn="", raiseError = False):
     """
@@ -503,7 +570,7 @@ class imFactory:
         return {"im":np2qi}
 
 def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=None,
-             mmode = None, mpath = None, throw = True):
+             mmode = None, mpath = None, throw = True, keepratio = True):
     """
     Creates a function that loads image array from path, url,
     server, string or directly from numpy array (supports databases).
@@ -529,21 +596,16 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 +-------+-------------------------------+--------+
                 | (-2)  | N/A                           | RGBA   |
                 +-------+-------------------------------+--------+
-
     :param dsize: (None) output image size; if it equals zero, it is computed as:
 
                 \texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}
 
+                If (integer,None) or (None,integer) it completes the values according
+                to keepratio parameter.
     :param dst: (None) output image; it has the size dsize (when it is non-zero) or the
                 size computed from src.size(), fx, and fy; the type of dst is uint8.
-    :param fx: scale factor along the horizontal axis; when it equals 0, it is computed as
-
-                \texttt{(double)dsize.width/src.cols}
-
-    :param fy: scale factor along the vertical axis; when it equals 0, it is computed as
-
-                \texttt{(double)dsize.height/src.rows}
-
+    :param fx: scale factor along the horizontal axis
+    :param fy: scale factor along the vertical axis
     :param interpolation: interpolation method compliant with opencv:
 
                 +-----+-----------------+-------------------------------------------------------+
@@ -562,7 +624,6 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 +-----+-----------------+-------------------------------------------------------+
                 |(4)  | INTER_LANCZOS4  | Lanczos interpolation over 8x8 pixel neighborhood     |
                 +-----+-----------------+-------------------------------------------------------+
-
     :param mmode: (None) mmode to create mapped file. if mpath is specified loads image, converts
                 to mapped file and then loads mapping file with mode {None, 'r+', 'r', 'w+', 'c'}
                 (it is slow for big images). If None, loads mapping file to memory (useful to keep
@@ -572,6 +633,8 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 "", uses path directory;
                 "*", uses working directory;
                 else, uses specified directory.
+    :param keepratio: True to keep image ratio when completing data from dsize,fx and fy,
+                False to not keep ratio.
 
     .. note:: If mmode is None and mpath is given it creates mmap file but loads from it to memory.
              It is useful to create physical copy of data to keep loading from (data can be reloaded
@@ -609,9 +672,60 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
         return im
 
     if dsize or dst or fx or fy:
-        fx, fy, interpolation= fx or 0, fy or 0, interpolation or 0
-        def resizefunc(path):
-            return cv2.resize(loadfunc(path), dsize, dst, fx, fy, interpolation)
+        if fx is None and fy is None:
+            fx=fy=1.0
+        elif keepratio:
+            if fx is not None and fy is None:
+                fy = fx
+            elif fy is not None and fx is None:
+                fx = fy
+        else:
+            if fx is not None and fy is None:
+                fy = 1
+            elif fy is not None and fx is None:
+                fx = 1
+        interpolation= interpolation or 0
+        if keepratio:
+            def calc_dsize(shape,dsize=None):
+                """
+                calculates dsize to keep the image's ratio.
+
+                :param shape: image shape
+                :param dsize: dsize tuple with a None value
+                :return: calculated dsize
+                """
+                x,y = dsize
+                sy,sx = shape[:2]
+                if x is not None and y is None:
+                    dsize = x,int(sy*(x*1.0/sx))
+                elif y is not None and x is None:
+                    dsize = int(sx*(y*1.0/sy)),y
+                else:
+                    dsize = sx,sy
+                return dsize
+        else:
+            def calc_dsize(shape,dsize=None):
+                """
+                calculates dsize without keeping the image's ratio.
+
+                :param shape: image shape
+                :param dsize: dsize tuple with a None value
+                :return: calculated dsize
+                """
+                dsize = list(dsize)
+                ndsize = shape[:2][::-1]
+                for i,val in enumerate(dsize):
+                    if val is None:
+                        dsize[i] = ndsize[i]
+                dsize = tuple(dsize)
+                return dsize
+        if dsize is not None and None in dsize:
+            def resizefunc(path):
+                img = loadfunc(path)
+                return cv2.resize(img,calc_dsize(img.shape,dsize),dst, fx, fy, interpolation)
+        else:
+            def resizefunc(path):
+                return cv2.resize(loadfunc(path),dsize, dst, fx, fy, interpolation)
         func = resizefunc
     else:
         func = loadfunc
