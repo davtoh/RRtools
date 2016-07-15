@@ -20,8 +20,10 @@ class stdoutSIM:
     """
     simple logger to simulate stdout output
     """
-    def __init__(self, disable = False):
-        self.stdout = sys.stdout
+    def __init__(self, disable = False, stdout = None):
+        if stdout is None:
+            stdout = sys.stdout
+        self.stdout = stdout
         self.disable = disable
     def write(self, text, **kwargs):
         if not self.disable:
@@ -58,7 +60,7 @@ class stdoutLOG:
 
         # close previous stdoutLOG
         if chain and isinstance(sys.stdout,stdoutLOG):
-                sys.stdout.close()
+            sys.stdout.close()
 
         if not chain and isinstance(sys.stdout,stdoutSIM):
             # continue using previous logs
@@ -81,22 +83,51 @@ class stdoutLOG:
         for log in self.logs:
             log.printlines(lines, **kwargs)
 
-    def flush(self):
+    def flush(self,**kwargs):
         for log in self.logs:
-            log.flush()
+            log.flush(**kwargs)
 
-    def close(self):
+    def close(self,**kwargs):
         # close according to chain option
         if self._chain:
             # close all the logs in the chain
             for log in self.logs:
-                log.close()
+                log.close(**kwargs)
         elif not self._closed:
             # only closes this log but keep alive
             # previous logs
             self.logs.remove(self._log)
             self._log.close()
             self._closed = True
+
+class stdoutMULTI:
+    """
+    Enclose several file-like objects.
+
+    :param filelist = list of file-like objects
+    """
+    def __init__(self, filelist):
+        self.filelist = filelist
+
+    def write(self, text, **kwargs):
+        for log in self.filelist:
+            log.write(text, **kwargs)
+
+    def printline(self, text, **kwargs):
+        for log in self.filelist:
+            log.printline(text, **kwargs)
+
+    def printlines(self, lines, **kwargs):
+        for log in self.filelist:
+            log.printlines(lines, **kwargs)
+
+    def flush(self,**kwargs):
+        for log in self.filelist:
+            log.flush(**kwargs)
+
+    def close(self,**kwargs):
+        for log in self.filelist:
+            log.close(**kwargs)
 
 def decorateInstanceMethods(self, decorator,excludeMth=("__init__"),includeMth=None):
     """
@@ -297,7 +328,7 @@ class FactorConvert(object):
 @contextmanager
 def TimeCode(msg, unit = None, precision = None,
              abv=None, endmsg = "{time}\n", enableMsg= True,
-             printfunc= sys.stdout.write):
+             printfunc= None):
     """
     Context to profile code by printing a prelude and prologue with time.
 
@@ -312,6 +343,8 @@ def TimeCode(msg, unit = None, precision = None,
             is sys.stdout.write
     :return:
     """
+    if printfunc is None:
+        printfunc = sys.stdout.write
     if enableMsg:
         printfunc(msg)
         start = time() # begin chronometer
@@ -344,20 +377,49 @@ def TimeCode(msg, unit = None, precision = None,
                 printfunc(endmsg.format(
                     time=text.format(t,"",u)))
 
-@contextmanager
-def Controlstdout(disable = True):
+
+class Controlstdout(object):
     """
     Context manager to control output to stdout
 
     :param disable: if True suppress output.
+    :param buffer: (None) if True creates a buffer to collect all data
+            printed to the stdout which can be retrieved with self.buffered.
+            A file can be given but if it is write-only it cannot retrieve
+            data to self.buffered so "w+" is recommended to be used with self.buffered.
+
+    .. warnning:: If a references to sys.stdout is kept before the Controlstdout
+            instance then output can be printed trough it and cannot be
+            controlled by the Controlstdout context.
     """
-    buffer = sys.stdout
-    fakelog = stdoutSIM(disable)
-    sys.stdout = fakelog
-    try:
-        yield # code to execute
-    finally:
-        sys.stdout = buffer
+
+    def __init__(self, disable = True, buffer = None):
+        self.disable = disable
+        self.buffer = buffer
+        self.buffered = ""
+        self.stdout_old = None
+        self.stdout_new = None
+
+    def __enter__(self):
+        self.stdout_old = sys.stdout
+        self.stdout_new = stdoutSIM(self.disable)
+        if self.buffer:
+            if self.buffer is True: # in case it is not defined
+                import StringIO
+                self.buffer = StringIO.StringIO()
+            self.stdout_new = stdoutMULTI([self.stdout_new,self.buffer])
+        sys.stdout = self.stdout_new
+        return self
+
+    def __exit__(self, type, value, traceback):
+        if self.buffer:
+            try:
+                self.buffer.seek(0)
+                self.buffered = self.buffer.read()
+                self.buffer.close()
+            except:
+                pass
+        sys.stdout = self.stdout_old
 
 def glob(path, contents="*", check = os.path.isfile):
     """
