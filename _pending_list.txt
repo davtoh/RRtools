@@ -1,7 +1,0 @@
-RRtoolbox/lib/root.py (in development)
-RRtoolbox/core.py (in development)
-RRtoolbox/run.py
-RRtoolbox/shell.py
-
-# user interface
-RRtoolFC (pending) #TODO: wrap RRtoolbox module

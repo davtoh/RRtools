@@ -1,4 +1,0 @@
-Eclipse Public Licens Version 1.0 for Graphviz
-GNU GENERAL PUBLIC LICENSE for pycallgraph
-https://github.com/uqfoundation/dill
-http://www.qt.io/faq/
