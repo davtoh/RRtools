@@ -1191,7 +1191,7 @@ class imcoors(object):
         """
         #method 1, it is not precise in rotation
         (x0,y0),(x,y) = self.rectbox
-        return np.abs((x-x0)*(y-y0),dtype=self.dtype)
+        return self.dtype(np.abs((x-x0)*(y-y0)))
     @cache
     def rotatedRectangularArea(self):
         """

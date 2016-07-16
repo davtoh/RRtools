@@ -2,16 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010a93a0-81da-46b7-b1b3-17c63fae435b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/directory.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/directory.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MANIFEST" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MAN_PyQt4_installation" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_VM log.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_concepts.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_dependencies.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_licenses.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_linux log.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/_pending_list.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/install_imrestore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/runSource_imrestore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/run_imrestore.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/image.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/root.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/ex_image.py" afterPath="$PROJECT_DIR$/examples/ex_image.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imrestore.py" afterPath="$PROJECT_DIR$/imrestore.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run_tests.py" afterPath="$PROJECT_DIR$/run_tests.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/supress_output.py" afterPath="$PROJECT_DIR$/tests/supress_output.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_developer_notes.txt" afterPath="$PROJECT_DIR$/_developer_notes.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/version" afterPath="$PROJECT_DIR$/version" />
     </list>
     <ignored path="RRtools.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -249,36 +254,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="preamble.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preamble.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-0.77304965">
               <caret line="777" column="11" selection-start-line="777" selection-start-column="11" selection-end-line="777" selection-end-column="11" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="image.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.4099722">
-              <caret line="729" column="9" selection-start-line="729" selection-start-column="9" selection-end-line="729" selection-end-column="9" />
-              <folding>
-                <element signature="e#789#820#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ex_image.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/examples/ex_image.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="82" column="31" selection-start-line="82" selection-start-column="31" selection-end-line="82" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#70#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -358,10 +339,10 @@
         <option value="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/directory.py" />
-        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
         <option value="$PROJECT_DIR$/examples/ex_image.py" />
         <option value="$PROJECT_DIR$/imrestore.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_result.py" />
+        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
       </list>
     </option>
   </component>
@@ -956,11 +937,11 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.53100157" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.80223286" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31495467" sideWeight="0.68041235" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31495467" sideWeight="0.68222225" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36248013" sideWeight="0.60800606" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2845787" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38314787" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31495467" sideWeight="0.31958762" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2845787" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38314787" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31495467" sideWeight="0.31777778" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33014354" sideWeight="0.40861028" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="99" y="99" width="1168" height="549" />
@@ -1545,13 +1526,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_rectangularity.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="45" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thesis/graphs/threshs.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1586,13 +1560,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/install_imrestore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1883,14 +1850,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="777" column="11" selection-start-line="777" selection-start-column="11" selection-end-line="777" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/imrestore.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-3.9642856">
@@ -1909,10 +1868,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/ex_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.7508306">
           <caret line="82" column="31" selection-start-line="82" selection-start-column="31" selection-end-line="82" selection-end-column="31" />
           <folding>
             <element signature="e#0#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/-1247972723/numpy/core/umath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18272425">
+          <caret line="52" column="19" selection-start-line="52" selection-start-column="19" selection-end-line="52" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="1094" column="8" selection-start-line="1094" selection-start-column="8" selection-end-line="1094" selection-end-column="8" />
+          <folding>
+            <element signature="e#789#820#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1927,13 +1904,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.4099722">
-          <caret line="729" column="9" selection-start-line="729" selection-start-column="9" selection-end-line="729" selection-end-column="9" />
-          <folding>
-            <element signature="e#789#820#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="-0.77304965">
+          <caret line="777" column="11" selection-start-line="777" selection-start-column="11" selection-end-line="777" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
