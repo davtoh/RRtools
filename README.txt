@@ -1,6 +1,13 @@
 RRToolbox (Retinal Restauration Toolbox)
 
-pyinstaller -p /mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools -n imrestore -F /mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/imrestore.py
+To install
+ $ pyinstaller -p ./ -n imrestore -F ./imrestore.py/ --version-file=version
+ 
+To test imrestore script:
+$ python imrestore.py tests/im1*
 
-tests
-./imrestore /mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/classified/set26/*.* -s restored.png -c /mnt/4E443F99443F82AF/restoration_data
+To test imrestore executable
+./dist/imrestore tests/im1*
+
+To test imrestore executable if in dist folder:
+$ ./imrestore ../tests/im1*

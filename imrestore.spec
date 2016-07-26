@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['imrestore.py'],
-             pathex=['./', 'E:\\Dropbox\\PYTHON\\RRtools'],
+             pathex=['./', 'F:\\Dropbox\\PYTHON\\RRtools'],
              binaries=None,
              datas=None,
              hiddenimports=[],
@@ -25,4 +25,4 @@ exe = EXE(pyz,
           debug=False,
           strip=False,
           upx=True,
-          console=True )
+          console=True , version='version')

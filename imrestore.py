@@ -177,6 +177,7 @@ import os
 import cv2
 import warnings
 import numpy as np
+from time import time
 from RRtoolbox.tools.lens import simulateLens
 from RRtoolbox.lib.config import MANAGER, FLOAT
 from RRtoolbox.lib.image import hist_match
@@ -187,7 +188,7 @@ from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCn
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob
+from RRtoolbox.lib.root import TimeCode, glob, lookinglob, profiler
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
 from RRtoolbox.tools.segmentation import getBrightAlpha, bandpass, bandstop
 from RRtoolbox.lib.plotter import matchExplorer, plotim, fastplt
@@ -233,22 +234,29 @@ class ImRestore(object):
     :param feature: (None) feature instance. It contains the configured
             detector and matcher.
     :param pool: (None) use pool Ex: 4 to use 4 CPUs.
-    :param cachePath: (None) saves memoization to specified path and
-            downloaded images.
+    :param cachePath: (None) saves memoization to specified path. This is
+            useful to save some computations and use them in next executions.
+            If True it creates the cache in current path.
+
+            .. warning:: Cached data is not guaranteed to work between different
+                        configurations and this can lead to unexpected program
+                        behaviour. If a different configuration will be used it
+                        is recommended to clear the cache to recompute values.
     :param clearCache: (0) clear cache flag.
             * 0 do not clear.
-            * 1 All CachePath is cleared before use.
-            * 2 re-compute data but other cache data is left intact.
-            Notes: using cache can result in unspected behaviour
+            * 1 re-compute data but other cache data is left intact.
+            * 2 All CachePath is cleared before use.
+            Notes: using cache can result in unexpected behaviour
                 if some configurations does not match to the cached data.
-    :param loader: (None) custom loader function used to load images
-            to merge. If None it loads the original images in color.
-    :param pshape: (400,400) process shape, used to load pseudo images
+    :param loader: (None) custom loader function used to load images.
+            If None it loads the original images in color.
+    :param process_shape: (400,400) process shape, used to load pseudo images
             to process features and then results are converted to the
-            original images. If None it loads the original images to
-            process the features but it can incur to performance penalties
-            if images are too big and RAM memory is scarce.
-    :param loadshape:
+            original images. The smaller the image more memory and speed gain
+            If None it loads the original images to process the features but it
+            can incur to performance penalties if images are too big and RAM
+            memory is scarce.
+    :param load_shape: (None) custom shape used load images which are being merged.
     :param baseImage: (None) First image to merge to.
             * None -> takes first image from raw list.
             * True -> selects image with most features.
@@ -291,6 +299,10 @@ class ImRestore(object):
     """
 
     def __init__(self, filenames, **opts):
+        self.profiler = opts.get("profiler",None)
+        if self.profiler is None:
+            self.profiler = profiler("ImRestore init")
+
         self.log_saved = [] # keeps track of last saved file.
 
         # for debug
@@ -373,8 +385,8 @@ class ImRestore(object):
 
         self.centric = opts.get("centric",False) # tries to attach as many images as possible
         # it is not memory efficient to compute descriptors from big images
-        self.pshape = opts.get("pshape",(400,400)) # use processing shape
-        self.loadshape = opts.get("loadshape",None) # shape to load images for merging
+        self.process_shape = opts.get("process_shape", (400, 400)) # use processing shape
+        self.load_shape = opts.get("load_shape", None) # shape to load images for merging
         self.minKps = 3 # minimum len of key-points to find Homography
         self.histMatch = opts.get("hist_match",False)
         self.denoise=opts.get("denoise", None)
@@ -382,10 +394,14 @@ class ImRestore(object):
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
         self.cachePath = opts.get("cachePath",None)
         if self.cachePath is not None:
+            if self.cachePath is True:
+                self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
+            if self.cachePath == "{temp}":
+                self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
             self.feature_dic = memoizedDict(os.path.join(self.cachePath,"descriptors"))
             if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
             self.clearCache = opts.get("clearCache",0)
-            if self.clearCache==1:
+            if self.clearCache==2:
                 self.feature_dic.clear()
                 if self.verbosity: print "Cache path cleared"
         else:
@@ -472,12 +488,12 @@ class ImRestore(object):
         params = (path, shape)
         if self._loader_cache is None or params != self._loader_params:
             # load new image and cache it
-            fore = self.loader(path) # load fore image
+            img = self.loader(path) # load image
             if shape is not None:
-                fore = cv2.resize(fore,shape)
-            self._loader_cache = fore # this keeps a reference
+                img = cv2.resize(img,shape)
+            self._loader_cache = img # this keeps a reference
             self._loader_params = params
-            return fore
+            return img
         else: # return cached image
             return self._loader_cache
 
@@ -505,57 +521,61 @@ class ImRestore(object):
                         title="{} mask to detect features".format(getData(path)[-2]))
             return mask
 
-        with TimeCode("Computing features...\n",
+        with TimeCode("Computing features...\n", profiler=self.profiler,
+                      profile_point=("Computing features",),
                       endmsg="Computed feature time was {time}\n",
-                      enableMsg=self.verbosity):
+                      enableMsg=self.verbosity) as timerK:
 
             self._feature_list = [] # list of key points and descriptors
             for index,path in enumerate(fns):
+                img = self.loadImage(path, self.load_shape)
+                lshape = img.shape[:2]
                 try:
-                    if self.cachePath is None or self.clearCache==2 \
+                    point = profiler(msg=path,tag="cached")
+                    if self.cachePath is None or self.clearCache==1 \
                             and path in self.feature_dic:
                         raise KeyError # clears entry from cache
-                    kps, desc, shape = self.feature_dic[path] # thread safe
-                    # check memoized is the same
-                    if self.loadshape != shape:
-                        raise KeyError
+                    kps, desc, pshape = self.feature_dic[path] # thread safe
+                    if pshape is None:
+                        raise ValueError
                 except (KeyError, ValueError) as e: # not memorized
+                    point = profiler(msg=path,tag="processed")
                     if self.verbosity: print "Processing features for {}...".format(path)
-                    img = cv2.cvtColor(self.loadImage(path),cv2.COLOR_BGR2GRAY)
-                    if self.pshape is None: # get features directly from original
-                        kps, desc = self.feature.detectAndCompute(img, getMask(img))
-                    else: # optimize by getting features from scaled image and the rescaling
-                        oshape = self.loadshape # original shape
-                        if oshape is None:
-                            oshape = img.shape # get original shape from image
-                        img = cv2.resize(img, self.pshape) # pseudo image
-                        # get features
-                        kps, desc = self.feature.detectAndCompute(img, getMask(img))
-                        # re-scale keypoints to original image
-                        if oshape != self.pshape:
-                            # this necessarily does not produce the same result
-                            """
-                            # METHOD 1: using Transformation Matrix
-                            H = getSOpointRelation(self.pshape, oshape, True)
-                            for kp in kps:
-                                kp["pt"]=tuple(cv2.perspectiveTransform(
-                                    np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
-                            """
-                            # METHOD 2:
-                            rx,ry = getSOpointRelation(self.pshape, oshape)
-                            for kp in kps:
-                                x,y = kp["pt"]
-                                kp["pt"] = x*rx,y*ry
+                    if lshape != self.process_shape:
+                        img = cv2.resize(img, self.process_shape)
+                    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+                    # get features
+                    kps, desc = self.feature.detectAndCompute(img, getMask(img))
+                    pshape = img.shape[:2] # get process shape
+                    # to memoize
+                    self.feature_dic[path] = kps, desc, pshape
 
-                    self.feature_dic[path] = kps, desc, self.loadshape # to memoize
-
-                # add paths to key-points
-                for kp in kps: # be very carful, this should not appear in self.feature_dic
-                    kp["path"] = path
+                # re-scale keypoints to original image
+                if lshape != pshape:
+                    # this necessarily does not produce the same result
+                    """
+                    # METHOD 1: using Transformation Matrix
+                    H = getSOpointRelation(process_shape, lshape, True)
+                    for kp in kps:
+                        kp["pt"]=tuple(cv2.perspectiveTransform(
+                            np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
+                    """
+                    # METHOD 2:
+                    rx,ry = getSOpointRelation(pshape, lshape)
+                    for kp in kps:
+                        x,y = kp["pt"]
+                        kp["pt"] = x*rx,y*ry
+                        kp["path"] = path
+                else:
+                    for kp in kps: # be very carful, this should not appear in self.feature_dic
+                        kp["path"] = path # add paths to key-points
 
                 # number of key-points, index, path, key-points, descriptors
                 self._feature_list.append((len(kps),index,path,kps,desc))
                 if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
+                # for profiling individual processing times
+                if self.profiler is not None: self.profiler._close_point(point)
+
         return self._feature_list
 
     def restore(self):
@@ -584,18 +604,18 @@ class ImRestore(object):
         if self.verbosity: print "baseImage is", baseImage
         self.used = [baseImage] # select first image path
         # load first image for merged image
-        self.restored = self.loadImage(baseImage,self.loadshape)
+        self.restored = self.loadImage(baseImage, self.load_shape)
         self.failed = [] # registry for failed images
 
         ########################## Order set initialization #############################
         if self._orderValue: # obtain comparison with structure (value, path)
             if self._orderValue == 1: # entropy
-                comparison = zip(*entropy(fns,
-                             loadfunc=loadFunc(1,self.pshape),invert=False)[:2])
+                comparison = zip(*entropy(fns, loadfunc=loadFunc(1, self.process_shape),
+                                          invert=False)[:2])
                 if self.verbosity: print "Configured to sort by entropy..."
             elif self._orderValue == 2: # histogram comparison
-                comparison = hist_comp(fns,
-                            loadfunc=loadFunc(1,self.pshape),method=self.selectMethod)
+                comparison = hist_comp(fns, loadfunc=loadFunc(1, self.process_shape),
+                                       method=self.selectMethod)
                 if self.verbosity:
                     print "Configured to sort by {}...".format(self.selectMethod)
             elif self._orderValue == 3:
@@ -606,14 +626,16 @@ class ImRestore(object):
                     "not correspond to {}".format(self._orderValue,self.selectMethod))
         elif self.verbosity: print "Configured to sort by best matches"
 
-        with TimeCode("Restoring ...\n",
+        with TimeCode("Restoring ...\n",profiler=self.profiler,
+                      profile_point=("Restoring",),
                       endmsg= "Restoring overall time was {time}\n",
-                      enableMsg= self.verbosity):
+                      enableMsg= self.verbosity) as timerR:
 
             while True:
-                with TimeCode("Matching ...\n",
+                with TimeCode("Matching ...\n",profiler=self.profiler,
+                              profile_point=("Matching",),
                               endmsg= "Matching overall time was {time}\n",
-                              enableMsg= self.verbosity):
+                              enableMsg= self.verbosity) as timerM:
                     ################### remaining keypoints to match ####################
                     # initialize key-point and descriptor base list
                     kps_remain,desc_remain = [],[]
@@ -657,73 +679,84 @@ class ImRestore(object):
                         ordered = sorted([(len(kps),path)
                                     for path,kps in classified.items()],reverse=True)
 
-                # feed key-points in order according to order set
-                for rank, path in ordered:
 
-                    ######################### Calculate Homography ######################
-                    mkp1,mkp2 = zip(*classified[path]) # probably good matches
-                    if len(mkp1)>self.minKps and len(mkp2)>self.minKps:
+                with TimeCode("Merging ...\n",profiler=self.profiler,
+                              profile_point=("Merging",),
+                              endmsg= "Merging overall time was {time}\n",
+                              enableMsg= self.verbosity) as timerH:
 
-                        # get only key-points
-                        p1 = np.float32([kp["pt"] for kp in mkp1])
-                        p2 = np.float32([kp["pt"] for kp in mkp2])
-                        if self.verbosity > 4:
-                            print 'Calculating Homography for {}...'.format(path)
+                    # feed key-points in order according to order set
+                    for rank, path in ordered:
+                        point = profiler(msg=path) # profiling point
+                        ######################### Calculate Homography ###################
+                        mkp1,mkp2 = zip(*classified[path]) # probably good matches
+                        if len(mkp1)>self.minKps and len(mkp2)>self.minKps:
 
-                        # Calculate homography of fore over back
-                        H, status = cv2.findHomography(p1, p2,
-                                    cv2.RANSAC, self.ransacReprojThreshold)
-                    else: # not sufficient key-points
-                        if self.verbosity > 1:
-                            print 'Not enough key-points for {}...'.format(path)
-                        H = None
+                            # get only key-points
+                            p1 = np.float32([kp["pt"] for kp in mkp1])
+                            p2 = np.float32([kp["pt"] for kp in mkp2])
+                            if self.verbosity > 4:
+                                print 'Calculating Homography for {}...'.format(path)
 
-                    # test that there is homography
-                    if H is not None: # first test
-                        # load fore image
-                        fore = self.loadImage(path,self.loadshape)
-                        h,w = fore.shape[:2] # image shape
+                            # Calculate homography of fore over back
+                            H, status = cv2.findHomography(p1, p2,
+                                        cv2.RANSAC, self.ransacReprojThreshold)
+                        else: # not sufficient key-points
+                            if self.verbosity > 1:
+                                print 'Not enough key-points for {}...'.format(path)
+                            H = None
 
-                        # get corners of fore projection over back
-                        projection = getTransformedCorners((h,w),H)
-                        c = imcoors(projection) # class to calculate statistical data
-                        lines, inlines = len(status), np.sum(status)
+                        # test that there is homography
+                        if H is not None: # first test
+                            # load fore image
+                            fore = self.loadImage(path, self.load_shape)
+                            h,w = fore.shape[:2] # image shape
 
-                        # ratio to determine how good fore is in back
-                        inlineratio = inlineRatio(inlines,lines)
+                            # get corners of fore projection over back
+                            projection = getTransformedCorners((h,w),H)
+                            c = imcoors(projection) # class to calculate statistical data
+                            lines, inlines = len(status), np.sum(status)
 
-                        Test = inlineratio>self.inlineThresh \
-                                and c.rotatedRectangularity>self.rectangularityThresh
+                            # ratio to determine how good fore is in back
+                            inlineratio = inlineRatio(inlines,lines)
 
-                        text = "inlines/lines: {}/{}={}, " \
-                               "rectangularity: {}, test: {}".format(
-                            inlines, lines, inlineratio, c.rotatedRectangularity,
-                            ("failed","succeeded")[Test])
+                            Test = inlineratio>self.inlineThresh \
+                                    and c.rotatedRectangularity>self.rectangularityThresh
 
-                        if self.verbosity>1: print text
+                            text = "inlines/lines: {}/{}={}, " \
+                                   "rectangularity: {}, test: {}".format(
+                                inlines, lines, inlineratio, c.rotatedRectangularity,
+                                ("failed","succeeded")[Test])
 
-                        if self.verbosity > 3: # show matches
-                            matchExplorer("Match " + text, fore,
-                                          self.restored, classified[path], status, H)
+                            if self.verbosity>1: print text
 
-                        ####################### probability test ########################
-                        if Test: # second test
+                            if self.verbosity > 3: # show matches
+                                matchExplorer("Match " + text, fore,
+                                              self.restored, classified[path], status, H)
 
-                            if self.verbosity>1: print "Test succeeded..."
-                            while path in self.failed: # clean path in fail registry
-                                try: # race-conditions safe
-                                    self.failed.remove(path)
-                                except ValueError:
-                                    pass
+                            ####################### probability test #####################
+                            if Test: # second test
 
-                            ################### merging and stitching ###################
-                            self.merge(path, H)
-                            if not self.centric:
-                                break
+                                if self.verbosity>1: print "Test succeeded..."
+                                while path in self.failed: # clean path in fail registry
+                                    try: # race-conditions safe
+                                        self.failed.remove(path)
+                                    except ValueError:
+                                        pass
+
+                                ################### merging and stitching ################
+                                self.merge(path, H)
+
+                                # used for profiling
+                                if self.profiler is not None:
+                                    self.profiler._close_point(point)
+
+                                if not self.centric:
+                                    break
+                            else:
+                                self.failed.append(path)
                         else:
                             self.failed.append(path)
-                    else:
-                        self.failed.append(path)
 
                 # if all classified have failed then end
                 if set(classified.keys()) == set(self.failed):
@@ -733,14 +766,18 @@ class ImRestore(object):
                             print index
                     break
 
-        with TimeCode("Post-processing ...\n",
+        with TimeCode("Post-processing ...\n",profiler=self.profiler,
+                      profile_point=("Post-processing",),
                       endmsg= "Post-processing overall time was {time}\n",
-                      enableMsg= self.verbosity):
+                      enableMsg= self.verbosity) as timerP:
             processed = self.post_process_restoration(self.restored)
             if processed is not None:
                 self.restored = processed
 
-        #################################### Save image #################################
+        # profiling post-processing
+        self.time_postprocessing = timerP.time_end
+
+        #################################### Save image ##################################
         if self.save:
             self.saveImage()
 
@@ -799,7 +836,7 @@ class ImRestore(object):
         :return: self.restored
         """
         if shape is None:
-            shape = self.loadshape
+            shape = self.load_shape
 
         fore = self.loadImage(path,shape) # load fore image
 
@@ -1108,9 +1145,10 @@ def tuple_creator(string):
     :return: tuple
     """
     tp = []
+    func = string_interpreter()
     for i in string.split(","):
         try:
-            tp.append(int(i))
+            tp.append(func(i))
         except:
             tp.append(i)
     return tuple(tp)
@@ -1119,11 +1157,25 @@ def loader_creator(string):
     """
     creates an image loader.
 
-    :param string: flag, x size, y size. Ex: 0,100,100 loads images of shape
-            (100,100) in gray scale.
+    :param string: flag, x size, y size. Ex 1: "0,100,100" loads gray images of shape
+            (100,100) in gray scale. Ex 2: "1" loads images in BGR color and with
+            original shapes. Ex 3: "0,200,None" loads gray images of shape (200,None)
+            where None is calculated to keep image ratio.
     :return: loader
     """
-    flag,x,y = tuple_creator(string)
+    params = tuple_creator(string)
+    try:
+        flag = params[0]
+    except:
+        flag=1
+    try:
+        x = params[1]
+    except:
+        x=None
+    try:
+        y = params[2]
+    except:
+        y=None
     return loadFunc(flag,(x,y))
 
 def denoise_creator(string):
@@ -1149,19 +1201,22 @@ def string_interpreter(empty=None, commahandler=None, handle=None):
     def interprete_string(string):
         if string == "":
             return empty
+        if "," in string:
+            if commahandler is None:
+                return tuple_creator(string)
+            else:
+                return commahandler(string)
         if string.lower() == "none":
             return None
         if string.lower() == "true":
             return True
         if string.lower() == "false":
             return False
-        if "," in string:
-            if commahandler is None:
-                return tuple_creator(string)
-            else:
-                return commahandler(string)
         if handle is None:
-            return string
+            try:
+                return int(string)
+            except:
+                return string
         else:
             return handle(string)
     interprete_string.__doc__="""
@@ -1212,7 +1267,7 @@ def shell(args=None, namespace=None):
                              'if "*" is used then folders and filenames that start with an '
                              'underscore "_" are ignored by the restorer')
     parser.add_argument('-v','--verbosity',type=int,default=1,
-                       help="""(0) flag to print messages and debug data.
+                        help="""(0) flag to print messages and debug data.
                                 0 -> do not print messages.
                                 1 -> print normal messages.
                                 2 -> print normal and debug messages.
@@ -1225,36 +1280,51 @@ def shell(args=None, namespace=None):
     parser.add_argument('-f','--feature', type=string_interpreter(commahandler=feature_creator),
                         help='Configure detector and matcher')
     parser.add_argument('-u','--pool', action='store', type=int,
-                       help='Use pool Ex: 4 to use 4 CPUs')
+                        help='Use pool Ex: 4 to use 4 CPUs')
     parser.add_argument('-c','--cachePath',default=None,
-                       help='Saves memoization to specified path and downloaded images')
+                        help="""
+                           saves memoization to specified path. This is useful to save
+                           some computations and use them in next executions.
+                           Cached data is not guaranteed to work between different
+                           configurations and this can lead to unexpected program
+                           behaviour. If a different configuration will be used it
+                           is recommended to clear the cache to recompute values.
+                           If True it creates the cache in current path.
+                           """)
     parser.add_argument('-e','--clearCache', type=int, default=0,
-                       help='clear cache flag.'
+                        help='clear cache flag.'
                             '* 0 do not clear.'
-                            '* 1 All CachePath is cleared before use.'
-                            '* 2 re-compute data but other cache data is left intact.'
-                            'Notes: using cache can result in unspected behaviour '
+                            '* 1 re-compute data but other cache data is left intact.'
+                            '* 2 All CachePath is cleared before use.'
+                            'Notes: using cache can result in unexpected behaviour '
                             'if some configurations does not match to the cached data.')
-    parser.add_argument('-l','--loader', type=string_interpreter(commahandler=loader_creator),
-                        nargs='?', help='Custom loader function used to load images '
-                            'to merge. By default or if -l flag is empty it loads the '
-                            'original images in color. The format is "-l colorflag, x, y" '
-                            'where colorflag is -1,0,1 for BGRA, gray and BGR images '
-                            'and the load shape are represented by x and y')
-    parser.add_argument('-p','--pshape', default=(400,400), type=string_interpreter(),
-                        nargs='?', help='Process shape used to load pseudo images '
+    parser.add_argument('--loader', type=string_interpreter(commahandler=loader_creator),
+                        nargs='?', help='Custom loader function used to load images. '
+                            'By default or if --loader flag is empty it loads the '
+                            'original images in color. The format is "--loader colorflag, '
+                            'x, y" where colorflag is -1,0,1 for BGRA, gray and BGR images '
+                            'and the load shape are represented by x and y. '
+                            'Ex 1: "0,100,100" loads gray images of shape (100,100) in '
+                            'gray scale. Ex 2: "1" loads images in BGR color and with '
+                            'original shapes. Ex 3: "0,200,None" loads gray images of shape '
+                            '(200,None) where None is calculated to keep image ratio.')
+    parser.add_argument('-p','--process_shape', default=(400,400), type=string_interpreter(),
+                        nargs='?', help='Process shape used to convert to pseudo images '
                             'to process features and then convert to the '
-                            'original images. By default pshape is 400,400'
+                            'original images. The smaller the image more memory and speed '
+                            'gain. By default process_shape is 400,400'
                             'If the -p flag is empty it loads the original '
                             'images to process the features but it can incur to performance'
                             ' penalties if images are too big and RAM memory is scarce')
+    parser.add_argument('-l','--load_shape', default=None, type=string_interpreter(),
+                        nargs='?', help='shape used to load images which are beeing merged.')
     parser.add_argument('-b','--baseImage', default=True, type=string_interpreter(), nargs='?',
                         help='Specify image''s name to use from path as first image to merge '
                             'in the empty restored image. By default it selects the image '
                             'with most features. If the -b flag is empty it selects the '
                             'first image in filenames as base image')
     parser.add_argument('-m','--selectMethod',
-                       help='Method to sort images when matching. This '
+                        help='Method to sort images when matching. This '
                             'way the merging order can be controlled.'
                             '* (None) Best matches'
                             '* Histogram Comparison: Correlation, Chi-squared,'
@@ -1262,20 +1332,20 @@ def shell(args=None, namespace=None):
                             '* Entropy'
                             '* custom function of the form: rating,fn <-- selectMethod(fns)')
     parser.add_argument('-d','--distanceThresh', type = float, default=0.75,
-                       help='Filter matches by distance ratio')
+                        help='Filter matches by distance ratio')
     parser.add_argument('-i','--inlineThresh', type = float, default=0.2,
-                       help='Filter homography by inlineratio')
+                        help='Filter homography by inlineratio')
     parser.add_argument('-r','--rectangularityThresh', type = float, default=0.5,
-                       help='Filter homography by rectangularity')
+                        help='Filter homography by rectangularity')
     parser.add_argument('-j','--ransacReprojThreshold', type = float, default=10.0,
-                       help='Maximum allowed reprojection error '
+                        help='Maximum allowed reprojection error '
                             'to treat a point pair as an inlier')
     parser.add_argument('-n','--centric', action='store_true',
-                       help='Tries to attach as many images as possible to '
+                        help='Tries to attach as many images as possible to '
                             'each matching. It is quicker since it does not have to process '
                             'too many match computations')
     parser.add_argument('-t','--hist_match', action='store_true',
-                       help='Apply histogram matching to foreground '
+                        help='Apply histogram matching to foreground '
                             'image with merge image as template')
     parser.add_argument('-s','--save', default=True, type = string_interpreter(False), nargs='?',
                         help='Customize image name used to save the restored image.'
@@ -1288,35 +1358,34 @@ def shell(args=None, namespace=None):
                             'exists then it is replaced, else a new filename is generated'
                             'with an index "{filename}_{index}.{extension}"')
     parser.add_argument('-g','--grow_scene', action='store_true',
-                       help='Flag to allow image to grow the scene so that that the final '
+                        help='Flag to allow image to grow the scene so that that the final '
                             'image can be larger than the base image')
     parser.add_argument('-y','--denoise', default=None,
                         type=string_interpreter(False,commahandler=denoise_creator),
-                       help="Flag to process noisy images. Use mild, normal, heavy or "
+                        help="Flag to process noisy images. Use mild, normal, heavy or "
                             "provide parameters for a bilateral filter as "
                             "'--denoise d,sigmaColor,sigmaSpace' as for example "
                             "'--denoise 27,75,75'. By default it is None which can be "
                             "activated according to the restorer, if an empty flag is "
                             "provided as '--denoise' it deactivates de-noising images.")
     parser.add_argument('-a','--lens', action='store_true',
-                       help='Flag to apply lens to retinal area. Else do not apply lens')
+                        help='Flag to apply lens to retinal area. Else do not apply lens')
     parser.add_argument('-k','--enclose', action='store_true',
-                       help='Flag to enclose and return only retinal area. '
+                        help='Flag to enclose and return only retinal area. '
                             'Else leaves image "as is"')
     parser.add_argument('-z','--restorer',choices = ['RetinalRestore','ImRestore'],
                         default='RetinalRestore',
-                       help='imrestore is for images in general but it can be parametrized. '
+                        help='imrestore is for images in general but it can be parametrized. '
                             'By default it has the profile "retinalRestore" for retinal '
                             'images but its general behaviour can be restorerd by '
                             'changing it to "imrestore"')
-    parser.add_argument('-x','--expert', default=None,
-                       help='path to the expert variables')
+    parser.add_argument('-x','--expert', default=None,help='path to the expert variables')
     parser.add_argument('-q','--console', action='store_true',
-                       help='Enter interactive mode to let user execute commands in console')
+                        help='Enter interactive mode to let user execute commands in console')
     parser.add_argument('-w','--debug', action='store_true',
-                       help='Enter debug mode to let programmers find bugs')
+                        help='Enter debug mode to let programmers find bugs')
     parser.add_argument('--onlykeys', action='store_true',
-                       help='Only compute keypoints. This is useful when --cachePath is '
+                        help='Only compute keypoints. This is useful when --cachePath is '
                             'used and the user wants to have the keypoints cached beforehand')
 
     # parse sys and get argument variables

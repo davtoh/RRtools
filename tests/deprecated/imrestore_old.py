@@ -318,8 +318,8 @@ def imrestore(images, **opts):
     ransacReprojThreshold = opts.get("ransacReprojThreshold",5.0)
 
     centric = opts.get("centric",False) # tries to attach as many images as possible
-    pshape = opts.get("pshape",(400,400))# it is not safe to compute descriptors from big images
-    usepshape = False # output is as pshape if True, else process with pshape but output is as loader
+    pshape = opts.get("process_shape",(400,400))# it is not safe to compute descriptors from big images
+    usepshape = False # output is as process_shape if True, else process with process_shape but output is as loader
     minKps = 3 # minimum len of key-points to find Homography
     histMatch = opts.get("hist_match",False)
     mergefunc = opts.get("mergefunc",None)
@@ -428,7 +428,7 @@ def imrestore(images, **opts):
                             # this necessarily does not produce the same result when not used
                             """
                             # METHOD 1: using Transformation Matrix
-                            H = getSOpointRelation(pshape, oshape, True)
+                            H = getSOpointRelation(process_shape, oshape, True)
                             for kp in kps:
                                 kp["pt"]=tuple(cv2.perspectiveTransform(
                                     np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
@@ -556,9 +556,9 @@ def imrestore(images, **opts):
                     """
                     else:
                         # METHOD 3 for rescaling points. FIXME
-                        #shapes = fore.shape,pshape,fore.shape,pshape
+                        #shapes = fore.shape,process_shape,fore.shape,process_shape
                         #H = sh2oh(H, *shapes) #### sTM to oTM
-                        H = getSOpointRelation(pshape,fore.shape, True)*H
+                        H = getSOpointRelation(process_shape,fore.shape, True)*H
                         for kp in feature_dic[path][0]:
                             kp["pt"]=tuple(cv2.perspectiveTransform(
                                 np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])"""
@@ -841,7 +841,7 @@ def shell(args=None, namespace=None):
     parser.add_argument('-l','--loader', type=loader_creator,
                        help='custom loader function used to load images '
                             'to merge. If None it loads the original images in color')
-    parser.add_argument('-p','--pshape', default=(400,400), type=tuple_creator,
+    parser.add_argument('-p','--process_shape', default=(400,400), type=tuple_creator,
                        help='Process shape used to load pseudo images '
                             'to process features and then results are converted to the '
                             'original images. If None (e.g "") it loads the original images to '
