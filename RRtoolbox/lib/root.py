@@ -9,7 +9,8 @@ import inspect
 import types
 from time import time, sleep
 import numpy as np
-from contextlib import contextmanager
+from itertools import groupby
+from collections import OrderedDict
 
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 __author__ = 'Davtoh'
@@ -200,17 +201,17 @@ class FactorConvert(object):
                 ("femto","f",0.000000000000001),
                 ("atto","a",0.000000000000000001))
 
-    def __init__(self, factor = None, factorIndex = 1):
+    def __init__(self, factor = None, abbreviate = True):
         """
 
         :param factor: anything to look in factors (i.e. factor list with Factor structures).
-        :param factorIndex: index to return from Factor structure when factor is asked.
+        :param abbreviate: index to return from Factor structure when factor is asked.
 
         .. notes: A factor structure is of the form ("Name","abbreviation",value)
         """
         self._factor = None
         self._factorsCache = None
-        self.factorIndex = factorIndex
+        self.abbreviate = abbreviate
         self.factors = self._factors
         self.factor = factor
 
@@ -227,7 +228,7 @@ class FactorConvert(object):
 
     @property
     def factor(self):
-        return self._factor[self.factorIndex]
+        return self._factor[self.abbreviate]
     @factor.setter
     def factor(self, value):
         self._factor = self.getFactor(value) # transform units
@@ -244,7 +245,7 @@ class FactorConvert(object):
         :return: converted value, units
         """
         to = self.getFactor(to)
-        return factor * self._factor[2] / float(to[2]), to[self.factorIndex] # converted value, factor
+        return factor * self._factor[2] / float(to[2]), to[self.abbreviate] # converted value, factor
 
     def convert2sample(self, factor, to = None):
         """
@@ -325,15 +326,39 @@ class FactorConvert(object):
         else:
             return [int(i) for i in p[0]],[]
 
-@contextmanager
-def TimeCode(msg, unit = None, precision = None,
-             abv=None, endmsg = "{time}\n", enableMsg= True,
-             printfunc= None):
+class Magnitude(object):
+    def __init__(self, value =0, factor = None, unit = None, precision = None, abbreviate = False):
+        self.value = value
+        self.precision = precision
+        self.factor = factor
+        self.unit = unit
+        self.abbreviate = abbreviate
+    def format_value(self, value):
+        if self.precision is None:
+            text = "{:f} {}{}"
+        else:
+            text = "{{:0.{}f}} {{}}{{}}".format(self.precision)
+        if self.factor: #
+            if isinstance(self.factor,basestring):
+                return text.format(*(FactorConvert(
+                        abbreviate= self.abbreviate).convert(value, self.factor) +
+                                     (self.unit,)))
+            else:
+                return text.format(*(FactorConvert(
+                        abbreviate= self.abbreviate).convert2sample(value, self.factor) +
+                                     (self.unit,)))
+        else:
+            return text.format(value, "", self.unit)
+    def __str__(self):
+        return self.format_value(self.value)
+
+
+class TimeCode(object):
     """
     Context to profile code by printing a prelude and prologue with time.
 
     :param msg: prelude or description message
-    :param unit: unit supported by FactorConvert class
+    :param factor: factor supported by FactorConvert class
     :param precision: number of digits after a float point
     :param abv: if True prints "s", if False "seconds" for time
     :param endmsg: prologue message
@@ -341,42 +366,321 @@ def TimeCode(msg, unit = None, precision = None,
             should be printed or not.
     :param printfunc: function to print messages. By default it
             is sys.stdout.write
-    :return:
     """
-    if printfunc is None:
-        printfunc = sys.stdout.write
-    if enableMsg:
-        printfunc(msg)
-        start = time() # begin chronometer
-    try:
-        yield # code to execute
-    finally:
-        if enableMsg:
-            t = time()-start # end chronometer
-            if precision is None:
-                text = "{:f} {}{}"
-            else:
-                text = "{{:0.{}f}} {{}}{{}}".format(precision)
-            # abbreviation
-            if abv is True:
-                u = "s"
-                i = 1
-            else:
-                u = " seconds"
-                i = 0
-            if unit: #
-                if isinstance(unit,basestring):
-                    printfunc(endmsg.format(
-                        time = text.format(*(FactorConvert(
-                            factorIndex = i).convert(t, unit) + (u,)))))
-                else:
-                    printfunc(endmsg.format(
-                        time = text.format(*(FactorConvert(
-                            factorIndex = i).convert2sample(t, unit) + (u,)))))
-            else:
-                printfunc(endmsg.format(
-                    time=text.format(t,"",u)))
+    def __init__(self, msg = None, factor = None, precision = None,
+                 abv=None, endmsg = "{time}\n", enableMsg= True,
+                 printfunc= None, profiler = None, profile_point = None):
+        self.msg = msg
+        self.factor = factor
+        self.precision = precision
+        self.abv = abv
+        self.endmsg = endmsg
+        self.enableMsg = enableMsg
+        self.printfunc = printfunc
+        self.time_start = None
+        self.time_end = None
+        self.profiler = profiler
+        self.profile_point = profile_point
 
+    @property
+    def time(self):
+        if self.time_start is None:
+            return 0
+        else:
+            return time()-self.time_start
+
+    @property
+    def time_end(self):
+        if self._time_end is None:
+            return self.time
+        return self._time_end
+    @time_end.setter
+    def time_end(self,value):
+        self._time_end = value
+    @time_end.deleter
+    def time_end(self):
+        del self._time_end
+
+    def __enter__(self):
+        if self.printfunc is None:
+            self.printfunc = sys.stdout.write
+        if self.enableMsg and self.msg is not None:
+            self.printfunc(self.msg)
+        self.time_start = time() # begin chronometer
+        self.time_end = None
+        if self.profiler is not None:
+            if self.profile_point is None:
+                msg = self.msg
+            else:
+                msg = self.profile_point
+            if isinstance(msg,basestring):
+                self.profile_point = self.profiler.open_point(msg = msg)
+            else:
+                self.profile_point = self.profiler.open_point(*msg)
+        elif isinstance(self.profile_point,profiler):
+            self.profile_point.time_start = self.time_start
+        return self
+
+    def __exit__(self, type, value, traceback):
+        if isinstance(self.profile_point,profiler):
+            self.profile_point.close()
+        t = self.time # end chronometer
+        self.time_end = t
+        if self.enableMsg and self.endmsg is not None:
+            # abbreviation
+            if self.abv is True:
+                u,i = "s",True
+            else:
+                u,i = " seconds",False
+            self.printfunc(self.endmsg.format(
+                time=Magnitude(value = t, precision=self.precision,
+                unit=u, factor=self.factor, abbreviate=i)))
+
+class profiler(object):
+    """
+    profiler for code points
+
+    :param msg: custom comment for profiling point
+    :param tag: classification tag
+    :parameter space: (" ")
+    :parameter format_line: ("{space}{tag}{msg}{time}")
+    :parameter format_structure: ("\n{space}[{tag}{msg}{time}{child}]{side}")
+    :parameter points: profile instaces which are divided in "side" or "children" points
+            according if they are side by side or are inside of the profiler.
+    """
+    def __init__(self, msg = None, tag= None):
+        self.time_start = time()
+        self.msg = msg
+        self.tag = tag
+        self.space = " "
+        self.format_line = "{space}{tag}{msg}{time}"
+        self.format_structure = "\n{space}[{tag}{msg}{time}{child}]{side}"
+        self.format_tag = "({}) "
+        self.format_time = " -> {:0.4f} secs"
+        self.format_msg = "{!r}"
+        self.time_end = None
+        self.points = []
+
+    @property
+    def time(self):
+        """
+        :return: overall time of profiling
+        """
+        try:
+            return self.time_end -self.time_start
+        except:
+            points_diff = [i.time for i in self.points if i.time]
+            if points_diff:
+                return np.sum(points_diff)
+            return None
+
+    def _add_point(self, point):
+        """
+        keep track of points and organize self.points (not intended for the user)
+
+        :param point: profile instance
+        """
+        if self.points and not point in self.points:
+            child = self.points[-1]
+            if child.time_end is None:
+                child._add_point(point)
+            else:
+                self.points.append(point)
+        elif not self.points:
+            self.points.append(point)
+
+    def _close_point(self, point):
+        """
+        close a points and adds to the list of points (not intended for the user)
+
+        :param point: profile instance
+        """
+        point.close()
+        self._add_point(point)
+
+    def open_point(self, msg = None, tag= None):
+        """
+        Open a profiling point to track time.
+
+        :param msg: custom comment for profiling point
+        :param tag: classification tag
+        :return:
+        """
+        point = profiler(msg, tag)
+        self._add_point(point)
+        return point
+
+    def close(self):
+        """
+        close profiler and all their points
+        """
+        for p in self.points:
+            p.close()
+        if self.time_end is None:
+            self.time_end = time()
+
+    def formatter(self, level, tag, msg, time):
+        """
+        format profiling point arguments.
+
+        :param level:
+        :param tag: classification tag
+        :param msg: custom comment of profiling point
+        :param time: time of profiling
+        :return: formatted (spacing, tag, msg, time)
+        """
+        if tag:
+            if isinstance(self.format_tag,basestring):
+                tag = self.format_tag.format(tag)
+            else:
+                tag = self.format_tag(tag)
+        else:
+            tag = ""
+        if time:
+            if isinstance(self.format_time,basestring):
+                time = self.format_time.format(time)
+            else:
+                time = self.format_time(time)
+        else:
+            time = ""
+        if msg:
+            if isinstance(self.format_msg,basestring):
+                msg = self.format_msg.format(msg)
+            else:
+                msg = self.format_msg(msg)
+        else:
+            msg = ""
+        return self.space * level, tag, msg, time
+
+    def _collapse_structure(self, children, collapse = None):
+        """
+        Collapse list of profiles (not intended for the user)
+
+        :param children: list of profiles
+        :param collapse: list for collapsing repeated tags or messages.
+        :return: filtered list
+        """
+
+        # collapse them
+        if collapse is not None and children:
+            new_children = [] # init new list of collapsed children
+            indexes = dict() # keep cache of indexed children
+            for child in children: # loop over children
+                cmp = tuple(child[:2]) # comparison and key index
+                if new_children \
+                        and (collapse is True or cmp[0] in collapse or cmp[1] in collapse) \
+                        and cmp in indexes:
+                    index = indexes[cmp] # return cached index
+                    new_children[index][2] += child[2] # add time
+                    new_children[index][3].extend(child[3]) # add children of child
+                else: # if not indexed
+                    indexes[cmp] = len(new_children) # cache actual index
+                    new_children.append(child) # append a new child
+            return new_children # replace for new children list
+        return children
+
+    def restructure(self, structure, collapse):
+        """
+        reprocess an already created structure.
+
+        :param structure: structure.
+        :param collapse: list for collapsing repeated tags or messages.
+        :return: reprocessed structure
+        """
+        tag, msg, time, children = structure
+        if children:
+            children = self._collapse_structure(children,collapse)
+            for i,child in enumerate(children):
+                children[i] = self.restructure(child, collapse)
+            structure[3] = children
+        return structure
+
+    def structure(self, collapse = None):
+        """
+        profiling structure.
+
+        :param collapse: list for collapsing repeated tags or messages.
+        :return: structure with format [tag,msg,time,children]
+        """
+        # collect structure of children
+        children = [point.structure(collapse) for point in self.points]
+        children = self._collapse_structure(children, collapse)
+        return [self.tag, self.msg, self.time, children] # permit item assignment
+
+    def _helper_lines_unformatted(self, struct, level=0):
+        """
+        helper to generate lines (not intended for the user)
+
+        :param struct: profiling structure
+        :param level: structure level
+        :return: generator with outputs (level, tag, msg, time)
+        """
+        tag,msg,time,children = struct
+        yield (level, tag, msg, time)
+        for child in children:
+            for i in self._helper_lines_unformatted(child, level + 1):
+                yield i
+
+    def lines_unformatted(self, collapse =None):
+        """
+        generate structure lines
+
+        :param collapse: list for collapsing repeated tags or messages.
+        :return: generator with outputs (level, tag, msg, time)
+        """
+        return self._helper_lines_unformatted(self.structure(collapse))
+
+    def lines_formatted(self, collapse = None):
+        """
+        generate string lines
+
+        :param collapse: list for collapsing repeated tags or messages.
+        :return: list of lines
+        """
+        lns = []
+        for level,tag,msg,time in self.lines_unformatted(collapse):
+            space,tag,msg,time = self.formatter(level,tag,msg,time)
+            lns.append(self.format_line.format(space=space, tag=tag, msg=msg, time=time))
+        return lns
+
+    def string_lines(self):
+        """
+        string with plain structure of profiling
+        """
+        return "\n".join(self.lines_formatted())
+
+    def _helper_string_structured(self, structs, level=0):
+        """
+        helper to generate string with structure of profiling
+
+        :param structs: list of structures
+        :param level: structure level
+        :return: string
+        """
+        if structs:
+            mystr = self.format_structure
+            tag,msg,time,children = structs[0]
+            space,tag,msg,time = self.formatter(level,tag,msg,time)
+            mystr = mystr.format(space=space, tag=tag, msg=msg, time=time,
+                                 child=self._helper_string_structured(children, level + 1),
+                                 side=self._helper_string_structured(structs[1:], level))
+            return mystr
+        else:
+            return ""
+
+    def string_structured(self, collapse = None, structure = None):
+        """
+        string with plain structure of profiling
+
+        :param collapse: list for collapsing repeated tags or messages.
+        :param structure: (None) uses and already created structure. If None
+                it creates the structure.
+        :return: string
+        """
+        if structure is None:
+            return self._helper_string_structured([self.structure(collapse)])
+        else:
+            return self._helper_string_structured([self.restructure(structure, collapse)])
 
 class Controlstdout(object):
     """
@@ -388,7 +692,7 @@ class Controlstdout(object):
             A file can be given but if it is write-only it cannot retrieve
             data to self.buffered so "w+" is recommended to be used with self.buffered.
 
-    .. warnning:: If a references to sys.stdout is kept before the Controlstdout
+    .. warning:: If a references to sys.stdout is kept before the Controlstdout
             instance then output can be printed trough it and cannot be
             controlled by the Controlstdout context.
     """
@@ -481,16 +785,33 @@ def lookinglob(pattern, path, ext=None, returnAll = False, raiseErr = False):
 
 
 if __name__ == "__main__":
-    def myfc():
-        sleep(1)
-        return "======"*10000
 
-    with TimeCode("init",100,abv=True):
-        myfc()
-    pass
-    fac = FactorConvert()
-    print fac.convert(10,100)
-    print fac.parts(1001010.01010101)
-    print "{:f} {}".format(*FactorConvert("m").convert2sample(36797.59, "m"))
-    print FactorConvert("m").convert(36797.59)
-    print fac.convert(1000)
+    if False:
+        def myfc():
+            sleep(1)
+            return "======"*10000
+        with TimeCode("init",100,abv=True):
+            myfc()
+
+    if False:
+        fac = FactorConvert()
+        print fac.convert(10,100)
+        print fac.parts(1001010.01010101)
+        print "{:f} {}".format(*FactorConvert("m").convert2sample(36797.59, "m"))
+        print FactorConvert("m").convert(36797.59)
+        print fac.convert(1000)
+
+    if True:
+        pf = profiler("Init")
+        p1 = pf.open_point("for loop")
+        for i in xrange(5):
+            with TimeCode("loop {}".format(i),profiler=pf):
+                pass
+            with TimeCode("loop {}".format(i),profiler=pf):
+                pass
+        p2 = pf.open_point("in level of p1")
+        p1.close()
+        p3 = pf.open_point("other process")
+        #print pf.string_structured()
+        print pf.string_structured(True,pf.structure())
+

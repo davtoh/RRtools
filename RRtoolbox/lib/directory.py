@@ -451,7 +451,11 @@ def joinPath(absolute,relative):
 
     .. note:: It is equivalent to os.path.join but works with directories.
     """
-    return os.path.join(str(absolute), str(relative)) # str ensures updated version is processed
+    absolute = str(absolute)
+    relative = str(relative)
+    if relative.startswith("\\") or relative.startswith("/"):
+        relative = relative[1:]
+    return os.path.join(absolute, relative) # str ensures updated version is processed
 
 class directory(str):
     """
@@ -638,6 +642,7 @@ class directory(str):
             return joinPath(self,other)
 
         return self.update_right(other)
+    __iadd__ = __add__
 
     def __sub__(self, other):
         if type(other)==str: # it's exactly str an not directory
@@ -706,3 +711,8 @@ if __name__=="__main__":
     print isinstance(a,str)
     print type(a)
     print os.path.splitext(os.path.basename(__file__)) ### look here ###
+
+    path = directory(["path1","path2","path3"])
+    #path += "path4"
+    print path
+    print os.path.join(path,"new path")
