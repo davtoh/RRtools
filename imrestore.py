@@ -1354,8 +1354,8 @@ def shell(args=None, namespace=None):
                             'is supported so for example the default name can be achived as '
                             '"-s {path}_restored_{name}{ext}"')
     parser.add_argument('-o','--overwrite', action='store_true',
-                        help = 'If True and the destine filename for saving already'
-                            'exists then it is replaced, else a new filename is generated'
+                        help = 'If True and the destine filename for saving already '
+                            'exists then it is replaced, else a new filename is generated '
                             'with an index "{filename}_{index}.{extension}"')
     parser.add_argument('-g','--grow_scene', action='store_true',
                         help='Flag to allow image to grow the scene so that that the final '
