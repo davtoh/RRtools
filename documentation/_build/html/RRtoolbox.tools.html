@@ -138,8 +138,221 @@
 </dd></dl>
 
 </div>
-<div class="section" id="rrtoolbox-tools-restoration-module">
-<h2>RRtoolbox.tools.restoration module<a class="headerlink" href="#rrtoolbox-tools-restoration-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-RRtoolbox.tools.restoration">
+<span id="rrtoolbox-tools-restoration-module"></span><h2>RRtoolbox.tools.restoration module<a class="headerlink" href="#module-RRtoolbox.tools.restoration" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.asif_demo">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">asif_demo</code><span class="sig-paren">(</span><em>fn_back=None</em>, <em>fn_fore=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#asif_demo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.asif_demo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Demo to test ASIFT, Merge, Plotters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn_back</strong> &#8211; file name of background image</li>
+<li><strong>fn_fore</strong> &#8211; file name of foreground image</li>
+<li><strong>**opts</strong> &#8211; <p>demo options
+flag options:
+flag_filter_scaled (False): filter scaled images
+flag_filter_original (False): filter original images
+flag_filter_out (False): filter pos-processed images
+flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography
+flag_show_match (True): show match keypoint of scaled images
+flag_show_result (True): show restored image
+flag_save_perspective (False): save calculated perspective of foreground image
+flag_save_result (False): save restored image</p>
+<p>value obtions:
+fore_scale (400,400): tuple of W,H to convert original foreground to scaled image
+back_scale (400,400): tuple of W,H to convert original background to scaled image
+feature: (&#8216;sift-flann&#8217;) use base descriptor</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>dictionary of results
+if there is not match the keys are:</p>
+<blockquote>
+<div><p>[&#8216;status&#8217;, &#8216;kp1&#8217;, &#8216;kp2&#8217;, &#8216;kp_pairs&#8217;, &#8216;desc1&#8217;, &#8216;desc2&#8217;,&#8217;H&#8217;]</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>if there is match then additional keys are:</dt>
+<dd><p class="first last">[&#8216;img_perspective&#8217;, &#8216;img_restored&#8217;, &#8216;H_original&#8217;, &#8216;kp_pairs_original&#8217;]</p>
+</dd>
+</dl>
+<p>if flag_invertH additional kes: [&#8216;H_inverted&#8217;]</p>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.asif_demo2">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">asif_demo2</code><span class="sig-paren">(</span><em>fn_back=None</em>, <em>fn_fore=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#asif_demo2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.asif_demo2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Demo to test ASIFT, Merge, Plotters,etc while extending images.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn_back</strong> &#8211; file name of background image</li>
+<li><strong>fn_fore</strong> &#8211; file name of foreground image</li>
+<li><strong>**opts</strong> &#8211; <p>demo options
+flag options:
+flag_filter_scaled (False): filter scaled images
+flag_filter_original (False): filter original images
+flag_filter_out (False): filter pos-processed images
+flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography
+flag_show_match (True): show match keypoint of scaled images
+flag_show_result (True): show restored image
+flag_save_perspective (False): save calculated perspective of foreground image
+flag_save_result (False): save restored image</p>
+<p>value obtions:
+fore_scale (400,400): tuple of W,H to convert original foreground to scaled image
+back_scale (400,400): tuple of W,H to convert original background to scaled image
+feature: (&#8216;sift-flann&#8217;) use base descriptor</p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>dictionary of results
+if there is not match the keys are:</p>
+<blockquote>
+<div><p>[&#8216;status&#8217;, &#8216;kp1&#8217;, &#8216;kp2&#8217;, &#8216;kp_pairs&#8217;, &#8216;desc1&#8217;, &#8216;desc2&#8217;,&#8217;H&#8217;]</p>
+</div></blockquote>
+<dl class="docutils">
+<dt>if there is match then additional keys are:</dt>
+<dd><p class="first last">[&#8216;img_perspective&#8217;, &#8216;img_restored&#8217;, &#8216;H_original&#8217;, &#8216;kp_pairs_original&#8217;]</p>
+</dd>
+</dl>
+<p>if flag_invertH additional kes: [&#8216;H_inverted&#8217;]</p>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.extractCSV">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">extractCSV</code><span class="sig-paren">(</span><em>data</em>, <em>saveTo=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#extractCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.extractCSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.getDicDescriptor">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">getDicDescriptor</code><span class="sig-paren">(</span><em>path</em>, <em>loader</em>, <em>feature_name</em>, <em>dic=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#getDicDescriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.getDicDescriptor" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> &#8211; </li>
+<li><strong>loader</strong> &#8211; </li>
+<li><strong>feature_name</strong> &#8211; </li>
+<li><strong>dic</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.qualifyData">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">qualifyData</code><span class="sig-paren">(</span><em>data</em>, <em>loader=None</em>, <em>saveTo=None</em>, <em>autoqualify=False</em>, <em>showOnlyPassedTest=False</em>, <em>clear=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#qualifyData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.qualifyData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Qualify data of format obtained from testRates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> &#8211; dictionary containing all data</li>
+<li><strong>loader</strong> &#8211; use loader for images</li>
+<li><strong>saveTo</strong> &#8211; save data to path</li>
+<li><strong>autoqualify</strong> &#8211; qualify all data without asking human intervention and using algorithm</li>
+<li><strong>showOnlyPassedTest</strong> &#8211; if True shows only the goods tests to qualify, else do not show.</li>
+<li><strong>clear</strong> &#8211; re-do all saved tests.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.stitch_multiple">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">stitch_multiple</code><span class="sig-paren">(</span><em>images=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#stitch_multiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.stitch_multiple" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>opts</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+<p>feature = &#8216;sift-flann&#8217;
+loader = &#8220;400,400&#8221;
+saveTo = None,
+autoqualify = False,
+showOnlyPassedTest= False,
+clearAll = False,
+clearData = clearAll,
+clearQualification = clearAll
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.testRates">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">testRates</code><span class="sig-paren">(</span><em>images=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#testRates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.testRates" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>opts</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+<p>feature = &#8216;sift-flann&#8217;
+loader = &#8220;400,400&#8221;
+saveTo = None,
+autoqualify = False,
+showOnlyPassedTest= False,
+clearAll = False,
+clearData = clearAll,
+clearQualification = clearAll
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.restoration.watchData">
+<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">watchData</code><span class="sig-paren">(</span><em>request</em>, <em>loader</em>, <em>data</em>, <em>onlyTest=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#watchData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.watchData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show data of format obtained from testRates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> &#8211; (fore_name,back_name)</li>
+<li><strong>loader</strong> &#8211; image loader from path</li>
+<li><strong>data</strong> &#8211; dictionary containing requests (each request is a key).</li>
+<li><strong>onlyTest</strong> &#8211; if True show only test results, else also show stitched images and some other data.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">request data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-RRtoolbox.tools.segmentation">
 <span id="rrtoolbox-tools-segmentation-module"></span><h2>RRtoolbox.tools.segmentation module<a class="headerlink" href="#module-RRtoolbox.tools.segmentation" title="Permalink to this headline">¶</a></h2>
@@ -297,7 +510,7 @@ Optics Communications, Volume 341, 15 April 2015, Pages 101-113, ISSN 0030-4018,
 <dl class="docutils">
 <dt>where sortedD is the ranking of the Entropy test, D = [D0,...,DN] D0&gt;DN</dt>
 <dd>sortedImlist is fns sorted to match sortedD,
-D is the list of the absolute difference between entropy and the root mean square, D = <a href="#id1"><span class="problematic" id="id2">|E-RMS|</span></a></dd>
+D is the list of the absolute difference between entropy and the root mean square, D = <a href="#id5"><span class="problematic" id="id6">|E-RMS|</span></a></dd>
 </dl>
 </dd></dl>
 
@@ -379,7 +592,7 @@ D is the list of the absolute difference between entropy and the root mean squar
 <li><a class="reference internal" href="#">RRtoolbox.tools package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.lens">RRtoolbox.tools.lens module</a></li>
-<li><a class="reference internal" href="#rrtoolbox-tools-restoration-module">RRtoolbox.tools.restoration module</a></li>
+<li><a class="reference internal" href="#module-RRtoolbox.tools.restoration">RRtoolbox.tools.restoration module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.segmentation">RRtoolbox.tools.segmentation module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.selectors">RRtoolbox.tools.selectors module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.sticher">RRtoolbox.tools.sticher module</a></li>

@@ -62,6 +62,7 @@
     <span class="kn">import</span> <span class="nn">pickle</span> <span class="kn">as</span> <span class="nn">serializer</span>
 
 <span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="n">__excludeType</span> <span class="o">=</span> <span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span><span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">,</span><span class="n">types</span><span class="o">.</span><span class="n">NoneType</span><span class="p">,</span><span class="n">types</span><span class="o">.</span><span class="n">ClassType</span><span class="p">,</span><span class="n">types</span><span class="o">.</span><span class="n">TypeType</span><span class="p">]</span>
 <span class="n">__excludeVar</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">__excludePattern</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;__&#39;</span><span class="p">]</span>
@@ -90,14 +91,16 @@
 <span class="sd">    :param filepath: path to save session file.</span>
 <span class="sd">    :param session: dictionary</span>
 <span class="sd">    :param helper: function to pre-process session</span>
-<span class="sd">    :return:</span>
+<span class="sd">    :return: filename of saved session</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># safely save session file</span>
+    <span class="c1">#with os.fdopen(os.open(filepath, os.O_WRONLY | os.O_CREAT, 0600), &#39;wb&#39;) as logger: # http://stackoverflow.com/a/5624691/5288758</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">helper</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">helper</span><span class="p">(</span><span class="n">session</span><span class="p">),</span> <span class="n">logger</span><span class="p">,</span> <span class="n">serializer</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span> <span class="c1"># save dictionary</span>
+            <span class="n">serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">helper</span><span class="p">(</span><span class="n">session</span><span class="p">),</span> <span class="n">logger</span><span class="p">,</span> <span class="n">serializer</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span> <span class="c1"># save dictionary</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">serializer</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span> <span class="c1"># save dictionary</span></div>
+            <span class="n">serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">serializer</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span> <span class="c1"># save dictionary</span>
+        <span class="k">return</span> <span class="n">logger</span><span class="o">.</span><span class="n">name</span></div>
 
 <div class="viewcode-block" id="readSession"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.session.readSession">[docs]</a><span class="k">def</span> <span class="nf">readSession</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">helper</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

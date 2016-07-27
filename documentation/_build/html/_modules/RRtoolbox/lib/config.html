@@ -50,6 +50,7 @@
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">directory</span> <span class="k">as</span> <span class="n">_directory</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">FileDirectory</span> <span class="k">as</span> <span class="n">_FileDirectory</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">correctPath</span> <span class="k">as</span> <span class="n">_correctPath</span>
+<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">resource_path</span> <span class="k">as</span> <span class="n">_resource_path</span>
 <span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">serializer</span>
 <span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">updateSession</span> <span class="k">as</span> <span class="n">_updateSession</span>
 <span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">readSession</span> <span class="k">as</span> <span class="n">_readSession</span>
@@ -155,12 +156,22 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># PATHS</span>
-        <span class="n">MAINPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="n">_correctPath</span><span class="p">(</span><span class="n">__file__</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;don&#39;t change!&quot;</span><span class="p">)</span>
+        <span class="c1"># where package is located, if package is installed this can be converted</span>
+        <span class="c1"># to a virtual folder which does not exists physically and cannot be found</span>
+        <span class="c1"># in disk</span>
+        <span class="n">SOURCEPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="n">_correctPath</span><span class="p">(</span><span class="n">__file__</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;don&#39;t change!&quot;</span><span class="p">)</span>
+        <span class="c1"># lib path is inside package</span>
+        <span class="n">LIBPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">SOURCEPATH</span>
+        <span class="c1"># where additional folders will be located, what holds SOURCEPATH</span>
+        <span class="n">MAINPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="n">_resource_path</span><span class="p">(),</span> <span class="n">notes</span> <span class="o">=</span><span class="s2">&quot;don&#39;t change!&quot;</span><span class="p">)</span>
+        <span class="c1"># add more tools to this folder, iniside package is a tools folder too</span>
         <span class="n">TOOLPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;tools&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
-        <span class="n">LIBPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="c1"># place temporal files in this folder</span>
         <span class="n">TEMPPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;temp&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
+        <span class="c1"># tests should be found in tests folder</span>
         <span class="n">TESTPATH</span> <span class="o">=</span> <span class="n">_directory</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">MAINPATH</span>
-        <span class="n">SAVEPATH</span> <span class="o">=</span> <span class="n">TEMPPATH</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># save path is where results are placed</span>
+        <span class="n">SAVEPATH</span> <span class="o">=</span> <span class="n">TESTPATH</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1">#return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">}</span>
 
@@ -174,15 +185,15 @@
 
 <span class="sd">        .. warning:: ConfigFile is purposely not updated. Call manually method load()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Creating default {} file...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Creating default &#39;{}&#39; file...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">_saveSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span>
-                <span class="k">print</span> <span class="s2">&quot;{} has been reset successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; has been reset successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">data</span>
-        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
             <span class="k">return</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="directoryManager.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -193,15 +204,21 @@
 
 <span class="sd">        .. warning:: Unsaved instance variables will be replaced by configuration file variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Loading {}...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Loading &#39;{}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="nb">vars</span> <span class="o">=</span> <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-            <span class="nb">vars</span> <span class="o">=</span>  <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="c1"># not tolerable as error and should not be caught</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">vars</span> <span class="o">=</span>  <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">sys</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Trying to read &#39;{}&#39; with writted &quot;</span>
+                                <span class="s2">&quot;session as &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span><span class="n">data</span><span class="p">)),</span> <span class="bp">None</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Default {} read successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Default &#39;{}&#39; read successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">vars</span></div>
 
@@ -220,7 +237,9 @@
             <span class="k">else</span><span class="p">:</span> <span class="c1"># to delete and replace</span>
                 <span class="n">_saveSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
             <span class="k">return</span> <span class="bp">False</span></div>
 
     <span class="k">def</span> <span class="nf">_retrieve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>

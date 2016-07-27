@@ -16,26 +16,26 @@
 \contentsline {subsubsection}{RRtoolbox.lib.descriptors module}{32}{subsubsection*.194}
 \contentsline {subsubsection}{RRtoolbox.lib.directory module}{35}{subsubsection*.207}
 \contentsline {paragraph}{keywords:}{35}{paragraph*.208}
-\contentsline {subsubsection}{RRtoolbox.lib.image module}{40}{subsubsection*.242}
-\contentsline {subsubsection}{RRtoolbox.lib.inspector module}{40}{subsubsection*.243}
-\contentsline {subsubsection}{RRtoolbox.lib.plotter module}{42}{subsubsection*.274}
-\contentsline {subsubsection}{RRtoolbox.lib.root module}{51}{subsubsection*.349}
-\contentsline {subsubsection}{RRtoolbox.lib.serverServices module}{53}{subsubsection*.378}
-\contentsline {subsubsection}{RRtoolbox.lib.session module}{55}{subsubsection*.397}
-\contentsline {subsubsection}{Module contents}{56}{subsubsection*.405}
-\contentsline {subsection}{\numberline {1.1.2}RRtoolbox.tools package}{56}{subsection.1.1.2}
-\contentsline {subsubsection}{Submodules}{56}{subsubsection*.406}
-\contentsline {subsubsection}{RRtoolbox.tools.lens module}{56}{subsubsection*.407}
-\contentsline {subsubsection}{RRtoolbox.tools.restoration module}{57}{subsubsection*.412}
-\contentsline {subsubsection}{RRtoolbox.tools.segmentation module}{57}{subsubsection*.413}
-\contentsline {subsubsection}{RRtoolbox.tools.selectors module}{58}{subsubsection*.421}
-\contentsline {subsubsection}{RRtoolbox.tools.sticher module}{59}{subsubsection*.431}
-\contentsline {subsubsection}{Module contents}{59}{subsubsection*.433}
-\contentsline {section}{\numberline {1.2}Submodules}{59}{section.1.2}
-\contentsline {section}{\numberline {1.3}RRtoolbox.core module}{59}{section.1.3}
-\contentsline {section}{\numberline {1.4}RRtoolbox.run module}{60}{section.1.4}
-\contentsline {section}{\numberline {1.5}RRtoolbox.shell module}{60}{section.1.5}
-\contentsline {section}{\numberline {1.6}Module contents}{60}{section.1.6}
-\contentsline {chapter}{\numberline {2}Indices and tables}{61}{chapter.2}
-\contentsline {chapter}{Python Module Index}{63}{section*.450}
-\contentsline {chapter}{Index}{65}{section*.451}
+\contentsline {subsubsection}{RRtoolbox.lib.image module}{40}{subsubsection*.243}
+\contentsline {subsubsection}{RRtoolbox.lib.inspector module}{52}{subsubsection*.304}
+\contentsline {subsubsection}{RRtoolbox.lib.plotter module}{54}{subsubsection*.335}
+\contentsline {subsubsection}{RRtoolbox.lib.root module}{62}{subsubsection*.410}
+\contentsline {subsubsection}{RRtoolbox.lib.serverServices module}{67}{subsubsection*.460}
+\contentsline {subsubsection}{RRtoolbox.lib.session module}{69}{subsubsection*.480}
+\contentsline {subsubsection}{Module contents}{70}{subsubsection*.488}
+\contentsline {subsection}{\numberline {1.1.2}RRtoolbox.tools package}{70}{subsection.1.1.2}
+\contentsline {subsubsection}{Submodules}{70}{subsubsection*.489}
+\contentsline {subsubsection}{RRtoolbox.tools.lens module}{70}{subsubsection*.490}
+\contentsline {subsubsection}{RRtoolbox.tools.restoration module}{71}{subsubsection*.495}
+\contentsline {subsubsection}{RRtoolbox.tools.segmentation module}{73}{subsubsection*.504}
+\contentsline {subsubsection}{RRtoolbox.tools.selectors module}{74}{subsubsection*.512}
+\contentsline {subsubsection}{RRtoolbox.tools.sticher module}{75}{subsubsection*.522}
+\contentsline {subsubsection}{Module contents}{75}{subsubsection*.524}
+\contentsline {section}{\numberline {1.2}Submodules}{75}{section.1.2}
+\contentsline {section}{\numberline {1.3}RRtoolbox.core module}{75}{section.1.3}
+\contentsline {section}{\numberline {1.4}RRtoolbox.run module}{76}{section.1.4}
+\contentsline {section}{\numberline {1.5}RRtoolbox.shell module}{76}{section.1.5}
+\contentsline {section}{\numberline {1.6}Module contents}{76}{section.1.6}
+\contentsline {chapter}{\numberline {2}Indices and tables}{77}{chapter.2}
+\contentsline {chapter}{Python Module Index}{79}{section*.541}
+\contentsline {chapter}{Index}{81}{section*.542}

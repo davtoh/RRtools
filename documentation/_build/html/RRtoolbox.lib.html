@@ -202,7 +202,7 @@ numpy arrays. See numpy.load for the meaning of the arguments.</li>
 
 <dl class="attribute">
 <dt id="RRtoolbox.lib.cache.Memoizer.memoizers">
-<code class="descname">memoizers</code><em class="property"> = {140305793675984: &lt;weakref at 0x7f9b7cfdb788; to 'Memoizer' at 0x7f9b7cfdf2d0&gt;}</em><a class="headerlink" href="#RRtoolbox.lib.cache.Memoizer.memoizers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">memoizers</code><em class="property"> = {140229818262032: &lt;weakref at 0x7f89cc817788; to 'Memoizer' at 0x7f89cc812210&gt;}</em><a class="headerlink" href="#RRtoolbox.lib.cache.Memoizer.memoizers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -807,7 +807,7 @@ Use raiseError to control this behaviour.</p>
 <span id="rrtoolbox-lib-descriptors-module"></span><h2>RRtoolbox.lib.descriptors module<a class="headerlink" href="#module-RRtoolbox.lib.descriptors" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="RRtoolbox.lib.descriptors.ASIFT">
-<code class="descclassname">RRtoolbox.lib.descriptors.</code><code class="descname">ASIFT</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/descriptors.html#ASIFT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.descriptors.ASIFT" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RRtoolbox.lib.descriptors.</code><code class="descname">ASIFT</code><span class="sig-paren">(</span><em>feature_name</em>, <em>img</em>, <em>mask=None</em>, <em>pool=&lt;multiprocessing.pool.ThreadPool object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/descriptors.html#ASIFT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.descriptors.ASIFT" title="Permalink to this definition">¶</a></dt>
 <dd><p>asift(feature_name, img, mask=None, pool=None) -&gt; keypoints, descrs</p>
 <p>Apply a set of affine transformations to the image, detect keypoints and
 reproject them into initial image coordinates.
@@ -940,7 +940,7 @@ This feature is to reduce time by reusing created features.</li>
 
 <dl class="function">
 <dt id="RRtoolbox.lib.descriptors.MATCH">
-<code class="descclassname">RRtoolbox.lib.descriptors.</code><code class="descname">MATCH</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/descriptors.html#MATCH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.descriptors.MATCH" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RRtoolbox.lib.descriptors.</code><code class="descname">MATCH</code><span class="sig-paren">(</span><em>feature_name</em>, <em>kp1</em>, <em>desc1</em>, <em>kp2</em>, <em>desc2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/descriptors.html#MATCH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.descriptors.MATCH" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use matcher and asift output to obtain Transformation matrix (TM).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1681,6 +1681,12 @@ determined by the separator Ex. &#8220;/level 1/level 2/.../level N or -1&#8221;
 </dd></dl>
 
 <dl class="function">
+<dt id="RRtoolbox.lib.directory.resource_path">
+<code class="descclassname">RRtoolbox.lib.directory.</code><code class="descname">resource_path</code><span class="sig-paren">(</span><em>relative_path=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/directory.html#resource_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.directory.resource_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get absolute path to resource, works for dev and for PyInstaller</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="RRtoolbox.lib.directory.rmFile">
 <code class="descclassname">RRtoolbox.lib.directory.</code><code class="descname">rmFile</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/directory.html#rmFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.directory.rmFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove file.</p>
@@ -1743,6 +1749,1266 @@ Index is a list containing the indexes of different parts of the two splitted st
 </div>
 <div class="section" id="rrtoolbox-lib-image-module">
 <h2>RRtoolbox.lib.image module<a class="headerlink" href="#rrtoolbox-lib-image-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-RRtoolbox.lib.image"></span><p>Bundle of methods for handling images. Rather than manipulating specialized
+operations in images methods in this module are used for loading, outputting
+and format-converting methods, as well as color manipulation.</p>
+<p>SUPPORTED FORMATS</p>
+<p>see <a class="reference external" href="http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread">http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread</a></p>
+<p>Windows bitmaps - <a href="#id1"><span class="problematic" id="id2">*</span></a>.bmp, <a href="#id3"><span class="problematic" id="id4">*</span></a>.dib (always supported)
+JPEG files - <a href="#id5"><span class="problematic" id="id6">*</span></a>.jpeg, <a href="#id7"><span class="problematic" id="id8">*</span></a>.jpg, <a href="#id9"><span class="problematic" id="id10">*</span></a>.jpe (see the Notes section)
+JPEG 2000 files - <a href="#id11"><span class="problematic" id="id12">*</span></a>.jp2 (see the Notes section)
+Portable Network Graphics - <a href="#id13"><span class="problematic" id="id14">*</span></a>.png (see the Notes section)
+Portable image format - <a href="#id15"><span class="problematic" id="id16">*</span></a>.pbm, <a href="#id17"><span class="problematic" id="id18">*</span></a>.pgm, <a href="#id19"><span class="problematic" id="id20">*</span></a>.ppm (always supported)
+Sun rasters - <a href="#id21"><span class="problematic" id="id22">*</span></a>.sr, <a href="#id23"><span class="problematic" id="id24">*</span></a>.ras (always supported)
+TIFF files - <a href="#id25"><span class="problematic" id="id26">*</span></a>.tiff, <a href="#id27"><span class="problematic" id="id28">*</span></a>.tif (see the Notes section)</p>
+<dl class="function">
+<dt id="RRtoolbox.lib.image.bgra2bgr">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">bgra2bgr</code><span class="sig-paren">(</span><em>im</em>, <em>bgrcolor=(255</em>, <em>255</em>, <em>255)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#bgra2bgr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.bgra2bgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert BGR to BGRA image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>im</strong> &#8211; image</li>
+<li><strong>bgrcolor</strong> &#8211; BGR color representing transparency. (information is lost when
+converting BGRA to BGR) e.g. [200,200,200].</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.checkLoaded">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">checkLoaded</code><span class="sig-paren">(</span><em>obj</em>, <em>fn=''</em>, <em>raiseError=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#checkLoaded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.checkLoaded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple function to determine if variable is valid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obj</strong> &#8211; loaded object</li>
+<li><strong>fn</strong> &#8211; path of file</li>
+<li><strong>raiseError</strong> &#8211; if True and obj is None, raise</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.convertAs">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">convertAs</code><span class="sig-paren">(</span><em>fns</em>, <em>base=None</em>, <em>folder=None</em>, <em>name=None</em>, <em>ext=None</em>, <em>overwrite=False</em>, <em>loader=None</em>, <em>simulate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#convertAs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.convertAs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a file and save as other file based in a pattern.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fns</strong> &#8211; file name or list of file names. It supports glob operations.
+By default glob operations ignore folders.</li>
+<li><strong>base</strong> &#8211; path to place images.</li>
+<li><strong>folder</strong> &#8211; (None) folder to place images in base&#8217;s path.
+If True it uses the folder in which image was loaded.
+If None, not folder is used.</li>
+<li><strong>name</strong> &#8211; string for formatting new name of image with the {name} tag.
+Ex: if name is &#8216;new_{name}&#8217; and image is called &#8216;img001&#8217; then the
+formatted new image&#8217;s name is &#8216;new_img001&#8217;</li>
+<li><strong>ext</strong> &#8211; (None) extension to save all images. If None uses the same extension
+as the loaded image.</li>
+<li><strong>overwrite</strong> &#8211; (False) If True and the destine filename for saving already
+exists then it is replaced, else a new filename is generated
+with an index &#8220;{name}_{index}.{extension}&#8221;</li>
+<li><strong>loader</strong> &#8211; (None) loader for the image file to change image attributes.
+If None reads the original images untouched.</li>
+<li><strong>simulate</strong> &#8211; (False) if True, no saving is performed but the status is returned
+to confirm what images where adequately processed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of statuses (0 - no error, 1 - image not loaded,
+2 - image not saved, 3 - error in processing image)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcoorarea">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcoorarea</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcoorarea"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcoorarea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw interaction with points to obtain area.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcooraxes">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcooraxes</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>255</em>, <em>0)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcooraxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcooraxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw axes instead of points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcoorperspective">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcoorperspective</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcoorperspective"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcoorperspective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw interaction with points to obtain perspective.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcoorpoints">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcoorpoints</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcoorpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcoorpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funtion to draw points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcoorpolyArrow">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcoorpolyArrow</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcoorpolyArrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcoorpolyArrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw interaction with vectors to obtain polygonal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.drawcoorpolyline">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">drawcoorpolyline</code><span class="sig-paren">(</span><em>vis</em>, <em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#drawcoorpolyline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.drawcoorpolyline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw interaction with points to obtain polygonal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>vis</strong> &#8211; image array.</li>
+<li><strong>points</strong> &#8211; list of points.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.fig2bgr">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">fig2bgr</code><span class="sig-paren">(</span><em>fig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#fig2bgr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.fig2bgr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Matplotlib figure to a RGB image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fig</strong> &#8211; a matplotlib figure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RGB image.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.fig2bgra">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">fig2bgra</code><span class="sig-paren">(</span><em>fig</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#fig2bgra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.fig2bgra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Matplotlib figure to a RGBA image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fig</strong> &#8211; a matplotlib figure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RGBA image.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.getCoors">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">getCoors</code><span class="sig-paren">(</span><em>im</em>, <em>win='get coordinates'</em>, <em>updatefunc=&lt;function drawcoorpoints&gt;</em>, <em>unique=True</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getCoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getCoors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.plotter.plotim" title="RRtoolbox.lib.plotter.plotim"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.plotter.plotim</span></code></a></p>
+<p>Create window to select points from image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>im</strong> &#8211; image to get points.</li>
+<li><strong>win</strong> &#8211; window name.</li>
+<li><strong>updatefunc</strong> &#8211; function to draw interaction with points.
+(e.g. limitaxispoints, drawcoorperspective, etc.).</li>
+<li><strong>prox</strong> &#8211; proximity to identify point.</li>
+<li><strong>radius</strong> &#8211; radius of drawn points.</li>
+<li><strong>unique</strong> &#8211; If True no point can be repeated,
+else selected points can be repeated.</li>
+<li><strong>col_out</strong> &#8211; outer color of point.</li>
+<li><strong>col_in</strong> &#8211; inner color of point.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="RRtoolbox.lib.image.getCoors.coors">
+<code class="descname">coors</code><a class="headerlink" href="#RRtoolbox.lib.image.getCoors.coors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.getCoors.drawstats">
+<code class="descname">drawstats</code><span class="sig-paren">(</span><em>points</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>255</em>, <em>0)</em>, <em>radius=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getCoors.drawstats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getCoors.drawstats" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>self</strong> &#8211; </li>
+<li><strong>points</strong> &#8211; </li>
+<li><strong>col_out</strong> &#8211; </li>
+<li><strong>col_in</strong> &#8211; </li>
+<li><strong>radius</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.getCoors.mousefunc">
+<code class="descname">mousefunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getCoors.mousefunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getCoors.mousefunc" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>self</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.getCoors.updatecoors">
+<code class="descname">updatecoors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getCoors.updatecoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getCoors.updatecoors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>self</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.getcoors">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">getcoors</code><span class="sig-paren">(</span><em>im</em>, <em>win='get coordinates'</em>, <em>updatefunc=&lt;function drawcoorpoints&gt;</em>, <em>coors=None</em>, <em>prox=8</em>, <em>radius=3</em>, <em>unique=True</em>, <em>col_out=(0</em>, <em>0</em>, <em>0)</em>, <em>col_in=(0</em>, <em>0</em>, <em>255)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getcoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getcoors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.getgeometrycoors">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">getgeometrycoors</code><span class="sig-paren">(</span><em>*data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getgeometrycoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getgeometrycoors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get filled object coordinates. (function in progress)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.getrectcoors">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">getrectcoors</code><span class="sig-paren">(</span><em>*data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#getrectcoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.getrectcoors" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Get ordered points.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; list of points</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">[Top_left,Top_right,Bottom_left,Bottom_right]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.gray2qi">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">gray2qi</code><span class="sig-paren">(</span><em>gray</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#gray2qi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.gray2qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the 2D numpy array <cite>gray</cite> into a 8-bit QImage with a gray
+colormap.  The first dimension represents the vertical image axis.</p>
+<p>ATTENTION: This QImage carries an attribute <cite>ndimage</cite> with a
+reference to the underlying numpy array that holds the data. On
+Windows, the conversion into a QPixmap does not copy the data, so
+that you have to take care that the QImage does not get garbage
+collected (otherwise PyQt will throw away the wrapper, effectively
+freeing the underlying memory - boom!).</p>
+<p>source from: <a class="reference external" href="https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py">https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.hist_match">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">hist_match</code><span class="sig-paren">(</span><em>source</em>, <em>template</em>, <em>alpha=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#hist_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.hist_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust the pixel values of an image to match those of a template image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>source</strong> &#8211; image to transform colors to template</li>
+<li><strong>template</strong> &#8211; template image ()</li>
+<li><strong>alpha</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">transformed source</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.imFactory">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">imFactory</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory" title="Permalink to this definition">¶</a></dt>
+<dd><p>image factory for RRToolbox to create scripts to standardize loading images and
+provide lazy loading (it can load images from disk with the customized options
+and/or create mapping images to load when needed) to conserve memory.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">In development.</p>
+</div>
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_Func">
+<code class="descname">get_Func</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_Func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_Func" title="Permalink to this definition">¶</a></dt>
+<dd><p>gets the loading function</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_code">
+<code class="descname">get_code</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the script code</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_convertionFunc">
+<code class="descname">get_convertionFunc</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_convertionFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_convertionFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_errorFunc">
+<code class="descname">get_errorFunc</code><span class="sig-paren">(</span><em>path=None</em>, <em>throw=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_errorFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_errorFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_loadFunc">
+<code class="descname">get_loadFunc</code><span class="sig-paren">(</span><em>flag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_loadFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_loadFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_mapFunc">
+<code class="descname">get_mapFunc</code><span class="sig-paren">(</span><em>flag=None</em>, <em>RGB=None</em>, <em>mpath=None</em>, <em>mode=None</em>, <em>func=None</em>, <em>dsize=None</em>, <em>dst=None</em>, <em>fx=None</em>, <em>fy=None</em>, <em>interpolation=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_mapFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_mapFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_np2qi">
+<code class="descname">get_np2qi</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_np2qi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_np2qi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_resizeFunc">
+<code class="descname">get_resizeFunc</code><span class="sig-paren">(</span><em>dsize=None</em>, <em>dst=None</em>, <em>fx=None</em>, <em>fy=None</em>, <em>interpolation=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_resizeFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_resizeFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.get_transposeFunc">
+<code class="descname">get_transposeFunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.get_transposeFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.get_transposeFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imFactory.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imFactory.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imFactory.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.imLoader">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">imLoader</code><span class="sig-paren">(</span><em>path</em>, <em>flag=0</em>, <em>dsize=None</em>, <em>dst=None</em>, <em>fx=None</em>, <em>fy=None</em>, <em>interpolation=None</em>, <em>mmode=None</em>, <em>mpath=None</em>, <em>throw=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imLoader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to load image array from path, url,
+server, string or directly from numpy array (supports databases).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>flag</strong> &#8211; <p>(default: 0) 0 to read as gray, 1 to read as BGR, -1 to
+read as BGRA, 2 to read as RGB, -2 to read as RGBA.</p>
+<dl class="docutils">
+<dt>It supports openCV flags:</dt>
+<dd><ul class="first last">
+<li>cv2.CV_LOAD_IMAGE_COLOR</li>
+<li>cv2.CV_LOAD_IMAGE_GRAYSCALE</li>
+<li>cv2.CV_LOAD_IMAGE_UNCHANGED</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="67%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">value</th>
+<th class="head">openCV flag</th>
+<th class="head">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic" start="2">
+<li></li>
+</ol>
+</td>
+<td>N/A</td>
+<td>RGB</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_COLOR</td>
+<td>BGR</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_GRAYSCALE</td>
+<td>GRAY</td>
+</tr>
+<tr class="row-odd"><td>(-1)</td>
+<td>cv2.CV_LOAD_IMAGE_UNCHANGED</td>
+<td>BGRA</td>
+</tr>
+<tr class="row-even"><td>(-2)</td>
+<td>N/A</td>
+<td>RGBA</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>dsize</strong> &#8211; <p>(None) output image size; if it equals zero, it is computed as:</p>
+<p>exttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}</p>
+</li>
+<li><strong>dst</strong> &#8211; (None) output image; it has the size dsize (when it is non-zero) or the
+size computed from src.size(), fx, and fy; the type of dst is uint8.</li>
+<li><strong>fx</strong> &#8211; <p>scale factor along the horizontal axis; when it equals 0, it is computed as</p>
+<p>exttt{(double)dsize.width/src.cols}</p>
+</li>
+<li><strong>fy</strong> &#8211; <p>scale factor along the vertical axis; when it equals 0, it is computed as</p>
+<p>exttt{(double)dsize.height/src.rows}</p>
+</li>
+<li><strong>interpolation</strong> &#8211; <p>interpolation method compliant with opencv:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="22%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">flag</th>
+<th class="head">Operation</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>INTER_NEAREST</td>
+<td>nearest-neighbor interpolation</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>INTER_LINEAR</td>
+<td>bilinear interpolation (used by default)</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="2">
+<li></li>
+</ol>
+</td>
+<td>INTER_CUBIC</td>
+<td>bicubic interpolation over 4x4 pixel neighborhood</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic" start="3">
+<li></li>
+</ol>
+</td>
+<td>INTER_AREA</td>
+<td>resampling using pixel area relation.
+It may be a preferred method for image decimation,
+as it gives moire’-free results. But when the image
+is zoomed, it is similar to the INTER_NEAREST method.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="4">
+<li></li>
+</ol>
+</td>
+<td>INTER_LANCZOS4</td>
+<td>Lanczos interpolation over 8x8 pixel neighborhood</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>mmode</strong> &#8211; (None) mmode to create mapped file. if mpath is specified loads image, converts
+to mapped file and then loads mapping file with mode {None, &#8216;r+&#8217;, &#8216;r&#8217;, &#8216;w+&#8217;, &#8216;c&#8217;}
+(it is slow for big images). If None, loads mapping file to memory (useful to keep
+image copy for session even if original image is deleted or modified).</li>
+<li><strong>mpath</strong> &#8211; (None) path to create mapped file.
+None, do not create mapping file
+&#8220;&#8221;, uses path directory;
+&#8220;*&#8221;, uses working directory;
+else, uses specified directory.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+It is useful to create physical copy of data to keep loading from (data can be reloaded
+even if original file is moved or deleted).</p>
+</div>
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imLoader.getConfiguration">
+<code class="descname">getConfiguration</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imLoader.getConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imLoader.getConfiguration" title="Permalink to this definition">¶</a></dt>
+<dd><p>get Custom configuration from default configuration
+:param kwargs: keys to customize default configuration.</p>
+<blockquote>
+<div>If no key is provided default configuration is returned.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">dictionary of configuration</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.image.imLoader.temp">
+<code class="descname">temp</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imLoader.temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imLoader.temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>loads from temporal loader created with customized and default parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> &#8211; keys to customize default configuration.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">loaded image.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.imcoors">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">imcoors</code><span class="sig-paren">(</span><em>pts</em>, <em>dtype=&lt;type 'numpy.float32'&gt;</em>, <em>deg=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#imcoors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.imcoors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Image&#8217;s coordinates class.
+Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">116</span><span class="p">,</span> <span class="mi">161</span><span class="p">),</span> <span class="p">(</span><span class="mi">295</span><span class="p">,</span> <span class="mi">96</span><span class="p">),</span> <span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="mi">336</span><span class="p">),</span> <span class="p">(</span><span class="mi">291</span><span class="p">,</span> <span class="mi">286</span><span class="p">)]))</span>
+<span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">__dict__</span>
+<span class="k">print</span> <span class="s2">&quot;mean depend on min and max: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span>
+<span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">__dict__</span>
+<span class="k">print</span> <span class="s2">&quot;after mean max has been already been calculated: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">max</span>
+<span class="n">a</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">116</span><span class="p">,</span> <span class="mi">161</span><span class="p">),</span> <span class="p">(</span><span class="mi">295</span><span class="p">,</span> <span class="mi">96</span><span class="p">)])</span>
+<span class="k">print</span> <span class="n">a</span><span class="o">.</span><span class="n">__dict__</span>
+<span class="k">print</span> <span class="s2">&quot;mean and all its dependencies are processed again: &quot;</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">mean</span>
+</pre></div>
+</div>
+<dl class="attribute">
+<dt id="RRtoolbox.lib.image.imcoors.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#RRtoolbox.lib.image.imcoors.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="RRtoolbox.lib.image.imcoors.pts">
+<code class="descname">pts</code><a class="headerlink" href="#RRtoolbox.lib.image.imcoors.pts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.interpretImage">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">interpretImage</code><span class="sig-paren">(</span><em>toparse</em>, <em>flags</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#interpretImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.interpretImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interprets to get image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>toparse</strong> &#8211; <p>string to parse or array. It can interpret:</p>
+<p><a href="#id29"><span class="problematic" id="id30">*</span></a>connection to server (i.e. host:port)
+<a href="#id31"><span class="problematic" id="id32">*</span></a>path to file (e.g. /path_to_image/image_name.ext)
+<a href="#id33"><span class="problematic" id="id34">*</span></a>URL to image (e.g. <a class="reference external" href="http://domain.com/path_to_image/image_name.ext">http://domain.com/path_to_image/image_name.ext</a>)
+<a href="#id35"><span class="problematic" id="id36">*</span></a>image as string (i.g. numpy converted to string)
+<a href="#id37"><span class="problematic" id="id38">*</span></a>image itself (i.e. numpy array)</p>
+</li>
+<li><strong>flags</strong> &#8211; <p>openCV flags:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="67%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">value</th>
+<th class="head">openCV flag</th>
+<th class="head">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_COLOR</td>
+<td>BGR</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_GRAYSCALE</td>
+<td>GRAY</td>
+</tr>
+<tr class="row-even"><td>(-1)</td>
+<td>cv2.CV_LOAD_IMAGE_UNCHANGED</td>
+<td>format</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">image or None if not successfull</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.limitaxispoints">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">limitaxispoints</code><span class="sig-paren">(</span><em>c</em>, <em>maxc</em>, <em>minc=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#limitaxispoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.limitaxispoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit a point in axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>c</strong> &#8211; list of points..</li>
+<li><strong>maxc</strong> &#8211; maximum value of point.</li>
+<li><strong>minc</strong> &#8211; minimum value of point.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">return limited points.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.loadFunc">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">loadFunc</code><span class="sig-paren">(</span><em>flag=0</em>, <em>dsize=None</em>, <em>dst=None</em>, <em>fx=None</em>, <em>fy=None</em>, <em>interpolation=None</em>, <em>mmode=None</em>, <em>mpath=None</em>, <em>throw=True</em>, <em>keepratio=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#loadFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.loadFunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a function that loads image array from path, url,
+server, string or directly from numpy array (supports databases).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>flag</strong> &#8211; <p>(default: 0) 0 to read as gray, 1 to read as BGR, -1 to
+read as BGRA, 2 to read as RGB, -2 to read as RGBA.</p>
+<dl class="docutils">
+<dt>It supports openCV flags:</dt>
+<dd><ul class="first last">
+<li>cv2.CV_LOAD_IMAGE_COLOR</li>
+<li>cv2.CV_LOAD_IMAGE_GRAYSCALE</li>
+<li>cv2.CV_LOAD_IMAGE_UNCHANGED</li>
+</ul>
+</dd>
+</dl>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="67%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">value</th>
+<th class="head">openCV flag</th>
+<th class="head">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic" start="2">
+<li></li>
+</ol>
+</td>
+<td>N/A</td>
+<td>RGB</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_COLOR</td>
+<td>BGR</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_GRAYSCALE</td>
+<td>GRAY</td>
+</tr>
+<tr class="row-odd"><td>(-1)</td>
+<td>cv2.CV_LOAD_IMAGE_UNCHANGED</td>
+<td>BGRA</td>
+</tr>
+<tr class="row-even"><td>(-2)</td>
+<td>N/A</td>
+<td>RGBA</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>dsize</strong> &#8211; <p>(None) output image size; if it equals zero, it is computed as:</p>
+<blockquote>
+<div>exttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}</div></blockquote>
+<p>If (integer,None) or (None,integer) it completes the values according
+to keepratio parameter.</p>
+</li>
+<li><strong>dst</strong> &#8211; (None) output image; it has the size dsize (when it is non-zero) or the
+size computed from src.size(), fx, and fy; the type of dst is uint8.</li>
+<li><strong>fx</strong> &#8211; scale factor along the horizontal axis</li>
+<li><strong>fy</strong> &#8211; scale factor along the vertical axis</li>
+<li><strong>interpolation</strong> &#8211; <p>interpolation method compliant with opencv:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="22%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">flag</th>
+<th class="head">Operation</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>INTER_NEAREST</td>
+<td>nearest-neighbor interpolation</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>INTER_LINEAR</td>
+<td>bilinear interpolation (used by default)</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="2">
+<li></li>
+</ol>
+</td>
+<td>INTER_CUBIC</td>
+<td>bicubic interpolation over 4x4 pixel neighborhood</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic" start="3">
+<li></li>
+</ol>
+</td>
+<td>INTER_AREA</td>
+<td>resampling using pixel area relation.
+It may be a preferred method for image decimation,
+as it gives moire’-free results. But when the image
+is zoomed, it is similar to the INTER_NEAREST method.</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic" start="4">
+<li></li>
+</ol>
+</td>
+<td>INTER_LANCZOS4</td>
+<td>Lanczos interpolation over 8x8 pixel neighborhood</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>mmode</strong> &#8211; (None) mmode to create mapped file. if mpath is specified loads image, converts
+to mapped file and then loads mapping file with mode {None, &#8216;r+&#8217;, &#8216;r&#8217;, &#8216;w+&#8217;, &#8216;c&#8217;}
+(it is slow for big images). If None, loads mapping file to memory (useful to keep
+image copy for session even if original image is deleted or modified).</li>
+<li><strong>mpath</strong> &#8211; (None) path to create mapped file.
+None, do not create mapping file
+&#8220;&#8221;, uses path directory;
+&#8220;*&#8221;, uses working directory;
+else, uses specified directory.</li>
+<li><strong>keepratio</strong> &#8211; True to keep image ratio when completing data from dsize,fx and fy,
+False to not keep ratio.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+It is useful to create physical copy of data to keep loading from (data can be reloaded
+even if original file is moved or deleted).</p>
+</div>
+<p>:return loader function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.loadcv">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">loadcv</code><span class="sig-paren">(</span><em>path</em>, <em>flags=-1</em>, <em>shape=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#loadcv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.loadcv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple function to load using opencv.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> &#8211; path to image.</li>
+<li><strong>flag</strong> &#8211; <p>openCV flags:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="67%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">value</th>
+<th class="head">openCV flag</th>
+<th class="head">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_COLOR</td>
+<td>BGR</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_GRAYSCALE</td>
+<td>GRAY</td>
+</tr>
+<tr class="row-even"><td>(-1)</td>
+<td>cv2.CV_LOAD_IMAGE_UNCHANGED</td>
+<td>format</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><strong>shape</strong> &#8211; shape to resize image.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">loaded image</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.loaderDict">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">loaderDict</code><span class="sig-paren">(</span><em>loader=None</em>, <em>maxMemory=None</em>, <em>margin=0.8</em>, <em>unit='MB'</em>, <em>all=True</em>, <em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#loaderDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.loaderDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.cache.resourceManager" title="RRtoolbox.lib.cache.resourceManager"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.cache.resourceManager</span></code></a></p>
+<p>Class to standardize loading objects and manage memory efficiently.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>loader</strong> &#8211; default loader for objects (e.g. load from file or create instance object)</li>
+<li><strong>maxMemory</strong> &#8211; (None) max memory in specified unit to keep in check optimization (it does
+not mean that memory never surpasses maxMemory).</li>
+<li><strong>margin</strong> &#8211; (0.8) margin from maxMemory to trigger optimization.
+It is in percentage of maxMemory ranging from 0 (0%) to maximum 1 (100%).
+So optimal memory is inside range: maxMemory*margin &lt; Memory &lt; maxMemory</li>
+<li><strong>unit</strong> &#8211; (MB) maxMemory unit, it can be GB (Gigabytes), MB (Megabytes), B (bytes)</li>
+<li><strong>all</strong> &#8211; if True used memory is from all alive references,
+if False used memory is only from keptAlive references.</li>
+<li><strong>config</strong> &#8211; (Not Implemented)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="RRtoolbox.lib.image.loaderDict.register">
+<code class="descname">register</code><span class="sig-paren">(</span><em>key</em>, <em>path=None</em>, <em>method=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#loaderDict.register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.loaderDict.register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.loadsfrom">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">loadsfrom</code><span class="sig-paren">(</span><em>path</em>, <em>flags=1L</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#loadsfrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.loadsfrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads Image from URL or file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> &#8211; filepath or url</li>
+<li><strong>flags</strong> &#8211; <p>openCV flags:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="67%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">value</th>
+<th class="head">openCV flag</th>
+<th class="head">output</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><ol class="first last arabic">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_COLOR</td>
+<td>BGR</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic" start="0">
+<li></li>
+</ol>
+</td>
+<td>cv2.CV_LOAD_IMAGE_GRAYSCALE</td>
+<td>GRAY</td>
+</tr>
+<tr class="row-even"><td>(-1)</td>
+<td>cv2.CV_LOAD_IMAGE_UNCHANGED</td>
+<td>format</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.myline">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">myline</code><span class="sig-paren">(</span><em>img</em>, <em>pt1</em>, <em>pt2</em>, <em>color</em>, <em>thickness=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#myline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.myline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funtion to draw points (experimental).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; </li>
+<li><strong>pt1</strong> &#8211; </li>
+<li><strong>pt2</strong> &#8211; </li>
+<li><strong>color</strong> &#8211; </li>
+<li><strong>thickness</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.np2qi">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">np2qi</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#np2qi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.np2qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert numpy array to Qt Image.</p>
+<p>source from: <a class="reference external" href="https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py">https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.np2str">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">np2str</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#np2str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.np2str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.image.pathLoader">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">pathLoader</code><span class="sig-paren">(</span><em>fns=None</em>, <em>loader=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#pathLoader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.pathLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">_abcoll.MutableSequence</span></code></p>
+<p>Class to standardize loading images from list of paths and offer lazy evaluations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fns</strong> &#8211; list of paths</li>
+<li><strong>loader</strong> &#8211; path loader (loadcv,loadsfrom, or function from loadFunc)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">fns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/path to/image 1.ext&quot;</span><span class="p">,</span><span class="s2">&quot;/path to/image 2.ext&quot;</span><span class="p">]</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">pathLoader</span><span class="p">(</span><span class="n">fns</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># loads image in path 0</span>
+<span class="k">print</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># loads image in path 1</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="RRtoolbox.lib.image.pathLoader.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>index</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#pathLoader.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.pathLoader.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.plt2bgr">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">plt2bgr</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#plt2bgr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.plt2bgr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.plt2bgra">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">plt2bgra</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#plt2bgra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.plt2bgra" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.qi2np">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">qi2np</code><span class="sig-paren">(</span><em>qimage</em>, <em>dtype='array'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#qi2np"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.qi2np" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert QImage to numpy.ndarray.  The dtype defaults to uint8
+for QImage.Format_Indexed8 or <cite>bgra_dtype</cite> (i.e. a record array)
+for 32bit color images.  You can pass a different dtype to use, or
+&#8216;array&#8217; to get a 3D uint8 array for color images.</p>
+<p>source from: <a class="reference external" href="https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py">https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.quadrants">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">quadrants</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#quadrants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.quadrants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separate points respect to center of gravity point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> &#8211; list of points</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">[[Top_left],[Top_right],[Bottom_left],[Bottom_right]]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.rgb2qi">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">rgb2qi</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#rgb2qi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.rgb2qi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the 3D numpy array <cite>rgb</cite> into a 32-bit QImage.  <cite>rgb</cite> must
+have three dimensions with the vertical, horizontal and RGB image axes.</p>
+<p>ATTENTION: This QImage carries an attribute <cite>ndimage</cite> with a
+reference to the underlying numpy array that holds the data. On
+Windows, the conversion into a QPixmap does not copy the data, so
+that you have to take care that the QImage does not get garbage
+collected (otherwise PyQt will throw away the wrapper, effectively
+freeing the underlying memory - boom!).</p>
+<p>source from: <a class="reference external" href="https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py">https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.separe">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">separe</code><span class="sig-paren">(</span><em>values</em>, <em>sep</em>, <em>axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#separe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.separe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separate values from separator or threshold.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>values</strong> &#8211; list of values</li>
+<li><strong>sep</strong> &#8211; peparator value</li>
+<li><strong>axis</strong> &#8211; axis in each value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>:return:lists of greater values, list of lesser values</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.str2np">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">str2np</code><span class="sig-paren">(</span><em>string</em>, <em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#str2np"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.str2np" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.transposeIm">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">transposeIm</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#transposeIm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.transposeIm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.lib.image.try_loads">
+<code class="descclassname">RRtoolbox.lib.image.</code><code class="descname">try_loads</code><span class="sig-paren">(</span><em>fns</em>, <em>func=&lt;built-in function imread&gt;</em>, <em>paths=None</em>, <em>debug=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/image.html#try_loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.image.try_loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to load images from paths.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fns</strong> &#8211; list of file names</li>
+<li><strong>func</strong> &#8211; loader function</li>
+<li><strong>paths</strong> &#8211; paths to try. By default it loads working dir and test path</li>
+<li><strong>debug</strong> &#8211; True to show debug messages</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">image else None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-RRtoolbox.lib.inspector">
 <span id="rrtoolbox-lib-inspector-module"></span><h2>RRtoolbox.lib.inspector module<a class="headerlink" href="#module-RRtoolbox.lib.inspector" title="Permalink to this headline">¶</a></h2>
@@ -2893,23 +4159,37 @@ else windows must be closed to main thread to end (Experimental)</li>
 <div class="section" id="module-RRtoolbox.lib.root">
 <span id="rrtoolbox-lib-root-module"></span><h2>RRtoolbox.lib.root module<a class="headerlink" href="#module-RRtoolbox.lib.root" title="Permalink to this headline">¶</a></h2>
 <p>This module holds core-like methods for library modules but not for the hole package</p>
-<dl class="function">
+<dl class="class">
 <dt id="RRtoolbox.lib.root.Controlstdout">
-<code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">Controlstdout</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#Controlstdout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.Controlstdout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Context manager to control output to stdout</p>
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">Controlstdout</code><span class="sig-paren">(</span><em>disable=True</em>, <em>buffer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#Controlstdout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.Controlstdout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Context manager to control output to stdout</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>disable</strong> &#8211; if True suppress output.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>disable</strong> &#8211; if True suppress output.</li>
+<li><strong>buffer</strong> &#8211; (None) if True creates a buffer to collect all data
+printed to the stdout which can be retrieved with self.buffered.
+A file can be given but if it is write-only it cannot retrieve
+data to self.buffered so &#8220;w+&#8221; is recommended to be used with self.buffered.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If a references to sys.stdout is kept before the Controlstdout
+instance then output can be printed trough it and cannot be
+controlled by the Controlstdout context.</p>
+</div>
 </dd></dl>
 
 <dl class="class">
 <dt id="RRtoolbox.lib.root.FactorConvert">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">FactorConvert</code><span class="sig-paren">(</span><em>factor=None</em>, <em>factorIndex=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#FactorConvert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.FactorConvert" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">FactorConvert</code><span class="sig-paren">(</span><em>factor=None</em>, <em>abbreviate=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#FactorConvert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.FactorConvert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Keep track of factor and converts to any available factor.</p>
 <dl class="method">
@@ -3052,17 +4332,29 @@ If key is a factor value it will look for the nearest factor value.</td>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="class">
+<dt id="RRtoolbox.lib.root.Magnitude">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">Magnitude</code><span class="sig-paren">(</span><em>value=0</em>, <em>factor=None</em>, <em>unit=None</em>, <em>precision=None</em>, <em>abbreviate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#Magnitude"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.Magnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="RRtoolbox.lib.root.Magnitude.format_value">
+<code class="descname">format_value</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#Magnitude.format_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.Magnitude.format_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="RRtoolbox.lib.root.TimeCode">
-<code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">TimeCode</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#TimeCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.TimeCode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Context to profile code by printing a prelude and prologue with time.</p>
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">TimeCode</code><span class="sig-paren">(</span><em>msg=None</em>, <em>factor=None</em>, <em>precision=None</em>, <em>abv=None</em>, <em>endmsg='{time}n'</em>, <em>enableMsg=True</em>, <em>printfunc=None</em>, <em>profiler=None</em>, <em>profile_point=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#TimeCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.TimeCode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Context to profile code by printing a prelude and prologue with time.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>msg</strong> &#8211; prelude or description message</li>
-<li><strong>unit</strong> &#8211; unit supported by FactorConvert class</li>
+<li><strong>factor</strong> &#8211; factor supported by FactorConvert class</li>
 <li><strong>precision</strong> &#8211; number of digits after a float point</li>
 <li><strong>abv</strong> &#8211; if True prints &#8220;s&#8221;, if False &#8220;seconds&#8221; for time</li>
 <li><strong>endmsg</strong> &#8211; prologue message</li>
@@ -3073,11 +4365,18 @@ is sys.stdout.write</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
 </tbody>
 </table>
+<dl class="attribute">
+<dt id="RRtoolbox.lib.root.TimeCode.time">
+<code class="descname">time</code><a class="headerlink" href="#RRtoolbox.lib.root.TimeCode.time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="RRtoolbox.lib.root.TimeCode.time_end">
+<code class="descname">time_end</code><a class="headerlink" href="#RRtoolbox.lib.root.TimeCode.time_end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="function">
@@ -3132,15 +4431,22 @@ if includeMth and excludeMth is None then all methods of self are decorated.</li
 
 <dl class="function">
 <dt id="RRtoolbox.lib.root.glob">
-<code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">glob</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.glob" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">glob</code><span class="sig-paren">(</span><em>path</em>, <em>contents='*'</em>, <em>check=&lt;function isfile&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.glob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of paths matching a pathname pattern with valid files.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; path to process ing glob filter</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> &#8211; path to process ing glob filter</li>
+<li><strong>contents</strong> &#8211; If path is a folder then looks for contents using</li>
+<li><strong>check</strong> &#8211; function to filter contents. it must receive the path
+and return True to let it pass and False to suppress it.</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">return list of files</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">return list of files</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -3169,6 +4475,208 @@ if includeMth and excludeMth is None then all methods of self are decorated.</li
 </dd></dl>
 
 <dl class="class">
+<dt id="RRtoolbox.lib.root.profiler">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">profiler</code><span class="sig-paren">(</span><em>msg=None</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<blockquote>
+<div><p>profiler for code points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param msg:</th><td class="field-body">custom comment for profiling point</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param tag:</th><td class="field-body">classification tag</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">parameter space:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(&#8221; &#8221;)</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">parameter format_line:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">(&#8220;{space}{tag}{msg}{time}&#8221;)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">parameter format_structure:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(&#8220;</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="docutils">
+<dt>{space}[{tag}{msg}{time}{child}]{side}&#8221;)</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">parameter points:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">profile instaces which are divided in &#8220;side&#8221; or &#8220;children&#8221; points
+according if they are side by side or are inside of the profiler.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>close profiler and all their points</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.formatter">
+<code class="descname">formatter</code><span class="sig-paren">(</span><em>level</em>, <em>tag</em>, <em>msg</em>, <em>time</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.formatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.formatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>format profiling point arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>level</strong> &#8211; </li>
+<li><strong>tag</strong> &#8211; classification tag</li>
+<li><strong>msg</strong> &#8211; custom comment of profiling point</li>
+<li><strong>time</strong> &#8211; time of profiling</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">formatted (spacing, tag, msg, time)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.lines_formatted">
+<code class="descname">lines_formatted</code><span class="sig-paren">(</span><em>collapse=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.lines_formatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.lines_formatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate string lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>collapse</strong> &#8211; list for collapsing repeated tags or messages.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of lines</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.lines_unformatted">
+<code class="descname">lines_unformatted</code><span class="sig-paren">(</span><em>collapse=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.lines_unformatted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.lines_unformatted" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate structure lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>collapse</strong> &#8211; list for collapsing repeated tags or messages.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">generator with outputs (level, tag, msg, time)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.open_point">
+<code class="descname">open_point</code><span class="sig-paren">(</span><em>msg=None</em>, <em>tag=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.open_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.open_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a profiling point to track time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>msg</strong> &#8211; custom comment for profiling point</li>
+<li><strong>tag</strong> &#8211; classification tag</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.restructure">
+<code class="descname">restructure</code><span class="sig-paren">(</span><em>structure</em>, <em>collapse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.restructure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.restructure" title="Permalink to this definition">¶</a></dt>
+<dd><p>reprocess an already created structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>structure</strong> &#8211; structure.</li>
+<li><strong>collapse</strong> &#8211; list for collapsing repeated tags or messages.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">reprocessed structure</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.string_lines">
+<code class="descname">string_lines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.string_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.string_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>string with plain structure of profiling</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.string_structured">
+<code class="descname">string_structured</code><span class="sig-paren">(</span><em>collapse=None</em>, <em>structure=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.string_structured"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.string_structured" title="Permalink to this definition">¶</a></dt>
+<dd><p>string with plain structure of profiling</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>collapse</strong> &#8211; list for collapsing repeated tags or messages.</li>
+<li><strong>structure</strong> &#8211; (None) uses and already created structure. If None
+it creates the structure.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.profiler.structure">
+<code class="descname">structure</code><span class="sig-paren">(</span><em>collapse=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#profiler.structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.profiler.structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>profiling structure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>collapse</strong> &#8211; list for collapsing repeated tags or messages.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">structure with format [tag,msg,time,children]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="RRtoolbox.lib.root.profiler.time">
+<code class="descname">time</code><a class="headerlink" href="#RRtoolbox.lib.root.profiler.time" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">overall time of profiling</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="RRtoolbox.lib.root.stdoutLOG">
 <em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">stdoutLOG</code><span class="sig-paren">(</span><em>path</em>, <em>mode='w+'</em>, <em>chain=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutLOG"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutLOG" title="Permalink to this definition">¶</a></dt>
 <dd><p>simple logger to save stdout output
@@ -3188,12 +4696,12 @@ so anything printed in the console is logged to a file.</p>
 </table>
 <dl class="method">
 <dt id="RRtoolbox.lib.root.stdoutLOG.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutLOG.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutLOG.close" title="Permalink to this definition">¶</a></dt>
+<code class="descname">close</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutLOG.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutLOG.close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="RRtoolbox.lib.root.stdoutLOG.flush">
-<code class="descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutLOG.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutLOG.flush" title="Permalink to this definition">¶</a></dt>
+<code class="descname">flush</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutLOG.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutLOG.flush" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3214,8 +4722,40 @@ so anything printed in the console is logged to a file.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="RRtoolbox.lib.root.stdoutMULTI">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">stdoutMULTI</code><span class="sig-paren">(</span><em>filelist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enclose several file-like objects.</p>
+<p>:param filelist = list of file-like objects</p>
+<dl class="method">
+<dt id="RRtoolbox.lib.root.stdoutMULTI.close">
+<code class="descname">close</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.stdoutMULTI.flush">
+<code class="descname">flush</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI.flush" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.stdoutMULTI.printline">
+<code class="descname">printline</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI.printline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI.printline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.stdoutMULTI.printlines">
+<code class="descname">printlines</code><span class="sig-paren">(</span><em>lines</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI.printlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI.printlines" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.lib.root.stdoutMULTI.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutMULTI.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutMULTI.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="RRtoolbox.lib.root.stdoutSIM">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">stdoutSIM</code><span class="sig-paren">(</span><em>disable=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutSIM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutSIM" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.root.</code><code class="descname">stdoutSIM</code><span class="sig-paren">(</span><em>disable=False</em>, <em>stdout=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/root.html#stdoutSIM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.root.stdoutSIM" title="Permalink to this definition">¶</a></dt>
 <dd><p>simple logger to simulate stdout output</p>
 <dl class="method">
 <dt id="RRtoolbox.lib.root.stdoutSIM.close">
@@ -3333,7 +4873,22 @@ so anything printed in the console is logged to a file.</p>
 <dl class="function">
 <dt id="RRtoolbox.lib.serverServices.parseString">
 <code class="descclassname">RRtoolbox.lib.serverServices.</code><code class="descname">parseString</code><span class="sig-paren">(</span><em>string</em>, <em>timeout=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/serverServices.html#parseString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.serverServices.parseString" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>string</strong> &#8211; </li>
+<li><strong>timeout</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="RRtoolbox.lib.serverServices.ping">
@@ -3457,6 +5012,11 @@ so anything printed in the console is logged to a file.</p>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="RRtoolbox.lib.serverServices.string_is_socket_address">
+<code class="descclassname">RRtoolbox.lib.serverServices.</code><code class="descname">string_is_socket_address</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/serverServices.html#string_is_socket_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.serverServices.string_is_socket_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-RRtoolbox.lib.session">
 <span id="rrtoolbox-lib-session-module"></span><h2>RRtoolbox.lib.session module<a class="headerlink" href="#module-RRtoolbox.lib.session" title="Permalink to this headline">¶</a></h2>
@@ -3571,7 +5131,7 @@ Dependency project: <a class="reference external" href="https://github.com/uqfou
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">filename of saved session</p>
 </td>
 </tr>
 </tbody>

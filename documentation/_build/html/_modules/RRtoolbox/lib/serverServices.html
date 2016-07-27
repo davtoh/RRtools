@@ -308,7 +308,21 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span></div>
 
+<div class="viewcode-block" id="string_is_socket_address"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.string_is_socket_address">[docs]</a><span class="k">def</span> <span class="nf">string_is_socket_address</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">host</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span></div>
+
 <div class="viewcode-block" id="parseString"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.parseString">[docs]</a><span class="k">def</span> <span class="nf">parseString</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    :param string:</span>
+<span class="sd">    :param timeout:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
         <span class="n">host</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rcvPickle</span><span class="p">((</span><span class="n">host</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">addr</span><span class="p">)),</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>

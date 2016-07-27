@@ -22,7 +22,7 @@
 
 
 \title{RRtoolbox Documentation}
-\date{July 07, 2016}
+\date{July 27, 2016}
 \release{1}
 \author{davtoh}
 \newcommand{\sphinxlogo}{}
@@ -2473,13 +2473,7 @@ images look more cartoon-like
 \index{d (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.BilateralParameters.d}\pysigline{\bfcode{d}\strong{ = 27}}
-\end{fulllineitems}
-
-\index{d\_h (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)}
-
-\begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.BilateralParameters.d_h}\pysigline{\bfcode{d\_h}\strong{ = \textless{}RRtoolbox.lib.arrayops.filters.bilateraP object\textgreater{}}}
+\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.BilateralParameters.d}\pysigline{\bfcode{d}\strong{ = \textless{}RRtoolbox.lib.arrayops.filters.bilateraP object\textgreater{}}}
 \end{fulllineitems}
 
 \index{filters (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)}
@@ -2566,7 +2560,7 @@ bilateral parameter
 \index{bilateralFilter() (in module RRtoolbox.lib.arrayops.filters)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.bilateralFilter}\pysiglinewithargsret{\code{RRtoolbox.lib.arrayops.filters.}\bfcode{bilateralFilter}}{\emph{*args}, \emph{**kwargs}}{}
+\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.bilateralFilter}\pysiglinewithargsret{\code{RRtoolbox.lib.arrayops.filters.}\bfcode{bilateralFilter}}{\emph{im}, \emph{d}, \emph{sigmaColor}, \emph{sigmaSpace}}{}
 Apply bilateral Filter.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -2642,6 +2636,28 @@ Example:
 \PYG{k}{print} \PYG{n}{myfilter}\PYG{p}{,}\PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{myfilter}\PYG{p}{)}
 \PYG{k}{print} \PYG{n}{myfilter}\PYG{o}{.}\PYG{n}{alpha}\PYG{p}{,}\PYG{n}{myfilter}\PYG{o}{.}\PYG{n}{beta1}\PYG{p}{,}\PYG{n}{myfilter}\PYG{o}{.}\PYG{n}{beta2}
 \end{Verbatim}
+
+\end{fulllineitems}
+
+\index{getBilateralParameters() (in module RRtoolbox.lib.arrayops.filters)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib.arrayops:RRtoolbox.lib.arrayops.filters.getBilateralParameters}\pysiglinewithargsret{\code{RRtoolbox.lib.arrayops.filters.}\bfcode{getBilateralParameters}}{\emph{shape}, \emph{mode=None}}{}
+Calculate from shape bilateral parameters.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{shape}} -- image shape
+
+\item {} 
+\textbf{\texttt{mode}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
 
 \end{fulllineitems}
 
@@ -3242,7 +3258,7 @@ decorator
 \index{memoizers (RRtoolbox.lib.cache.Memoizer attribute)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.cache.Memoizer.memoizers}\pysigline{\bfcode{memoizers}\strong{ = \{140716454851024: \textless{}weakref at 0x7ffb1a4e9208; to `Memoizer' at 0x7ffb1a4e31d0\textgreater{}\}}}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.cache.Memoizer.memoizers}\pysigline{\bfcode{memoizers}\strong{ = \{140007976996752: \textless{}weakref at 0x7f5625b78520; to `Memoizer' at 0x7f5625bc0f90\textgreater{}\}}}
 \end{fulllineitems}
 
 
@@ -3910,7 +3926,7 @@ path to the package.
 \label{RRtoolbox.lib:module-RRtoolbox.lib.descriptors}\label{RRtoolbox.lib:rrtoolbox-lib-descriptors-module}\index{RRtoolbox.lib.descriptors (module)}\index{ASIFT() (in module RRtoolbox.lib.descriptors)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.descriptors.ASIFT}\pysiglinewithargsret{\code{RRtoolbox.lib.descriptors.}\bfcode{ASIFT}}{\emph{*args}, \emph{**kwargs}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.descriptors.ASIFT}\pysiglinewithargsret{\code{RRtoolbox.lib.descriptors.}\bfcode{ASIFT}}{\emph{feature\_name}, \emph{img}, \emph{mask=None}, \emph{pool=\textless{}multiprocessing.pool.ThreadPool object\textgreater{}}}{}
 asift(feature\_name, img, mask=None, pool=None) -\textgreater{} keypoints, descrs
 
 Apply a set of affine transformations to the image, detect keypoints and
@@ -4058,7 +4074,7 @@ keypoints,descriptors
 \index{MATCH() (in module RRtoolbox.lib.descriptors)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.descriptors.MATCH}\pysiglinewithargsret{\code{RRtoolbox.lib.descriptors.}\bfcode{MATCH}}{\emph{*args}, \emph{**kwargs}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.descriptors.MATCH}\pysiglinewithargsret{\code{RRtoolbox.lib.descriptors.}\bfcode{MATCH}}{\emph{feature\_name}, \emph{kp1}, \emph{desc1}, \emph{kp2}, \emph{desc2}}{}
 Use matcher and asift output to obtain Transformation matrix (TM).
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -4854,6 +4870,14 @@ Requirements:
 
 \end{fulllineitems}
 
+\index{resource\_path() (in module RRtoolbox.lib.directory)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.directory.resource_path}\pysiglinewithargsret{\code{RRtoolbox.lib.directory.}\bfcode{resource\_path}}{\emph{relative\_path='`}}{}
+Get absolute path to resource, works for dev and for PyInstaller
+
+\end{fulllineitems}
+
 \index{rmFile() (in module RRtoolbox.lib.directory)}
 
 \begin{fulllineitems}
@@ -4921,7 +4945,1529 @@ Index is a list containing the indexes of different parts of the two splitted st
 
 
 \subsubsection{RRtoolbox.lib.image module}
-\label{RRtoolbox.lib:rrtoolbox-lib-image-module}
+\label{RRtoolbox.lib:rrtoolbox-lib-image-module}\phantomsection\label{RRtoolbox.lib:module-RRtoolbox.lib.image}\index{RRtoolbox.lib.image (module)}
+Bundle of methods for handling images. Rather than manipulating specialized
+operations in images methods in this module are used for loading, outputting
+and format-converting methods, as well as color manipulation.
+
+SUPPORTED FORMATS
+
+see \href{http://docs.opencv.org/2.4/modules/highgui/doc/reading\_and\_writing\_images\_and\_video.html\#imread}{http://docs.opencv.org/2.4/modules/highgui/doc/reading\_and\_writing\_images\_and\_video.html\#imread}
+
+Windows bitmaps - {\color{red}\bfseries{}*}.bmp, {\color{red}\bfseries{}*}.dib (always supported)
+JPEG files - {\color{red}\bfseries{}*}.jpeg, {\color{red}\bfseries{}*}.jpg, {\color{red}\bfseries{}*}.jpe (see the Notes section)
+JPEG 2000 files - {\color{red}\bfseries{}*}.jp2 (see the Notes section)
+Portable Network Graphics - {\color{red}\bfseries{}*}.png (see the Notes section)
+Portable image format - {\color{red}\bfseries{}*}.pbm, {\color{red}\bfseries{}*}.pgm, {\color{red}\bfseries{}*}.ppm (always supported)
+Sun rasters - {\color{red}\bfseries{}*}.sr, {\color{red}\bfseries{}*}.ras (always supported)
+TIFF files - {\color{red}\bfseries{}*}.tiff, {\color{red}\bfseries{}*}.tif (see the Notes section)
+\index{bgra2bgr() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.bgra2bgr}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{bgra2bgr}}{\emph{im}, \emph{bgrcolor=(255}, \emph{255}, \emph{255)}}{}
+Convert BGR to BGRA image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{im}} -- image
+
+\item {} 
+\textbf{\texttt{bgrcolor}} -- BGR color representing transparency. (information is lost when
+converting BGRA to BGR) e.g. {[}200,200,200{]}.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{checkLoaded() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.checkLoaded}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{checkLoaded}}{\emph{obj}, \emph{fn='`}, \emph{raiseError=False}}{}
+Simple function to determine if variable is valid.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{obj}} -- loaded object
+
+\item {} 
+\textbf{\texttt{fn}} -- path of file
+
+\item {} 
+\textbf{\texttt{raiseError}} -- if True and obj is None, raise
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+None
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{convertAs() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.convertAs}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{convertAs}}{\emph{fns}, \emph{base=None}, \emph{folder=None}, \emph{name=None}, \emph{ext=None}, \emph{overwrite=False}, \emph{loader=None}, \emph{simulate=False}}{}
+Reads a file and save as other file based in a pattern.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{fns}} -- file name or list of file names. It supports glob operations.
+By default glob operations ignore folders.
+
+\item {} 
+\textbf{\texttt{base}} -- path to place images.
+
+\item {} 
+\textbf{\texttt{folder}} -- (None) folder to place images in base's path.
+If True it uses the folder in which image was loaded.
+If None, not folder is used.
+
+\item {} 
+\textbf{\texttt{name}} -- string for formatting new name of image with the \{name\} tag.
+Ex: if name is `new\_\{name\}' and image is called `img001' then the
+formatted new image's name is `new\_img001'
+
+\item {} 
+\textbf{\texttt{ext}} -- (None) extension to save all images. If None uses the same extension
+as the loaded image.
+
+\item {} 
+\textbf{\texttt{overwrite}} -- (False) If True and the destine filename for saving already
+exists then it is replaced, else a new filename is generated
+with an index ``\{name\}\_\{index\}.\{extension\}''
+
+\item {} 
+\textbf{\texttt{loader}} -- (None) loader for the image file to change image attributes.
+If None reads the original images untouched.
+
+\item {} 
+\textbf{\texttt{simulate}} -- (False) if True, no saving is performed but the status is returned
+to confirm what images where adequately processed.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+list of statuses (0 - no error, 1 - image not loaded,
+2 - image not saved, 3 - error in processing image)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcoorarea() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcoorarea}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcoorarea}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}, \emph{radius=2}}{}
+Function to draw interaction with points to obtain area.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcooraxes() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcooraxes}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcooraxes}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{255}, \emph{0)}, \emph{radius=2}}{}
+Function to draw axes instead of points.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcoorperspective() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcoorperspective}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcoorperspective}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}, \emph{radius=2}}{}
+Function to draw interaction with points to obtain perspective.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcoorpoints() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcoorpoints}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcoorpoints}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}, \emph{radius=2}}{}
+Funtion to draw points.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcoorpolyArrow() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcoorpolyArrow}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcoorpolyArrow}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}, \emph{radius=2}}{}
+Function to draw interaction with vectors to obtain polygonal.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drawcoorpolyline() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.drawcoorpolyline}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{drawcoorpolyline}}{\emph{vis}, \emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}, \emph{radius=2}}{}
+Function to draw interaction with points to obtain polygonal.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{vis}} -- image array.
+
+\item {} 
+\textbf{\texttt{points}} -- list of points.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{fig2bgr() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.fig2bgr}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{fig2bgr}}{\emph{fig}}{}
+Convert a Matplotlib figure to a RGB image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{fig}} -- a matplotlib figure
+
+\item[{Returns}] \leavevmode
+RGB image.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{fig2bgra() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.fig2bgra}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{fig2bgra}}{\emph{fig}}{}
+Convert a Matplotlib figure to a RGBA image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{fig}} -- a matplotlib figure
+
+\item[{Returns}] \leavevmode
+RGBA image.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{getCoors (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getCoors}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{getCoors}}{\emph{im}, \emph{win='get coordinates'}, \emph{updatefunc=\textless{}function drawcoorpoints\textgreater{}}, \emph{unique=True}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}}{}
+Bases: {\hyperref[RRtoolbox.lib:RRtoolbox.lib.plotter.plotim]{\emph{\code{RRtoolbox.lib.plotter.plotim}}}}
+
+Create window to select points from image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{im}} -- image to get points.
+
+\item {} 
+\textbf{\texttt{win}} -- window name.
+
+\item {} 
+\textbf{\texttt{updatefunc}} -- function to draw interaction with points.
+(e.g. limitaxispoints, drawcoorperspective, etc.).
+
+\item {} 
+\textbf{\texttt{prox}} -- proximity to identify point.
+
+\item {} 
+\textbf{\texttt{radius}} -- radius of drawn points.
+
+\item {} 
+\textbf{\texttt{unique}} -- If True no point can be repeated,
+else selected points can be repeated.
+
+\item {} 
+\textbf{\texttt{col\_out}} -- outer color of point.
+
+\item {} 
+\textbf{\texttt{col\_in}} -- inner color of point.
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{coors (RRtoolbox.lib.image.getCoors attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getCoors.coors}\pysigline{\bfcode{coors}}
+\end{fulllineitems}
+
+\index{drawstats() (RRtoolbox.lib.image.getCoors method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getCoors.drawstats}\pysiglinewithargsret{\bfcode{drawstats}}{\emph{points}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{255}, \emph{0)}, \emph{radius=2}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{self}} -- 
+
+\item {} 
+\textbf{\texttt{points}} -- 
+
+\item {} 
+\textbf{\texttt{col\_out}} -- 
+
+\item {} 
+\textbf{\texttt{col\_in}} -- 
+
+\item {} 
+\textbf{\texttt{radius}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{mousefunc() (RRtoolbox.lib.image.getCoors method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getCoors.mousefunc}\pysiglinewithargsret{\bfcode{mousefunc}}{}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{self}} -- 
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{updatecoors() (RRtoolbox.lib.image.getCoors method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getCoors.updatecoors}\pysiglinewithargsret{\bfcode{updatecoors}}{}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{self}} -- 
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{getcoors() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getcoors}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{getcoors}}{\emph{im}, \emph{win='get coordinates'}, \emph{updatefunc=\textless{}function drawcoorpoints\textgreater{}}, \emph{coors=None}, \emph{prox=8}, \emph{radius=3}, \emph{unique=True}, \emph{col\_out=(0}, \emph{0}, \emph{0)}, \emph{col\_in=(0}, \emph{0}, \emph{255)}}{}
+\end{fulllineitems}
+
+\index{getgeometrycoors() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getgeometrycoors}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{getgeometrycoors}}{\emph{*data}}{}
+Get filled object coordinates. (function in progress)
+
+\end{fulllineitems}
+
+\index{getrectcoors() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.getrectcoors}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{getrectcoors}}{\emph{*data}}{}~\begin{quote}
+
+Get ordered points.
+\end{quote}
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{data}} -- list of points
+
+\item[{Returns}] \leavevmode
+{[}Top\_left,Top\_right,Bottom\_left,Bottom\_right{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{gray2qi() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.gray2qi}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{gray2qi}}{\emph{gray}}{}
+Convert the 2D numpy array \emph{gray} into a 8-bit QImage with a gray
+colormap.  The first dimension represents the vertical image axis.
+
+ATTENTION: This QImage carries an attribute \emph{ndimage} with a
+reference to the underlying numpy array that holds the data. On
+Windows, the conversion into a QPixmap does not copy the data, so
+that you have to take care that the QImage does not get garbage
+collected (otherwise PyQt will throw away the wrapper, effectively
+freeing the underlying memory - boom!).
+
+source from: \href{https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py}{https://kogs-www.informatik.uni-hamburg.de/\textasciitilde{}meine/software/vigraqt/qimage2ndarray.py}
+
+\end{fulllineitems}
+
+\index{hist\_match() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.hist_match}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{hist\_match}}{\emph{source}, \emph{template}, \emph{alpha=None}}{}
+Adjust the pixel values of an image to match those of a template image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{source}} -- image to transform colors to template
+
+\item {} 
+\textbf{\texttt{template}} -- template image ()
+
+\item {} 
+\textbf{\texttt{alpha}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+transformed source
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{imFactory (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{imFactory}}{\emph{**kwargs}}{}
+image factory for RRToolbox to create scripts to standardize loading images and
+provide lazy loading (it can load images from disk with the customized options
+and/or create mapping images to load when needed) to conserve memory.
+
+\begin{notice}{warning}{Warning:}
+In development.
+\end{notice}
+\index{get\_Func() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_Func}\pysiglinewithargsret{\bfcode{get\_Func}}{}{}
+gets the loading function
+
+\end{fulllineitems}
+
+\index{get\_code() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_code}\pysiglinewithargsret{\bfcode{get\_code}}{}{}
+get the script code
+
+\end{fulllineitems}
+
+\index{get\_convertionFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_convertionFunc}\pysiglinewithargsret{\bfcode{get\_convertionFunc}}{\emph{code}}{}
+\end{fulllineitems}
+
+\index{get\_errorFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_errorFunc}\pysiglinewithargsret{\bfcode{get\_errorFunc}}{\emph{path=None}, \emph{throw=None}}{}
+\end{fulllineitems}
+
+\index{get\_loadFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_loadFunc}\pysiglinewithargsret{\bfcode{get\_loadFunc}}{\emph{flag=None}}{}
+\end{fulllineitems}
+
+\index{get\_mapFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_mapFunc}\pysiglinewithargsret{\bfcode{get\_mapFunc}}{\emph{flag=None}, \emph{RGB=None}, \emph{mpath=None}, \emph{mode=None}, \emph{func=None}, \emph{dsize=None}, \emph{dst=None}, \emph{fx=None}, \emph{fy=None}, \emph{interpolation=None}}{}
+\end{fulllineitems}
+
+\index{get\_np2qi() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_np2qi}\pysiglinewithargsret{\bfcode{get\_np2qi}}{}{}
+\end{fulllineitems}
+
+\index{get\_resizeFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_resizeFunc}\pysiglinewithargsret{\bfcode{get\_resizeFunc}}{\emph{dsize=None}, \emph{dst=None}, \emph{fx=None}, \emph{fy=None}, \emph{interpolation=None}}{}
+\end{fulllineitems}
+
+\index{get\_transposeFunc() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.get_transposeFunc}\pysiglinewithargsret{\bfcode{get\_transposeFunc}}{}{}
+\end{fulllineitems}
+
+\index{update() (RRtoolbox.lib.image.imFactory method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imFactory.update}\pysiglinewithargsret{\bfcode{update}}{\emph{**kwargs}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{imLoader (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imLoader}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{imLoader}}{\emph{path}, \emph{flag=0}, \emph{dsize=None}, \emph{dst=None}, \emph{fx=None}, \emph{fy=None}, \emph{interpolation=None}, \emph{mmode=None}, \emph{mpath=None}, \emph{throw=True}}{}
+Class to load image array from path, url,
+server, string or directly from numpy array (supports databases).
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{flag}} -- 
+(default: 0) 0 to read as gray, 1 to read as BGR, -1 to
+read as BGRA, 2 to read as RGB, -2 to read as RGBA.
+\begin{description}
+\item[{It supports openCV flags:}] \leavevmode\begin{itemize}
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+
+\end{itemize}
+
+\end{description}
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+value
+} & \textsf{\relax 
+openCV flag
+} & \textsf{\relax 
+output
+}\\
+\hline\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+\end{enumerate}
+ & 
+N/A
+ & 
+RGB
+\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+ & 
+BGR
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+ & 
+GRAY
+\\
+\hline
+(-1)
+ & 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+ & 
+BGRA
+\\
+\hline
+(-2)
+ & 
+N/A
+ & 
+RGBA
+\\
+\hline\end{tabular}
+
+
+
+\item {} 
+\textbf{\texttt{dsize}} -- 
+(None) output image size; if it equals zero, it is computed as:
+
+exttt\{dsize = Size(round(fx*src.cols), round(fy*src.rows))\}
+
+
+\item {} 
+\textbf{\texttt{dst}} -- (None) output image; it has the size dsize (when it is non-zero) or the
+size computed from src.size(), fx, and fy; the type of dst is uint8.
+
+\item {} 
+\textbf{\texttt{fx}} -- 
+scale factor along the horizontal axis; when it equals 0, it is computed as
+
+exttt\{(double)dsize.width/src.cols\}
+
+
+\item {} 
+\textbf{\texttt{fy}} -- 
+scale factor along the vertical axis; when it equals 0, it is computed as
+
+exttt\{(double)dsize.height/src.rows\}
+
+
+\item {} 
+\textbf{\texttt{interpolation}} -- 
+interpolation method compliant with opencv:
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+flag
+} & \textsf{\relax 
+Operation
+} & \textsf{\relax 
+Description
+}\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_NEAREST
+ & 
+nearest-neighbor interpolation
+\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_LINEAR
+ & 
+bilinear interpolation (used by default)
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_CUBIC
+ & 
+bicubic interpolation over 4x4 pixel neighborhood
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_AREA
+ & 
+resampling using pixel area relation.
+It may be a preferred method for image decimation,
+as it gives moire’-free results. But when the image
+is zoomed, it is similar to the INTER\_NEAREST method.
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_LANCZOS4
+ & 
+Lanczos interpolation over 8x8 pixel neighborhood
+\\
+\hline\end{tabular}
+
+
+
+\item {} 
+\textbf{\texttt{mmode}} -- (None) mmode to create mapped file. if mpath is specified loads image, converts
+to mapped file and then loads mapping file with mode \{None, `r+', `r', `w+', `c'\}
+(it is slow for big images). If None, loads mapping file to memory (useful to keep
+image copy for session even if original image is deleted or modified).
+
+\item {} 
+\textbf{\texttt{mpath}} -- (None) path to create mapped file.
+None, do not create mapping file
+``'', uses path directory;
+``*'', uses working directory;
+else, uses specified directory.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\begin{notice}{note}{Note:}
+If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+It is useful to create physical copy of data to keep loading from (data can be reloaded
+even if original file is moved or deleted).
+\end{notice}
+\index{getConfiguration() (RRtoolbox.lib.image.imLoader method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imLoader.getConfiguration}\pysiglinewithargsret{\bfcode{getConfiguration}}{\emph{**kwargs}}{}
+get Custom configuration from default configuration
+:param kwargs: keys to customize default configuration.
+\begin{quote}
+
+If no key is provided default configuration is returned.
+\end{quote}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+dictionary of configuration
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{temp() (RRtoolbox.lib.image.imLoader method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imLoader.temp}\pysiglinewithargsret{\bfcode{temp}}{\emph{**kwargs}}{}
+loads from temporal loader created with customized and default parameters.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{kwargs}} -- keys to customize default configuration.
+
+\item[{Returns}] \leavevmode
+loaded image.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{imcoors (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imcoors}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{imcoors}}{\emph{pts}, \emph{dtype=\textless{}type `numpy.float32'\textgreater{}}, \emph{deg=False}}{}
+Bases: \code{object}
+
+Image's coordinates class.
+Example:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{a} \PYG{o}{=} \PYG{n}{imcoors}\PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{(}\PYG{l+m+mi}{116}\PYG{p}{,} \PYG{l+m+mi}{161}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{295}\PYG{p}{,} \PYG{l+m+mi}{96}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{122}\PYG{p}{,} \PYG{l+m+mi}{336}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{291}\PYG{p}{,} \PYG{l+m+mi}{286}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}
+\PYG{k}{print} \PYG{n}{a}\PYG{o}{.}\PYG{n}{\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}}
+\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{mean depend on min and max: }\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{a}\PYG{o}{.}\PYG{n}{mean}
+\PYG{k}{print} \PYG{n}{a}\PYG{o}{.}\PYG{n}{\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}}
+\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{after mean max has been already been calculated: }\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{a}\PYG{o}{.}\PYG{n}{max}
+\PYG{n}{a}\PYG{o}{.}\PYG{n}{data} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{(}\PYG{l+m+mi}{116}\PYG{p}{,} \PYG{l+m+mi}{161}\PYG{p}{)}\PYG{p}{,} \PYG{p}{(}\PYG{l+m+mi}{295}\PYG{p}{,} \PYG{l+m+mi}{96}\PYG{p}{)}\PYG{p}{]}\PYG{p}{)}
+\PYG{k}{print} \PYG{n}{a}\PYG{o}{.}\PYG{n}{\PYGZus{}\PYGZus{}dict\PYGZus{}\PYGZus{}}
+\PYG{k}{print} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{mean and all its dependencies are processed again: }\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{a}\PYG{o}{.}\PYG{n}{mean}
+\end{Verbatim}
+\index{dtype (RRtoolbox.lib.image.imcoors attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imcoors.dtype}\pysigline{\bfcode{dtype}}
+\end{fulllineitems}
+
+\index{pts (RRtoolbox.lib.image.imcoors attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.imcoors.pts}\pysigline{\bfcode{pts}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{interpretImage() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.interpretImage}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{interpretImage}}{\emph{toparse}, \emph{flags}}{}
+Interprets to get image.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{toparse}} -- 
+string to parse or array. It can interpret:
+
+{\color{red}\bfseries{}*}connection to server (i.e. host:port)
+{\color{red}\bfseries{}*}path to file (e.g. /path\_to\_image/image\_name.ext)
+{\color{red}\bfseries{}*}URL to image (e.g. \href{http://domain.com/path\_to\_image/image\_name.ext}{http://domain.com/path\_to\_image/image\_name.ext})
+{\color{red}\bfseries{}*}image as string (i.g. numpy converted to string)
+{\color{red}\bfseries{}*}image itself (i.e. numpy array)
+
+
+\item {} 
+\textbf{\texttt{flags}} -- 
+openCV flags:
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+value
+} & \textsf{\relax 
+openCV flag
+} & \textsf{\relax 
+output
+}\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+ & 
+BGR
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+ & 
+GRAY
+\\
+\hline
+(-1)
+ & 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+ & 
+format
+\\
+\hline\end{tabular}
+
+
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+image or None if not successfull
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{limitaxispoints() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.limitaxispoints}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{limitaxispoints}}{\emph{c}, \emph{maxc}, \emph{minc=0}}{}
+Limit a point in axis.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{c}} -- list of points..
+
+\item {} 
+\textbf{\texttt{maxc}} -- maximum value of point.
+
+\item {} 
+\textbf{\texttt{minc}} -- minimum value of point.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+return limited points.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{loadFunc() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.loadFunc}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{loadFunc}}{\emph{flag=0}, \emph{dsize=None}, \emph{dst=None}, \emph{fx=None}, \emph{fy=None}, \emph{interpolation=None}, \emph{mmode=None}, \emph{mpath=None}, \emph{throw=True}, \emph{keepratio=True}}{}
+Creates a function that loads image array from path, url,
+server, string or directly from numpy array (supports databases).
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{flag}} -- 
+(default: 0) 0 to read as gray, 1 to read as BGR, -1 to
+read as BGRA, 2 to read as RGB, -2 to read as RGBA.
+\begin{description}
+\item[{It supports openCV flags:}] \leavevmode\begin{itemize}
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+
+\item {} 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+
+\end{itemize}
+
+\end{description}
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+value
+} & \textsf{\relax 
+openCV flag
+} & \textsf{\relax 
+output
+}\\
+\hline\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+\end{enumerate}
+ & 
+N/A
+ & 
+RGB
+\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+ & 
+BGR
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+ & 
+GRAY
+\\
+\hline
+(-1)
+ & 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+ & 
+BGRA
+\\
+\hline
+(-2)
+ & 
+N/A
+ & 
+RGBA
+\\
+\hline\end{tabular}
+
+
+
+\item {} 
+\textbf{\texttt{dsize}} -- 
+(None) output image size; if it equals zero, it is computed as:
+\begin{quote}
+
+exttt\{dsize = Size(round(fx*src.cols), round(fy*src.rows))\}
+\end{quote}
+
+If (integer,None) or (None,integer) it completes the values according
+to keepratio parameter.
+
+
+\item {} 
+\textbf{\texttt{dst}} -- (None) output image; it has the size dsize (when it is non-zero) or the
+size computed from src.size(), fx, and fy; the type of dst is uint8.
+
+\item {} 
+\textbf{\texttt{fx}} -- scale factor along the horizontal axis
+
+\item {} 
+\textbf{\texttt{fy}} -- scale factor along the vertical axis
+
+\item {} 
+\textbf{\texttt{interpolation}} -- 
+interpolation method compliant with opencv:
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+flag
+} & \textsf{\relax 
+Operation
+} & \textsf{\relax 
+Description
+}\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_NEAREST
+ & 
+nearest-neighbor interpolation
+\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_LINEAR
+ & 
+bilinear interpolation (used by default)
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{1}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_CUBIC
+ & 
+bicubic interpolation over 4x4 pixel neighborhood
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{2}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_AREA
+ & 
+resampling using pixel area relation.
+It may be a preferred method for image decimation,
+as it gives moire’-free results. But when the image
+is zoomed, it is similar to the INTER\_NEAREST method.
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{3}
+\item {} 
+\end{enumerate}
+ & 
+INTER\_LANCZOS4
+ & 
+Lanczos interpolation over 8x8 pixel neighborhood
+\\
+\hline\end{tabular}
+
+
+
+\item {} 
+\textbf{\texttt{mmode}} -- (None) mmode to create mapped file. if mpath is specified loads image, converts
+to mapped file and then loads mapping file with mode \{None, `r+', `r', `w+', `c'\}
+(it is slow for big images). If None, loads mapping file to memory (useful to keep
+image copy for session even if original image is deleted or modified).
+
+\item {} 
+\textbf{\texttt{mpath}} -- (None) path to create mapped file.
+None, do not create mapping file
+``'', uses path directory;
+``*'', uses working directory;
+else, uses specified directory.
+
+\item {} 
+\textbf{\texttt{keepratio}} -- True to keep image ratio when completing data from dsize,fx and fy,
+False to not keep ratio.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\begin{notice}{note}{Note:}
+If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+It is useful to create physical copy of data to keep loading from (data can be reloaded
+even if original file is moved or deleted).
+\end{notice}
+
+:return loader function
+
+\end{fulllineitems}
+
+\index{loadcv() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.loadcv}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{loadcv}}{\emph{path}, \emph{flags=-1}, \emph{shape=None}}{}
+Simple function to load using opencv.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{path}} -- path to image.
+
+\item {} 
+\textbf{\texttt{flag}} -- 
+openCV flags:
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+value
+} & \textsf{\relax 
+openCV flag
+} & \textsf{\relax 
+output
+}\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+ & 
+BGR
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+ & 
+GRAY
+\\
+\hline
+(-1)
+ & 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+ & 
+format
+\\
+\hline\end{tabular}
+
+
+
+\item {} 
+\textbf{\texttt{shape}} -- shape to resize image.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+loaded image
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{loaderDict (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.loaderDict}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{loaderDict}}{\emph{loader=None}, \emph{maxMemory=None}, \emph{margin=0.8}, \emph{unit='MB'}, \emph{all=True}, \emph{config=None}}{}
+Bases: {\hyperref[RRtoolbox.lib:RRtoolbox.lib.cache.resourceManager]{\emph{\code{RRtoolbox.lib.cache.resourceManager}}}}
+
+Class to standardize loading objects and manage memory efficiently.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{loader}} -- default loader for objects (e.g. load from file or create instance object)
+
+\item {} 
+\textbf{\texttt{maxMemory}} -- (None) max memory in specified unit to keep in check optimization (it does
+not mean that memory never surpasses maxMemory).
+
+\item {} 
+\textbf{\texttt{margin}} -- (0.8) margin from maxMemory to trigger optimization.
+It is in percentage of maxMemory ranging from 0 (0\%) to maximum 1 (100\%).
+So optimal memory is inside range: maxMemory*margin \textless{} Memory \textless{} maxMemory
+
+\item {} 
+\textbf{\texttt{unit}} -- (MB) maxMemory unit, it can be GB (Gigabytes), MB (Megabytes), B (bytes)
+
+\item {} 
+\textbf{\texttt{all}} -- if True used memory is from all alive references,
+if False used memory is only from keptAlive references.
+
+\item {} 
+\textbf{\texttt{config}} -- (Not Implemented)
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{register() (RRtoolbox.lib.image.loaderDict method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.loaderDict.register}\pysiglinewithargsret{\bfcode{register}}{\emph{key}, \emph{path=None}, \emph{method=None}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{loadsfrom() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.loadsfrom}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{loadsfrom}}{\emph{path}, \emph{flags=1L}}{}
+Loads Image from URL or file.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{path}} -- filepath or url
+
+\item {} 
+\textbf{\texttt{flags}} -- 
+openCV flags:
+
+\begin{tabular}{|p{0.317\linewidth}|p{0.317\linewidth}|p{0.317\linewidth}|}
+\hline
+\textsf{\relax 
+value
+} & \textsf{\relax 
+openCV flag
+} & \textsf{\relax 
+output
+}\\
+\hline\begin{enumerate}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_COLOR
+ & 
+BGR
+\\
+\hline\begin{enumerate}
+\setcounter{enumi}{-1}
+\item {} 
+\end{enumerate}
+ & 
+cv2.CV\_LOAD\_IMAGE\_GRAYSCALE
+ & 
+GRAY
+\\
+\hline
+(-1)
+ & 
+cv2.CV\_LOAD\_IMAGE\_UNCHANGED
+ & 
+format
+\\
+\hline\end{tabular}
+
+
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{myline() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.myline}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{myline}}{\emph{img}, \emph{pt1}, \emph{pt2}, \emph{color}, \emph{thickness=None}}{}
+Funtion to draw points (experimental).
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{img}} -- 
+
+\item {} 
+\textbf{\texttt{pt1}} -- 
+
+\item {} 
+\textbf{\texttt{pt2}} -- 
+
+\item {} 
+\textbf{\texttt{color}} -- 
+
+\item {} 
+\textbf{\texttt{thickness}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{np2qi() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.np2qi}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{np2qi}}{\emph{array}}{}
+Convert numpy array to Qt Image.
+
+source from: \href{https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py}{https://kogs-www.informatik.uni-hamburg.de/\textasciitilde{}meine/software/vigraqt/qimage2ndarray.py}
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{array}} -- 
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{np2str() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.np2str}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{np2str}}{\emph{arr}}{}
+\end{fulllineitems}
+
+\index{pathLoader (class in RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.pathLoader}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.image.}\bfcode{pathLoader}}{\emph{fns=None}, \emph{loader=None}}{}
+Bases: \code{\_abcoll.MutableSequence}
+
+Class to standardize loading images from list of paths and offer lazy evaluations.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{fns}} -- list of paths
+
+\item {} 
+\textbf{\texttt{loader}} -- path loader (loadcv,loadsfrom, or function from loadFunc)
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+Example:
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{fns} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{/path to/image 1.ext}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{/path to/image 2.ext}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+\PYG{n}{imgs} \PYG{o}{=} \PYG{n}{pathLoader}\PYG{p}{(}\PYG{n}{fns}\PYG{p}{)}
+\PYG{k}{print} \PYG{n}{imgs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} loads image in path 0}
+\PYG{k}{print} \PYG{n}{imgs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{c+c1}{\PYGZsh{} loads image in path 1}
+\end{Verbatim}
+\index{insert() (RRtoolbox.lib.image.pathLoader method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.pathLoader.insert}\pysiglinewithargsret{\bfcode{insert}}{\emph{index}, \emph{value}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{plt2bgr() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.plt2bgr}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{plt2bgr}}{\emph{image}}{}
+\end{fulllineitems}
+
+\index{plt2bgra() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.plt2bgra}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{plt2bgra}}{\emph{image}}{}
+\end{fulllineitems}
+
+\index{qi2np() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.qi2np}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{qi2np}}{\emph{qimage}, \emph{dtype='array'}}{}
+Convert QImage to numpy.ndarray.  The dtype defaults to uint8
+for QImage.Format\_Indexed8 or \emph{bgra\_dtype} (i.e. a record array)
+for 32bit color images.  You can pass a different dtype to use, or
+`array' to get a 3D uint8 array for color images.
+
+source from: \href{https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py}{https://kogs-www.informatik.uni-hamburg.de/\textasciitilde{}meine/software/vigraqt/qimage2ndarray.py}
+
+\end{fulllineitems}
+
+\index{quadrants() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.quadrants}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{quadrants}}{\emph{points}}{}
+Separate points respect to center of gravity point.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{points}} -- list of points
+
+\item[{Returns}] \leavevmode
+{[}{[}Top\_left{]},{[}Top\_right{]},{[}Bottom\_left{]},{[}Bottom\_right{]}{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{rgb2qi() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.rgb2qi}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{rgb2qi}}{\emph{rgb}}{}
+Convert the 3D numpy array \emph{rgb} into a 32-bit QImage.  \emph{rgb} must
+have three dimensions with the vertical, horizontal and RGB image axes.
+
+ATTENTION: This QImage carries an attribute \emph{ndimage} with a
+reference to the underlying numpy array that holds the data. On
+Windows, the conversion into a QPixmap does not copy the data, so
+that you have to take care that the QImage does not get garbage
+collected (otherwise PyQt will throw away the wrapper, effectively
+freeing the underlying memory - boom!).
+
+source from: \href{https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py}{https://kogs-www.informatik.uni-hamburg.de/\textasciitilde{}meine/software/vigraqt/qimage2ndarray.py}
+
+\end{fulllineitems}
+
+\index{separe() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.separe}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{separe}}{\emph{values}, \emph{sep}, \emph{axis=0}}{}
+Separate values from separator or threshold.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{values}} -- list of values
+
+\item {} 
+\textbf{\texttt{sep}} -- peparator value
+
+\item {} 
+\textbf{\texttt{axis}} -- axis in each value
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+:return:lists of greater values, list of lesser values
+
+\end{fulllineitems}
+
+\index{str2np() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.str2np}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{str2np}}{\emph{string}, \emph{shape}}{}
+\end{fulllineitems}
+
+\index{transposeIm() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.transposeIm}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{transposeIm}}{\emph{im}}{}
+\end{fulllineitems}
+
+\index{try\_loads() (in module RRtoolbox.lib.image)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.image.try_loads}\pysiglinewithargsret{\code{RRtoolbox.lib.image.}\bfcode{try\_loads}}{\emph{fns}, \emph{func=\textless{}built-in function imread\textgreater{}}, \emph{paths=None}, \emph{debug=True}}{}
+Try to load images from paths.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{fns}} -- list of file names
+
+\item {} 
+\textbf{\texttt{func}} -- loader function
+
+\item {} 
+\textbf{\texttt{paths}} -- paths to try. By default it loads working dir and test path
+
+\item {} 
+\textbf{\texttt{debug}} -- True to show debug messages
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+image else None
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
 
 \subsubsection{RRtoolbox.lib.inspector module}
 \label{RRtoolbox.lib:module-RRtoolbox.lib.inspector}\label{RRtoolbox.lib:rrtoolbox-lib-inspector-module}\index{RRtoolbox.lib.inspector (module)}
@@ -6392,23 +7938,40 @@ Decoupled window function for plotim (replace self.windowfunc).
 \subsubsection{RRtoolbox.lib.root module}
 \label{RRtoolbox.lib:rrtoolbox-lib-root-module}\label{RRtoolbox.lib:module-RRtoolbox.lib.root}\index{RRtoolbox.lib.root (module)}
 This module holds core-like methods for library modules but not for the hole package
-\index{Controlstdout() (in module RRtoolbox.lib.root)}
+\index{Controlstdout (class in RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.Controlstdout}\pysiglinewithargsret{\code{RRtoolbox.lib.root.}\bfcode{Controlstdout}}{\emph{*args}, \emph{**kwds}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.Controlstdout}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{Controlstdout}}{\emph{disable=True}, \emph{buffer=None}}{}
+Bases: \code{object}
+
 Context manager to control output to stdout
 \begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
 \textbf{\texttt{disable}} -- if True suppress output.
 
+\item {} 
+\textbf{\texttt{buffer}} -- (None) if True creates a buffer to collect all data
+printed to the stdout which can be retrieved with self.buffered.
+A file can be given but if it is write-only it cannot retrieve
+data to self.buffered so ``w+'' is recommended to be used with self.buffered.
+
+\end{itemize}
+
 \end{description}\end{quote}
+
+\begin{notice}{warning}{Warning:}
+If a references to sys.stdout is kept before the Controlstdout
+instance then output can be printed trough it and cannot be
+controlled by the Controlstdout context.
+\end{notice}
 
 \end{fulllineitems}
 
 \index{FactorConvert (class in RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.FactorConvert}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{FactorConvert}}{\emph{factor=None}, \emph{factorIndex=1}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.FactorConvert}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{FactorConvert}}{\emph{factor=None}, \emph{abbreviate=True}}{}
 Bases: \code{object}
 
 Keep track of factor and converts to any available factor.
@@ -6558,10 +8121,26 @@ integer, fraction
 
 \end{fulllineitems}
 
-\index{TimeCode() (in module RRtoolbox.lib.root)}
+\index{Magnitude (class in RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.TimeCode}\pysiglinewithargsret{\code{RRtoolbox.lib.root.}\bfcode{TimeCode}}{\emph{*args}, \emph{**kwds}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.Magnitude}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{Magnitude}}{\emph{value=0}, \emph{factor=None}, \emph{unit=None}, \emph{precision=None}, \emph{abbreviate=False}}{}
+Bases: \code{object}
+\index{format\_value() (RRtoolbox.lib.root.Magnitude method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.Magnitude.format_value}\pysiglinewithargsret{\bfcode{format\_value}}{\emph{value}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{TimeCode (class in RRtoolbox.lib.root)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.TimeCode}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{TimeCode}}{\emph{msg=None}, \emph{factor=None}, \emph{precision=None}, \emph{abv=None}, \emph{endmsg='\{time\}n'}, \emph{enableMsg=True}, \emph{printfunc=None}, \emph{profiler=None}, \emph{profile\_point=None}}{}
+Bases: \code{object}
+
 Context to profile code by printing a prelude and prologue with time.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -6569,7 +8148,7 @@ Context to profile code by printing a prelude and prologue with time.
 \textbf{\texttt{msg}} -- prelude or description message
 
 \item {} 
-\textbf{\texttt{unit}} -- unit supported by FactorConvert class
+\textbf{\texttt{factor}} -- factor supported by FactorConvert class
 
 \item {} 
 \textbf{\texttt{precision}} -- number of digits after a float point
@@ -6590,10 +8169,19 @@ is sys.stdout.write
 
 \end{itemize}
 
-\item[{Returns}] \leavevmode
-
-
 \end{description}\end{quote}
+\index{time (RRtoolbox.lib.root.TimeCode attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.TimeCode.time}\pysigline{\bfcode{time}}
+\end{fulllineitems}
+
+\index{time\_end (RRtoolbox.lib.root.TimeCode attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.TimeCode.time_end}\pysigline{\bfcode{time\_end}}
+\end{fulllineitems}
+
 
 \end{fulllineitems}
 
@@ -6656,11 +8244,21 @@ It must be used at instance initialization (i.e. inside \_\_init\_\_ method)
 \index{glob() (in module RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.glob}\pysiglinewithargsret{\code{RRtoolbox.lib.root.}\bfcode{glob}}{\emph{path}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.glob}\pysiglinewithargsret{\code{RRtoolbox.lib.root.}\bfcode{glob}}{\emph{path}, \emph{contents='*'}, \emph{check=\textless{}function isfile\textgreater{}}}{}
 Return a list of paths matching a pathname pattern with valid files.
 \begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
 \textbf{\texttt{path}} -- path to process ing glob filter
+
+\item {} 
+\textbf{\texttt{contents}} -- If path is a folder then looks for contents using
+
+\item {} 
+\textbf{\texttt{check}} -- function to filter contents. it must receive the path
+and return True to let it pass and False to suppress it.
+
+\end{itemize}
 
 \item[{Returns}] \leavevmode
 return list of files
@@ -6695,6 +8293,214 @@ fn or None
 
 \end{fulllineitems}
 
+\index{profiler (class in RRtoolbox.lib.root)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{profiler}}{\emph{msg=None}, \emph{tag=None}}{}
+Bases: \code{object}
+\begin{quote}
+
+profiler for code points
+\begin{quote}\begin{description}
+\item[{param msg}] \leavevmode
+custom comment for profiling point
+
+\item[{param tag}] \leavevmode
+classification tag
+
+\item[{parameter space}] \leavevmode
+('' '')
+
+\item[{parameter format\_line}] \leavevmode
+(``\{space\}\{tag\}\{msg\}\{time\}'')
+
+\item[{parameter format\_structure}] \leavevmode
+(``
+
+\end{description}\end{quote}
+\end{quote}
+\begin{description}
+\item[{\{space\}{[}\{tag\}\{msg\}\{time\}\{child\}{]}\{side\}'')}] \leavevmode\begin{quote}\begin{description}
+\item[{parameter points}] \leavevmode
+profile instaces which are divided in ``side'' or ``children'' points
+according if they are side by side or are inside of the profiler.
+
+\end{description}\end{quote}
+
+\end{description}
+\index{close() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.close}\pysiglinewithargsret{\bfcode{close}}{}{}
+close profiler and all their points
+
+\end{fulllineitems}
+
+\index{formatter() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.formatter}\pysiglinewithargsret{\bfcode{formatter}}{\emph{level}, \emph{tag}, \emph{msg}, \emph{time}}{}
+format profiling point arguments.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{level}} -- 
+
+\item {} 
+\textbf{\texttt{tag}} -- classification tag
+
+\item {} 
+\textbf{\texttt{msg}} -- custom comment of profiling point
+
+\item {} 
+\textbf{\texttt{time}} -- time of profiling
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+formatted (spacing, tag, msg, time)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{lines\_formatted() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.lines_formatted}\pysiglinewithargsret{\bfcode{lines\_formatted}}{\emph{collapse=None}}{}
+generate string lines
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{collapse}} -- list for collapsing repeated tags or messages.
+
+\item[{Returns}] \leavevmode
+list of lines
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{lines\_unformatted() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.lines_unformatted}\pysiglinewithargsret{\bfcode{lines\_unformatted}}{\emph{collapse=None}}{}
+generate structure lines
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{collapse}} -- list for collapsing repeated tags or messages.
+
+\item[{Returns}] \leavevmode
+generator with outputs (level, tag, msg, time)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{open\_point() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.open_point}\pysiglinewithargsret{\bfcode{open\_point}}{\emph{msg=None}, \emph{tag=None}}{}
+Open a profiling point to track time.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{msg}} -- custom comment for profiling point
+
+\item {} 
+\textbf{\texttt{tag}} -- classification tag
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{restructure() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.restructure}\pysiglinewithargsret{\bfcode{restructure}}{\emph{structure}, \emph{collapse}}{}
+reprocess an already created structure.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{structure}} -- structure.
+
+\item {} 
+\textbf{\texttt{collapse}} -- list for collapsing repeated tags or messages.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+reprocessed structure
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{string\_lines() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.string_lines}\pysiglinewithargsret{\bfcode{string\_lines}}{}{}
+string with plain structure of profiling
+
+\end{fulllineitems}
+
+\index{string\_structured() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.string_structured}\pysiglinewithargsret{\bfcode{string\_structured}}{\emph{collapse=None}, \emph{structure=None}}{}
+string with plain structure of profiling
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{collapse}} -- list for collapsing repeated tags or messages.
+
+\item {} 
+\textbf{\texttt{structure}} -- (None) uses and already created structure. If None
+it creates the structure.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+string
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{structure() (RRtoolbox.lib.root.profiler method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.structure}\pysiglinewithargsret{\bfcode{structure}}{\emph{collapse=None}}{}
+profiling structure.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{collapse}} -- list for collapsing repeated tags or messages.
+
+\item[{Returns}] \leavevmode
+structure with format {[}tag,msg,time,children{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{time (RRtoolbox.lib.root.profiler attribute)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.profiler.time}\pysigline{\bfcode{time}}~\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+overall time of profiling
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 \index{stdoutLOG (class in RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
@@ -6718,13 +8524,13 @@ so anything printed in the console is logged to a file.
 \index{close() (RRtoolbox.lib.root.stdoutLOG method)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutLOG.close}\pysiglinewithargsret{\bfcode{close}}{}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutLOG.close}\pysiglinewithargsret{\bfcode{close}}{\emph{**kwargs}}{}
 \end{fulllineitems}
 
 \index{flush() (RRtoolbox.lib.root.stdoutLOG method)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutLOG.flush}\pysiglinewithargsret{\bfcode{flush}}{}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutLOG.flush}\pysiglinewithargsret{\bfcode{flush}}{\emph{**kwargs}}{}
 \end{fulllineitems}
 
 \index{printline() (RRtoolbox.lib.root.stdoutLOG method)}
@@ -6748,10 +8554,50 @@ so anything printed in the console is logged to a file.
 
 \end{fulllineitems}
 
+\index{stdoutMULTI (class in RRtoolbox.lib.root)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{stdoutMULTI}}{\emph{filelist}}{}
+Enclose several file-like objects.
+
+:param filelist = list of file-like objects
+\index{close() (RRtoolbox.lib.root.stdoutMULTI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI.close}\pysiglinewithargsret{\bfcode{close}}{\emph{**kwargs}}{}
+\end{fulllineitems}
+
+\index{flush() (RRtoolbox.lib.root.stdoutMULTI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI.flush}\pysiglinewithargsret{\bfcode{flush}}{\emph{**kwargs}}{}
+\end{fulllineitems}
+
+\index{printline() (RRtoolbox.lib.root.stdoutMULTI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI.printline}\pysiglinewithargsret{\bfcode{printline}}{\emph{text}, \emph{**kwargs}}{}
+\end{fulllineitems}
+
+\index{printlines() (RRtoolbox.lib.root.stdoutMULTI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI.printlines}\pysiglinewithargsret{\bfcode{printlines}}{\emph{lines}, \emph{**kwargs}}{}
+\end{fulllineitems}
+
+\index{write() (RRtoolbox.lib.root.stdoutMULTI method)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutMULTI.write}\pysiglinewithargsret{\bfcode{write}}{\emph{text}, \emph{**kwargs}}{}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 \index{stdoutSIM (class in RRtoolbox.lib.root)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutSIM}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{stdoutSIM}}{\emph{disable=False}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.root.stdoutSIM}\pysiglinewithargsret{\strong{class }\code{RRtoolbox.lib.root.}\bfcode{stdoutSIM}}{\emph{disable=False}, \emph{stdout=None}}{}
 simple logger to simulate stdout output
 \index{close() (RRtoolbox.lib.root.stdoutSIM method)}
 
@@ -6888,7 +8734,21 @@ socket
 \index{parseString() (in module RRtoolbox.lib.serverServices)}
 
 \begin{fulllineitems}
-\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.serverServices.parseString}\pysiglinewithargsret{\code{RRtoolbox.lib.serverServices.}\bfcode{parseString}}{\emph{string}, \emph{timeout=3}}{}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.serverServices.parseString}\pysiglinewithargsret{\code{RRtoolbox.lib.serverServices.}\bfcode{parseString}}{\emph{string}, \emph{timeout=3}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{string}} -- 
+
+\item {} 
+\textbf{\texttt{timeout}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
 \end{fulllineitems}
 
 \index{ping() (in module RRtoolbox.lib.serverServices)}
@@ -7020,6 +8880,12 @@ None
 
 \end{fulllineitems}
 
+\index{string\_is\_socket\_address() (in module RRtoolbox.lib.serverServices)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.lib:RRtoolbox.lib.serverServices.string_is_socket_address}\pysiglinewithargsret{\code{RRtoolbox.lib.serverServices.}\bfcode{string\_is\_socket\_address}}{\emph{string}}{}
+\end{fulllineitems}
+
 
 
 \subsubsection{RRtoolbox.lib.session module}
@@ -7142,7 +9008,7 @@ Saves dictionary session to file.
 \end{itemize}
 
 \item[{Returns}] \leavevmode
-
+filename of saved session
 
 \end{description}\end{quote}
 
@@ -7308,7 +9174,253 @@ image with simulated lens.
 
 
 \subsubsection{RRtoolbox.tools.restoration module}
-\label{RRtoolbox.tools:rrtoolbox-tools-restoration-module}
+\label{RRtoolbox.tools:rrtoolbox-tools-restoration-module}\label{RRtoolbox.tools:module-RRtoolbox.tools.restoration}\index{RRtoolbox.tools.restoration (module)}\index{asif\_demo() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.asif_demo}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{asif\_demo}}{\emph{fn\_back=None}, \emph{fn\_fore=None}, \emph{**opts}}{}
+Demo to test ASIFT, Merge, Plotters.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{fn\_back}} -- file name of background image
+
+\item {} 
+\textbf{\texttt{fn\_fore}} -- file name of foreground image
+
+\item {} 
+\textbf{\texttt{**opts}} -- 
+demo options
+flag options:
+flag\_filter\_scaled (False): filter scaled images
+flag\_filter\_original (False): filter original images
+flag\_filter\_out (False): filter pos-processed images
+flag\_invertH (False): test inversion of Trasformation Matrix obtained from Homography
+flag\_show\_match (True): show match keypoint of scaled images
+flag\_show\_result (True): show restored image
+flag\_save\_perspective (False): save calculated perspective of foreground image
+flag\_save\_result (False): save restored image
+
+value obtions:
+fore\_scale (400,400): tuple of W,H to convert original foreground to scaled image
+back\_scale (400,400): tuple of W,H to convert original background to scaled image
+feature: (`sift-flann') use base descriptor
+
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+dictionary of results
+if there is not match the keys are:
+\begin{quote}
+
+{[}'status', `kp1', `kp2', `kp\_pairs', `desc1', `desc2','H'{]}
+\end{quote}
+\begin{description}
+\item[{if there is match then additional keys are:}] \leavevmode
+{[}'img\_perspective', `img\_restored', `H\_original', `kp\_pairs\_original'{]}
+
+\end{description}
+
+if flag\_invertH additional kes: {[}'H\_inverted'{]}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{asif\_demo2() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.asif_demo2}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{asif\_demo2}}{\emph{fn\_back=None}, \emph{fn\_fore=None}, \emph{**opts}}{}
+Demo to test ASIFT, Merge, Plotters,etc while extending images.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{fn\_back}} -- file name of background image
+
+\item {} 
+\textbf{\texttt{fn\_fore}} -- file name of foreground image
+
+\item {} 
+\textbf{\texttt{**opts}} -- 
+demo options
+flag options:
+flag\_filter\_scaled (False): filter scaled images
+flag\_filter\_original (False): filter original images
+flag\_filter\_out (False): filter pos-processed images
+flag\_invertH (False): test inversion of Trasformation Matrix obtained from Homography
+flag\_show\_match (True): show match keypoint of scaled images
+flag\_show\_result (True): show restored image
+flag\_save\_perspective (False): save calculated perspective of foreground image
+flag\_save\_result (False): save restored image
+
+value obtions:
+fore\_scale (400,400): tuple of W,H to convert original foreground to scaled image
+back\_scale (400,400): tuple of W,H to convert original background to scaled image
+feature: (`sift-flann') use base descriptor
+
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+dictionary of results
+if there is not match the keys are:
+\begin{quote}
+
+{[}'status', `kp1', `kp2', `kp\_pairs', `desc1', `desc2','H'{]}
+\end{quote}
+\begin{description}
+\item[{if there is match then additional keys are:}] \leavevmode
+{[}'img\_perspective', `img\_restored', `H\_original', `kp\_pairs\_original'{]}
+
+\end{description}
+
+if flag\_invertH additional kes: {[}'H\_inverted'{]}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{extractCSV() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.extractCSV}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{extractCSV}}{\emph{data}, \emph{saveTo=None}}{}
+\end{fulllineitems}
+
+\index{getDicDescriptor() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.getDicDescriptor}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{getDicDescriptor}}{\emph{path}, \emph{loader}, \emph{feature\_name}, \emph{dic=None}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{path}} -- 
+
+\item {} 
+\textbf{\texttt{loader}} -- 
+
+\item {} 
+\textbf{\texttt{feature\_name}} -- 
+
+\item {} 
+\textbf{\texttt{dic}} -- 
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{qualifyData() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.qualifyData}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{qualifyData}}{\emph{data}, \emph{loader=None}, \emph{saveTo=None}, \emph{autoqualify=False}, \emph{showOnlyPassedTest=False}, \emph{clear=False}}{}
+Qualify data of format obtained from testRates.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{data}} -- dictionary containing all data
+
+\item {} 
+\textbf{\texttt{loader}} -- use loader for images
+
+\item {} 
+\textbf{\texttt{saveTo}} -- save data to path
+
+\item {} 
+\textbf{\texttt{autoqualify}} -- qualify all data without asking human intervention and using algorithm
+
+\item {} 
+\textbf{\texttt{showOnlyPassedTest}} -- if True shows only the goods tests to qualify, else do not show.
+
+\item {} 
+\textbf{\texttt{clear}} -- re-do all saved tests.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{stitch\_multiple() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.stitch_multiple}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{stitch\_multiple}}{\emph{images=None}, \emph{**opts}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{opts}} -- 
+
+\end{description}\end{quote}
+
+feature = `sift-flann'
+loader = ``400,400''
+saveTo = None,
+autoqualify = False,
+showOnlyPassedTest= False,
+clearAll = False,
+clearData = clearAll,
+clearQualification = clearAll
+:return:
+
+\end{fulllineitems}
+
+\index{testRates() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.testRates}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{testRates}}{\emph{images=None}, \emph{**opts}}{}~\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\textbf{\texttt{opts}} -- 
+
+\end{description}\end{quote}
+
+feature = `sift-flann'
+loader = ``400,400''
+saveTo = None,
+autoqualify = False,
+showOnlyPassedTest= False,
+clearAll = False,
+clearData = clearAll,
+clearQualification = clearAll
+:return:
+
+\end{fulllineitems}
+
+\index{watchData() (in module RRtoolbox.tools.restoration)}
+
+\begin{fulllineitems}
+\phantomsection\label{RRtoolbox.tools:RRtoolbox.tools.restoration.watchData}\pysiglinewithargsret{\code{RRtoolbox.tools.restoration.}\bfcode{watchData}}{\emph{request}, \emph{loader}, \emph{data}, \emph{onlyTest=False}}{}
+Show data of format obtained from testRates
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\textbf{\texttt{request}} -- (fore\_name,back\_name)
+
+\item {} 
+\textbf{\texttt{loader}} -- image loader from path
+
+\item {} 
+\textbf{\texttt{data}} -- dictionary containing requests (each request is a key).
+
+\item {} 
+\textbf{\texttt{onlyTest}} -- if True show only test results, else also show stitched images and some other data.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+request data.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
 
 \subsubsection{RRtoolbox.tools.segmentation module}
 \label{RRtoolbox.tools:rrtoolbox-tools-segmentation-module}\label{RRtoolbox.tools:module-RRtoolbox.tools.segmentation}\index{RRtoolbox.tools.segmentation (module)}\index{find\_optic\_disc() (in module RRtoolbox.tools.segmentation)}
@@ -7727,6 +9839,7 @@ list of (param,comment) items.
 \item {\texttt{RRtoolbox.lib.config}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.config}
 \item {\texttt{RRtoolbox.lib.descriptors}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.descriptors}
 \item {\texttt{RRtoolbox.lib.directory}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.directory}
+\item {\texttt{RRtoolbox.lib.image}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.image}
 \item {\texttt{RRtoolbox.lib.inspector}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.inspector}
 \item {\texttt{RRtoolbox.lib.plotter}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.plotter}
 \item {\texttt{RRtoolbox.lib.root}}, \pageref{RRtoolbox.lib:module-RRtoolbox.lib.root}
@@ -7736,6 +9849,7 @@ list of (param,comment) items.
 \item {\texttt{RRtoolbox.shell}}, \pageref{RRtoolbox:module-RRtoolbox.shell}
 \item {\texttt{RRtoolbox.tools}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools}
 \item {\texttt{RRtoolbox.tools.lens}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools.lens}
+\item {\texttt{RRtoolbox.tools.restoration}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools.restoration}
 \item {\texttt{RRtoolbox.tools.segmentation}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools.segmentation}
 \item {\texttt{RRtoolbox.tools.selectors}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools.selectors}
 \item {\texttt{RRtoolbox.tools.sticher}}, \pageref{RRtoolbox.tools:module-RRtoolbox.tools.sticher}

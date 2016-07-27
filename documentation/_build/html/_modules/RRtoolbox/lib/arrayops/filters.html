@@ -49,12 +49,12 @@
 <span class="c1">#from math import exp</span>
 <span class="kn">from</span> <span class="nn">sympy.functions</span> <span class="kn">import</span> <span class="n">exp</span>
 
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.cache</span> <span class="kn">import</span> <span class="n">memoize</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.config</span> <span class="kn">import</span> <span class="n">MANAGER</span>
+<span class="c1">#from RRtoolbox.lib.cache import memoize</span>
+<span class="c1">#from RRtoolbox.lib.config import MANAGER</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
 
-<span class="nd">@memoize</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TEMPPATH&quot;</span><span class="p">])</span> <span class="c1"># convert cv2.bilateralfilter to memoized bilateral filter</span>
+<span class="c1">#@memoize(MANAGER[&quot;TEMPPATH&quot;]) # convert cv2.bilateralfilter to memoized bilateral filter</span>
 <div class="viewcode-block" id="bilateralFilter"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.bilateralFilter">[docs]</a><span class="k">def</span> <span class="nf">bilateralFilter</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply bilateral Filter.</span>
@@ -352,8 +352,7 @@
 <span class="sd">    :param sigmaSpace: sigma in space</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">d_h</span> <span class="o">=</span> <span class="n">bilateraP</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span><span class="n">shift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">beta1</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="mi">27</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">bilateraP</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span><span class="n">shift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">beta1</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;d&quot;</span><span class="p">)</span>
     <span class="n">sigmaColor</span> <span class="o">=</span> <span class="n">bilateraP</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sigmaColor&quot;</span><span class="p">)</span>
     <span class="n">sigmaSpace</span> <span class="o">=</span> <span class="n">bilateraP</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sigmaSpace&quot;</span><span class="p">)</span>
 
@@ -395,7 +394,24 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]</span></div>
 
-<span class="n">getBilateralParameters</span> <span class="o">=</span> <span class="n">BilateralParameters</span><span class="p">()</span>
+<div class="viewcode-block" id="getBilateralParameters"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.getBilateralParameters">[docs]</a><span class="k">def</span> <span class="nf">getBilateralParameters</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate from shape bilateral parameters.</span>
+
+<span class="sd">    :param shape: image shape</span>
+<span class="sd">    :param mode:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#15,82,57 # 21,75,75 # faster and for low noise</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mild&quot;</span> <span class="ow">or</span> <span class="n">mode</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;heavy&quot;</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="mi">27</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Bilateral Parameter mode &#39;{}&#39; not recognised&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">BilateralParameters</span><span class="p">(</span><span class="n">mode</span><span class="p">)(</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span></div>
 
 </pre></div>
 
