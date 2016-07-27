@@ -1,40 +1,53 @@
-RRToolbox (Retinal Restauration Toolbox)
+RRtoolbox:
+It is a python package which contains source code designed to process images built on top
+of OpenCV.
 
-To install
- $ pyinstaller -p ./ -n imrestore -F ./imrestore.py/ --version-file=version
+RRtoolFC:
+
+It is a development tool using sequential function charts (FC stands for Function Chart)
+
+Imrestore:
+
+Imrestore is an application to restore images in general but in this case is configured to
+restore retinal images. Because it is still in development it is the alpha program for testing
+and to let the users find out about its utilities. Do not hesitate to share it to the world,
+let everyone know how awesome it is!! (be warned that it is for research purposes)
+
+To install from source code:
+    $ pyinstaller -p ./ -n imrestore -F ./imrestore.py/ --version-file=version
  
 To test imrestore script:
-$ python imrestore.py tests/im1*
+    $ python imrestore.py tests/im1*
 
-To test imrestore executable
-./dist/imrestore tests/im1*
+To test imrestore executable:
+    $./dist/imrestore tests/im1*
 
 To test imrestore executable if in dist folder:
-$ ./imrestore ../tests/im1*
+    $ ./imrestore ../tests/im1*
 
-Read the RRtoolbox manual:
-RRtoolbox.pdf
+Read the RRtoolbox (Retinal Restauration Toolbox) manual:
+    RRtoolbox.pdf
 
-Read the disertation which made this project possible:
-draft.pdf
-
-Imrestore is an application to restore images in general but in this case is configured to restore retinal images. Because it is still in development it is the alpha program for testing and to let the users find out about its utilities. Do not hesitate to share it to the world, let everyone know how awesome it is!! (be warned that it is for research purposes)
-
-> Thank you for downloading and be patient that not everything is given in a gold tray ;)
-> --David Toro
+Read the dissertation which made this project possible:
+    draft.pdf
 
 # Aplication
-A basic use would be typing './imrestore tests/im1* --lens' in the terminal which species to imrestore to load from the test path images that start with im1 specified by the wildcard '*' and the option --lens adds as its name implies lens to the retinal area.
+
+A basic use would be typing './imrestore tests/im1* --lens' in the terminal which species
+to imrestore to load from the test path images that start with im1 specified by the wildcard
+'*' and the option --lens adds as its name implies lens to the retinal area.
 
 * So, it loads this image but it presents some flares:
-![Rethina photo 1]
+![Retina photo 1]
 (https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg)
 
-* The second image is from a different perspective of the same retina but has information that the other does not have:
-![Rethina photo 2]
+* The second image is from a different perspective of the same retina but has information
+that the other does not have:
+![Retina photo 2]
 (https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg)
 
-* And Voilà they are merged into one! notice how the flares tend to disappear and the lens were added too!
+* And Voilà they are merged into one! notice how the flares tend to disappear and the lens
+were added too!
 ![Rethina photo result]
 (https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg)
 
@@ -150,8 +163,8 @@ For help just type in './imrestore --help', it could not be more easier than tha
                             example the default name can be achived as "-s
                             {path}_restored_{name}{ext}"
       -o, --overwrite       If True and the destine filename for saving
-                            alreadyexists then it is replaced, else a new filename
-                            is generatedwith an index
+                            already exists then it is replaced, else a new filename
+                            is generated with an index
                             "{filename}_{index}.{extension}"
       -g, --grow_scene      Flag to allow image to grow the scene so that that the
                             final image can be larger than the base image
