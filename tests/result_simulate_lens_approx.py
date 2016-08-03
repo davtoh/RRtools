@@ -1,4 +1,4 @@
-from tesisfunctions import simulateLens_approx,IMAGEPATH,plotim
+from tesisfunctions import simulateLens_approx,IMAGEPATH,Plotim
 import glob
 import cv2
 imlist= glob.glob(IMAGEPATH+"IMG*.jpg")
@@ -10,7 +10,7 @@ for fn in imlist:
     try:
         img = cv2.imread(fn)
         name = "approxlens_"+fn.split('\\')[-1]
-        plotim(name,simulateLens_approx(img)[0]).show()
+        Plotim(name, simulateLens_approx(img)[0]).show()
         #cv2.imwrite(rootpath+name,simulateLens_approx(img)[0])
         #print fn, " saved as ",name
     except:

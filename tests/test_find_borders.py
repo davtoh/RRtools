@@ -3,7 +3,7 @@ __author__ = 'Davtoh'
 import cv2
 import numpy as np
 import glob
-from tesisfunctions import brightness,sigmoid,plotim,overlay,IMAGEPATH, circularKernel
+from tesisfunctions import brightness,sigmoid,Plotim,overlay,IMAGEPATH, circularKernel
 from recommended import getKernel
 
 rootpath = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/"
@@ -23,4 +23,4 @@ thresh, ROI = cv2.threshold(P, 0, 1, cv2.THRESH_BINARY + cv2.THRESH_OTSU) # thre
 level = int(np.clip(ROI.size*0.000009,2,10))
 # use Morphological Gradient from http://docs.opencv.org/2.4/doc/tutorials/imgproc/opening_closing_hats/opening_closing_hats.html
 ROI = cv2.morphologyEx(ROI,4,circularKernel((level,level),np.uint8),iterations = 2)
-plot = plotim("borders", ROI).show()
+plot = Plotim("borders", ROI).show()

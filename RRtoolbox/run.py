@@ -12,13 +12,13 @@ if __name__=="__main__":
         return "that is a test"
 
     #from pycallgraph import PyCallGraph
-    from lib.inspector import graphTraceOutput,graphTrace
+    from lib.inspector import GraphTraceOutput,GraphTrace
 
-    graphviz1 = graphTraceOutput()
+    graphviz1 = GraphTraceOutput()
     graphviz1.output_file = 'run.png'
     #@memoize("tracer")
     def do():
-        with graphTrace(output=[graphviz1]) as tracer:
+        with GraphTrace(output=[graphviz1]) as tracer:
             """
             from core import rrbox
             a = rrbox()

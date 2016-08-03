@@ -7,7 +7,7 @@ from multiprocessing.pool import ThreadPool
 import cv2
 import numpy as np
 
-from tesisfunctions import normsigmoid,normalize,sh2oh,plotim,overlay
+from tesisfunctions import normsigmoid,normalize,sh2oh,Plotim,overlay
 from deprecated.asift import affine_detect, init_feature, filter_matches, explore_match,Timer
 
 
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         original_back = original_back.astype("uint8")
         cv2.imwrite("im_completer_Result.png",original_back)
         print "process finished... ",time.time()-t1-t2
-        plot = plotim("result",original_back)
+        plot = Plotim("result", original_back)
         plot.show()
         # cv2.compare(src1, src2, cmpop[, dst])
         # http://stackoverflow.com/questions/10580676/comparing-two-numpy-arrays-for-equality-element-wise

@@ -2,7 +2,7 @@ __author__ = 'Davtoh'
 
 from asift import affine_detect, init_feature, filter_matches, explore_match
 from common import Timer
-from tests.tesisfunctions import plotim,overlay
+from tests.tesisfunctions import Plotim,overlay
 import sys
 
 import numpy as np
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         dst[:,:,3]= normsigmoide(foregray,1,60)
         cv2.imwrite("asift2alfa.png",dst[:,:,3])
         result = overlay(back.copy(),dst)
-        #plot = plotim("result",result)
+        #plot = Plotim("result",result)
         # cv2.compare(src1, src2, cmpop[, dst])
         # http://stackoverflow.com/questions/10580676/comparing-two-numpy-arrays-for-equality-element-wise
         #plot.show()

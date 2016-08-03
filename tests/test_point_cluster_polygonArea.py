@@ -6,8 +6,8 @@ import numpy as np
 import cv2
 #from gtk import set_interactive
 #set_interactive(0)
-from RRtoolbox.lib.plotter import plotim, plotPointsContour
-from RRtoolbox.lib.image import getcoors, drawcoorperspective,quadrants, imcoors
+from RRtoolbox.lib.plotter import Plotim, plotPointsContour
+from RRtoolbox.lib.image import getcoors, drawcoorperspective,quadrants, Imcoors
 from RRtoolbox.lib.arrayops.basic import transformPoints, relativeVectors, vertexesAngles,\
     points2mask, polygonArea, relativeQuadrants, random_points
 from RRtoolbox.lib.arrayops.convert import points2contour,contour2points, toTupple, translateQuadrants
@@ -58,7 +58,7 @@ def test_random(funcs, n_tests=1, n_points = 4, axes_range = ((-50, 50),), toler
             else:
                 print "{} passed mean {} answering {} and deviation {}".format(funcs[i].func_name,mean,ans[i],val)
         if show:
-            plotim("filled", points2mask(pts)).show(block=False)
+            Plotim("filled", points2mask(pts)).show(block=False)
             f = plt.figure()
             f.suptitle(text)
             plotPointsContour(pts)
@@ -69,7 +69,7 @@ def test_fill_poly():
     ymax,xmax = 100,100
     img = np.zeros((ymax,xmax,3))
     cv2.fillConvexPoly(img,random_points([(0,xmax),(0,ymax)]).astype(np.int32),(200,200,200))
-    plotim("filled",img).show()
+    Plotim("filled", img).show()
 
 
 def py_ang(v1, v2):

@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
 import tesisfunctions as tf
@@ -67,5 +67,5 @@ im_with_keypoints = cv2.drawKeypoints(P2, keypoints, np.array([]), (0,0,255), cv
 
 # Show keypoints
 im_with_keypoints = tf.croppad(im_with_keypoints,padval)
-plotim("Keypoints", im_with_keypoints).show()
+Plotim("Keypoints", im_with_keypoints).show()
 

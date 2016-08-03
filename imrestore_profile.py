@@ -5,11 +5,11 @@ __author__ = 'Davtoh'
 
 # This script has been made to test imrestore.py.
 
-from RRtoolbox.lib.inspector import graphTraceOutput,graphTrace
+from RRtoolbox.lib.inspector import GraphTraceOutput,GraphTrace
 
-graphviz1 = graphTraceOutput()
+graphviz1 = GraphTraceOutput()
 graphviz1.output_file = 'run_imrestore.png'
-with graphTrace(output=[graphviz1]) as tracer:
+with GraphTrace(output=[graphviz1]) as tracer:
     # it seems that if pickle is used then this profiling results in an error
     from imrestore import shell
     shell()

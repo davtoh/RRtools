@@ -2,11 +2,11 @@
 """
     This module holds the plotting and data-visualization tools. Motto: don't know how it is interpreted? i'll show you!
 
-    #plotim example
+    #Plotim example
     filename = "t2.jpg"
     win = "test"
     img = cv2.resize(cv2.imread(filename), (400, 400))  # (height, width)
-    plot = plotim(win,img)
+    plot = Plotim(win,img)
     plot.show()
 """
 
@@ -324,9 +324,9 @@ def plotPointsContour(pts, ax= None, lcor="k", pcor=None, deg = None):
 
 def mousefunc(self):
     """
-    Decoupled mouse function for plotim (replace self.mousefunc).
+    Decoupled mouse function for Plotim (replace self.mousefunc).
 
-    :param self: plotim instance
+    :param self: Plotim instance
     """
     if self.builtincontrol():
         self.updaterenderer()
@@ -335,9 +335,9 @@ def mousefunc(self):
 
 def keyfunc(self):
     """
-    Decoupled key function for plotim (replace self.keyfunc).
+    Decoupled key function for Plotim (replace self.keyfunc).
 
-    :param self: plotim instance
+    :param self: Plotim instance
     """
     if self.builtincmd():
         if self.y is not None and self.x is not None:
@@ -347,27 +347,27 @@ def keyfunc(self):
 
 def closefunc(self):
     """
-    Decoupled close function for plotim (replace self.closefunc).
+    Decoupled close function for Plotim (replace self.closefunc).
 
-    :param self: plotim instance
+    :param self: Plotim instance
     """
     # do stuff before closing #
     return self.pressedkey == 27 or self.close# close if ESC or Close button
 
 def windowfunc(self):
     """
-    Decoupled window function for plotim (replace self.windowfunc).
+    Decoupled window function for Plotim (replace self.windowfunc).
 
-    :param self: plotim instance
+    :param self: Plotim instance
     """
     cv2.namedWindow(self.win,self.wintype)  # create window
     #cv2.resizeWindow(self.win,self.rW,self.rH)
 
 def showfunc(self,img=None):
     """
-    Decoupled show function for plotim (replace self.showfunc).
+    Decoupled show function for Plotim (replace self.showfunc).
 
-    :param self: plotim instance
+    :param self: Plotim instance
     :param img: image to show
     """
     if img is None:
@@ -377,9 +377,9 @@ def showfunc(self,img=None):
 
 def formatcmd(self, cmd, references=("+","-","*","="), lmissing="self."):
     """
-    Decoupled cmd formatter for cmdfunc and plotim.
+    Decoupled cmd formatter for cmdfunc and Plotim.
 
-    :param self: plotim instance
+    :param self: Plotim instance
     :param cmd: command
     :param references:
     :param lmissing: assumed missing part in command
@@ -408,14 +408,14 @@ def formatcmd(self, cmd, references=("+","-","*","="), lmissing="self."):
 
 def echo(obj):
     """
-    Printer (used when user wants to print an object from plotim)
+    Printer (used when user wants to print an object from Plotim)
     :param obj: object
     """
     print obj
 
 def cmdfunc(self,execute = False):
     """
-    Decoupled cmd solver for plotim. (repalce self.cmdfunc)
+    Decoupled cmd solver for Plotim. (repalce self.cmdfunc)
 
     :param self:
     :param execute: True, enable execution of commands, False, disable execution.
@@ -578,13 +578,13 @@ def convert2bgra(src, bgracolor = None,transparency = None):
 
 def onmouse(event, x, y, flags, self):
     """
-    Mouse event function for plotim. (replace self.mousefunc)
+    Mouse event function for Plotim. (replace self.mousefunc)
 
     :param event: mouse event
     :param x: x position
     :param y: y postion
     :param flags: mouse flag to use in control (it represents clicks)
-    :param self: plotim object
+    :param self: Plotim object
     :return:
     """
     #print event, x, y, flags, param
@@ -620,7 +620,7 @@ class plotim(object):
 
     It implements: self.createfunc, self.pressedkey, self.mousefunc, self.closefunc, self.close.
 
-    .. warning:: plotim is deprecated and will be replaced in the future (it was made to
+    .. warning:: Plotim is deprecated and will be replaced in the future (it was made to
                 test concepts). Originally it was made for windows but some functions
                 were removed to let it be multi-platform.
     '''
@@ -666,7 +666,7 @@ class plotim(object):
         self.win = win  # window name
         self.wintype = cv2.WINDOW_NORMAL # window to create
         self.interpolation=cv2.INTER_LINEAR # render's interpolation
-        self.bgrcolor = bgrcolor # plotim background's color
+        self.bgrcolor = bgrcolor # Plotim background's color
         ## Flow control ##
         self.windowfunc = windowfunc # custom plot on creation function
         self.showfunc = showfunc # custom show function
@@ -1328,7 +1328,7 @@ class plotim(object):
 def matchExplorer(win, img1, img2, kp_pairs=(), status = None, H = None, show=True, block= True, daemon=True):
     """
     This function draws a set of keypoint pairs obtained on a match method of a descriptor
-    on two images imgf and imgb. (backend: plotim).
+    on two images imgf and imgb. (backend: Plotim).
 
     :param win: window's name (str)
     :param img1: image1 (numpy array)
@@ -1336,10 +1336,10 @@ def matchExplorer(win, img1, img2, kp_pairs=(), status = None, H = None, show=Tr
     :param kp_pairs: zip(keypoint1, keypoint2)
     :param status: obtained from cv2.findHomography
     :param H: obtained from cv2.findHomography (default=None)
-    :param show: if True shows plotim using block and daemon, else do not show
+    :param show: if True shows Plotim using block and daemon, else do not show
     :param block: if True it wait for window close, else it detaches
     :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end
-    :return: plotim object with visualization as self.rimg (image with matching result) (default=None)
+    :return: Plotim object with visualization as self.rimg (image with matching result) (default=None)
 
     .. note:: It supports BGR and gray images.
     """
@@ -1584,7 +1584,7 @@ class edger(plotim):
                  isCLAHE = False,
                  isBFILTER = False):
         self.load(img,False)
-        super(edger, self).__init__("edger "+self.pathdata[2],self.data2)
+        super(edger, self).__init__("Edger "+self.pathdata[2],self.data2)
         self._th1 = 3000
         self._th2 = 6000
         self._maxth = 10000

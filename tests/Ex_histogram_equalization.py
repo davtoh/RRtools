@@ -4,7 +4,7 @@ __author__ = 'Davtoh'
 # http://stackoverflow.com/a/31493356/5288758
 import cv2
 import numpy as np
-from tesisfunctions import graphHistogram, plotim, equalization
+from tesisfunctions import graphHistogram, Plotim, equalization
 from matplotlib import pyplot as plt
 
 img = cv2.imread(r'im1_1.jpg',0)
@@ -20,4 +20,4 @@ hist_cl1 = graphHistogram(cl1, False)
 res = cv2.resize(np.hstack((img,equ,cl1)),(1000,1000)) #stacking images side-by-side
 hists = np.hstack((hist_img,hist_equ,hist_cl1)) #stacking images side-by-side
 plt.show()
-plotim("equalizaiton",res).show()
+Plotim("equalizaiton", res).show()

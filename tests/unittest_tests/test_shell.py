@@ -1,4 +1,4 @@
-from RRtoolbox.shell import shell
+from RRtoolbox.shell import Shell
 import unittest
 
 def fun1(a,b,c):
@@ -13,7 +13,7 @@ def fun3(a=1,b=2,c=3):
 def fun4(a, b = 2, *args, **kwargs):
     pass
 
-s = shell()
+s = Shell()
 d1 = s.generateParser(fun1)
 #d1.parse_args("1 2 3".split())
 d2 = s.generateParser(fun2)

@@ -1,5 +1,5 @@
 __author__ = 'Davtoh'
-from tesisfunctions import plotim,overlay,padVH
+from tesisfunctions import Plotim,overlay,padVH
 import cv2
 import numpy as np
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
@@ -41,7 +41,7 @@ print thresh
 lastthresh=threshold(P,thresh,1,0)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = pad(lastthresh,1)
-plotc = plotim(name +" overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
+plotc = Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
 plotc.show()
 
 # find biggest area
@@ -98,13 +98,13 @@ else: # if end inside yf
 
 cv2.line(imdefects,start,end,[0,0,100],2)
 
-plotc = plotim(name+" defects",imdefects)
+plotc = Plotim(name + " defects", imdefects)
 plotc.show()
 
 #ROI
 ROI = np.zeros(P.shape,dtype=np.uint8)
 cv2.drawContours(ROI,[cnt],0,1,-1)
-plotc = plotim(name+" ROI",ROI)
+plotc = Plotim(name + " ROI", ROI)
 plotc.show()
 M = cv2.moments(cnt) # find moments
 #M2 = invmoments(ROI,Area=None,center=None)
@@ -121,13 +121,13 @@ cv2.drawContours(fore,[cnt],0,(0, 0, 255),2)
 ellipse = cv2.fitEllipse(cnt)
 cv2.ellipse(fore,ellipse,(0,255,0),2)
 
-plotc = plotim(name+" description",fore)
+plotc = Plotim(name + " description", fore)
 plotc.show()
 
 mask = np.ones(P.shape,dtype=np.uint8)
 cv2.ellipse(mask,ellipse,0,-1)
 fore2[mask>0]=0
-plotc = plotim(name+" result",fore2)
+plotc = Plotim(name + " result", fore2)
 plotc.show()
 cv2.imwrite("mask_"+name+".png",fore2)
 """

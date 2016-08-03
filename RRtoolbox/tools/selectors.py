@@ -4,7 +4,7 @@ import numpy as np
 from RRtoolbox.lib.arrayops import entroyTest
 from RRtoolbox.lib.config import FLOAT
 from RRtoolbox.lib.directory import getData
-from RRtoolbox.lib.plotter import plotim,limitaxis
+from RRtoolbox.lib.plotter import Plotim,limitaxis
 
 __author__ = 'Davtoh'
 
@@ -79,7 +79,7 @@ def hist_comp(imlist, loadfunc = None, method= "correlation"):
     comparison.sort(key=lambda x:x[1],reverse = reverse) # sort comparisons
     return comparison
 
-class entropyPlot(plotim):
+class EntropyPlot(Plotim):
     """
     Plot entropy test
     """
@@ -91,7 +91,7 @@ class entropyPlot(plotim):
         self.sortedD,self.sortedImages,self.D,self.images = entropy(images)
         self.loadfunc = func
         self.selectlist(self.sortedImages)
-        super(entropyPlot, self).__init__(win,self.getImage(self.imlist[self.index]))
+        super(EntropyPlot, self).__init__(win, self.getImage(self.imlist[self.index]))
         self.controlText.append(self.getData(self.imlist[self.index]))
         self.init()
     def getImage(self,im):

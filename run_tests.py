@@ -1,5 +1,5 @@
 from imrestore import shell, os
-from RRtoolbox.lib.root import stdoutLOG
+from RRtoolbox.lib.root import StdoutLOG
 from glob import glob
 from RRtoolbox.lib.config import MANAGER
 
@@ -14,14 +14,14 @@ else: # linux
 #MANAGER.save()
 
 root = "{0}/MEGAsync/TESIS/DATA_RAW/classified/".format(base)
-stdoutLOG(root + "_log")
+StdoutLOG(root + "_log")
 
 fns = [i for i in glob(root + "*") if os.path.isdir(i)] # only folders
 fns = ["{0}/MEGAsync/TESIS/DATA_RAW/classified/set17".format(base)]
 #fns = ["{0}/MEGAsync/TESIS/DATA_RAW/classified/set26".format(base)]
 #fns = ["{0}/MEGAsync/TESIS/DATA_RAW/classified/set_room".format(base)]
 for fn in fns:
-    log = stdoutLOG(fn + "/_log")
+    log = StdoutLOG(fn + "/_log")
     txt = "processing for set {}".format(fn)
     print "*"*len(txt)
     print txt

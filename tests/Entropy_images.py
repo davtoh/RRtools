@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 
-from RRtoolbox.tools.selectors import entropyPlot
+from RRtoolbox.tools.selectors import EntropyPlot
 from RRtoolbox.lib import directory as dr
 from tesisfunctions import IMAGEPATH
 from RRtoolbox.lib.root import glob
@@ -12,5 +12,5 @@ fns = glob(root+"*")[:3]
 #fns= glob.glob(mainpath+"im1*.*")
 print "Selecting: ",fns
 
-obj = entropyPlot(fns)
+obj = EntropyPlot(fns)
 obj.show()

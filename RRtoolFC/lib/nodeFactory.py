@@ -5,7 +5,7 @@ from RRtoolbox.lib.inspector import funcData
 
 # TODO: see info under mylibs to come up with a way to convert functions to flowchar nodes.
 
-class nodeGenerator:
+class NodeGenerator:
     """
     Generate Nodes.
 
@@ -149,20 +149,20 @@ class nodeGenerator:
 
 if __name__ == "__main__":
     #new_class = type("NewClassName", (BaseClass), {"new_method": lambda self: ...})
-    @nodeGenerator()
+    @NodeGenerator()
     def my_function1(param1, param2):
         "some comment here"
         print "processing something"
         output1,output2 = 10,100
         return output1,output2 # it must be clear
 
-    @nodeGenerator()
+    @NodeGenerator()
     def my_function2(param1, param2, defparam1 = 10):
         print "processing something"
         output1,output2 = 10,100 # this shoud works
         return output1,output2 # it must be clear
 
-    @nodeGenerator()
+    @NodeGenerator()
     def my_function3(param1, param2, defparam1 = 10, defparam2 = 20, *args, **kwargs):
         print "processing something"
         output1,output2 = 10,100

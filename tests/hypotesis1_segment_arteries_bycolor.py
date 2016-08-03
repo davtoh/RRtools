@@ -4,7 +4,7 @@ Trying to threshold only the arteries from a retinal image, silly idea
 __author__ = 'Davtoh'
 
 import cv2
-from tesisfunctions import plotim
+from tesisfunctions import Plotim
 
 fn1 = 'im1_2.jpg'
 fore = cv2.imread(fn1)
@@ -21,7 +21,7 @@ for i in xrange(fore.shape[1]): # rows
         if (b-g)>0 and r>g and r>b and b>70 and g>70:
             cv2.circle(fore, (i,j), 1, (0, 0, 255), -1, 8)
 
-plotc = plotim("blood vessels",fore)
+plotc = Plotim("blood vessels", fore)
 plotc.show()
 
 """

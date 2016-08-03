@@ -25,13 +25,13 @@ from arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAng
     standarizePoints, splitPoints
 from root import glob
 from pyqtgraph import QtGui
-from cache import cache, resourceManager
+from cache import Cache, ResourceManager
 from collections import MutableSequence
 from directory import getData, strdifference, changedir, checkFile, getFileHandle, \
     increment_if_exits, mkPath
 import matplotlib.axes
 import matplotlib.figure
-from plotter import plotim, limitaxis
+from plotter import Plotim, limitaxis
 from serverServices import parseString, string_is_socket_address
 __author__ = 'Davtoh'
 
@@ -447,7 +447,7 @@ def interpretImage(toparse, flags):
         # test path to file or URL
         return loadsfrom(toparse,flags)
 
-class imFactory:
+class ImFactory:
     """
     image factory for RRToolbox to create scripts to standardize loading images and
     provide lazy loading (it can load images from disk with the customized options
@@ -788,7 +788,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
         return mapfunc # factory function
     return func # factory function
 
-class imLoader:
+class ImLoader:
     """
     Class to load image array from path, url,
     server, string or directly from numpy array (supports databases).
@@ -905,7 +905,7 @@ class imLoader:
         path = kwargs.get("path",self.path) # get path
         return loadFunc(**self.getConfiguration(**kwargs))(path) # build a new loader and load path
 
-class pathLoader(MutableSequence):
+class PathLoader(MutableSequence):
     """
     Class to standardize loading images from list of paths and offer lazy evaluations.
 
@@ -947,7 +947,7 @@ class pathLoader(MutableSequence):
     def insert(self, index, value):
         self._fns.insert(index,value)
 
-class loaderDict(resourceManager):
+class LoaderDict(ResourceManager):
     """
     Class to standardize loading objects and manage memory efficiently.
 
@@ -963,7 +963,7 @@ class loaderDict(resourceManager):
     :param config: (Not Implemented)
     """
     def __init__(self, loader = None, maxMemory = None, margin = 0.8, unit = "MB", all = True, config = None):
-        super(loaderDict, self).__init__(maxMemory, margin, unit, all)
+        super(LoaderDict, self).__init__(maxMemory, margin, unit, all)
         # create factory functions
         #if config is None: from config import MANAGER as config
         #self._config = config
@@ -975,7 +975,7 @@ class loaderDict(resourceManager):
         else:
             def func(): return self._default_loader(func.path)
         func.path = path
-        super(loaderDict, self).register(key=key, method=func)
+        super(LoaderDict, self).register(key=key, method=func)
 
 def try_loads(fns, func = cv2.imread, paths = None, debug = True):
     """
@@ -1057,12 +1057,12 @@ def hist_match(source, template, alpha = None):
 # http://docs.opencv.org/master/db/d5b/tutorial_py_mouse_handling.html
 # http://docs.opencv.org/modules/highgui/doc/qt_new_functions.html
 
-class imcoors(object):
+class Imcoors(object):
     """
     Image's coordinates class.
     Example::
 
-        a = imcoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
+        a = Imcoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
         print a.__dict__
         print "mean depend on min and max: ", a.mean
         print a.__dict__
@@ -1073,7 +1073,7 @@ class imcoors(object):
     """
     def __init__(self, pts, dtype=FLOAT, deg=False):
         """
-        Initiliazes imcoors.
+        Initiliazes Imcoors.
 
         :param pts: list of points
         :param dtype: return data as dtype. Default is config.FLOAT
@@ -1104,7 +1104,7 @@ class imcoors(object):
     # DATA METHODS
     def __len__(self):
         return len(self._pts)
-    @cache
+    @Cache
     def max(self):
         """
         Maximum in each axis.
@@ -1113,7 +1113,7 @@ class imcoors(object):
         """
         #self.max_x, self.max_y = np.max(self.data,0)
         return tuple(np.max(self._pts, 0))
-    @cache
+    @Cache
     def min(self):
         """
         Minimum in each axis.
@@ -1122,7 +1122,7 @@ class imcoors(object):
         """
         #self.min_x, self.min_y = np.min(self.data,0)
         return tuple(np.min(self._pts, 0))
-    @cache
+    @Cache
     def rectbox(self):
         """
         Rectangular box enclosing points (origin and end point or rectangle).
@@ -1130,7 +1130,7 @@ class imcoors(object):
         :return: (x0,y0),(x,y)
         """
         return (self.min,self.max)
-    @cache
+    @Cache
     def boundingRect(self):
         """
         Rectangular box dimensions enclosing points.
@@ -1138,10 +1138,10 @@ class imcoors(object):
         :return: x0,y0,w,h
         """
         return cv2.boundingRect(self._pts)
-    @cache
+    @Cache
     def minAreaRect(self):
         return cv2.minAreaRect(self._pts)
-    @cache
+    @Cache
     def rotatedBox(self):
         """
         Rotated rectangular box enclosing points.
@@ -1149,7 +1149,7 @@ class imcoors(object):
         :return: 4 points.
         """
         return self._dtype(cv2.cv.BoxPoints(self.minAreaRect))
-    @cache
+    @Cache
     def boxCenter(self):
         """
         Mean in each axis.
@@ -1161,7 +1161,7 @@ class imcoors(object):
         xX,xY = self.max
         nX,nY = self.min
         return tuple(self._dtype((xX + nX, xY + nY)) / 2)
-    @cache
+    @Cache
     def mean(self):
         """
         Center or mean.
@@ -1174,7 +1174,7 @@ class imcoors(object):
         #tuple(np.sum(self.data,axis=0)/len(self.data))
         return tuple(np.mean(self._pts, 0, dtype = self._dtype))
     center = mean
-    @cache
+    @Cache
     def area(self):
         """
         Area of points.
@@ -1182,7 +1182,7 @@ class imcoors(object):
         :return: area number
         """
         return polygonArea(self._pts)
-    @cache
+    @Cache
     def rectangularArea(self):
         """
         Area of rectangle enclosing points aligned with x,y axes.
@@ -1192,7 +1192,7 @@ class imcoors(object):
         #method 1, it is not precise in rotation
         (x0,y0),(x,y) = self.rectbox
         return self.dtype(np.abs((x-x0)*(y-y0)))
-    @cache
+    @Cache
     def rotatedRectangularArea(self):
         """
         Area of Rotated rectangle enclosing points.
@@ -1200,7 +1200,7 @@ class imcoors(object):
         :return: area number
         """
         return polygonArea(self.rotatedBox)
-    @cache
+    @Cache
     def rectangularity(self):
         """
         Ratio that represent a perfect square aligned with x,y axes.
@@ -1213,7 +1213,7 @@ class imcoors(object):
         #return (cx)/bcx,(cy)/bcy # x_ratio, y_ratio
         #method 2
         return self.dtype(self.area/self.rectangularArea)
-    @cache
+    @Cache
     def rotatedRectangularity(self):
         """
         Ratio that represent a perfect rotated square fitting points.
@@ -1226,7 +1226,7 @@ class imcoors(object):
         else:
             area = self.area
         return self.dtype(area/self.rotatedRectangularArea)
-    @cache
+    @Cache
     def regularity(self):
         """
         Ratio of rectangular forms. e.g. squares and rectangles have rect
@@ -1237,7 +1237,7 @@ class imcoors(object):
         pi = angle((1,0),(0,1),deg=self._deg) # get pi value in radian or degrees
         av = self.vertexesAngles
         return pi*(len(av))/np.sum(av) # pi*number_agles/sum_angles
-    @cache
+    @Cache
     def relativeVectors(self):
         """
         Form vectors from points.
@@ -1247,7 +1247,7 @@ class imcoors(object):
         pts = np.array(self._pts)
         pts = np.append(pts,[pts[0]],axis=0) # adds last vector from last and first point.
         return np.stack([np.diff(pts[:, 0]), np.diff(pts[:, 1])], 1)
-    @cache
+    @Cache
     def vertexesAngles(self):
         """
         Relative angle of vectors formed by vertexes.
@@ -1260,7 +1260,7 @@ class imcoors(object):
         vs = self.relativeVectors # get all vectors from points.
         vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
         return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in xrange(1,len(vs))],self._dtype) # caculate angles
-    @cache
+    @Cache
     def pointsAngles(self):
         """
         Angle of vectors formed by points in Cartesian plane with respect to x axis.
@@ -1271,7 +1271,7 @@ class imcoors(object):
         """
         vs = self.relativeVectors # get all vectors from points.
         return vectorsAngles(pts=vs, dtype=self._dtype, deg=self._deg)
-    @cache
+    @Cache
     def vectorsAngles(self):
         """
         Angle of vectors in Cartesian plane with respect to x axis.
@@ -1460,7 +1460,7 @@ def limitaxispoints(c,maxc,minc=0):
         x[i] = limitaxis(j,maxc,minc)
     return tuple(x)
 
-class getCoors(plotim):
+class GetCoors(Plotim):
     """
     Create window to select points from image.
 
@@ -1478,7 +1478,7 @@ class getCoors(plotim):
     def __init__(self, im, win = "get coordinates", updatefunc=drawcoorpoints,
                  unique=True, col_out=black, col_in=red):
         # functions
-        super(getCoors,self).__init__(win,im)
+        super(GetCoors, self).__init__(win, im)
         # assign functions
         self.updatefunc = updatefunc
         self.userupdatefunc = updatefunc
@@ -1533,13 +1533,13 @@ class getCoors(plotim):
         :return:
         """
         vis = self.rimg
-        p = imcoors(points)
+        p = Imcoors(points)
         self.data2 = np.zeros((vis.shape[0],vis.shape[1],1),dtype=np.uint8)
         drawcooraxes(vis,[p.boxCenter],col_out,col_in,radius)
         drawcooraxes(self.data2,[p.boxCenter],1,1,self.prox)
         drawcooraxes(vis,[p.mean],col_in,col_out,radius)
         drawcooraxes(self.data2,[p.mean],2,2,self.prox)
-        p1 = imcoors(self.coors)
+        p1 = Imcoors(self.coors)
         self.mapdata2 = [None,"center at "+str(p1.boxCenter),"mean at "+str(p1.mean)]
 
     def updatecoors(self):
@@ -1615,7 +1615,7 @@ class getCoors(plotim):
             self.builtinplot(self.data[self.y,self.x])
 
 def getcoors(im, win ="get coordinates", updatefunc=drawcoorpoints, coors = None, prox=8, radius = 3, unique=True, col_out=black, col_in=red):
-    self = getCoors(im,win,updatefunc,unique=unique, col_out=col_out, col_in=col_in)
+    self = GetCoors(im, win, updatefunc, unique=unique, col_out=col_out, col_in=col_in)
     self.radius = radius
     self.prox = prox
     if coors is not None:
@@ -1657,7 +1657,7 @@ def getrectcoors(*data):
     else:  # img, win
         points = getcoors(*data)
 
-    p = imcoors(points)
+    p = Imcoors(points)
     min_x,min_y = p.min
     max_x,max_y = p.max
     Top_left = (min_x,min_y)
@@ -1675,7 +1675,7 @@ def quadrants(points):
     """
     # group points on 4 quadrants
     # [Top_left,Top_right,Bottom_left,Bottom_right]
-    p = imcoors(points)  # points data x,y -> (width,height)
+    p = Imcoors(points)  # points data x,y -> (width,height)
     mean_x, mean_y = p.mean
     Bottom,Top = separe(points,mean_y,axis=1)
     Top_right,Top_left = separe(Top,mean_x,axis=0)

@@ -7,7 +7,7 @@
     This module contains all config data to the package.
 """
 from __future__ import division
-from directory import directory as _directory
+from directory import Directory as _directory
 from directory import FileDirectory as _FileDirectory
 from directory import correctPath as _correctPath
 from directory import resource_path as _resource_path
@@ -81,7 +81,7 @@ def getModules(package, exclude = None):
 
 # ----------------------------CLASSES---------------------------- #
 
-class directoryManager(object):
+class DirectoryManager(object):
     """
     Manage the configured variables, paths and files.
 
@@ -165,10 +165,17 @@ class directoryManager(object):
         .. warning:: Unsaved instance variables will be replaced by configuration file variables.
         """
         if FLAG_DEBUG: print "Loading '{}'...".format(self._path)
+        error = False
         try:
             vars = _readSession(str(self._path))
         except IOError:
             if FLAG_DEBUG: print "'{}' not found...".format(self._path)
+            error = True
+        except AttributeError:
+            if FLAG_DEBUG: print "'{}' structure is old...".format(self._path)
+            error = True
+
+        if error:
             # not tolerable as error and should not be caught
             data = self.reset()
             try:
@@ -238,8 +245,7 @@ class directoryManager(object):
         """
         return self[item]'''
 
-MANAGER = directoryManager() # configure directories
-
+MANAGER = DirectoryManager() # configure directories
 
 class ConfigTool:
     """

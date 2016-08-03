@@ -1,4 +1,4 @@
-from RRtoolbox.lib.image import loadFunc, getData, imLoader, convertAs
+from RRtoolbox.lib.image import loadFunc, getData, ImLoader, convertAs
 from RRtoolbox.lib.plotter import fastplt
 from RRtoolbox.lib.config import MANAGER
 from RRtoolbox.lib.cache import mapper

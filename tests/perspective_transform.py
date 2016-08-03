@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from RRtoolbox.lib.plotter import plotim
+from RRtoolbox.lib.plotter import Plotim
 from RRtoolbox.lib.image import getcoors, drawcoorperspective
 fn1 = r"im1_1.jpg"
 img = cv2.imread(fn1)  # (width, height)

@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_video/py_meanshift/py_meanshift.html
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
 import tesisfunctions as tf
@@ -34,7 +34,7 @@ hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 P = tf.brightness(fore)
 th,mask = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #mask = cv2.inRange(hsv_roi, np.array((0., 0.,176.)), np.array((179.,159.,255.)))
-#plotim("mask", mask).show()
+#Plotim("mask", mask).show()
 fore = overlay(fore, mask, alpha=mask * 0.2)
 roi_hist = cv2.calcHist([hsv_roi],[0],mask,[180],[0,180])
 cv2.normalize(roi_hist,roi_hist,0,255,cv2.NORM_MINMAX)
@@ -95,7 +95,7 @@ cv2.destroyAllWindows()
 
 """
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_video/py_meanshift/py_meanshift.html
-from plotim import plotim,np,cv2
+from Plotim import Plotim,np,cv2
 import tesisfunctions as tf
 import overlay as ov
 import hypothesis_functions as tf
@@ -128,7 +128,7 @@ hsv_roi =  cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 P = tf.brightness(fore)
 th,mask = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #mask = cv2.inRange(hsv_roi, np.array((0., 0.,176.)), np.array((179.,159.,255.)))
-#plotim("mask", mask).show()
+#Plotim("mask", mask).show()
 fore = ov.overlay(fore,mask,alfa=mask*0.2)
 roi_hist = cv2.calcHist([hsv_roi],[0],mask,[180],[0,180])
 cv2.normalize(roi_hist,roi_hist,0,255,cv2.NORM_MINMAX)

@@ -1,11 +1,11 @@
-from RRtoolbox.lib.cache import memoizedDict,mapper
+from RRtoolbox.lib.cache import MemoizedDict,mapper
 from RRtoolbox.lib.root import TimeCode
 import unittest
 from time import time
 persistIn = "mydict"
 
 
-class textOp:
+class TextOp:
     # this is a main class
     # used in TestMemoizedDisc
     def __init__(self,val):
@@ -34,25 +34,25 @@ class TestMemoizedDisc(unittest.TestCase):
         test persistence to file
         :return:
         """
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
 
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
 
-        mydict["textOp"] = textOp(1)
+        mydict["TextOp"] = TextOp(1)
         del mydict
 
-        mydict = memoizedDict(persistIn)
-        self.assertEqual(mydict["textOp"].val,1)
+        mydict = MemoizedDict(persistIn)
+        self.assertEqual(mydict["TextOp"].val,1)
 
     def test_key_times(self):
         """
         test how much time memoizeDict takes in saving keys
         :return:
         """
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
         secs = 2
         try:
             for i in xrange(1000):
@@ -70,9 +70,9 @@ class TestMemoizedDisc(unittest.TestCase):
         test how much time memoizeDict takes in cleaning up keys
         :return:
         """
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
         secs = 5
         nokeys = 1000
         with TimeCode("adding {} keys...".format(nokeys)):
@@ -90,12 +90,12 @@ class TestMemoizedDisc(unittest.TestCase):
             mydict.clear() # clean up
 
     def test_failed_session(self):
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
 
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
 
-        class textOp_fail:
+        class TextopFail:
             # unfortunately all classes that are memoized must be present
             # as main classes and not inside other objects
             def __init__(self,val):
@@ -103,7 +103,7 @@ class TestMemoizedDisc(unittest.TestCase):
 
         from pickle import PicklingError
         with self.assertRaises(PicklingError): # if used pickle
-            mydict["textOp_fail"] = textOp_fail(1)
+            mydict["TextopFail"] = textOp_fail(1)
 
 def runTests(tests = None, verbosity=2):
     def filter_helper(test):

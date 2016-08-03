@@ -1,4 +1,4 @@
-from RRtoolbox.lib.cache import memoizedDict,mapper, memoize
+from RRtoolbox.lib.cache import MemoizedDict,mapper, memoize
 from RRtoolbox.lib.session import saveSession,updateSession,readSession
 from RRtoolbox.lib.root import TimeCode
 
@@ -20,22 +20,22 @@ tomemoize = memoize("m")(tomemoize)
 
 def test2(saveTo = "/mnt/4E443F99443F82AF/restoration_data2/"):
     with TimeCode("Loading descriptors"):
-        descriptors = memoizedDict(saveTo+"descriptors")
+        descriptors = MemoizedDict(saveTo + "descriptors")
     with TimeCode("Loading shapes"):
-        shapes = memoizedDict(saveTo+"shapes")
+        shapes = MemoizedDict(saveTo + "shapes")
     with TimeCode("Loading data"):
-        data = memoizedDict(saveTo+"data")
+        data = MemoizedDict(saveTo + "data")
     return descriptors,shapes,data
 
 #descriptors,shapes,data = test2()
 
-mydict = memoizedDict("mydict")
+mydict = MemoizedDict("mydict")
 class textOp:
     pass
 
-if "textOp" not in mydict:
-    print "inserting textOp"
-    mydict["textOp"] = textOp()
+if "TextOp" not in mydict:
+    print "inserting TextOp"
+    mydict["TextOp"] = textOp()
 
 print mydict
 #memoize.ignore = [tomemoize] # or it can be tomemoize_old

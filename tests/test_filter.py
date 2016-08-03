@@ -2,7 +2,7 @@ __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from tesisfunctions import histogram,graphmath,plotim,IMAGEPATH,filterFactory
+from tesisfunctions import histogram,graphmath,Plotim,IMAGEPATH,filterFactory
 
 fn1 = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/IMG_20150730_131444.jpg"
 #fn1 = r'C:\Users\Davtoh\Dropbox\PYTHON\projects\Descriptors\im4_1.jpg'
@@ -56,7 +56,7 @@ fy_gray = histogram(fgray)
 fy.extend(fy_gray)
 fig = graphmath(fy, ("b", "g", "r", "k"), win="filtered histogram")
 
-plot = plotim("fbgr",fbgr)
+plot = Plotim("fbgr", fbgr)
 plot.show()
-plot = plotim("fgray",fgray)
+plot = Plotim("fgray", fgray)
 plot.show()

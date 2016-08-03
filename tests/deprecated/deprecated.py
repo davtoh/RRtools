@@ -173,7 +173,7 @@ def instability_bf(funcs, step = 10, maximum = 300, guess = 0, tolerance=0.01):
 def matchExplorer(win, img1, img2, kp_pairs=(), status = None, H = None, show=True, block= True, daemon=True):
     """
     This function draws a set of keypoint pairs obtained on a match method of a descriptor
-    on two images imgf and imgb. (backend: plotim).
+    on two images imgf and imgb. (backend: Plotim).
 
     :param win: window's name (str)
     :param img1: image1 (numpy array)
@@ -181,10 +181,10 @@ def matchExplorer(win, img1, img2, kp_pairs=(), status = None, H = None, show=Tr
     :param kp_pairs: zip(keypoint1, keypoint2)
     :param status: obtained from cv2.findHomography
     :param H: obtained from cv2.findHomography (default=None)
-    :param show: if True shows plotim using block and daemon, else do not show
+    :param show: if True shows Plotim using block and daemon, else do not show
     :param block: if True it wait for window close, else it detaches
     :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end
-    :return: plotim object with visualization as self.rimg (image with matching result) (default=None)
+    :return: Plotim object with visualization as self.rimg (image with matching result) (default=None)
 
     .. note:: It supports BGR and gray images.
     """
@@ -610,7 +610,7 @@ def stitch_multiple(images = None, **opts):
                                 break
                         merged, H_back, H_fore = superpose(merged, scaled_fore, H) # create new base
                         #fastplt(merged,"gray")
-                        #plotim("last added with "+text,merged).show()
+                        #Plotim("last added with "+text,merged).show()
                         projection = getTransformedCorners((h,w),H_fore)
                         newkps, newdesc = [], []
                         '''
@@ -658,10 +658,10 @@ def stitch_multiple(images = None, **opts):
                         for kp in mkp1:
                             kp["pt"] = kp["pt_original"] # restore its original keypoints for visualization
                         # visualize the match if data is in merged
-                        #vis = matchExplorer("match in merged", scaled_fore, merged, zip(mkp1,mkp2), status, H_fore)
+                        #vis = MatchExplorer("match in merged", scaled_fore, merged, zip(mkp1,mkp2), status, H_fore)
                         """
                         # draw keypoints in image
-                        plotim("keypoints",
+                        Plotim("keypoints",
                                cv2.drawKeypoints(cv2.cvtColor(merged,cv2.COLOR_GRAY2BGR),
                                           [dict2keyPoint(i) for i in kps_base],
                                           flags=4, color=(0,0,255))).show()"""

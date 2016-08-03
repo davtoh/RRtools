@@ -14,7 +14,7 @@ Region growing: https://en.wikipedia.org/wiki/Region_growing
 __author__ = 'Davtoh'
 
 import sys
-from RRtoolbox.lib.root import Controlstdout, stdoutSIM, stdoutLOG
+from RRtoolbox.lib.root import Controlstdout, StdoutSIM, StdoutLOG
 
 import cv2
 import matplotlib.animation as animation
@@ -26,16 +26,16 @@ from RRtoolbox.lib.arrayops.basic import convertXY,overlayXY, padVH,overlay, nor
 from RRtoolbox.tools.selectors import entropy
 from RRtoolbox.lib.arrayops.filters import smooth,normsigmoid,sigmoid,filterFactory,bilateralFilter,FilterBase
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, spoint2opointfunc, sh2oh,contour2points,points2contour
-from RRtoolbox.lib.directory import directory,getData
-from RRtoolbox.lib.plotter import plotim,edger,plotPointsContour,graph_filter
-from RRtoolbox.lib.image import getcoors,drawcoorperspective, imcoors
+from RRtoolbox.lib.directory import Directory,getData
+from RRtoolbox.lib.plotter import Plotim,Edger,plotPointsContour,graph_filter
+from RRtoolbox.lib.image import getcoors,drawcoorperspective, Imcoors
 from RRtoolbox.lib.arrayops.mask import brightness, biggestCntData, biggestCnt, thresh_biggestCnt, gethull
 from RRtoolbox.lib.directory import getData
 from RRtoolbox.lib.root import sleep
 
 base = "/mnt/4E443F99443F82AF/MEGAsync/"#"/media/davtoh/DavtohDisk1/Davtoh/University/"
-IMAGEPATH = directory(base+"TESIS/DATA_RAW/IMAGES")
-SAVETO = directory(base+"TESIS/DATA_PROCESSED/Tests")
+IMAGEPATH = Directory(base + "TESIS/DATA_RAW/IMAGES")
+SAVETO = Directory(base + "TESIS/DATA_PROCESSED/Tests")
 
 def printParams(params, header = True, epilog = True, width = 100):
     """
@@ -773,7 +773,7 @@ def getThreshCenter3(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return imcoors(zip(x,y),np.int32).boxCenter
+    return Imcoors(zip(x, y), np.int32).boxCenter
 
 def getThreshCenter4(thresh):
     """
@@ -783,7 +783,7 @@ def getThreshCenter4(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return imcoors(zip(x,y),np.int32).mean
+    return Imcoors(zip(x, y), np.int32).mean
 
 def CircleClosure(thresh,epsilon=0.5):
     """
@@ -826,7 +826,7 @@ def graphpolygontest(test, win ="Polygon test", centralcol = (0, 100, 0), center
     :param win: window name
     :param centralcol: multiple centers' color
     :param centercol: center's color
-    :return: plotim object
+    :return: Plotim object
 
     Example::
 
@@ -844,7 +844,7 @@ def graphpolygontest(test, win ="Polygon test", centralcol = (0, 100, 0), center
     for pt in center_pts:
         cv2.circle(graph,pt,1,centralcol,-1)
     cv2.circle(graph,center,1,centercol,-1)
-    plot = plotim(win,graph)
+    plot = Plotim(win, graph)
     plot.center_pts = center_pts
     plot.center = center
     plot.sample = test

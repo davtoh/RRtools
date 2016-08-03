@@ -90,7 +90,7 @@ def ImageView(self, data, display=True):
 
 def setView(self, view):  ## setView must be called by the program
     self.view = view
-#ImageViewNode = nodeGenerator(selfAs="self",terminals={"data":{"io":"in"}},addfuncs={"setView":setView})(ImageView)
+#ImageViewNode = NodeGenerator(selfAs="self",terminals={"data":{"io":"in"}},addfuncs={"setView":setView})(ImageView)
 ## We will define an unsharp masking filter node as a subclass of CtrlNode.
 ## CtrlNode is just a convenience class that automatically creates its
 ## control widget based on a simple data structure.

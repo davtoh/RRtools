@@ -174,16 +174,16 @@ from RRtoolbox.tools.lens import simulateLens
 from RRtoolbox.lib.config import MANAGER
 from RRtoolbox.lib.image import hist_match
 from RRtoolbox.lib.directory import getData, getPath, mkPath
-from RRtoolbox.lib.cache import memoizedDict
-from RRtoolbox.lib.image import loadFunc, imcoors
+from RRtoolbox.lib.cache import MemoizedDict
+from RRtoolbox.lib.image import loadFunc, Imcoors
 from RRtoolbox.lib.arrayops.mask import brightness
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
 from RRtoolbox.lib.root import TimeCode, glob, lookinglob
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import getBrightAlpha, get_beta_params, bandpass, bandstop
-from RRtoolbox.lib.plotter import matchExplorer, plotim, fastplt
+from RRtoolbox.tools.segmentation import getBrightAlpha, get_beta_params, Bandpass, Bandstop
+from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
 from RRtoolbox.lib.arrayops.basic import superpose, getTransformedCorners, transformPoint, \
@@ -332,7 +332,7 @@ def imrestore(images, **opts):
     ############################## OPTIMIZATION MEMOIZEDIC #############################
     cachePath = opts.get("cachePath",None)
     if cachePath is not None:
-        feature_dic = memoizedDict(cachePath+"descriptors")
+        feature_dic = MemoizedDict(cachePath + "descriptors")
         if FLAG_DEBUG: print "Cache path is in {}".format(feature_dic._path)
         clearCache = opts.get("clearCache",0)
         if clearCache==1:
@@ -343,7 +343,7 @@ def imrestore(images, **opts):
 
     expert = opts.get("expert",None)
     if expert is not None:
-        expert = memoizedDict(expert) # convert path
+        expert = MemoizedDict(expert) # convert path
 
     ################################## LOADING IMAGES ###################################
     if images is None or len(images)==0: # if images is empty use demonstration
@@ -569,7 +569,7 @@ def imrestore(images, **opts):
 
                     # get corners of fore projection over back
                     projection = getTransformedCorners((h,w),H)
-                    c = imcoors(projection) # class to calculate statistical data
+                    c = Imcoors(projection) # class to calculate statistical data
                     lines, inlines = len(status), np.sum(status)
 
                     # ratio to determine how good fore is in back
@@ -581,7 +581,7 @@ def imrestore(images, **opts):
                     if FLAG_DEBUG>1: print text
 
                     if FLAG_DEBUG > 2: # show matches
-                        matchExplorer("Match " + text, fore,
+                        MatchExplorer("Match " + text, fore,
                                       restored, classified[path], status, H)
 
                     ######################### probability test ############################
@@ -602,7 +602,7 @@ def imrestore(images, **opts):
                             H_fore = H
 
                         if FLAG_DEBUG > 1: # show merging result
-                            plotim("Last added with " + text, restored).show()
+                            Plotim("Last added with " + text, restored).show()
 
                         ####################### update base features #######################
                         # make projection to test key-points inside it
@@ -632,7 +632,7 @@ def imrestore(images, **opts):
                         desc_base = np.array(newdesc)
 
                         if FLAG_DEBUG > 2: # show keypints in merging
-                            plotim("merged Key-points", # draw key-points in image
+                            Plotim("merged Key-points",  # draw key-points in image
                                    cv2.drawKeypoints(
                                        im2shapeFormat(restored,restored.shape[:2]+(3,)),
                                               [dict2keyPoint(index) for index in kps_base],
@@ -711,8 +711,8 @@ def retinalMerge(back,fore,H):
         mask_back, alpha_back = retinal_mask(back,biggest=True,addalpha=True)
         mask_fore, alpha_fore = retinal_mask(fore,biggest=True,addalpha=True)
 
-        backmask = bandstop(3, *alpha_betas(alpha_back*255,mask_back))(backgray) # beta1 = 50, beta2 = 190
-        foremask = bandpass(3, *alpha_betas(alpha_fore*255,mask_fore))(foregray) # beta1 = 50, beta2 = 220
+        backmask = Bandstop(3, *alpha_betas(alpha_back * 255, mask_back))(backgray) # beta1 = 50, beta2 = 190
+        foremask = Bandpass(3, *alpha_betas(alpha_fore * 255, mask_fore))(foregray) # beta1 = 50, beta2 = 220
         alphamask = normalize(foremask * backmask * alpha_back)
 
         #alpha_back[mask_back==0] = 0

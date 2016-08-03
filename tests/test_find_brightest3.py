@@ -1,7 +1,7 @@
 __author__ = 'Davtoh'
-from tesisfunctions import histogram, brightness,plotim, graphmath, graphHistogram, \
+from tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
     overlay, findmaxima, findminima, smooth, graph_filter, getOtsuThresh, find_near
-from RRtoolbox.lib.arrayops import bandpass,convexityRatio
+from RRtoolbox.lib.arrayops import Bandpass,convexityRatio
 import cv2
 import numpy as np
 import pylab as plt
@@ -18,7 +18,7 @@ name = fn1.split('\\')[-1].split(".")[0]
 # read image
 fore = cv2.imread(fn1)
 fore = cv2.resize(fore,(300,300)) # resize image
-#plotim(name,fore).show() # show image
+#Plotim(name,fore).show() # show image
 
 # get intensity
 P = brightness(fore)
@@ -62,7 +62,7 @@ data_max_left = find_near(minima, thresh=data_max, side="left")
 """
 # filter to reduce histogram ends
 # create Filter to reduce histogram ends
-filterr = bandpass(10, data_min, data_max) # FIXMED this should use P.min(), P.max() and local maximas, or a relation of porcentage
+filterr = Bandpass(10, data_min, data_max) # FIXMED this should use P.min(), P.max() and local maximas, or a relation of porcentage
                               # like min_val % body_val % max_val
 graph_filter(filterr,show=False)
 
@@ -101,7 +101,7 @@ markers[np.bitwise_and(P>data_body_left,P<data_body)]=mk_body # main body
 markers[P >= data_max_left]=mk_flare # Flares. this can be used approaching
                                     # to local maxima, but brightest areas are almost
                                     # always saturated so no need to use it
-plotc = plotim(name +" markers", overlay(fore.copy(), pallet[markers], alpha=0.5))
+plotc = Plotim(name + " markers", overlay(fore.copy(), pallet[markers], alpha=0.5))
 plotc.sample = P
 plotc.show() # show markers using pallet
 
@@ -109,13 +109,13 @@ plotc.show() # show markers using pallet
 cv2.watershed(fore,markers) # FIXME perhaps the function should be cv2.floodFill?
 # convert processed markers to colors
 water = pallet[markers]
-plotc = plotim(name +" watershed", overlay(fore.copy(), water, alpha=0.3)).show() # show colored watershed in image
+plotc = Plotim(name + " watershed", overlay(fore.copy(), water, alpha=0.3)).show() # show colored watershed in image
 
 #data = water==pallet[mk_flare]
 #brightest = np.uint8(data[:,:,0]&data[:,:,1]&data[:,:,2])
 brightest = np.uint8(markers==mk_flare)
 
-#plotc = plotim(name +" flares", brightest).show()
+#plotc = Plotim(name +" flares", brightest).show()
 
 contours,hierarchy = cv2.findContours(brightest.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 Crs = [(convexityRatio(cnt),cnt) for cnt in contours] # convexity ratios
@@ -125,5 +125,5 @@ ellipse = cv2.fitEllipse(optic_disc[1])
 optic_disc_ellipse = np.zeros_like(brightest)
 cv2.ellipse(optic_disc_ellipse, ellipse, 1, -1) # get elliptical ROI
 
-#plotc = plotim(name +" optic disc mask", optic_disc_ellipse).show()
-plotc = plotim(name +" optic_dist", overlay(fore.copy(), optic_disc_ellipse*255, alpha=0.3)).show()
+#plotc = Plotim(name +" optic disc mask", optic_disc_ellipse).show()
+plotc = Plotim(name + " optic_dist", overlay(fore.copy(), optic_disc_ellipse * 255, alpha=0.3)).show()

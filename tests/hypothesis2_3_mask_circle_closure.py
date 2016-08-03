@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
 from tesisfunctions import brightness, IMAGEPATH,graphpolygontest,thresh_biggestCnt,\
@@ -16,7 +16,7 @@ fore = cv2.resize(fore,(300,300))
 
 P = brightness(fore)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-plotim(name +" overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh * 0.2)).show()
+Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh * 0.2)).show()
 
 for i in xrange(2): # test multiple applications to results
     # SIMULATE polygon test
@@ -32,7 +32,7 @@ for i in xrange(2): # test multiple applications to results
     overcircle = np.zeros_like(lastthresh,np.uint8)
     cv2.circle(overcircle,center,centerVal,1,-1)
     overcircle[lastthresh==0]=0
-    plotim(name+" overlayed circle",overcircle).show()
+    Plotim(name + " overlayed circle", overcircle).show()
 
     #DEFECTS
     pallet = [[0,0,0],[255,255,255]]
@@ -48,7 +48,7 @@ for i in xrange(2): # test multiple applications to results
         #SEPARATING LINE
         start,end = extendedSeparatingLine(imdefects.shape, cnt, defects)
         cv2.line(imdefects,start,end,[0,0,100],2)
-        plotim(name+" and circle defects",imdefects).show()
+        Plotim(name + " and circle defects", imdefects).show()
 
         cv2.line(lastthresh,start,end,0,2)
         cnt = thresh_biggestCnt(lastthresh)
@@ -59,5 +59,5 @@ for i in xrange(2): # test multiple applications to results
     mask = np.ones(P.shape,dtype=np.uint8)
     cv2.ellipse(mask,ellipse,0,-1)
     fore[mask>0]=0
-    plotim(name+" result",fore).show()
+    Plotim(name + " result", fore).show()
     #cv2.imwrite("mask_"+name+".png",fore)

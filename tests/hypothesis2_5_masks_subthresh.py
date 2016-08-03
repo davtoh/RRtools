@@ -1,5 +1,5 @@
 __author__ = 'Davtoh'
-from tesisfunctions import plotim,overlay,padVH
+from tesisfunctions import Plotim,overlay,padVH
 import cv2
 import numpy as np
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
@@ -53,5 +53,5 @@ print thresh
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = cv2.erode(lastthresh,kernel,iterations = 3)
 #lastthresh = pad(lastthresh,1)
-plotc = plotim(name +" overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
+plotc = Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
 plotc.show()
