@@ -3,7 +3,7 @@ __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from RRtoolbox.lib.arrayops import normsigmoid, normalize, bandpass, bandstop,\
+from RRtoolbox.lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
     findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio, \
     filterFactory, brightness, background, thresh_biggestCnt
 
@@ -65,8 +65,8 @@ def getBrightAlpha(backgray, foregray, window = None):
                     If not window is given alfa is not altered and the intended alfa is returned.
     :return: alfa mask
     """
-    backmask = bandstop(3, *get_beta_params(backgray))(backgray) # beta1 = 50, beta2 = 190
-    foremask = bandpass(3, *get_beta_params(foregray))(foregray) # beta1 = 50, beta2 = 220
+    backmask = Bandstop(3, *get_beta_params(backgray))(backgray) # beta1 = 50, beta2 = 190
+    foremask = Bandpass(3, *get_beta_params(foregray))(foregray) # beta1 = 50, beta2 = 220
     foremask = normalize(foremask * backmask)
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask

@@ -5,14 +5,14 @@ import cv2
 import numpy as np
 # custom
 from RRtoolbox.lib.config import MANAGER, FLAG_DEBUG
-from RRtoolbox.lib.cache import memoizedDict, memoize
+from RRtoolbox.lib.cache import MemoizedDict, memoize
 from RRtoolbox.lib.directory import getData
-from RRtoolbox.lib.plotter import matchExplorer,fastplt, plotPointsContour, plt, plotim
+from RRtoolbox.lib.plotter import MatchExplorer,fastplt, plotPointsContour, plt, Plotim
 from RRtoolbox.lib.arrayops.convert import invertH,sh2oh,spairs2opairs, translateQuadrants, dict2keyPoint
 from RRtoolbox.lib.arrayops.basic import overlay,superpose,vertexesAngles, relativeQuadrants, getTransformedCorners,transformPoint
 from RRtoolbox.lib.arrayops.filters import bilateralFilter, normsigmoid
 from RRtoolbox.lib.descriptors import ASIFT,MATCH, inlineRatio
-from RRtoolbox.lib.image import pathLoader,loadFunc,imcoors, hist_match, try_loads
+from RRtoolbox.lib.image import PathLoader,loadFunc,Imcoors, hist_match, try_loads
 from RRtoolbox.tools.segmentation import getBrightAlpha
 from RRtoolbox.lib.root import TimeCode
 
@@ -30,7 +30,7 @@ def watchData(request, loader, data, onlyTest = False):
     """
     if FLAG_DEBUG: print "request is: ",request
     temp =  data[request]
-    scaled_fore, scaled_back = list(pathLoader(request,loader))
+    scaled_fore, scaled_back = list(PathLoader(request, loader))
     if temp:
         kp_pairs, status, H = temp["kp_pairs"],temp["status"],temp["H"]
         if H is not None:
@@ -81,7 +81,7 @@ def watchData(request, loader, data, onlyTest = False):
                 print notes
             win = 'matching result: '+notes
             try:
-                vis = matchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H, show=False)
+                vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H, show=False)
                 fastplt(vis.img,title=win,block=True)
             except:
                 if FLAG_DEBUG: print win, " crashed"
@@ -90,7 +90,7 @@ def watchData(request, loader, data, onlyTest = False):
     else:
         win = 'matching result: None'
         try:
-            vis = matchExplorer(win, scaled_fore, scaled_back, show=False)
+            vis = MatchExplorer(win, scaled_fore, scaled_back, show=False)
             fastplt(vis.img,title=win,block=True)
         except:
             if FLAG_DEBUG: print win, " crashed"
@@ -115,8 +115,8 @@ def qualifyData(data, loader= None, saveTo = None, autoqualify = False, showOnly
     #for request in requests:
     #    watchData(request,loader,data,True)
     if saveTo: # persists
-        qualification = memoizedDict(saveTo+"qualification")
-        algorithmFails = memoizedDict(saveTo+"algorithmFails")
+        qualification = MemoizedDict(saveTo + "qualification")
+        algorithmFails = MemoizedDict(saveTo + "algorithmFails")
         if clear:
             qualification.clear()
             algorithmFails.clear()
@@ -263,8 +263,8 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
         if flag_show_match: # show matching
             win = 'matching result'
             print "waiting to close match explorer..."
-            vis = matchExplorer(win, original_fore, original_back, kp_pairs2, status, H2)
-            #vis = matchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
+            vis = MatchExplorer(win, original_fore, original_back, kp_pairs2, status, H2)
+            #vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
 
         # get perspective from the scaled to original Transformation matrix
         bgra_fore = cv2.cvtColor(original_fore,cv2.COLOR_BGR2BGRA) # convert BGR to BGRA
@@ -378,7 +378,7 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
         merged2 = superpose(scaled_fore,scaled_back, invertH(H), mask2)[0]
         p2 = fastplt(merged2,"gray",win)
         win = 'matching result'
-        vis = matchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
+        vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
 
 def extractCSV(data, saveTo = None):
     import csv
@@ -441,8 +441,8 @@ def testRates(images = None, **opts):
     saveTo = opts.get("saveTo",None)#"/mnt/4E443F99443F82AF/restoration_data/"
     clearAll = opts.get("clearAll",False)
     if saveTo:
-        descriptors = memoizedDict(saveTo+"descriptors")
-        data = memoizedDict(saveTo+"data")
+        descriptors = MemoizedDict(saveTo + "descriptors")
+        data = MemoizedDict(saveTo + "data")
         if opts.get("clearData",clearAll):
             descriptors.clear()
             data.clear()
@@ -495,7 +495,7 @@ def testRates(images = None, **opts):
                                 quadrants_test = checkquadrands(quadrants_translated)
                                 inlines=np.sum(status)
                                 lines = len(status)
-                                c = imcoors(projection)
+                                c = Imcoors(projection)
                                 inlineratio = inlineRatio(inlines,lines)
                                 temp = dict(H = H,
                                             status=status,
@@ -567,8 +567,8 @@ def stitch_multiple(images = None, **opts):
     saveTo = opts.get("saveTo",None)#"/mnt/4E443F99443F82AF/restoration_data/"
     clearAll = opts.get("clearAll",False)
     if saveTo:
-        descriptors_dic = memoizedDict(saveTo+"descriptors")
-        data = memoizedDict(saveTo+"data") # this is the result of testRates if it exists
+        descriptors_dic = MemoizedDict(saveTo + "descriptors")
+        data = MemoizedDict(saveTo + "data") # this is the result of testRates if it exists
         if opts.get("clearData",clearAll):
             descriptors_dic.clear()
     else:
@@ -673,7 +673,7 @@ def stitch_multiple(images = None, **opts):
                     scaled_fore = loader(k) # load fore image
                     h,w = scaled_fore.shape[:2] #mkp1[0]["shape"][:2]
                     projection = getTransformedCorners((h,w),H) # get corners of dore projection over back
-                    c = imcoors(projection) # class to calculate statistical data
+                    c = Imcoors(projection) # class to calculate statistical data
                     lines, inlines = len(status), np.sum(status)
                     inlineratio = inlineRatio(inlines,lines) # ratio to determine how good fore is in back
                     text = "inlines/lines: {}/{}={} and rect {}".format(
@@ -681,7 +681,7 @@ def stitch_multiple(images = None, **opts):
                     merged2 = cv2.drawKeypoints(cv2.cvtColor(merged,cv2.COLOR_GRAY2BGR),
                                           [dict2keyPoint(i) for i in kps_base],
                                           flags=4, color=(255,0,0))
-                    matchExplorer("match "+text, scaled_fore, merged2, classified[k], status, H)
+                    MatchExplorer("match " + text, scaled_fore, merged2, classified[k], status, H)
                     if inlineratio>0.2 and c.rotatedRectangularity>0.5: # second test
                         while True: # clean fail registry
                             try:
@@ -690,7 +690,7 @@ def stitch_multiple(images = None, **opts):
                                 break
                         merged, H_back, H_fore = superpose(merged, scaled_fore, H) # create new base
                         #fastplt(merged,"gray")
-                        #plotim("last added with "+text,merged).show()
+                        #Plotim("last added with "+text,merged).show()
                         projection = getTransformedCorners((h,w),H_fore)
                         newkps, newdesc = [], []
                         '''
@@ -738,10 +738,10 @@ def stitch_multiple(images = None, **opts):
                         #for kp in mkp1:
                         #    kp["pt"] = kp["pt_original"] # restore its original keypoints for visualization
                         # visualize the match if data is in merged
-                        #vis = matchExplorer("match in merged", scaled_fore, merged, zip(mkp1,mkp2), status, H_fore)
+                        #vis = MatchExplorer("match in merged", scaled_fore, merged, zip(mkp1,mkp2), status, H_fore)
                         """
                         # draw keypoints in image
-                        plotim("keypoints",
+                        Plotim("keypoints",
                                cv2.drawKeypoints(cv2.cvtColor(merged,cv2.COLOR_GRAY2BGR),
                                           [dict2keyPoint(i) for i in kps_base],
                                           flags=4, color=(0,0,255))).show()"""

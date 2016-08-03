@@ -2,7 +2,7 @@ __author__ = 'Davtoh'
 
 import time
 
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 from tesisfunctions import normsigmoid,normalize
 
@@ -22,25 +22,25 @@ b[b<0.1]=0
 foremask = a*b*normsigmoid(foregray,20,112)
 window = normalize(fore[:,:,3].copy())
 print time.time()-t1
-plot = plotim("foremask",foremask)
+plot = Plotim("foremask", foremask)
 plot.show()
-plot = plotim("backmask",backmask)
+plot = Plotim("backmask", backmask)
 plot.show()
-plot = plotim("window",window)
+plot = Plotim("window", window)
 plot.show()
 foremask = foremask * backmask
 foremask[foremask>0.9] = 2.0
 ksize = (21,21)
 foremask = normalize(cv2.blur(foremask,ksize))
-plot = plotim("foremask * backmask",foremask)
+plot = Plotim("foremask * backmask", foremask)
 plot.show()
 foremask*=window
-plot = plotim("foremask*window",foremask)
+plot = Plotim("foremask*window", foremask)
 plot.show()
 
 fore[:,:,3]=foremask
 result = overlay(back,fore)
 
-#imtester(result)
-plot = plotim("result",result)
+#Imtester(result)
+plot = Plotim("result", result)
 plot.show()

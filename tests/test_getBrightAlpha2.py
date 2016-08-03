@@ -4,7 +4,7 @@ test the alfa mask created to merge two retinal images
 __author__ = 'Davtoh'
 
 from tesisfunctions import filterFactory,normsigmoid,graph_filter, normalize, histogram,getOtsuThresh
-from RRtoolbox.lib.arrayops import bandpass, FilterBase,bandstop,bandpass
+from RRtoolbox.lib.arrayops import Bandpass, FilterBase,Bandstop,Bandpass
 import numpy as np
 import cv2
 
@@ -21,8 +21,8 @@ def getBrightAlfa(backgray, foregray, window = None):
     :return: alfa mask
     """
     # TODO: this method was obtained stoically, change to an automated one
-    backmask = back_filter()(backgray)
-    foremask = fore_filter()(foregray)
+    backmask = BackFilter()(backgray)
+    foremask = ForeFilter()(foregray)
     foremask = normalize(foremask * backmask)
     foremask[foremask>0.9] = 2.0
     ksize = (21,21)
@@ -30,21 +30,21 @@ def getBrightAlfa(backgray, foregray, window = None):
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
 
-class back_filter(bandstop):
+class BackFilter(Bandstop):
     name = "background filter"
     def __init__(self, alpha=3, beta1=50, beta2 = 190):
-        super(back_filter,self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(BackFilter, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
 
-class fore_filter(bandpass):
+class ForeFilter(Bandpass):
     name = "foreground filter"
     def __init__(self, alpha=3, beta1=50, beta2 = 220):
-        super(fore_filter,self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(ForeFilter, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
 
 
-class brigh(FilterBase):
+class Brigh(FilterBase):
     name = "merged lateral view"
     def __init__(self, alpha=10, beta1=50, beta2 = 225):
-        super(brigh,self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(Brigh, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
     def _test_beta1(self, value):
         assert self.beta2>value
     def _test_beta2(self, value):
@@ -56,15 +56,15 @@ class brigh(FilterBase):
         B = normsigmoid(backgray, self._alfa, self._beta1) - normsigmoid(backgray, self._alfa, self._beta2) + 1.0
         return normalize(A*B)
 
-class all_filter(FilterBase):
+class AllFilters(FilterBase):
     name = "merged lateral view"
     def __call__(self, values):
         return getBrightAlfa(values,values)
 
 filters = []
-filters.append(back_filter())
-filters.append(fore_filter())
-filters.append(all_filter())
+filters.append(BackFilter())
+filters.append(ForeFilter())
+filters.append(AllFilters())
 
 level = np.linspace(0, 256,256)
 

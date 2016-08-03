@@ -1,7 +1,7 @@
 __author__ = 'Davtoh'
-from tesisfunctions import histogram, brightness,plotim, graphmath, graphHistogram, \
+from tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
     overlay, findmaxima, findminima, smooth, graph_filter
-from RRtoolbox.lib.arrayops import bandpass
+from RRtoolbox.lib.arrayops import Bandpass
 import cv2
 import numpy as np
 import pylab as plt
@@ -15,7 +15,7 @@ name = fn1.split('\\')[-1].split(".")[0]
 # read image
 fore = cv2.imread(fn1)
 fore = cv2.resize(fore,(300,300)) # resize image
-#plotim(name,fore).show() # show image
+#Plotim(name,fore).show() # show image
 
 # get intensity
 P = brightness(fore)
@@ -46,7 +46,7 @@ data_max_left = findminima(hist=hist_PS, thresh=data_max, side="left")
 
 # filter to reduce histogram ends
 # create Filter to reduce histogram ends
-filterr = bandpass(10, data_min, data_max) # FIXMED this should use P.min(), P.max() and local maximas, or a relation of porcentage
+filterr = Bandpass(10, data_min, data_max) # FIXMED this should use P.min(), P.max() and local maximas, or a relation of porcentage
                               # like min_val % body_val % max_val
 graph_filter(filterr,show=False)
 
@@ -81,7 +81,7 @@ markers[P <= data_min]=1 # background FIXMED use P.min() and aproaching to local
 markers[np.bitwise_and(P>data_body_left,P<data_body)]=2 # main body
 markers[P >= data_max_left]=3 # Flares. this can be used approaching to local maxima, but brightest areas are almost
                       # always saturated so no need to use it
-plotc = plotim(name +" markers", overlay(fore.copy(), pallet[markers], alpha=0.5))
+plotc = Plotim(name + " markers", overlay(fore.copy(), pallet[markers], alpha=0.5))
 plotc.sample = P
 plotc.show() # show markers using pallet
 
@@ -89,4 +89,4 @@ plotc.show() # show markers using pallet
 cv2.watershed(fore,markers) # FIXME perhaps the function should be cv2.floodFill?
 # convert processed markers to colors
 water = pallet[markers]
-plotc = plotim(name +" watershed", overlay(fore.copy(), water, alpha=0.3)).show() # show colored watershed in image
+plotc = Plotim(name + " watershed", overlay(fore.copy(), water, alpha=0.3)).show() # show colored watershed in image

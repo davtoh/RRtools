@@ -242,11 +242,11 @@ For help just type in './imrestore --help', it could not be more easier than tha
     (6) Probability tests: (ensures that the matches images
     correspond to each other)
 
-    (7) Merging
+    (7) Stitching and Merging
         (7.1) Histogram matching* (color)
         (7.2) Segmentation*
         (7.3) Alpha mask calculation*
-        (7.4) Stitching and Merging
+        (7.4) Overlay
 
     (8) Overall filtering*:
         Bilateral filtering

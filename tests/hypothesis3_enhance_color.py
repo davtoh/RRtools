@@ -1,5 +1,5 @@
 __author__ = 'Davtoh'
-from tesisfunctions import getcoors, drawcoorperspective, plotim
+from tesisfunctions import getcoors, drawcoorperspective, Plotim
 import cv2
 import numpy as np
 from tesisfunctions import histogram,graphmath,filterFactory,normsigmoid
@@ -76,5 +76,5 @@ for i in xrange(len(pmin)):
 fy = histogram(fimg)
 fig = graphmath(fy, ("b", "g", "r"), win="filtered histogram")
 
-plot = plotim("image - filtered image",np.hstack([img,fimg]))
+plot = Plotim("image - filtered image", np.hstack([img, fimg]))
 plot.show()

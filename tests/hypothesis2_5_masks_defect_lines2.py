@@ -5,7 +5,7 @@ import numpy as np
 from RRtoolbox.lib.arrayops import convexityRatio
 from RRtoolbox.lib.directory import getData,mkPath
 from recommended import getKernel
-from tesisfunctions import plotim,overlay, brightness, SAVETO, stdoutLOG,thresh_biggestCnt,\
+from tesisfunctions import Plotim,overlay, brightness, SAVETO, StdoutLOG,thresh_biggestCnt,\
     extendedSeparatingLine,graphDeffects,printParams
 
 name_script = getData(__file__)[-2]
@@ -76,7 +76,7 @@ def drawSeparated(a, b, shape, pallet=None, win ="separated"):
     imgA = pallet[ROIA]
     imgB = pallet[ROIB*2]
     img = overlay(imgA, imgB, alpha=ROIB)
-    plot = plotim(win, img)
+    plot = Plotim(win, img)
     plot.a = ROIA
     plot.b = ROIB
     return plot
@@ -133,7 +133,7 @@ def demo():
 
             if save:
                 mkPath(saveTo) # make directory
-                stdoutLOG(saveTo + "log") # save file output
+                StdoutLOG(saveTo + "log") # save file output
                 # now everything printed will be logged
                 printParams(config) # this is logged too
             # INIT CONTROL VARIABLES
@@ -159,7 +159,7 @@ def demo():
             for i in xrange(maxIter): # test iterations over the same algorithm
                 print "ITERATION",i
                 fore1 = overlay(fore.copy(), pallet[ROI], alpha=ROI * alfa2)
-                plot = plotim("ITER {} STEP 1 get binary image".format(i), fore1)
+                plot = Plotim("ITER {} STEP 1 get binary image".format(i), fore1)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
                  # get convex hull indexes
@@ -200,7 +200,7 @@ def demo():
                         print "forced to continue"
 
                 graphDeffects(fore1, cnt, defects,cline=cline,cpoint=cpoint, alfa=alfa1,thickness=ks)
-                plot = plotim("ITER {} STEP 2 get contour defects".format(i), fore1)
+                plot = Plotim("ITER {} STEP 2 get contour defects".format(i), fore1)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
 
@@ -211,7 +211,7 @@ def demo():
                 graphDeffects(imdefects, cnt, defects,cline=cline,cpoint=cpoint, alfa=alfa1,thickness=ks)
                 start,end = extendedSeparatingLine(imdefects.shape, cnt, defects)
                 cv2.line(imdefects,start,end,[0,0,100],ks)
-                plot = plotim("ITER {} STEP 3 separate objects by defects".format(i), imdefects)
+                plot = Plotim("ITER {} STEP 3 separate objects by defects".format(i), imdefects)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
 
@@ -242,23 +242,23 @@ def demo():
                 #img = overlay(img,pallet[ROI_center*5],alfa=ROI_center) # draw center
                 img = overlay(img, pallet[ROI_contour_elliptical*4], alpha=ROI_contour_elliptical) # draw elliptical ROI
                 #hf.graphDeffects(img, cnt, defects,cline=cline,cpoint=cpoint, alfa=0.3,thickness=ks) # draw defects
-                plot = plotim("ITER {} STEP 4 get biggest object ROI or its elliptical mask".format(i), img)
+                plot = Plotim("ITER {} STEP 4 get biggest object ROI or its elliptical mask".format(i), img)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
 
                 img = overlay(fore.copy(), pallet[ROI], alpha=alfapallet[ROI])
-                plot = plotim("ITER {} STEP 5 ROI in image".format(i), img)
+                plot = Plotim("ITER {} STEP 5 ROI in image".format(i), img)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
 
                 img = overlay(fore.copy(), pallet[ROI_elliptical], alpha=alfapallet[ROI_elliptical])
-                plot = plotim("ITER {} STEP 6 elliptical ROI in image".format(i),img)
+                plot = Plotim("ITER {} STEP 6 elliptical ROI in image".format(i), img)
                 if save: plot.save("{}{{win}}".format(saveTo))
                 if show: plot.show()
                 cnt = a
 
             fore1 = overlay(fore.copy(), pallet[ROI], alpha=ROI * alfa2)
-            plot = plotim("ITER {} STEP final binary image".format(i), fore1)
+            plot = Plotim("ITER {} STEP final binary image".format(i), fore1)
             if save: plot.save("{}{{win}}".format(saveTo))
             if save and resultToRoot: plot.save("{}{}{{win}}".format(saveTo_root,name_image))
             if show: plot.show()

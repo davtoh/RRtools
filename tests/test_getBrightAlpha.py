@@ -4,7 +4,7 @@ test the alfa mask created to merge two retinal images
 __author__ = 'Davtoh'
 
 from tesisfunctions import filterFactory,normsigmoid,graph_filter, normalize, histogram,getOtsuThresh
-from RRtoolbox.lib.arrayops import bandpass, FilterBase
+from RRtoolbox.lib.arrayops import Bandpass, FilterBase
 from sympy import symbols, diff,Eq, solve, dsolve, limit, oo
 from sympy.solvers import solve_undetermined_coeffs
 import sympy as sp
@@ -33,28 +33,28 @@ def getBrightAlfa(backgray, foregray, window = None):
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
 
-class back_filter(FilterBase):
+class BackFilter(FilterBase):
     name = "background filter"
 
     def __call__(self, backgray):
         return normalize(normsigmoid(backgray,10,180) + normsigmoid(backgray,3.14,192) + normsigmoid(backgray,-3.14,45))
 
-class fore_filter(FilterBase):
+class ForeFilter(FilterBase):
     name = "foreground filter"
     desc = "something else"
     def __call__(self, foregray):
         return normalize(normsigmoid(foregray,-1,242)*normsigmoid(foregray,3.14,50))
 
-class all_filter(FilterBase):
+class AllFilters(FilterBase):
     name = "merged lateral view"
     def __call__(self, values):
         return getBrightAlfa(values,values)
 
 filters = []
 alfa=5
-filters.append(back_filter())
-filters.append(fore_filter())
-filters.append(all_filter())
+filters.append(BackFilter())
+filters.append(ForeFilter())
+filters.append(AllFilters())
 
 level = np.linspace(0, 256,256)
 

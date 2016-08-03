@@ -9,7 +9,7 @@ from time import time, sleep
 from collections import MutableMapping, OrderedDict
 import sys
 import cv2
-from RRtoolbox.lib.cache import resourceManager
+from RRtoolbox.lib.cache import ResourceManager
 # https://mindtrove.info/python-weak-references/
 # http://stackoverflow.com/a/3387975/5288758
 # references = weakref.WeakValueDictionary()
@@ -69,7 +69,7 @@ def loadcv(pth,mode=-1,shape=None):
 def mymethod(shape=None,mode=-1):
     return loadcv("/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/tests/equalization.png",mode,shape)
 
-class myObj:
+class MyObj:
     def __init__(self, size):
         self.size = size
     def __sizeof__(self):
@@ -79,11 +79,11 @@ def factoryfunc(time,memory):
     def myfunc():
         print "OBJECT IS BEING CREATED"
         sleep(random()*time)
-        return myObj(memory)
+        return MyObj(memory)
     return myfunc
 
 entrada = raw_input("Select units: ")
-ret = resourceManager(unit=entrada)
+ret = ResourceManager(unit=entrada)
 entrada = raw_input("Max memory ({}): ".format(ret.unit))
 ret.maxMemory = int(entrada)
 

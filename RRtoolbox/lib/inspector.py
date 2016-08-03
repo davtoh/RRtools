@@ -226,7 +226,7 @@ class Asyncronous(Syncronous):
         self.processor.done()
         self.processor.join()
 
-class graphTraceOutput(GraphvizOutput):
+class GraphTraceOutput(GraphvizOutput):
     def __init__(self, source = None, saveflag = True, label = "", **kwargs):
         self.source = source
         self.saveflag = saveflag
@@ -289,7 +289,7 @@ class graphTraceOutput(GraphvizOutput):
             self.output_file, len(self.processor.func_count),
         ))
 
-class graphTrace(pycallgraph.PyCallGraph):
+class GraphTrace(pycallgraph.PyCallGraph):
 
     def __enter__(self): # modified function
         # review for trace problems at \Python27\Lib\site-packages\pycallgraph\tracer.py

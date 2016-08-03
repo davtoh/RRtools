@@ -3,7 +3,7 @@ __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from tesisfunctions import brightness,sigmoid,IMAGEPATH,plotim
+from tesisfunctions import brightness,sigmoid,IMAGEPATH,Plotim
 import glob
 
 rootpath = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/"
@@ -18,4 +18,4 @@ fore = cv2.resize(fore,(400,400))
 
 im2 = brightness(fore)
 im = sigmoid(im2,50,133).astype(np.uint8)
-plotim("levels",im).show()
+Plotim("levels", im).show()

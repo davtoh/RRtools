@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
 import tesisfunctions as tf
@@ -32,7 +32,7 @@ P = brightness(fore2)
 #P = sigmoid(P,20,20).astype("uint8")
 #P = cv2.equalizeHist(P)
 #P = imEqualization(P)[0]
-plotc = plotim(name+" brightness",P)
+plotc = Plotim(name + " brightness", P)
 plotc.show()
 
 thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU) # obtain over threshold
@@ -44,14 +44,14 @@ markers = np.ones_like(sure_fg).astype("int32")
 markers[sure_bg==1]=0
 markers[sure_fg==1]=2
 
-plotc = plotim(name+" markers",pallet[markers])
+plotc = Plotim(name + " markers", pallet[markers])
 plotc.show()
 
 cv2.watershed(fore,markers)
 
 #markers = pad(markers,1,2)
 water = pallet[markers]
-plotc = plotim(name+" watershed",water)
+plotc = Plotim(name + " watershed", water)
 plotc.show()
 markers[markers==-1]=1
 
@@ -60,7 +60,7 @@ thresh,lastthresh = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY)
 #dilation = cv2.dilate(thresh,kernel,iterations = 1)
 #erosion = cv2.erode(dilation,kernel,iterations = 1)
 
-plotc = plotim(name +" overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
+plotc = Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh))
 plotc.show()
 
 # find biggest area
@@ -82,12 +82,12 @@ cnt = contours[index]
 # FIND ROI
 ROI = np.zeros(P.shape,dtype=np.uint8)
 cv2.drawContours(ROI,[cnt],0,1,-1)
-plotc = plotim(name+" ROI",ROI)
+plotc = Plotim(name+" ROI",ROI)
 plotc.show()"""
 
 ellipse = cv2.fitEllipse(cnt)
 mask = np.ones(P.shape,dtype=np.uint8)
 cv2.ellipse(mask,ellipse,0,-1)
 fore[mask>0]=0
-plotc = plotim(name+" result",fore)
+plotc = Plotim(name + " result", fore)
 plotc.show()

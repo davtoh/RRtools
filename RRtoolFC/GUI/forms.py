@@ -6,7 +6,7 @@ import sys
 from pyqtgraph.graphicsItems import ROI
 
 
-class scroller(QtGui.QWidget):
+class Scroller(QtGui.QWidget):
     def __init__(self, val):
         QtGui.QWidget.__init__(self)
         mygroupbox = QtGui.QGroupBox('this is my groupbox')

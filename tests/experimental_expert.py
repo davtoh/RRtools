@@ -3,7 +3,7 @@ __author__ = 'Davtoh'
 import os
 import csv
 from RRtoolbox.lib.root import glob
-from RRtoolbox.lib.cache import memoizedDict
+from RRtoolbox.lib.cache import MemoizedDict
 from RRtoolbox.lib.image import getcoors, loadFunc, drawcoorarea
 from RRtoolbox.lib.directory import getData
 
@@ -15,7 +15,7 @@ mode = 1
 # mode 1 lets the user run all tests and correct cached tests.
 # mode 2 lets is used to change the fields in the cached data
 
-data = memoizedDict(os.path.abspath(__file__).split(".")[0] + "_cached")
+data = MemoizedDict(os.path.abspath(__file__).split(".")[0] + "_cached")
 loader = loadFunc(1)
 
 for fn in fns:

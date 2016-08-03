@@ -967,7 +967,7 @@ def points2mask(pts, shape = None, astype = np.bool):
 
         pts = random_points([(-100, 100), (-100, 100)])
         img = points2mask(pts)
-        plotim("filled",img).show()
+        Plotim("filled",img).show()
     """
     if shape is None:
         pts = pts-pts.min(0) # shift

@@ -49,11 +49,11 @@ STEPS:
     (6) Probability tests: (ensures that the matches images
     correspond to each other)
 
-    (7) Merging
+    (7) Stitching and Merging
         (7.1) Histogram matching* (color)
         (7.2) Segmentation*
         (7.3) Alpha mask calculation*
-        (7.4) Stitching and Merging
+        (7.4) Overlay
 
     (8) Overall filtering*:
         Bilateral filtering
@@ -182,16 +182,16 @@ from RRtoolbox.tools.lens import simulateLens
 from RRtoolbox.lib.config import MANAGER, FLOAT
 from RRtoolbox.lib.image import hist_match
 from RRtoolbox.lib.directory import getData, getPath, mkPath, increment_if_exits
-from RRtoolbox.lib.cache import memoizedDict
-from RRtoolbox.lib.image import loadFunc, imcoors
+from RRtoolbox.lib.cache import MemoizedDict
+from RRtoolbox.lib.image import loadFunc, Imcoors
 from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCnt
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob, profiler
+from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import getBrightAlpha, bandpass, bandstop
-from RRtoolbox.lib.plotter import matchExplorer, plotim, fastplt
+from RRtoolbox.tools.segmentation import getBrightAlpha, Bandpass, Bandstop
+from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
 from RRtoolbox.lib.arrayops.basic import superpose, getTransformedCorners, transformPoint, \
@@ -301,7 +301,7 @@ class ImRestore(object):
     def __init__(self, filenames, **opts):
         self.profiler = opts.get("profiler",None)
         if self.profiler is None:
-            self.profiler = profiler("ImRestore init")
+            self.profiler = Profiler("ImRestore init")
 
         self.log_saved = [] # keeps track of last saved file.
 
@@ -398,7 +398,7 @@ class ImRestore(object):
                 self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
             if self.cachePath == "{temp}":
                 self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
-            self.feature_dic = memoizedDict(os.path.join(self.cachePath,"descriptors"))
+            self.feature_dic = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
             if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
             self.clearCache = opts.get("clearCache",0)
             if self.clearCache==2:
@@ -409,7 +409,7 @@ class ImRestore(object):
 
         self.expert = opts.get("expert",None)
         if self.expert is not None:
-            self.expert = memoizedDict(self.expert) # convert path
+            self.expert = MemoizedDict(self.expert) # convert path
 
         # to select base image ahead of any process
         baseImage = opts.get("baseImage",None)
@@ -447,6 +447,10 @@ class ImRestore(object):
 
         # processing variables
         self._feature_list = None
+        self.used = None
+        self.failed = None
+        self.restored = None
+        self.kps_base,self.desc_base = None,None
 
     @property
     def denoise(self):
@@ -531,7 +535,7 @@ class ImRestore(object):
                 img = self.loadImage(path, self.load_shape)
                 lshape = img.shape[:2]
                 try:
-                    point = profiler(msg=path,tag="cached")
+                    point = Profiler(msg=path, tag="cached")
                     if self.cachePath is None or self.clearCache==1 \
                             and path in self.feature_dic:
                         raise KeyError # clears entry from cache
@@ -539,7 +543,7 @@ class ImRestore(object):
                     if pshape is None:
                         raise ValueError
                 except (KeyError, ValueError) as e: # not memorized
-                    point = profiler(msg=path,tag="processed")
+                    point = Profiler(msg=path, tag="processed")
                     if self.verbosity: print "Processing features for {}...".format(path)
                     if lshape != self.process_shape:
                         img = cv2.resize(img, self.process_shape)
@@ -577,6 +581,26 @@ class ImRestore(object):
                 if self.profiler is not None: self.profiler._close_point(point)
 
         return self._feature_list
+    
+    def preselection(self):
+        ########################### Pre-selection from a set ############################
+        baseImage = self.baseImage # baseImage option should not be update
+        # initialization and base image selection
+        if baseImage is None: # select first image as baseImage
+           _,_,baseImage,self.kps_base,self.desc_base = self.feature_list[0]
+        elif isinstance(baseImage,basestring):
+            self.kps_base,self.desc_base = self.feature_dic[baseImage]
+        elif baseImage is True: # sort images
+            self.feature_list.sort(reverse=True) # descendant: from bigger to least
+            # select first for most probable
+            _,_,baseImage,self.kps_base,self.desc_base = self.feature_list[0]
+        else:
+            raise Exception("baseImage must be None, True or String")
+
+        if self.verbosity: print "baseImage is", baseImage
+        self.used = [baseImage] # select first image path
+        # load first image for merged image
+        self.restored = self.loadImage(baseImage, self.load_shape)
 
     def restore(self):
         """
@@ -585,28 +609,9 @@ class ImRestore(object):
 
         :return: self.restored
         """
-
-        fns = self.filenames # in this process fns should not be changed
-        ########################### Pre-selection from a set ############################
-        baseImage = self.baseImage # baseImage option should not be update
-        # initialization and base image selection
-        if baseImage is None: # select first image as baseImage
-           _,_,baseImage,kps_base,desc_base = self.feature_list[0]
-        elif isinstance(baseImage,basestring):
-            kps_base,desc_base = self.feature_dic[baseImage]
-        elif baseImage is True: # sort images
-            self.feature_list.sort(reverse=True) # descendant: from bigger to least
-            # select first for most probable
-            _,_,baseImage,kps_base,desc_base = self.feature_list[0]
-        else:
-            raise Exception("baseImage must be None, True or String")
-
-        if self.verbosity: print "baseImage is", baseImage
-        self.used = [baseImage] # select first image path
-        # load first image for merged image
-        self.restored = self.loadImage(baseImage, self.load_shape)
+        self.preselection()
         self.failed = [] # registry for failed images
-
+        fns = self.filenames # in this process fns should not be changed
         ########################## Order set initialization #############################
         if self._orderValue: # obtain comparison with structure (value, path)
             if self._orderValue == 1: # entropy
@@ -654,7 +659,7 @@ class ImRestore(object):
                     ############################ Matching ###############################
                     # select only those with good distance (hamming, L1, L2)
                     raw_matches = self.feature.matcher.knnMatch(desc_remain,
-                                    trainDescriptors = desc_base, k = 2) #2
+                                    trainDescriptors = self.desc_base, k = 2) #2
                     # If path=2, it will draw two match-lines for each key-point.
                     classified = {}
                     for m in raw_matches:
@@ -662,7 +667,7 @@ class ImRestore(object):
                         if m[0].distance < m[1].distance * self.distanceThresh:
                             m = m[0]
                             kp1 = kps_remain[m.queryIdx]  # keypoint in query image
-                            kp2 = kps_base[m.trainIdx]  # keypoint in train image
+                            kp2 = self.kps_base[m.trainIdx]  # keypoint in train image
 
                             key = kp1["path"] # ensured that key is not in used
                             if key in classified:
@@ -687,7 +692,7 @@ class ImRestore(object):
 
                     # feed key-points in order according to order set
                     for rank, path in ordered:
-                        point = profiler(msg=path) # profiling point
+                        point = Profiler(msg=path) # profiling point
                         ######################### Calculate Homography ###################
                         mkp1,mkp2 = zip(*classified[path]) # probably good matches
                         if len(mkp1)>self.minKps and len(mkp2)>self.minKps:
@@ -714,7 +719,7 @@ class ImRestore(object):
 
                             # get corners of fore projection over back
                             projection = getTransformedCorners((h,w),H)
-                            c = imcoors(projection) # class to calculate statistical data
+                            c = Imcoors(projection) # class to calculate statistical data
                             lines, inlines = len(status), np.sum(status)
 
                             # ratio to determine how good fore is in back
@@ -731,7 +736,7 @@ class ImRestore(object):
                             if self.verbosity>1: print text
 
                             if self.verbosity > 3: # show matches
-                                matchExplorer("Match " + text, fore,
+                                MatchExplorer("Match " + text, fore,
                                               self.restored, classified[path], status, H)
 
                             ####################### probability test #####################
@@ -922,7 +927,7 @@ class ImRestore(object):
             H_fore = H
 
         if self.verbosity > 4: # show merging result
-            plotim("Last added from {}".format(path), self.restored).show()
+            Plotim("Last added from {}".format(path), self.restored).show()
 
         ####################### update base features #######################
         # make projection to test key-points inside it
@@ -949,15 +954,15 @@ class ImRestore(object):
                     kp["pt"] = tuple(transformPoint(kp["pt"],H_fore))
                     newkps.append(kp)
                     newdesc.append(dsc)
-        # update kps_base and desc_base
-        kps_base = newkps
-        desc_base = np.array(newdesc)
+        # update self.kps_base and self.desc_base
+        self.kps_base = newkps
+        self.desc_base = np.array(newdesc)
 
         if self.verbosity > 4: # show keypints in merging
-            plotim("merged Key-points", # draw key-points in image
+            Plotim("merged Key-points",  # draw key-points in image
                    cv2.drawKeypoints(
                        im2shapeFormat(self.restored,self.restored.shape[:2]+(3,)),
-                              [dict2keyPoint(index) for index in kps_base],
+                              [dict2keyPoint(index) for index in self.kps_base],
                               flags=4, color=(0,0,255))).show()
         if self.verbosity: print "This image has been merged: {}...".format(path)
         self.used.append(path) # update used
@@ -1064,8 +1069,8 @@ class RetinalRestore(ImRestore):
             forem = alpha_fore*255
 
             # get alpha masks fro background and foreground
-            backmask = bandstop(3, *get_beta_params(backm[mask_back.astype(bool)]))(backgray)
-            foremask = bandpass(3, *get_beta_params(forem[mask_fore.astype(bool)]))(foregray)
+            backmask = Bandstop(3, *get_beta_params(backm[mask_back.astype(bool)]))(backgray)
+            foremask = Bandpass(3, *get_beta_params(forem[mask_fore.astype(bool)]))(foregray)
 
             # merge masks
             alphamask = normalize(foremask * backmask * (backm/255.))

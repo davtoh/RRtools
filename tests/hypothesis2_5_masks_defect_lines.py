@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from RRtoolbox.lib.directory import getData,mkPath
 from RRtoolbox.lib.arrayops import angle2D, vectorsAngles, contour2points, points2contour, vectorsQuadrants
-from tesisfunctions import plotim,overlay,sigmoid,histogram,brightness,getthresh,threshold,pad,\
+from tesisfunctions import Plotim,overlay,sigmoid,histogram,brightness,getthresh,threshold,pad,\
     IMAGEPATH,SAVETO,thresh_biggestCnt,extendedSeparatingLine,graphDeffects
 from glob import glob
 name_script = getData(__file__)[-2]
@@ -41,7 +41,7 @@ if show or save:
         print "ITERATION",i
         bImage = ROI
         fore1 = overlay(fore.copy(), bImage * 255, alpha=bImage)
-        plot = plotim("{} ITER {} STEP 1 get binary image".format(name_image,i), fore1)
+        plot = Plotim("{} ITER {} STEP 1 get binary image".format(name_image, i), fore1)
         if save: plot.save("{}{{win}}".format(saveTo))
         if show: plot.show()
         if i>= 17:
@@ -63,7 +63,7 @@ if show or save:
             break
         start,end = extendedSeparatingLine(imdefects.shape, cnt, defects)
         cv2.line(imdefects,start,end,[0,0,100],2)
-        plot = plotim("{} ITER {} STEP 2 get contour defects".format(name_image,i), imdefects)
+        plot = Plotim("{} ITER {} STEP 2 get contour defects".format(name_image, i), imdefects)
         if save: plot.save("{}{{win}}".format(saveTo))
         if show: plot.show()
 
@@ -77,7 +77,7 @@ if show or save:
         #ROI
         ROI = np.zeros(P.shape,dtype=np.uint8)
         cv2.drawContours(ROI,[cnt],0,1,-1)
-        plot = plotim("{} ITER {} STEP 3 get ROI".format(name_image,i), ROI*255)
+        plot = Plotim("{} ITER {} STEP 3 get ROI".format(name_image, i), ROI * 255)
         if save: plot.save("{}{{win}}".format(saveTo))
         if show: plot.show()
 
@@ -92,7 +92,7 @@ if show or save:
         ellipse = cv2.fitEllipse(cnt)
         cv2.ellipse(fore1,ellipse,(0,255,0),2)
 
-        plot = plotim("{} ITER {} STEP 4 ROI description".format(name_image,i), fore1)
+        plot = Plotim("{} ITER {} STEP 4 ROI description".format(name_image, i), fore1)
         if save: plot.save("{}{{win}}".format(saveTo))
         if show: plot.show()
 
@@ -100,7 +100,7 @@ if show or save:
         cv2.ellipse(mask,ellipse,0,-1)
         fore1 = fore.copy()
         fore1[mask>0]=0
-        plot = plotim("{} ITER {} STEP 5 masked".format(name_image,i),fore1)
+        plot = Plotim("{} ITER {} STEP 5 masked".format(name_image, i), fore1)
         if save: plot.save("{}{{win}}".format(saveTo))
         if show: plot.show()
 else:

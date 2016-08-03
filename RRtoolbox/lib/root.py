@@ -17,7 +17,7 @@ __author__ = 'Davtoh'
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 
-class stdoutSIM:
+class StdoutSIM:
     """
     simple logger to simulate stdout output
     """
@@ -41,9 +41,9 @@ class stdoutSIM:
     def close(self):
         pass
 
-stdout = stdoutSIM()
+stdout = StdoutSIM()
 
-class stdoutLOG:
+class StdoutLOG:
     """
     simple logger to save stdout output
     so anything printed in the console is logged to a file.
@@ -59,11 +59,11 @@ class stdoutLOG:
         self._log = open(path,mode)
         self._closed = False
 
-        # close previous stdoutLOG
-        if chain and isinstance(sys.stdout,stdoutLOG):
+        # close previous StdoutLOG
+        if chain and isinstance(sys.stdout, StdoutLOG):
             sys.stdout.close()
 
-        if not chain and isinstance(sys.stdout,stdoutSIM):
+        if not chain and isinstance(sys.stdout, StdoutSIM):
             # continue using previous logs
             self.logs = [sys.stdout,self._log]
         else:
@@ -101,7 +101,7 @@ class stdoutLOG:
             self._log.close()
             self._closed = True
 
-class stdoutMULTI:
+class StdoutMULTI:
     """
     Enclose several file-like objects.
 
@@ -417,12 +417,12 @@ class TimeCode(object):
                 self.profile_point = self.profiler.open_point(msg = msg)
             else:
                 self.profile_point = self.profiler.open_point(*msg)
-        elif isinstance(self.profile_point,profiler):
+        elif isinstance(self.profile_point, Profiler):
             self.profile_point.time_start = self.time_start
         return self
 
     def __exit__(self, type, value, traceback):
-        if isinstance(self.profile_point,profiler):
+        if isinstance(self.profile_point, Profiler):
             self.profile_point.close()
         t = self.time # end chronometer
         self.time_end = t
@@ -436,7 +436,7 @@ class TimeCode(object):
                 time=Magnitude(value = t, precision=self.precision,
                 unit=u, factor=self.factor, abbreviate=i)))
 
-class profiler(object):
+class Profiler(object):
     """
     profiler for code points
 
@@ -506,7 +506,7 @@ class profiler(object):
         :param tag: classification tag
         :return:
         """
-        point = profiler(msg, tag)
+        point = Profiler(msg, tag)
         self._add_point(point)
         return point
 
@@ -706,12 +706,12 @@ class Controlstdout(object):
 
     def __enter__(self):
         self.stdout_old = sys.stdout
-        self.stdout_new = stdoutSIM(self.disable)
+        self.stdout_new = StdoutSIM(self.disable)
         if self.buffer:
             if self.buffer is True: # in case it is not defined
                 import StringIO
                 self.buffer = StringIO.StringIO()
-            self.stdout_new = stdoutMULTI([self.stdout_new,self.buffer])
+            self.stdout_new = StdoutMULTI([self.stdout_new, self.buffer])
         sys.stdout = self.stdout_new
         return self
 
@@ -802,7 +802,7 @@ if __name__ == "__main__":
         print fac.convert(1000)
 
     if True:
-        pf = profiler("Init")
+        pf = Profiler("Init")
         p1 = pf.open_point("for loop")
         for i in xrange(5):
             with TimeCode("loop {}".format(i),profiler=pf):

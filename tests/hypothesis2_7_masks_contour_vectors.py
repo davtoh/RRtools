@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Davtoh'
-from tesisfunctions import plotim,overlay,polygontest, polycenter, biggestCntData, graphpolygontest
+from tesisfunctions import Plotim,overlay,polygontest, polycenter, biggestCntData, graphpolygontest
 from RRtoolbox.lib.arrayops import relativeQuadrants, relativeVectors,angle, contour2points, anorm, anorm2
 import cv2
 import numpy as np
@@ -43,7 +43,7 @@ print thresh
 lastthresh=threshold(P,thresh,1,0)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = pad(lastthresh,1)
-#plotc = plotim(name+" overlayed lastthresh",overlay(fore.copy(),lastthresh*255,alfa=lastthresh)).show()
+#plotc = Plotim(name+" overlayed lastthresh",overlay(fore.copy(),lastthresh*255,alfa=lastthresh)).show()
 
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)

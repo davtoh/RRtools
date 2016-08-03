@@ -105,64 +105,64 @@ class FilterBase(object):
     def __call__(self, levels):
         raise NotImplementedError
 
-class lowpass(FilterBase):
+class Lowpass(FilterBase):
     """
-    lowpass filter
+    Lowpass filter
     """
     def __init__(self, alpha, beta1):
-        super(lowpass,self).__init__(alpha=alpha, beta1=beta1)
+        super(Lowpass, self).__init__(alpha=alpha, beta1=beta1)
 
     def _test_beta1(self, value):
         pass
     def _test_beta2(self, value):
-        raise Exception("lowpass filter does not implement beta2")
+        raise Exception("Lowpass filter does not implement beta2")
 
     def __call__(self, levels):
         return normsigmoid(levels, -self._alpha, self._beta1)
 
-class highpass(FilterBase):
+class Highpass(FilterBase):
     """
-    highpass filter
+    Highpass filter
     """
     def __init__(self, alpha, beta1):
-        super(highpass,self).__init__(alpha=alpha, beta1=beta1)
+        super(Highpass, self).__init__(alpha=alpha, beta1=beta1)
 
     def _test_beta1(self, value):
         pass
     def _test_beta2(self, value):
-        raise Exception("highpass filter does not implement beta2")
+        raise Exception("Highpass filter does not implement beta2")
 
     def __call__(self, levels):
         return normsigmoid(levels, self.alpha, self._beta1)
 
-class bandstop(FilterBase):
+class Bandstop(FilterBase):
     """
-    bandstop filter
+    Bandstop filter
     """
     def __init__(self, alpha, beta1, beta2):
-        super(bandstop,self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(Bandstop, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
     def __call__(self, levels):
         return normsigmoid(levels, -self._alpha, self._beta1) - normsigmoid(levels, -self._alpha, self._beta2) + 1.0
 
-class bandpass(FilterBase):
+class Bandpass(FilterBase):
     """
-    bandpass filter
+    Bandpass filter
     """
     def __init__(self, alpha, beta1, beta2):
-        super(bandpass,self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(Bandpass, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
     def __call__(self, levels):
         return normsigmoid(levels,self._alpha,self._beta1)-normsigmoid(levels,self._alpha,self._beta2)
 
-class invertedbandstop(bandstop):
+class InvertedBandstop(Bandstop):
     """
-    inverted bandstop filter
+    inverted Bandstop filter
     """
     def __call__(self, levels):
         return normsigmoid(levels,-self._alpha,self._beta2)-normsigmoid(levels,-self._alpha,self._beta1)-1.0
 
-class invertedbandpass(bandpass):
+class InvertedBandpass(Bandpass):
     """
-    inverted bandpass filter
+    inverted Bandpass filter
     """
     def __call__(self, levels):
         return normsigmoid(levels,self._alpha,self._beta2)-normsigmoid(levels,self._alpha,self._beta1)
@@ -195,21 +195,21 @@ def filterFactory(alpha, beta1, beta2=None):
     #http://en.wikipedia.org/wiki/Filter_%28signal_processing%29
     if beta2 is None:
         if alpha < 0: # low pass
-            func = lowpass(alpha=-alpha, beta1=beta1)
+            func = Lowpass(alpha=-alpha, beta1=beta1)
         else: # high pass
-            func = highpass(alpha=alpha, beta1=beta1)
+            func = Highpass(alpha=alpha, beta1=beta1)
     else:
         if beta2>beta1:
             if alpha < 0: # band stop
-                func = bandstop(alpha=-alpha, beta1=beta1, beta2=beta2)
+                func = Bandstop(alpha=-alpha, beta1=beta1, beta2=beta2)
             else: # band pass
-                func = bandpass(alpha=alpha, beta1=beta1, beta2=beta2)
+                func = Bandpass(alpha=alpha, beta1=beta1, beta2=beta2)
         else: # inverted
             beta1,beta2 = beta2,beta1
             if alpha < 0: # inverted band stop
-                func = invertedbandstop(alpha=-alpha,beta1=beta1,beta2=beta2)
+                func = InvertedBandstop(alpha=-alpha, beta1=beta1, beta2=beta2)
             else: # inverted band pass
-                func = invertedbandpass(alpha=alpha,beta1=beta1,beta2=beta2)
+                func = InvertedBandpass(alpha=alpha, beta1=beta1, beta2=beta2)
     return func
 
 def sigmoid(x,alpha,beta,max=255,min=0):
@@ -284,17 +284,17 @@ def smooth(x,window_len=11,window='hanning', correct = False):
         y = y[displaced // 2:len(y) - (displaced - displaced // 2)] # adjusted to original size
     return y
 
-class bilateraP(bandstop):
+class BilateraP(Bandstop):
     """
     bilateral parameter
     """
     def __init__(self, scale, shift = 33, name=None, alpha=100, beta1=-400, beta2=200):
-        super(bilateraP, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(BilateraP, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
         self.scale = scale
         self.shift = shift
         self.name = name
     def __call__(self, levels):
-        return np.int32(super(bilateraP, self).__call__(
+        return np.int32(super(BilateraP, self).__call__(
             levels) * self.scale + self.shift)
 
 class BilateralParameters(object):
@@ -312,14 +312,14 @@ class BilateralParameters(object):
     :param sigmaSpace: sigma in space
 
     """
-    d = bilateraP(scale = 31,shift=15, alpha=150, beta1 = 60, beta2=800, name = "d")
-    sigmaColor = bilateraP(scale = 50, name = "sigmaColor")
-    sigmaSpace = bilateraP(scale = 25, name = "sigmaSpace")
+    d = BilateraP(scale = 31, shift=15, alpha=150, beta1 = 60, beta2=800, name ="d")
+    sigmaColor = BilateraP(scale = 50, name ="sigmaColor")
+    sigmaSpace = BilateraP(scale = 25, name ="sigmaSpace")
 
     def __init__(self,d=None,sigmaColor=None,sigmaSpace=None):
         """
         replace bilateral limit parameters. It can be a
-        instance from bilateraP or a value.
+        instance from BilateraP or a value.
         """
         if d is not None:
             self.d = d

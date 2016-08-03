@@ -1,9 +1,9 @@
-from RRtoolbox.lib.cache import memoizedDict,mapper
+from RRtoolbox.lib.cache import MemoizedDict,mapper
 import unittest
 from time import time
 persistIn = "mydict"
 
-class textOp:
+class TextOp:
     # this is a main class
     def __init__(self,val):
         self.val = val
@@ -11,21 +11,21 @@ class textOp:
 class TestMemoizedDisc(unittest.TestCase):
 
     def test_session(self):
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
 
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
 
-        mydict["textOp"] = textOp(1)
+        mydict["TextOp"] = TextOp(1)
         del mydict
 
-        mydict = memoizedDict(persistIn)
-        self.assertEqual(mydict["textOp"].val,1)
+        mydict = MemoizedDict(persistIn)
+        self.assertEqual(mydict["TextOp"].val,1)
 
     def test_times(self):
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
         secs = 2
         try:
             for i in xrange(1000):
@@ -37,10 +37,10 @@ class TestMemoizedDisc(unittest.TestCase):
             mydict.clear() # clean up
 
     def test_failed_session(self):
-        mydict = memoizedDict(persistIn).clear()
+        mydict = MemoizedDict(persistIn).clear()
         del mydict
 
-        mydict = memoizedDict(persistIn)
+        mydict = MemoizedDict(persistIn)
 
         class textOp_fail:
             # unfortunately all classes that are memoized must be present

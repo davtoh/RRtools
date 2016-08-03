@@ -64,7 +64,7 @@ class MatplotlibCanvas(FigureCanvas):
         #FigureCanvasBase.motion_notify_event(self, x, y, guiEvent=event)
         #super(MatplotlibCanvas, self).motion_notify_event(x, y, guiEvent=event)
 
-class tools(NavigationToolbar,QtGui.QToolBar):
+class Tools(NavigationToolbar, QtGui.QToolBar):
     # TODO
     pass
 

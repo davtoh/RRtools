@@ -51,9 +51,9 @@ for fn in imlist:
     #kernel = np.ones((2,2),np.uint8)
     #edges= cv2.morphologyEx(edges, cv2.MORPH_OPEN, kernel)
     #edges = cv2.filter2D(edges,-1,kernel)
-    #plotim("img",edges).show()
+    #Plotim("img",edges).show()
     #thresh,th = cv2.threshold(img,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    #plotim("img",th).show()
+    #Plotim("img",th).show()
     #edges[img<thresh] = 0 # make edges in black black color disappear
 
     bgr[edges != 0] = (0, 255, 0)

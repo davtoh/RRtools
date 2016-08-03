@@ -4,5 +4,5 @@ outputs = {}
 code = """
 """
 
-class code_generator:
+class CodeGenerator:
     pass

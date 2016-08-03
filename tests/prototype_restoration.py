@@ -700,7 +700,7 @@ def asif_demo(**opts):
             kp_pairs2 = spairs2opairs(kp_pairs,*shapes)
             print "waiting to close match explorer..."
             vis = matchExplorer(win, original_fore, original_back, kp_pairs2, status, H2)
-            #vis = matchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
+            #vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
 
         # get perspective from the scaled to original Transformation matrix
         bgra_fore = cv2.cvtColor(original_fore,cv2.COLOR_BGR2BGRA) # convert BGR to BGRA

@@ -1,5 +1,5 @@
 __author__ = 'Davtoh'
-from tesisfunctions import plotim,overlay
+from tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
 import tesisfunctions as tf
@@ -18,7 +18,7 @@ th,thresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 hull = tf.gethull(thresh)
 ROI = np.zeros(thresh.shape,dtype=np.uint8)
 cv2.drawContours(ROI,[hull],-1,1,-1)
-plotim("First ROI", ROI).show()
+Plotim("First ROI", ROI).show()
 
 # for erotion
 iterations = 1
@@ -28,4 +28,4 @@ while not np.all(thresh[ROI==1]):
     ROI = cv2.erode(ROI,kernel,iterations = iterations)
     #ROI = cv2.dilate(ROI,kernel,iterations = iterations)
 
-plotim("Last ROI", ROI).show()
+Plotim("Last ROI", ROI).show()

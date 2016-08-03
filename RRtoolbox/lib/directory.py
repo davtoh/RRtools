@@ -175,7 +175,7 @@ def changedir(filepath, dirname, ext=True):
     """
     if ext: data = getData(filepath)[2:]
     else: data = getData(filepath)[2:3]
-    return directory(dirname) + directory(data, False)
+    return Directory(dirname) + Directory(data, False)
 
 def strdifference(s1,s2):
     """
@@ -457,7 +457,7 @@ def joinPath(absolute,relative):
         relative = relative[1:]
     return os.path.join(absolute, relative) # str ensures updated version is processed
 
-class directory(str):
+class Directory(str):
     """
     semi-mutable string representation of a inmutable string with support for path representations.
 
@@ -475,9 +475,9 @@ class directory(str):
         # TODO overcome limitation of string not being mutable. use basestring?
         # TODO keep string inheritance, keep string methods, but enable mutabilite
         # data can be list, str, directory or dictionary
-        data = directory.filterdata(data,ispath,kwargs)
-        string = directory.repr2str(data["repr"],data["ispath"])
-        self = super(directory,cls).__new__(cls, string)
+        data = Directory.filterdata(data, ispath, kwargs)
+        string = Directory.repr2str(data["repr"], data["ispath"])
+        self = super(Directory, cls).__new__(cls, string)
         if copy:
             # do not use __dict__ to not overlook custom setters
             for k, v in data.iteritems(): # self.__dict__.update(data)
@@ -498,7 +498,7 @@ class directory(str):
         :param kwargs: additional data to add in directory.
         :return: dictionary
         """
-        if isinstance(data,directory):
+        if isinstance(data, Directory):
             data = getattr(data,"__dict__") # data.__dict__
         elif not isinstance(data,dict):
             if isinstance(data,list):
@@ -509,7 +509,7 @@ class directory(str):
         if ispath is not None: data["ispath"]= ispath
         if not data.has_key("ispath"): data["ispath"] = True # ispath default
         if data.has_key("repr"):
-            data["repr"] = directory.repr2list(data["repr"]) # ensure repr is maintained
+            data["repr"] = Directory.repr2list(data["repr"]) # ensure repr is maintained
         else:
             data["repr"] = [""] # repr default
         return data
@@ -525,14 +525,14 @@ class directory(str):
         if isinstance(data,list): # list defines levels of directories
             if level == 0: # [level 0, ..., [level 1, [...[level N]...]], level 0]
                 for i,value in enumerate(data): # process several objects in the list
-                    data[i] = directory.repr2list(value,level+1)
+                    data[i] = Directory.repr2list(value, level + 1)
                 return data
             else: # convert anything to directory if not in level 0
-                return directory(data)
+                return Directory(data)
         elif isinstance(data,str): # if string or directory
             return data
         else: # try to convert to directory
-            return directory(data)
+            return Directory(data)
 
     @staticmethod
     def repr2str(data, ispath = True):
@@ -544,17 +544,17 @@ class directory(str):
         """
         if isinstance(data,list):
             if len(data)>1:
-                string = str(directory.repr2str(data[0]))
+                string = str(Directory.repr2str(data[0]))
                 for i in data[1:]:
                     if ispath:
-                        string = joinPath(string,directory.repr2str(i)) # join paths
+                        string = joinPath(string, Directory.repr2str(i)) # join paths
                     else:
-                        string += directory.repr2str(i, ispath)
+                        string += Directory.repr2str(i, ispath)
                 return string
             else:
                 return str(data[0]) # get single path
-        elif isinstance(data, directory):
-            return directory.repr2str(data.repr, data.ispath)
+        elif isinstance(data, Directory):
+            return Directory.repr2str(data.repr, data.ispath)
         else:
             return str(data) # object must be string
 
@@ -581,7 +581,7 @@ class directory(str):
         .. note:: Equivalent to self + other e.g. directory([self, other])
         """
         self.repr.append(other) # it will be parsed at directory creation
-        return directory(self) # string is immutable and must be renewed
+        return Directory(self) # string is immutable and must be renewed
 
     def update_left(self, other):
         """
@@ -593,7 +593,7 @@ class directory(str):
         .. note:: Equivalent to self - other e.g. directory([other, self])
         """
         self.repr.insert(0,other) # it will be parsed at directory creation
-        return directory(self) # string is immutable and must be renewed
+        return Directory(self) # string is immutable and must be renewed
 
     def update(self, data = None):
         """
@@ -613,15 +613,15 @@ class directory(str):
                 for i in xrange(len(data)):
                     self.repr[i] = data[i]
                 del self.repr[i+1:]
-            return directory(self) # string is immutable and must be renewed
+            return Directory(self) # string is immutable and must be renewed
         elif isinstance(data,dict): # if dictionary
             for k, v in data.iteritems(): # self.__dict__.update(data)
                 setattr(self, k, v)
-            return directory(self)
+            return Directory(self)
         elif data: # if not list or dict
             return self.update([data])
         else: # if None return updated version
-            return directory(self)
+            return Directory(self)
 
     def copy(self):
         """
@@ -629,10 +629,10 @@ class directory(str):
 
         :return: non-referenced directory copy.
         """
-        return directory(self,copy=True)
+        return Directory(self, copy=True)
 
     def __str__(self):
-        return directory.repr2str(self.repr, self.ispath)
+        return Directory.repr2str(self.repr, self.ispath)
 
     def __repr__(self):
         return str(self.repr)
@@ -659,7 +659,7 @@ class directory(str):
     def __len__(self):
         return len(self.repr)"""
 
-class FileDirectory(directory):
+class FileDirectory(Directory):
     """
     Saves contents of a file as with directories.
 
@@ -692,17 +692,17 @@ if __name__=="__main__":
 
     import session as sn
     ## TESTS
-    a = directory("string1",sapo = "mamo")
+    a = Directory("string1", sapo ="mamo")
     b = a.update(["string2",["string4","string 5"]])
     result = bool(a) # False
     result = bool(b) # True
-    c = directory(["string3"])-a
+    c = Directory(["string3"]) - a
     sn.saveSession("test.pkl",{"d",a})
     c = sn.readSession("test.pkl")
-    print type(a)==directory
-    print type(a) is directory
-    print a is directory
-    print a == directory
+    print type(a) == Directory
+    print type(a) is Directory
+    print a is Directory
+    print a == Directory
     print "with str"
     print type(a)==str
     print type(a) is str
@@ -712,7 +712,7 @@ if __name__=="__main__":
     print type(a)
     print os.path.splitext(os.path.basename(__file__)) ### look here ###
 
-    path = directory(["path1","path2","path3"])
+    path = Directory(["path1", "path2", "path3"])
     #path += "path4"
     print path
     print os.path.join(path,"new path")

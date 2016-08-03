@@ -2,10 +2,10 @@
 # http://scipy.github.io/devdocs/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter
 # http://stackoverflow.com/a/28857249/5288758
 
-from tesisfunctions import histogram, brightness,plotim, graphmath, graphHistogram, \
-    overlay, findmaxima, findminima, smooth, graph_filter, getOtsuThresh, SAVETO, correctString,stdoutLOG,printParams
+from tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
+    overlay, findmaxima, findminima, smooth, graph_filter, getOtsuThresh, SAVETO, correctString,StdoutLOG,printParams
 from RRtoolbox.lib.directory import getData,mkPath
-from RRtoolbox.lib.arrayops import bandpass
+from RRtoolbox.lib.arrayops import Bandpass
 import cv2
 import numpy as np
 from scipy.signal import savgol_filter
@@ -38,14 +38,14 @@ def demo():
     saveTo_root = SAVETO+name_script+"/"
     config = locals().copy()
     mkPath(saveTo_root) # make directory
-    stdoutLOG(saveTo_root+ "log") # save file output
+    StdoutLOG(saveTo_root + "log") # save file output
     # now everything printed will be logged
     printParams(config) # this is logged too
 
     # read image
     fore = cv2.imread(fn1)
     fore = cv2.resize(fore,(300,300)) # resize image
-    #plotim(name,fore).show() # show image
+    #Plotim(name,fore).show() # show image
 
     # get intensity
     P = brightness(fore)

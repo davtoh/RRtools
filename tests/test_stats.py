@@ -3,7 +3,7 @@ import cv2
 from RRtoolbox.lib.arrayops import overlay, brightness, process_as_blocks, rescale, getOtsuThresh
 from RRtoolbox.lib.image import loadFunc
 from RRtoolbox.lib.plotter import fastplt
-from RRtoolbox.lib.image import getCoors
+from RRtoolbox.lib.image import GetCoors
 from RRtoolbox.lib.root import glob
 from RRtoolbox.lib.directory import getData
 from tesisfunctions import std_deviation, plainness
@@ -35,7 +35,7 @@ for fn in fns:
     P = brightness(img) #img[:,:,2]#cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) #
 
     if drawMask:
-        gcoors = getCoors(P)
+        gcoors = GetCoors(P)
         coors = np.array(gcoors.show(clean=False).coors)
         gcoors.clean()
         mask = np.zeros_like(P)

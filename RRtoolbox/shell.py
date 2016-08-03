@@ -44,7 +44,7 @@ def shell_processor(commands):
 
 class NoParserFound(Exception): pass
 
-class shell:
+class Shell:
 
     def parser_fastplt(self):
         parser = argparse.ArgumentParser(description='fast plot of images.',argument_default=argparse.SUPPRESS)
@@ -115,7 +115,7 @@ class shell:
 if __name__ == '__main__':
 
     from RRtoolbox.lib.image import loadFunc
-    s = shell()
+    s = Shell()
     p = s.generateParser(loadFunc)
     #getting commands from command pront
     opts, args = shell_processor_parser(sys.argv[1:])

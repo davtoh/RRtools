@@ -1,7 +1,7 @@
 __author__ = 'Davtoh'
 import cv2
 import numpy as np
-from tesisfunctions import padVH,plotim,graphpolygontest,polygontest
+from tesisfunctions import padVH,Plotim,graphpolygontest,polygontest
 import time
 import itertools as it
 from multiprocessing.pool import ThreadPool
@@ -29,7 +29,7 @@ points = [ [1.5*r,1.34*r], [r,2*r], [1.5*r,2.866*r], [2.5*r,2.866*r],[3*r,2*r],[
 points = np.array(points,np.int0)
 #cv2.polylines(src,[points],True,255,3)
 cv2.fillPoly(src,[points],255)
-#plotim.plotim("object",src).show()
+#Plotim.Plotim("object",src).show()
 contours,hierarchy = cv2.findContours(src,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 cnt = contours[0] # We take only one contour for testing
 time1 = time.time()
@@ -43,5 +43,5 @@ print "Time normal: ",time2-time1,"Time pool: ",time3-time2
 test1 = graphpolygontest(test1,"poligon Test").data
 test2 = graphpolygontest(test2,"distance Transform").data
 grapth = padVH([[test1,test2]])[0]
-plot = plotim("poligon Test / distance Transform",grapth)
+plot = Plotim("poligon Test / distance Transform", grapth)
 plot.show()

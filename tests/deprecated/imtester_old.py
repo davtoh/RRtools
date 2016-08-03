@@ -1,6 +1,6 @@
 __author__ = 'Davtoh'
 import cv2
-from tesisfunctions import plotim,overlay,padVH
+from tesisfunctions import Plotim,overlay,padVH
 import numpy as np
 from RRtoolbox.lib.image import fig2bgra
 from matplotlib import pyplot as plt
@@ -235,7 +235,7 @@ def compute(self,image=None):
     # UPDATE PLOT #
     updatevisualization(self,image,chimg,self.th,items,thresh1,thresh2)
 
-def imtester(img,win="imtester plot",plotter=plotim):
+def imtester(img, win="Imtester plot", plotter=Plotim):
 
     def windowfunc(self):
         cv2.namedWindow(self.win,self.wintype)  # create window
@@ -243,7 +243,7 @@ def imtester(img,win="imtester plot",plotter=plotim):
         builtcmd(self) # preparing cmd: use when replacing image
         self.computefunc(self) # computing operations
 
-    if type(img) is plotim:
+    if type(img) is Plotim:
         self = img
         #if not self.delayplot: self.delayplot=300
     else:

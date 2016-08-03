@@ -338,7 +338,7 @@ class Memoizer(object):
 
 memoize = Memoizer() # make memoizer manager
 
-class cache(object):
+class Cache(object):
     """
     Descriptor (non-data) for building an attribute on-demand at first use.
     @cache decorator is used for class methods without inputs (only self reference to the object)
@@ -371,13 +371,13 @@ def cachedProperty(watch=[],handle=[]):
     A memoize decorator of @property decorator specifying what to trigger caching.
 
     :param watch: (list of strings) A list of arguments name to watch in the hashing.
-    :param handle: (list of handles or empty list) Provided list is appended with the memo
+    :param handle: (list of handles or empty list) Provided list is appended with the Memo
                 handle were data is stored for the method and where a clear() function is provided.
     :return:
     """
     #http://code.activestate.com/recipes/576563-cached-property/
-    class memo:
-        """ memo function for cache """
+    class Memo:
+        """ Memo function for cache """
         def __init__(self):
             self._cache ={}
             self._input_cache = {}
@@ -425,19 +425,19 @@ def cachedProperty(watch=[],handle=[]):
         return noargs
     return withargs
 
-class notCallable(Exception):
+class NotCallable(Exception):
     """
     Defines objectGetter error: given object is not callable.
     """
     pass
 
-class notCreatable(Exception):
+class NotCreatable(Exception):
     """
     Defines objectGetter error: objectGetter cannot create new object.
     """
     pass
 
-class objectGetter(object):
+class ObjectGetter(object):
     """
     Creates or get instance object depending if it is alive.
     """
@@ -465,7 +465,7 @@ class objectGetter(object):
             b = getobj() # it uses the same hard reference a
 
         """
-        super(objectGetter, self).__init__()
+        super(ObjectGetter, self).__init__()
         self._ref = None
         self._callfunc = None
         self._callback = None
@@ -475,7 +475,7 @@ class objectGetter(object):
         callfunc = kwargs.pop("callfunc",None)
         if callfunc:
             if not callable(callfunc):
-                raise notCallable("callfunc {} is not callable".format(callfunc))
+                raise NotCallable("callfunc {} is not callable".format(callfunc))
             self._callfunc = callfunc
         obj = kwargs.pop("obj", None)
         callback = kwargs.pop("callback", None)
@@ -507,7 +507,7 @@ class objectGetter(object):
             self._ref = ref(ob, self._callback)
             return ob
         elif throw:
-            raise notCreatable("No callfunc to create object")
+            raise NotCreatable("No callfunc to create object")
 
     def raw(self):
         """
@@ -536,7 +536,7 @@ class objectGetter(object):
         """
         return self.isCreatable() or self.isAlive()
 
-class retriever(MutableMapping):
+class Retriever(MutableMapping):
     """
     keep track of references and create objects on demand if needed.
     """
@@ -571,7 +571,7 @@ class retriever(MutableMapping):
             assert ret() is not ret["obj"]
             print list(ret.iteritems()) # get items
         """
-        self.references[key] = objectGetter(obj=instance, callfunc=method)
+        self.references[key] = ObjectGetter(obj=instance, callfunc=method)
         self._lastKey = key # register last key
 
     def __call__(self):
@@ -594,7 +594,7 @@ class retriever(MutableMapping):
     def __len__(self):
         return len(self.references)
 
-class resourceManager(retriever):
+class ResourceManager(Retriever):
     """
     keep track of references, create objects on demand, manage their memory and optimize for better performance.
 
@@ -608,7 +608,7 @@ class resourceManager(retriever):
                     if False used memory is only from keptAlive references.
     """
     def __init__(self, maxMemory = None, margin = 0.8, unit = "MB", all = True):
-        super(resourceManager, self).__init__()
+        super(ResourceManager, self).__init__()
         #self.references is a dictionary containing all the references
         #self._lastkey is effectively the last key to use when Manager is called
         self._keptMemory = 0 # used memory in bytes of references
@@ -642,7 +642,7 @@ class resourceManager(retriever):
         try:
             obj = getter(throw = True)
             if wasAtFail: self.resetGetter(getter)
-        except notCreatable:
+        except NotCreatable:
             obj = None
             getter._fails += 1 # keep accumulating fails
         getter._calls += 1 # actual calls
@@ -845,7 +845,7 @@ class resourceManager(retriever):
             getter = self.references[key]
             getter.update(obj = instance, callfunc=method)
         else:
-            getter = objectGetter(obj = instance, callfunc=method)
+            getter = ObjectGetter(obj = instance, callfunc=method)
             self.resetGetter(getter)
             self.references[key] = getter
         if instance: self.optimizeObject(key,getter,toWhiteList= not getter.isCreatable())
@@ -1010,7 +1010,7 @@ def mapper(path, obj = None, mode =None, onlynumpy = False):
             names = joblib.dump(obj, path) # dump object to file for mapping
         return joblib.load(path, mmap_mode=mode), names
 
-class memoizedDict(MutableMapping):
+class MemoizedDict(MutableMapping):
     """
     memoized dictionary with keys and values persisted to files.
 
@@ -1019,7 +1019,7 @@ class memoizedDict(MutableMapping):
 
     .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added
                 and throw an error if not successful. But if saveAtKey is False this process
-                will be carried out when the memoizedDict instance is being destroyed in
+                will be carried out when the MemoizedDict instance is being destroyed in
                 a proper deletion, that is, if the program ends unexpectedly all data will be
                 lost or if data cannot be saved it will be lost without warning.
 
@@ -1036,7 +1036,7 @@ class memoizedDict(MutableMapping):
         self._map_serializer = cPickle # serializer for keys
         self._path = mkPath(path) # path to memoized keys and values
         self._map_file = os.path.join(self._path, "metadata") # file containing the keys
-        self._map = self._load_map() or {} # keeps the map to persistent files
+        #self._map = self._load_map() or {} # keeps the map to persistent files
         self._mode = mode # mode to read the values
         self._loader = joblib.load # loader for values
         self._saver = joblib.dump # saver for values

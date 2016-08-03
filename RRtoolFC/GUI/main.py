@@ -2,10 +2,9 @@ import sys
 from collections import OrderedDict
 from pyqtgraph.Qt import QtCore, QtGui # import GUI libraries
 from RRtoolFC.lib.rrtoolsNodes import RRtoolConsole, RRtoolFlowchart,isFlowChar  # GUI parts
-from RRtoolFC.lib import RRtoolnamespace
 from pyqtgraph.GraphicsScene.exportDialog import ExportDialog
-
-RRtoolnamespace = RRtoolnamespace.__dict__ # namespace to use inside GUIRRTool as globals
+#from RRtoolFC.lib import RRtoolnamespace
+RRtoolnamespace = dict() #RRtoolnamespace.__dict__ # namespace to use inside GUIRRTool as globals
 #execfile("../lib/RRtoolnamespace.py",RRtoolnamespace)# loading files
 
 def walkref(obj,lookfor="", level = 0, dipest = 5, ignoreHidden=True):
@@ -73,9 +72,9 @@ menuDescriptors = [(('File', "Open"),
 menuDescriptors = OrderedDict(menuDescriptors)
 # menuDescriptors are the instructions to create the GUIRRTool menubar
 
-class generalWindow(QtGui.QMainWindow):
+class GeneralWindow(QtGui.QMainWindow):
     def __init__(self, parent = None, widget = None, title = ""):
-        super(generalWindow,self).__init__(parent)
+        super(GeneralWindow, self).__init__(parent)
         if widget:
             self.setCentralWidget(widget)
             self.resize(widget.size())
@@ -98,7 +97,7 @@ class GUIRRTool(QtGui.QMainWindow):
     """
     Grafical Interface of RRtoolbox to create custom programs and their executable
     """
-    def __init__(self, title = "RRtool", flowchart = None, namespace= None):
+    def __init__(self, name ="RRtoolFC", flowchart = None, namespace= None):
         super(GUIRRTool, self).__init__()
         if namespace is None:
             namespace = RRtoolnamespace
@@ -110,14 +109,15 @@ class GUIRRTool(QtGui.QMainWindow):
                 flowchart = fcs[0]
             else:
                 flowchart = RRtoolFlowchart()
+            self.flowchart = flowchart # actual flowchart to edit
 
         self.isDirectlyClose = True # if True it closes the app regardless of anything (forced close)
         self.projectIsModified = True # if True it asks to save project on close
         self.namespace = namespace # dictionary containing session variables
-        self.flowchart = flowchart # actual flowchart to edit
         self.projectPath = None # the path to project
         self.references = {} # Todo: i need to keep reference of everything so that project saves any detail
-        self.setWindowTitle(title)
+        self.setWindowTitle(name)
+        self.AppName = name
         #self.resize(500, 400)
         self.initUI()
 
@@ -162,7 +162,7 @@ class GUIRRTool(QtGui.QMainWindow):
         #STATUS
         statusbar = self.statusBar()
         #mm = QtGui.QStatusBar # use this to finde statusbar uses
-        statusbar.showMessage("RRtool is ready")
+        statusbar.showMessage("{} is ready".format(self.AppName))
         #toolbar = self.addToolBar('Exit')
         #toolbar.addAction(exitAction)
 
@@ -217,11 +217,12 @@ class GUIRRTool(QtGui.QMainWindow):
         Action.setStatusTip(act["tip"])
         return Action
 
-    def createConsole(self, parent = None, win="RRtool console", text="", editor=""):
+    def createConsole(self, parent = None, win="{AppName} console", text="", editor=""):
+        win = win.format(**self.__dict__)
         if parent:
-            self.console = generalWindow(parent,RRtoolConsole(namespace=self.namespace, text=text,editor=editor),win)
+            self.console = GeneralWindow(parent, RRtoolConsole(namespace=self.namespace, text=text, editor=editor), win)
         else:
-            self.console = generalWindow(self,RRtoolConsole(namespace=self.namespace, text=text,editor=editor),win)
+            self.console = GeneralWindow(self, RRtoolConsole(namespace=self.namespace, text=text, editor=editor), win)
         self.centerWidgeds(self.console)
 
     def createExporter(self,parent = None, win="RRtool exporter"):
@@ -290,6 +291,18 @@ class GUIRRTool(QtGui.QMainWindow):
             return True
         except:
             return False
+
+    def openScriptAction(self):
+        if namespace is None:
+            namespace = RRtoolnamespace
+        if flowchart is None:
+            fcs = [fc for fc in namespace.itervalues() if isFlowChar(fc)]
+            if fcs:
+                if len(fcs)>1:
+                    raise Exception("{} flowcharts not supported: {}".format(len(fcs),fcs))
+                flowchart = fcs[0]
+            else:
+                flowchart = RRtoolFlowchart()
 
     def saveAsFCAction(self):
         try:
