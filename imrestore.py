@@ -494,7 +494,7 @@ class ImRestore(object):
 
     def compute_keypoints(self):
         """
-        computes key-points from file names.
+        Computes key-points from file names.
 
         :return: self.feature_list
         """
@@ -574,6 +574,13 @@ class ImRestore(object):
         return self._feature_list
     
     def preselection(self):
+        """
+        This method selects the first restored image so that self.restored is initialized
+        with a numpy array and self.used should specify the used image preferably in
+        self.feature_list.
+
+        :return: None
+        """
         ########################### Pre-selection from a set ############################
         baseImage = self.baseImage # baseImage option should not be update
         # initialization and base image selection
@@ -595,8 +602,8 @@ class ImRestore(object):
 
     def restore(self):
         """
-        Restore using file names (self.file_names) with
-        base image (self.baseImage) and configurations.
+        Restore using file names (self.file_names) with base image (self.baseImage
+        calculated from self.preselection()) and other configurations.
 
         :return: self.restored
         """
@@ -824,13 +831,15 @@ class ImRestore(object):
 
     def merge(self, path, H, shape = None):
         """
-        merge image to main restored image.
+        Merge image to main restored image.
 
         :param path: file name to load image
         :param H: Transformation matrix of image in path over restored image.
         :param shape: custom shape to load image in path
         :return: self.restored
         """
+        alpha = None
+
         if shape is None:
             shape = self.load_shape
 
@@ -841,45 +850,51 @@ class ImRestore(object):
 
         if self.verbosity > 1: print "Merging..."
 
-        # pre process alpha mask
-        alpha = self.pre_process_fore_Mask(self.restored,fore,H)
-
         # process expert alpha mask if alpha was not provided by the user
-        if alpha is None and self.expert is not None:
+        if self.expert is not None:
 
+            # process _restored_mask if None
             if not hasattr(self,"_restored_mask"):
-
+                # from path/name.ext get only name.ext
                 bname = "".join(getData(self.used[-1])[-2:])
                 try:
                     bdata = self.expert[bname]
-                except KeyError:
-                    raise KeyError("{} is not in self.expert".format(bname))
+                    bsh = bdata["shape"]
+                    bm_retina = contours2mask(bdata["coors_retina"],bsh)
+                    bm_otic_disc = contours2mask(bdata["coors_optic_disc"],bsh)
+                    bm_defects = contours2mask(bdata["coors_defects"],bsh)
 
-                bsh = bdata["shape"]
-                bm_retina = contours2mask(bdata["coors_retina"],bsh)
-                bm_otic_disc = contours2mask(bdata["coors_optic_disc"],bsh)
-                bm_defects = contours2mask(bdata["coors_defects"],bsh)
+                    self._restored_mask = np.logical_and(np.logical_or(np.logical_not(bm_retina),
+                                                bm_defects), np.logical_not(bm_otic_disc))
+                except Exception as e:
+                    #exc_type, exc_value, exc_traceback = sys.exc_info()
+                    #lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+                    warnings.warn("Error using expert {} to create self._restored_mask:"
+                                  " {}{}".format(bname,type(e),e.args))
 
-                self._restored_mask = np.logical_and(np.logical_or(np.logical_not(bm_retina),
-                                            bm_defects), np.logical_not(bm_otic_disc))
+            # only if there is a _restored_mask
+            if hasattr(self,"_restored_mask"):
+                fname = "".join(getData(path)[-2:])
+                try:
+                    fdata = self.expert[fname]
+                    fsh = fdata["shape"]
+                    fm_retina = contours2mask(fdata["coors_retina"],fsh)
+                    #fm_otic_disc = contours2mask(fdata["coors_optic_disc"],fsh)
+                    fm_defects = contours2mask(fdata["coors_defects"],fsh)
 
-            fname = "".join(getData(path)[-2:])
-            try:
-                fdata = self.expert[fname]
-            except KeyError:
-                raise KeyError("{} is not in self.expert".format(fname))
+                    fmask = np.logical_and(fm_retina,np.logical_not(fm_defects))
 
-            fsh = fdata["shape"]
-            fm_retina = contours2mask(fdata["coors_retina"],fsh)
-            #fm_otic_disc = contours2mask(fdata["coors_optic_disc"],fsh)
-            fm_defects = contours2mask(fdata["coors_defects"],fsh)
+                    self._restored_mask = maskm = np.logical_and(self._restored_mask,fmask)
 
-            fmask = np.logical_and(fm_retina,np.logical_not(fm_defects))
+                    h, w = self.restored.shape[:2]
+                    alpha = cv2.warpPerspective(maskm.copy().astype(np.uint8), H, (w, h))
+                except Exception as e:
+                    warnings.warn("Error using expert {} to create alpha mask:"
+                                  " {}{}".format(fname,type(e),e.args))
 
-            self._restored_mask = maskm = np.logical_and(self._restored_mask,fmask)
-
-            h, w = self.restored.shape[:2]
-            alpha = cv2.warpPerspective(maskm.copy().astype(np.uint8), H, (w, h))
+        if alpha is None:
+            # pre process alpha mask
+            alpha = self.pre_process_fore_Mask(self.restored,fore,H)
 
         ################################### SUPERPOSE ###################################
 
@@ -977,9 +992,29 @@ class ImRestore(object):
             return cv2.bilateralFilter(image, *params)
 
     def post_process_fore_Mask(self, back, fore):
+        """
+        Method to post-process fore mask used after fore and back are transformed
+        to a new domain for merging. This method is called by the merge method in the
+        event that an alpha mask has not been created by self.pre_process_fore_Mask
+        method or obtained with the self.expert variables.
+
+        :param back: background image. This is called by method self.merge
+                with self.restored
+        :param fore: fore ground image.
+        :return: alpha mask with shape (None,None)
+        """
         pass
 
     def pre_process_fore_Mask(self, back, fore, H):
+        """
+        Method to pre-process fore mask used before fore and back are transformed
+        to a new domain for merging.
+
+        :param back:
+        :param fore:
+        :param H:
+        :return: alpha mask with shape (None,None)
+        """
         pass
 
 class RetinalRestore(ImRestore):
@@ -1378,8 +1413,9 @@ def shell(args=None, namespace=None):
     parser.add_argument('-x','--expert', default=None,help='path to the expert variables')
     parser.add_argument('-q','--console', action='store_true',
                         help='Enter interactive mode to let user execute commands in console')
-    parser.add_argument('-w','--debug', action='store_true',
-                        help='Enter debug mode to let programmers find bugs')
+    parser.add_argument('-w','--debug', action='store_true', # https://pymotw.com/2/pdb/
+                        help='Enter debug mode to let programmers find bugs. In the debugger '
+                             'type "h" for help and know the supported commands.')
     parser.add_argument('--onlykeys', action='store_true',
                         help='Only compute keypoints. This is useful when --cachePath is '
                             'used and the user wants to have the keypoints cached beforehand')
