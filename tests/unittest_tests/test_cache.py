@@ -95,7 +95,7 @@ class TestMemoizedDisc(unittest.TestCase):
 
         mydict = MemoizedDict(persistIn)
 
-        class TextopFail:
+        class TextOpFail:
             # unfortunately all classes that are memoized must be present
             # as main classes and not inside other objects
             def __init__(self,val):
@@ -103,7 +103,7 @@ class TestMemoizedDisc(unittest.TestCase):
 
         from pickle import PicklingError
         with self.assertRaises(PicklingError): # if used pickle
-            mydict["TextopFail"] = textOp_fail(1)
+            mydict["TextopFail"] = TextOpFail(1)
 
 def runTests(tests = None, verbosity=2):
     def filter_helper(test):

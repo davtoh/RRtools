@@ -21,6 +21,7 @@
     Made by Davtoh, powered by joblib.
     Dependent project: https://github.com/joblib/joblib
 """
+from RRtoolbox.lib.root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable
 
 __license__ = """
 
@@ -60,9 +61,8 @@ __author__ = 'Davtoh'
 ## READ: https://wiki.python.org/moin/PythonDecoratorLibrary
 
 import joblib
-from functools import wraps,partial
-from weakref import ref, getweakrefcount, getweakrefs
-from sys import getsizeof
+from functools import wraps
+from weakref import ref
 from collections import MutableMapping
 from time import time
 from numpy.lib import load as numpyLoad, save as numpySave
@@ -385,7 +385,7 @@ def cachedProperty(watch=[],handle=[]):
             self._cache ={}
             self._input_cache = {}
 
-    this = memo()
+    this = Memo()
     handle.append(this)
 
     def noargs(f): # if not watch use this funciton
@@ -425,17 +425,6 @@ def cachedProperty(watch=[],handle=[]):
         return noargs
     return withargs
 
-class NotCallable(Exception):
-    """
-    Defines objectGetter error: given object is not callable.
-    """
-    pass
-
-class NotCreatable(Exception):
-    """
-    Defines objectGetter error: objectGetter cannot create new object.
-    """
-    pass
 
 class ObjectGetter(object):
     """
@@ -1037,11 +1026,25 @@ class MemoizedDict(MutableMapping):
         self._path = mkPath(path) # path to memoized keys and values
         self._map_file = os.path.join(self._path, "metadata") # file containing the keys
         #self._map = self._load_map() or {} # keeps the map to persistent files
+        self._map_old = None
         self._mode = mode # mode to read the values
         self._loader = joblib.load # loader for values
         self._saver = joblib.dump # saver for values
         self._hasher = hash # function to hash the keys
         self._secure = False # this is an option to use dangerous and secure routines
+
+    @property
+    def _map(self):
+        self._map_old = self._load_map()
+        if self._map_old is None:
+            self._map_old = {}
+        return self._map_old
+    @_map.setter
+    def _map(self,value):
+        raise VariableNotSettable("_map cannot be set")
+    @_map.deleter
+    def _map(self):
+        raise VariableNotDeletable("_map cannot be deleted")
 
     def _getHash(self, key):
         """
@@ -1083,7 +1086,7 @@ class MemoizedDict(MutableMapping):
                     os.remove(file) # FIXME enclose in try/except, who knows files could be deleted
                 except OSError:
                     pass # file could have been deleted
-            del self._map[key]
+            del self._map_old[key]
         except KeyError:
             hashed = self._getHash(key)
 
@@ -1091,7 +1094,7 @@ class MemoizedDict(MutableMapping):
         try:
             # TODO: Consider implementing a set to keep track of hashes so that a hash is not repeated
             # TODO: though add overloads, consider persisting the key along the value too for recovery purposes.
-            self._map[key] = (hashed,self._saver(value, filename))
+            self._map_old[key] = (hashed,self._saver(value, filename))
             self._save_map()
         except OSError:
             print " Race condition in the creation of the directory "
@@ -1100,8 +1103,9 @@ class MemoizedDict(MutableMapping):
         """
         persist dictionary map to file (metadata).
         """
-        with open(self._map_file, 'wb') as f: # FIXME: consumes too much time
-            return self._map_serializer.dump(self._map, f) # save dictionary
+        if self._map_old is not None:
+            with open(self._map_file, 'wb') as f: # FIXME: consumes too much time
+                return self._map_serializer.dump(self._map_old, f) # save dictionary
 
     def _load_map(self):
         """
@@ -1156,7 +1160,7 @@ class MemoizedDict(MutableMapping):
                 os.remove(file) # FIXME enclose in try/except, who knows files could be deleted
             except OSError:
                 pass # file could have been deleted
-        del self._map[key]
+        del self._map_old[key]
         self._save_map()
 
     def __iter__(self):

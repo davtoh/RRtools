@@ -169,15 +169,11 @@ from __future__ import division
 
 __author__ = 'Davtoh'
 # needed for installing executable
-import six
-import packaging
-import packaging.specifiers
 # program imports
 import os
 import cv2
 import warnings
 import numpy as np
-from time import time
 from RRtoolbox.tools.lens import simulateLens
 from RRtoolbox.lib.config import MANAGER, FLOAT
 from RRtoolbox.lib.image import hist_match
@@ -188,20 +184,15 @@ from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCn
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler
+from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
 from RRtoolbox.tools.segmentation import getBrightAlpha, Bandpass, Bandstop
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
-from RRtoolbox.lib.arrayops.basic import superpose, getTransformedCorners, transformPoint, \
+from RRtoolbox.lib.arrayops.basic import getTransformedCorners, transformPoint, \
     im2shapeFormat,normalize, getOtsuThresh, contours2mask, pad_to_fit_H, overlay
 
-class VariableNotSettable(Exception):
-    pass
-
-class VariableNotDeletable(Exception):
-    pass
 
 def check_valid(fn):
     """

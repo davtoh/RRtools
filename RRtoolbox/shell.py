@@ -1,3 +1,5 @@
+from RRtoolbox.lib.root import NoParserFound
+
 __author__ = 'Davtoh'
 
 import getopt
@@ -41,8 +43,6 @@ def shell_processor(commands):
     parsed_commands = []
     for command in commands:
         parsed_commands.append(shell_processor_parser(command)) # opts, args
-
-class NoParserFound(Exception): pass
 
 class Shell:
 
