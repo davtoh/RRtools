@@ -815,3 +815,26 @@ if __name__ == "__main__":
         #print pf.string_structured()
         print pf.string_structured(True,pf.structure())
 
+# ---------------------------- EXCEPTIONS ---------------------------- #
+
+class TimeOutException(Exception): pass
+
+class TransferExeption(Exception): pass
+
+class VariableNotSettable(Exception): pass
+
+class VariableNotDeletable(Exception): pass
+
+class NotCallable(Exception):
+    """
+    Defines objectGetter error: given object is not callable.
+    """
+    pass
+
+class NotCreatable(Exception):
+    """
+    Defines objectGetter error: objectGetter cannot create new object.
+    """
+    pass
+
+class NoParserFound(Exception): pass

@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 import socket
-from time import time
-import numpy as np
-from errno import ECONNREFUSED, EADDRINUSE
+import threading
+from errno import ECONNREFUSED
 from functools import partial
 from multiprocessing import Pool
-import threading
+from time import time
+
+import numpy as np
+
+from RRtoolbox.lib.root import TimeOutException, TransferExeption
 from config import FLAG_DEBUG, serializer
+
 __author__ = 'Davtoh'
 
 host ='localhost'
@@ -14,8 +18,6 @@ port = 50007
 addr = (host,port)
 NUM_CORES = 4
 
-class TimeOutException(Exception): pass
-class TransferExeption(Exception): pass
 
 def ping(host, port):
     """
@@ -254,7 +256,7 @@ def rcvPickle(addr=addr, timeout = None):
         if FLAG_DEBUG: print "loading data..."
         rcvdata = c.recvall()
         if len(rcvdata) != length:
-            raise TransferExeption("Data was transferred incomplete. Expected {} and got {} bytes".format(length,len(rcvdata)))
+            raise TransferExeption("Data was transferred incomplete. Expected {} and got {} bytes".format(length, len(rcvdata)))
         if FLAG_DEBUG: print "received data of len {}".format(len(rcvdata))
         data = serializer.loads(rcvdata)
         s.close()
