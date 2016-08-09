@@ -76,7 +76,7 @@ def hist_comp(imlist, loadfunc = None, method= "correlation"):
             comp = hist
         comparison.append((cv2.compareHist(comp, hist, method),im))
 
-    comparison.sort(key=lambda x:x[1],reverse = reverse) # sort comparisons
+    comparison.sort(key=lambda x:x[0],reverse = reverse) # sort comparisons
     return comparison
 
 class EntropyPlot(Plotim):

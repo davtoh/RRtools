@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from RRtoolbox.lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
     findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio, \
-    filterFactory, brightness, background, thresh_biggestCnt
+    filterFactory, brightness, background, thresh_biggestCnt, contours2mask
 
 def _getBrightAlpha(backgray, foregray, window = None):
     """
@@ -29,7 +29,7 @@ def _getBrightAlpha(backgray, foregray, window = None):
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
 
-def get_beta_params(P):
+def get_beta_params_1(P):
     """
     automatically find parameters for bright alpha masks.
 
@@ -53,7 +53,7 @@ def get_beta_params(P):
         beta2 +=1 # prevents overlapping
     return beta1,beta2
 
-def getBrightAlpha(backgray, foregray, window = None):
+def get_bright_alpha(backgray, foregray, window = None):
     """
     Get alpha transparency for merging foreground to background gray image according to brightness.
 
@@ -65,11 +65,53 @@ def getBrightAlpha(backgray, foregray, window = None):
                     If not window is given alfa is not altered and the intended alfa is returned.
     :return: alfa mask
     """
-    backmask = Bandstop(3, *get_beta_params(backgray))(backgray) # beta1 = 50, beta2 = 190
-    foremask = Bandpass(3, *get_beta_params(foregray))(foregray) # beta1 = 50, beta2 = 220
+    backmask = Bandstop(3, *get_beta_params_1(backgray))(backgray) # beta1 = 50, beta2 = 190
+    foremask = Bandpass(3, *get_beta_params_1(foregray))(foregray) # beta1 = 50, beta2 = 220
     foremask = normalize(foremask * backmask)
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
+
+def get_beta_params_2(P):
+    """
+    Automatically find parameters for bright alpha masks.
+
+    :param P: gray image
+    :return: beta1,beta2
+    """
+    # process histogram for uint8 gray image
+    hist, bins = np.histogram(P.flatten(), 256)
+
+    # get Otsu thresh as beta2
+    beta2 = bins[getOtsuThresh(hist)]
+    return np.min(P), beta2 # beta1, beta2
+
+def get_layered_alpha(back, fore):
+    """
+    Get bright alpha mask (using Otsu method)
+
+    :param back: BGR background image
+    :param fore: BGR foreground image
+    :return: alpha mask
+    """
+    # find retinal area and its alpha
+    mask_back, alpha_back = retinal_mask(back,biggest=True,addalpha=True)
+    mask_fore, alpha_fore = retinal_mask(fore,biggest=True,addalpha=True)
+
+    # convert uint8 to float
+    backgray = brightness(back).astype(float)
+    foregray = brightness(fore).astype(float)
+
+    # scale from 0-1 to 0-255
+    backm = alpha_back*255
+    forem = alpha_fore*255
+
+    # get alpha masks fro background and foreground
+    backmask = Bandstop(3, *get_beta_params_2(backm[mask_back.astype(bool)]))(backgray)
+    foremask = Bandpass(3, *get_beta_params_2(forem[mask_fore.astype(bool)]))(foregray)
+
+    # merge masks
+    alphamask = normalize(foremask * backmask * (backm/255.))
+    return alphamask
 
 def retina_markers_thresh(P):
     """
@@ -114,9 +156,9 @@ def retina_markers_thresh(P):
     return data_min,data_body_left,data_body,data_max_left
 
 
-def find_optic_disc(img,P):
+def find_optic_disc_watershed(img, P):
     """
-    find optic disk in image
+    find optic disk in image using a watershed method.
 
     :param img: BGR image
     :param P: gray image
@@ -130,17 +172,28 @@ def find_optic_disc(img,P):
     mk_back,mk_body,mk_flare = 1,2,3
     watershed[P <= data_min]=mk_back # background FIXMED use P.min() and aproaching to local maxima
     watershed[np.bitwise_and(P>data_body_left,P<data_body)]=mk_body # main body
-    watershed[P >= data_max_left]=mk_flare # Flares. this can be used approaching
+    # find bright objects
+    flares_thresh = (P >= data_max_left).astype(np.uint8)
+    contours,hierarchy = cv2.findContours(flares_thresh.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    mks_flare = []
+    for i,cnt in enumerate(contours):
+        index = mk_flare+i
+        mks_flare.append(index)
+        watershed[contours2mask(cnt,shape=watershed.shape)]=index # Flares. this can be used approaching
                                         # to local maxima, but brightest areas are almost
                                         # always saturated so no need to use it
     markers = watershed.copy()
     # apply watershed to watershed
     cv2.watershed(img,watershed) # FIXME perhaps the function should be cv2.floodFill?
 
-    brightest = np.uint8(watershed==mk_flare)
-    contours,hierarchy = cv2.findContours(brightest,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-    Crs = [(convexityRatio(cnt),cnt) for cnt in contours] # convexity ratios
-    Crs.sort(reverse=True)
+    # different classification algorithms could be used using watershed
+    contours_flares = []
+    for mk_flare in mks_flare:
+        brightest = np.uint8(watershed==mk_flare)
+        contours,hierarchy = cv2.findContours(brightest,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+        contours_flares.extend(contours)
+    Crs = [(i,j) for i,j in [(convexityRatio(cnt),cnt) for cnt in contours_flares] if i != 0] # convexity ratios
+    Crs.sort(reverse=True,key=lambda x:x[0])
     candidate = Crs[-1]
     ellipse = cv2.fitEllipse(candidate[1])
     optic_disc = np.zeros_like(P)

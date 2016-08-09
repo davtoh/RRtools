@@ -183,10 +183,10 @@ from RRtoolbox.lib.image import loadFunc, Imcoors
 from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCnt
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
-from RRtoolbox.tools.segmentation import retinal_mask
+from RRtoolbox.tools.segmentation import retinal_mask, get_layered_alpha
 from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import getBrightAlpha, Bandpass, Bandstop
+from RRtoolbox.tools.segmentation import get_bright_alpha, Bandpass, Bandstop
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
@@ -290,14 +290,14 @@ class ImRestore(object):
     """
 
     def __init__(self, filenames, **opts):
-        self.profiler = opts.get("profiler",None)
+        self.profiler = opts.pop("profiler",None)
         if self.profiler is None:
             self.profiler = Profiler("ImRestore init")
 
         self.log_saved = [] # keeps track of last saved file.
 
         # for debug
-        self.verbosity = opts.get("verbosity", 1)
+        self.verbosity = opts.pop("verbosity", 1)
 
         ################################## GET IMAGES ####################################
         if filenames is None or len(filenames)==0: # if images is empty use demonstration
@@ -325,16 +325,16 @@ class ImRestore(object):
         self.filenames = fns
 
         # for multiprocessing
-        self.pool = opts.get("pool",None)
+        self.pool = opts.pop("pool",None)
         if self.pool is not None: # convert pool count to pool class
-            NO_CPU = cv2.getNumberOfCPUs()
+            NO_CPU = cv2.popNumberOfCPUs()
             if self.pool <= NO_CPU:
                 self.pool = Pool(processes = self.pool)
             else:
                 raise Exception("pool of {} exceeds the "
                                 "number of processors {}".format(self.pool,NO_CPU))
         # for features
-        self.feature = opts.get("feature",None)
+        self.feature = opts.pop("feature",None)
         # init detector and matcher to compute descriptors
         if self.feature is None:
             self.feature = Feature(pool=self.pool, debug=self.verbosity)
@@ -344,7 +344,7 @@ class ImRestore(object):
             self.feature.debug = self.verbosity
 
         # select method to order images to feed in superposition
-        self.selectMethod = opts.get("selectMethod",None)
+        self.selectMethod = opts.pop("selectMethod",None)
         best_match_list = ("bestmatches", "best matches")
         entropy_list = ("entropy",)
         if callable(self.selectMethod):
@@ -359,31 +359,32 @@ class ImRestore(object):
             raise Exception("selectMethod {} not recognized".format(self.selectMethod))
 
         # distance threshold to filter best matches
-        self.distanceThresh = opts.get("distanceThresh",0.75) # filter ratio
+        self.distanceThresh = opts.pop("distanceThresh",0.75) # filter ratio
 
         # threshold for inlineRatio
-        self.inlineThresh = opts.get("inlineThresh",0.2) # filter ratio
+        self.inlineThresh = opts.pop("inlineThresh",0.2) # filter ratio
         # ensures adequate value [0,1]
         assert self.inlineThresh<=1 and self.inlineThresh>=0
 
         # threshold for rectangularity
-        self.rectangularityThresh = opts.get("rectangularityThresh",0.5) # filter ratio
+        self.rectangularityThresh = opts.pop("rectangularityThresh",0.5) # filter ratio
         # ensures adequate value [0,1]
         assert self.rectangularityThresh<=1 and self.rectangularityThresh>=0
 
         # threshold to for RANSAC reprojection
-        self.ransacReprojThreshold = opts.get("ransacReprojThreshold",5.0)
+        self.ransacReprojThreshold = opts.pop("ransacReprojThreshold",5.0)
 
-        self.centric = opts.get("centric",False) # tries to attach as many images as possible
+        self.centric = opts.pop("centric",False) # tries to attach as many images as possible
         # it is not memory efficient to compute descriptors from big images
-        self.process_shape = opts.get("process_shape", (400, 400)) # use processing shape
-        self.load_shape = opts.get("load_shape", None) # shape to load images for merging
+        self.process_shape = opts.pop("process_shape", (400, 400)) # use processing shape
+        self.load_shape = opts.pop("load_shape", None) # shape to load images for merging
         self.minKps = 3 # minimum len of key-points to find Homography
-        self.histMatch = opts.get("hist_match",False)
-        self.denoise=opts.get("denoise", None)
+        self.histMatch = opts.pop("hist_match",False)
+        self.denoise=opts.pop("denoise", None)
 
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
-        self.cachePath = opts.get("cachePath",None)
+        self.cachePath = opts.pop("cachePath",None)
+        self.clearCache = opts.pop("clearCache",0)
         if self.cachePath is not None:
             if self.cachePath is True:
                 self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
@@ -391,19 +392,18 @@ class ImRestore(object):
                 self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
             self.feature_dic = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
             if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
-            self.clearCache = opts.get("clearCache",0)
             if self.clearCache==2:
                 self.feature_dic.clear()
                 if self.verbosity: print "Cache path cleared"
         else:
             self.feature_dic = {}
 
-        self.expert = opts.get("expert",None)
+        self.expert = opts.pop("expert",None)
         if self.expert is not None:
             self.expert = MemoizedDict(self.expert) # convert path
 
         # to select base image ahead of any process
-        baseImage = opts.get("baseImage",None)
+        baseImage = opts.pop("baseImage",None)
         if isinstance(baseImage,basestring):
             base_old = baseImage
             try: # tries user input
@@ -426,15 +426,19 @@ class ImRestore(object):
         if self.verbosity: print "No. images {}...".format(len(fns))
 
         # make loader
-        self.loader = opts.get("loader",None) # BGR loader
+        self.loader = opts.pop("loader",None) # BGR loader
         if self.loader is None: self.loader = loadFunc(1)
         self._loader_cache = None # keeps last image reference
         self._loader_params = None # keeps last track of last loading options to reload
 
-        self.save = opts.get("save",False)
-        self.grow_scene = opts.get("grow_scene",True)
-        self.maskforeground = opts.get("maskforeground",False)
-        self.overwrite = opts.get("overwrite",False)
+        self.save = opts.pop("save",False)
+        self.grow_scene = opts.pop("grow_scene",True)
+        self.maskforeground = opts.pop("maskforeground",False)
+        self.overwrite = opts.pop("overwrite",False)
+
+        # do a check of the options
+        if opts:
+            raise Exception("Unknown keyword(s) {}".format(opts.keys()))
 
         # processing variables
         self._feature_list = None
@@ -472,7 +476,7 @@ class ImRestore(object):
     def feature_list(self):
         self._feature_list = None
 
-    def loadImage(self, path=None, shape=None):
+    def load_image(self, path=None, shape=None):
         """
         load image from source
 
@@ -506,12 +510,13 @@ class ImRestore(object):
             :param img: gray image
             :return:
             """
+            mask = None
             if callable(self.maskforeground):
                 mask = self.maskforeground(img)
             if self.maskforeground is True:
                 mask = foreground(img)
 
-            if self.verbosity > 4:
+            if mask is not None and self.verbosity > 4:
                 fastplt(overlay(img.copy(),mask*255,alpha=mask*0.5),block=True,
                         title="{} mask to detect features".format(getData(path)[-2]))
             return mask
@@ -523,7 +528,7 @@ class ImRestore(object):
 
             self._feature_list = [] # list of key points and descriptors
             for index,path in enumerate(fns):
-                img = self.loadImage(path, self.load_shape)
+                img = self.load_image(path, self.load_shape)
                 lshape = img.shape[:2]
                 try:
                     point = Profiler(msg=path, tag="cached")
@@ -573,7 +578,7 @@ class ImRestore(object):
 
         return self._feature_list
     
-    def preselection(self):
+    def pre_selection(self):
         """
         This method selects the first restored image so that self.restored is initialized
         with a numpy array and self.used should specify the used image preferably in
@@ -598,16 +603,16 @@ class ImRestore(object):
         if self.verbosity: print "baseImage is", baseImage
         self.used = [baseImage] # select first image path
         # load first image for merged image
-        self.restored = self.loadImage(baseImage, self.load_shape)
+        self.restored = self.load_image(baseImage, self.load_shape)
 
     def restore(self):
         """
         Restore using file names (self.file_names) with base image (self.baseImage
-        calculated from self.preselection()) and other configurations.
+        calculated from self.pre_selection()) and other configurations.
 
         :return: self.restored
         """
-        self.preselection()
+        self.pre_selection()
         self.failed = [] # registry for failed images
         fns = self.filenames # in this process fns should not be changed
         ########################## Order set initialization #############################
@@ -712,7 +717,7 @@ class ImRestore(object):
                         # test that there is homography
                         if H is not None: # first test
                             # load fore image
-                            fore = self.loadImage(path, self.load_shape)
+                            fore = self.load_image(path, self.load_shape)
                             h,w = fore.shape[:2] # image shape
 
                             # get corners of fore projection over back
@@ -782,11 +787,11 @@ class ImRestore(object):
 
         #################################### Save image ##################################
         if self.save:
-            self.saveImage()
+            self.save_image()
 
         return self.restored # return merged image
 
-    def saveImage(self, path = None, overwrite = None):
+    def save_image(self, path = None, overwrite = None):
         """
         save restored image in path.
 
@@ -843,7 +848,7 @@ class ImRestore(object):
         if shape is None:
             shape = self.load_shape
 
-        fore = self.loadImage(path,shape) # load fore image
+        fore = self.load_image(path, shape) # load fore image
 
         if self.histMatch: # apply histogram matching
             fore = hist_match(fore, self.restored)
@@ -1028,11 +1033,14 @@ class RetinalRestore(ImRestore):
         True to return ROI, false to leave image "as is".
     """
     def __init__(self, filenames, **opts):
+        # overwrite variables
+        opts["denoise"]=opts.pop("denoise", True)
+        opts["maskforeground"] = opts.pop("maskforeground",lambda img: retinal_mask(img,True))
+        # create new variables
+        self.lens = opts.pop("lens",False)
+        self.enclose = opts.pop("enclose",False)
+        # call super class
         super(RetinalRestore,self).__init__(filenames, **opts)
-        self.maskforeground = opts.get("maskforeground",lambda img: retinal_mask(img,True))
-        self.denoise=opts.get("denoise", True)
-        self.lens = opts.get("lens",False)
-        self.enclose = opts.get("enclose",False)
 
     #__init__.__doc__ = ImRestore.__init__.__doc__+__init__.__doc__
 
@@ -1057,50 +1065,8 @@ class RetinalRestore(ImRestore):
             foregray = brightness(fore)
             # get window with Otsu to prevent expansion
             thresh,w = cv2.threshold(foregray,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-            return getBrightAlpha(brightness(back).astype(float),
-                               foregray.astype(float), window=w)
-
-        def get_beta_params(P):
-            """
-            Automatically find parameters for bright alpha masks.
-
-            :param P: gray image
-            :return: beta1,beta2
-            """
-            # process histogram for uint8 gray image
-            hist, bins = np.histogram(P.flatten(), 256)
-
-            # get Otsu thresh as beta2
-            beta2 = bins[getOtsuThresh(hist)]
-            return np.min(P), beta2 # beta1, beta2
-
-        def mask(back, fore):
-            """
-            Get bright alpha mask (using Otsu method)
-
-            :param back: BGR background image
-            :param fore: BGR foreground image
-            :return: alpha mask
-            """
-            # find retinal area and its alpha
-            mask_back, alpha_back = retinal_mask(back,biggest=True,addalpha=True)
-            mask_fore, alpha_fore = retinal_mask(fore,biggest=True,addalpha=True)
-
-            # convert uint8 to float
-            backgray = brightness(back).astype(float)
-            foregray = brightness(fore).astype(float)
-
-            # scale from 0-1 to 0-255
-            backm = alpha_back*255
-            forem = alpha_fore*255
-
-            # get alpha masks fro background and foreground
-            backmask = Bandstop(3, *get_beta_params(backm[mask_back.astype(bool)]))(backgray)
-            foremask = Bandpass(3, *get_beta_params(forem[mask_fore.astype(bool)]))(foregray)
-
-            # merge masks
-            alphamask = normalize(foremask * backmask * (backm/255.))
-            return alphamask
+            return get_bright_alpha(brightness(back).astype(float),
+                                    foregray.astype(float), window=w)
 
 
         pshape = (400,400) # process shape
@@ -1111,7 +1077,7 @@ class RetinalRestore(ImRestore):
             fore = cv2.resize(fore,pshape)
 
         # get alpha mask
-        alphamask = mask(back,fore)
+        alphamask = get_layered_alpha(back,fore)
 
         # rescaling mask to original shape
         if pshape is not None:
@@ -1423,7 +1389,13 @@ def shell(args=None, namespace=None):
     # parse sys and get argument variables
     args = vars(parser.parse_args(args=args, namespace=namespace))
 
-    if args['debug']:
+    # shell variables
+    debug = args.pop('debug')
+    console = args.pop('console')
+    onlykeys =  args.pop('onlykeys')
+
+    # debugger
+    if debug:
         print "debug ON."
         import pdb; pdb.set_trace()
 
@@ -1440,26 +1412,28 @@ def shell(args=None, namespace=None):
         print "Parsed Arguments\n",args
 
     # use configuration
-    r = args.pop("restorer")
-    if r == 'RetinalRestore':
+    use_restorer = args.pop("restorer")
+    if use_restorer == 'RetinalRestore':
         if args['verbosity']: print "Configured for retinal restoration..."
         self = RetinalRestore(**args)
-    elif r == 'ImRestore':
+    elif use_restorer == 'ImRestore':
         if args['verbosity']: print "Configured for general restoration..."
+        for key in ['enclose', 'lens']:
+            args.pop(key) # clean up unused key
         self = ImRestore(**args)
     else:
-        raise Exception("no restoration class called {}".format(r))
+        raise Exception("no restoration class called {}".format(use_restorer))
 
     if namespace is not None:
         # update namespace from early stages so it can have access to the restorer
         namespace.restorer = self
 
-    if args['console']:
+    if console:
         print "interactive ON."
         print "restoring instance is 'namespace.restorer' or 'self'"
         print "Ex: type 'self.restore()' to proceed with restoration."
         import code; code.interact(local=locals())
-    elif args['onlykeys']:
+    elif onlykeys:
         self.compute_keypoints()
     else:
         # start restoration

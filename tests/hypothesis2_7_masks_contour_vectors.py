@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay,polygontest, polycenter, biggestCntData, graphpolygontest
+from tesisfunctions import Plotim,overlay,polygontest, polycenter, graphpolygontest
 from RRtoolbox.lib.arrayops import relativeQuadrants, relativeVectors,angle, contour2points, anorm, anorm2
 import cv2
 import numpy as np
 import pylab as plt
 
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
-from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad
+from RRtoolbox.lib.arrayops import sigmoid, histogram,brightness,biggestCntData
+from tesisfunctions import getthresh,threshold,pad
 
 def plotPointToPoint(pts1, pts2, ax= None, cor="k", annotate =u'{i}({x:1.1f}, {y:1.1f})'):
     """

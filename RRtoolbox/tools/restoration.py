@@ -13,7 +13,7 @@ from RRtoolbox.lib.arrayops.basic import overlay,superpose,vertexesAngles, relat
 from RRtoolbox.lib.arrayops.filters import bilateralFilter, normsigmoid
 from RRtoolbox.lib.descriptors import ASIFT,MATCH, inlineRatio
 from RRtoolbox.lib.image import PathLoader,loadFunc,Imcoors, hist_match, try_loads
-from RRtoolbox.tools.segmentation import getBrightAlpha
+from RRtoolbox.tools.segmentation import get_bright_alpha
 from RRtoolbox.lib.root import TimeCode
 
 from glob import glob
@@ -51,7 +51,7 @@ def watchData(request, loader, data, onlyTest = False):
             if not onlyTest:
                 win,mwin = "stitch","mask for stitch"
                 try:
-                    mask1 = getBrightAlpha(scaled_back.astype(float), scaled_fore.astype(float))
+                    mask1 = get_bright_alpha(scaled_back.astype(float), scaled_fore.astype(float))
                     m1 = fastplt(mask1,"gray",mwin)
                 except:
                     if FLAG_DEBUG: print mwin, "crashed"
@@ -64,7 +64,7 @@ def watchData(request, loader, data, onlyTest = False):
 
                 win,mwin = "inverted stitch", "mask for inverted stitch"
                 try:
-                    mask2 = getBrightAlpha(scaled_fore.astype(float), scaled_back.astype(float))
+                    mask2 = get_bright_alpha(scaled_fore.astype(float), scaled_back.astype(float))
                     m2 = fastplt(mask2,"gray",mwin)
                 except:
                     if FLAG_DEBUG: print mwin, "crashed"
@@ -280,7 +280,7 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
         alpha = fore_in_back[:,:,3].copy()
         for i in xrange(1): # testing damage by iteration
             backgray = cv2.cvtColor(original_back.astype(np.uint8),cv2.COLOR_BGR2GRAY).astype(float)
-            fore_in_back[:,:,3]= n = getBrightAlpha(backgray, foregray, alpha) #### GET ALFA MASK
+            fore_in_back[:,:,3]= n = get_bright_alpha(backgray, foregray, alpha) #### GET ALFA MASK
             fastplt(n)
             original_back = overlay(original_back, fore_in_back) #### MERGING
         original_back = original_back.astype(np.uint8) # convert back to uint8
@@ -368,12 +368,12 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
         #kp_pairs2 = spairs2opairs(kp_pairs,*shapes)
         print "waiting to close match explorer..."
         win,mwin = "stitch","mask for stitch"
-        mask1 = getBrightAlpha(scaled_back.astype(float), scaled_fore.astype(float))
+        mask1 = get_bright_alpha(scaled_back.astype(float), scaled_fore.astype(float))
         m1 = fastplt(mask1,"gray",mwin)
         merged1 = superpose(scaled_back, scaled_fore, H, mask1)[0]
         p1 = fastplt(merged1,"gray",win)
         win,mwin = "inverted stitch", "mask for inverted stitch"
-        mask2 = getBrightAlpha(scaled_fore.astype(float), scaled_back.astype(float))
+        mask2 = get_bright_alpha(scaled_fore.astype(float), scaled_back.astype(float))
         m2 = fastplt(mask2,"gray",mwin)
         merged2 = superpose(scaled_fore,scaled_back, invertH(H), mask2)[0]
         p2 = fastplt(merged2,"gray",win)

@@ -361,7 +361,13 @@ def plotPointsContour(pts, ax= None, lcor="k", pcor=None,
     :param lcor: color of joining lines.
     :param pcor: color of points. If specified uses lines, else vectors.
     :param deg: angle of vertex, if True in degrees, if False in radians, if None do not add.
-    :return: ax.
+    :param annotate: (True) True to annotate
+    :param width: adjust width of lines
+    :param label: string to format point labels. add the point with {pt},
+            x and y coordinates with {x} and {y}, and angle with {a}. By default
+            label is 'pt{pt}({x}, {y}, {a})'.
+    :param arrowprops: dictionary to modify array properties
+    :return: axes
     """
     # http://stackoverflow.com/a/12267492/5288758
     label = unicode(label)

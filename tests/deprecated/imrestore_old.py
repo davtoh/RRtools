@@ -182,7 +182,7 @@ from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
 from RRtoolbox.lib.root import TimeCode, glob, lookinglob
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import getBrightAlpha, get_beta_params, Bandpass, Bandstop
+from RRtoolbox.tools.segmentation import get_bright_alpha, get_beta_params_1, Bandpass, Bandstop
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
@@ -676,15 +676,15 @@ def imrestore(images, **opts):
     return restored # return merged image
 
 def retinalMerge(back,fore,H):
-    # this window can be passed to getBrightAlpha to only add artifacts in fore
+    # this window can be passed to get_bright_alpha to only add artifacts in fore
     #window = cv2.warpPerspective(np.ones(fore.shape[:2]),H,(back.shape[1],back.shape[0]))
 
-    # find_optic_disc: can be passed as an array or as a function to superpose function
+    # find_optic_disc_watershed: can be passed as an array or as a function to superpose function
     # METHOD 1: function evaluated just after superposition and before overlay
     def _mask(back,fore): # TODO, not working for every scenario
         foregray = brightness(fore)
         thresh,w = cv2.threshold(foregray,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-        m = getBrightAlpha(brightness(back).astype(float), foregray.astype(float), window=w)
+        m = get_bright_alpha(brightness(back).astype(float), foregray.astype(float), window=w)
         return m
 
     def adjust_alpha(alpha, mask, invert = False):
@@ -729,7 +729,7 @@ def retinalMerge(back,fore,H):
 
     # METHOD 2: Array before superposition
     #fore_in_back = cv2.warpPerspective(fore,H,(back.shape[1],back.shape[0]))
-    #mask = getBrightAlpha(brightness(back).astype(float), brightness(fore_in_back).astype(float))
+    #mask = get_bright_alpha(brightness(back).astype(float), brightness(fore_in_back).astype(float))
 
     #fastplt(alpha) # show alfa mask
     return superpose(back, fore, H, mask)

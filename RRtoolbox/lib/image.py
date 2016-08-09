@@ -660,7 +660,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
     def loadfunc(path):
         im = interpretImage(path, flag) # load func
         if throw: errorFunc(im,path) # if not loaded throw error
-        if flag<0 and len(im.shape)!=4:
+        if flag<0 and im.shape[2]!=4:
             if RGB:
                 return cv2.cvtColor(im,cv2.COLOR_BGR2RGBA)
             return cv2.cvtColor(im,cv2.COLOR_BGR2BGRA)
@@ -785,8 +785,14 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                     raise Exception("Failed to load image to map")
                 np.save(savepath,im)
                 return np.lib.load(savepath, mmode) # mapper(savepath,im,mmode,True)[0]#
-        return mapfunc # factory function
-    return func # factory function
+        func = mapfunc # factory function
+    def loader(path):
+        try:
+            return func(path)
+        except Exception as e:
+            if throw:
+                raise e
+    return loader # factory function
 
 class ImLoader:
     """
@@ -1693,3 +1699,15 @@ def getgeometrycoors(*data):
     else:  # img, win
         points = getcoors(*data)
     return points
+
+
+def random_color(channels = 1, min=0, max=256):
+    """
+    Random color.
+
+    :param channels: number of channels
+    :param min: min color in any channel
+    :param max: max color in any channel
+    :return: random color
+    """
+    return [np.random.randint(min,max) for i in xrange(channels)]
