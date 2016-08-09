@@ -94,23 +94,23 @@ class Feature(object):
 
         chunks = name.split(separator)
         index = 0
-        if chunks[index] == "a":
+        if chunks[index].lower() == "a":
             self.useASIFT = True
             index+=1
-        if chunks[index] == 'sift':
+        if chunks[index].lower() == 'sift':
             detector = cv2.SIFT()  # Scale-invariant feature transform
             norm = cv2.NORM_L2  # distance measurement to be used
-        elif chunks[index] == 'surf':
+        elif chunks[index].lower() == 'surf':
             detector = cv2.SURF(500)  # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
             # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
             norm = cv2.NORM_L2  # distance measurement to be used
-        elif chunks[index] == 'orb':
+        elif chunks[index].lower() == 'orb':
             detector = cv2.ORB(400)  # binary string based descriptors
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
             raise Exception("name {} with detector {} not valid".format(name,chunks[index]))
         index +=1
-        if len(chunks)-1 >= index and chunks[index] == 'flann':
+        if len(chunks)-1 >= index and chunks[index].lower() == 'flann':
             # FLANN based Matcher, Fast Approximate Nearest Neighbor Search Library
             if norm == cv2.NORM_L2:  # for SIFT ans SURF
                 flann_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)

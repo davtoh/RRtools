@@ -1201,6 +1201,7 @@ def normalizeCustom(arr, by = np.max, axis = None):
 def relativeQuadrants(points):
     """
     Get quadrants of relative vectors obtained from points.
+
     :param points: array of points.
     :return: quadrants.
     """
@@ -1241,7 +1242,7 @@ def points_generator(shape = (10,10), nopoints = None, convex = False, erratic =
     """
     generate points.
 
-    :param shape: enclosed frame
+    :param shape: enclosed frame (width, height)
     :param nopoints: number of points
     :param convex: if True make points convex,
             else points follow a circular pattern.
@@ -1271,6 +1272,7 @@ def points_generator(shape = (10,10), nopoints = None, convex = False, erratic =
 def isnumpy(arr):
     """
     Test whether an object is a numpy array.
+
     :param arr:
     :return: True if numpy array, else false.
     """
@@ -1425,6 +1427,8 @@ def convexityRatio(cnt,hull=None):
         hull = points2contour(cnt[hull])
     ahull = cv2.contourArea(hull)
     acnt = cv2.contourArea(cnt)
+    if ahull == 0: # solves issue dividing by 0
+        ahull = 0.0000001
     return acnt/ahull # contour area / hull area
 
 

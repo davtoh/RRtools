@@ -742,16 +742,22 @@ def glob(path, contents="*", check = os.path.isfile):
         fns = glob(os.path.join(fns[0], contents))
     return [p for p in fns if check(p)]
 
-def lookinglob(pattern, path, ext=None, returnAll = False, raiseErr = False):
+def lookinglob(pattern, path, ext=None, forward=False, returnAll = False, raiseErr = False):
     """
+    Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.
 
     :param pattern: look pattern in path
     :param path: path to look pattern
     :param ext: extension
+    :param forward: look changes after pattern and before ext parameter.
     :param raiseErr: If true raise Exception if patter not found in path
     :return: fn or None
     """
-    tests = [pattern, "{b}*", "*{b}", "*{b}*", "{p}{b}", "{p}*{b}", "{p}{b}*", "{p}*{b}*"]
+    tests = [pattern, "*{b}", "{p}{b}", "{p}*{b}"]
+    if forward:
+        tests.extend(
+            ["{b}*","*{b}*", "{p}{b}*", "{p}*{b}*"]
+        )
     if ext is not None and not pattern.endswith(ext):
         if not ext.startswith("."):
             ext = "."+ext

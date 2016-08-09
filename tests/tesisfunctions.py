@@ -13,25 +13,19 @@ Region growing: https://en.wikipedia.org/wiki/Region_growing
 """
 __author__ = 'Davtoh'
 
-import sys
-from RRtoolbox.lib.root import Controlstdout, StdoutSIM, StdoutLOG
-
 import cv2
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 import numpy as np
-from RRtoolbox.lib.arrayops.basic import convertXY,overlayXY, padVH,overlay, normalize,\
-    standarizePoints,anorm,vectorsAngles,isnumpy, histogram, findminima,findmaxima,find_near, \
-    getOtsuThresh, anorm2
-from RRtoolbox.tools.selectors import entropy
-from RRtoolbox.lib.arrayops.filters import smooth,normsigmoid,sigmoid,filterFactory,bilateralFilter,FilterBase
-from RRtoolbox.lib.arrayops.convert import getSOpointRelation, spoint2opointfunc, sh2oh,contour2points,points2contour
-from RRtoolbox.lib.directory import Directory,getData
-from RRtoolbox.lib.plotter import Plotim,Edger,plotPointsContour,graph_filter
-from RRtoolbox.lib.image import getcoors,drawcoorperspective, Imcoors
-from RRtoolbox.lib.arrayops.mask import brightness, biggestCntData, biggestCnt, thresh_biggestCnt, gethull
-from RRtoolbox.lib.directory import getData
-from RRtoolbox.lib.root import sleep
+
+from RRtoolbox.lib.arrayops.basic import convertXY,overlayXY, overlay, normalize, \
+    isnumpy, anorm2
+from RRtoolbox.lib.arrayops.convert import spoint2opointfunc
+from RRtoolbox.lib.arrayops.filters import smooth,normsigmoid, filterFactory
+from RRtoolbox.lib.arrayops.mask import brightness, thresh_biggestCnt
+from RRtoolbox.lib.directory import Directory
+from RRtoolbox.lib.image import getcoors, Imcoors, random_color
+from RRtoolbox.lib.plotter import Plotim
 
 base = "/mnt/4E443F99443F82AF/MEGAsync/"#"/media/davtoh/DavtohDisk1/Davtoh/University/"
 IMAGEPATH = Directory(base + "TESIS/DATA_RAW/IMAGES")
@@ -497,18 +491,6 @@ def getColorsRange(im, coors=None):
     return maxC,minC
 
 
-def rColor(channels = 1, min=0, max=256):
-    """
-    Random color.
-
-    :param channels: number of channels
-    :param min: min color in any channel
-    :param max: max color in any channel
-    :return: random color
-    """
-    return [np.random.randint(min,max) for i in xrange(channels)]
-
-
 def drawContours(mask, contours, min=50, max=256):
     """
     draw contours in mask.
@@ -524,7 +506,7 @@ def drawContours(mask, contours, min=50, max=256):
     else:
         ch = 1
     for i in xrange(len(contours)):
-        cv2.drawContours(mask,contours,i,rColor(ch,min,max),2)
+        cv2.drawContours(mask, contours, i, random_color(ch, min, max), 2)
     return mask
 
 def graphDeffects(img,cnt,defects,cline=(0,255,0),cpoint=(0,0,255),thickness=2, alfa=None):
