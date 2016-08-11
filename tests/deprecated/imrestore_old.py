@@ -182,7 +182,7 @@ from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask
 from RRtoolbox.lib.root import TimeCode, glob, lookinglob
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import get_bright_alpha, get_beta_params_1, Bandpass, Bandstop
+from RRtoolbox.tools.segmentation import get_bright_alpha, get_beta_params_hist, Bandpass, Bandstop
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
