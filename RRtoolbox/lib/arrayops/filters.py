@@ -235,7 +235,7 @@ def smooth(x,window_len=11,window='hanning', correct = False):
     This method is based on the convolution of a scaled window with the signal.
     The signal is prepared by introducing reflected copies of the signal
     (with the window size) in both ends so that transient parts are minimized
-    in the begining and end part of the output signal.
+    in the beginning and end part of the output signal.
 
     input:
         x: the input signal
@@ -284,17 +284,17 @@ def smooth(x,window_len=11,window='hanning', correct = False):
         y = y[displaced // 2:len(y) - (displaced - displaced // 2)] # adjusted to original size
     return y
 
-class BilateraP(Bandstop):
+class BilateraParameter(Bandstop):
     """
     bilateral parameter
     """
     def __init__(self, scale, shift = 33, name=None, alpha=100, beta1=-400, beta2=200):
-        super(BilateraP, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+        super(BilateraParameter, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
         self.scale = scale
         self.shift = shift
         self.name = name
     def __call__(self, levels):
-        return np.int32(super(BilateraP, self).__call__(
+        return np.int32(super(BilateraParameter, self).__call__(
             levels) * self.scale + self.shift)
 
 class BilateralParameters(object):
@@ -312,14 +312,14 @@ class BilateralParameters(object):
     :param sigmaSpace: sigma in space
 
     """
-    d = BilateraP(scale = 31, shift=15, alpha=150, beta1 = 60, beta2=800, name ="d")
-    sigmaColor = BilateraP(scale = 50, name ="sigmaColor")
-    sigmaSpace = BilateraP(scale = 25, name ="sigmaSpace")
+    d = BilateraParameter(scale = 31, shift=15, alpha=150, beta1 = 60, beta2=800, name ="d")
+    sigmaColor = BilateraParameter(scale = 50, name ="sigmaColor")
+    sigmaSpace = BilateraParameter(scale = 25, name ="sigmaSpace")
 
     def __init__(self,d=None,sigmaColor=None,sigmaSpace=None):
         """
         replace bilateral limit parameters. It can be a
-        instance from BilateraP or a value.
+        instance from BilateraParameter or a value.
         """
         if d is not None:
             self.d = d
@@ -333,16 +333,21 @@ class BilateralParameters(object):
         """
         list of filters
         """
+        def create_func(val):
+            def custom_val(x):
+                return np.ones_like(x)*val
+            custom_val.name = "Custom value {}".format(val)
+            return custom_val
         fs = []
         for i,f in enumerate((self.d, self.sigmaColor, self.sigmaSpace)):
             if callable(f):
                 fs.append(f)
             elif i == 0:
-                fs.append(lambda x: np.ones_like(x)*self.d)
+                fs.append(create_func(self.d))
             elif i == 1:
-                fs.append(lambda x: np.ones_like(x)*self.sigmaColor)
+                fs.append(create_func(self.sigmaColor))
             elif i == 2:
-                fs.append(lambda x: np.ones_like(x)*self.sigmaSpace)
+                fs.append(create_func(self.sigmaSpace))
         return fs
 
     def __call__(self, shape):
@@ -354,13 +359,13 @@ class BilateralParameters(object):
         """
         return [i(np.min(shape[:2])) for i in self.filters]
 
-def getBilateralParameters(shape,mode=None):
+def getBilateralParameters(shape=None,mode=None):
     """
     Calculate from shape bilateral parameters.
 
-    :param shape: image shape
-    :param mode:
-    :return:
+    :param shape: image shape. if None it returns the instace to use with shapes.
+    :param mode: "mild", "heavy" or "normal" to process noise
+    :return: instance or parameters
     """
     #15,82,57 # 21,75,75 # faster and for low noise
     if mode == "mild" or mode is None:
@@ -369,7 +374,12 @@ def getBilateralParameters(shape,mode=None):
         mode = None
     elif mode == "normal":
         mode = 27
+    elif isinstance(mode,(int,float)):
+        pass
     else:
         raise Exception("Bilateral Parameter mode '{}' not recognised".format(mode))
-    return BilateralParameters(mode)(shape[:2])
+    bp = BilateralParameters(mode)
+    if shape is None:
+        return bp
+    return bp(shape[:2])
 

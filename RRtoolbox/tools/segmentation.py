@@ -9,18 +9,22 @@ from RRtoolbox.lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
 
 def _getBrightAlpha(backgray, foregray, window = None):
     """
-    Get alpha transparency for merging foreground to background gray image according to brightness.
+    Get alpha transparency for merging foreground to
+    background gray image according to brightness.
+    (This is a test and not intended for practical use)
 
     :param backgray: background image.
     :param foregray: foreground image.
-    :param window: window used to customizing alfa. It can be a binary or alfa mask, values go from 0 for transparency
-                    to any value where the maximum is visible i.e a window with all the same values does nothing.
-                    A binary mask can be used, where 0 is transparent and 1 is visible.
-                    If not window is given alfa is not altered and the intended alfa is returned.
+    :param window: window used to customizing alfa. It can be a binary or alpha mask,
+            values go from 0 for transparency to any value where the maximum is visible
+            i.e a window with all the same values does nothing. A binary mask can be used,
+            where 0 is transparent and 1 is visible. If not window is given alfa is not
+            altered and the intended alpha is returned.
     :return: alfa mask
     """
     # this method was obtained for a particular problem, change to an automated one
-    backmask = normalize(normsigmoid(backgray,10,180) + normsigmoid(backgray,3.14,192) + normsigmoid(backgray,-3.14,45))
+    backmask = normalize(normsigmoid(backgray,10,180) + normsigmoid(backgray,3.14,192) +
+                         normsigmoid(backgray,-3.14,45))
     foremask = normalize(normsigmoid(foregray,-1,242)*normsigmoid(foregray,3.14,50))
     foremask = normalize(foremask * backmask)
     foremask[foremask>0.9] = 2.0
@@ -29,9 +33,10 @@ def _getBrightAlpha(backgray, foregray, window = None):
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
 
-def get_beta_params_1(P):
+def get_beta_params_hist(P):
     """
-    automatically find parameters for bright alpha masks.
+    Automatically find parameters for bright alpha masks
+    using a histogram analysis method.
 
     :param P: gray image
     :return: beta1,beta2
@@ -55,25 +60,27 @@ def get_beta_params_1(P):
 
 def get_bright_alpha(backgray, foregray, window = None):
     """
-    Get alpha transparency for merging foreground to background gray image according to brightness.
+    Get alpha transparency for merging foreground to
+    background gray image according to brightness.
 
     :param backgray: background image. (as float)
     :param foregray: foreground image. (as float)
-    :param window: window used to customizing alfa. It can be a binary or alfa mask, values go from 0 for transparency
-                    to any value where the maximum is visible i.e a window with all the same values does nothing.
-                    A binary mask can be used, where 0 is transparent and 1 is visible.
-                    If not window is given alfa is not altered and the intended alfa is returned.
+    :param window: window used to customizing alfa. It can be a binary or alpha mask,
+            values go from 0 for transparency to any value where the maximum is visible
+            i.e a window with all the same values does nothing. A binary mask can be used,
+            where 0 is transparent and 1 is visible. If not window is given alfa is not
+            altered and the intended alpha is returned.
     :return: alfa mask
     """
-    backmask = Bandstop(3, *get_beta_params_1(backgray))(backgray) # beta1 = 50, beta2 = 190
-    foremask = Bandpass(3, *get_beta_params_1(foregray))(foregray) # beta1 = 50, beta2 = 220
+    backmask = Bandstop(3, *get_beta_params_hist(backgray))(backgray) # beta1 = 50, beta2 = 190
+    foremask = Bandpass(3, *get_beta_params_hist(foregray))(foregray) # beta1 = 50, beta2 = 220
     foremask = normalize(foremask * backmask)
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
     return foremask
 
-def get_beta_params_2(P):
+def get_beta_params_Otsu(P):
     """
-    Automatically find parameters for bright alpha masks.
+    Automatically find parameters for bright alpha masks using Otsu threshold value.
 
     :param P: gray image
     :return: beta1,beta2
@@ -106,8 +113,8 @@ def get_layered_alpha(back, fore):
     forem = alpha_fore*255
 
     # get alpha masks fro background and foreground
-    backmask = Bandstop(3, *get_beta_params_2(backm[mask_back.astype(bool)]))(backgray)
-    foremask = Bandpass(3, *get_beta_params_2(forem[mask_fore.astype(bool)]))(foregray)
+    backmask = Bandstop(3, *get_beta_params_Otsu(backm[mask_back.astype(bool)]))(backgray)
+    foremask = Bandpass(3, *get_beta_params_Otsu(forem[mask_fore.astype(bool)]))(foregray)
 
     # merge masks
     alphamask = normalize(foremask * backmask * (backm/255.))
@@ -117,7 +124,7 @@ def retina_markers_thresh(P):
     """
     Retinal markers thresholds to find background,
     retinal area and optic disc with flares based
-    in the histogram
+    in the histogram.
 
     :param P: gray image
     :return: min,b1,b2,max
@@ -158,7 +165,7 @@ def retina_markers_thresh(P):
 
 def find_optic_disc_watershed(img, P):
     """
-    find optic disk in image using a watershed method.
+    Find optic disk in image using a watershed method.
 
     :param img: BGR image
     :param P: gray image
@@ -202,14 +209,16 @@ def find_optic_disc_watershed(img, P):
 
 def layeredfloods(img, gray = None, backmask = None, step = 1, connectivity = 4, weight = False):
     """
+    Create an alpha mask from an image using a weighted layered flooding algorithm,
 
-    :param img:
-    :param gray:
-    :param backmask:
-    :param step:
-    :param connectivity:
-    :param weight:
-    :return:
+    :param img: BGR image
+    :param gray: Gray image
+    :param backmask: background mask
+    :param step: step to increase upDiff in the floodFill algorithm. If weight is True
+            step also increases the weight of the layers.
+    :param connectivity: pixel connectivity of 4 or 8 to use in the floodFill algorithm
+    :param weight: Increase progressively the weight of the layers using the step parameter.
+    :return: alpha mask
     """
     if gray is None:
         if len(img.shape)>2:
@@ -262,11 +271,16 @@ def layeredfloods(img, gray = None, backmask = None, step = 1, connectivity = 4,
 
 def retinal_mask(img, biggest = False, addalpha = False):
     """
+    Obtain the mask of the retinal area in an image.
+    For a simpler and lightweight algorithm see :func:`retinal_mask_watershed`.
 
-    :param img:
-    :param biggest:
-    :param addalpha:
-    :return:
+    :param img: BGR or gray image
+    :param biggest: True to return only biggest object
+    :param addalpha: True to add additional alpha mask parameter
+    :return: if addalpha:
+                binary mask, alpha mask
+            else:
+                binary mask
     """
 
     # pad image to add 1 layer of pixels
@@ -298,7 +312,20 @@ def retinal_mask(img, biggest = False, addalpha = False):
         return mask_binary,mask_alpha
     return mask_binary
 
-def retinal_mask_simple(img, parameters = (10, 30, None)):
+def retinal_mask_watershed(img, parameters = (10, 30, None), addMarkers = False):
+    """
+    Quick and simple watershed method to obtain the mask of the retinal area in an image.
+    For a more robust algorithm see :func:`retinal_mask`.
+
+    :param img: BGR or gray image
+    :param parameters: tuple of parameters to pass to :func:`filterFactory`
+    :param addMarkers: True to add additional Marker mask. It contains 0 for unknown
+            areas, 1 for background and 2 for retinal area.
+    :return: if addMarkers:
+                binary mask, Markers mask
+            else:
+                binary mask
+    """
 
     if parameters is not None:
         myfilter = filterFactory(*parameters) # alfa,beta1,beta2
@@ -315,4 +342,6 @@ def retinal_mask_simple(img, parameters = (10, 30, None)):
     cv2.watershed(img,markers) # get watershed on markers
 
     thresh,mask = cv2.threshold(markers.astype("uint8"),1,1,cv2.THRESH_BINARY) # get binary image of contour
+    if addMarkers:
+        return mask, thresh
     return mask
