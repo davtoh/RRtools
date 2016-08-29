@@ -9,9 +9,11 @@ import inspect
 import types
 from time import time, sleep
 import numpy as np
+from fnmatch import fnmatch,fnmatchcase
 from itertools import groupby
 from collections import OrderedDict
-
+from string import Formatter
+formater = Formatter() # string formatter str.format
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 __author__ = 'Davtoh'
 # ----------------------------BASIC FUNCTIONS---------------------------- #
@@ -178,6 +180,47 @@ def addto(instance,funcname=None):
 # ----------------------------DECORATED FUNCTIONS---------------------------- #
 
 # ----------------------------SPECIALISED FUNCTIONS---------------------------- #
+
+def formatOnly(format_string, **kwargs):
+    """
+    Format string only with provided keys
+
+    :param format_string: string to format
+    :param kwargs: format keys
+    :return: formatted string
+    """
+    keys = [i[1] for i in formater.parse(format_string) if i[1] is not None]
+    for key in keys:
+        if key not in kwargs:
+            kwargs[key] = "{{{}}}".format(key)
+    return format_string.format(**kwargs)
+
+
+def formatConsume(format_string, kwargs, formatter=None, handle = None):
+    """
+    Format with dictionary and consume keys.
+
+    :param format_string: string to format
+    :param kwargs: dictionary containing the keys and values to format string.
+            The keys must be supported by the string formatter
+    :param formatter: (None) formatter function to format string
+    :return: formatted string
+    """
+    keys_in_str = [i[1] for i in formater.parse(format_string) if i[1] is not None]
+    if formatter is None:
+        formatted_string = format_string.format(**kwargs)
+    else:
+        formatted_string = formatter(format_string,**kwargs)
+    for k in keys_in_str:
+        if handle is not None:
+            handle(kwargs,k)
+        else:
+            try:
+                del kwargs[k]
+            except:
+                pass
+    return formatted_string
+
 
 class FactorConvert(object):
     """
@@ -742,52 +785,123 @@ def glob(path, contents="*", check = os.path.isfile):
         fns = glob(os.path.join(fns[0], contents))
     return [p for p in fns if check(p)]
 
-def lookinglob(pattern, path, ext=None, forward=False, returnAll = False, raiseErr = False):
+def ensureList(obj):
+    """ ensures that object is list """
+    if isinstance(obj,list):
+        return obj # returns original lis
+    elif hasattr(obj, '__iter__'): # for python 2.x check if obj is iterablet
+        return list(obj) # converts to list
+    else:
+        return [obj] # object is returned inside list
+
+class globFilter(object):
+    '''glob filter for patterns'''
+    def __init__(self, include=None, exclude=None, case= False):
+        """
+        :param include: permitted patterns
+        :param exclude: excluded patterns. it takes priority over includes
+        :param case: True or False for case sensitive patterns
+        """
+        if include is None: include = []
+        self.include = ensureList(include)
+        if exclude is None: exclude = []
+        self.exclude = ensureList(exclude)
+        if case:
+            self.cmpfunc = fnmatchcase
+        else:
+            self.cmpfunc = fnmatch
+
+    def __call__(self, cmp=None):
+        """
+         Evaluate filter.
+
+        :param cmp: iterator or string
+        :return: True or false if cmp pass filter test
+        """
+        if hasattr(cmp,"__iter__"):
+            return [self(i) for i in cmp]
+        else:
+            cmpfunc = self.cmpfunc # prevents from accessing self
+            for pattern in self.exclude: # if exclude is [] don't do the test
+                if cmpfunc(cmp, pattern):
+                    return False
+            if self.include: # test includes
+                for pattern in self.include:
+                    if cmpfunc(cmp, pattern):
+                        return True
+            else: # if include is False or None return True anyway i.e. equivalent to ['*']
+                return True
+            return False
+
+
+def lookinglob(pattern, path=None, ext=None, forward=None,
+               filelist=None, aslist = False, raiseErr = False):
     """
     Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.
 
-    :param pattern: look pattern in path
-    :param path: path to look pattern
-    :param ext: extension
-    :param forward: look changes after pattern and before ext parameter.
-    :param raiseErr: If true raise Exception if patter not found in path
-    :return: fn or None
+    :param pattern: string to look for pattern.
+    :param path: (None) path to look for pattern
+    :param ext: (None) extension of pattern in path
+    :param forward: (None) look changes after pattern and before ext parameter.
+    :param filelist: (None) simulates the files in path and look patterns in this list.
+    :param aslist: (False) if False it returns the first match case string
+            else the list of matching cases.
+    :param raiseErr: If true raises Exception if patter is not found in path or there
+            are more than one match
+    :return: matched case if returnAll is False else the list of matched cases
+            or if no match is found None
     """
-    tests = [pattern, "*{b}", "{p}{b}", "{p}*{b}"]
-    if forward:
-        tests.extend(
-            ["{b}*","*{b}*", "{p}{b}*", "{p}*{b}*"]
-        )
-    if ext is not None and not pattern.endswith(ext):
-        if not ext.startswith("."):
-            ext = "."+ext
-        tests = [i + ext for i in tests]
+    if path is None and ext is None and forward is None:
+        # filter pure pattern
+        tests = [pattern]
+    else:
+        if path is None:
+            path = ""
+        # create a list of test with pattern
+        tests = [pattern, "*{pattern}", "{path}{pattern}", "{path}*{pattern}"]
+        if forward:
+            tests.extend(
+                ["{pattern}*","*{pattern}*", "{path}{pattern}*", "{path}*{pattern}*"]
+            )
+        if ext is not None and not pattern.endswith(ext):
+            if not ext.startswith("."):
+                ext = "."+ext
+            tests = [i + ext for i in tests]
 
-    ress = []
-    for test in tests:
-        res = glob(test.format(p=path, b=pattern))
-        if not res:
-            continue
-        if not returnAll and len(res)==1:
-            return res[0]
-        ress.append(res)
+    tests = set(tests) # eliminate repeated keys
+    if filelist is None:
+        # look in a real path
+        ress = []
+        for test in tests:
+            # get list of matches
+            res = glob(test.format(path=path, pattern=pattern))
+            if not res: # if not match continue
+                continue
+            # return first match
+            if not aslist and len(res)==1:
+                return res[0]
+            # keep acumulatting matches
+            ress.extend(res)
+    else:
+        # look in a simulated path with files in filelist
+        include = [test.format(path=path, pattern=pattern) for test in tests]
+        ress = filter(globFilter(case=True,include=include),filelist)
 
-    if ress:
-        if returnAll:
-            unique = set()
-            for res in ress:
-                for i in res:
-                    unique.add(i)
-            return unique
-        ress.sort(key=lambda x:len(x))
-        if len(ress[0])==1:
-            return ress[0][0]
-        elif raiseErr:
-            raise Exception("More than one file with pattern {}".format(path))
-        return ress[0] # return possibilities
-
-    if raiseErr:
-        raise Exception("{} not in {}".format(pattern, path))
+    if len(ress)==1 and aslist:
+        return ress # return list anyways
+    elif len(ress)==1:
+        return ress[0] # return only matched
+    elif ress and raiseErr:
+        raise Exception("More than one file with pattern '{}'".format(pattern))
+    elif raiseErr:
+        #if filelist is not None:
+        #    path = filelist
+        if path is None:
+            raise Exception("pattern '{}' not found".format(pattern))
+        raise Exception("pattern '{}' not in {}".format(pattern, path))
+    elif aslist:
+        return list(set(ress)) # return unique matches
+    return None
 
 
 if __name__ == "__main__":

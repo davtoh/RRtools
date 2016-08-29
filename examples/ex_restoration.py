@@ -1,4 +1,4 @@
-from RRtoolbox.tools.restoration import *
+from tests.experimental_restoration import *
 
 if True:
     back = "/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/tests/im1_1.jpg"

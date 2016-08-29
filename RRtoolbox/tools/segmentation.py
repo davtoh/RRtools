@@ -39,7 +39,8 @@ def get_beta_params_hist(P):
     using a histogram analysis method.
 
     :param P: gray image
-    :return: beta1,beta2
+    :return: beta1 for minimum valley left of body, beta2 for brightest valley right of body
+            where the body starts at the tallest peak in the histogram.
     """
     hist_P, bins = np.histogram(P.flatten(),256,[0,256])
     window = "hamming" # 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'
@@ -72,7 +73,7 @@ def get_bright_alpha(backgray, foregray, window = None):
             altered and the intended alpha is returned.
     :return: alfa mask
     """
-    backmask = Bandstop(3, *get_beta_params_hist(backgray))(backgray) # beta1 = 50, beta2 = 190
+    backmask = Bandpass(3, *get_beta_params_hist(backgray))(backgray) # beta1 = 50, beta2 = 190
     foremask = Bandpass(3, *get_beta_params_hist(foregray))(foregray) # beta1 = 50, beta2 = 220
     foremask = normalize(foremask * backmask)
     if window is not None: foremask *= normalize(window) # ensures that window is normilized to 1
@@ -80,17 +81,19 @@ def get_bright_alpha(backgray, foregray, window = None):
 
 def get_beta_params_Otsu(P):
     """
-    Automatically find parameters for bright alpha masks using Otsu threshold value.
+    Automatically find parameters for alpha masks using Otsu threshold value.
 
     :param P: gray image
-    :return: beta1,beta2
+    :return: beta1 for minimum histogram value, beta2 for Otsu value
     """
     # process histogram for uint8 gray image
-    hist, bins = np.histogram(P.flatten(), 256)
+    if P.any(): # if array is not empty
+        hist, bins = np.histogram(P.flatten(), 256)
 
-    # get Otsu thresh as beta2
-    beta2 = bins[getOtsuThresh(hist)]
-    return np.min(P), beta2 # beta1, beta2
+        # get Otsu thresh as beta2
+        beta2 = bins[getOtsuThresh(hist)]
+        return np.min(P), beta2 # beta1, beta2
+    return 0.0,1.0
 
 def get_layered_alpha(back, fore):
     """

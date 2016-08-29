@@ -63,10 +63,10 @@ class Feature(object):
                 if descrs is None: descrs = [] # faster than: descrs or []
                 return keypoints, descrs
 
-            if pool is None:
+            if self.pool is None:
                 ires = it.imap(helper, params) # process asynchronously
             else:
-                ires = pool.imap(helper, params)  # process asynchronously in pool
+                ires = self.pool.imap(helper, params)  # process asynchronously in pool
             keypoints, descrs = [], []
             for i, (k, d) in enumerate(ires):
                 keypoints.extend(k)

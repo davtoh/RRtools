@@ -144,7 +144,10 @@ def biggestCnt(contours):
     :param contours:
     :return: cnt
     """
-    return contours[biggestCntData(contours)[0]]
+    if contours:
+        return contours[biggestCntData(contours)[0]]
+    # return empty array if there is not anything to choose
+    return np.array([])
 
 def cnt_hist(gray):
     """

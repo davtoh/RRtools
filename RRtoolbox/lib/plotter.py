@@ -22,6 +22,7 @@ import time
 import traceback
 import cv2
 import numpy as np
+from root import formatConsume
 from arrayops.basic import overlayXY,convertXY,overlay,padVH,anorm,get_x_space,isnumpy, histogram
 from arrayops.convert import dict2keyPoint
 from arrayops.filters import sigmoid, bilateralFilter, FilterBase
@@ -33,7 +34,7 @@ import matplotlib.figure
 from matplotlib import gridspec
 from string import Formatter
 servertimeout = None # seconds to show an image
-formater = Formatter() # string formatter str.format
+
 #from fastplt import fastplt as _fastplt
 __author__ = 'Davtoh'
 wins = [0] # keeps track of image number through different processes
@@ -136,12 +137,6 @@ def graph_filter(filters, levels=None, titles=None, win=None,
                     return filter.func_name
                 except:
                     return ""
-
-    def formatConsume(s,params):
-        keys = [t[1] for t in formater.parse(s) if t[1] is not None]
-        txt = s.format(**params)
-        for k in keys: del params[k]
-        return txt
 
     def joints(iterator):
         iterator = list(iterator)

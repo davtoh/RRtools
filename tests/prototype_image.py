@@ -751,7 +751,7 @@ class imcoors(object):
     Image's coordinates class.
     Example::
 
-        a = Imcoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
+        a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
         print a.__dict__
         print "mean depend on min and max: ", a.mean
         print a.__dict__
@@ -762,7 +762,7 @@ class imcoors(object):
     """
     def __init__(self, pts, dtype=FLOAT, deg=False):
         """
-        Initiliazes Imcoors.
+        Initiliazes ImCoors.
 
         :param pts: list of points
         :param dtype: return data as dtype. Default is config.FLOAT

@@ -175,7 +175,7 @@ from RRtoolbox.lib.config import MANAGER
 from RRtoolbox.lib.image import hist_match
 from RRtoolbox.lib.directory import getData, getPath, mkPath
 from RRtoolbox.lib.cache import MemoizedDict
-from RRtoolbox.lib.image import loadFunc, Imcoors
+from RRtoolbox.lib.image import loadFunc, ImCoors
 from RRtoolbox.lib.arrayops.mask import brightness
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
@@ -569,7 +569,7 @@ def imrestore(images, **opts):
 
                     # get corners of fore projection over back
                     projection = getTransformedCorners((h,w),H)
-                    c = Imcoors(projection) # class to calculate statistical data
+                    c = ImCoors(projection) # class to calculate statistical data
                     lines, inlines = len(status), np.sum(status)
 
                     # ratio to determine how good fore is in back

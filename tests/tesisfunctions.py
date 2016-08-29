@@ -24,7 +24,7 @@ from RRtoolbox.lib.arrayops.convert import spoint2opointfunc
 from RRtoolbox.lib.arrayops.filters import smooth,normsigmoid, filterFactory
 from RRtoolbox.lib.arrayops.mask import brightness, thresh_biggestCnt
 from RRtoolbox.lib.directory import Directory
-from RRtoolbox.lib.image import getcoors, Imcoors, random_color
+from RRtoolbox.lib.image import getcoors, ImCoors, random_color
 from RRtoolbox.lib.plotter import Plotim
 
 base = "/mnt/4E443F99443F82AF/MEGAsync/"#"/media/davtoh/DavtohDisk1/Davtoh/University/"
@@ -755,7 +755,7 @@ def getThreshCenter3(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return Imcoors(zip(x, y), np.int32).boxCenter
+    return ImCoors(zip(x, y), np.int32).boxCenter
 
 def getThreshCenter4(thresh):
     """
@@ -765,7 +765,7 @@ def getThreshCenter4(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return Imcoors(zip(x, y), np.int32).mean
+    return ImCoors(zip(x, y), np.int32).mean
 
 def CircleClosure(thresh,epsilon=0.5):
     """

@@ -583,6 +583,70 @@ class Retriever(MutableMapping):
     def __len__(self):
         return len(self.references)
 
+class LazyDict(MutableMapping):
+    """
+    Create objects on demand if needed. call the instance with keys to prevent it
+    from using lazy evaluations (e.g. instead of self[key] use self(key) to prevent
+    recursion). Containing operations are safe to prevent recursion (e.g. if key in self
+    instead of self[key]). In addition use self.isLazy flag to enable or disable lazy
+    operations to prevent possible recursions when getter is called.
+    """
+    def __init__(self, getter, dictionary=None):
+        if not callable(getter):
+            raise NotCallable("getter must be a callable function to process keys")
+        if dictionary is None:
+            dictionary = {}
+        self.getter = getter
+        self.dictionary = dictionary
+        self._lastKey = None
+        self.isLazy = True
+        self.cached = True
+
+    def __call__(self, key = None):
+        if key is None:
+            return self[self._lastKey]
+        else:
+            return self.dictionary[key]
+
+    def __getitem__(self, key):
+        try:
+            if self.cached:
+                # try to use cached data
+                data = self.dictionary[key]
+            else: # always compute data
+                data = self.getter(key)
+                self.dictionary[key] = data
+        except Exception as e:
+            if self.isLazy or not self.cached:
+                # for lazy or to recompute
+                data = self.getter(key)
+                self.dictionary[key] = data
+            else:
+                raise e
+        self._lastKey = key
+        return data
+
+    def __setitem__(self, key, val):
+        self.dictionary[key] = val
+
+    def __delitem__(self, key):
+        del self.dictionary[key]
+
+    def __iter__(self):
+        return iter(self.dictionary)
+
+    def __len__(self):
+        return len(self.dictionary)
+
+    def __contains__(self, key):
+        try:
+            #self[key] # It can create a recursion
+            self.dictionary[key]
+        except KeyError:
+            return False
+        else:
+            return True
+
 class ResourceManager(Retriever):
     """
     keep track of references, create objects on demand, manage their memory and optimize for better performance.
