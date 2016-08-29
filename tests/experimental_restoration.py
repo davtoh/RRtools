@@ -12,7 +12,7 @@ from RRtoolbox.lib.arrayops.convert import invertH,sh2oh,spairs2opairs, translat
 from RRtoolbox.lib.arrayops.basic import overlay,superpose,vertexesAngles, relativeQuadrants, getTransformedCorners,transformPoint
 from RRtoolbox.lib.arrayops.filters import bilateralFilter, normsigmoid
 from RRtoolbox.lib.descriptors import ASIFT,MATCH, inlineRatio
-from RRtoolbox.lib.image import PathLoader,loadFunc,Imcoors, hist_match, try_loads
+from RRtoolbox.lib.image import PathLoader,loadFunc,ImCoors, hist_match, try_loads
 from RRtoolbox.tools.segmentation import get_bright_alpha
 from RRtoolbox.lib.root import TimeCode
 
@@ -495,7 +495,7 @@ def testRates(images = None, **opts):
                                 quadrants_test = checkquadrands(quadrants_translated)
                                 inlines=np.sum(status)
                                 lines = len(status)
-                                c = Imcoors(projection)
+                                c = ImCoors(projection)
                                 inlineratio = inlineRatio(inlines,lines)
                                 temp = dict(H = H,
                                             status=status,
@@ -673,7 +673,7 @@ def stitch_multiple(images = None, **opts):
                     scaled_fore = loader(k) # load fore image
                     h,w = scaled_fore.shape[:2] #mkp1[0]["shape"][:2]
                     projection = getTransformedCorners((h,w),H) # get corners of dore projection over back
-                    c = Imcoors(projection) # class to calculate statistical data
+                    c = ImCoors(projection) # class to calculate statistical data
                     lines, inlines = len(status), np.sum(status)
                     inlineratio = inlineRatio(inlines,lines) # ratio to determine how good fore is in back
                     text = "inlines/lines: {}/{}={} and rect {}".format(

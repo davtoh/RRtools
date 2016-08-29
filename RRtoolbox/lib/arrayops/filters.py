@@ -107,7 +107,7 @@ class FilterBase(object):
 
 class Lowpass(FilterBase):
     """
-    Lowpass filter
+    Lowpass filter (recommended to use float types)
     """
     def __init__(self, alpha, beta1):
         super(Lowpass, self).__init__(alpha=alpha, beta1=beta1)
@@ -122,7 +122,7 @@ class Lowpass(FilterBase):
 
 class Highpass(FilterBase):
     """
-    Highpass filter
+    Highpass filter (recommended to use float types)
     """
     def __init__(self, alpha, beta1):
         super(Highpass, self).__init__(alpha=alpha, beta1=beta1)
@@ -137,7 +137,7 @@ class Highpass(FilterBase):
 
 class Bandstop(FilterBase):
     """
-    Bandstop filter
+    Bandstop filter (recommended to use float types)
     """
     def __init__(self, alpha, beta1, beta2):
         super(Bandstop, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
@@ -146,7 +146,7 @@ class Bandstop(FilterBase):
 
 class Bandpass(FilterBase):
     """
-    Bandpass filter
+    Bandpass filter (recommended to use float types)
     """
     def __init__(self, alpha, beta1, beta2):
         super(Bandpass, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
@@ -155,14 +155,14 @@ class Bandpass(FilterBase):
 
 class InvertedBandstop(Bandstop):
     """
-    inverted Bandstop filter
+    inverted Bandstop filter (recommended to use float types)
     """
     def __call__(self, levels):
         return normsigmoid(levels,-self._alpha,self._beta2)-normsigmoid(levels,-self._alpha,self._beta1)-1.0
 
 class InvertedBandpass(Bandpass):
     """
-    inverted Bandpass filter
+    inverted Bandpass filter (recommended to use float types)
     """
     def __call__(self, levels):
         return normsigmoid(levels,self._alpha,self._beta2)-normsigmoid(levels,self._alpha,self._beta1)

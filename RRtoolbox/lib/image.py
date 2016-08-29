@@ -1063,12 +1063,12 @@ def hist_match(source, template, alpha = None):
 # http://docs.opencv.org/master/db/d5b/tutorial_py_mouse_handling.html
 # http://docs.opencv.org/modules/highgui/doc/qt_new_functions.html
 
-class Imcoors(object):
+class ImCoors(object):
     """
     Image's coordinates class.
     Example::
 
-        a = Imcoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
+        a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
         print a.__dict__
         print "mean depend on min and max: ", a.mean
         print a.__dict__
@@ -1079,7 +1079,7 @@ class Imcoors(object):
     """
     def __init__(self, pts, dtype=FLOAT, deg=False):
         """
-        Initiliazes Imcoors.
+        Initiliazes ImCoors.
 
         :param pts: list of points
         :param dtype: return data as dtype. Default is config.FLOAT
@@ -1235,11 +1235,13 @@ class Imcoors(object):
     @Cache
     def regularity(self):
         """
-        Ratio of rectangular forms. e.g. squares and rectangles have rect
-        angles so they are regular and regularity must give 1.
+        Ratio of forms with similar measurements and angles.
+        e.g. squares and rectangles have rect angles so they are regular.
+        For regularity object must give 1.
 
         :return:
         """
+        # TODO this algorithm is still imperfect
         pi = angle((1,0),(0,1),deg=self._deg) # get pi value in radian or degrees
         av = self.vertexesAngles
         return pi*(len(av))/np.sum(av) # pi*number_agles/sum_angles
@@ -1539,13 +1541,13 @@ class GetCoors(Plotim):
         :return:
         """
         vis = self.rimg
-        p = Imcoors(points)
+        p = ImCoors(points)
         self.data2 = np.zeros((vis.shape[0],vis.shape[1],1),dtype=np.uint8)
         drawcooraxes(vis,[p.boxCenter],col_out,col_in,radius)
         drawcooraxes(self.data2,[p.boxCenter],1,1,self.prox)
         drawcooraxes(vis,[p.mean],col_in,col_out,radius)
         drawcooraxes(self.data2,[p.mean],2,2,self.prox)
-        p1 = Imcoors(self.coors)
+        p1 = ImCoors(self.coors)
         self.mapdata2 = [None,"center at "+str(p1.boxCenter),"mean at "+str(p1.mean)]
 
     def updatecoors(self):
@@ -1663,7 +1665,7 @@ def getrectcoors(*data):
     else:  # img, win
         points = getcoors(*data)
 
-    p = Imcoors(points)
+    p = ImCoors(points)
     min_x,min_y = p.min
     max_x,max_y = p.max
     Top_left = (min_x,min_y)
@@ -1681,7 +1683,7 @@ def quadrants(points):
     """
     # group points on 4 quadrants
     # [Top_left,Top_right,Bottom_left,Bottom_right]
-    p = Imcoors(points)  # points data x,y -> (width,height)
+    p = ImCoors(points)  # points data x,y -> (width,height)
     mean_x, mean_y = p.mean
     Bottom,Top = separe(points,mean_y,axis=1)
     Top_right,Top_left = separe(Top,mean_x,axis=0)

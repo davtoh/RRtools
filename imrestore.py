@@ -178,13 +178,13 @@ from RRtoolbox.tools.lens import simulateLens
 from RRtoolbox.lib.config import MANAGER, FLOAT
 from RRtoolbox.lib.image import hist_match
 from RRtoolbox.lib.directory import getData, getPath, mkPath, increment_if_exits
-from RRtoolbox.lib.cache import MemoizedDict
-from RRtoolbox.lib.image import loadFunc, Imcoors
+from RRtoolbox.lib.cache import MemoizedDict, LazyDict
+from RRtoolbox.lib.image import loadFunc, ImCoors
 from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCnt
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask, get_layered_alpha
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable
+from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable, globFilter
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
 from RRtoolbox.tools.segmentation import get_bright_alpha, Bandpass, Bandstop
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
@@ -235,8 +235,9 @@ class ImRestore(object):
                         is recommended to clear the cache to recompute values.
     :param clearCache: (0) clear cache flag.
             * 0 do not clear.
-            * 1 re-compute data but other cache data is left intact.
-            * 2 All CachePath is cleared before use.
+            * 1 check data integrity of previous session before use
+            * 2 re-compute data but other cache data is left intact.
+            * 3 All CachePath is cleared before use.
             Notes: using cache can result in unexpected behaviour
                 if some configurations does not match to the cached data.
     :param loader: (None) custom loader function used to load images.
@@ -322,8 +323,6 @@ class ImRestore(object):
             raise Exception("list of images must be "
                             "greater than 1, got {}".format(len(fns)))
 
-        self.filenames = fns
-
         # for multiprocessing
         self.pool = opts.pop("pool",None)
         if self.pool is not None: # convert pool count to pool class
@@ -385,18 +384,6 @@ class ImRestore(object):
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
         self.cachePath = opts.pop("cachePath",None)
         self.clearCache = opts.pop("clearCache",0)
-        if self.cachePath is not None:
-            if self.cachePath is True:
-                self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
-            if self.cachePath == "{temp}":
-                self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
-            self.feature_dic = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
-            if self.verbosity: print "Cache path is in {}".format(self.feature_dic._path)
-            if self.clearCache==2:
-                self.feature_dic.clear()
-                if self.verbosity: print "Cache path cleared"
-        else:
-            self.feature_dic = {}
 
         self.expert = opts.pop("expert",None)
         if self.expert is not None:
@@ -405,25 +392,33 @@ class ImRestore(object):
         # to select base image ahead of any process
         baseImage = opts.pop("baseImage",None)
         if isinstance(baseImage,basestring):
-            base_old = baseImage
-            try: # tries user input
-                if baseImage not in fns:
-                    base, path, name, ext = getData(baseImage)
-                    if not path: # if name is incomplete look for it
-                        base, path, _,_ = getData(fns[0])
-                    baseImage = lookinglob(baseImage, "".join((base, path)))
+            if baseImage not in fns:
+                base, path, name, ext = getData(baseImage)
+                if not path: # if name is incomplete look for it
+                    base, path, name, ext = getData(fns[0])
+                try: # tries user input
                     # selected image must be in fns
-                    if baseImage is None:
-                        raise IndexError
-            except IndexError: # tries to find image based in user input
-                # generate informative error for the user
-                raise Exception("{} or {} is not in image list"
-                                "\n A pattern is {}".format(
-                                base_old,baseImage,fns[0]))
+                    baseImage = lookinglob(baseImage,
+                                           path= "".join((base, path)),
+                                           filelist=fns, raiseErr=True)#,ext=".*"
+                except Exception as e: # tries to find image based in user input
+                    # generate informative error for the user
+                    try:
+                        # look in the file pattern path
+                        baseImage = lookinglob(baseImage,raiseErr=True)#,ext=".*"
+                        # append new image
+                        fns.append(baseImage)
+                    except Exception as e2:
+                        e.args = e.args + e2.args + \
+                                 ("A pattern could be '{}'".format("".join((name,".*"))),)
+                        raise e
 
         self.baseImage = baseImage
 
         if self.verbosity: print "No. images {}...".format(len(fns))
+
+        # assign filenames
+        self.filenames = fns
 
         # make loader
         self.loader = opts.pop("loader",None) # BGR loader
@@ -442,6 +437,7 @@ class ImRestore(object):
 
         # processing variables
         self._feature_list = None
+        self._feature_dic = None
         self.used = None
         self.failed = None
         self.restored = None
@@ -476,6 +472,34 @@ class ImRestore(object):
     def feature_list(self):
         self._feature_list = None
 
+    @property
+    def feature_dic(self):
+        if self._feature_dic is None:
+            if self.cachePath is not None:
+                if self.cachePath is True:
+                    self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
+                if self.cachePath == "{temp}":
+                    self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
+                memoized = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
+                if self.verbosity: print "Cache path is in {}".format(memoized._path)
+                self._feature_dic = LazyDict(getter=self.compute_keypoint,
+                                             dictionary=memoized)
+                if self.clearCache==3:
+                    self._feature_dic.clear()
+                    if self.verbosity: print "Cache path cleared"
+            else:
+                self._feature_dic = LazyDict(getter=self.compute_keypoint)
+            if self.clearCache==1 or self.clearCache==2:
+                # tell LazyDict to recompute data if key is requested
+                self._feature_dic.cached = False
+        return self._feature_dic
+    @feature_dic.setter
+    def feature_dic(self,value):
+        self._feature_dic = value
+    @feature_dic.deleter
+    def feature_dic(self):
+        self._feature_dic = None
+
     def load_image(self, path=None, shape=None):
         """
         load image from source
@@ -496,6 +520,73 @@ class ImRestore(object):
         else: # return cached image
             return self._loader_cache
 
+    def compute_keypoint(self,path):
+        img = self.load_image(path, self.load_shape)
+        lshape = img.shape[:2]
+        try:
+            if self.cachePath is None:
+                point = Profiler(msg=path, tag="cached")
+            else:
+                point = Profiler(msg=path, tag="memoized")
+
+            # compare safely if path is in dictionary, this works for LazyDic,
+            # MemoizeDic or normal dictionaries
+            if path not in self.feature_dic or self.clearCache==2 and path in self.feature_dic:
+                raise KeyError # clears entry from cache
+            kps, desc, pshape = self.feature_dic[path] # thread safe
+            if pshape is None:
+                raise ValueError
+            if self.verbosity: print "{} is cached...".format(path)
+        except (KeyError, ValueError) as e: # not memorized
+            point = Profiler(msg=path, tag="processed")
+            if self.verbosity: print "Processing features for {}...".format(path)
+            if lshape != self.process_shape:
+                img = cv2.resize(img, self.process_shape)
+            img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            # get features
+            if self.maskforeground is None:
+                kps, desc = self.feature.detectAndCompute(img)
+            else:
+                mask = None
+                if callable(self.maskforeground):
+                    mask = self.maskforeground(img)
+                if self.maskforeground is True:
+                    mask = foreground(img)
+
+                if mask is not None and self.verbosity > 4:
+                    try:
+                        fastplt(overlay(img.copy(),mask*255,alpha=mask*0.5),block=True,
+                                title="{} mask to detect features".format(getData(path)[-2]))
+                    except:
+                        pass
+
+                kps, desc = self.feature.detectAndCompute(img, mask)
+            pshape = img.shape[:2] # get process shape
+            # to memoize
+            self.feature_dic[path] = kps, desc, pshape
+        # re-scale keypoints to original image
+        if lshape != pshape:
+            # this necessarily does not produce the same result
+            """
+            # METHOD 1: using Transformation Matrix
+            H = getSOpointRelation(process_shape, lshape, True)
+            for kp in kps:
+                kp["pt"]=tuple(cv2.perspectiveTransform(
+                    np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
+            """
+            # METHOD 2:
+            rx,ry = getSOpointRelation(pshape, lshape)
+            for kp in kps:
+                x,y = kp["pt"]
+                kp["pt"] = x*rx,y*ry
+                kp["path"] = path
+        else:
+            for kp in kps: # be very carful, this should not appear in self.feature_dic
+                kp["path"] = path # add paths to key-points
+        # for profiling individual processing times
+        if self.profiler is not None: self.profiler._close_point(point)
+        return kps, desc, pshape
+
     def compute_keypoints(self):
         """
         Computes key-points from file names.
@@ -503,78 +594,17 @@ class ImRestore(object):
         :return: self.feature_list
         """
         #################### Local features: Key-points and descriptors #################
-        fns = self.filenames
-        def getMask(img):
-            """
-            helper function to get mask
-            :param img: gray image
-            :return:
-            """
-            mask = None
-            if callable(self.maskforeground):
-                mask = self.maskforeground(img)
-            if self.maskforeground is True:
-                mask = foreground(img)
-
-            if mask is not None and self.verbosity > 4:
-                fastplt(overlay(img.copy(),mask*255,alpha=mask*0.5),block=True,
-                        title="{} mask to detect features".format(getData(path)[-2]))
-            return mask
-
         with TimeCode("Computing features...\n", profiler=self.profiler,
                       profile_point=("Computing features",),
                       endmsg="Computed feature time was {time}\n",
                       enableMsg=self.verbosity) as timerK:
-
+            fns = self.filenames
             self._feature_list = [] # list of key points and descriptors
             for index,path in enumerate(fns):
-                img = self.load_image(path, self.load_shape)
-                lshape = img.shape[:2]
-                try:
-                    point = Profiler(msg=path, tag="cached")
-                    if self.cachePath is None or self.clearCache==1 \
-                            and path in self.feature_dic:
-                        raise KeyError # clears entry from cache
-                    kps, desc, pshape = self.feature_dic[path] # thread safe
-                    if pshape is None:
-                        raise ValueError
-                except (KeyError, ValueError) as e: # not memorized
-                    point = Profiler(msg=path, tag="processed")
-                    if self.verbosity: print "Processing features for {}...".format(path)
-                    if lshape != self.process_shape:
-                        img = cv2.resize(img, self.process_shape)
-                    img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-                    # get features
-                    kps, desc = self.feature.detectAndCompute(img, getMask(img))
-                    pshape = img.shape[:2] # get process shape
-                    # to memoize
-                    self.feature_dic[path] = kps, desc, pshape
-
-                # re-scale keypoints to original image
-                if lshape != pshape:
-                    # this necessarily does not produce the same result
-                    """
-                    # METHOD 1: using Transformation Matrix
-                    H = getSOpointRelation(process_shape, lshape, True)
-                    for kp in kps:
-                        kp["pt"]=tuple(cv2.perspectiveTransform(
-                            np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
-                    """
-                    # METHOD 2:
-                    rx,ry = getSOpointRelation(pshape, lshape)
-                    for kp in kps:
-                        x,y = kp["pt"]
-                        kp["pt"] = x*rx,y*ry
-                        kp["path"] = path
-                else:
-                    for kp in kps: # be very carful, this should not appear in self.feature_dic
-                        kp["path"] = path # add paths to key-points
-
+                if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
+                kps, desc, pshape = self.compute_keypoint(path)
                 # number of key-points, index, path, key-points, descriptors
                 self._feature_list.append((len(kps),index,path,kps,desc))
-                if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
-                # for profiling individual processing times
-                if self.profiler is not None: self.profiler._close_point(point)
 
         return self._feature_list
     
@@ -592,7 +622,7 @@ class ImRestore(object):
         if baseImage is None: # select first image as baseImage
            _,_,baseImage,self.kps_base,self.desc_base = self.feature_list[0]
         elif isinstance(baseImage,basestring):
-            self.kps_base,self.desc_base = self.feature_dic[baseImage]
+            self.kps_base,self.desc_base,_ = self.feature_dic[baseImage]
         elif baseImage is True: # sort images
             self.feature_list.sort(reverse=True) # descendant: from bigger to least
             # select first for most probable
@@ -654,7 +684,11 @@ class ImRestore(object):
                             desc_remain.extend(desc)
 
                     if not kps_remain: # if there is not image remaining to stitch break
-                        if self.verbosity: print "All images used"
+                        if self.verbosity:
+                            if self.failed:
+                                print "No image remains to merge..."
+                            else:
+                                print "All images have been merged..."
                         break
 
                     desc_remain = np.array(desc_remain) # convert descriptors to array
@@ -722,7 +756,7 @@ class ImRestore(object):
 
                             # get corners of fore projection over back
                             projection = getTransformedCorners((h,w),H)
-                            c = Imcoors(projection) # class to calculate statistical data
+                            c = ImCoors(projection) # class to calculate statistical data
                             lines, inlines = len(status), np.sum(status)
 
                             # ratio to determine how good fore is in back
@@ -768,10 +802,16 @@ class ImRestore(object):
 
                 # if all classified have failed then end
                 if set(classified.keys()) == set(self.failed):
+                    # in the classification there could have been some filtered keys that
+                    # did not pass the distance test, these are assigned to the failed list
+                    self.failed.extend(list(set(self.used) ^
+                                            set(self.failed) ^
+                                            set(self.filenames)))
                     if self.verbosity:
                         print "Restoration finished, these images do not fit: "
-                        for index in classified.keys():
-                            print index
+                        for p in self.failed:
+                            print p
+
                     break
 
         with TimeCode("Post-processing ...\n",profiler=self.profiler,
@@ -844,6 +884,8 @@ class ImRestore(object):
         :return: self.restored
         """
         alpha = None
+        if path == '/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/results/set_frame/IMG_20160514_142458.jpg':
+            pass
 
         if shape is None:
             shape = self.load_shape
@@ -1034,7 +1076,7 @@ class RetinalRestore(ImRestore):
     """
     def __init__(self, filenames, **opts):
         # overwrite variables
-        opts["denoise"]=opts.pop("denoise", True)
+        #opts["denoise"]=opts.pop("denoise", True)
         opts["maskforeground"] = opts.pop("maskforeground",lambda img: retinal_mask(img,True))
         # create new variables
         self.lens = opts.pop("lens",False)
@@ -1196,7 +1238,7 @@ def string_interpreter(empty=None, commahandler=None, handle=None):
     :return: interpreter function
     """
     def interprete_string(string):
-        if string == "":
+        if string == "": # in argparse this does not applies
             return empty
         if "," in string:
             if commahandler is None:
@@ -1291,8 +1333,9 @@ def shell(args=None, namespace=None):
     parser.add_argument('-e','--clearCache', type=int, default=0,
                         help='clear cache flag.'
                             '* 0 do not clear.'
-                            '* 1 re-compute data but other cache data is left intact.'
-                            '* 2 All CachePath is cleared before use.'
+                            '* 1 check data integrity of previous session before use'
+                            '* 2 re-compute data but other cache data is left intact.'
+                            '* 3 All CachePath is cleared before use.'
                             'Notes: using cache can result in unexpected behaviour '
                             'if some configurations does not match to the cached data.')
     parser.add_argument('--loader', type=string_interpreter(commahandler=loader_creator),
@@ -1344,7 +1387,8 @@ def shell(args=None, namespace=None):
     parser.add_argument('-t','--hist_match', action='store_true',
                         help='Apply histogram matching to foreground '
                             'image with merge image as template')
-    parser.add_argument('-s','--save', default=True, type = string_interpreter(False), nargs='?',
+    parser.add_argument('-s','--save', default=True, nargs='?', action="store",
+                        const=False, type = string_interpreter(False),
                         help='Customize image name used to save the restored image.'
                             'By default it saves in path with name "_restored_{base_image}".'
                             'if the -s flag is specified empty it does not save. Formatting '
@@ -1357,14 +1401,14 @@ def shell(args=None, namespace=None):
     parser.add_argument('-g','--grow_scene', action='store_true',
                         help='Flag to allow image to grow the scene so that that the final '
                             'image can be larger than the base image')
-    parser.add_argument('-y','--denoise', default=None,
-                        type=string_interpreter(False,commahandler=denoise_creator),
+    parser.add_argument('-y','--denoise', nargs='?', action="store", const=True,
+                        type=string_interpreter(True,commahandler=denoise_creator),
                         help="Flag to process noisy images. Use mild, normal, heavy or "
                             "provide parameters for a bilateral filter as "
-                            "'--denoise d,sigmaColor,sigmaSpace' as for example "
+                            "'--denoise d,sigmaColor,sigmaSpace' for example "
                             "'--denoise 27,75,75'. By default it is None which can be "
                             "activated according to the restorer, if an empty flag is "
-                            "provided as '--denoise' it deactivates de-noising images.")
+                            "provided as '--denoise' it uses default de-noising of images.")
     parser.add_argument('-a','--lens', action='store_true',
                         help='Flag to apply lens to retinal area. Else do not apply lens')
     parser.add_argument('-k','--enclose', action='store_true',
