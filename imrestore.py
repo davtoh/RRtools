@@ -111,7 +111,7 @@ Notes:
         access it directly there. Used when memory is limited or data is
         too big to fit in memory. Slow downs are negligible for read only
         mmaped files (i.e. "r") considering the gain in free memory, but
-        it is a real drawback for write operations (i.e. "w","r+","w+").
+        it is a real drawback for write operations (i.e. "w", "r+", "w+").
 
     Selection algorithms:
         Histogram comparison - used to quickly identify the images that
@@ -191,7 +191,7 @@ from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
 from RRtoolbox.lib.arrayops.basic import getTransformedCorners, transformPoint, \
-    im2shapeFormat,normalize, getOtsuThresh, contours2mask, pad_to_fit_H, overlay
+    im2shapeFormat, normalize, getOtsuThresh, contours2mask, pad_to_fit_H, overlay
 
 
 def check_valid(fn):
@@ -309,12 +309,12 @@ class ImRestore(object):
         elif isinstance(filenames, basestring):
             # if string assume it is a path
             if self.verbosity: print "Looking as {}".format(filenames)
-            fns = glob(filenames,check=check_valid)
+            fns = glob(filenames, check=check_valid)
         elif not isinstance(filenames, basestring) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
             if self.verbosity: print "Looking as {}".format(filenames)
-            fns = glob(filenames,check=check_valid)
+            fns = glob(filenames, check=check_valid)
         else: # iterator containing data
             fns = filenames # list file names
 
@@ -324,16 +324,16 @@ class ImRestore(object):
                             "greater than 1, got {}".format(len(fns)))
 
         # for multiprocessing
-        self.pool = opts.pop("pool",None)
+        self.pool = opts.pop("pool", None)
         if self.pool is not None: # convert pool count to pool class
             NO_CPU = cv2.popNumberOfCPUs()
             if self.pool <= NO_CPU:
                 self.pool = Pool(processes = self.pool)
             else:
                 raise Exception("pool of {} exceeds the "
-                                "number of processors {}".format(self.pool,NO_CPU))
+                                "number of processors {}".format(self.pool, NO_CPU))
         # for features
-        self.feature = opts.pop("feature",None)
+        self.feature = opts.pop("feature", None)
         # init detector and matcher to compute descriptors
         if self.feature is None:
             self.feature = Feature(pool=self.pool, debug=self.verbosity)
@@ -343,7 +343,7 @@ class ImRestore(object):
             self.feature.debug = self.verbosity
 
         # select method to order images to feed in superposition
-        self.selectMethod = opts.pop("selectMethod",None)
+        self.selectMethod = opts.pop("selectMethod", None)
         best_match_list = ("bestmatches", "best matches")
         entropy_list = ("entropy",)
         if callable(self.selectMethod):
@@ -358,40 +358,40 @@ class ImRestore(object):
             raise Exception("selectMethod {} not recognized".format(self.selectMethod))
 
         # distance threshold to filter best matches
-        self.distanceThresh = opts.pop("distanceThresh",0.75) # filter ratio
+        self.distanceThresh = opts.pop("distanceThresh", 0.75) # filter ratio
 
         # threshold for inlineRatio
-        self.inlineThresh = opts.pop("inlineThresh",0.2) # filter ratio
+        self.inlineThresh = opts.pop("inlineThresh", 0.2) # filter ratio
         # ensures adequate value [0,1]
         assert self.inlineThresh<=1 and self.inlineThresh>=0
 
         # threshold for rectangularity
-        self.rectangularityThresh = opts.pop("rectangularityThresh",0.5) # filter ratio
+        self.rectangularityThresh = opts.pop("rectangularityThresh", 0.5) # filter ratio
         # ensures adequate value [0,1]
         assert self.rectangularityThresh<=1 and self.rectangularityThresh>=0
 
         # threshold to for RANSAC reprojection
-        self.ransacReprojThreshold = opts.pop("ransacReprojThreshold",5.0)
+        self.ransacReprojThreshold = opts.pop("ransacReprojThreshold", 5.0)
 
-        self.centric = opts.pop("centric",False) # tries to attach as many images as possible
+        self.centric = opts.pop("centric", False) # tries to attach as many images as possible
         # it is not memory efficient to compute descriptors from big images
         self.process_shape = opts.pop("process_shape", (400, 400)) # use processing shape
         self.load_shape = opts.pop("load_shape", None) # shape to load images for merging
         self.minKps = 3 # minimum len of key-points to find Homography
-        self.histMatch = opts.pop("hist_match",False)
+        self.histMatch = opts.pop("hist_match", False)
         self.denoise=opts.pop("denoise", None)
 
         ############################## OPTIMIZATION MEMOIZEDIC ###########################
-        self.cachePath = opts.pop("cachePath",None)
-        self.clearCache = opts.pop("clearCache",0)
+        self.cachePath = opts.pop("cachePath", None)
+        self.clearCache = opts.pop("clearCache", 0)
 
-        self.expert = opts.pop("expert",None)
+        self.expert = opts.pop("expert", None)
         if self.expert is not None:
             self.expert = MemoizedDict(self.expert) # convert path
 
         # to select base image ahead of any process
-        baseImage = opts.pop("baseImage",None)
-        if isinstance(baseImage,basestring):
+        baseImage = opts.pop("baseImage", None)
+        if isinstance(baseImage, basestring):
             if baseImage not in fns:
                 base, path, name, ext = getData(baseImage)
                 if not path: # if name is incomplete look for it
@@ -405,12 +405,12 @@ class ImRestore(object):
                     # generate informative error for the user
                     try:
                         # look in the file pattern path
-                        baseImage = lookinglob(baseImage,raiseErr=True)#,ext=".*"
+                        baseImage = lookinglob(baseImage, raiseErr=True)#,ext=".*"
                         # append new image
                         fns.append(baseImage)
                     except Exception as e2:
                         e.args = e.args + e2.args + \
-                                 ("A pattern could be '{}'".format("".join((name,".*"))),)
+                                 ("A pattern could be '{}'".format("".join((name, ".*"))),)
                         raise e
 
         self.baseImage = baseImage
@@ -421,15 +421,15 @@ class ImRestore(object):
         self.filenames = fns
 
         # make loader
-        self.loader = opts.pop("loader",None) # BGR loader
+        self.loader = opts.pop("loader", None) # BGR loader
         if self.loader is None: self.loader = loadFunc(1)
         self._loader_cache = None # keeps last image reference
         self._loader_params = None # keeps last track of last loading options to reload
 
-        self.save = opts.pop("save",False)
-        self.grow_scene = opts.pop("grow_scene",True)
-        self.maskforeground = opts.pop("maskforeground",False)
-        self.overwrite = opts.pop("overwrite",False)
+        self.save = opts.pop("save", False)
+        self.grow_scene = opts.pop("grow_scene", True)
+        self.maskforeground = opts.pop("maskforeground", False)
+        self.overwrite = opts.pop("overwrite", False)
 
         # do a check of the options
         if opts:
@@ -437,11 +437,13 @@ class ImRestore(object):
 
         # processing variables
         self._feature_list = None
-        self._feature_dic = None
-        self.used = None
-        self.failed = None
-        self.restored = None
-        self.kps_base,self.desc_base = None,None
+        self._feature_dict = None
+        self.used = None # register used images
+        self.failed = None # register failed images
+        self.transformations = None # register transformations for each used image (back, fore)
+        self.comparison = None # used to order matches
+        self.restored = None # estored image
+        self.kps_base, self.desc_base = None, None # list of keypoints,
 
     @property
     def denoise(self):
@@ -452,7 +454,7 @@ class ImRestore(object):
             value = None
         if value is True:
             value = "mild"
-        if value in ("mild","heavy","normal",None) or callable(value):
+        if value in ("mild", "heavy", "normal", None) or callable(value):
             self._noisefunc = value
         else:
             raise Exception("denoise '{}' not recognised".format(value))
@@ -466,15 +468,15 @@ class ImRestore(object):
             return self.compute_keypoints()
         return self._feature_list
     @feature_list.setter
-    def feature_list(self,value):
+    def feature_list(self, value):
         raise VariableNotSettable("feature_list is not settable")
     @feature_list.deleter
     def feature_list(self):
         self._feature_list = None
 
     @property
-    def feature_dic(self):
-        if self._feature_dic is None:
+    def feature_dict(self):
+        if self._feature_dict is None:
             if self.cachePath is not None:
                 if self.cachePath is True:
                     self.cachePath = os.path.abspath(".") # MANAGER["TEMPPATH"]
@@ -482,23 +484,23 @@ class ImRestore(object):
                     self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
                 memoized = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
                 if self.verbosity: print "Cache path is in {}".format(memoized._path)
-                self._feature_dic = LazyDict(getter=self.compute_keypoint,
-                                             dictionary=memoized)
+                self._feature_dict = LazyDict(getter=self.compute_keypoint,
+                                              dictionary=memoized)
                 if self.clearCache==3:
-                    self._feature_dic.clear()
+                    self._feature_dict.clear()
                     if self.verbosity: print "Cache path cleared"
             else:
-                self._feature_dic = LazyDict(getter=self.compute_keypoint)
+                self._feature_dict = LazyDict(getter=self.compute_keypoint)
             if self.clearCache==1 or self.clearCache==2:
                 # tell LazyDict to recompute data if key is requested
-                self._feature_dic.cached = False
-        return self._feature_dic
-    @feature_dic.setter
-    def feature_dic(self,value):
-        self._feature_dic = value
-    @feature_dic.deleter
-    def feature_dic(self):
-        self._feature_dic = None
+                self._feature_dict.cached = False
+        return self._feature_dict
+    @feature_dict.setter
+    def feature_dict(self, value):
+        self._feature_dict = value
+    @feature_dict.deleter
+    def feature_dict(self):
+        self._feature_dict = None
 
     def load_image(self, path=None, shape=None):
         """
@@ -513,14 +515,14 @@ class ImRestore(object):
             # load new image and cache it
             img = self.loader(path) # load image
             if shape is not None:
-                img = cv2.resize(img,shape)
+                img = cv2.resize(img, shape)
             self._loader_cache = img # this keeps a reference
             self._loader_params = params
             return img
         else: # return cached image
             return self._loader_cache
 
-    def compute_keypoint(self,path):
+    def compute_keypoint(self, path):
         img = self.load_image(path, self.load_shape)
         lshape = img.shape[:2]
         try:
@@ -531,9 +533,9 @@ class ImRestore(object):
 
             # compare safely if path is in dictionary, this works for LazyDic,
             # MemoizeDic or normal dictionaries
-            if path not in self.feature_dic or self.clearCache==2 and path in self.feature_dic:
+            if path not in self.feature_dict or self.clearCache==2 and path in self.feature_dict:
                 raise KeyError # clears entry from cache
-            kps, desc, pshape = self.feature_dic[path] # thread safe
+            kps, desc, pshape = self.feature_dict[path] # thread safe
             if pshape is None:
                 raise ValueError
             if self.verbosity: print "{} is cached...".format(path)
@@ -542,7 +544,7 @@ class ImRestore(object):
             if self.verbosity: print "Processing features for {}...".format(path)
             if lshape != self.process_shape:
                 img = cv2.resize(img, self.process_shape)
-            img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             # get features
             if self.maskforeground is None:
                 kps, desc = self.feature.detectAndCompute(img)
@@ -555,7 +557,7 @@ class ImRestore(object):
 
                 if mask is not None and self.verbosity > 4:
                     try:
-                        fastplt(overlay(img.copy(),mask*255,alpha=mask*0.5),block=True,
+                        fastplt(overlay(img.copy(), mask*255, alpha=mask*0.5), block=True,
                                 title="{} mask to detect features".format(getData(path)[-2]))
                     except:
                         pass
@@ -563,7 +565,7 @@ class ImRestore(object):
                 kps, desc = self.feature.detectAndCompute(img, mask)
             pshape = img.shape[:2] # get process shape
             # to memoize
-            self.feature_dic[path] = kps, desc, pshape
+            self.feature_dict[path] = kps, desc, pshape
         # re-scale keypoints to original image
         if lshape != pshape:
             # this necessarily does not produce the same result
@@ -575,13 +577,13 @@ class ImRestore(object):
                     np.array([[kp["pt"]]]), H).reshape(-1, 2)[0])
             """
             # METHOD 2:
-            rx,ry = getSOpointRelation(pshape, lshape)
+            rx, ry = getSOpointRelation(pshape, lshape)
             for kp in kps:
-                x,y = kp["pt"]
-                kp["pt"] = x*rx,y*ry
+                x, y = kp["pt"]
+                kp["pt"] = x*rx, y*ry
                 kp["path"] = path
         else:
-            for kp in kps: # be very carful, this should not appear in self.feature_dic
+            for kp in kps: # be very carful, this should not appear in self.feature_dict
                 kp["path"] = path # add paths to key-points
         # for profiling individual processing times
         if self.profiler is not None: self.profiler._close_point(point)
@@ -600,11 +602,11 @@ class ImRestore(object):
                       enableMsg=self.verbosity) as timerK:
             fns = self.filenames
             self._feature_list = [] # list of key points and descriptors
-            for index,path in enumerate(fns):
+            for index, path in enumerate(fns):
                 if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
                 kps, desc, pshape = self.compute_keypoint(path)
                 # number of key-points, index, path, key-points, descriptors
-                self._feature_list.append((len(kps),index,path,kps,desc))
+                self._feature_list.append((len(kps), index, path, kps, desc))
 
         return self._feature_list
     
@@ -620,13 +622,13 @@ class ImRestore(object):
         baseImage = self.baseImage # baseImage option should not be update
         # initialization and base image selection
         if baseImage is None: # select first image as baseImage
-           _,_,baseImage,self.kps_base,self.desc_base = self.feature_list[0]
-        elif isinstance(baseImage,basestring):
-            self.kps_base,self.desc_base,_ = self.feature_dic[baseImage]
+           _, _, baseImage, self.kps_base, self.desc_base = self.feature_list[0]
+        elif isinstance(baseImage, basestring):
+            self.kps_base, self.desc_base, _ = self.feature_dict[baseImage]
         elif baseImage is True: # sort images
             self.feature_list.sort(reverse=True) # descendant: from bigger to least
             # select first for most probable
-            _,_,baseImage,self.kps_base,self.desc_base = self.feature_list[0]
+            _, _, baseImage, self.kps_base, self.desc_base = self.feature_list[0]
         else:
             raise Exception("baseImage must be None, True or String")
 
@@ -634,6 +636,89 @@ class ImRestore(object):
         self.used = [baseImage] # select first image path
         # load first image for merged image
         self.restored = self.load_image(baseImage, self.load_shape)
+        self.transformations = {baseImage:(None, None)}
+
+    def matching(self, exclude=None):
+        """
+        Process matching.
+
+        :param exclude: list of excluded paths
+        :return: list of (number, path), dictionary of matches.
+                Where number = len(dictionary[path])
+        """
+        if exclude is None:
+            exclude = self.used
+        comparison = self.comparison
+        if comparison is None:
+            fns = self.filenames # in this process fns should not be changed
+            comparison = True
+            ########################## Order set initialization #############################
+            if self._orderValue: # obtain comparison with structure (value, path)
+                if self._orderValue == 1: # entropy
+                    comparison = zip(*entropy(fns, loadfunc=loadFunc(1, self.process_shape),
+                                              invert=False)[:2])
+                    if self.verbosity: print "Configured to sort by entropy..."
+                elif self._orderValue == 2: # histogram comparison
+                    comparison = hist_comp(fns, loadfunc=loadFunc(1, self.process_shape),
+                                           method=self.selectMethod)
+                    if self.verbosity:
+                        print "Configured to sort by {}...".format(self.selectMethod)
+                elif self._orderValue == 3:
+                    comparison = self.selectMethod(fns)
+                    if self.verbosity: print "Configured to sort by Custom Function..."
+                else:
+                    raise Exception("DEBUG: orderValue {} does "
+                        "not correspond to {}".format(self._orderValue, self.selectMethod))
+            elif self.verbosity: print "Configured to sort by best matches"
+            self.comparison = comparison
+
+        with TimeCode("Matching ...\n", profiler=self.profiler,
+                      profile_point=("Matching",),
+                      endmsg= "Matching overall time was {time}\n",
+                      enableMsg= self.verbosity) as timerM:
+            ################### remaining keypoints to match ####################
+            # initialize key-point and descriptor base list
+            kps_remain, desc_remain = [], []
+            for _, _, path, kps, desc in self.feature_list:
+                # append only those which are not in the base image
+                if path not in exclude:
+                    kps_remain.extend(kps)
+                    desc_remain.extend(desc)
+
+            if not kps_remain: # if there is not image remaining to stitch break
+                return None, None
+
+            desc_remain = np.array(desc_remain) # convert descriptors to array
+
+            ############################ Matching ###############################
+            # select only those with good distance (hamming, L1, L2)
+            raw_matches = self.feature.matcher.knnMatch(desc_remain,
+                            trainDescriptors = self.desc_base, k = 2) #2
+            # If path=2, it will draw two match-lines for each key-point.
+            classified = {}
+            for m in raw_matches:
+                # filter by Hamming, L1 or L2 distance
+                if m[0].distance < m[1].distance * self.distanceThresh:
+                    m = m[0]
+                    kp1 = kps_remain[m.queryIdx]  # keypoint in query image
+                    kp2 = self.kps_base[m.trainIdx]  # keypoint in train image
+
+                    key = kp1["path"] # ensured that key is not in used
+                    if key in classified:
+                        classified[key].append((kp1, kp2))
+                    else:
+                        classified[key] = [(kp1, kp2)]
+
+            ########################## Order set ################################
+            # use only those in classified of histogram or entropy comparison
+            if self._orderValue:
+                ordered = [(val, path) for val, path
+                           in comparison if path in classified]
+            else: # order with best matches
+                ordered = sorted([(len(kps), path)
+                            for path, kps in classified.items()], reverse=True)
+
+        return ordered, classified
 
     def restore(self):
         """
@@ -644,85 +729,28 @@ class ImRestore(object):
         """
         self.pre_selection()
         self.failed = [] # registry for failed images
-        fns = self.filenames # in this process fns should not be changed
-        ########################## Order set initialization #############################
-        if self._orderValue: # obtain comparison with structure (value, path)
-            if self._orderValue == 1: # entropy
-                comparison = zip(*entropy(fns, loadfunc=loadFunc(1, self.process_shape),
-                                          invert=False)[:2])
-                if self.verbosity: print "Configured to sort by entropy..."
-            elif self._orderValue == 2: # histogram comparison
-                comparison = hist_comp(fns, loadfunc=loadFunc(1, self.process_shape),
-                                       method=self.selectMethod)
-                if self.verbosity:
-                    print "Configured to sort by {}...".format(self.selectMethod)
-            elif self._orderValue == 3:
-                comparison = self.selectMethod(fns)
-                if self.verbosity: print "Configured to sort by Custom Function..."
-            else:
-                raise Exception("DEBUG: orderValue {} does "
-                    "not correspond to {}".format(self._orderValue,self.selectMethod))
-        elif self.verbosity: print "Configured to sort by best matches"
+        self.comparison = None # comparison set to None to force recalculation
 
-        with TimeCode("Restoring ...\n",profiler=self.profiler,
+        with TimeCode("Restoring ...\n", profiler=self.profiler,
                       profile_point=("Restoring",),
                       endmsg= "Restoring overall time was {time}\n",
                       enableMsg= self.verbosity) as timerR:
 
             while True:
-                with TimeCode("Matching ...\n",profiler=self.profiler,
-                              profile_point=("Matching",),
-                              endmsg= "Matching overall time was {time}\n",
-                              enableMsg= self.verbosity) as timerM:
-                    ################### remaining keypoints to match ####################
-                    # initialize key-point and descriptor base list
-                    kps_remain,desc_remain = [],[]
-                    for _,_,path,kps,desc in self.feature_list:
-                        # append only those which are not in the base image
-                        if path not in self.used:
-                            kps_remain.extend(kps)
-                            desc_remain.extend(desc)
 
-                    if not kps_remain: # if there is not image remaining to stitch break
-                        if self.verbosity:
-                            if self.failed:
-                                print "No image remains to merge..."
-                            else:
-                                print "All images have been merged..."
-                        break
+                # matching
+                ordered, classified = self.matching()
 
-                    desc_remain = np.array(desc_remain) # convert descriptors to array
+                # stop if not more matches
+                if ordered is None:
+                    if self.verbosity:
+                        if self.failed:
+                            print "No image remains to merge..."
+                        else:
+                            print "All images have been merged..."
+                    break
 
-                    ############################ Matching ###############################
-                    # select only those with good distance (hamming, L1, L2)
-                    raw_matches = self.feature.matcher.knnMatch(desc_remain,
-                                    trainDescriptors = self.desc_base, k = 2) #2
-                    # If path=2, it will draw two match-lines for each key-point.
-                    classified = {}
-                    for m in raw_matches:
-                        # filter by Hamming, L1 or L2 distance
-                        if m[0].distance < m[1].distance * self.distanceThresh:
-                            m = m[0]
-                            kp1 = kps_remain[m.queryIdx]  # keypoint in query image
-                            kp2 = self.kps_base[m.trainIdx]  # keypoint in train image
-
-                            key = kp1["path"] # ensured that key is not in used
-                            if key in classified:
-                                classified[key].append((kp1,kp2))
-                            else:
-                                classified[key] = [(kp1,kp2)]
-
-                    ########################## Order set ################################
-                    # use only those in classified of histogram or entropy comparison
-                    if self._orderValue:
-                        ordered = [(val,path) for val,path
-                                   in comparison if path in classified]
-                    else: # order with best matches
-                        ordered = sorted([(len(kps),path)
-                                    for path,kps in classified.items()],reverse=True)
-
-
-                with TimeCode("Merging ...\n",profiler=self.profiler,
+                with TimeCode("Merging ...\n", profiler=self.profiler,
                               profile_point=("Merging",),
                               endmsg= "Merging overall time was {time}\n",
                               enableMsg= self.verbosity) as timerH:
@@ -731,7 +759,7 @@ class ImRestore(object):
                     for rank, path in ordered:
                         point = Profiler(msg=path) # profiling point
                         ######################### Calculate Homography ###################
-                        mkp1,mkp2 = zip(*classified[path]) # probably good matches
+                        mkp1, mkp2 = zip(*classified[path]) # probably good matches
                         if len(mkp1)>self.minKps and len(mkp2)>self.minKps:
 
                             # get only key-points
@@ -752,23 +780,23 @@ class ImRestore(object):
                         if H is not None: # first test
                             # load fore image
                             fore = self.load_image(path, self.load_shape)
-                            h,w = fore.shape[:2] # image shape
+                            h, w = fore.shape[:2] # image shape
 
                             # get corners of fore projection over back
-                            projection = getTransformedCorners((h,w),H)
+                            projection = getTransformedCorners((h, w), H)
                             c = ImCoors(projection) # class to calculate statistical data
                             lines, inlines = len(status), np.sum(status)
 
                             # ratio to determine how good fore is in back
-                            inlineratio = inlineRatio(inlines,lines)
+                            inlineratio = inlineRatio(inlines, lines)
 
-                            Test = inlineratio>self.inlineThresh \
-                                    and c.rotatedRectangularity>self.rectangularityThresh
+                            Test = inlineratio > self.inlineThresh \
+                                    and c.rotatedRectangularity > self.rectangularityThresh
 
                             text = "inlines/lines: {}/{}={}, " \
                                    "rectangularity: {}, test: {}".format(
                                 inlines, lines, inlineratio, c.rotatedRectangularity,
-                                ("failed","succeeded")[Test])
+                                ("failed", "succeeded")[Test])
 
                             if self.verbosity>1: print text
 
@@ -814,7 +842,7 @@ class ImRestore(object):
 
                     break
 
-        with TimeCode("Post-processing ...\n",profiler=self.profiler,
+        with TimeCode("Post-processing ...\n", profiler=self.profiler,
                       profile_point=("Post-processing",),
                       endmsg= "Post-processing overall time was {time}\n",
                       enableMsg= self.verbosity) as timerP:
@@ -850,15 +878,15 @@ class ImRestore(object):
             overwrite = self.overwrite
 
         bbase, bpath, bname, bext = getData(self.used[0])
-        if isinstance(path,basestring):
+        if isinstance(path, basestring):
             # format path if user has specified so
-            data = getData(self.save.format(path="".join((bbase, bpath)),
+            data = getData(self.save.format(path="".join((bbase,  bpath)),
                                             name=bname, ext=bext))
             # complete any data lacking in path
-            for i,(n,b) in enumerate(zip(data,(bbase, bpath, bname, bext))):
+            for i, (n, b) in enumerate(zip(data, (bbase, bpath, bname, bext))):
                 if not n: data[i] = b
         else:
-            data = bbase,bpath,"_restored_",bname,bext
+            data = bbase, bpath, "_restored_", bname, bext
         # joint parts to get string
         fn = "".join(data)
         mkPath(getPath(fn))
@@ -866,7 +894,7 @@ class ImRestore(object):
         if not overwrite:
             fn = increment_if_exits(fn)
 
-        if cv2.imwrite(fn,self.restored):
+        if cv2.imwrite(fn, self.restored):
             if self.verbosity: print "Saved: {}".format(fn)
             self.log_saved.append(fn)
             return fn, True
@@ -884,8 +912,6 @@ class ImRestore(object):
         :return: self.restored
         """
         alpha = None
-        if path == '/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/results/set_frame/IMG_20160514_142458.jpg':
-            pass
 
         if shape is None:
             shape = self.load_shape
@@ -901,61 +927,61 @@ class ImRestore(object):
         if self.expert is not None:
 
             # process _restored_mask if None
-            if not hasattr(self,"_restored_mask"):
+            if not hasattr(self, "_restored_mask"):
                 # from path/name.ext get only name.ext
                 bname = "".join(getData(self.used[-1])[-2:])
                 try:
                     bdata = self.expert[bname]
                     bsh = bdata["shape"]
-                    bm_retina = contours2mask(bdata["coors_retina"],bsh)
-                    bm_otic_disc = contours2mask(bdata["coors_optic_disc"],bsh)
-                    bm_defects = contours2mask(bdata["coors_defects"],bsh)
+                    bm_retina = contours2mask(bdata["coors_retina"], bsh)
+                    bm_otic_disc = contours2mask(bdata["coors_optic_disc"], bsh)
+                    bm_defects = contours2mask(bdata["coors_defects"], bsh)
 
-                    self._restored_mask = np.logical_and(np.logical_or(np.logical_not(bm_retina),
+                    self._restored_mask = np.logical_and( np.logical_or(np.logical_not(bm_retina),
                                                 bm_defects), np.logical_not(bm_otic_disc))
                 except Exception as e:
                     #exc_type, exc_value, exc_traceback = sys.exc_info()
                     #lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
                     warnings.warn("Error using expert {} to create self._restored_mask:"
-                                  " {}{}".format(bname,type(e),e.args))
+                                  " {}{}".format(bname, type(e), e.args))
 
             # only if there is a _restored_mask
-            if hasattr(self,"_restored_mask"):
+            if hasattr(self, "_restored_mask"):
                 fname = "".join(getData(path)[-2:])
                 try:
                     fdata = self.expert[fname]
                     fsh = fdata["shape"]
-                    fm_retina = contours2mask(fdata["coors_retina"],fsh)
-                    #fm_otic_disc = contours2mask(fdata["coors_optic_disc"],fsh)
-                    fm_defects = contours2mask(fdata["coors_defects"],fsh)
+                    fm_retina = contours2mask(fdata["coors_retina"], fsh)
+                    #fm_otic_disc = contours2mask(fdata["coors_optic_disc"], fsh)
+                    fm_defects = contours2mask(fdata["coors_defects"], fsh)
 
-                    fmask = np.logical_and(fm_retina,np.logical_not(fm_defects))
+                    fmask = np.logical_and(fm_retina, np.logical_not(fm_defects))
 
-                    self._restored_mask = maskm = np.logical_and(self._restored_mask,fmask)
+                    self._restored_mask = maskm = np.logical_and(self._restored_mask, fmask)
 
                     h, w = self.restored.shape[:2]
                     alpha = cv2.warpPerspective(maskm.copy().astype(np.uint8), H, (w, h))
                 except Exception as e:
                     warnings.warn("Error using expert {} to create alpha mask:"
-                                  " {}{}".format(fname,type(e),e.args))
+                                  " {}{}".format(fname, type(e), e.args))
 
         if alpha is None:
             # pre process alpha mask
-            alpha = self.pre_process_fore_Mask(self.restored,fore,H)
+            alpha = self.pre_process_fore_Mask(self.restored, fore, H)
 
         ################################### SUPERPOSE ###################################
 
         # fore on top of back
         alpha_shape = fore.shape[:2]
         if self.grow_scene: # this makes the images bigger if possible
-            # fore(x,y)*H = fore(u,v) -> fore(u,v) + back(u,v)
-            ((left,top),(right,bottom)) = pad_to_fit_H(fore.shape, self.restored.shape, H)
+            # fore(x, y)*H = fore(u, v) -> fore(u, v) + back(u, v)
+            ((left, top), (right, bottom)) = pad_to_fit_H(fore.shape, self.restored.shape, H)
              # moved transformation matrix with pad
-            H_back = FLOAT([[1,0,left],[0,1,top],[0,0,1]]) # in back
+            H_back = FLOAT([[1, 0, left], [0, 1, top], [0, 0, 1]]) # in back
             H_fore = H_back.dot(H) # in fore
-            # need: top_left, bottom_left, top_right,bottom_right
-            h2,w2 = self.restored.shape[:2]
-            w,h = int(left + right + w2),int(top + bottom + h2)
+            # need: top_left, bottom_left, top_right, bottom_right
+            h2, w2 = self.restored.shape[:2]
+            w, h = int(left + right + w2), int(top + bottom + h2)
             # this memory inefficient, image is copied to prevent cross-references
             self.restored = cv2.warpPerspective(self.restored.copy(), H_back, (w, h))
             fore = cv2.warpPerspective(fore.copy(), H_fore, (w, h))
@@ -966,13 +992,13 @@ class ImRestore(object):
             fore = cv2.warpPerspective(fore.copy(), H_fore, (w, h))
 
         if alpha is None: # if no pre-processing function for alpha implemented
-            alpha = self.post_process_fore_Mask(self.restored,fore)
+            alpha = self.post_process_fore_Mask(self.restored, fore)
 
         if alpha is None: # create valid mask for stitching
             alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
 
         if self.verbosity > 3: # show merging result
-            fastplt(alpha, title="alpha mask from {}".format(path),block=True)
+            fastplt(alpha, title="alpha mask from {}".format(path), block=True)
 
         self.restored = overlay(self.restored, fore, alpha) # overlay fore on top of back
 
@@ -983,19 +1009,20 @@ class ImRestore(object):
             Plotim("Last added from {}".format(path), self.restored).show()
 
         ####################### update base features #######################
+        self.transformations[path] = (H_back, H_fore)
         # make projection to test key-points inside it
         if self.verbosity > 1: print "Updating key-points..."
         # fore projection in restored image
-        projection = getTransformedCorners(fore.shape[:2],H_fore)
+        projection = getTransformedCorners(fore.shape[:2], H_fore)
         # update key-points
         newkps, newdesc = [], []
-        for _,_,p,kps,desc in self.feature_list:
+        for _, _, p, kps, desc in self.feature_list:
             # append all points in the base image and update their position
             if p in self.used: # transform points in back
-                for kp,dsc in zip(kps,desc): # kps,desc
+                for kp, dsc in zip(kps, desc): # kps, desc
                     pt = kp["pt"] # get point
                     if H_back is not None: # update point
-                        pt = tuple(transformPoint(pt,H_back))
+                        pt = tuple(transformPoint(pt, H_back))
                         kp["pt"] = pt
                     # include only those points outside foreground
                     if cv2.pointPolygonTest(projection, pt, False) == -1:
@@ -1003,8 +1030,8 @@ class ImRestore(object):
                         newdesc.append(dsc)
             elif p == path: # transform points in fore
                 # include only those points inside foreground
-                for kp,dsc in zip(kps,desc): # kps,desc
-                    kp["pt"] = tuple(transformPoint(kp["pt"],H_fore))
+                for kp, dsc in zip(kps, desc): # kps, desc
+                    kp["pt"] = tuple(transformPoint(kp["pt"], H_fore))
                     newkps.append(kp)
                     newdesc.append(dsc)
         # update self.kps_base and self.desc_base
@@ -1014,9 +1041,9 @@ class ImRestore(object):
         if self.verbosity > 4: # show keypints in merging
             Plotim("merged Key-points",  # draw key-points in image
                    cv2.drawKeypoints(
-                       im2shapeFormat(self.restored,self.restored.shape[:2]+(3,)),
+                       im2shapeFormat(self.restored, self.restored.shape[:2]+(3,)),
                               [dict2keyPoint(index) for index in self.kps_base],
-                              flags=4, color=(0,0,255))).show()
+                              flags=4, color=(0, 0, 255))).show()
         if self.verbosity: print "This image has been merged: {}...".format(path)
         self.used.append(path) # update used
 
@@ -1048,7 +1075,7 @@ class ImRestore(object):
         :param back: background image. This is called by method self.merge
                 with self.restored
         :param fore: fore ground image.
-        :return: alpha mask with shape (None,None)
+        :return: alpha mask with shape (None, None)
         """
         pass
 
@@ -1060,7 +1087,7 @@ class ImRestore(object):
         :param back:
         :param fore:
         :param H:
-        :return: alpha mask with shape (None,None)
+        :return: alpha mask with shape (None, None)
         """
         pass
 
@@ -1077,12 +1104,12 @@ class RetinalRestore(ImRestore):
     def __init__(self, filenames, **opts):
         # overwrite variables
         #opts["denoise"]=opts.pop("denoise", True)
-        opts["maskforeground"] = opts.pop("maskforeground",lambda img: retinal_mask(img,True))
+        opts["maskforeground"] = opts.pop("maskforeground", lambda img: retinal_mask(img, True))
         # create new variables
-        self.lens = opts.pop("lens",False)
-        self.enclose = opts.pop("enclose",False)
+        self.lens = opts.pop("lens", False)
+        self.enclose = opts.pop("enclose", False)
         # call super class
-        super(RetinalRestore,self).__init__(filenames, **opts)
+        super(RetinalRestore, self).__init__(filenames, **opts)
 
     #__init__.__doc__ = ImRestore.__init__.__doc__+__init__.__doc__
 
@@ -1095,7 +1122,7 @@ class RetinalRestore(ImRestore):
         :return: alpha mask
         """
 
-        def _mask(back,fore):
+        def _mask(back, fore):
             """
             get bright alpha mask (using histogram method)
 
@@ -1106,24 +1133,24 @@ class RetinalRestore(ImRestore):
             # TODO, not working for every retinal scenario
             foregray = brightness(fore)
             # get window with Otsu to prevent expansion
-            thresh,w = cv2.threshold(foregray,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+            thresh, w = cv2.threshold(foregray, 0, 1, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
             return get_bright_alpha(brightness(back).astype(float),
                                     foregray.astype(float), window=w)
 
 
-        pshape = (400,400) # process shape
+        pshape = (400, 400) # process shape
         # rescaling of the image to process mask
         if pshape is not None:
             oshape = back.shape[:2]
-            back = cv2.resize(back,pshape)
-            fore = cv2.resize(fore,pshape)
+            back = cv2.resize(back, pshape)
+            fore = cv2.resize(fore, pshape)
 
         # get alpha mask
-        alphamask = get_layered_alpha(back,fore)
+        alphamask = get_layered_alpha(back, fore)
 
         # rescaling mask to original shape
         if pshape is not None:
-            alphamask = cv2.resize(alphamask,oshape[::-1])
+            alphamask = cv2.resize(alphamask, oshape[::-1])
 
         return alphamask
 
@@ -1134,7 +1161,7 @@ class RetinalRestore(ImRestore):
         :param image: retinal image
         :return: filtered and with simulated lens
         """
-        image_ = super(RetinalRestore,self).post_process_restoration(image)
+        image_ = super(RetinalRestore, self).post_process_restoration(image)
         if image_ is not None:
             image = image_
 
@@ -1155,12 +1182,12 @@ class RetinalRestore(ImRestore):
             # get contour of biggest area
             cnt = thresh_biggestCnt(mask)
             # get enclosure box
-            x,y,w,h = cv2.boundingRect(cnt)
+            x, y, w, h = cv2.boundingRect(cnt)
             # crop image
             if len(image.shape)>2:
-                image = image[x:x+w,y:y+h,:]
+                image = image[x:x+w, y:y+h, :]
             else:
-                image = image[x:x+w,y:y+h]
+                image = image[x:x+w, y:y+h]
 
         return image
 
@@ -1180,7 +1207,7 @@ def tuple_creator(string):
     Process string to get tuple.
 
     :param string: string parameters with "," (colon) as separator
-            Ex: param1,param2,...,paramN
+            Ex: param1, param2, ..., paramN
     :return: tuple
     """
     tp = []
@@ -1196,9 +1223,9 @@ def loader_creator(string):
     """
     creates an image loader.
 
-    :param string: flag, x size, y size. Ex 1: "0,100,100" loads gray images of shape
-            (100,100) in gray scale. Ex 2: "1" loads images in BGR color and with
-            original shapes. Ex 3: "0,200,None" loads gray images of shape (200,None)
+    :param string: flag, x size, y size. Ex 1: "0, 100, 100" loads gray images of shape
+            (100, 100) in gray scale. Ex 2: "1" loads images in BGR color and with
+            original shapes. Ex 3: "0, 200, None" loads gray images of shape (200, None)
             where None is calculated to keep image ratio.
     :return: loader
     """
@@ -1215,13 +1242,13 @@ def loader_creator(string):
         y = params[2]
     except:
         y=None
-    return loadFunc(flag,(x,y))
+    return loadFunc(flag, (x, y))
 
 def denoise_creator(string):
     """
     creates an function to de-noise images using bilateral filter.
 
-    :param string: d, sigmaColor, sigmaSpace. Ex: 27,75,75 creates the
+    :param string: d, sigmaColor, sigmaSpace. Ex: 27, 75, 75 creates the
             filter to de-noise images.
     :return: denoiser
     """
@@ -1286,8 +1313,8 @@ def shell(args=None, namespace=None):
     if namespace is None:
         namespace = NameSpace()
     import argparse
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
-                                     description="Restore images by merging and stitching "
+    parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter,
+                                     description = "Restore images by merging and stitching "
                                                  "techniques.",
                                      epilog=__doc__ +
                                             "\nContributions and bug reports are appreciated."
@@ -1305,7 +1332,7 @@ def shell(args=None, namespace=None):
                              'an let the restorer do it instead e.g. "/path/to/images/*.jpg". '
                              'if "*" is used then folders and filenames that start with an '
                              'underscore "_" are ignored by the restorer')
-    parser.add_argument('-v','--verbosity',type=int,default=1,
+    parser.add_argument('-v','--verbosity', type=int, default=1,
                         help="""(0) flag to print messages and debug data.
                                 0 -> do not print messages.
                                 1 -> print normal messages.
@@ -1316,11 +1343,11 @@ def shell(args=None, namespace=None):
                                     (consumes significantly more memory).
                                 5 -> print all messages, show all results and additional data.
                                     (consumes significantly more memory).""")
-    parser.add_argument('-f','--feature', type=string_interpreter(commahandler=feature_creator),
+    parser.add_argument('-f', '--feature', type=string_interpreter(commahandler=feature_creator),
                         help='Configure detector and matcher')
     parser.add_argument('-u','--pool', action='store', type=int,
                         help='Use pool Ex: 4 to use 4 CPUs')
-    parser.add_argument('-c','--cachePath',default=None,
+    parser.add_argument('-c', '--cachePath', default=None,
                         help="""
                            saves memoization to specified path. This is useful to save
                            some computations and use them in next executions.
@@ -1330,7 +1357,7 @@ def shell(args=None, namespace=None):
                            is recommended to clear the cache to recompute values.
                            If True it creates the cache in current path.
                            """)
-    parser.add_argument('-e','--clearCache', type=int, default=0,
+    parser.add_argument('-e', '--clearCache', type=int, default=0,
                         help='clear cache flag.'
                             '* 0 do not clear.'
                             '* 1 check data integrity of previous session before use'
@@ -1342,88 +1369,88 @@ def shell(args=None, namespace=None):
                         nargs='?', help='Custom loader function used to load images. '
                             'By default or if --loader flag is empty it loads the '
                             'original images in color. The format is "--loader colorflag, '
-                            'x, y" where colorflag is -1,0,1 for BGRA, gray and BGR images '
+                            'x, y" where colorflag is -1, 0, 1 for BGRA, gray and BGR images '
                             'and the load shape are represented by x and y. '
-                            'Ex 1: "0,100,100" loads gray images of shape (100,100) in '
+                            'Ex 1: "0, 100, 100" loads gray images of shape (100, 100) in '
                             'gray scale. Ex 2: "1" loads images in BGR color and with '
-                            'original shapes. Ex 3: "0,200,None" loads gray images of shape '
-                            '(200,None) where None is calculated to keep image ratio.')
-    parser.add_argument('-p','--process_shape', default=(400,400), type=string_interpreter(),
+                            'original shapes. Ex 3: "0, 200, None" loads gray images of shape '
+                            '(200, None) where None is calculated to keep image ratio.')
+    parser.add_argument('-p', '--process_shape', default=(400, 400), type=string_interpreter(),
                         nargs='?', help='Process shape used to convert to pseudo images '
                             'to process features and then convert to the '
                             'original images. The smaller the image more memory and speed '
-                            'gain. By default process_shape is 400,400'
+                            'gain. By default process_shape is 400, 400'
                             'If the -p flag is empty it loads the original '
                             'images to process the features but it can incur to performance'
                             ' penalties if images are too big and RAM memory is scarce')
-    parser.add_argument('-l','--load_shape', default=None, type=string_interpreter(),
+    parser.add_argument('-l', '--load_shape', default=None, type=string_interpreter(),
                         nargs='?', help='shape used to load images which are beeing merged.')
-    parser.add_argument('-b','--baseImage', default=True, type=string_interpreter(), nargs='?',
+    parser.add_argument('-b', '--baseImage', default=True, type=string_interpreter(), nargs='?',
                         help='Specify image''s name to use from path as first image to merge '
                             'in the empty restored image. By default it selects the image '
                             'with most features. If the -b flag is empty it selects the '
                             'first image in filenames as base image')
-    parser.add_argument('-m','--selectMethod',
+    parser.add_argument('-m', '--selectMethod',
                         help='Method to sort images when matching. This '
                             'way the merging order can be controlled.'
                             '* (None) Best matches'
-                            '* Histogram Comparison: Correlation, Chi-squared,'
+                            '* Histogram Comparison: Correlation, Chi-squared, '
                             'Intersection, Hellinger or any method found in hist_map'
                             '* Entropy'
-                            '* custom function of the form: rating,fn <-- selectMethod(fns)')
-    parser.add_argument('-d','--distanceThresh', type = float, default=0.75,
+                            '* custom function of the form: rating, fn <-- selectMethod(fns)')
+    parser.add_argument('-d', '--distanceThresh', type = float, default=0.75,
                         help='Filter matches by distance ratio')
-    parser.add_argument('-i','--inlineThresh', type = float, default=0.2,
+    parser.add_argument('-i', '--inlineThresh', type = float, default=0.2,
                         help='Filter homography by inlineratio')
-    parser.add_argument('-r','--rectangularityThresh', type = float, default=0.5,
+    parser.add_argument('-r', '--rectangularityThresh', type = float, default=0.5,
                         help='Filter homography by rectangularity')
-    parser.add_argument('-j','--ransacReprojThreshold', type = float, default=10.0,
+    parser.add_argument('-j', '--ransacReprojThreshold', type = float, default=10.0,
                         help='Maximum allowed reprojection error '
                             'to treat a point pair as an inlier')
-    parser.add_argument('-n','--centric', action='store_true',
+    parser.add_argument('-n', '--centric', action='store_true',
                         help='Tries to attach as many images as possible to '
                             'each matching. It is quicker since it does not have to process '
                             'too many match computations')
-    parser.add_argument('-t','--hist_match', action='store_true',
+    parser.add_argument('-t', '--hist_match', action='store_true',
                         help='Apply histogram matching to foreground '
                             'image with merge image as template')
-    parser.add_argument('-s','--save', default=True, nargs='?', action="store",
+    parser.add_argument('-s', '--save', default=True, nargs='?', action="store",
                         const=False, type = string_interpreter(False),
                         help='Customize image name used to save the restored image.'
                             'By default it saves in path with name "_restored_{base_image}".'
                             'if the -s flag is specified empty it does not save. Formatting '
                             'is supported so for example the default name can be achived as '
                             '"-s {path}_restored_{name}{ext}"')
-    parser.add_argument('-o','--overwrite', action='store_true',
+    parser.add_argument('-o', '--overwrite', action='store_true',
                         help = 'If True and the destine filename for saving already '
                             'exists then it is replaced, else a new filename is generated '
                             'with an index "{filename}_{index}.{extension}"')
-    parser.add_argument('-g','--grow_scene', action='store_true',
+    parser.add_argument('-g', '--grow_scene', action='store_true',
                         help='Flag to allow image to grow the scene so that that the final '
                             'image can be larger than the base image')
-    parser.add_argument('-y','--denoise', nargs='?', action="store", const=True,
-                        type=string_interpreter(True,commahandler=denoise_creator),
+    parser.add_argument('-y', '--denoise', nargs='?', action="store", const=True,
+                        type=string_interpreter(True, commahandler = denoise_creator),
                         help="Flag to process noisy images. Use mild, normal, heavy or "
                             "provide parameters for a bilateral filter as "
-                            "'--denoise d,sigmaColor,sigmaSpace' for example "
-                            "'--denoise 27,75,75'. By default it is None which can be "
+                            "'--denoise d, sigmaColor, sigmaSpace' for example "
+                            "'--denoise 27, 75, 75'. By default it is None which can be "
                             "activated according to the restorer, if an empty flag is "
                             "provided as '--denoise' it uses default de-noising of images.")
-    parser.add_argument('-a','--lens', action='store_true',
+    parser.add_argument('-a', '--lens', action='store_true',
                         help='Flag to apply lens to retinal area. Else do not apply lens')
-    parser.add_argument('-k','--enclose', action='store_true',
+    parser.add_argument('-k', '--enclose', action='store_true',
                         help='Flag to enclose and return only retinal area. '
                             'Else leaves image "as is"')
-    parser.add_argument('-z','--restorer',choices = ['RetinalRestore','ImRestore'],
+    parser.add_argument('-z', '--restorer', choices = ['RetinalRestore', 'ImRestore'],
                         default='RetinalRestore',
                         help='imrestore is for images in general but it can be parametrized. '
                             'By default it has the profile "retinalRestore" for retinal '
                             'images but its general behaviour can be restorerd by '
                             'changing it to "imrestore"')
-    parser.add_argument('-x','--expert', default=None,help='path to the expert variables')
-    parser.add_argument('-q','--console', action='store_true',
+    parser.add_argument('-x', '--expert', default=None, help='path to the expert variables')
+    parser.add_argument('-q', '--console', action='store_true',
                         help='Enter interactive mode to let user execute commands in console')
-    parser.add_argument('-w','--debug', action='store_true', # https://pymotw.com/2/pdb/
+    parser.add_argument('-w', '--debug', action='store_true', # https://pymotw.com/2/pdb/
                         help='Enter debug mode to let programmers find bugs. In the debugger '
                              'type "h" for help and know the supported commands.')
     parser.add_argument('--onlykeys', action='store_true',
@@ -1453,7 +1480,7 @@ def shell(args=None, namespace=None):
 
     # print parsed arguments
     if args['verbosity']>1:
-        print "Parsed Arguments\n",args
+        print "Parsed Arguments\n", args
 
     # use configuration
     use_restorer = args.pop("restorer")

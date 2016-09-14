@@ -1,3 +1,5 @@
+import sys, os
+sys.path.insert(0,os.path.abspath("../")) # add relative path
 from RRtoolFC.lib.app import execApp, app
 import cv2
 def loadcv(pth,mode=-1,shape=None):
@@ -6,14 +8,10 @@ def loadcv(pth,mode=-1,shape=None):
         im = cv2.resize(im,shape)
     return im
 win = True
-if win:
-    base = "E:"
-else: # linux
-    base = "/mnt/4E443F99443F82AF"
 ## Set the raw data as the input value to the flowchart
-data=loadcv(r"{}/Dropbox/PYTHON/RRtools/tests/im1_1.jpg".format(base),mode=0,shape=(300,300))
+data=loadcv(r"../tests/im1_1.jpg",mode=0,shape=(300,300))
 from RRtoolbox.lib.plotter import Plotim,fastplt
-fastplt(data,block=True) # FIXME block=False does not work under windows
-#p = Plotim("Plotim",data)
-#p.show(block=False)
+#fastplt(data,block=True) # FIXME block=False does not work under windows
+p = Plotim("Plotim",data)
+p.show(block=True)
 print "after plots"

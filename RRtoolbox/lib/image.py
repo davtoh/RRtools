@@ -983,7 +983,7 @@ class LoaderDict(ResourceManager):
         func.path = path
         super(LoaderDict, self).register(key=key, method=func)
 
-def try_loads(fns, func = cv2.imread, paths = None, debug = True):
+def try_loads(fns, func = cv2.imread, paths = None, debug = False, addpath=False):
     """
     Try to load images from paths.
 
@@ -991,6 +991,7 @@ def try_loads(fns, func = cv2.imread, paths = None, debug = True):
     :param func: loader function
     :param paths: paths to try. By default it loads working dir and test path
     :param debug: True to show debug messages
+    :param addpath: add path as second argument
     :return: image else None
     """
     default = ("", str(MANAGER["TESTPATH"]))
@@ -1013,6 +1014,8 @@ def try_loads(fns, func = cv2.imread, paths = None, debug = True):
             im = func(path) # foreground
             if im is not None:
                 if debug: print path, " Loaded..."
+                if addpath:
+                    return im,path
                 return im
 
 def hist_match(source, template, alpha = None):

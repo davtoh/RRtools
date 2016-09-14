@@ -2,91 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010a93a0-81da-46b7-b1b3-17c63fae435b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115642.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115644.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115644_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115644_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115644_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115645_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115645_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115645_4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115646.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115646_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115646_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115646_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115646_5.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115647.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115647_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115647_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115647_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115647_4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115648.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115648_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115648_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115648_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115648_4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115649.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115649_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115649_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115649_4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115650.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115650_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115650_4.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/IMG_20150730_115651.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set19/_restored_IMG_20150730_115646_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set23/_restored_IMG_20150730_122154.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125339.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125344.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125349.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125354.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125358.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125402.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125408.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/IMG_20150730_125411.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set25/_restored_IMG_20150730_125349.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/IMG_0243.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/IMG_0244.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/IMG_0247.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/IMG_0248.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/_log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/_restored_im1_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/im1_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set26/im1_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/_log" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/_restored_im5_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/_restored_im5_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/im5_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/im5_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set27/im5_3.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set28/_restored_im_1_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set28/im_1_1.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set28/im_1_2.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set_frame/_restored_IMG_20160514_142441.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set_room/_restored_IMG_20160416_163911.jpg" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/RRtoolbox/tools/restoration.py" afterPath="$PROJECT_DIR$/tests/experimental_restoration.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draft.pdf" afterPath="$PROJECT_DIR$/draft.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/set_frame/_restored_IMG_20160514_142444.jpg" afterPath="$PROJECT_DIR$/results/set_frame/_restored_IMG_20160514_142444.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/set_internet/_restored_600px-Fundus_photograph_of_normal_left_eye.jpg" afterPath="$PROJECT_DIR$/results/set_internet/_restored_600px-Fundus_photograph_of_normal_left_eye.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/set_room/_restored_IMG_20160416_163930.jpg" afterPath="$PROJECT_DIR$/results/set_room/_restored_IMG_20160416_163930.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/RRtools.iml" afterPath="$PROJECT_DIR$/.idea/RRtools.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set1/_restored_IMG_0173.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set15/_a.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/mask.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/arrayops/mask.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/cache.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/cache.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/image.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/root.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/tools/segmentation.py" afterPath="$PROJECT_DIR$/RRtoolbox/tools/segmentation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/ex_restoration.py" afterPath="$PROJECT_DIR$/examples/ex_restoration.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/ex_plotters.py" afterPath="$PROJECT_DIR$/examples/ex_plotters.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imrestore.py" afterPath="$PROJECT_DIR$/imrestore.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/set19/_log" afterPath="$PROJECT_DIR$/results/set19/_log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/results/set25/_log" afterPath="$PROJECT_DIR$/results/set25/_log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/deprecated/imrestore_old.py" afterPath="$PROJECT_DIR$/tests/deprecated/imrestore_old.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/prototype_image.py" afterPath="$PROJECT_DIR$/tests/prototype_image.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/tesisfunctions.py" afterPath="$PROJECT_DIR$/tests/tesisfunctions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_point_cluster_polygonArea.py" afterPath="$PROJECT_DIR$/tests/test_point_cluster_polygonArea.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_rectangularity.py" afterPath="$PROJECT_DIR$/tests/test_rectangularity.py" />
     </list>
     <ignored path="RRtools.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -118,6 +41,7 @@
     <SUITE FILE_PATH="coverage/RRtools$code_histogram_equalization.coverage" NAME="code_histogram_equalization Coverage Results" MODIFIED="1464991093838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/codes" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_collect_matrix.coverage" NAME="Ex_collect_matrix Coverage Results" MODIFIED="1462137773418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
     <SUITE FILE_PATH="coverage/RRtools$experimental_filter_protoypes.coverage" NAME="experimental_filter_protoypes Coverage Results" MODIFIED="1465852793064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$test_pylatex_doc1.coverage" NAME="test_pylatex_doc1 Coverage Results" MODIFIED="1472746673651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
     <SUITE FILE_PATH="coverage/RRtools$test_cache.coverage" NAME="test_cache Coverage Results" MODIFIED="1470258386695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/unittest_tests" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_pyplot.coverage" NAME="Ex_pyplot Coverage Results" MODIFIED="1458001768608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/GUI_tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_overlay.coverage" NAME="graph_overlay Coverage Results" MODIFIED="1470992367269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
@@ -132,6 +56,7 @@
     <SUITE FILE_PATH="coverage/RRtools$graph_get_bright_alpha.coverage" NAME="graph_get_bright_alpha Coverage Results" MODIFIED="1470944092676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$imrestore_profile.coverage" NAME="imrestore_profile Coverage Results" MODIFIED="1465347666652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$ex_config.coverage" NAME="ex_config Coverage Results" MODIFIED="1467858830690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
+    <SUITE FILE_PATH="coverage/RRtools$expert.coverage" NAME="expert Coverage Results" MODIFIED="1473734549514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis3_polygon_test.coverage" NAME="hypothesis3_polygon_test Coverage Results" MODIFIED="1460506869315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_preamble.coverage" NAME="graph_preamble Coverage Results" MODIFIED="1462854821153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
     <SUITE FILE_PATH="coverage/RRtools$Unittest_brigh__test_alfa.coverage" NAME="Unittest brigh._test_alfa Coverage Results" MODIFIED="1462123064117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -148,8 +73,8 @@
     <SUITE FILE_PATH="coverage/RRtools$graph_bilateralFilter.coverage" NAME="graph_bilateralFilter Coverage Results" MODIFIED="1470867122763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis_functions.coverage" NAME="hypothesis_functions Coverage Results" MODIFIED="1460916382113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$slideshow.coverage" NAME="slideshow Coverage Results" MODIFIED="1457381812639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/GUI_tests" />
+    <SUITE FILE_PATH="coverage/RRtools$Ex_pylatex_doc1.coverage" NAME="Ex_pylatex_doc1 Coverage Results" MODIFIED="1472485893180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_order_orderedDict.coverage" NAME="Ex_order_orderedDict Coverage Results" MODIFIED="1457904263310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$Ex_pylatex_doc1.coverage" NAME="Ex_pylatex_doc1 Coverage Results" MODIFIED="1460690202093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/latex" />
     <SUITE FILE_PATH="coverage/RRtools$test_WeakRef_memory_profiler.coverage" NAME="test_WeakRef_memory_profiler Coverage Results" MODIFIED="1462145734220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis4_enhance_color.coverage" NAME="hypothesis4_enhance_color Coverage Results" MODIFIED="1460506882138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$directory.coverage" NAME="directory Coverage Results" MODIFIED="1469137668602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib" />
@@ -215,7 +140,7 @@
     <SUITE FILE_PATH="coverage/RRtools$Ex_images_databases.coverage" NAME="Ex_images_databases Coverage Results" MODIFIED="1462142330470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_getBrightAlpha2.coverage" NAME="graph_getBrightAlpha2 Coverage Results" MODIFIED="1470712435086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$Unittests_in_TestMemoizedDisc.coverage" NAME="Unittests in TestMemoizedDisc Coverage Results" MODIFIED="1466002829642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_result.coverage" NAME="graph_result Coverage Results" MODIFIED="1472241432793" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_result.coverage" NAME="graph_result Coverage Results" MODIFIED="1472613091770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$representation_numpy_image.coverage" NAME="representation_numpy_image Coverage Results" MODIFIED="1458269499657" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
     <SUITE FILE_PATH="coverage/RRtools$imrestore.coverage" NAME="imrestore Coverage Results" MODIFIED="1469654180833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$Eq_polygonArea.coverage" NAME="Eq_polygonArea Coverage Results" MODIFIED="1465315296052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
@@ -326,25 +251,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="preamble.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
+      <file leaf-file-name="graph_result.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.34615386">
-              <caret line="788" column="0" selection-start-line="788" selection-start-column="0" selection-end-line="788" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.15413533">
+              <caret line="415" column="69" selection-start-line="415" selection-start-column="69" selection-end-line="415" selection-end-column="69" />
               <folding>
-                <element signature="e#696#706#0" expanded="true" />
+                <element signature="e#43#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graph_result.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
+      <file leaf-file-name="expert.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/expert.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+              <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
               <folding>
-                <element signature="e#43#65#0" expanded="true" />
+                <element signature="e#23#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -366,9 +291,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/thesis/draft_main.tex" />
-        <option value="$PROJECT_DIR$/thesis/article.tex" />
-        <option value="$PROJECT_DIR$/thesis/sections/algorithms.tex" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_features.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_convexityRatio.py" />
         <option value="$PROJECT_DIR$/tests/tesisfunctions.py" />
@@ -399,24 +321,27 @@
         <option value="$PROJECT_DIR$/thesis/graphs/graph_get_bright_alpha.py" />
         <option value="$PROJECT_DIR$/examples/ex_restoration.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_rectangularity.py" />
-        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_filter_prototypes.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_histogram_comparison.py" />
-        <option value="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_decomposition.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_overlay.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/TEST.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/all.py" />
-        <option value="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
         <option value="$PROJECT_DIR$/thesis/article.pytxcode" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/cache.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/descriptors.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_result.py" />
-        <option value="$PROJECT_DIR$/imrestore.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/arrayops/mask.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/tools/segmentation.py" />
-        <option value="$PROJECT_DIR$/thesis/sections/results.tex" />
+        <option value="$PROJECT_DIR$/thesis/latex/Ex_pylatex_doc1.py" />
+        <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
+        <option value="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
+        <option value="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/graph_result.py" />
+        <option value="$PROJECT_DIR$/thesis/sections/results.tex" />
+        <option value="$PROJECT_DIR$/expert.py" />
+        <option value="$PROJECT_DIR$/imrestore.py" />
+        <option value="$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py" />
       </list>
     </option>
   </component>
@@ -470,6 +395,61 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RRtools" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thesis" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="graphs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
       <pane id="Scope">
         <subPane subId="Default">
           <PATH>
@@ -537,6 +517,52 @@
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RRtools">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RRtoolbox">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RRtools">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RRtoolbox">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="lib">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="RRtools">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="examples">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
         <subPane subId="Changed Files">
           <PATH>
@@ -550,61 +576,6 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="thesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RRtools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="thesis" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="graphs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches">
-        <subPane />
       </pane>
     </panes>
   </component>
@@ -629,10 +600,17 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1011" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/RRtoolbox" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/tools/restoration_profiling.py" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/thesis/latex" />
+      <recent name="$PROJECT_DIR$/thesis/graphs" />
+      <recent name="$PROJECT_DIR$/tests" />
+      <recent name="$PROJECT_DIR$/tests/graphs" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/tests/deprecated" />
@@ -640,51 +618,8 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/RRtoolbox/tools" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/thesis/graphs" />
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/tests" />
-      <recent name="$PROJECT_DIR$/tests/graphs" />
-      <recent name="$PROJECT_DIR$/tests/Equations" />
-    </key>
   </component>
-  <component name="RunManager" selected="Python.graph_result">
-    <configuration default="false" name="graph_filter_prototypes" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="RRtools" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_filter_prototypes.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="graph_histogram_comparison" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="RRtools" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_histogram_comparison.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.expert">
     <configuration default="false" name="TEST" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -703,24 +638,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="graph_decomposition" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="RRtools" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_decomposition.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="graph_overlay" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -735,6 +652,60 @@
       <module name="RRtools" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_overlay.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Ex_pylatex_doc1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/latex" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RRtools" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/latex/Ex_pylatex_doc1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test_pylatex_doc1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/latex" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RRtools" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="expert" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RRtools" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/expert.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -1046,19 +1017,19 @@
       <item index="2" class="java.lang.String" itemvalue="Python.conf" />
       <item index="3" class="java.lang.String" itemvalue="Python.run" />
       <item index="4" class="java.lang.String" itemvalue="Python.run_tests" />
-      <item index="5" class="java.lang.String" itemvalue="Python.graph_filter_prototypes" />
-      <item index="6" class="java.lang.String" itemvalue="Python.graph_histogram_comparison" />
-      <item index="7" class="java.lang.String" itemvalue="Python.TEST" />
-      <item index="8" class="java.lang.String" itemvalue="Python.graph_decomposition" />
-      <item index="9" class="java.lang.String" itemvalue="Python.graph_overlay" />
+      <item index="5" class="java.lang.String" itemvalue="Python.TEST" />
+      <item index="6" class="java.lang.String" itemvalue="Python.graph_overlay" />
+      <item index="7" class="java.lang.String" itemvalue="Python.Ex_pylatex_doc1" />
+      <item index="8" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
+      <item index="9" class="java.lang.String" itemvalue="Python.expert" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.graph_overlay" />
-        <item index="1" class="java.lang.String" itemvalue="Python.TEST" />
-        <item index="2" class="java.lang.String" itemvalue="Python.graph_decomposition" />
-        <item index="3" class="java.lang.String" itemvalue="Python.graph_histogram_comparison" />
-        <item index="4" class="java.lang.String" itemvalue="Python.graph_filter_prototypes" />
+        <item index="0" class="java.lang.String" itemvalue="Python.expert" />
+        <item index="1" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
+        <item index="2" class="java.lang.String" itemvalue="Python.Ex_pylatex_doc1" />
+        <item index="3" class="java.lang.String" itemvalue="Python.graph_overlay" />
+        <item index="4" class="java.lang.String" itemvalue="Python.TEST" />
       </list>
     </recent_temporary>
   </component>
@@ -1128,9 +1099,9 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21780604" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.80223286" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17900302" sideWeight="0.60191846" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33704293" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17900302" sideWeight="0.39808154" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09818731" sideWeight="0.63325185" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10845295" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13258786" sideWeight="0.36674815" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33014354" sideWeight="0.40861028" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="99" y="99" width="1168" height="549" />
@@ -1138,13 +1109,13 @@
       <window_info id="Concurrent Activities Diagram" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32854864" sideWeight="0.49697885" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38277513" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43540668" sideWeight="0.60800606" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.53269535" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36204147" sideWeight="0.60800606" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08836858" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49122807" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1406,12 +1377,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/RRtoolbox/lib/plotter.py</url>
-          <line>1452</line>
-          <option name="timeStamp" value="562" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/RRtoolbox/lib/plotter.py</url>
-          <line>869</line>
+          <line>870</line>
           <option name="timeStamp" value="563" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -1614,11 +1580,6 @@
           <option name="timeStamp" value="902" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/tests/experimental_expert.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="931" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py</url>
           <line>1204</line>
           <option name="timeStamp" value="938" />
@@ -1674,11 +1635,6 @@
           <option name="timeStamp" value="1068" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/RRtoolbox/lib/image.py</url>
-          <line>318</line>
-          <option name="timeStamp" value="1072" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/RRtoolbox/lib/directory.py</url>
           <line>714</line>
           <option name="timeStamp" value="1145" />
@@ -1690,7 +1646,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/imrestore.py</url>
-          <line>1488</line>
+          <line>1515</line>
           <option name="timeStamp" value="1159" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -1779,14 +1735,19 @@
           <option name="timeStamp" value="1245" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/thesis/graphs/graph_result.py</url>
-          <line>233</line>
-          <option name="timeStamp" value="1254" />
+          <url>file://$PROJECT_DIR$/expert.py</url>
+          <line>348</line>
+          <option name="timeStamp" value="1318" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/imrestore.py</url>
-          <line>887</line>
-          <option name="timeStamp" value="1296" />
+          <url>file://$PROJECT_DIR$/thesis/graphs/graph_result.py</url>
+          <line>295</line>
+          <option name="timeStamp" value="1363" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="1364" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1799,83 +1760,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1299" />
+      <option name="time" value="1365" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/lens.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/hypothesis2_3_mask_circle_closure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4883721">
-          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="40" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/hypothesis1_3_optimal_threshold.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6976744">
-          <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/-1247972723/cv2/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="1569" column="59" selection-start-line="1569" selection-start-column="59" selection-end-line="1569" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/matplotlib/cbook.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3315508">
-          <caret line="753" column="4" selection-start-line="753" selection-start-column="4" selection-end-line="753" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_get_alphas.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45454547">
-          <caret line="34" column="47" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_entropy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1789976">
-          <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_get_layered_alpha.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6778043">
-          <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_get_bright_alpha.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5704057">
-          <caret line="129" column="36" selection-start-line="129" selection-start-column="36" selection-end-line="129" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_histogram_equalization.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="120" column="13" selection-start-line="120" selection-start-column="13" selection-end-line="120" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/selectors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.9331743">
@@ -1905,14 +1794,6 @@
           <folding>
             <element signature="e#114#124#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7058824">
-          <caret line="1065" column="11" selection-start-line="1065" selection-start-column="11" selection-end-line="1065" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1975,16 +1856,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/plotter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.82887703">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#547#578#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_decomposition.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5678392">
@@ -2028,13 +1899,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.7/posixpath.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3315508">
-          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2087,23 +1951,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/root.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="5.0394735">
-          <caret line="597" column="49" selection-start-line="597" selection-start-column="49" selection-end-line="597" selection-end-column="49" />
-          <folding>
-            <element signature="e#130#140#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/cache.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="602" column="12" selection-start-line="602" selection-start-column="12" selection-end-line="602" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thesis/sections/results.log">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2115,14 +1962,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33248731">
           <caret line="2353" column="0" selection-start-line="2353" selection-start-column="0" selection-end-line="2353" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.56269115">
-          <caret line="1394" column="0" selection-start-line="1394" selection-start-column="0" selection-end-line="1394" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2150,19 +1989,117 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/imrestore.py">
+    <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/pylatex/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="1121" column="31" selection-start-line="1121" selection-start-column="31" selection-end-line="1121" selection-end-column="31" />
+          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/pylatex/table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33252427">
+          <caret line="106" column="8" selection-start-line="106" selection-start-column="8" selection-end-line="106" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.local/lib/python2.7/site-packages/pylatex/base_classes/containers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.07042254">
+          <caret line="153" column="19" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/latex/Ex_pylatex_doc1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/experimental_expert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33247423">
+          <caret line="1627" column="4" selection-start-line="1627" selection-start-column="4" selection-end-line="1627" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/posixpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33184856">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/root.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="770" column="4" selection-start-line="770" selection-start-column="4" selection-end-line="770" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/segmentation.py">
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/plotter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46833333">
-          <caret line="89" column="14" selection-start-line="89" selection-start-column="14" selection-end-line="89" selection-end-column="14" />
+        <state vertical-scroll-proportion="3.9425">
+          <caret line="839" column="92" selection-start-line="839" selection-start-column="92" selection-end-line="839" selection-end-column="92" />
+          <folding>
+            <element signature="e#547#578#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/imrestore.svg">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32846716">
+          <caret line="3474" column="42" selection-start-line="3474" selection-start-column="42" selection-end-line="3474" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/cache.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38333333">
+          <caret line="1092" column="19" selection-start-line="1092" selection-start-column="19" selection-end-line="1092" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1135" column="26" selection-start-line="1135" selection-start-column="26" selection-end-line="1135" selection-end-column="26" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.029490616">
+          <caret line="158" column="8" selection-start-line="158" selection-start-column="8" selection-end-line="158" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/lens.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.780161">
+          <caret line="94" column="30" selection-start-line="94" selection-start-column="21" selection-end-line="94" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1154" column="29" selection-start-line="1154" selection-start-column="29" selection-end-line="1154" selection-end-column="29" />
+          <folding>
+            <element signature="e#696#721#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2170,23 +2107,54 @@
       <provider selected="true" editor-type-id="LaTeXFileEditor">
         <state />
       </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
+    <entry file="file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="41" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="41" />
+          <caret line="138" column="31" selection-start-line="138" selection-start-column="31" selection-end-line="138" selection-end-column="31" />
           <folding>
-            <element signature="e#43#65#0" expanded="true" />
+            <element signature="e#0#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
+    <entry file="file://$PROJECT_DIR$/imrestore.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34615386">
-          <caret line="788" column="0" selection-start-line="788" selection-start-column="0" selection-end-line="788" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1364" column="48" selection-start-line="1364" selection-start-column="48" selection-end-line="1364" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/segmentation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.02819549">
+          <caret line="274" column="4" selection-start-line="274" selection-start-column="4" selection-end-line="274" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/expert.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
           <folding>
-            <element signature="e#696#706#0" expanded="true" />
+            <element signature="e#23#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15413533">
+          <caret line="415" column="69" selection-start-line="415" selection-start-column="69" selection-end-line="415" selection-end-column="69" />
+          <folding>
+            <element signature="e#43#65#0" expanded="true" />
           </folding>
         </state>
       </provider>

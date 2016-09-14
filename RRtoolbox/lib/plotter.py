@@ -837,6 +837,7 @@ class Plotim(object):
         :param self: Plotim instance
         """
         cv2.namedWindow(self.win,self.wintype)  # create window
+        #cv2.setWindowProperty(self.win,cv2.WND_PROP_FULLSCREEN,cv2.cv.CV_WINDOW_FULLSCREEN)
         #cv2.resizeWindow(self.win,self.rW,self.rH)
 
     def showfunc(self,img=None):
