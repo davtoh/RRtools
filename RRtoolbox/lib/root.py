@@ -783,7 +783,7 @@ def glob(path, contents="*", check = os.path.isfile):
     # special case: Folder
     if len(fns) == 1 and not os.path.isfile(fns[0]):
         fns = glob(os.path.join(fns[0], contents))
-    return [p for p in fns if check(p)]
+    return filter(check,fns) # [p for p in fns if check(p)]
 
 def ensureList(obj):
     """ ensures that object is list """
