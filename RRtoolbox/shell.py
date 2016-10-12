@@ -1,9 +1,9 @@
-from RRtoolbox.lib.root import NoParserFound
 
 __author__ = 'Davtoh'
 
 import getopt
 from RRtoolbox.lib.inspector import funcData
+from RRtoolbox.lib.root import NoParserFound
 import argparse
 import sys
 import re
@@ -111,6 +111,63 @@ class Shell:
         # data["imo_from"] and data["sourcefile"] can be used to add mor info to documentation
         # TODO data['defaults'] can be used to intuit variables type
         return parser
+
+
+def tuple_creator(string):
+    """
+    Process string to get tuple.
+
+    :param string: string parameters with "," (colon) as separator
+            Ex: param1, param2, ..., paramN
+    :return: tuple
+    """
+    tp = []
+    func = string_interpreter()
+    for i in string.split(","):
+        try:
+            tp.append(func(i))
+        except:
+            tp.append(i)
+    return tuple(tp)
+
+
+def string_interpreter(empty=None, commahandler=None, handle=None):
+    """
+    create a string interpreter
+    :param empty: (None) variable to handle empty strings
+    :param commahandler: (tuple_creator) function to handle comma separated strings
+    :return: interpreter function
+    """
+    def interprete_string(string):
+        if string == "": # in argparse this does not applies
+            return empty
+        if "," in string:
+            if commahandler is None:
+                return tuple_creator(string)
+            else:
+                return commahandler(string)
+        if string.lower() == "none":
+            return None
+        if string.lower() == "true":
+            return True
+        if string.lower() == "false":
+            return False
+        if handle is None:
+            try:
+                return int(string)
+            except:
+                return string
+        else:
+            return handle(string)
+    interprete_string.__doc__="""
+        Interpret strings.
+
+        :param string: string to interpret.
+        :return: interpreted string. If empty string (i.e. '') it returns {}.
+                If 'None' returns None. If 'True' returns True. If 'False' returns False.
+                If comma separated it applies {} else applies {}.
+        """.format(empty, commahandler, handle)
+    return interprete_string
 
 if __name__ == '__main__':
 

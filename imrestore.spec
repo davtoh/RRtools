@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['imrestore.py'],
-             pathex=['./', 'F:\\Dropbox\\PYTHON\\RRtools'],
+a = Analysis(['/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/imrestore.py/'],
+             pathex=['/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools', '/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools'],
              binaries=None,
              datas=None,
              hiddenimports=[],
@@ -18,11 +18,16 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          a.binaries,
-          a.zipfiles,
-          a.datas,
+          exclude_binaries=True,
           name='imrestore',
           debug=False,
           strip=False,
           upx=True,
-          console=True , version='version')
+          console=True , version='/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/version')
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               strip=False,
+               upx=True,
+               name='imrestore')

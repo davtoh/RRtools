@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010a93a0-81da-46b7-b1b3-17c63fae435b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set1/_restored_IMG_0173.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/results/set15/_a.jpg" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/image.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/lib/root.py" afterPath="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/ex_plotters.py" afterPath="$PROJECT_DIR$/examples/ex_plotters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RRtoolbox/shell.py" afterPath="$PROJECT_DIR$/RRtoolbox/shell.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/expert.py" afterPath="$PROJECT_DIR$/expert.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imrestore.py" afterPath="$PROJECT_DIR$/imrestore.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/imrestore.spec" afterPath="$PROJECT_DIR$/imrestore.spec" />
     </list>
     <ignored path="RRtools.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,29 +32,29 @@
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_3_mask_circle_closure.coverage" NAME="hypothesis2_3_mask_circle_closure Coverage Results" MODIFIED="1462142850232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_histogram_matching.coverage" NAME="graph_histogram_matching Coverage Results" MODIFIED="1470714359252" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$ex_socket_capturer.coverage" NAME="ex_socket_capturer Coverage Results" MODIFIED="1459987956620" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_thresholds.coverage" NAME="graph_thresholds Coverage Results" MODIFIED="1470965769589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$test_shell.coverage" NAME="test_shell Coverage Results" MODIFIED="1460400779004" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_thresholds.coverage" NAME="graph_thresholds Coverage Results" MODIFIED="1475532369405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$opencv_qt.coverage" NAME="opencv_qt Coverage Results" MODIFIED="1462143196153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$test_decomposition.coverage" NAME="test_decomposition Coverage Results" MODIFIED="1462137842399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
     <SUITE FILE_PATH="coverage/RRtools$code_histogram_equalization.coverage" NAME="code_histogram_equalization Coverage Results" MODIFIED="1464991093838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/codes" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_collect_matrix.coverage" NAME="Ex_collect_matrix Coverage Results" MODIFIED="1462137773418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
     <SUITE FILE_PATH="coverage/RRtools$experimental_filter_protoypes.coverage" NAME="experimental_filter_protoypes Coverage Results" MODIFIED="1465852793064" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$test_pylatex_doc1.coverage" NAME="test_pylatex_doc1 Coverage Results" MODIFIED="1472746673651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
+    <SUITE FILE_PATH="coverage/RRtools$test_pylatex_doc1.coverage" NAME="test_pylatex_doc1 Coverage Results" MODIFIED="1475628206789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
     <SUITE FILE_PATH="coverage/RRtools$test_cache.coverage" NAME="test_cache Coverage Results" MODIFIED="1470258386695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/unittest_tests" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_pyplot.coverage" NAME="Ex_pyplot Coverage Results" MODIFIED="1458001768608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/GUI_tests" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_overlay.coverage" NAME="graph_overlay Coverage Results" MODIFIED="1470992367269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_7_masks_contour_vectors.coverage" NAME="hypothesis2_7_masks_contour_vectors Coverage Results" MODIFIED="1462142940806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_overlay.coverage" NAME="graph_overlay Coverage Results" MODIFIED="1475529773879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_masks_watershed.coverage" NAME="hypothesis2_1_masks_watershed Coverage Results" MODIFIED="1460488160231" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_mask_blobs.coverage" NAME="hypothesis2_1_mask_blobs Coverage Results" MODIFIED="1460507153284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$test_alfa_mask.coverage" NAME="test_alfa_mask Coverage Results" MODIFIED="1462145025699" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_numpy_image.coverage" NAME="graph_numpy_image Coverage Results" MODIFIED="1462138081151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
     <SUITE FILE_PATH="coverage/RRtools$run_tests.coverage" NAME="run_tests Coverage Results" MODIFIED="1470752464991" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_entropy.coverage" NAME="graph_entropy Coverage Results" MODIFIED="1470702741572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_entropy.coverage" NAME="graph_entropy Coverage Results" MODIFIED="1474002364912" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$compatibility.coverage" NAME="compatibility Coverage Results" MODIFIED="1459198244551" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_get_bright_alpha.coverage" NAME="graph_get_bright_alpha Coverage Results" MODIFIED="1470944092676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$imrestore_profile.coverage" NAME="imrestore_profile Coverage Results" MODIFIED="1465347666652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$ex_config.coverage" NAME="ex_config Coverage Results" MODIFIED="1467858830690" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
-    <SUITE FILE_PATH="coverage/RRtools$expert.coverage" NAME="expert Coverage Results" MODIFIED="1473734549514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RRtools$expert.coverage" NAME="expert Coverage Results" MODIFIED="1475032086225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis3_polygon_test.coverage" NAME="hypothesis3_polygon_test Coverage Results" MODIFIED="1460506869315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_preamble.coverage" NAME="graph_preamble Coverage Results" MODIFIED="1462854821153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
     <SUITE FILE_PATH="coverage/RRtools$Unittest_brigh__test_alfa.coverage" NAME="Unittest brigh._test_alfa Coverage Results" MODIFIED="1462123064117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -64,7 +62,7 @@
     <SUITE FILE_PATH="coverage/RRtools$Memory_profiler.coverage" NAME="Memory_profiler Coverage Results" MODIFIED="1457887182131" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_masks.coverage" NAME="hypothesis2_1_masks Coverage Results" MODIFIED="1460510428089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$sample.coverage" NAME="sample Coverage Results" MODIFIED="1458006704284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/GUI_tests" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_get_layered_alpha.coverage" NAME="graph_get_layered_alpha Coverage Results" MODIFIED="1470939387482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_get_layered_alpha.coverage" NAME="graph_get_layered_alpha Coverage Results" MODIFIED="1475593511442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_contours.coverage" NAME="Ex_contours Coverage Results" MODIFIED="1462138400790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$plotters.coverage" NAME="plotters Coverage Results" MODIFIED="1469985713834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolFC/GUI" />
     <SUITE FILE_PATH="coverage/RRtools$ex_ploters.coverage" NAME="ex_ploters Coverage Results" MODIFIED="1460168346299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
@@ -73,10 +71,10 @@
     <SUITE FILE_PATH="coverage/RRtools$graph_bilateralFilter.coverage" NAME="graph_bilateralFilter Coverage Results" MODIFIED="1470867122763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis_functions.coverage" NAME="hypothesis_functions Coverage Results" MODIFIED="1460916382113" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$slideshow.coverage" NAME="slideshow Coverage Results" MODIFIED="1457381812639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/GUI_tests" />
-    <SUITE FILE_PATH="coverage/RRtools$Ex_pylatex_doc1.coverage" NAME="Ex_pylatex_doc1 Coverage Results" MODIFIED="1472485893180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_order_orderedDict.coverage" NAME="Ex_order_orderedDict Coverage Results" MODIFIED="1457904263310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$test_WeakRef_memory_profiler.coverage" NAME="test_WeakRef_memory_profiler Coverage Results" MODIFIED="1462145734220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$Ex_pylatex_doc1.coverage" NAME="Ex_pylatex_doc1 Coverage Results" MODIFIED="1472485893180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/latex" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis4_enhance_color.coverage" NAME="hypothesis4_enhance_color Coverage Results" MODIFIED="1460506882138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$test_WeakRef_memory_profiler.coverage" NAME="test_WeakRef_memory_profiler Coverage Results" MODIFIED="1462145734220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$directory.coverage" NAME="directory Coverage Results" MODIFIED="1469137668602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib" />
     <SUITE FILE_PATH="coverage/RRtools$ex_cache.coverage" NAME="ex_cache Coverage Results" MODIFIED="1460863479575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/RRtools$Unittest_TestMemoizedDisc_test_times.coverage" NAME="Unittest TestMemoizedDisc.test_times Coverage Results" MODIFIED="1459831177426" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -93,22 +91,22 @@
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_6_approx_circle.coverage" NAME="hypothesis2_6_approx_circle Coverage Results" MODIFIED="1462142924895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$app.coverage" NAME="app Coverage Results" MODIFIED="1457147381043" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolFC/lib" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_8_masks_polygon_test.coverage" NAME="hypothesis2_8_masks_polygon_test Coverage Results" MODIFIED="1462143041980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$ex_restoration.coverage" NAME="ex_restoration Coverage Results" MODIFIED="1457463736487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/RRtools$graph_bilateralFilter_parameters.coverage" NAME="graph_bilateralFilter_parameters Coverage Results" MODIFIED="1470842448973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$ex_restoration.coverage" NAME="ex_restoration Coverage Results" MODIFIED="1457463736487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/RRtools$test_filter.coverage" NAME="test_filter Coverage Results" MODIFIED="1462145137933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$hypothesis2_4_masks.coverage" NAME="hypothesis2_4_masks Coverage Results" MODIFIED="1462142881317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_convexityRatio.coverage" NAME="graph_convexityRatio Coverage Results" MODIFIED="1470671673238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
-    <SUITE FILE_PATH="coverage/RRtools$Eq_others.coverage" NAME="Eq_others Coverage Results" MODIFIED="1464654269824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
+    <SUITE FILE_PATH="coverage/RRtools$hypothesis2_4_masks.coverage" NAME="hypothesis2_4_masks Coverage Results" MODIFIED="1462142881317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_filter_protoypes.coverage" NAME="graph_filter_protoypes Coverage Results" MODIFIED="1464663216979" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$Eq_others.coverage" NAME="Eq_others Coverage Results" MODIFIED="1464654269824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_timeout.coverage" NAME="Ex_timeout Coverage Results" MODIFIED="1460064881739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_getBrightAlfa.coverage" NAME="graph_getBrightAlfa Coverage Results" MODIFIED="1463360155036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis3_enhance_color.coverage" NAME="hypothesis3_enhance_color Coverage Results" MODIFIED="1462143092489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$Doctests_in_imcoors.coverage" NAME="Doctests in imcoors Coverage Results" MODIFIED="1457238115866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib" />
     <SUITE FILE_PATH="coverage/RRtools$segmentation.coverage" NAME="segmentation Coverage Results" MODIFIED="1462136383760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
-    <SUITE FILE_PATH="coverage/RRtools$Unittests_in_test_cache__1_.coverage" NAME="Unittests in test_cache (1) Coverage Results" MODIFIED="1460846943213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/unittest" />
+    <SUITE FILE_PATH="coverage/RRtools$Doctests_in_imcoors.coverage" NAME="Doctests in imcoors Coverage Results" MODIFIED="1457238115866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib" />
     <SUITE FILE_PATH="coverage/RRtools$Unittest_TestMemoizedDisc_test_failed_session.coverage" NAME="Unittest TestMemoizedDisc.test_failed_session Coverage Results" MODIFIED="1470258331352" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/unittest_tests" />
-    <SUITE FILE_PATH="coverage/RRtools$test_alpha_mask.coverage" NAME="test_alpha_mask Coverage Results" MODIFIED="1466002753256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$Unittests_in_test_cache__1_.coverage" NAME="Unittests in test_cache (1) Coverage Results" MODIFIED="1460846943213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/unittest" />
     <SUITE FILE_PATH="coverage/RRtools$graph_histogram_equalization.coverage" NAME="graph_histogram_equalization Coverage Results" MODIFIED="1470710405729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$test_alpha_mask.coverage" NAME="test_alpha_mask Coverage Results" MODIFIED="1466002753256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_plot_vectors.coverage" NAME="Ex_plot_vectors Coverage Results" MODIFIED="1462142447048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$sticher.coverage" NAME="sticher Coverage Results" MODIFIED="1458536662309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
     <SUITE FILE_PATH="coverage/RRtools$svg2pdf.coverage" NAME="svg2pdf Coverage Results" MODIFIED="1462812002621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
@@ -117,8 +115,8 @@
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_masks_CLOSURE.coverage" NAME="hypothesis2_1_masks_CLOSURE Coverage Results" MODIFIED="1460515427676" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$Ex_images_urls.coverage" NAME="Ex_images_urls Coverage Results" MODIFIED="1462142379976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$test_WeakRef_mean_time.coverage" NAME="test_WeakRef_mean_time Coverage Results" MODIFIED="1462145712133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$Test_main.coverage" NAME="Test_main Coverage Results" MODIFIED="1469985808294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolFC/GUI" />
     <SUITE FILE_PATH="coverage/RRtools$conf.coverage" NAME="conf Coverage Results" MODIFIED="1467955473621" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/documentation" />
+    <SUITE FILE_PATH="coverage/RRtools$Test_main.coverage" NAME="Test_main Coverage Results" MODIFIED="1469985808294" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolFC/GUI" />
     <SUITE FILE_PATH="coverage/RRtools$ex_directory.coverage" NAME="ex_directory Coverage Results" MODIFIED="1466478067312" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/RRtools$Unittests_in_test_cache.coverage" NAME="Unittests in test_cache Coverage Results" MODIFIED="1470258429851" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/unittest_tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_masks_contour_vectors.coverage" NAME="hypothesis2_1_masks_contour_vectors Coverage Results" MODIFIED="1460506162115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -140,7 +138,7 @@
     <SUITE FILE_PATH="coverage/RRtools$Ex_images_databases.coverage" NAME="Ex_images_databases Coverage Results" MODIFIED="1462142330470" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$graph_getBrightAlpha2.coverage" NAME="graph_getBrightAlpha2 Coverage Results" MODIFIED="1470712435086" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$Unittests_in_TestMemoizedDisc.coverage" NAME="Unittests in TestMemoizedDisc Coverage Results" MODIFIED="1466002829642" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$graph_result.coverage" NAME="graph_result Coverage Results" MODIFIED="1472613091770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
+    <SUITE FILE_PATH="coverage/RRtools$graph_result.coverage" NAME="graph_result Coverage Results" MODIFIED="1473984520404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$representation_numpy_image.coverage" NAME="representation_numpy_image Coverage Results" MODIFIED="1458269499657" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/plots" />
     <SUITE FILE_PATH="coverage/RRtools$imrestore.coverage" NAME="imrestore Coverage Results" MODIFIED="1469654180833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RRtools$Eq_polygonArea.coverage" NAME="Eq_polygonArea Coverage Results" MODIFIED="1465315296052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
@@ -217,8 +215,8 @@
     <SUITE FILE_PATH="coverage/RRtools$shell.coverage" NAME="shell Coverage Results" MODIFIED="1460342024965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox" />
     <SUITE FILE_PATH="coverage/RRtools$ex_socket_sender.coverage" NAME="ex_socket_sender Coverage Results" MODIFIED="1459987959897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_5_masks_subthresh.coverage" NAME="hypothesis2_5_masks_subthresh Coverage Results" MODIFIED="1465495237499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$selectors.coverage" NAME="selectors Coverage Results" MODIFIED="1466022595258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/tools" />
     <SUITE FILE_PATH="coverage/RRtools$test_edge.coverage" NAME="test_edge Coverage Results" MODIFIED="1460903712955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$selectors.coverage" NAME="selectors Coverage Results" MODIFIED="1466022595258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/tools" />
     <SUITE FILE_PATH="coverage/RRtools$test_segmentation_retina.coverage" NAME="test_segmentation_retina Coverage Results" MODIFIED="1466124855230" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_1_masks_minimum_fitting.coverage" NAME="hypothesis2_1_masks_minimum_fitting Coverage Results" MODIFIED="1465573001075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypotesis1.coverage" NAME="hypotesis1 Coverage Results" MODIFIED="1460509952244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
@@ -228,14 +226,14 @@
     <SUITE FILE_PATH="coverage/RRtools$prototype_libreOffice.coverage" NAME="prototype_libreOffice Coverage Results" MODIFIED="1462137829951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/Equations" />
     <SUITE FILE_PATH="coverage/RRtools$graph_histogram_comparison.coverage" NAME="graph_histogram_comparison Coverage Results" MODIFIED="1470966909937" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/thesis/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$restoration_profiling.coverage" NAME="restoration_profiling Coverage Results" MODIFIED="1462137182071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tools" />
-    <SUITE FILE_PATH="coverage/RRtools$convert.coverage" NAME="convert Coverage Results" MODIFIED="1457410712846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib/arrayops" />
     <SUITE FILE_PATH="coverage/RRtools$test_find_borders.coverage" NAME="test_find_borders Coverage Results" MODIFIED="1460684298512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$convert.coverage" NAME="convert Coverage Results" MODIFIED="1457410712846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/RRtoolbox/lib/arrayops" />
     <SUITE FILE_PATH="coverage/RRtools$graph_bilateralFilter_response.coverage" NAME="graph_bilateralFilter_response Coverage Results" MODIFIED="1465340274391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests/graphs" />
     <SUITE FILE_PATH="coverage/RRtools$supress_output.coverage" NAME="supress_output Coverage Results" MODIFIED="1468450424646" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$Unittest_TestMemoizedDisc_test_session.coverage" NAME="Unittest TestMemoizedDisc.test_session Coverage Results" MODIFIED="1459830729847" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$experimental_maxima_minima.coverage" NAME="experimental_maxima_minima Coverage Results" MODIFIED="1464655850273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/RRtools$Entropy_images.coverage" NAME="Entropy_images Coverage Results" MODIFIED="1466023562746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypothesis2_9_masks_watershed.coverage" NAME="hypothesis2_9_masks_watershed Coverage Results" MODIFIED="1466002706022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$Entropy_images.coverage" NAME="Entropy_images Coverage Results" MODIFIED="1466023562746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/RRtools$experimental_maxima_minima.coverage" NAME="experimental_maxima_minima Coverage Results" MODIFIED="1464655850273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/RRtools$hypotesis1_segment_arteries_bycolor.coverage" NAME="hypotesis1_segment_arteries_bycolor Coverage Results" MODIFIED="1462142636780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -251,14 +249,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="graph_result.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="graph_result.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15413533">
-              <caret line="415" column="69" selection-start-line="415" selection-start-column="69" selection-end-line="415" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="348" column="43" selection-start-line="348" selection-start-column="37" selection-end-line="348" selection-end-column="43" />
               <folding>
                 <element signature="e#43#65#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="imrestore.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/imrestore.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="994" column="0" selection-start-line="994" selection-start-column="0" selection-end-line="994" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -267,9 +275,21 @@
         <entry file="file://$PROJECT_DIR$/expert.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
+              <caret line="424" column="0" selection-start-line="424" selection-start-column="0" selection-end-line="424" selection-end-column="0" />
               <folding>
                 <element signature="e#23#32#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test_pylatex_doc1.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.16">
+              <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
+              <folding>
+                <element signature="e#0#46#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -291,8 +311,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_features.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_convexityRatio.py" />
         <option value="$PROJECT_DIR$/tests/tesisfunctions.py" />
         <option value="$PROJECT_DIR$/tests/hypothesis2_7_masks_contour_vectors.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py" />
@@ -301,7 +319,6 @@
         <option value="$PROJECT_DIR$/thesis/graphs/graph_getBrightAlpha2.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/tools/lens.py" />
         <option value="$PROJECT_DIR$/tests/hypothesis1_3_optimal_threshold.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_entropy.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_CLAHE.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/tools/selectors.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_histogram_matching.py" />
@@ -314,9 +331,7 @@
         <option value="$PROJECT_DIR$/examples/ex_image.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_spacial_filters.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_bilateralFilter.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_thresholds.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/arrayops/filters.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_get_layered_alpha.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_get_alphas.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_get_bright_alpha.py" />
         <option value="$PROJECT_DIR$/examples/ex_restoration.py" />
@@ -324,7 +339,6 @@
         <option value="$PROJECT_DIR$/thesis/graphs/graph_filter_prototypes.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_histogram_comparison.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_decomposition.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/graph_overlay.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/TEST.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/all.py" />
         <option value="$PROJECT_DIR$/thesis/article.pytxcode" />
@@ -336,12 +350,18 @@
         <option value="$PROJECT_DIR$/RRtoolbox/lib/image.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/root.py" />
         <option value="$PROJECT_DIR$/RRtoolbox/lib/plotter.py" />
-        <option value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
         <option value="$PROJECT_DIR$/thesis/graphs/graph_result.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/graph_entropy.py" />
+        <option value="$PROJECT_DIR$/thesis/sections/approach.tex" />
         <option value="$PROJECT_DIR$/thesis/sections/results.tex" />
+        <option value="$PROJECT_DIR$/RRtoolbox/shell.py" />
         <option value="$PROJECT_DIR$/expert.py" />
-        <option value="$PROJECT_DIR$/imrestore.py" />
         <option value="$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/graph_overlay.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/graph_get_layered_alpha.py" />
+        <option value="$PROJECT_DIR$/thesis/graphs/graph_thresholds.py" />
+        <option value="$PROJECT_DIR$/imrestore.py" />
       </list>
     </option>
   </component>
@@ -351,6 +371,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="-1" />
+    <option name="y" value="-1" />
     <option name="width" value="1366" />
     <option name="height" value="744" />
   </component>
@@ -447,9 +469,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches">
-        <subPane />
-      </pane>
       <pane id="Scope">
         <subPane subId="Default">
           <PATH>
@@ -463,102 +482,6 @@
         <subPane subId="Project Files">
           <PATH>
             <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="thesis">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="thesis">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="sections">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="temp">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtoolbox">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtoolbox">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="lib">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="RRtools">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="examples">
               <option name="myItemId" value="" />
               <option name="myItemType" value="" />
             </PATH_ELEMENT>
@@ -576,6 +499,9 @@
             </PATH_ELEMENT>
           </PATH>
         </subPane>
+      </pane>
+      <pane id="Scratches">
+        <subPane />
       </pane>
     </panes>
   </component>
@@ -600,7 +526,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1011" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/thesis/graphs/preamble.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/thesis/graphs" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/tools/restoration_profiling.py" />
   </component>
   <component name="RecentsManager">
@@ -619,25 +545,7 @@
       <recent name="$PROJECT_DIR$/RRtoolbox/tools" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.expert">
-    <configuration default="false" name="TEST" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="RRtools" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/TEST.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.test_pylatex_doc1">
     <configuration default="false" name="graph_overlay" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -652,24 +560,6 @@
       <module name="RRtools" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_overlay.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Ex_pylatex_doc1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/latex" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="RRtools" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/latex/Ex_pylatex_doc1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -706,6 +596,42 @@
       <module name="RRtools" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/expert.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="graph_thresholds" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RRtools" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_thresholds.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="graph_get_layered_alpha" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/thesis/graphs" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="RRtools" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/thesis/graphs/graph_get_layered_alpha.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -1017,19 +943,19 @@
       <item index="2" class="java.lang.String" itemvalue="Python.conf" />
       <item index="3" class="java.lang.String" itemvalue="Python.run" />
       <item index="4" class="java.lang.String" itemvalue="Python.run_tests" />
-      <item index="5" class="java.lang.String" itemvalue="Python.TEST" />
-      <item index="6" class="java.lang.String" itemvalue="Python.graph_overlay" />
-      <item index="7" class="java.lang.String" itemvalue="Python.Ex_pylatex_doc1" />
-      <item index="8" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
-      <item index="9" class="java.lang.String" itemvalue="Python.expert" />
+      <item index="5" class="java.lang.String" itemvalue="Python.graph_overlay" />
+      <item index="6" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
+      <item index="7" class="java.lang.String" itemvalue="Python.expert" />
+      <item index="8" class="java.lang.String" itemvalue="Python.graph_thresholds" />
+      <item index="9" class="java.lang.String" itemvalue="Python.graph_get_layered_alpha" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.expert" />
-        <item index="1" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
-        <item index="2" class="java.lang.String" itemvalue="Python.Ex_pylatex_doc1" />
+        <item index="0" class="java.lang.String" itemvalue="Python.test_pylatex_doc1" />
+        <item index="1" class="java.lang.String" itemvalue="Python.graph_get_layered_alpha" />
+        <item index="2" class="java.lang.String" itemvalue="Python.graph_thresholds" />
         <item index="3" class="java.lang.String" itemvalue="Python.graph_overlay" />
-        <item index="4" class="java.lang.String" itemvalue="Python.TEST" />
+        <item index="4" class="java.lang.String" itemvalue="Python.expert" />
       </list>
     </recent_temporary>
   </component>
@@ -1092,30 +1018,30 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="744" extended-state="6" />
+    <frame x="-1" y="-1" width="1366" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32695374" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32591414" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21780604" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.80223286" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09818731" sideWeight="0.63325185" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10845295" sideWeight="0.3783988" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26283988" sideWeight="0.63325185" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23688394" sideWeight="0.3716012" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13258786" sideWeight="0.36674815" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33014354" sideWeight="0.40861028" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32854864" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28139904" sideWeight="0.42749244" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32750398" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="99" y="99" width="1168" height="549" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Concurrent Activities Diagram" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32854864" sideWeight="0.49697885" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.53269535" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36204147" sideWeight="0.60800606" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5325914" sideWeight="0.34592146" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32591414" sideWeight="0.57779455" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08836858" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.49122807" sideWeight="0.5913897" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28139904" sideWeight="0.57250756" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1646,7 +1572,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/imrestore.py</url>
-          <line>1515</line>
+          <line>1459</line>
           <option name="timeStamp" value="1159" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -1741,13 +1667,33 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/thesis/graphs/graph_result.py</url>
-          <line>295</line>
+          <line>303</line>
           <option name="timeStamp" value="1363" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/thesis/graphs/graph_entropy.py</url>
+          <line>23</line>
+          <option name="timeStamp" value="1368" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/expert.py</url>
+          <line>414</line>
+          <option name="timeStamp" value="1380" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/expert.py</url>
+          <line>401</line>
+          <option name="timeStamp" value="1381" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="1364" />
+          <line>219</line>
+          <option name="timeStamp" value="1383" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/thesis/graphs/preamble.py</url>
+          <line>922</line>
+          <option name="timeStamp" value="1391" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1760,74 +1706,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1365" />
+      <option name="time" value="1392" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/selectors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9331743">
-          <caret line="59" column="6" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_histogram_matching.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1789976">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/ex_restoration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="31" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/experimental_restoration.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="516" column="67" selection-start-line="516" selection-start-column="67" selection-end-line="516" selection-end-column="67" />
-          <folding>
-            <element signature="e#114#124#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/inspector.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="10" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_thresholds.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.325">
-          <caret line="31" column="7" selection-start-line="31" selection-start-column="7" selection-end-line="31" selection-end-column="7" />
-          <folding>
-            <element signature="e#39#70#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_spacial_filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.575">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_smooth_hist_max_min.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.075">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_rectangularity.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35">
@@ -1860,16 +1743,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5678392">
           <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_overlay.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.605">
-          <caret line="26" column="16" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="16" />
-          <folding>
-            <element signature="e#33#55#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1927,13 +1800,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="370" column="27" selection-start-line="370" selection-start-column="27" selection-end-line="370" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/lib/python2.7/argparse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30333334">
-          <caret line="1704" column="0" selection-start-line="1704" selection-start-column="0" selection-end-line="1704" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2024,13 +1890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33247423">
-          <caret line="1627" column="4" selection-start-line="1627" selection-start-column="4" selection-end-line="1627" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python2.7/posixpath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33184856">
@@ -2070,14 +1929,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1135" column="26" selection-start-line="1135" selection-start-column="26" selection-end-line="1135" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.029490616">
@@ -2093,44 +1944,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1154" column="29" selection-start-line="1154" selection-start-column="29" selection-end-line="1154" selection-end-column="29" />
-          <folding>
-            <element signature="e#696#721#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/sections/results.tex">
-      <provider selected="true" editor-type-id="LaTeXFileEditor">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="138" column="31" selection-start-line="138" selection-start-column="31" selection-end-line="138" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/imrestore.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="1364" column="48" selection-start-line="1364" selection-start-column="48" selection-end-line="1364" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/RRtoolbox/tools/segmentation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.02819549">
@@ -2139,10 +1952,141 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_entropy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37707642">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/draft_main.pytxcode">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/sections/results.tex">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="LaTeXFileEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/sections/approach.tex">
+      <provider selected="true" editor-type-id="LaTeXFileEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python2.7/argparse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.34053156">
+          <caret line="1262" column="28" selection-start-line="1262" selection-start-column="28" selection-end-line="1262" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/shell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4">
+          <caret line="161" column="33" selection-start-line="161" selection-start-column="33" selection-end-line="161" selection-end-column="33" />
+          <folding>
+            <element signature="e#24#37#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm50/system/python_stubs/-1247972723/__builtin__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33164558">
+          <caret line="3862" column="8" selection-start-line="3862" selection-start-column="8" selection-end-line="3862" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_overlay.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20089285">
+          <caret line="7" column="84" selection-start-line="7" selection-start-column="41" selection-end-line="7" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_get_layered_alpha.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53125">
+          <caret line="61" column="63" selection-start-line="61" selection-start-column="63" selection-end-line="61" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_thresholds.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79910713">
+          <caret line="144" column="95" selection-start-line="144" selection-start-column="95" selection-end-line="144" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/graphs/preamble.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53571427">
+          <caret line="1076" column="20" selection-start-line="1076" selection-start-column="15" selection-end-line="1076" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://Python/imrestore.ImRestore">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>imrestore.ImRestore</OriginalElement>
+          <nodes>
+            <node x="" y="">imrestore.RetinalRestore</node>
+            <node x="" y="">imrestore.ImRestore</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="1078.0" y="790.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+            <Category>Inner Classes</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3317647">
+          <caret line="1020" column="4" selection-start-line="1020" selection-start-column="4" selection-end-line="1020" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RRtoolbox/lib/arrayops/basic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.14117648">
+          <caret line="883" column="58" selection-start-line="883" selection-start-column="58" selection-end-line="883" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/imrestore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="994" column="0" selection-start-line="994" selection-start-column="0" selection-end-line="994" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/expert.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="285" column="38" selection-start-line="285" selection-start-column="38" selection-end-line="285" selection-end-column="38" />
+          <caret line="424" column="0" selection-start-line="424" selection-start-column="0" selection-end-line="424" selection-end-column="0" />
           <folding>
             <element signature="e#23#32#0" expanded="true" />
           </folding>
@@ -2151,10 +2095,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/thesis/graphs/graph_result.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15413533">
-          <caret line="415" column="69" selection-start-line="415" selection-start-column="69" selection-end-line="415" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="348" column="43" selection-start-line="348" selection-start-column="37" selection-end-line="348" selection-end-column="43" />
           <folding>
             <element signature="e#43#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thesis/latex/test_pylatex_doc1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16">
+          <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
