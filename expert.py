@@ -2,12 +2,12 @@ __author__ = 'Davtoh'
 
 import os
 import cv2
-from RRtoolbox.lib.root import glob,Controlstdout
+from RRtoolbox.lib.root import glob, NameSpace
 from RRtoolbox.lib.cache import MemoizedDict
 from RRtoolbox.lib.image import getcoors, loadFunc, drawcoorarea, try_loads
 from RRtoolbox.lib.directory import getData, getPath, mkPath, increment_if_exits
-from RRtoolbox.lib.plotter import Plotim
 from imrestore import check_valid
+from RRtoolbox.shell import tuple_creator, string_interpreter
 
 class Image(object):
     """
@@ -356,20 +356,89 @@ class Expert(object):
     def new_modify(self, dict):
         pass
 
-if __name__ == "__main__": # for a folder with many sets
-    def check(path):
+
+def shell(args=None, namespace=None):
+    """
+    Shell to run in terminal the expert data generator program
+
+    :param args: (None) list of arguments. If None it captures the
+            arguments in sys.
+    :param namespace: (None) namespace to place variables. If None
+            it creates a namespace.
+    :return: namespace
+    """
+    if namespace is None:
+        namespace = NameSpace()
+    import argparse
+    parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter,
+                                     description = "Create expert data for images",
+                                     epilog="\nContributions and bug reports are appreciated."
+                                            "\nauthor: David Toro"
+                                            "\ne-mail: davsamirtor@gmail.com"
+                                            "\nproject: https://github.com/davtoh/RRtools")
+    parser.add_argument('path', nargs=1,
+                        help='')
+    parser.add_argument('-o', '--output', default="{path}/_expert", nargs='?', action="store",
+                        const="{path}/_expert", type = string_interpreter(),
+                        help='Customize output folder for expert data')
+    parser.add_argument('-s', '--subfolders', action='store_true',
+                        help='Look for images in sub folders')
+    parser.add_argument('-f', '--from', type = str,
+                        help='Start from a given pattern')
+    parser.add_argument('-i', '--inpath', type = str,
+                        help='Save folder of expert data also in the path of the image')
+    parser.add_argument('-m', '--modify', action='store_true',
+                        help='')
+    parser.add_argument('-r', '--reset', action='store_true',
+                        help='')
+    parser.add_argument('-v', '--review', action='store_true',
+                        help='')
+    parser.add_argument('-a', '--ask', action='store_true',
+                        help='')
+    parser.add_argument('-c', '--contents', type = str, default="*.*",
+                        help='pattern to look in folder')
+
+    # parse sys and get argument variables
+    args = vars(parser.parse_args(args=args, namespace=namespace))
+    setspath = args.pop("path")[0]
+    bfrom = args.pop("from")
+    expertname = args.pop("output").format(path = setspath)
+    subfolders = args.pop("subfolders")
+    if subfolders:
+        def check_dir(path):
+            return os.path.isdir(path) and not path.endswith(expertname)
+        imsets = glob(os.path.join(setspath,"") + "*", check=check_dir) # only folders
+    else:
+        imsets = [setspath]
+
+    start = False
+    for imset in imsets:
+        if bfrom is None or bfrom in imset:
+            start = True
+        if start:
+            exp = Expert(imset,data=expertname,**args)
+            exp.start()
+
+if __name__ == "__main__":
+    # shell("./results/ --subfolders".split()) # call expert shell
+    shell() # call expert shell
+
+if False and __name__ == "__main__": # for a folder with many sets
+
+    def check_dir(path):
         return os.path.isdir(path) and not path.endswith(expertname)
 
     setspath = "./results/"
     expertname = "_expert"
-    imsets = glob(os.path.join(setspath,"") + "*", check=check) # only folders
+
+    imsets = glob(os.path.join(setspath,"") + "*", check=check_dir) # only folders
+
     bfrom = None
     start = False
     for imset in imsets:
         if bfrom is None or bfrom in imset:
             start = True
         if start:
-            setpath,imsetname = os.path.split(imset)
             exp = Expert(imset,data=os.path.join(setspath,expertname),inpath=expertname,review=False)
             exp.start()
 

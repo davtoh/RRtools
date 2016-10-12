@@ -184,14 +184,16 @@ from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCn
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import retinal_mask, get_layered_alpha
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable, globFilter
+from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable, \
+    NameSpace
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import get_bright_alpha, Bandpass, Bandstop
+from RRtoolbox.tools.segmentation import get_bright_alpha
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
 from RRtoolbox.lib.arrayops.basic import getTransformedCorners, transformPoint, \
-    im2shapeFormat, normalize, getOtsuThresh, contours2mask, pad_to_fit_H, overlay
+    im2shapeFormat, contours2mask, pad_to_fit_H, overlay
+from RRtoolbox.shell import tuple_creator, string_interpreter
 
 
 def check_valid(fn):
@@ -1202,22 +1204,6 @@ def feature_creator(string):
     """
     return Feature().config(string)
 
-def tuple_creator(string):
-    """
-    Process string to get tuple.
-
-    :param string: string parameters with "," (colon) as separator
-            Ex: param1, param2, ..., paramN
-    :return: tuple
-    """
-    tp = []
-    func = string_interpreter()
-    for i in string.split(","):
-        try:
-            tp.append(func(i))
-        except:
-            tp.append(i)
-    return tuple(tp)
 
 def loader_creator(string):
     """
@@ -1257,48 +1243,6 @@ def denoise_creator(string):
         return cv2.bilateralFilter(image, d, sigmaColor, sigmaSpace)
     return denoiser
 
-def string_interpreter(empty=None, commahandler=None, handle=None):
-    """
-    create a string interpreter
-    :param empty: (None) variable to handle empty strings
-    :param commahandler: (tuple_creator) function to handle comma separated strings
-    :return: interpreter function
-    """
-    def interprete_string(string):
-        if string == "": # in argparse this does not applies
-            return empty
-        if "," in string:
-            if commahandler is None:
-                return tuple_creator(string)
-            else:
-                return commahandler(string)
-        if string.lower() == "none":
-            return None
-        if string.lower() == "true":
-            return True
-        if string.lower() == "false":
-            return False
-        if handle is None:
-            try:
-                return int(string)
-            except:
-                return string
-        else:
-            return handle(string)
-    interprete_string.__doc__="""
-        Interpret strings.
-
-        :param string: string to interpret.
-        :return: interpreted string. If empty string (i.e. '') it returns {}.
-                If 'None' returns None. If 'True' returns True. If 'False' returns False.
-                If comma separated it applies {} else applies {}.
-        """.format(empty, commahandler, handle)
-    return interprete_string
-
-class NameSpace(object):
-    """
-    used to store variables
-    """
 
 def shell(args=None, namespace=None):
     """

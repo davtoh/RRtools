@@ -958,3 +958,9 @@ class NotCreatable(Exception):
     pass
 
 class NoParserFound(Exception): pass
+
+
+class NameSpace(object):
+    """
+    used to store variables
+    """
