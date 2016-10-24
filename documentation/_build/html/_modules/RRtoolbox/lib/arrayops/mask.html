@@ -184,7 +184,10 @@
 <span class="sd">    :param contours:</span>
 <span class="sd">    :return: cnt</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">contours</span><span class="p">[</span><span class="n">biggestCntData</span><span class="p">(</span><span class="n">contours</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span></div>
+    <span class="k">if</span> <span class="n">contours</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">contours</span><span class="p">[</span><span class="n">biggestCntData</span><span class="p">(</span><span class="n">contours</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="c1"># return empty array if there is not anything to choose</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
 <div class="viewcode-block" id="cnt_hist"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.cnt_hist">[docs]</a><span class="k">def</span> <span class="nf">cnt_hist</span><span class="p">(</span><span class="n">gray</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -272,7 +275,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

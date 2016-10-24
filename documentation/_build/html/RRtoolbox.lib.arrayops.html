@@ -707,9 +707,17 @@ where the points in the y axis of any number of functions become stable.</p>
 <dl class="function">
 <dt id="RRtoolbox.lib.arrayops.basic.isnumpy">
 <code class="descclassname">RRtoolbox.lib.arrayops.basic.</code><code class="descname">isnumpy</code><span class="sig-paren">(</span><em>arr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/basic.html#isnumpy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.basic.isnumpy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test whether an object is a numpy array.
-:param arr:
-:return: True if numpy array, else false.</p>
+<dd><p>Test whether an object is a numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>arr</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if numpy array, else false.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -1115,7 +1123,7 @@ like horizontals, verticals, horizontals, etc.</li>
 <p>Example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pts</span> <span class="o">=</span> <span class="n">random_points</span><span class="p">([(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)])</span>
 <span class="n">img</span> <span class="o">=</span> <span class="n">points2mask</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
-<span class="n">plotim</span><span class="p">(</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">Plotim</span><span class="p">(</span><span class="s2">&quot;filled&quot;</span><span class="p">,</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1129,7 +1137,7 @@ like horizontals, verticals, horizontals, etc.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>shape</strong> &#8211; enclosed frame</li>
+<li><strong>shape</strong> &#8211; enclosed frame (width, height)</li>
 <li><strong>nopoints</strong> &#8211; number of points</li>
 <li><strong>convex</strong> &#8211; if True make points convex,
 else points follow a circular pattern.</li>
@@ -1323,9 +1331,17 @@ given in blocks equivalent for each processed blocks of arr (faster).</li>
 <dl class="function">
 <dt id="RRtoolbox.lib.arrayops.basic.relativeQuadrants">
 <code class="descclassname">RRtoolbox.lib.arrayops.basic.</code><code class="descname">relativeQuadrants</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/basic.html#relativeQuadrants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.basic.relativeQuadrants" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get quadrants of relative vectors obtained from points.
-:param points: array of points.
-:return: quadrants.</p>
+<dd><p>Get quadrants of relative vectors obtained from points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> &#8211; array of points.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">quadrants.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -1996,6 +2012,27 @@ compatible with the shape of arr_in.</p>
 <span id="rrtoolbox-lib-arrayops-filters-module"></span><h2>RRtoolbox.lib.arrayops.filters module<a class="headerlink" href="#module-RRtoolbox.lib.arrayops.filters" title="Permalink to this headline">¶</a></h2>
 <p>This module contains custom 1D adn 2D-array filters and pre-processing (as in filtering phase) methods</p>
 <dl class="class">
+<dt id="RRtoolbox.lib.arrayops.filters.Bandpass">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">Bandpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#Bandpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.Bandpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
+<p>Bandpass filter (recommended to use float types)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.arrayops.filters.Bandstop">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">Bandstop</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#Bandstop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.Bandstop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
+<p>Bandstop filter (recommended to use float types)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.arrayops.filters.BilateraParameter">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">BilateraParameter</code><span class="sig-paren">(</span><em>scale</em>, <em>shift=33</em>, <em>name=None</em>, <em>alpha=100</em>, <em>beta1=-400</em>, <em>beta2=200</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#BilateraParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateraParameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.Bandstop" title="RRtoolbox.lib.arrayops.filters.Bandstop"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.Bandstop</span></code></a></p>
+<p>bilateral parameter</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="RRtoolbox.lib.arrayops.filters.BilateralParameters">
 <em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">BilateralParameters</code><span class="sig-paren">(</span><em>d=None</em>, <em>sigmaColor=None</em>, <em>sigmaSpace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#BilateralParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
@@ -2025,7 +2062,7 @@ parameters from image shape.</p>
 </table>
 <dl class="attribute">
 <dt id="RRtoolbox.lib.arrayops.filters.BilateralParameters.d">
-<code class="descname">d</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.bilateraP object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.d" title="Permalink to this definition">¶</a></dt>
+<code class="descname">d</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.BilateraParameter object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.d" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -2036,12 +2073,12 @@ parameters from image shape.</p>
 
 <dl class="attribute">
 <dt id="RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaColor">
-<code class="descname">sigmaColor</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.bilateraP object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaColor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sigmaColor</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.BilateraParameter object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaColor" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaSpace">
-<code class="descname">sigmaSpace</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.bilateraP object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaSpace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sigmaSpace</code><em class="property"> = &lt;RRtoolbox.lib.arrayops.filters.BilateraParameter object&gt;</em><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters.sigmaSpace" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2069,24 +2106,31 @@ parameters from image shape.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.bandpass">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">bandpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#bandpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.bandpass" title="Permalink to this definition">¶</a></dt>
+<dt id="RRtoolbox.lib.arrayops.filters.Highpass">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">Highpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#Highpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.Highpass" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
-<p>bandpass filter</p>
+<p>Highpass filter (recommended to use float types)</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.bandstop">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">bandstop</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#bandstop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.bandstop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
-<p>bandstop filter</p>
+<dt id="RRtoolbox.lib.arrayops.filters.InvertedBandpass">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">InvertedBandpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#InvertedBandpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.InvertedBandpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.Bandpass" title="RRtoolbox.lib.arrayops.filters.Bandpass"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.Bandpass</span></code></a></p>
+<p>inverted Bandpass filter (recommended to use float types)</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.bilateraP">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">bilateraP</code><span class="sig-paren">(</span><em>scale</em>, <em>shift=33</em>, <em>name=None</em>, <em>alpha=100</em>, <em>beta1=-400</em>, <em>beta2=200</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#bilateraP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.bilateraP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.bandstop" title="RRtoolbox.lib.arrayops.filters.bandstop"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.bandstop</span></code></a></p>
-<p>bilateral parameter</p>
+<dt id="RRtoolbox.lib.arrayops.filters.InvertedBandstop">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">InvertedBandstop</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#InvertedBandstop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.InvertedBandstop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.Bandstop" title="RRtoolbox.lib.arrayops.filters.Bandstop"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.Bandstop</span></code></a></p>
+<p>inverted Bandstop filter (recommended to use float types)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="RRtoolbox.lib.arrayops.filters.Lowpass">
+<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">Lowpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#Lowpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.Lowpass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
+<p>Lowpass filter (recommended to use float types)</p>
 </dd></dl>
 
 <dl class="function">
@@ -2158,51 +2202,23 @@ if beta2 = None:</p>
 
 <dl class="function">
 <dt id="RRtoolbox.lib.arrayops.filters.getBilateralParameters">
-<code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">getBilateralParameters</code><span class="sig-paren">(</span><em>shape</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#getBilateralParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.getBilateralParameters" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">getBilateralParameters</code><span class="sig-paren">(</span><em>shape=None</em>, <em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#getBilateralParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.getBilateralParameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate from shape bilateral parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>shape</strong> &#8211; image shape</li>
-<li><strong>mode</strong> &#8211; </li>
+<li><strong>shape</strong> &#8211; image shape. if None it returns the instace to use with shapes.</li>
+<li><strong>mode</strong> &#8211; &#8220;mild&#8221;, &#8220;heavy&#8221; or &#8220;normal&#8221; to process noise</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">instance or parameters</p>
 </td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.highpass">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">highpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#highpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.highpass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
-<p>highpass filter</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.invertedbandpass">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">invertedbandpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#invertedbandpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.invertedbandpass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.bandpass" title="RRtoolbox.lib.arrayops.filters.bandpass"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.bandpass</span></code></a></p>
-<p>inverted bandpass filter</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.invertedbandstop">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">invertedbandstop</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em>, <em>beta2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#invertedbandstop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.invertedbandstop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.bandstop" title="RRtoolbox.lib.arrayops.filters.bandstop"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.bandstop</span></code></a></p>
-<p>inverted bandstop filter</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="RRtoolbox.lib.arrayops.filters.lowpass">
-<em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">lowpass</code><span class="sig-paren">(</span><em>alpha</em>, <em>beta1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#lowpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.lowpass" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="RRtoolbox.lib.arrayops.filters.FilterBase"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.arrayops.filters.FilterBase</span></code></a></p>
-<p>lowpass filter</p>
 </dd></dl>
 
 <dl class="function">
@@ -2262,7 +2278,7 @@ if beta2 = None:</p>
 <p>This method is based on the convolution of a scaled window with the signal.
 The signal is prepared by introducing reflected copies of the signal
 (with the window size) in both ends so that transient parts are minimized
-in the begining and end part of the output signal.</p>
+in the beginning and end part of the output signal.</p>
 <dl class="docutils">
 <dt>input:</dt>
 <dd><p class="first">x: the input signal
@@ -2602,7 +2618,7 @@ with otsu threshold.</li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

@@ -138,228 +138,12 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-RRtoolbox.tools.restoration">
-<span id="rrtoolbox-tools-restoration-module"></span><h2>RRtoolbox.tools.restoration module<a class="headerlink" href="#module-RRtoolbox.tools.restoration" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.asif_demo">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">asif_demo</code><span class="sig-paren">(</span><em>fn_back=None</em>, <em>fn_fore=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#asif_demo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.asif_demo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Demo to test ASIFT, Merge, Plotters.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>fn_back</strong> &#8211; file name of background image</li>
-<li><strong>fn_fore</strong> &#8211; file name of foreground image</li>
-<li><strong>**opts</strong> &#8211; <p>demo options
-flag options:
-flag_filter_scaled (False): filter scaled images
-flag_filter_original (False): filter original images
-flag_filter_out (False): filter pos-processed images
-flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography
-flag_show_match (True): show match keypoint of scaled images
-flag_show_result (True): show restored image
-flag_save_perspective (False): save calculated perspective of foreground image
-flag_save_result (False): save restored image</p>
-<p>value obtions:
-fore_scale (400,400): tuple of W,H to convert original foreground to scaled image
-back_scale (400,400): tuple of W,H to convert original background to scaled image
-feature: (&#8216;sift-flann&#8217;) use base descriptor</p>
-</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>dictionary of results
-if there is not match the keys are:</p>
-<blockquote>
-<div><p>[&#8216;status&#8217;, &#8216;kp1&#8217;, &#8216;kp2&#8217;, &#8216;kp_pairs&#8217;, &#8216;desc1&#8217;, &#8216;desc2&#8217;,&#8217;H&#8217;]</p>
-</div></blockquote>
-<dl class="docutils">
-<dt>if there is match then additional keys are:</dt>
-<dd><p class="first last">[&#8216;img_perspective&#8217;, &#8216;img_restored&#8217;, &#8216;H_original&#8217;, &#8216;kp_pairs_original&#8217;]</p>
-</dd>
-</dl>
-<p>if flag_invertH additional kes: [&#8216;H_inverted&#8217;]</p>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.asif_demo2">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">asif_demo2</code><span class="sig-paren">(</span><em>fn_back=None</em>, <em>fn_fore=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#asif_demo2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.asif_demo2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Demo to test ASIFT, Merge, Plotters,etc while extending images.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>fn_back</strong> &#8211; file name of background image</li>
-<li><strong>fn_fore</strong> &#8211; file name of foreground image</li>
-<li><strong>**opts</strong> &#8211; <p>demo options
-flag options:
-flag_filter_scaled (False): filter scaled images
-flag_filter_original (False): filter original images
-flag_filter_out (False): filter pos-processed images
-flag_invertH (False): test inversion of Trasformation Matrix obtained from Homography
-flag_show_match (True): show match keypoint of scaled images
-flag_show_result (True): show restored image
-flag_save_perspective (False): save calculated perspective of foreground image
-flag_save_result (False): save restored image</p>
-<p>value obtions:
-fore_scale (400,400): tuple of W,H to convert original foreground to scaled image
-back_scale (400,400): tuple of W,H to convert original background to scaled image
-feature: (&#8216;sift-flann&#8217;) use base descriptor</p>
-</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>dictionary of results
-if there is not match the keys are:</p>
-<blockquote>
-<div><p>[&#8216;status&#8217;, &#8216;kp1&#8217;, &#8216;kp2&#8217;, &#8216;kp_pairs&#8217;, &#8216;desc1&#8217;, &#8216;desc2&#8217;,&#8217;H&#8217;]</p>
-</div></blockquote>
-<dl class="docutils">
-<dt>if there is match then additional keys are:</dt>
-<dd><p class="first last">[&#8216;img_perspective&#8217;, &#8216;img_restored&#8217;, &#8216;H_original&#8217;, &#8216;kp_pairs_original&#8217;]</p>
-</dd>
-</dl>
-<p>if flag_invertH additional kes: [&#8216;H_inverted&#8217;]</p>
-</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.extractCSV">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">extractCSV</code><span class="sig-paren">(</span><em>data</em>, <em>saveTo=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#extractCSV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.extractCSV" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.getDicDescriptor">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">getDicDescriptor</code><span class="sig-paren">(</span><em>path</em>, <em>loader</em>, <em>feature_name</em>, <em>dic=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#getDicDescriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.getDicDescriptor" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> &#8211; </li>
-<li><strong>loader</strong> &#8211; </li>
-<li><strong>feature_name</strong> &#8211; </li>
-<li><strong>dic</strong> &#8211; </li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.qualifyData">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">qualifyData</code><span class="sig-paren">(</span><em>data</em>, <em>loader=None</em>, <em>saveTo=None</em>, <em>autoqualify=False</em>, <em>showOnlyPassedTest=False</em>, <em>clear=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#qualifyData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.qualifyData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Qualify data of format obtained from testRates.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> &#8211; dictionary containing all data</li>
-<li><strong>loader</strong> &#8211; use loader for images</li>
-<li><strong>saveTo</strong> &#8211; save data to path</li>
-<li><strong>autoqualify</strong> &#8211; qualify all data without asking human intervention and using algorithm</li>
-<li><strong>showOnlyPassedTest</strong> &#8211; if True shows only the goods tests to qualify, else do not show.</li>
-<li><strong>clear</strong> &#8211; re-do all saved tests.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.stitch_multiple">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">stitch_multiple</code><span class="sig-paren">(</span><em>images=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#stitch_multiple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.stitch_multiple" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>opts</strong> &#8211; </td>
-</tr>
-</tbody>
-</table>
-<p>feature = &#8216;sift-flann&#8217;
-loader = &#8220;400,400&#8221;
-saveTo = None,
-autoqualify = False,
-showOnlyPassedTest= False,
-clearAll = False,
-clearData = clearAll,
-clearQualification = clearAll
-:return:</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.testRates">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">testRates</code><span class="sig-paren">(</span><em>images=None</em>, <em>**opts</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#testRates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.testRates" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>opts</strong> &#8211; </td>
-</tr>
-</tbody>
-</table>
-<p>feature = &#8216;sift-flann&#8217;
-loader = &#8220;400,400&#8221;
-saveTo = None,
-autoqualify = False,
-showOnlyPassedTest= False,
-clearAll = False,
-clearData = clearAll,
-clearQualification = clearAll
-:return:</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="RRtoolbox.tools.restoration.watchData">
-<code class="descclassname">RRtoolbox.tools.restoration.</code><code class="descname">watchData</code><span class="sig-paren">(</span><em>request</em>, <em>loader</em>, <em>data</em>, <em>onlyTest=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/restoration.html#watchData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.restoration.watchData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Show data of format obtained from testRates</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>request</strong> &#8211; (fore_name,back_name)</li>
-<li><strong>loader</strong> &#8211; image loader from path</li>
-<li><strong>data</strong> &#8211; dictionary containing requests (each request is a key).</li>
-<li><strong>onlyTest</strong> &#8211; if True show only test results, else also show stitched images and some other data.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">request data.</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="module-RRtoolbox.tools.segmentation">
 <span id="rrtoolbox-tools-segmentation-module"></span><h2>RRtoolbox.tools.segmentation module<a class="headerlink" href="#module-RRtoolbox.tools.segmentation" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="RRtoolbox.tools.segmentation.find_optic_disc">
-<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">find_optic_disc</code><span class="sig-paren">(</span><em>img</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#find_optic_disc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.find_optic_disc" title="Permalink to this definition">¶</a></dt>
-<dd><p>find optic disk in image</p>
+<dt id="RRtoolbox.tools.segmentation.find_optic_disc_watershed">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">find_optic_disc_watershed</code><span class="sig-paren">(</span><em>img</em>, <em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#find_optic_disc_watershed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.find_optic_disc_watershed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find optic disk in image using a watershed method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -378,9 +162,44 @@ clearQualification = clearAll
 </dd></dl>
 
 <dl class="function">
-<dt id="RRtoolbox.tools.segmentation.getBrightAlpha">
-<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">getBrightAlpha</code><span class="sig-paren">(</span><em>backgray</em>, <em>foregray</em>, <em>window=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#getBrightAlpha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.getBrightAlpha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get alpha transparency for merging foreground to background gray image according to brightness.</p>
+<dt id="RRtoolbox.tools.segmentation.get_beta_params_Otsu">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_beta_params_Otsu</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_beta_params_Otsu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_beta_params_Otsu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically find parameters for alpha masks using Otsu threshold value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>P</strong> &#8211; gray image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">beta1 for minimum histogram value, beta2 for Otsu value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.get_beta_params_hist">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_beta_params_hist</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_beta_params_hist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_beta_params_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically find parameters for bright alpha masks
+using a histogram analysis method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>P</strong> &#8211; gray image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">beta1 for minimum valley left of body, beta2 for brightest valley right of body
+where the body starts at the tallest peak in the histogram.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.tools.segmentation.get_bright_alpha">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_bright_alpha</code><span class="sig-paren">(</span><em>backgray</em>, <em>foregray</em>, <em>window=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_bright_alpha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_bright_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get alpha transparency for merging foreground to
+background gray image according to brightness.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -388,10 +207,11 @@ clearQualification = clearAll
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>backgray</strong> &#8211; background image. (as float)</li>
 <li><strong>foregray</strong> &#8211; foreground image. (as float)</li>
-<li><strong>window</strong> &#8211; window used to customizing alfa. It can be a binary or alfa mask, values go from 0 for transparency
-to any value where the maximum is visible i.e a window with all the same values does nothing.
-A binary mask can be used, where 0 is transparent and 1 is visible.
-If not window is given alfa is not altered and the intended alfa is returned.</li>
+<li><strong>window</strong> &#8211; window used to customizing alfa. It can be a binary or alpha mask,
+values go from 0 for transparency to any value where the maximum is visible
+i.e a window with all the same values does nothing. A binary mask can be used,
+where 0 is transparent and 1 is visible. If not window is given alfa is not
+altered and the intended alpha is returned.</li>
 </ul>
 </td>
 </tr>
@@ -403,16 +223,21 @@ If not window is given alfa is not altered and the intended alfa is returned.</l
 </dd></dl>
 
 <dl class="function">
-<dt id="RRtoolbox.tools.segmentation.get_beta_params">
-<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_beta_params</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_beta_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_beta_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>automatically find parameters for bright alpha masks.</p>
+<dt id="RRtoolbox.tools.segmentation.get_layered_alpha">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">get_layered_alpha</code><span class="sig-paren">(</span><em>back</em>, <em>fore</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#get_layered_alpha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.get_layered_alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get bright alpha mask (using Otsu method)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>P</strong> &#8211; gray image</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>back</strong> &#8211; BGR background image</li>
+<li><strong>fore</strong> &#8211; BGR foreground image</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">beta1,beta2</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">alpha mask</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -421,21 +246,23 @@ If not window is given alfa is not altered and the intended alfa is returned.</l
 <dl class="function">
 <dt id="RRtoolbox.tools.segmentation.layeredfloods">
 <code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">layeredfloods</code><span class="sig-paren">(</span><em>img</em>, <em>gray=None</em>, <em>backmask=None</em>, <em>step=1</em>, <em>connectivity=4</em>, <em>weight=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#layeredfloods"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.layeredfloods" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Create an alpha mask from an image using a weighted layered flooding algorithm,</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>img</strong> &#8211; </li>
-<li><strong>gray</strong> &#8211; </li>
-<li><strong>backmask</strong> &#8211; </li>
-<li><strong>step</strong> &#8211; </li>
-<li><strong>connectivity</strong> &#8211; </li>
-<li><strong>weight</strong> &#8211; </li>
+<li><strong>img</strong> &#8211; BGR image</li>
+<li><strong>gray</strong> &#8211; Gray image</li>
+<li><strong>backmask</strong> &#8211; background mask</li>
+<li><strong>step</strong> &#8211; step to increase upDiff in the floodFill algorithm. If weight is True
+step also increases the weight of the layers.</li>
+<li><strong>connectivity</strong> &#8211; pixel connectivity of 4 or 8 to use in the floodFill algorithm</li>
+<li><strong>weight</strong> &#8211; Increase progressively the weight of the layers using the step parameter.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">alpha mask</p>
 </td>
 </tr>
 </tbody>
@@ -447,7 +274,7 @@ If not window is given alfa is not altered and the intended alfa is returned.</l
 <code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retina_markers_thresh</code><span class="sig-paren">(</span><em>P</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retina_markers_thresh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retina_markers_thresh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retinal markers thresholds to find background,
 retinal area and optic disc with flares based
-in the histogram</p>
+in the histogram.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -463,18 +290,28 @@ in the histogram</p>
 <dl class="function">
 <dt id="RRtoolbox.tools.segmentation.retinal_mask">
 <code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retinal_mask</code><span class="sig-paren">(</span><em>img</em>, <em>biggest=False</em>, <em>addalpha=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retinal_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retinal_mask" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Obtain the mask of the retinal area in an image.
+For a simpler and lightweight algorithm see <a class="reference internal" href="#RRtoolbox.tools.segmentation.retinal_mask_watershed" title="RRtoolbox.tools.segmentation.retinal_mask_watershed"><code class="xref py py-func docutils literal"><span class="pre">retinal_mask_watershed()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>img</strong> &#8211; </li>
-<li><strong>biggest</strong> &#8211; </li>
-<li><strong>addalpha</strong> &#8211; </li>
+<li><strong>img</strong> &#8211; BGR or gray image</li>
+<li><strong>biggest</strong> &#8211; True to return only biggest object</li>
+<li><strong>addalpha</strong> &#8211; True to add additional alpha mask parameter</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><dl class="docutils">
+<dt>if addalpha:</dt>
+<dd><p class="first last">binary mask, alpha mask</p>
+</dd>
+<dt>else:</dt>
+<dd><p class="first last">binary mask</p>
+</dd>
+</dl>
+</p>
 </td>
 </tr>
 </tbody>
@@ -482,13 +319,77 @@ in the histogram</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="RRtoolbox.tools.segmentation.retinal_mask_simple">
-<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retinal_mask_simple</code><span class="sig-paren">(</span><em>img</em>, <em>parameters=(10</em>, <em>30</em>, <em>None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retinal_mask_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retinal_mask_simple" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="RRtoolbox.tools.segmentation.retinal_mask_watershed">
+<code class="descclassname">RRtoolbox.tools.segmentation.</code><code class="descname">retinal_mask_watershed</code><span class="sig-paren">(</span><em>img</em>, <em>parameters=(10</em>, <em>30</em>, <em>None)</em>, <em>addMarkers=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/segmentation.html#retinal_mask_watershed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.segmentation.retinal_mask_watershed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick and simple watershed method to obtain the mask of the retinal area in an image.
+For a more robust algorithm see <a class="reference internal" href="#RRtoolbox.tools.segmentation.retinal_mask" title="RRtoolbox.tools.segmentation.retinal_mask"><code class="xref py py-func docutils literal"><span class="pre">retinal_mask()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> &#8211; BGR or gray image</li>
+<li><strong>parameters</strong> &#8211; tuple of parameters to pass to <code class="xref py py-func docutils literal"><span class="pre">filterFactory()</span></code></li>
+<li><strong>addMarkers</strong> &#8211; True to add additional Marker mask. It contains 0 for unknown
+areas, 1 for background and 2 for retinal area.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><dl class="docutils">
+<dt>if addMarkers:</dt>
+<dd><p class="first last">binary mask, Markers mask</p>
+</dd>
+<dt>else:</dt>
+<dd><p class="first last">binary mask</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-RRtoolbox.tools.selectors">
 <span id="rrtoolbox-tools-selectors-module"></span><h2>RRtoolbox.tools.selectors module<a class="headerlink" href="#module-RRtoolbox.tools.selectors" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot">
+<em class="property">class </em><code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">EntropyPlot</code><span class="sig-paren">(</span><em>images</em>, <em>win='Entropy tests'</em>, <em>func=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim" title="RRtoolbox.lib.plotter.Plotim"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.plotter.Plotim</span></code></a></p>
+<p>Plot entropy test</p>
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.getData">
+<code class="descname">getData</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.getData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.getImage">
+<code class="descname">getImage</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.getImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.getImage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.keyfunc">
+<code class="descname">keyfunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.keyfunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.keyfunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.nextim">
+<code class="descname">nextim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.nextim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.nextim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.previousim">
+<code class="descname">previousim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.previousim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.previousim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.tools.selectors.EntropyPlot.selectlist">
+<code class="descname">selectlist</code><span class="sig-paren">(</span><em>imlist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#EntropyPlot.selectlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.EntropyPlot.selectlist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="RRtoolbox.tools.selectors.entropy">
 <code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">entropy</code><span class="sig-paren">(</span><em>imlist</em>, <em>loadfunc=None</em>, <em>invert=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropy" title="Permalink to this definition">¶</a></dt>
@@ -510,45 +411,8 @@ Optics Communications, Volume 341, 15 April 2015, Pages 101-113, ISSN 0030-4018,
 <dl class="docutils">
 <dt>where sortedD is the ranking of the Entropy test, D = [D0,...,DN] D0&gt;DN</dt>
 <dd>sortedImlist is fns sorted to match sortedD,
-D is the list of the absolute difference between entropy and the root mean square, D = <a href="#id5"><span class="problematic" id="id6">|E-RMS|</span></a></dd>
+D is the list of the absolute difference between entropy and the root mean square, D = <a href="#id1"><span class="problematic" id="id2">|E-RMS|</span></a></dd>
 </dl>
-</dd></dl>
-
-<dl class="class">
-<dt id="RRtoolbox.tools.selectors.entropyPlot">
-<em class="property">class </em><code class="descclassname">RRtoolbox.tools.selectors.</code><code class="descname">entropyPlot</code><span class="sig-paren">(</span><em>images</em>, <em>win='Entropy tests'</em>, <em>func=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim" title="RRtoolbox.lib.plotter.plotim"><code class="xref py py-class docutils literal"><span class="pre">RRtoolbox.lib.plotter.plotim</span></code></a></p>
-<p>Plot entropy test</p>
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.getData">
-<code class="descname">getData</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.getData" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.getImage">
-<code class="descname">getImage</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.getImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.getImage" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.keyfunc">
-<code class="descname">keyfunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.keyfunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.keyfunc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.nextim">
-<code class="descname">nextim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.nextim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.nextim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.previousim">
-<code class="descname">previousim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.previousim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.previousim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.tools.selectors.entropyPlot.selectlist">
-<code class="descname">selectlist</code><span class="sig-paren">(</span><em>imlist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/tools/selectors.html#entropyPlot.selectlist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.tools.selectors.entropyPlot.selectlist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="function">
@@ -592,7 +456,6 @@ D is the list of the absolute difference between entropy and the root mean squar
 <li><a class="reference internal" href="#">RRtoolbox.tools package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.lens">RRtoolbox.tools.lens module</a></li>
-<li><a class="reference internal" href="#module-RRtoolbox.tools.restoration">RRtoolbox.tools.restoration module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.segmentation">RRtoolbox.tools.segmentation module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.selectors">RRtoolbox.tools.selectors module</a></li>
 <li><a class="reference internal" href="#module-RRtoolbox.tools.sticher">RRtoolbox.tools.sticher module</a></li>
@@ -635,7 +498,7 @@ D is the list of the absolute difference between entropy and the root mean squar
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

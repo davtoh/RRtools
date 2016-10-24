@@ -3,7 +3,7 @@ from pyqtgraph.Qt import QtCore, QtGui
 import numpy as np
 import pyqtgraph as pg
 import sys
-from pyqtgraph.graphicsItems import ROI
+from pyqtgraph.graphicsItems import ROI, ImageItem
 
 
 class Scroller(QtGui.QWidget):
@@ -59,34 +59,51 @@ class DragButton(QtGui.QPushButton):
         super(DragButton, self).mouseReleaseEvent(event)
 
 
-def getROI(arr, title = 'ROI selector', label = "", lightweight=True, returnMappedCoords = True, type= "ellipse"):
+def getROI(arr, win ='ROI selector', title = "", preview=True, crop = True, form="rect"):
+    """
+
+    :param arr: array to crop
+    :param win: window title or instance
+    :param title: cropping image title
+    :param preview: (True) if true it shows the resulting ROI before
+            cropping. It could be more lightweight if disabled to False.
+    :param crop: (True) if True it returns the cropped image else the
+            ROI and ImageItem objects.
+    :param form: "rect" for a rectangular, "ellipse" for an elliptical
+            and "circle" for a circular selection of ROI.
+    :return:
+    """
     ## create GUI
-    win = pg.GraphicsWindow(size=(400,400), border=True)
-    win.setWindowTitle(title)
+    if isinstance(win,basestring):
+        W = pg.GraphicsWindow(size=(400,400), border=True)
+        W.setWindowTitle(win)
+    else:
+        W = win
+
     h,w = arr.shape[:2]
     # make roi handle
-    if isinstance(type,ROI.ROI):
-        roi = type
-    elif type == "rect":
+    if isinstance(form, ROI.ROI):
+        roi = form
+    elif form.lower() == "rect":
         roi = pg.RectROI([0, 0], [h,w], pen=(0,9))
         roi.addRotateHandle([1,0], [0.5, 0.5])
-    elif type == "ellipse":
+    elif form.lower()== "ellipse":
         roi = pg.EllipseROI([0, 0], [30, 20], pen=(3,9))
-    elif type == "circle":
+    elif form.lower() == "circle":
         roi = pg.CircleROI([0, 0], [20, 20], pen=(4,9))
+        roi.getArrayRegion()
     else:
-        raise Exception("ROI type is not recognizable")
+        raise Exception("'{}' ROI type is not recognizable".format(form))
 
-    layout = win.addLayout(row=0, col=0)
-    layout.addLabel(label, row=0, col=0) # add label to layout
+    layout = W.addLayout(row=0, col=0)
+    layout.addLabel(title, row=0, col=0) # add label to layout
     img1a = pg.ImageItem(arr) # it only supports float
     box1 = layout.addViewBox(row=1, col=0, lockAspect=True)
     box1.addItem(img1a)
     box1.disableAutoRange('xy')
     box1.autoRange()
     box1.addItem(roi)
-
-    if not lightweight:
+    if preview:
         box2 = layout.addViewBox(row=2, col=0, lockAspect=True)
         img1b = pg.ImageItem()
         box2.addItem(img1b)
@@ -101,19 +118,23 @@ def getROI(arr, title = 'ROI selector', label = "", lightweight=True, returnMapp
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         QtGui.QApplication.instance().exec_()
 
-    return roi.getArrayRegion(arr, img1a)
+    if crop:
+        return roi.getArrayRegion(arr, img1a)
+
+    img1a.W = W # keep reference so that C/C++ wrapped object is not deleted
+    return roi, img1a
 
 ## Start Qt event loop unless running in interactive mode or using pyside.
 if __name__ == '__main__':
-    import cv2
-    def loadcv(pth,mode=-1,shape=None):
-        im = cv2.imread(pth,mode)
-        if shape:
-            im = cv2.resize(im,shape)
-        return im
+    from RRtoolbox.lib.image import loadcv
 
     app = QtGui.QApplication([]) # make a quick application
-    image = loadcv(r"/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtoolbox/tests/im1_3.png",mode=0,shape=(300,500)).astype(np.float32)
-    myroi =  getROI(image,lightweight=False)
+    image = loadcv(r"./../../tests/im1_1.jpg",flags=0,shape=(300,500)).astype(np.float32)
+    roi,imgla =  getROI(image, preview=True, form="rect", crop=False)
+    #myroi = roi.getArrayRegion(image, imgla)
+    myroi, coors = roi.getArrayRegion(image, imgla, returnMappedCoords=True)
+    #import pdb; pdb.set_trace()
     print myroi
+    print coors
+    print coors.shape
     getROI(myroi)

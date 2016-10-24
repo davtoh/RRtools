@@ -47,7 +47,7 @@
 <span class="sd">    This module contains all config data to the package.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">directory</span> <span class="k">as</span> <span class="n">_directory</span>
+<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">Directory</span> <span class="k">as</span> <span class="n">_directory</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">FileDirectory</span> <span class="k">as</span> <span class="n">_FileDirectory</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">correctPath</span> <span class="k">as</span> <span class="n">_correctPath</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">resource_path</span> <span class="k">as</span> <span class="n">_resource_path</span>
@@ -121,7 +121,7 @@
 
 <span class="c1"># ----------------------------CLASSES---------------------------- #</span>
 
-<div class="viewcode-block" id="directoryManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager">[docs]</a><span class="k">class</span> <span class="nc">directoryManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectoryManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.DirectoryManager">[docs]</a><span class="k">class</span> <span class="nc">DirectoryManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manage the configured variables, paths and files.</span>
 
@@ -175,7 +175,7 @@
         <span class="c1">#return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">}</span>
 
-<div class="viewcode-block" id="directoryManager.reset"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectoryManager.reset"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.DirectoryManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the configuration file to default variables.</span>
 
@@ -196,7 +196,7 @@
                 <span class="k">raise</span> <span class="n">e</span>
             <span class="k">return</span> <span class="bp">False</span></div>
 
-<div class="viewcode-block" id="directoryManager.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectoryManager.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.DirectoryManager.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        loads the configuration file and update.</span>
 
@@ -205,10 +205,17 @@
 <span class="sd">        .. warning:: Unsaved instance variables will be replaced by configuration file variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Loading &#39;{}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="nb">vars</span> <span class="o">=</span> <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; structure is old...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
             <span class="c1"># not tolerable as error and should not be caught</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
@@ -222,7 +229,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">vars</span></div>
 
-<div class="viewcode-block" id="directoryManager.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.directoryManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="DirectoryManager.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.DirectoryManager.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        saves configuration file.</span>
 
@@ -278,8 +285,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 <span class="sd">        return self[item]&#39;&#39;&#39;</span></div>
 
-<span class="n">MANAGER</span> <span class="o">=</span> <span class="n">directoryManager</span><span class="p">()</span> <span class="c1"># configure directories</span>
-
+<span class="n">MANAGER</span> <span class="o">=</span> <span class="n">DirectoryManager</span><span class="p">()</span> <span class="c1"># configure directories</span>
 
 <div class="viewcode-block" id="ConfigTool"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.ConfigTool">[docs]</a><span class="k">class</span> <span class="nc">ConfigTool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -366,7 +372,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

@@ -12,14 +12,6 @@ RRtoolbox.tools.lens module
     :undoc-members:
     :show-inheritance:
 
-RRtoolbox.tools.restoration module
-----------------------------------
-
-.. automodule:: RRtoolbox.tools.restoration
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 RRtoolbox.tools.segmentation module
 -----------------------------------
 

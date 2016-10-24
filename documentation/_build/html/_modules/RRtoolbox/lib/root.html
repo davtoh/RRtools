@@ -49,15 +49,17 @@
 <span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatch</span><span class="p">,</span><span class="n">fnmatchcase</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<span class="n">formater</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span> <span class="c1"># string formatter str.format</span>
 <span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
 <span class="c1"># ----------------------------BASIC FUNCTIONS---------------------------- #</span>
 
 
-<div class="viewcode-block" id="stdoutSIM"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM">[docs]</a><span class="k">class</span> <span class="nc">stdoutSIM</span><span class="p">:</span>
+<div class="viewcode-block" id="StdoutSIM"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM">[docs]</a><span class="k">class</span> <span class="nc">StdoutSIM</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    simple logger to simulate stdout output</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -66,24 +68,24 @@
             <span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="n">disable</span>
-<div class="viewcode-block" id="stdoutSIM.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutSIM.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-<div class="viewcode-block" id="stdoutSIM.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutSIM.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-<div class="viewcode-block" id="stdoutSIM.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutSIM.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-<div class="viewcode-block" id="stdoutSIM.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutSIM.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
-<div class="viewcode-block" id="stdoutSIM.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutSIM.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutSIM.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div></div>
 
-<span class="n">stdout</span> <span class="o">=</span> <span class="n">stdoutSIM</span><span class="p">()</span>
+<span class="n">stdout</span> <span class="o">=</span> <span class="n">StdoutSIM</span><span class="p">()</span>
 
-<div class="viewcode-block" id="stdoutLOG"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG">[docs]</a><span class="k">class</span> <span class="nc">stdoutLOG</span><span class="p">:</span>
+<div class="viewcode-block" id="StdoutLOG"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG">[docs]</a><span class="k">class</span> <span class="nc">StdoutLOG</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    simple logger to save stdout output</span>
 <span class="sd">    so anything printed in the console is logged to a file.</span>
@@ -99,11 +101,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">False</span>
 
-        <span class="c1"># close previous stdoutLOG</span>
-        <span class="k">if</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span><span class="n">stdoutLOG</span><span class="p">):</span>
+        <span class="c1"># close previous StdoutLOG</span>
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">StdoutLOG</span><span class="p">):</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span><span class="n">stdoutSIM</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">StdoutSIM</span><span class="p">):</span>
             <span class="c1"># continue using previous logs</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -112,23 +114,23 @@
 
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span> <span class="c1"># register log</span>
 
-<div class="viewcode-block" id="stdoutLOG.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutLOG.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutLOG.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutLOG.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutLOG.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutLOG.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutLOG.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutLOG.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">flush</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutLOG.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutLOG.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutLOG.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="c1"># close according to chain option</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chain</span><span class="p">:</span>
             <span class="c1"># close all the logs in the chain</span>
@@ -141,7 +143,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">True</span></div></div>
 
-<div class="viewcode-block" id="stdoutMULTI"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI">[docs]</a><span class="k">class</span> <span class="nc">stdoutMULTI</span><span class="p">:</span>
+<div class="viewcode-block" id="StdoutMULTI"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI">[docs]</a><span class="k">class</span> <span class="nc">StdoutMULTI</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enclose several file-like objects.</span>
 
@@ -150,23 +152,23 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filelist</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span> <span class="o">=</span> <span class="n">filelist</span>
 
-<div class="viewcode-block" id="stdoutMULTI.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutMULTI.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutMULTI.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutMULTI.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutMULTI.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutMULTI.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutMULTI.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutMULTI.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">flush</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="stdoutMULTI.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.stdoutMULTI.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="StdoutMULTI.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
@@ -218,6 +220,47 @@
 <span class="c1"># ----------------------------DECORATED FUNCTIONS---------------------------- #</span>
 
 <span class="c1"># ----------------------------SPECIALISED FUNCTIONS---------------------------- #</span>
+
+<div class="viewcode-block" id="formatOnly"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatOnly">[docs]</a><span class="k">def</span> <span class="nf">formatOnly</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format string only with provided keys</span>
+
+<span class="sd">    :param format_string: string to format</span>
+<span class="sd">    :param kwargs: format keys</span>
+<span class="sd">    :return: formatted string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{{{}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="formatConsume"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatConsume">[docs]</a><span class="k">def</span> <span class="nf">formatConsume</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">handle</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format with dictionary and consume keys.</span>
+
+<span class="sd">    :param format_string: string to format</span>
+<span class="sd">    :param kwargs: dictionary containing the keys and values to format string.</span>
+<span class="sd">            The keys must be supported by the string formatter</span>
+<span class="sd">    :param formatter: (None) formatter function to format string</span>
+<span class="sd">    :return: formatted string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys_in_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">formatter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_in_str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">handle</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">formatted_string</span></div>
+
 
 <div class="viewcode-block" id="FactorConvert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert">[docs]</a><span class="k">class</span> <span class="nc">FactorConvert</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -457,12 +500,12 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="o">*</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span><span class="n">profiler</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span> <span class="n">Profiler</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span><span class="n">profiler</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span> <span class="n">Profiler</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="c1"># end chronometer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">t</span>
@@ -476,7 +519,7 @@
                 <span class="n">time</span><span class="o">=</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
                 <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">abbreviate</span><span class="o">=</span><span class="n">i</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="profiler"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler">[docs]</a><span class="k">class</span> <span class="nc">profiler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler">[docs]</a><span class="k">class</span> <span class="nc">Profiler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    profiler for code points</span>
 
@@ -538,7 +581,7 @@
         <span class="n">point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
 
-<div class="viewcode-block" id="profiler.open_point"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.open_point">[docs]</a>    <span class="k">def</span> <span class="nf">open_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.open_point"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.open_point">[docs]</a>    <span class="k">def</span> <span class="nf">open_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Open a profiling point to track time.</span>
 
@@ -546,11 +589,11 @@
 <span class="sd">        :param tag: classification tag</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">point</span> <span class="o">=</span> <span class="n">profiler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">Profiler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">point</span></div>
 
-<div class="viewcode-block" id="profiler.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        close profiler and all their points</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -559,7 +602,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="profiler.formatter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.formatter">[docs]</a>    <span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.formatter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.formatter">[docs]</a>    <span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        format profiling point arguments.</span>
 
@@ -619,7 +662,7 @@
             <span class="k">return</span> <span class="n">new_children</span> <span class="c1"># replace for new children list</span>
         <span class="k">return</span> <span class="n">children</span>
 
-<div class="viewcode-block" id="profiler.restructure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.restructure">[docs]</a>    <span class="k">def</span> <span class="nf">restructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">collapse</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.restructure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.restructure">[docs]</a>    <span class="k">def</span> <span class="nf">restructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">collapse</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        reprocess an already created structure.</span>
 
@@ -635,7 +678,7 @@
             <span class="n">structure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">children</span>
         <span class="k">return</span> <span class="n">structure</span></div>
 
-<div class="viewcode-block" id="profiler.structure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.structure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        profiling structure.</span>
 
@@ -661,7 +704,7 @@
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">i</span>
 
-<div class="viewcode-block" id="profiler.lines_unformatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.lines_unformatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.lines_unformatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_unformatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        generate structure lines</span>
 
@@ -670,7 +713,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="profiler.lines_formatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.lines_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.lines_formatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        generate string lines</span>
 
@@ -683,7 +726,7 @@
             <span class="n">lns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">lns</span></div>
 
-<div class="viewcode-block" id="profiler.string_lines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.string_lines">[docs]</a>    <span class="k">def</span> <span class="nf">string_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.string_lines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_lines">[docs]</a>    <span class="k">def</span> <span class="nf">string_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        string with plain structure of profiling</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -708,7 +751,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
-<div class="viewcode-block" id="profiler.string_structured"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.profiler.string_structured">[docs]</a>    <span class="k">def</span> <span class="nf">string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">structure</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.string_structured"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_structured">[docs]</a>    <span class="k">def</span> <span class="nf">string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">structure</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        string with plain structure of profiling</span>
 
@@ -746,12 +789,12 @@
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">stdoutSIM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutSIM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># in case it is not defined</span>
                 <span class="kn">import</span> <span class="nn">StringIO</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">stdoutMULTI</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutMULTI</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">])</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span>
         <span class="k">return</span> <span class="bp">self</span>
 
@@ -780,48 +823,125 @@
     <span class="c1"># special case: Folder</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fns</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
         <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">contents</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fns</span> <span class="k">if</span> <span class="n">check</span><span class="p">(</span><span class="n">p</span><span class="p">)]</span></div>
+    <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span><span class="n">fns</span><span class="p">)</span> <span class="c1"># [p for p in fns if check(p)]</span></div>
 
-<div class="viewcode-block" id="lookinglob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.lookinglob">[docs]</a><span class="k">def</span> <span class="nf">lookinglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">returnAll</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">raiseErr</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ensureList"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.ensureList">[docs]</a><span class="k">def</span> <span class="nf">ensureList</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; ensures that object is list &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span> <span class="c1"># returns original lis</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span> <span class="c1"># for python 2.x check if obj is iterablet</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="c1"># converts to list</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="c1"># object is returned inside list</span></div>
+
+<div class="viewcode-block" id="globFilter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.globFilter">[docs]</a><span class="k">class</span> <span class="nc">globFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;glob filter for patterns&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param include: permitted patterns</span>
+<span class="sd">        :param exclude: excluded patterns. it takes priority over includes</span>
+<span class="sd">        :param case: True or False for case sensitive patterns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">include</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">include</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">exclude</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">case</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatchcase</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatch</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">cmp</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Evaluate filter.</span>
+
+<span class="sd">        :param cmp: iterator or string</span>
+<span class="sd">        :return: True or false if cmp pass filter test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span><span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">cmp</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmpfunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="c1"># prevents from accessing self</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span><span class="p">:</span> <span class="c1"># if exclude is [] don&#39;t do the test</span>
+                <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span> <span class="c1"># test includes</span>
+                <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># if include is False or None return True anyway i.e. equivalent to [&#39;*&#39;]</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+
+
+<div class="viewcode-block" id="lookinglob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.lookinglob">[docs]</a><span class="k">def</span> <span class="nf">lookinglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">filelist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">raiseErr</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.</span>
 
-<span class="sd">    :param pattern: look pattern in path</span>
-<span class="sd">    :param path: path to look pattern</span>
-<span class="sd">    :param ext: extension</span>
-<span class="sd">    :param raiseErr: If true raise Exception if patter not found in path</span>
-<span class="sd">    :return: fn or None</span>
+<span class="sd">    :param pattern: string to look for pattern.</span>
+<span class="sd">    :param path: (None) path to look for pattern</span>
+<span class="sd">    :param ext: (None) extension of pattern in path</span>
+<span class="sd">    :param forward: (None) look changes after pattern and before ext parameter.</span>
+<span class="sd">    :param filelist: (None) simulates the files in path and look patterns in this list.</span>
+<span class="sd">    :param aslist: (False) if False it returns the first match case string</span>
+<span class="sd">            else the list of matching cases.</span>
+<span class="sd">    :param raiseErr: If true raises Exception if patter is not found in path or there</span>
+<span class="sd">            are more than one match</span>
+<span class="sd">    :return: matched case if returnAll is False else the list of matched cases</span>
+<span class="sd">            or if no match is found None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;{b}*&quot;</span><span class="p">,</span> <span class="s2">&quot;*{b}&quot;</span><span class="p">,</span> <span class="s2">&quot;*{b}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{p}{b}&quot;</span><span class="p">,</span> <span class="s2">&quot;{p}*{b}&quot;</span><span class="p">,</span> <span class="s2">&quot;{p}{b}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{p}*{b}*&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-            <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">ext</span>
-        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">ext</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">forward</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># filter pure pattern</span>
+        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># create a list of test with pattern</span>
+        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;*{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">forward</span><span class="p">:</span>
+            <span class="n">tests</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;{pattern}*&quot;</span><span class="p">,</span><span class="s2">&quot;*{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}*&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+                <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">ext</span>
+            <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">ext</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
 
-    <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="n">pattern</span><span class="p">))</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">returnAll</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">ress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">tests</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span> <span class="c1"># eliminate repeated keys</span>
+    <span class="k">if</span> <span class="n">filelist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># look in a real path</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
+            <span class="c1"># get list of matches</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="p">:</span> <span class="c1"># if not match continue</span>
+                <span class="k">continue</span>
+            <span class="c1"># return first match</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">aslist</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># keep acumulatting matches</span>
+            <span class="n">ress</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># look in a simulated path with files in filelist</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="p">[</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">globFilter</span><span class="p">(</span><span class="n">case</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">),</span><span class="n">filelist</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">ress</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">returnAll</span><span class="p">:</span>
-            <span class="n">unique</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">ress</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
-                    <span class="n">unique</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">unique</span>
-        <span class="n">ress</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">raiseErr</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;More than one file with pattern {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># return possibilities</span>
-
-    <span class="k">if</span> <span class="n">raiseErr</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;{} not in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span></div>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">aslist</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ress</span> <span class="c1"># return list anyways</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># return only matched</span>
+    <span class="k">elif</span> <span class="n">ress</span> <span class="ow">and</span> <span class="n">raiseErr</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;More than one file with pattern &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">raiseErr</span><span class="p">:</span>
+        <span class="c1">#if filelist is not None:</span>
+        <span class="c1">#    path = filelist</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">aslist</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ress</span><span class="p">))</span> <span class="c1"># return unique matches</span>
+    <span class="k">return</span> <span class="bp">None</span></div>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -842,7 +962,7 @@
         <span class="k">print</span> <span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="n">pf</span> <span class="o">=</span> <span class="n">profiler</span><span class="p">(</span><span class="s2">&quot;Init&quot;</span><span class="p">)</span>
+        <span class="n">pf</span> <span class="o">=</span> <span class="n">Profiler</span><span class="p">(</span><span class="s2">&quot;Init&quot;</span><span class="p">)</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;for loop&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
             <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
@@ -855,6 +975,35 @@
         <span class="c1">#print pf.string_structured()</span>
         <span class="k">print</span> <span class="n">pf</span><span class="o">.</span><span class="n">string_structured</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="n">pf</span><span class="o">.</span><span class="n">structure</span><span class="p">())</span>
 
+<span class="c1"># ---------------------------- EXCEPTIONS ---------------------------- #</span>
+
+<div class="viewcode-block" id="TimeOutException"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TimeOutException">[docs]</a><span class="k">class</span> <span class="nc">TimeOutException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="TransferExeption"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TransferExeption">[docs]</a><span class="k">class</span> <span class="nc">TransferExeption</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="VariableNotSettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotSettable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotSettable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="VariableNotDeletable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotDeletable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotDeletable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NotCallable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCallable">[docs]</a><span class="k">class</span> <span class="nc">NotCallable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines objectGetter error: given object is not callable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NotCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCreatable">[docs]</a><span class="k">class</span> <span class="nc">NotCreatable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines objectGetter error: objectGetter cannot create new object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NoParserFound"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NoParserFound">[docs]</a><span class="k">class</span> <span class="nc">NoParserFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="NameSpace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NameSpace">[docs]</a><span class="k">class</span> <span class="nc">NameSpace</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    used to store variables</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
 
           </div>
@@ -888,7 +1037,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

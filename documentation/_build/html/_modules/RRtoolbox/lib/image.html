@@ -57,6 +57,8 @@
 <span class="sd">    TIFF files - *.tiff, *.tif (see the Notes section)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">mkPath</span><span class="p">,</span> <span class="n">getPath</span><span class="p">,</span> <span class="n">increment_if_exits</span>
 <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">FLOAT</span><span class="p">,</span><span class="n">INT</span><span class="p">,</span><span class="n">MANAGER</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -64,14 +66,14 @@
 <span class="kn">from</span> <span class="nn">arrayops.basic</span> <span class="kn">import</span> <span class="n">anorm</span><span class="p">,</span> <span class="n">polygonArea</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">vectorsAngles</span><span class="p">,</span> <span class="n">overlay</span><span class="p">,</span> \
     <span class="n">standarizePoints</span><span class="p">,</span> <span class="n">splitPoints</span>
 <span class="kn">from</span> <span class="nn">root</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">pyqtgraph</span> <span class="kn">import</span> <span class="n">QtGui</span>
-<span class="kn">from</span> <span class="nn">cache</span> <span class="kn">import</span> <span class="n">cache</span><span class="p">,</span> <span class="n">resourceManager</span>
+<span class="c1">#from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import name QtOpenGL</span>
+<span class="kn">from</span> <span class="nn">cache</span> <span class="kn">import</span> <span class="n">Cache</span><span class="p">,</span> <span class="n">ResourceManager</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">MutableSequence</span>
 <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">strdifference</span><span class="p">,</span> <span class="n">changedir</span><span class="p">,</span> <span class="n">checkFile</span><span class="p">,</span> <span class="n">getFileHandle</span><span class="p">,</span> \
     <span class="n">increment_if_exits</span><span class="p">,</span> <span class="n">mkPath</span>
 <span class="kn">import</span> <span class="nn">matplotlib.axes</span>
 <span class="kn">import</span> <span class="nn">matplotlib.figure</span>
-<span class="kn">from</span> <span class="nn">plotter</span> <span class="kn">import</span> <span class="n">plotim</span><span class="p">,</span> <span class="n">limitaxis</span>
+<span class="kn">from</span> <span class="nn">plotter</span> <span class="kn">import</span> <span class="n">Plotim</span><span class="p">,</span> <span class="n">limitaxis</span>
 <span class="kn">from</span> <span class="nn">serverServices</span> <span class="kn">import</span> <span class="n">parseString</span><span class="p">,</span> <span class="n">string_is_socket_address</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
 
@@ -163,6 +165,7 @@
 
 <span class="sd">    source from: https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pyqtgraph</span> <span class="kn">import</span> <span class="n">QtGui</span>
     <span class="k">if</span> <span class="n">qimage</span><span class="o">.</span><span class="n">isNull</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Image is Null&quot;</span><span class="p">)</span>
     <span class="n">result_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">qimage</span><span class="o">.</span><span class="n">height</span><span class="p">(),</span> <span class="n">qimage</span><span class="o">.</span><span class="n">width</span><span class="p">())</span>
@@ -218,6 +221,7 @@
 
 <span class="sd">    source from: https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pyqtgraph</span> <span class="kn">import</span> <span class="n">QtGui</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gray</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;gray2QImage can only convert 2D arrays&quot;</span><span class="p">)</span>
 
@@ -246,6 +250,7 @@
 
 <span class="sd">    source from: https://kogs-www.informatik.uni-hamburg.de/~meine/software/vigraqt/qimage2ndarray.py</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">pyqtgraph</span> <span class="kn">import</span> <span class="n">QtGui</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rgb</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rgb2QImage can only convert 3D arrays&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rgb</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
@@ -487,7 +492,7 @@
         <span class="c1"># test path to file or URL</span>
         <span class="k">return</span> <span class="n">loadsfrom</span><span class="p">(</span><span class="n">toparse</span><span class="p">,</span><span class="n">flags</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="imFactory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory">[docs]</a><span class="k">class</span> <span class="nc">imFactory</span><span class="p">:</span>
+<div class="viewcode-block" id="ImFactory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory">[docs]</a><span class="k">class</span> <span class="nc">ImFactory</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    image factory for RRToolbox to create scripts to standardize loading images and</span>
 <span class="sd">    provide lazy loading (it can load images from disk with the customized options</span>
@@ -529,26 +534,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="c1">#TODO not finished</span>
 
-<div class="viewcode-block" id="imFactory.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not attribute &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="imFactory.get_Func"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_Func">[docs]</a>    <span class="k">def</span> <span class="nf">get_Func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_Func"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_Func">[docs]</a>    <span class="k">def</span> <span class="nf">get_Func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        gets the loading function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="imFactory.get_code"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_code">[docs]</a>    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_code"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_code">[docs]</a>    <span class="k">def</span> <span class="nf">get_code</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get the script code</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="imFactory.get_errorFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_errorFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_errorFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">throw</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_errorFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_errorFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_errorFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">throw</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">errorFunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">throw</span> <span class="ow">and</span> <span class="n">im</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">checkFile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
@@ -560,19 +565,19 @@
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Missing file &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">{</span><span class="bp">None</span><span class="p">:</span><span class="n">errorFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_loadFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_loadFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_loadFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_loadFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_loadFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_loadFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">loadFunc</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">flag</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">loadFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_resizeFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_resizeFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_resizeFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_resizeFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_resizeFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_resizeFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="c1"># see http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#resize</span>
         <span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span> <span class="n">fx</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span> <span class="n">fy</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span> <span class="n">interpolation</span> <span class="ow">or</span> <span class="mi">0</span>
         <span class="k">def</span> <span class="nf">resizeFunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">dsize</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">fx</span><span class="p">,</span> <span class="n">fy</span><span class="p">,</span> <span class="n">interpolation</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">resizeFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_mapFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_mapFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">RGB</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mpath</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_mapFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_mapFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">RGB</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mpath</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">mapFunc</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">mpath</span> <span class="o">==</span> <span class="s2">&quot;*&quot;</span><span class="p">:</span> <span class="c1"># save mmap in working directory</span>
                 <span class="n">drive</span><span class="p">,</span><span class="n">dirname</span><span class="p">,(</span><span class="n">filename</span><span class="p">,</span><span class="n">ext</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">getData</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
@@ -593,7 +598,7 @@
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span> <span class="c1"># mapper(savepath,im,mode,True)[0]#</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">mapFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_transposeFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_transposeFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_transposeFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_transposeFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_transposeFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_transposeFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">transposeFunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">im</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
@@ -601,12 +606,12 @@
                 <span class="k">return</span> <span class="n">im</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># np.ascontiguousarray? http://stackoverflow.com/a/27601130/5288758</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">transposeFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_convertionFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_convertionFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_convertionFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_convertionFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_convertionFunc">[docs]</a>    <span class="k">def</span> <span class="nf">get_convertionFunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">convertionFunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">code</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">convertionFunc</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="imFactory.get_np2qi"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imFactory.get_np2qi">[docs]</a>    <span class="k">def</span> <span class="nf">get_np2qi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImFactory.get_np2qi"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.get_np2qi">[docs]</a>    <span class="k">def</span> <span class="nf">get_np2qi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;im&quot;</span><span class="p">:</span><span class="n">np2qi</span><span class="p">}</span></div></div>
 
 <div class="viewcode-block" id="loadFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.loadFunc">[docs]</a><span class="k">def</span> <span class="nf">loadFunc</span><span class="p">(</span><span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dsize</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fx</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fy</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -700,7 +705,7 @@
     <span class="k">def</span> <span class="nf">loadfunc</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="n">im</span> <span class="o">=</span> <span class="n">interpretImage</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">flag</span><span class="p">)</span> <span class="c1"># load func</span>
         <span class="k">if</span> <span class="n">throw</span><span class="p">:</span> <span class="n">errorFunc</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">path</span><span class="p">)</span> <span class="c1"># if not loaded throw error</span>
-        <span class="k">if</span> <span class="n">flag</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">!=</span><span class="mi">4</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">im</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">!=</span><span class="mi">4</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">RGB</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGBA</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2BGRA</span><span class="p">)</span>
@@ -825,10 +830,16 @@
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Failed to load image to map&quot;</span><span class="p">)</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span><span class="n">im</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">savepath</span><span class="p">,</span> <span class="n">mmode</span><span class="p">)</span> <span class="c1"># mapper(savepath,im,mmode,True)[0]#</span>
-        <span class="k">return</span> <span class="n">mapfunc</span> <span class="c1"># factory function</span>
-    <span class="k">return</span> <span class="n">func</span> <span class="c1"># factory function</span></div>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">mapfunc</span> <span class="c1"># factory function</span>
+    <span class="k">def</span> <span class="nf">loader</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">throw</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+    <span class="k">return</span> <span class="n">loader</span> <span class="c1"># factory function</span></div>
 
-<div class="viewcode-block" id="imLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imLoader">[docs]</a><span class="k">class</span> <span class="nc">imLoader</span><span class="p">:</span>
+<div class="viewcode-block" id="ImLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader">[docs]</a><span class="k">class</span> <span class="nc">ImLoader</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to load image array from path, url,</span>
 <span class="sd">    server, string or directly from numpy array (supports databases).</span>
@@ -922,7 +933,7 @@
     <span class="c1">#del i # job done, delete</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-<div class="viewcode-block" id="imLoader.getConfiguration"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imLoader.getConfiguration">[docs]</a>    <span class="k">def</span> <span class="nf">getConfiguration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ImLoader.getConfiguration"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader.getConfiguration">[docs]</a>    <span class="k">def</span> <span class="nf">getConfiguration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get Custom configuration from default configuration</span>
 <span class="sd">        :param kwargs: keys to customize default configuration.</span>
@@ -933,7 +944,7 @@
                 <span class="s2">&quot;interpolation&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_interpolation</span><span class="p">,</span><span class="s2">&quot;mmode&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_mmode</span><span class="p">,</span><span class="s2">&quot;mpath&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_mpath</span><span class="p">,</span><span class="s2">&quot;throw&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_throw</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">temp</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">temp</span></div>
-<div class="viewcode-block" id="imLoader.temp"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imLoader.temp">[docs]</a>    <span class="k">def</span> <span class="nf">temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ImLoader.temp"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader.temp">[docs]</a>    <span class="k">def</span> <span class="nf">temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        loads from temporal loader created with customized and default parameters.</span>
 
@@ -945,7 +956,7 @@
         <span class="n">path</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="c1"># get path</span>
         <span class="k">return</span> <span class="n">loadFunc</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">getConfiguration</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># build a new loader and load path</span></div></div>
 
-<div class="viewcode-block" id="pathLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.pathLoader">[docs]</a><span class="k">class</span> <span class="nc">pathLoader</span><span class="p">(</span><span class="n">MutableSequence</span><span class="p">):</span>
+<div class="viewcode-block" id="PathLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.PathLoader">[docs]</a><span class="k">class</span> <span class="nc">PathLoader</span><span class="p">(</span><span class="n">MutableSequence</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to standardize loading images from list of paths and offer lazy evaluations.</span>
 
@@ -984,10 +995,10 @@
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fns</span><span class="p">)</span>
 
-<div class="viewcode-block" id="pathLoader.insert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.pathLoader.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="PathLoader.insert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.PathLoader.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_fns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span><span class="n">value</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="loaderDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.loaderDict">[docs]</a><span class="k">class</span> <span class="nc">loaderDict</span><span class="p">(</span><span class="n">resourceManager</span><span class="p">):</span>
+<div class="viewcode-block" id="LoaderDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.LoaderDict">[docs]</a><span class="k">class</span> <span class="nc">LoaderDict</span><span class="p">(</span><span class="n">ResourceManager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to standardize loading objects and manage memory efficiently.</span>
 
@@ -1003,21 +1014,21 @@
 <span class="sd">    :param config: (Not Implemented)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">maxMemory</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;MB&quot;</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">config</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">loaderDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">maxMemory</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="nb">all</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LoaderDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">maxMemory</span><span class="p">,</span> <span class="n">margin</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="nb">all</span><span class="p">)</span>
         <span class="c1"># create factory functions</span>
         <span class="c1">#if config is None: from config import MANAGER as config</span>
         <span class="c1">#self._config = config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_default_loader</span> <span class="o">=</span> <span class="n">loader</span> <span class="ow">or</span> <span class="n">loadFunc</span><span class="p">()</span>
 
-<div class="viewcode-block" id="loaderDict.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.loaderDict.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="LoaderDict.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.LoaderDict.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">func</span><span class="p">():</span> <span class="k">return</span> <span class="n">method</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">func</span><span class="p">():</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_loader</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="n">func</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">loaderDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">func</span><span class="p">)</span></div></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LoaderDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">func</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="try_loads"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.try_loads">[docs]</a><span class="k">def</span> <span class="nf">try_loads</span><span class="p">(</span><span class="n">fns</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">,</span> <span class="n">paths</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="try_loads"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.try_loads">[docs]</a><span class="k">def</span> <span class="nf">try_loads</span><span class="p">(</span><span class="n">fns</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">,</span> <span class="n">paths</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">addpath</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Try to load images from paths.</span>
 
@@ -1025,6 +1036,7 @@
 <span class="sd">    :param func: loader function</span>
 <span class="sd">    :param paths: paths to try. By default it loads working dir and test path</span>
 <span class="sd">    :param debug: True to show debug messages</span>
+<span class="sd">    :param addpath: add path as second argument</span>
 <span class="sd">    :return: image else None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">default</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TESTPATH&quot;</span><span class="p">]))</span>
@@ -1047,6 +1059,8 @@
             <span class="n">im</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># foreground</span>
             <span class="k">if</span> <span class="n">im</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">debug</span><span class="p">:</span> <span class="k">print</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span>
+                <span class="k">if</span> <span class="n">addpath</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">im</span><span class="p">,</span><span class="n">path</span>
                 <span class="k">return</span> <span class="n">im</span></div>
 
 <div class="viewcode-block" id="hist_match"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.hist_match">[docs]</a><span class="k">def</span> <span class="nf">hist_match</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
@@ -1097,12 +1111,12 @@
 <span class="c1"># http://docs.opencv.org/master/db/d5b/tutorial_py_mouse_handling.html</span>
 <span class="c1"># http://docs.opencv.org/modules/highgui/doc/qt_new_functions.html</span>
 
-<div class="viewcode-block" id="imcoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.imcoors">[docs]</a><span class="k">class</span> <span class="nc">imcoors</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors">[docs]</a><span class="k">class</span> <span class="nc">ImCoors</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Image&#39;s coordinates class.</span>
 <span class="sd">    Example::</span>
 
-<span class="sd">        a = imcoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))</span>
+<span class="sd">        a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))</span>
 <span class="sd">        print a.__dict__</span>
 <span class="sd">        print &quot;mean depend on min and max: &quot;, a.mean</span>
 <span class="sd">        print a.__dict__</span>
@@ -1113,7 +1127,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">FLOAT</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initiliazes imcoors.</span>
+<span class="sd">        Initiliazes ImCoors.</span>
 
 <span class="sd">        :param pts: list of points</span>
 <span class="sd">        :param dtype: return data as dtype. Default is config.FLOAT</span>
@@ -1144,7 +1158,7 @@
     <span class="c1"># DATA METHODS</span>
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maximum in each axis.</span>
@@ -1153,7 +1167,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#self.max_x, self.max_y = np.max(self.data,0)</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Minimum in each axis.</span>
@@ -1162,7 +1176,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#self.min_x, self.min_y = np.min(self.data,0)</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rectbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rectangular box enclosing points (origin and end point or rectangle).</span>
@@ -1170,7 +1184,7 @@
 <span class="sd">        :return: (x0,y0),(x,y)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rectangular box dimensions enclosing points.</span>
@@ -1178,10 +1192,10 @@
 <span class="sd">        :return: x0,y0,w,h</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rotatedBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rotated rectangular box enclosing points.</span>
@@ -1189,7 +1203,7 @@
 <span class="sd">        :return: 4 points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">BoxPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">))</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">boxCenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mean in each axis.</span>
@@ -1201,7 +1215,7 @@
         <span class="n">xX</span><span class="p">,</span><span class="n">xY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
         <span class="n">nX</span><span class="p">,</span><span class="n">nY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">((</span><span class="n">xX</span> <span class="o">+</span> <span class="n">nX</span><span class="p">,</span> <span class="n">xY</span> <span class="o">+</span> <span class="n">nY</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Center or mean.</span>
@@ -1214,7 +1228,7 @@
         <span class="c1">#tuple(np.sum(self.data,axis=0)/len(self.data))</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">))</span>
     <span class="n">center</span> <span class="o">=</span> <span class="n">mean</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of points.</span>
@@ -1222,7 +1236,7 @@
 <span class="sd">        :return: area number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of rectangle enclosing points aligned with x,y axes.</span>
@@ -1232,7 +1246,7 @@
         <span class="c1">#method 1, it is not precise in rotation</span>
         <span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rectbox</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">y0</span><span class="p">)))</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rotatedRectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of Rotated rectangle enclosing points.</span>
@@ -1240,7 +1254,7 @@
 <span class="sd">        :return: area number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedBox</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ratio that represent a perfect square aligned with x,y axes.</span>
@@ -1253,7 +1267,7 @@
         <span class="c1">#return (cx)/bcx,(cy)/bcy # x_ratio, y_ratio</span>
         <span class="c1">#method 2</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rectangularArea</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">rotatedRectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ratio that represent a perfect rotated square fitting points.</span>
@@ -1266,18 +1280,20 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">area</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedRectangularArea</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">regularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ratio of rectangular forms. e.g. squares and rectangles have rect</span>
-<span class="sd">        angles so they are regular and regularity must give 1.</span>
+<span class="sd">        Ratio of forms with similar measurements and angles.</span>
+<span class="sd">        e.g. squares and rectangles have rect angles so they are regular.</span>
+<span class="sd">        For regularity object must give 1.</span>
 
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO this algorithm is still imperfect</span>
         <span class="n">pi</span> <span class="o">=</span> <span class="n">angle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="c1"># get pi value in radian or degrees</span>
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertexesAngles</span>
         <span class="k">return</span> <span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">av</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">av</span><span class="p">)</span> <span class="c1"># pi*number_agles/sum_angles</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">relativeVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Form vectors from points.</span>
@@ -1287,7 +1303,7 @@
         <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pts</span><span class="p">,[</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># adds last vector from last and first point.</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])],</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">vertexesAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Relative angle of vectors formed by vertexes.</span>
@@ -1300,7 +1316,7 @@
         <span class="n">vs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeVectors</span> <span class="c1"># get all vectors from points.</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vs</span><span class="p">,[</span><span class="n">vs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># add last vector to first position</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">(</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">))],</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> <span class="c1"># caculate angles</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">pointsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Angle of vectors formed by points in Cartesian plane with respect to x axis.</span>
@@ -1311,7 +1327,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeVectors</span> <span class="c1"># get all vectors from points.</span>
         <span class="k">return</span> <span class="n">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="o">=</span><span class="n">vs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span>
-    <span class="nd">@cache</span>
+    <span class="nd">@Cache</span>
     <span class="k">def</span> <span class="nf">vectorsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Angle of vectors in Cartesian plane with respect to x axis.</span>
@@ -1500,7 +1516,7 @@
         <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">limitaxis</span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="n">maxc</span><span class="p">,</span><span class="n">minc</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="getCoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getCoors">[docs]</a><span class="k">class</span> <span class="nc">getCoors</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+<div class="viewcode-block" id="GetCoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.GetCoors">[docs]</a><span class="k">class</span> <span class="nc">GetCoors</span><span class="p">(</span><span class="n">Plotim</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create window to select points from image.</span>
 
@@ -1518,7 +1534,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="n">win</span> <span class="o">=</span> <span class="s2">&quot;get coordinates&quot;</span><span class="p">,</span> <span class="n">updatefunc</span><span class="o">=</span><span class="n">drawcoorpoints</span><span class="p">,</span>
                  <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">red</span><span class="p">):</span>
         <span class="c1"># functions</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">getCoors</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span><span class="n">im</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GetCoors</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">im</span><span class="p">)</span>
         <span class="c1"># assign functions</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updatefunc</span> <span class="o">=</span> <span class="n">updatefunc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">userupdatefunc</span> <span class="o">=</span> <span class="n">updatefunc</span>
@@ -1562,7 +1578,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_coors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updatecoors</span><span class="p">()</span>
 
-<div class="viewcode-block" id="getCoors.drawstats"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getCoors.drawstats">[docs]</a>    <span class="k">def</span> <span class="nf">drawstats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">green</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<div class="viewcode-block" id="GetCoors.drawstats"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.GetCoors.drawstats">[docs]</a>    <span class="k">def</span> <span class="nf">drawstats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">green</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param self:</span>
@@ -1573,16 +1589,16 @@
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rimg</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">ImCoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">vis</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">1</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
         <span class="n">drawcooraxes</span><span class="p">(</span><span class="n">vis</span><span class="p">,[</span><span class="n">p</span><span class="o">.</span><span class="n">boxCenter</span><span class="p">],</span><span class="n">col_out</span><span class="p">,</span><span class="n">col_in</span><span class="p">,</span><span class="n">radius</span><span class="p">)</span>
         <span class="n">drawcooraxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">,[</span><span class="n">p</span><span class="o">.</span><span class="n">boxCenter</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">prox</span><span class="p">)</span>
         <span class="n">drawcooraxes</span><span class="p">(</span><span class="n">vis</span><span class="p">,[</span><span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="p">],</span><span class="n">col_in</span><span class="p">,</span><span class="n">col_out</span><span class="p">,</span><span class="n">radius</span><span class="p">)</span>
         <span class="n">drawcooraxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">,[</span><span class="n">p</span><span class="o">.</span><span class="n">mean</span><span class="p">],</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">prox</span><span class="p">)</span>
-        <span class="n">p1</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coors</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">ImCoors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coors</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mapdata2</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span><span class="s2">&quot;center at &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">boxCenter</span><span class="p">),</span><span class="s2">&quot;mean at &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">mean</span><span class="p">)]</span></div>
 
-<div class="viewcode-block" id="getCoors.updatecoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getCoors.updatecoors">[docs]</a>    <span class="k">def</span> <span class="nf">updatecoors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GetCoors.updatecoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.GetCoors.updatecoors">[docs]</a>    <span class="k">def</span> <span class="nf">updatecoors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param self:</span>
@@ -1603,7 +1619,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">coordinateText</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;xy({self.x},{self.y})&quot;</span><span class="p">]]</span></div>
 
-<div class="viewcode-block" id="getCoors.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getCoors.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GetCoors.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.GetCoors.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param self:</span>
@@ -1655,7 +1671,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">])</span></div></div>
 
 <div class="viewcode-block" id="getcoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getcoors">[docs]</a><span class="k">def</span> <span class="nf">getcoors</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">win</span> <span class="o">=</span><span class="s2">&quot;get coordinates&quot;</span><span class="p">,</span> <span class="n">updatefunc</span><span class="o">=</span><span class="n">drawcoorpoints</span><span class="p">,</span> <span class="n">coors</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">prox</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">red</span><span class="p">):</span>
-    <span class="bp">self</span> <span class="o">=</span> <span class="n">getCoors</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">win</span><span class="p">,</span><span class="n">updatefunc</span><span class="p">,</span><span class="n">unique</span><span class="o">=</span><span class="n">unique</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">col_out</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">col_in</span><span class="p">)</span>
+    <span class="bp">self</span> <span class="o">=</span> <span class="n">GetCoors</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">updatefunc</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="n">unique</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">col_out</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">col_in</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">prox</span> <span class="o">=</span> <span class="n">prox</span>
     <span class="k">if</span> <span class="n">coors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -1697,7 +1713,7 @@
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># img, win</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">getcoors</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
 
-    <span class="n">p</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ImCoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
     <span class="n">min_x</span><span class="p">,</span><span class="n">min_y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">min</span>
     <span class="n">max_x</span><span class="p">,</span><span class="n">max_y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">max</span>
     <span class="n">Top_left</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_x</span><span class="p">,</span><span class="n">min_y</span><span class="p">)</span>
@@ -1715,7 +1731,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># group points on 4 quadrants</span>
     <span class="c1"># [Top_left,Top_right,Bottom_left,Bottom_right]</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">imcoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># points data x,y -&gt; (width,height)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">ImCoors</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>  <span class="c1"># points data x,y -&gt; (width,height)</span>
     <span class="n">mean_x</span><span class="p">,</span> <span class="n">mean_y</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">mean</span>
     <span class="n">Bottom</span><span class="p">,</span><span class="n">Top</span> <span class="o">=</span> <span class="n">separe</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">mean_y</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">Top_right</span><span class="p">,</span><span class="n">Top_left</span> <span class="o">=</span> <span class="n">separe</span><span class="p">(</span><span class="n">Top</span><span class="p">,</span><span class="n">mean_x</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1733,6 +1749,227 @@
     <span class="k">else</span><span class="p">:</span>  <span class="c1"># img, win</span>
         <span class="n">points</span> <span class="o">=</span> <span class="n">getcoors</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">points</span></div>
+
+
+<div class="viewcode-block" id="random_color"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.random_color">[docs]</a><span class="k">def</span> <span class="nf">random_color</span><span class="p">(</span><span class="n">channels</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">256</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Random color.</span>
+
+<span class="sd">    :param channels: number of channels</span>
+<span class="sd">    :param min: min color in any channel</span>
+<span class="sd">    :param max: max color in any channel</span>
+<span class="sd">    :return: random color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">channels</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="Image"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.Image">[docs]</a><span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Structure to load and save images</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">throw</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="o">=</span><span class="n">shape</span> <span class="c1"># it is the inverted of dsize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext</span><span class="o">=</span><span class="n">ext</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">=</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">=</span><span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGRA</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGR</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">overwrite</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">=</span> <span class="n">verbosity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_saved</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_loaded</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_loaded</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
+    <span class="nd">@shape.setter</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># invert, for value is shape and we need dsize</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span> <span class="o">=</span> <span class="n">loadFunc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">dsize</span><span class="o">=</span><span class="n">value</span><span class="p">,</span><span class="n">throw</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@shape.deleter</span>
+    <span class="k">def</span> <span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shape</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ext</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ext</span>
+    <span class="nd">@ext.setter</span>
+    <span class="k">def</span> <span class="nf">ext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span> <span class="c1"># ensures path</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">value</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ext</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@ext.deleter</span>
+    <span class="k">def</span> <span class="nf">ext</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ext</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
+    <span class="nd">@path.setter</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">):</span> <span class="c1"># ensures path</span>
+                <span class="n">value</span> <span class="o">+=</span> <span class="s2">&quot;/&quot;</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@path.deleter</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">BGRA</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_BGRA</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_BGRA</span>
+    <span class="nd">@BGRA.setter</span>
+    <span class="k">def</span> <span class="nf">BGRA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGRA</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@BGRA.deleter</span>
+    <span class="k">def</span> <span class="nf">BGRA</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGRA</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">BGR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_BGR</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_BGR</span>
+    <span class="nd">@BGR.setter</span>
+    <span class="k">def</span> <span class="nf">BGR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGR</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@BGR.deleter</span>
+    <span class="k">def</span> <span class="nf">BGR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_BGR</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">RGB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BGR</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span>
+    <span class="nd">@RGB.setter</span>
+    <span class="k">def</span> <span class="nf">RGB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@RGB.deleter</span>
+    <span class="k">def</span> <span class="nf">RGB</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">RGBA</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BGRA</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGRA2RGBA</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span>
+    <span class="nd">@RGBA.setter</span>
+    <span class="k">def</span> <span class="nf">RGBA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@RGBA.deleter</span>
+    <span class="k">def</span> <span class="nf">RGBA</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">gray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BGR</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2GRAY</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span>
+    <span class="nd">@gray.setter</span>
+    <span class="k">def</span> <span class="nf">gray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@gray.deleter</span>
+    <span class="k">def</span> <span class="nf">gray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Image.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.Image.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        save restored image in path.</span>
+
+<span class="sd">        :param name: filename, string to format or path to save image.</span>
+<span class="sd">                if path is not a string it would be replaced with the string</span>
+<span class="sd">                &quot;{path}restored_{name}{ext}&quot; to format with the formatting</span>
+<span class="sd">                &quot;{path}&quot;, &quot;{name}&quot; and &quot;{ext}&quot; from the baseImage variable.</span>
+<span class="sd">        :param image: (self.BGRA)</span>
+<span class="sd">        :param overwrite: If True and the destine filename for saving already</span>
+<span class="sd">            exists then it is replaced, else a new filename is generated</span>
+<span class="sd">            with an index &quot;{filename}_{index}.{extension}&quot;</span>
+<span class="sd">        :return: saved path, status (True for success and False for fail)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;name parameter needed&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">image</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">BGRA</span>
+
+        <span class="k">if</span> <span class="n">overwrite</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">overwrite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">overwrite</span>
+
+        <span class="n">bbase</span><span class="p">,</span> <span class="n">bpath</span><span class="p">,</span> <span class="n">bname</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">bext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext</span>
+        <span class="c1"># format path if user has specified so</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">bbase</span><span class="p">,</span> <span class="n">bpath</span><span class="p">)),</span>
+                                   <span class="n">name</span><span class="o">=</span><span class="n">bname</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">bext</span><span class="p">))</span>
+        <span class="c1"># complete any data lacking in path</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">n</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">,(</span><span class="n">bbase</span><span class="p">,</span> <span class="n">bpath</span><span class="p">,</span> <span class="n">bname</span><span class="p">,</span> <span class="n">bext</span><span class="p">))):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="c1"># joint parts to get string</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">mkPath</span><span class="p">(</span><span class="n">getPath</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="n">increment_if_exits</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">image</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Saved: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_saved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_saved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fn</span><span class="p">,</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} could not be saved&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">fn</span><span class="p">,</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="Image.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.Image.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">try_loads</span><span class="p">([</span><span class="n">name</span><span class="p">,</span><span class="n">name</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">ext</span><span class="p">],</span> <span class="n">paths</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span><span class="p">,</span> <span class="n">addpath</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Image not Loaded&quot;</span><span class="p">)</span>
+
+        <span class="n">img</span><span class="p">,</span> <span class="n">last_loaded</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_loaded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_loaded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_loaded</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s2">&quot;loaded: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_loaded</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_loaded</span> <span class="o">=</span> <span class="n">last_loaded</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span><span class="o">=</span><span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RGBA</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gray</span><span class="o">=</span><span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BGR</span> <span class="o">=</span> <span class="n">img</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BGRA</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2BGRA</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BGRA</span> <span class="o">=</span> <span class="n">img</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BGR</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGRA2BGR</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
 </pre></div>
 
           </div>
@@ -1766,7 +2003,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

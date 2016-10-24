@@ -77,7 +77,6 @@
 <li class="toctree-l1"><a class="reference internal" href="RRtoolbox.tools.html">RRtoolbox.tools package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#module-RRtoolbox.tools.lens">RRtoolbox.tools.lens module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#module-RRtoolbox.tools.restoration">RRtoolbox.tools.restoration module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#module-RRtoolbox.tools.segmentation">RRtoolbox.tools.segmentation module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#module-RRtoolbox.tools.selectors">RRtoolbox.tools.selectors module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.tools.html#module-RRtoolbox.tools.sticher">RRtoolbox.tools.sticher module</a></li>
@@ -124,10 +123,34 @@
 </div>
 <div class="section" id="module-RRtoolbox.shell">
 <span id="rrtoolbox-shell-module"></span><h2>RRtoolbox.shell module<a class="headerlink" href="#module-RRtoolbox.shell" title="Permalink to this headline">¶</a></h2>
-<dl class="exception">
-<dt id="RRtoolbox.shell.NoParserFound">
-<em class="property">exception </em><code class="descclassname">RRtoolbox.shell.</code><code class="descname">NoParserFound</code><a class="reference internal" href="_modules/RRtoolbox/shell.html#NoParserFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.NoParserFound" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<dl class="class">
+<dt id="RRtoolbox.shell.Shell">
+<em class="property">class </em><code class="descclassname">RRtoolbox.shell.</code><code class="descname">Shell</code><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="RRtoolbox.shell.Shell.generateParser">
+<code class="descname">generateParser</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.generateParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.generateParser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.shell.Shell.getParser">
+<code class="descname">getParser</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.getParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.getParser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.shell.Shell.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><em>func</em>, <em>args=None</em>, <em>namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.parse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.shell.Shell.parser_fastplt">
+<code class="descname">parser_fastplt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.parser_fastplt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.parser_fastplt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="RRtoolbox.shell.Shell.parser_loadFunc">
+<code class="descname">parser_loadFunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.parser_loadFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.parser_loadFunc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="function">
@@ -162,36 +185,6 @@
 </table>
 </dd></dl>
 
-<dl class="class">
-<dt id="RRtoolbox.shell.shell">
-<em class="property">class </em><code class="descclassname">RRtoolbox.shell.</code><code class="descname">shell</code><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="RRtoolbox.shell.shell.generateParser">
-<code class="descname">generateParser</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell.generateParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell.generateParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.shell.shell.getParser">
-<code class="descname">getParser</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell.getParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell.getParser" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.shell.shell.parse">
-<code class="descname">parse</code><span class="sig-paren">(</span><em>func</em>, <em>args=None</em>, <em>namespace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell.parse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.shell.shell.parser_fastplt">
-<code class="descname">parser_fastplt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell.parser_fastplt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell.parser_fastplt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="RRtoolbox.shell.shell.parser_loadFunc">
-<code class="descname">parser_loadFunc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell.parser_loadFunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell.parser_loadFunc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="function">
 <dt id="RRtoolbox.shell.shell_processor">
 <code class="descclassname">RRtoolbox.shell.</code><code class="descname">shell_processor</code><span class="sig-paren">(</span><em>commands</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell_processor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell_processor" title="Permalink to this definition">¶</a></dt>
@@ -201,6 +194,32 @@
 <dt id="RRtoolbox.shell.shell_processor_parser">
 <code class="descclassname">RRtoolbox.shell.</code><code class="descname">shell_processor_parser</code><span class="sig-paren">(</span><em>syslist</em>, <em>flags=''</em>, <em>longopts=('feature='</em>, <em>'nnn=')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#shell_processor_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.shell_processor_parser" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.shell.string_interpreter">
+<code class="descclassname">RRtoolbox.shell.</code><code class="descname">string_interpreter</code><span class="sig-paren">(</span><em>empty=None</em>, <em>commahandler=None</em>, <em>handle=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#string_interpreter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.string_interpreter" title="Permalink to this definition">¶</a></dt>
+<dd><p>create a string interpreter
+:param empty: (None) variable to handle empty strings
+:param commahandler: (tuple_creator) function to handle comma separated strings
+:return: interpreter function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="RRtoolbox.shell.tuple_creator">
+<code class="descclassname">RRtoolbox.shell.</code><code class="descname">tuple_creator</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#tuple_creator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.tuple_creator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process string to get tuple.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>string</strong> &#8211; string parameters with &#8221;,&#8221; (colon) as separator
+Ex: param1, param2, ..., paramN</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 <div class="section" id="module-RRtoolbox">
@@ -260,7 +279,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

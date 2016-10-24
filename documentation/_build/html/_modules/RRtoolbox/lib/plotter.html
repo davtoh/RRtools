@@ -42,11 +42,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This module holds the plotting and data-visualization tools. Motto: don&#39;t know how it is interpreted? i&#39;ll show you!</span>
 
-<span class="sd">    #plotim example</span>
+<span class="sd">    #Plotim example</span>
 <span class="sd">    filename = &quot;t2.jpg&quot;</span>
 <span class="sd">    win = &quot;test&quot;</span>
 <span class="sd">    img = cv2.resize(cv2.imread(filename), (400, 400))  # (height, width)</span>
-<span class="sd">    plot = plotim(win,img)</span>
+<span class="sd">    plot = Plotim(win,img)</span>
 <span class="sd">    plot.show()</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
@@ -62,6 +62,7 @@
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">root</span> <span class="kn">import</span> <span class="n">formatConsume</span>
 <span class="kn">from</span> <span class="nn">arrayops.basic</span> <span class="kn">import</span> <span class="n">overlayXY</span><span class="p">,</span><span class="n">convertXY</span><span class="p">,</span><span class="n">overlay</span><span class="p">,</span><span class="n">padVH</span><span class="p">,</span><span class="n">anorm</span><span class="p">,</span><span class="n">get_x_space</span><span class="p">,</span><span class="n">isnumpy</span><span class="p">,</span> <span class="n">histogram</span>
 <span class="kn">from</span> <span class="nn">arrayops.convert</span> <span class="kn">import</span> <span class="n">dict2keyPoint</span>
 <span class="kn">from</span> <span class="nn">arrayops.filters</span> <span class="kn">import</span> <span class="n">sigmoid</span><span class="p">,</span> <span class="n">bilateralFilter</span><span class="p">,</span> <span class="n">FilterBase</span>
@@ -73,7 +74,7 @@
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">gridspec</span>
 <span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
 <span class="n">servertimeout</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># seconds to show an image</span>
-<span class="n">formater</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span> <span class="c1"># string formatter str.format</span>
+
 <span class="c1">#from fastplt import fastplt as _fastplt</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
 <span class="n">wins</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># keeps track of image number through different processes</span>
@@ -176,12 +177,6 @@
                     <span class="k">return</span> <span class="nb">filter</span><span class="o">.</span><span class="n">func_name</span>
                 <span class="k">except</span><span class="p">:</span>
                     <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">formatConsume</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">params</span><span class="p">):</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
-        <span class="n">txt</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span> <span class="k">del</span> <span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">txt</span>
 
     <span class="k">def</span> <span class="nf">joints</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
         <span class="n">iterator</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
@@ -401,7 +396,13 @@
 <span class="sd">    :param lcor: color of joining lines.</span>
 <span class="sd">    :param pcor: color of points. If specified uses lines, else vectors.</span>
 <span class="sd">    :param deg: angle of vertex, if True in degrees, if False in radians, if None do not add.</span>
-<span class="sd">    :return: ax.</span>
+<span class="sd">    :param annotate: (True) True to annotate</span>
+<span class="sd">    :param width: adjust width of lines</span>
+<span class="sd">    :param label: string to format point labels. add the point with {pt},</span>
+<span class="sd">            x and y coordinates with {x} and {y}, and angle with {a}. By default</span>
+<span class="sd">            label is &#39;pt{pt}({x}, {y}, {a})&#39;.</span>
+<span class="sd">    :param arrowprops: dictionary to modify array properties</span>
+<span class="sd">    :return: axes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># http://stackoverflow.com/a/12267492/5288758</span>
     <span class="n">label</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
@@ -439,7 +440,7 @@
 
 <div class="viewcode-block" id="echo"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.echo">[docs]</a><span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Printer (used when user wants to print an object from plotim)</span>
+<span class="sd">    Printer (used when user wants to print an object from Plotim)</span>
 <span class="sd">    :param obj: object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">print</span> <span class="n">obj</span></div>
@@ -543,7 +544,7 @@
         <span class="n">im</span><span class="p">[:,:,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">transparency</span>
     <span class="k">return</span> <span class="n">im</span></div>
 
-<div class="viewcode-block" id="plotim"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim">[docs]</a><span class="k">class</span> <span class="nc">plotim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim">[docs]</a><span class="k">class</span> <span class="nc">Plotim</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="c1"># FIXME: this code now is buggy, nothing to do. consider replacing it with wxpython or pyqt</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Show and image with events, animations, controls, internal</span>
@@ -553,7 +554,7 @@
 <span class="sd">    :param im: image of numpy array</span>
 <span class="sd">    :param bgrcolor: default color to use for transparent or background color.</span>
 
-<span class="sd">    .. warning:: plotim is deprecated and will be replaced in the future (it was made to</span>
+<span class="sd">    .. warning:: Plotim is deprecated and will be replaced in the future (it was made to</span>
 <span class="sd">                test concepts). Originally it was made for windows but some functions</span>
 <span class="sd">                were removed to let it be multi-platform.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -588,7 +589,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">win</span>  <span class="c1"># window name</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wintype</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">WINDOW_NORMAL</span> <span class="c1"># window to create</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">interpolation</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">INTER_LINEAR</span> <span class="c1"># render&#39;s interpolation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bgrcolor</span> <span class="o">=</span> <span class="n">bgrcolor</span> <span class="c1"># plotim background&#39;s color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bgrcolor</span> <span class="o">=</span> <span class="n">bgrcolor</span> <span class="c1"># Plotim background&#39;s color</span>
         <span class="c1">## Flow control ##</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">limitaxes</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># correct axes if out of bound</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showcoors</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># to show coordinates</span>
@@ -642,7 +643,7 @@
         <span class="c1"># initialize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
-<div class="viewcode-block" id="plotim.clean"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.clean"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Attempt to clean the plotter dictionary for an error in</span>
 <span class="sd">        garbage collection.</span>
@@ -654,7 +655,7 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="plotim.init"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># Init control variables!</span>
+<div class="viewcode-block" id="Plotim.init"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.init">[docs]</a>    <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># Init control variables!</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pseudo __init__. it is used to restart default</span>
 <span class="sd">        values without destroying configurations.</span>
@@ -687,12 +688,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ry1</span><span class="o">=</span><span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">()</span>  <span class="c1"># update render</span></div>
 
-<div class="viewcode-block" id="plotim.help"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">showAll</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.help"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">showAll</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        function to print the quick help for the user with all the commands</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">plotim</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">Plotim</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">List of command flags: &quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmdlist</span><span class="p">:</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -789,7 +790,7 @@
     <span class="k">def</span> <span class="nf">ry2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ry2</span>
 
-<div class="viewcode-block" id="plotim.show"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frames</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">block</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">daemon</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">clean</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.show"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frames</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">block</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">daemon</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">clean</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Show function. calls buildinwindow, handles key presses and close events.</span>
 
@@ -814,7 +815,7 @@
 
         <span class="k">if</span> <span class="n">block</span><span class="p">:</span>
             <span class="n">_show</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">plotim</span><span class="p">):</span> <span class="c1"># if called from shell or directly #FIXED __name__ == &quot;__main__&quot; does not work when pickled</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Plotim</span><span class="p">):</span> <span class="c1"># if called from shell or directly #FIXED __name__ == &quot;__main__&quot; does not work when pickled</span>
             <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;multiprocessing...&quot;</span>
             <span class="n">p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">_show</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">frames</span><span class="p">,))</span> <span class="c1"># FIXME i shoud call a miniprogram</span>
             <span class="n">p</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="n">daemon</span>
@@ -837,22 +838,22 @@
             <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="plotim.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled mouse function for plotim (replace self.mousefunc).</span>
+<span class="sd">        Decoupled mouse function for Plotim (replace self.mousefunc).</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtincontrol</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="plotim.keyfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.keyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">keyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.keyfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.keyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">keyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled key function for plotim (replace self.keyfunc).</span>
+<span class="sd">        Decoupled key function for Plotim (replace self.keyfunc).</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtincmd</span><span class="p">():</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -860,29 +861,30 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="plotim.closefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.closefunc">[docs]</a>    <span class="k">def</span> <span class="nf">closefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.closefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.closefunc">[docs]</a>    <span class="k">def</span> <span class="nf">closefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled close function for plotim (replace self.closefunc).</span>
+<span class="sd">        Decoupled close function for Plotim (replace self.closefunc).</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># do stuff before closing #</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressedkey</span> <span class="o">==</span> <span class="mi">27</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="c1"># close if ESC or Close button</span></div>
 
-<div class="viewcode-block" id="plotim.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled window function for plotim (replace self.windowfunc).</span>
+<span class="sd">        Decoupled window function for Plotim (replace self.windowfunc).</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">wintype</span><span class="p">)</span>  <span class="c1"># create window</span></div>
+        <span class="c1">#cv2.setWindowProperty(self.win,cv2.WND_PROP_FULLSCREEN,cv2.cv.CV_WINDOW_FULLSCREEN)</span>
         <span class="c1">#cv2.resizeWindow(self.win,self.rW,self.rH)</span>
 
-<div class="viewcode-block" id="plotim.showfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.showfunc">[docs]</a>    <span class="k">def</span> <span class="nf">showfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.showfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.showfunc">[docs]</a>    <span class="k">def</span> <span class="nf">showfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled show function for plotim (replace self.showfunc).</span>
+<span class="sd">        Decoupled show function for Plotim (replace self.showfunc).</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        :param img: image to show</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">img</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -890,9 +892,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cv2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="n">img</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plotim.cmdfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.cmdfunc">[docs]</a>    <span class="k">def</span> <span class="nf">cmdfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">execute</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.cmdfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.cmdfunc">[docs]</a>    <span class="k">def</span> <span class="nf">cmdfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">execute</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        command function and decoupled cmd solver for plotim. (repalce self.cmdfunc)</span>
+<span class="sd">        command function and decoupled cmd solver for Plotim. (repalce self.cmdfunc)</span>
 
 <span class="sd">        :param self:</span>
 <span class="sd">        :param execute: True, enable execution of commands, False, disable execution.</span>
@@ -965,11 +967,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_cmdbgrcolor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">textbackground</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cmditmes</span> <span class="o">=</span> <span class="n">text</span></div>
 
-<div class="viewcode-block" id="plotim.formatcmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.formatcmd">[docs]</a>    <span class="k">def</span> <span class="nf">formatcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="s2">&quot;=&quot;</span><span class="p">),</span> <span class="n">lmissing</span><span class="o">=</span><span class="s2">&quot;self.&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.formatcmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.formatcmd">[docs]</a>    <span class="k">def</span> <span class="nf">formatcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">references</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">,</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;*&quot;</span><span class="p">,</span><span class="s2">&quot;=&quot;</span><span class="p">),</span> <span class="n">lmissing</span><span class="o">=</span><span class="s2">&quot;self.&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decoupled cmd formatter for cmdfunc and plotim.</span>
+<span class="sd">        Decoupled cmd formatter for cmdfunc and Plotim.</span>
 
-<span class="sd">        :param self: plotim instance</span>
+<span class="sd">        :param self: Plotim instance</span>
 <span class="sd">        :param cmd: command</span>
 <span class="sd">        :param references:</span>
 <span class="sd">        :param lmissing: assumed missing part in command</span>
@@ -996,7 +998,7 @@
 
         <span class="k">return</span> <span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">splitter</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">references</span><span class="p">),</span><span class="n">lmissing</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="plotim.plotatpointer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.plotatpointer">[docs]</a>    <span class="k">def</span> <span class="nf">plotatpointer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">pixel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.plotatpointer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.plotatpointer">[docs]</a>    <span class="k">def</span> <span class="nf">plotatpointer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">pixel</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot message where mouse pointer is.</span>
 
@@ -1049,7 +1051,7 @@
             <span class="n">tx</span><span class="p">,</span><span class="n">ty</span> <span class="o">=</span> <span class="n">convertXY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">foretext</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># translation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showfunc</span><span class="p">(</span><span class="n">overlayXY</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="n">ty</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="n">img</span><span class="p">,</span><span class="n">fore</span><span class="o">=</span><span class="n">foretext</span><span class="p">))</span>  <span class="c1"># show window</span></div>
 
-<div class="viewcode-block" id="plotim.plotatxy"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.plotatxy">[docs]</a>    <span class="k">def</span> <span class="nf">plotatxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.plotatxy"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.plotatxy">[docs]</a>    <span class="k">def</span> <span class="nf">plotatxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Plot message in xy position.</span>
 
@@ -1079,7 +1081,7 @@
         <span class="n">tx</span><span class="p">,</span><span class="n">ty</span> <span class="o">=</span> <span class="n">convertXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">foretext</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">flag</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showfunc</span><span class="p">(</span><span class="n">overlayXY</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span><span class="n">ty</span><span class="p">,</span><span class="n">back</span><span class="o">=</span><span class="n">img</span><span class="p">,</span><span class="n">fore</span><span class="o">=</span><span class="n">foretext</span><span class="p">))</span>  <span class="c1"># show window</span></div>
 
-<div class="viewcode-block" id="plotim.plotintime"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.plotintime">[docs]</a>    <span class="k">def</span> <span class="nf">plotintime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">wait</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.plotintime"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.plotintime">[docs]</a>    <span class="k">def</span> <span class="nf">plotintime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">wait</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        plots messages and events.</span>
 
@@ -1106,7 +1108,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_timeitems</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_timebgrcolor</span> <span class="o">=</span> <span class="n">bgrcolor</span></div>
 
-<div class="viewcode-block" id="plotim.updaterenderer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.updaterenderer">[docs]</a>    <span class="k">def</span> <span class="nf">updaterenderer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">zoom</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.updaterenderer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.updaterenderer">[docs]</a>    <span class="k">def</span> <span class="nf">updaterenderer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">zoom</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        update renderer when called.</span>
 
@@ -1127,15 +1129,15 @@
             <span class="n">overlayXY</span><span class="p">(</span><span class="o">*</span><span class="n">convertXY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rimg</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">foretext</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">back</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rimg</span><span class="p">,</span><span class="n">fore</span><span class="o">=</span><span class="n">foretext</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="plotim.onmouse"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.onmouse">[docs]</a>    <span class="k">def</span> <span class="nf">onmouse</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.onmouse"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.onmouse">[docs]</a>    <span class="k">def</span> <span class="nf">onmouse</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Mouse event function for plotim. (replace self.mousefunc)</span>
+<span class="sd">        Mouse event function for Plotim. (replace self.mousefunc)</span>
 
 <span class="sd">        :param event: mouse event</span>
 <span class="sd">        :param x: x position</span>
 <span class="sd">        :param y: y postion</span>
 <span class="sd">        :param flags: mouse flag to use in control (it represents clicks)</span>
-<span class="sd">        :param self: plotim object</span>
+<span class="sd">        :param self: Plotim object</span>
 <span class="sd">        :return:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#print event, x, y, flags, param</span>
@@ -1163,7 +1165,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mousefunc</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="plotim.builtinwindow"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.builtinwindow">[docs]</a>    <span class="k">def</span> <span class="nf">builtinwindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.builtinwindow"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.builtinwindow">[docs]</a>    <span class="k">def</span> <span class="nf">builtinwindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        loads windowfunc, showfunc, starts window thread and mousecallback.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1172,7 +1174,7 @@
         <span class="n">cv2</span><span class="o">.</span><span class="n">startWindowThread</span><span class="p">()</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">setMouseCallback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">onmouse</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span>  <span class="c1"># bind mouse events</span></div>
 
-<div class="viewcode-block" id="plotim.builtincontrol"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.builtincontrol">[docs]</a>    <span class="k">def</span> <span class="nf">builtincontrol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">control</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.builtincontrol"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.builtincontrol">[docs]</a>    <span class="k">def</span> <span class="nf">builtincontrol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">control</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal control. use self.usecontrol = True to activate.</span>
 
@@ -1219,7 +1221,7 @@
 
         <span class="k">return</span> <span class="n">controlled</span></div>
 
-<div class="viewcode-block" id="plotim.builtincmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.builtincmd">[docs]</a>    <span class="k">def</span> <span class="nf">builtincmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.builtincmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.builtincmd">[docs]</a>    <span class="k">def</span> <span class="nf">builtincmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal cmd control</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1357,7 +1359,7 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iscmd</span></div>
 
-<div class="viewcode-block" id="plotim.builtinplot"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.builtinplot">[docs]</a>    <span class="k">def</span> <span class="nf">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">useritems</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.builtinplot"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.builtinplot">[docs]</a>    <span class="k">def</span> <span class="nf">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">useritems</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal plot.</span>
 
@@ -1421,7 +1423,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">showfunc</span><span class="p">()</span>  <span class="c1"># show window</span></div>
 
-<div class="viewcode-block" id="plotim.makeoverlay"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.makeoverlay">[docs]</a>    <span class="k">def</span> <span class="nf">makeoverlay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.makeoverlay"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.makeoverlay">[docs]</a>    <span class="k">def</span> <span class="nf">makeoverlay</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        overlay items over image.</span>
 
@@ -1512,7 +1514,7 @@
             <span class="k">return</span> <span class="n">padVH</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">ypad</span><span class="p">,</span> <span class="n">xpad</span><span class="p">,</span> <span class="n">bgrcolor</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plotim.render2real"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.render2real">[docs]</a>    <span class="k">def</span> <span class="nf">render2real</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.render2real"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.render2real">[docs]</a>    <span class="k">def</span> <span class="nf">render2real</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">ry</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        from rendered coordinates get real coordinates.</span>
 
@@ -1526,7 +1528,7 @@
         <span class="k">if</span> <span class="n">astype</span><span class="p">:</span> <span class="k">return</span> <span class="n">astype</span><span class="p">(</span><span class="n">rx</span><span class="p">),</span><span class="n">astype</span><span class="p">(</span><span class="n">ry</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span></div>
 
-<div class="viewcode-block" id="plotim.real2render"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.real2render">[docs]</a>    <span class="k">def</span> <span class="nf">real2render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.real2render"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.real2render">[docs]</a>    <span class="k">def</span> <span class="nf">real2render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        from real coordinates get rendered coordinates.</span>
 
@@ -1540,7 +1542,7 @@
         <span class="k">if</span> <span class="n">astype</span><span class="p">:</span> <span class="k">return</span> <span class="n">astype</span><span class="p">(</span><span class="n">rx</span><span class="p">),</span><span class="n">astype</span><span class="p">(</span><span class="n">ry</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rx</span><span class="p">,</span><span class="n">ry</span></div>
 
-<div class="viewcode-block" id="plotim.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.plotim.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;img&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Plotim.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Plotim.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;img&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save image (save image if not Qt backend is installed)</span>
 <span class="sd">        :param strname: name to save, a label with {win} can be used to be replaced with the plot win name</span>
@@ -1558,10 +1560,10 @@
         <span class="k">if</span> <span class="n">FLAG_DEBUG</span> <span class="ow">and</span> <span class="n">r</span><span class="p">:</span> <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;from Plotim saved as&quot;</span><span class="p">,</span><span class="n">strname</span>
         <span class="k">return</span> <span class="n">r</span></div></div>
 
-<div class="viewcode-block" id="matchExplorer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer">[docs]</a><span class="k">class</span> <span class="nc">matchExplorer</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer">[docs]</a><span class="k">class</span> <span class="nc">MatchExplorer</span><span class="p">(</span><span class="n">Plotim</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Draws a set of keypoint pairs obtained on a match method of a descriptor</span>
-<span class="sd">    on two images imgf and imgb. (backend: plotim).</span>
+<span class="sd">    on two images imgf and imgb. (backend: Plotim).</span>
 
 <span class="sd">    :param win: window&#39;s name (str)</span>
 <span class="sd">    :param img1: image1 (numpy array)</span>
@@ -1569,10 +1571,10 @@
 <span class="sd">    :param kp_pairs: zip(keypoint1, keypoint2)</span>
 <span class="sd">    :param status: obtained from cv2.findHomography</span>
 <span class="sd">    :param H: obtained from cv2.findHomography (default=None)</span>
-<span class="sd">    :param show: if True shows plotim using block and daemon, else do not show</span>
+<span class="sd">    :param show: if True shows Plotim using block and daemon, else do not show</span>
 <span class="sd">    :param block: if True it wait for window close, else it detaches</span>
 <span class="sd">    :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end</span>
-<span class="sd">    :return: plotim object with visualization as self.rimg (image with matching result) (default=None)</span>
+<span class="sd">    :return: Plotim object with visualization as self.rimg (image with matching result) (default=None)</span>
 
 <span class="sd">    .. note:: It supports BGR and gray images.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1619,7 +1621,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kpcolor</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span><span class="n">defColor</span><span class="p">)</span> <span class="c1"># color for key-points</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">framecolor</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="n">defColor</span><span class="p">)</span> <span class="c1"># color of the proyected corners</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">matchExplorer</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">vis</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MatchExplorer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">vis</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cmdlist</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s2">&quot;showgoods&quot;</span><span class="p">,</span><span class="s2">&quot;showbads&quot;</span><span class="p">,</span><span class="s2">&quot;framecolor&quot;</span><span class="p">,</span><span class="s2">&quot;kpcolor&quot;</span><span class="p">,</span><span class="s2">&quot;badcolor&quot;</span><span class="p">,</span><span class="s2">&quot;goodcolor&quot;</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drawline</span><span class="p">()</span>
 
@@ -1628,10 +1630,10 @@
         <span class="c1">#self.rimg # return coordinates</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="matchExplorer.randomColor"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.randomColor">[docs]</a>    <span class="k">def</span> <span class="nf">randomColor</span><span class="p">():</span>
+<div class="viewcode-block" id="MatchExplorer.randomColor"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.randomColor">[docs]</a>    <span class="k">def</span> <span class="nf">randomColor</span><span class="p">():</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="matchExplorer.updaterenderer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.updaterenderer">[docs]</a>    <span class="k">def</span> <span class="nf">updaterenderer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">zoom</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer.updaterenderer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.updaterenderer">[docs]</a>    <span class="k">def</span> <span class="nf">updaterenderer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">zoom</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        update renderer when called.</span>
 
@@ -1639,19 +1641,19 @@
 <span class="sd">        :param zoom: True to enable zoom, else updates with original img.</span>
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">matchExplorer</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">zoom</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MatchExplorer</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">zoom</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drawline</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="matchExplorer.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer.mousefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.mousefunc">[docs]</a>    <span class="k">def</span> <span class="nf">mousefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtincontrol</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drawrelation</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="matchExplorer.keyfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.keyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">keyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer.keyfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.keyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">keyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtincmd</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">drawrelation</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="matchExplorer.drawline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.drawline">[docs]</a>    <span class="k">def</span> <span class="nf">drawline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer.drawline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.drawline">[docs]</a>    <span class="k">def</span> <span class="nf">drawline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws background visualization without interaction</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1697,7 +1699,7 @@
                 <span class="n">cv2</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="p">(</span><span class="n">rx1</span><span class="p">,</span> <span class="n">ry1</span><span class="p">),</span> <span class="p">(</span><span class="n">rx2</span><span class="p">,</span> <span class="n">ry2</span><span class="p">),</span> <span class="n">gcol</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vis</span> <span class="o">=</span> <span class="n">vis</span> <span class="c1"># visualization with all inliers and points</span></div>
 
-<div class="viewcode-block" id="matchExplorer.drawrelation"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.matchExplorer.drawrelation">[docs]</a>    <span class="k">def</span> <span class="nf">drawrelation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MatchExplorer.drawrelation"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.MatchExplorer.drawrelation">[docs]</a>    <span class="k">def</span> <span class="nf">drawrelation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draw keypoints where pointer is placed and pressed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1728,7 +1730,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">()</span></div></div>
 
-<div class="viewcode-block" id="edger"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger">[docs]</a><span class="k">class</span> <span class="nc">edger</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger">[docs]</a><span class="k">class</span> <span class="nc">Edger</span><span class="p">(</span><span class="n">Plotim</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test visualization for edges</span>
 
@@ -1743,7 +1745,7 @@
                  <span class="n">isBFILTER</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="c1"># http://stackoverflow.com/a/22859788/5288758</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">edger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s2">&quot;edger &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">pathdata</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Edger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s2">&quot;Edger &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathdata</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_th1</span> <span class="o">=</span> <span class="mi">3000</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_th2</span> <span class="o">=</span> <span class="mi">6000</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_maxth</span> <span class="o">=</span> <span class="mi">10000</span>
@@ -1762,7 +1764,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">apertureSize</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">L2gradient</span><span class="o">=</span> <span class="mi">7</span><span class="p">,</span><span class="bp">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">computeAll</span><span class="p">()</span>
 
-<div class="viewcode-block" id="edger.getParameters"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.getParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;sigmaColor&quot;</span><span class="p">,</span><span class="s2">&quot;sigmaSpace&quot;</span><span class="p">,</span><span class="s2">&quot;clipLimit&quot;</span><span class="p">,</span><span class="s2">&quot;tileGridSize&quot;</span><span class="p">,</span>
+<div class="viewcode-block" id="Edger.getParameters"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.getParameters">[docs]</a>    <span class="k">def</span> <span class="nf">getParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="s2">&quot;sigmaColor&quot;</span><span class="p">,</span><span class="s2">&quot;sigmaSpace&quot;</span><span class="p">,</span><span class="s2">&quot;clipLimit&quot;</span><span class="p">,</span><span class="s2">&quot;tileGridSize&quot;</span><span class="p">,</span>
                                      <span class="s2">&quot;isSIZE&quot;</span><span class="p">,</span><span class="s2">&quot;isEQUA&quot;</span><span class="p">,</span><span class="s2">&quot;isCLAHE&quot;</span><span class="p">,</span><span class="s2">&quot;isBFILTER&quot;</span><span class="p">,</span><span class="s2">&quot;th1&quot;</span><span class="p">,</span><span class="s2">&quot;th2&quot;</span><span class="p">,</span><span class="s2">&quot;size&quot;</span><span class="p">,</span>
                                      <span class="s2">&quot;apertureSize&quot;</span><span class="p">,</span><span class="s2">&quot;L2gradient&quot;</span><span class="p">)):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
@@ -1772,14 +1774,14 @@
             <span class="n">p</span><span class="p">[</span><span class="n">param</span><span class="p">]</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">param</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">p</span></div>
 
-<div class="viewcode-block" id="edger.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;img&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">ext</span><span class="o">=</span><span class="s2">&quot;.png&quot;</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;img&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">strname</span><span class="p">:</span>
             <span class="n">temp</span> <span class="o">=</span> <span class="s2">&quot;E&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">th1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">th2</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">apertureSize</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L2gradient</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_&quot;</span>
             <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathdata</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">initname</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">savename</span><span class="o">+</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">pathdata</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
             <span class="n">strname</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">edger</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">strname</span><span class="p">,</span><span class="n">ext</span><span class="p">,</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Edger</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">strname</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="edger.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="p">,</span><span class="n">compute</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="p">,</span><span class="n">compute</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="nb">str</span><span class="p">):</span>
             <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">getData</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pathdata</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="c1"># [drive,body,name,header]</span>
@@ -1789,7 +1791,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data2</span> <span class="o">=</span> <span class="n">img</span>
         <span class="k">if</span> <span class="n">compute</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeAll</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="edger.computeAll"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.computeAll">[docs]</a>    <span class="k">def</span> <span class="nf">computeAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.computeAll"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.computeAll">[docs]</a>    <span class="k">def</span> <span class="nf">computeAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">savename</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSIZE</span><span class="p">:</span>
             <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
@@ -1953,7 +1955,7 @@
     <span class="k">def</span> <span class="nf">maxth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxth</span>
 
-<div class="viewcode-block" id="edger.computeEdge"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.computeEdge">[docs]</a>    <span class="k">def</span> <span class="nf">computeEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.computeEdge"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.computeEdge">[docs]</a>    <span class="k">def</span> <span class="nf">computeEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">edge</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">Canny</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gray</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">th1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">th2</span><span class="p">,</span><span class="n">apertureSize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">apertureSize</span><span class="p">,</span><span class="n">L2gradient</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">L2gradient</span><span class="p">)</span>
         <span class="n">vis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">vis</span><span class="p">[</span><span class="n">edge</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edgecolor</span>
@@ -1963,19 +1965,19 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="edger.onTrackbar1"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.onTrackbar1">[docs]</a>    <span class="k">def</span> <span class="nf">onTrackbar1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.onTrackbar1"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.onTrackbar1">[docs]</a>    <span class="k">def</span> <span class="nf">onTrackbar1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">th1</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getTrackbarPos</span><span class="p">(</span><span class="s1">&#39;th1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">)</span></div>
-<div class="viewcode-block" id="edger.onTrackbar2"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.onTrackbar2">[docs]</a>    <span class="k">def</span> <span class="nf">onTrackbar2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.onTrackbar2"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.onTrackbar2">[docs]</a>    <span class="k">def</span> <span class="nf">onTrackbar2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">th2</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">getTrackbarPos</span><span class="p">(</span><span class="s1">&#39;th2&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="edger.isActiveWindow"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.isActiveWindow">[docs]</a>    <span class="k">def</span> <span class="nf">isActiveWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.isActiveWindow"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.isActiveWindow">[docs]</a>    <span class="k">def</span> <span class="nf">isActiveWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cv2</span><span class="o">.</span><span class="n">getTrackbarPos</span><span class="p">(</span><span class="s1">&#39;th1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">True</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span></div>
 
-<div class="viewcode-block" id="edger.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.edger.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Edger.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Edger.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">wintype</span><span class="p">)</span>  <span class="c1"># create window</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">createTrackbar</span><span class="p">(</span><span class="s1">&#39;th1&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">th1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onTrackbar1</span><span class="p">)</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">createTrackbar</span><span class="p">(</span><span class="s1">&#39;th2&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">th2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onTrackbar2</span><span class="p">)</span>
@@ -1983,14 +1985,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">computeEdge</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="imtester"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester">[docs]</a><span class="k">class</span> <span class="nc">imtester</span><span class="p">(</span><span class="n">plotim</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester">[docs]</a><span class="k">class</span> <span class="nc">Imtester</span><span class="p">(</span><span class="n">Plotim</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Used to test some concepts as thresholds and filters</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="s2">&quot;imtester plot&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">img</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="s2">&quot;Imtester plot&quot;</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">imtester</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span><span class="n">img</span><span class="p">,(</span><span class="mi">191</span><span class="p">,</span><span class="mi">191</span><span class="p">,</span><span class="mi">191</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Imtester</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">191</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">191</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rW</span> <span class="o">=</span> <span class="mi">1080</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rH</span> <span class="o">=</span> <span class="mi">700</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showcoors</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2044,13 +2046,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;channel b&quot;</span><span class="p">,</span><span class="s2">&quot;channel g&quot;</span><span class="p">,</span><span class="s2">&quot;channel r&quot;</span><span class="p">,</span><span class="s2">&quot;channel c&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<div class="viewcode-block" id="imtester.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.windowfunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.windowfunc">[docs]</a>    <span class="k">def</span> <span class="nf">windowfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">namedWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">wintype</span><span class="p">)</span>  <span class="c1"># create window</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">resizeWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rW</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rH</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">builtcmd</span><span class="p">()</span> <span class="c1"># preparing cmd: use when replacing image</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">computefunc</span><span class="p">()</span> <span class="c1"># computing operations</span></div>
 
-<div class="viewcode-block" id="imtester.detectType"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.detectType">[docs]</a>    <span class="k">def</span> <span class="nf">detectType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.detectType"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.detectType">[docs]</a>    <span class="k">def</span> <span class="nf">detectType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">type</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">:</span>
             <span class="n">info</span> <span class="o">+=</span> <span class="s2">&quot;, type&quot;</span><span class="o">+</span><span class="n">i</span><span class="o">+</span><span class="s2">&quot;= binary&quot;</span>
         <span class="k">elif</span> <span class="nb">type</span><span class="o">==</span><span class="bp">self</span><span class="o">.</span><span class="n">binary_inv</span><span class="p">:</span>
@@ -2064,7 +2066,7 @@
         <span class="k">return</span> <span class="n">info</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="imtester.applythresh"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.applythresh">[docs]</a>    <span class="k">def</span> <span class="nf">applythresh</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">adaptativetoggle</span><span class="p">,</span><span class="n">threshtoggle</span><span class="p">,</span><span class="n">th</span><span class="p">,</span><span class="n">blocksz</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">ti</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.applythresh"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.applythresh">[docs]</a>    <span class="k">def</span> <span class="nf">applythresh</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="nb">type</span><span class="p">,</span><span class="n">adaptativetoggle</span><span class="p">,</span><span class="n">threshtoggle</span><span class="p">,</span><span class="n">th</span><span class="p">,</span><span class="n">blocksz</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">ti</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">info</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="c1"># here any threshold is made to img</span>
         <span class="k">if</span> <span class="n">adaptativetoggle</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">threshtoggle</span><span class="p">:</span> <span class="c1"># Mean img,maximum,cv2.ADAPTIVE_THRESH_MEAN_C,type,blocksz,C</span>
@@ -2085,7 +2087,7 @@
         <span class="k">return</span> <span class="n">thresh</span><span class="p">,</span><span class="n">info</span><span class="p">,</span><span class="n">title</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="imtester.formatinfo"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.formatinfo">[docs]</a>    <span class="k">def</span> <span class="nf">formatinfo</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">words</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.formatinfo"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.formatinfo">[docs]</a>    <span class="k">def</span> <span class="nf">formatinfo</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">words</span><span class="o">=</span><span class="mi">9</span><span class="p">):</span>
         <span class="n">infolist</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="n">newlist</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;&quot;</span><span class="p">]]</span>
         <span class="n">j</span><span class="o">=</span><span class="mi">1</span>
@@ -2096,7 +2098,7 @@
             <span class="n">newlist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+=</span><span class="n">infolist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
         <span class="k">return</span> <span class="n">newlist</span></div>
 
-<div class="viewcode-block" id="imtester.visualize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.visualize">[docs]</a>    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.visualize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.visualize">[docs]</a>    <span class="k">def</span> <span class="nf">visualize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># here self.data is passed to the render</span>
         <span class="c1">## Image data ##</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># image</span>
@@ -2119,7 +2121,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">updaterenderer</span><span class="p">()</span>  <span class="c1"># update render</span></div>
 
-<div class="viewcode-block" id="imtester.updatevisualization"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.updatevisualization">[docs]</a>    <span class="k">def</span> <span class="nf">updatevisualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image</span><span class="p">,</span><span class="n">channel</span><span class="p">,</span><span class="n">th</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">thresh1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">thresh2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.updatevisualization"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.updatevisualization">[docs]</a>    <span class="k">def</span> <span class="nf">updatevisualization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image</span><span class="p">,</span><span class="n">channel</span><span class="p">,</span><span class="n">th</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span><span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">thresh1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">thresh2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="c1"># here self.data is updated</span>
         <span class="k">if</span> <span class="n">th</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="p">:</span> <span class="n">th</span> <span class="o">=</span> <span class="n">th</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">maximum</span>
         <span class="c1"># UPDATE PLOT #</span>
@@ -2152,7 +2154,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">padVH</span><span class="p">([</span><span class="n">data</span><span class="p">],</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># MAKE VISUALIZATION</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="p">()</span> <span class="c1"># SHOW VISUALIZATION</span></div>
 
-<div class="viewcode-block" id="imtester.builtcmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.builtcmd">[docs]</a>    <span class="k">def</span> <span class="nf">builtcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.builtcmd"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.builtcmd">[docs]</a>    <span class="k">def</span> <span class="nf">builtcmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># here commands for cmd are built</span>
         <span class="n">cmdlist</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;limitrender&quot;</span><span class="p">,</span><span class="s2">&quot;limitaxes&quot;</span><span class="p">,</span><span class="s2">&quot;showcoors&quot;</span><span class="p">,</span><span class="s2">&quot;showcontrol&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;showpixel&quot;</span><span class="p">,</span><span class="s2">&quot;staticcoors&quot;</span><span class="p">,</span><span class="s2">&quot;showpixelvalue&quot;</span><span class="p">,</span><span class="s2">&quot;pixels&quot;</span><span class="p">,</span>
@@ -2210,7 +2212,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">cmdlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cmdeval</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="imtester.computefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.imtester.computefunc">[docs]</a>    <span class="k">def</span> <span class="nf">computefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Imtester.computefunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.plotter.Imtester.computefunc">[docs]</a>    <span class="k">def</span> <span class="nf">computefunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">image</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="c1"># this function is designed to work with countless initializations of image after self.builtcmd()</span>
         <span class="k">if</span> <span class="n">image</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data0</span>
@@ -2309,7 +2311,7 @@
     <span class="n">images</span> <span class="o">=</span> <span class="n">_parseString</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="n">servertimeout</span><span class="p">)</span>
     <span class="n">wins</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="n">plotim</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span> <span class="c1"># pickled, so normal comparisons do not work</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="n">Plotim</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span> <span class="c1"># pickled, so normal comparisons do not work</span>
             <span class="n">image</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">frames</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">block</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">daemon</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">fastplt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">cmap</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">win</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">block</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">daemon</span><span class="p">)</span>
@@ -2347,7 +2349,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

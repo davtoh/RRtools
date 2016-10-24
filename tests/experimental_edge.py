@@ -6,7 +6,7 @@ from RRtoolbox.lib.root import glob
 from RRtoolbox.lib.plotter import Edger
 from RRtoolbox.lib.cache import MemoizedDict
 
-root = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/"
+root = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_PROCESSED/analysis/"
 fns = glob(root+"*")
 mode = 0
 

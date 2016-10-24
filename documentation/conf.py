@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # RRtoolbox documentation build configuration file, created by
-# sphinx-quickstart on Thu Jul  7 16:29:36 2016.
+# sphinx-quickstart on Mon Oct 24 10:19:33 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -18,6 +18,7 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
+#sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath("../")) # add RRtools path
 
 # -- General configuration ------------------------------------------------
@@ -50,8 +51,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'RRtoolbox'
-copyright = u'2016, davtoh'
-author = u'davtoh'
+copyright = u'2016, David Toro'
+author = u'David Toro'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -226,7 +227,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'RRtoolbox.tex', u'RRtoolbox Documentation',
-     u'davtoh', 'manual'),
+     u'David Toro', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

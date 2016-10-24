@@ -32,7 +32,7 @@ VSVersionInfo(
         u'040904b0',
         [StringStruct(u'CompanyName', u''),
         StringStruct(u'ProductName', u'ImRestore'),
-        StringStruct(u'ProductVersion', u'1, 0, 0, 0'),
+        StringStruct(u'ProductVersion', u'1, 0, 0, 1'),
         StringStruct(u'InternalName', u'ImRestore'),
         StringStruct(u'OriginalFilename', u'imrestore.exe'),
         StringStruct(u'FileVersion', u'96, 12, 19, 1'),

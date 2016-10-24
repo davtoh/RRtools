@@ -765,10 +765,10 @@ def stitch_multiple(images = None, **opts):
 if __name__ == "__main__":
     # http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html
     memoize.ignoreAll = True
-    asif_demo("im1_2.jpg","im1_1.jpg")
+    #asif_demo("im1_2.jpg","im1_1.jpg")
     #asif_demo2()
-    images="../TESIS/DATA_RAW/IMAGES/RETINA/*.jpg"
+    images="/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/IMAGES/RETINA/*.jpg"
     #stitch_multiple(images=images,
     #                saveTo = "/mnt/4E443F99443F82AF/restoration_data/", clearAll=False)
-    #testRates(images=images,
-                #saveTo = "/mnt/4E443F99443F82AF/restoration_data/",autoqualify=True,qualify=True,showOnlyPassedTest=True)
+    testRates(images=images,
+                saveTo = "/mnt/4E443F99443F82AF/restoration_data/",autoqualify=True,qualify=True,showOnlyPassedTest=True)

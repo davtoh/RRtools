@@ -12,30 +12,29 @@
 \contentsline {subparagraph}{Module contents}{26}{subparagraph*.132}
 \contentsline {subsubsection}{Submodules}{26}{subsubsection*.133}
 \contentsline {subsubsection}{RRtoolbox.lib.cache module}{26}{subsubsection*.134}
-\contentsline {subsubsection}{RRtoolbox.lib.config module}{31}{subsubsection*.183}
-\contentsline {subsubsection}{RRtoolbox.lib.descriptors module}{32}{subsubsection*.194}
-\contentsline {subsubsection}{RRtoolbox.lib.directory module}{35}{subsubsection*.207}
-\contentsline {paragraph}{keywords:}{35}{paragraph*.208}
-\contentsline {subsubsection}{RRtoolbox.lib.image module}{40}{subsubsection*.243}
-\contentsline {subsubsection}{RRtoolbox.lib.inspector module}{52}{subsubsection*.304}
-\contentsline {subsubsection}{RRtoolbox.lib.plotter module}{54}{subsubsection*.335}
-\contentsline {subsubsection}{RRtoolbox.lib.root module}{62}{subsubsection*.410}
-\contentsline {subsubsection}{RRtoolbox.lib.serverServices module}{67}{subsubsection*.460}
-\contentsline {subsubsection}{RRtoolbox.lib.session module}{69}{subsubsection*.480}
-\contentsline {subsubsection}{Module contents}{70}{subsubsection*.488}
-\contentsline {subsection}{\numberline {1.1.2}RRtoolbox.tools package}{70}{subsection.1.1.2}
-\contentsline {subsubsection}{Submodules}{70}{subsubsection*.489}
-\contentsline {subsubsection}{RRtoolbox.tools.lens module}{70}{subsubsection*.490}
-\contentsline {subsubsection}{RRtoolbox.tools.restoration module}{71}{subsubsection*.495}
-\contentsline {subsubsection}{RRtoolbox.tools.segmentation module}{73}{subsubsection*.504}
-\contentsline {subsubsection}{RRtoolbox.tools.selectors module}{74}{subsubsection*.512}
-\contentsline {subsubsection}{RRtoolbox.tools.sticher module}{75}{subsubsection*.522}
-\contentsline {subsubsection}{Module contents}{75}{subsubsection*.524}
-\contentsline {section}{\numberline {1.2}Submodules}{75}{section.1.2}
-\contentsline {section}{\numberline {1.3}RRtoolbox.core module}{75}{section.1.3}
+\contentsline {subsubsection}{RRtoolbox.lib.config module}{31}{subsubsection*.182}
+\contentsline {subsubsection}{RRtoolbox.lib.descriptors module}{33}{subsubsection*.193}
+\contentsline {subsubsection}{RRtoolbox.lib.directory module}{35}{subsubsection*.206}
+\contentsline {paragraph}{keywords:}{35}{paragraph*.207}
+\contentsline {subsubsection}{RRtoolbox.lib.image module}{41}{subsubsection*.242}
+\contentsline {subsubsection}{RRtoolbox.lib.inspector module}{53}{subsubsection*.315}
+\contentsline {subsubsection}{RRtoolbox.lib.plotter module}{54}{subsubsection*.346}
+\contentsline {subsubsection}{RRtoolbox.lib.root module}{63}{subsubsection*.421}
+\contentsline {subsubsection}{RRtoolbox.lib.serverServices module}{69}{subsubsection*.483}
+\contentsline {subsubsection}{RRtoolbox.lib.session module}{71}{subsubsection*.501}
+\contentsline {subsubsection}{Module contents}{72}{subsubsection*.509}
+\contentsline {subsection}{\numberline {1.1.2}RRtoolbox.tools package}{72}{subsection.1.1.2}
+\contentsline {subsubsection}{Submodules}{72}{subsubsection*.510}
+\contentsline {subsubsection}{RRtoolbox.tools.lens module}{72}{subsubsection*.511}
+\contentsline {subsubsection}{RRtoolbox.tools.segmentation module}{73}{subsubsection*.516}
+\contentsline {subsubsection}{RRtoolbox.tools.selectors module}{75}{subsubsection*.526}
+\contentsline {subsubsection}{RRtoolbox.tools.sticher module}{76}{subsubsection*.536}
+\contentsline {subsubsection}{Module contents}{76}{subsubsection*.538}
+\contentsline {section}{\numberline {1.2}Submodules}{76}{section.1.2}
+\contentsline {section}{\numberline {1.3}RRtoolbox.core module}{76}{section.1.3}
 \contentsline {section}{\numberline {1.4}RRtoolbox.run module}{76}{section.1.4}
 \contentsline {section}{\numberline {1.5}RRtoolbox.shell module}{76}{section.1.5}
-\contentsline {section}{\numberline {1.6}Module contents}{76}{section.1.6}
-\contentsline {chapter}{\numberline {2}Indices and tables}{77}{chapter.2}
-\contentsline {chapter}{Python Module Index}{79}{section*.541}
-\contentsline {chapter}{Index}{81}{section*.542}
+\contentsline {section}{\numberline {1.6}Module contents}{77}{section.1.6}
+\contentsline {chapter}{\numberline {2}Indices and tables}{79}{chapter.2}
+\contentsline {chapter}{Python Module Index}{81}{section*.556}
+\contentsline {chapter}{Index}{83}{section*.557}

@@ -61,6 +61,7 @@
 <span class="sd">    Made by Davtoh, powered by joblib.</span>
 <span class="sd">    Dependent project: https://github.com/joblib/joblib</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.root</span> <span class="kn">import</span> <span class="n">NotCallable</span><span class="p">,</span> <span class="n">NotCreatable</span><span class="p">,</span> <span class="n">VariableNotSettable</span><span class="p">,</span> <span class="n">VariableNotDeletable</span>
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 
@@ -100,22 +101,21 @@
 <span class="c1">## READ: https://wiki.python.org/moin/PythonDecoratorLibrary</span>
 
 <span class="kn">import</span> <span class="nn">joblib</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span><span class="p">,</span><span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">ref</span><span class="p">,</span> <span class="n">getweakrefcount</span><span class="p">,</span> <span class="n">getweakrefs</span>
-<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">getsizeof</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">ref</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">numpy.lib</span> <span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">numpyLoad</span><span class="p">,</span> <span class="n">save</span> <span class="k">as</span> <span class="n">numpySave</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="c1">#print &quot;using joblib version&quot;, joblib.__version__</span>
 
-<div class="viewcode-block" id="NotMemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.NotMemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">NotMemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">NotMemorizedFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="NotMemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.NotMemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">NotMemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">NotMemorizedFunc</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="MemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.MemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">MemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">MemorizedFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="MemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">MemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">MemorizedFunc</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="DynamicMemoizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc">[docs]</a><span class="k">class</span> <span class="nc">DynamicMemoizedFunc</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc">[docs]</a><span class="k">class</span> <span class="nc">DynamicMemoizedFunc</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">banned</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">func</span> <span class="c1"># the only one that should not be able to change</span>
@@ -225,7 +225,7 @@
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DynamicMemoizedFunc.call_and_shelve"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc.call_and_shelve">[docs]</a>    <span class="k">def</span> <span class="nf">call_and_shelve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc.call_and_shelve"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc.call_and_shelve">[docs]</a>    <span class="k">def</span> <span class="nf">call_and_shelve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">call_and_shelve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -233,10 +233,10 @@
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
-<div class="viewcode-block" id="DynamicMemoizedFunc.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">warn</span><span class="o">=</span><span class="n">warn</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Memory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memory">[docs]</a><span class="k">class</span> <span class="nc">Memory</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="p">):</span>
+<div class="viewcode-block" id="Memory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memory">[docs]</a><span class="k">class</span> <span class="nc">Memory</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A wrapper to joblib Memory to have better control.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -295,7 +295,7 @@
 <span class="sd">                                   timestamp=self.timestamp)&#39;&#39;&#39;</span>
     <span class="n">__call__</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="o">.</span><span class="n">cache</span></div>
 
-<div class="viewcode-block" id="Memoizer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer">[docs]</a><span class="k">class</span> <span class="nc">Memoizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer">[docs]</a><span class="k">class</span> <span class="nc">Memoizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">memoizers</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">(),</span> <span class="n">ignoreAll</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="bp">None</span>
@@ -319,7 +319,7 @@
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Memoizer.makememory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer.makememory">[docs]</a>    <span class="k">def</span> <span class="nf">makememory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer.makememory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer.makememory">[docs]</a>    <span class="k">def</span> <span class="nf">makememory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make memory for :func:`memoize` decorator.</span>
 
@@ -344,7 +344,7 @@
         <span class="n">MEMORY</span> <span class="o">=</span> <span class="n">Memory</span><span class="p">(</span><span class="n">cachedir</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="p">,</span> <span class="n">compress</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">MEMORY</span></div>
 
-<div class="viewcode-block" id="Memoizer.memoize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer.memoize">[docs]</a>    <span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer.memoize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer.memoize">[docs]</a>    <span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decorated functions are faster by trading memory for time, only hashable values can be memoized.</span>
 
@@ -378,7 +378,7 @@
 
 <span class="n">memoize</span> <span class="o">=</span> <span class="n">Memoizer</span><span class="p">()</span> <span class="c1"># make memoizer manager</span>
 
-<div class="viewcode-block" id="cache"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.cache">[docs]</a><span class="k">class</span> <span class="nc">cache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Cache"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Cache">[docs]</a><span class="k">class</span> <span class="nc">Cache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Descriptor (non-data) for building an attribute on-demand at first use.</span>
 <span class="sd">    @cache decorator is used for class methods without inputs (only self reference to the object)</span>
@@ -406,18 +406,18 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cached</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cached</span></div>
 
-<div class="viewcode-block" id="cachedProperty"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.cachedProperty">[docs]</a><span class="k">def</span> <span class="nf">cachedProperty</span><span class="p">(</span><span class="n">watch</span><span class="o">=</span><span class="p">[],</span><span class="n">handle</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="cachedProperty"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.cachedProperty">[docs]</a><span class="k">def</span> <span class="nf">cachedProperty</span><span class="p">(</span><span class="n">watch</span><span class="o">=</span><span class="p">[],</span><span class="n">handle</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A memoize decorator of @property decorator specifying what to trigger caching.</span>
 
 <span class="sd">    :param watch: (list of strings) A list of arguments name to watch in the hashing.</span>
-<span class="sd">    :param handle: (list of handles or empty list) Provided list is appended with the memo</span>
+<span class="sd">    :param handle: (list of handles or empty list) Provided list is appended with the Memo</span>
 <span class="sd">                handle were data is stored for the method and where a clear() function is provided.</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#http://code.activestate.com/recipes/576563-cached-property/</span>
-    <span class="k">class</span> <span class="nc">memo</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; memo function for cache &quot;&quot;&quot;</span>
+    <span class="k">class</span> <span class="nc">Memo</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; Memo function for cache &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span><span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_input_cache</span> <span class="o">=</span> <span class="p">{}</span>
@@ -425,7 +425,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span><span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_input_cache</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="n">this</span> <span class="o">=</span> <span class="n">memo</span><span class="p">()</span>
+    <span class="n">this</span> <span class="o">=</span> <span class="n">Memo</span><span class="p">()</span>
     <span class="n">handle</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">noargs</span><span class="p">(</span><span class="n">f</span><span class="p">):</span> <span class="c1"># if not watch use this funciton</span>
@@ -465,19 +465,8 @@
         <span class="k">return</span> <span class="n">noargs</span>
     <span class="k">return</span> <span class="n">withargs</span></div>
 
-<div class="viewcode-block" id="notCallable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.notCallable">[docs]</a><span class="k">class</span> <span class="nc">notCallable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines objectGetter error: given object is not callable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="notCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.notCreatable">[docs]</a><span class="k">class</span> <span class="nc">notCreatable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines objectGetter error: objectGetter cannot create new object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="objectGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter">[docs]</a><span class="k">class</span> <span class="nc">objectGetter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter">[docs]</a><span class="k">class</span> <span class="nc">ObjectGetter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates or get instance object depending if it is alive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -505,17 +494,17 @@
 <span class="sd">            b = getobj() # it uses the same hard reference a</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">objectGetter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ObjectGetter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="n">callfunc</span> <span class="o">=</span> <span class="n">callfunc</span><span class="p">,</span> <span class="o">**</span><span class="n">annotations</span><span class="p">)</span>
 
-<div class="viewcode-block" id="objectGetter.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">callfunc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callfunc&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">callfunc</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">callfunc</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">notCallable</span><span class="p">(</span><span class="s2">&quot;callfunc {} is not callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">callfunc</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">NotCallable</span><span class="p">(</span><span class="s2">&quot;callfunc {} is not callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">callfunc</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span> <span class="o">=</span> <span class="n">callfunc</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
         <span class="n">callback</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callback&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
@@ -525,13 +514,13 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="objectGetter.getObj"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.getObj">[docs]</a>    <span class="k">def</span> <span class="nf">getObj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.getObj"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.getObj">[docs]</a>    <span class="k">def</span> <span class="nf">getObj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">ob</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">throw</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ob</span></div>
     <span class="n">__call__</span> <span class="o">=</span> <span class="n">getObj</span>
 
-<div class="viewcode-block" id="objectGetter.create"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.create"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an object and keep reference.</span>
 
@@ -547,9 +536,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span> <span class="o">=</span> <span class="n">ref</span><span class="p">(</span><span class="n">ob</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">ob</span>
         <span class="k">elif</span> <span class="n">throw</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">notCreatable</span><span class="p">(</span><span class="s2">&quot;No callfunc to create object&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">NotCreatable</span><span class="p">(</span><span class="s2">&quot;No callfunc to create object&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="objectGetter.raw"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.raw">[docs]</a>    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.raw"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.raw">[docs]</a>    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get object from reference.</span>
 <span class="sd">        :return: None if object is dead, object itself if is alive.</span>
@@ -558,25 +547,25 @@
             <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">ob</span></div>
 
-<div class="viewcode-block" id="objectGetter.isAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.isAlive">[docs]</a>    <span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isAlive">[docs]</a>    <span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if object of reference is alive</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span></div>
 
-<div class="viewcode-block" id="objectGetter.isCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.isCreatable">[docs]</a>    <span class="k">def</span> <span class="nf">isCreatable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isCreatable">[docs]</a>    <span class="k">def</span> <span class="nf">isCreatable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if can create object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span></div>
 
-<div class="viewcode-block" id="objectGetter.isGettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.objectGetter.isGettable">[docs]</a>    <span class="k">def</span> <span class="nf">isGettable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isGettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isGettable">[docs]</a>    <span class="k">def</span> <span class="nf">isGettable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if object can be gotten either by reference or creation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isCreatable</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAlive</span><span class="p">()</span></div></div>
 
-<div class="viewcode-block" id="retriever"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.retriever">[docs]</a><span class="k">class</span> <span class="nc">retriever</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="Retriever"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Retriever">[docs]</a><span class="k">class</span> <span class="nc">Retriever</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    keep track of references and create objects on demand if needed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -584,7 +573,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">references</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="bp">None</span>
 
-<div class="viewcode-block" id="retriever.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.retriever.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Retriever.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Retriever.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register object to retrieve.</span>
 
@@ -611,7 +600,7 @@
 <span class="sd">            assert ret() is not ret[&quot;obj&quot;]</span>
 <span class="sd">            print list(ret.iteritems()) # get items</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">objectGetter</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">instance</span><span class="p">,</span> <span class="n">callfunc</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ObjectGetter</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">instance</span><span class="p">,</span> <span class="n">callfunc</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="n">key</span> <span class="c1"># register last key</span></div>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -634,7 +623,71 @@
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="resourceManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager">[docs]</a><span class="k">class</span> <span class="nc">resourceManager</span><span class="p">(</span><span class="n">retriever</span><span class="p">):</span>
+<div class="viewcode-block" id="LazyDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.LazyDict">[docs]</a><span class="k">class</span> <span class="nc">LazyDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create objects on demand if needed. call the instance with keys to prevent it</span>
+<span class="sd">    from using lazy evaluations (e.g. instead of self[key] use self(key) to prevent</span>
+<span class="sd">    recursion). Containing operations are safe to prevent recursion (e.g. if key in self</span>
+<span class="sd">    instead of self[key]). In addition use self.isLazy flag to enable or disable lazy</span>
+<span class="sd">    operations to prevent possible recursions when getter is called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">NotCallable</span><span class="p">(</span><span class="s2">&quot;getter must be a callable function to process keys&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dictionary</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">getter</span> <span class="o">=</span> <span class="n">getter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span> <span class="o">=</span> <span class="n">dictionary</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLazy</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached</span><span class="p">:</span>
+                <span class="c1"># try to use cached data</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># always compute data</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getter</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLazy</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached</span><span class="p">:</span>
+                <span class="c1"># for lazy or to recompute</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getter</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">e</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1">#self[key] # It can create a recursion</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="ResourceManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager">[docs]</a><span class="k">class</span> <span class="nc">ResourceManager</span><span class="p">(</span><span class="n">Retriever</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    keep track of references, create objects on demand, manage their memory and optimize for better performance.</span>
 
@@ -648,7 +701,7 @@
 <span class="sd">                    if False used memory is only from keptAlive references.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxMemory</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;MB&quot;</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">resourceManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResourceManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="c1">#self.references is a dictionary containing all the references</span>
         <span class="c1">#self._lastkey is effectively the last key to use when Manager is called</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># used memory in bytes of references</span>
@@ -682,7 +735,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">throw</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">wasAtFail</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">notCreatable</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">NotCreatable</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="n">getter</span><span class="o">.</span><span class="n">_fails</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># keep accumulating fails</span>
         <span class="n">getter</span><span class="o">.</span><span class="n">_calls</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># actual calls</span>
@@ -711,10 +764,10 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="p">:</span> <span class="c1"># clear form white list</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-<div class="viewcode-block" id="resourceManager.getSizeOf"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.getSizeOf">[docs]</a>    <span class="k">def</span> <span class="nf">getSizeOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.getSizeOf"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.getSizeOf">[docs]</a>    <span class="k">def</span> <span class="nf">getSizeOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">()</span><span class="c1">#getsizeof(item,0)</span></div>
 
-<div class="viewcode-block" id="resourceManager.optimizeObject"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.optimizeObject">[docs]</a>    <span class="k">def</span> <span class="nf">optimizeObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">toWhiteList</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.optimizeObject"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.optimizeObject">[docs]</a>    <span class="k">def</span> <span class="nf">optimizeObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">toWhiteList</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">getter</span><span class="o">.</span><span class="n">isAlive</span><span class="p">():</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">getter</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -724,7 +777,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">flag</span></div>
 
-<div class="viewcode-block" id="resourceManager.keepAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.keepAlive">[docs]</a>    <span class="k">def</span> <span class="nf">keepAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.keepAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.keepAlive">[docs]</a>    <span class="k">def</span> <span class="nf">keepAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="p">:</span>
             <span class="c1">#self._free(key)</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Already ketp alive&quot;</span><span class="p">)</span>
@@ -746,13 +799,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">-=</span> <span class="n">s</span> <span class="c1"># update kept memory</span>
         <span class="k">return</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="resourceManager.bytes2units"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.bytes2units">[docs]</a>    <span class="k">def</span> <span class="nf">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.bytes2units"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.bytes2units">[docs]</a>    <span class="k">def</span> <span class="nf">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        converts value from bytes to user units</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_conv</span></div>
 
-<div class="viewcode-block" id="resourceManager.units2bytes"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.units2bytes">[docs]</a>    <span class="k">def</span> <span class="nf">units2bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.units2bytes"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.units2bytes">[docs]</a>    <span class="k">def</span> <span class="nf">units2bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        converts value from user units two bytes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -841,7 +894,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">unit</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="resourceManager.resetGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.resetGetter">[docs]</a>    <span class="k">def</span> <span class="nf">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.resetGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.resetGetter">[docs]</a>    <span class="k">def</span> <span class="nf">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to reset getter parameters.</span>
 
@@ -852,7 +905,7 @@
         <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># init mean of retrieving time</span>
         <span class="n">getter</span><span class="o">.</span><span class="n">_iddleT</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="resourceManager.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.resourceManager.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register object to retrieve.</span>
 
@@ -885,7 +938,7 @@
             <span class="n">getter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="n">getter</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obj</span> <span class="o">=</span> <span class="n">instance</span><span class="p">,</span> <span class="n">callfunc</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">getter</span> <span class="o">=</span> <span class="n">objectGetter</span><span class="p">(</span><span class="n">obj</span> <span class="o">=</span> <span class="n">instance</span><span class="p">,</span> <span class="n">callfunc</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+            <span class="n">getter</span> <span class="o">=</span> <span class="n">ObjectGetter</span><span class="p">(</span><span class="n">obj</span> <span class="o">=</span> <span class="n">instance</span><span class="p">,</span> <span class="n">callfunc</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span>
         <span class="k">if</span> <span class="n">instance</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizeObject</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">getter</span><span class="p">,</span><span class="n">toWhiteList</span><span class="o">=</span> <span class="ow">not</span> <span class="n">getter</span><span class="o">.</span><span class="n">isCreatable</span><span class="p">())</span>
@@ -1027,7 +1080,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} {} is considered low memory. Not optimized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usedMemory</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tofree</span> <span class="c1"># this means: &gt; 0 bytes not able to free; &lt; 0 bytes over freed; == 0 successful</span></div>
 
-<div class="viewcode-block" id="mapper"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.mapper">[docs]</a><span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">onlynumpy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mapper"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.mapper">[docs]</a><span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">onlynumpy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save and load or map live objects to disk to free RAM memory.</span>
 
@@ -1050,7 +1103,7 @@
             <span class="n">names</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="c1"># dump object to file for mapping</span>
         <span class="k">return</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">),</span> <span class="n">names</span></div>
 
-<div class="viewcode-block" id="memoizedDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.memoizedDict">[docs]</a><span class="k">class</span> <span class="nc">memoizedDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="MemoizedDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemoizedDict">[docs]</a><span class="k">class</span> <span class="nc">MemoizedDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    memoized dictionary with keys and values persisted to files.</span>
 
@@ -1059,7 +1112,7 @@
 
 <span class="sd">    .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added</span>
 <span class="sd">                and throw an error if not successful. But if saveAtKey is False this process</span>
-<span class="sd">                will be carried out when the memoizedDict instance is being destroyed in</span>
+<span class="sd">                will be carried out when the MemoizedDict instance is being destroyed in</span>
 <span class="sd">                a proper deletion, that is, if the program ends unexpectedly all data will be</span>
 <span class="sd">                lost or if data cannot be saved it will be lost without warning.</span>
 
@@ -1076,12 +1129,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span> <span class="o">=</span> <span class="n">cPickle</span> <span class="c1"># serializer for keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">mkPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># path to memoized keys and values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_map_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span> <span class="c1"># file containing the keys</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_map</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span> <span class="c1"># keeps the map to persistent files</span>
+        <span class="c1">#self._map = self._load_map() or {} # keeps the map to persistent files</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="c1"># mode to read the values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span> <span class="c1"># loader for values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span> <span class="c1"># saver for values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_hasher</span> <span class="o">=</span> <span class="nb">hash</span> <span class="c1"># function to hash the keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_secure</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># this is an option to use dangerous and secure routines</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_map</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span>
+    <span class="nd">@_map.setter</span>
+    <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VariableNotSettable</span><span class="p">(</span><span class="s2">&quot;_map cannot be set&quot;</span><span class="p">)</span>
+    <span class="nd">@_map.deleter</span>
+    <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VariableNotDeletable</span><span class="p">(</span><span class="s2">&quot;_map cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_getHash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1123,7 +1190,7 @@
                     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">pass</span> <span class="c1"># file could have been deleted</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">hashed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getHash</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
@@ -1131,7 +1198,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># TODO: Consider implementing a set to keep track of hashes so that a hash is not repeated</span>
             <span class="c1"># TODO: though add overloads, consider persisting the key along the value too for recovery purposes.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">hashed</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_saver</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">hashed</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_saver</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_save_map</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="k">print</span> <span class="s2">&quot; Race condition in the creation of the directory &quot;</span>
@@ -1140,8 +1207,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        persist dictionary map to file (metadata).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="c1"># FIXME: consumes too much time</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="c1"># save dictionary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="c1"># FIXME: consumes too much time</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="c1"># save dictionary</span>
 
     <span class="k">def</span> <span class="nf">_load_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1155,7 +1223,7 @@
         <span class="k">except</span> <span class="ne">EOFError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-<div class="viewcode-block" id="memoizedDict.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.memoizedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># overloads clear in the abc class</span>
+<div class="viewcode-block" id="MemoizedDict.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemoizedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># overloads clear in the abc class</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove all items from D.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1196,7 +1264,7 @@
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="k">pass</span> <span class="c1"># file could have been deleted</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save_map</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1249,7 +1317,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

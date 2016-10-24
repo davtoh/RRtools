@@ -142,27 +142,45 @@ def getData(path=__file__): # FIXME not working windows syntax under linux
         drive,dirname = os.path.splitdrive(dirname[:len(dirname)-len(filename)])
         return [drive,dirname,filename,ext]
 
-def increment_if_exits(fn, add ="_{num}"):
+def increment_if_exits(path, add ="_{num}", force=None):
     """
     Generates new name if it exits.
 
-    :param fn: absolute path or filename
+    :param path: absolute path or filename
     :param add: if fn exists add pattern
+    :param force: (None) force existent files even if they don't. if True
+            treats fn as existent or if it is a list it treats names from
+            the list as existent names.
     :return: un-existent fn
     """
-    if os.path.exists(fn):
-        data = getData(fn)
+    # normalize
+    path = os.path.abspath(path)
+
+    # list of exceptions
+    listing = []
+    if force is True:
+        listing.append(path) # append itself
+    elif force is not None:
+        for f in force: # normalize all paths
+            listing.append(os.path.abspath(f))
+
+    # check existence
+    if path in listing or os.path.exists(path):
+        # get parts
+        data = getData(path)
+        # make pattern from parts
         pattern = "".join(data[:-1])+"{}"+data[-1]
-        listing = [i for i in glob(pattern.format("*"))]
+        # get a priory list of files
+        listing.extend(glob(pattern.format("*")))
         num = 0
         while True:
             num += 1
-            fn = pattern.format(add.format(num=num))
-            if fn not in listing and not os.path.exists(fn):
-                break
-        return increment_if_exits(fn, add) # double check
+            path = pattern.format(add.format(num=num))
+            if path not in listing and not os.path.exists(path):
+                return path
+        #return increment_if_exits(fn=fn, add=add, force=force) # double check
     else:
-        return fn
+        return path
 
 def changedir(filepath, dirname, ext=True):
     """

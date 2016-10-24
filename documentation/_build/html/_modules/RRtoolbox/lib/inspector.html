@@ -266,7 +266,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">done</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">join</span><span class="p">()</span></div></div>
 
-<div class="viewcode-block" id="graphTraceOutput"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTraceOutput">[docs]</a><span class="k">class</span> <span class="nc">graphTraceOutput</span><span class="p">(</span><span class="n">GraphvizOutput</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphTraceOutput"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTraceOutput">[docs]</a><span class="k">class</span> <span class="nc">GraphTraceOutput</span><span class="p">(</span><span class="n">GraphvizOutput</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">saveflag</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">saveflag</span> <span class="o">=</span> <span class="n">saveflag</span>
@@ -274,13 +274,13 @@
         <span class="n">GraphvizOutput</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_attributes</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
 
-<div class="viewcode-block" id="graphTraceOutput.done"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTraceOutput.done">[docs]</a>    <span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphTraceOutput.done"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTraceOutput.done">[docs]</a>    <span class="k">def</span> <span class="nf">done</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">source</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="graphTraceOutput.saveSource"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTraceOutput.saveSource">[docs]</a>    <span class="k">def</span> <span class="nf">saveSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphTraceOutput.saveSource"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTraceOutput.saveSource">[docs]</a>    <span class="k">def</span> <span class="nf">saveSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">source</span><span class="p">:</span>
             <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span>
@@ -295,7 +295,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span>
         <span class="k">return</span> <span class="n">cmd</span></div>
 
-<div class="viewcode-block" id="graphTraceOutput.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTraceOutput.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphTraceOutput.save"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTraceOutput.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">source</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">file</span><span class="p">:</span> <span class="c1"># save custom file</span>
             <span class="n">istemp</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="n">cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">saveSource</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
@@ -329,7 +329,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">output_file</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">func_count</span><span class="p">),</span>
         <span class="p">))</span></div></div>
 
-<div class="viewcode-block" id="graphTrace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTrace">[docs]</a><span class="k">class</span> <span class="nc">graphTrace</span><span class="p">(</span><span class="n">pycallgraph</span><span class="o">.</span><span class="n">PyCallGraph</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphTrace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTrace">[docs]</a><span class="k">class</span> <span class="nc">GraphTrace</span><span class="p">(</span><span class="n">pycallgraph</span><span class="o">.</span><span class="n">PyCallGraph</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># modified function</span>
         <span class="c1"># review for trace problems at \Python27\Lib\site-packages\pycallgraph\tracer.py</span>
@@ -340,7 +340,7 @@
     <span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># modified function</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">output</span><span class="o">.</span><span class="n">source</span> <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">]</span>
 
-<div class="viewcode-block" id="graphTrace.saveSource"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTrace.saveSource">[docs]</a>    <span class="k">def</span> <span class="nf">saveSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">file</span><span class="p">):</span> <span class="c1"># added function</span>
+<div class="viewcode-block" id="GraphTrace.saveSource"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTrace.saveSource">[docs]</a>    <span class="k">def</span> <span class="nf">saveSource</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="nb">file</span><span class="p">):</span> <span class="c1"># added function</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">dr</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># save enumerated outputs</span>
@@ -350,7 +350,7 @@
         <span class="k">else</span><span class="p">:</span> <span class="c1"># save single output</span>
             <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">saveSource</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="graphTrace.get_tracer_class"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.graphTrace.get_tracer_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracer_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># modified function</span>
+<div class="viewcode-block" id="GraphTrace.get_tracer_class"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.inspector.GraphTrace.get_tracer_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracer_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># modified function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">threaded</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Asyncronous</span>
         <span class="k">else</span><span class="p">:</span>
@@ -388,7 +388,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

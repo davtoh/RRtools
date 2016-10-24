@@ -183,11 +183,10 @@ from RRtoolbox.lib.image import loadFunc, ImCoors
 from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCnt
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
-from RRtoolbox.tools.segmentation import retinal_mask, get_layered_alpha
+from RRtoolbox.tools.segmentation import get_bright_alpha, retinal_mask, get_layered_alpha
 from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable, \
     NameSpace
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
-from RRtoolbox.tools.segmentation import get_bright_alpha
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
@@ -198,7 +197,8 @@ from RRtoolbox.shell import tuple_creator, string_interpreter
 
 def check_valid(fn):
     """
-    checks that a file is valid for loading.
+    Checks that a file is valid for loading.
+
     :param fn: filename
     :return: True for valid, False for invalid.
     """
@@ -557,10 +557,16 @@ class ImRestore(object):
                 if self.maskforeground is True:
                     mask = foreground(img)
 
-                if mask is not None and self.verbosity > 4:
+                if self.verbosity > 4:
                     try:
-                        fastplt(overlay(img.copy(), mask*255, alpha=mask*0.5), block=True,
-                                title="{} mask to detect features".format(getData(path)[-2]))
+                        if mask is None: # simulate a complete mask if None
+                            mask2 = np.ones(img.shape[:2])*255
+                            mask2[0,0] = 0 # add lowest value
+                            fastplt(mask2, block=True,
+                                    title="{} mask to detect features".format(getData(path)[-2]))
+                        else:
+                            fastplt(overlay(img.copy(), mask*255, alpha=mask*0.8), block=True,
+                                    title="{} mask to detect features".format(getData(path)[-2]))
                     except:
                         pass
 
@@ -700,16 +706,19 @@ class ImRestore(object):
             classified = {}
             for m in raw_matches:
                 # filter by Hamming, L1 or L2 distance
-                if m[0].distance < m[1].distance * self.distanceThresh:
-                    m = m[0]
-                    kp1 = kps_remain[m.queryIdx]  # keypoint in query image
-                    kp2 = self.kps_base[m.trainIdx]  # keypoint in train image
+                try:
+                    if m[0].distance < m[1].distance * self.distanceThresh:
+                        m = m[0]
+                        kp1 = kps_remain[m.queryIdx]  # keypoint in query image
+                        kp2 = self.kps_base[m.trainIdx]  # keypoint in train image
 
-                    key = kp1["path"] # ensured that key is not in used
-                    if key in classified:
-                        classified[key].append((kp1, kp2))
-                    else:
-                        classified[key] = [(kp1, kp2)]
+                        key = kp1["path"] # ensured that key is not in used
+                        if key in classified:
+                            classified[key].append((kp1, kp2))
+                        else:
+                            classified[key] = [(kp1, kp2)]
+                except IndexError:
+                    pass # if not raw_matches pass
 
             ########################## Order set ################################
             # use only those in classified of histogram or entropy comparison
@@ -1106,7 +1115,13 @@ class RetinalRestore(ImRestore):
     def __init__(self, filenames, **opts):
         # overwrite variables
         #opts["denoise"]=opts.pop("denoise", True)
-        opts["maskforeground"] = opts.pop("maskforeground", lambda img: retinal_mask(img, True))
+        def mod_retinal_mask(img):
+            # if it does not have a background then do not give mask to process all
+            if np.sum(img<20)<img.size*.1:
+                return None
+            # process retinal photos with dark areas
+            return retinal_mask(img, True)
+        opts["maskforeground"] = opts.pop("maskforeground", mod_retinal_mask)
         # create new variables
         self.lens = opts.pop("lens", False)
         self.enclose = opts.pop("enclose", False)
@@ -1149,6 +1164,9 @@ class RetinalRestore(ImRestore):
 
         # get alpha mask
         alphamask = get_layered_alpha(back, fore)
+
+        if self.grow_scene: # let dark areas be treated as lens, so expand them
+            alphamask[brightness(back)<20] = 1*np.max(alphamask)
 
         # rescaling mask to original shape
         if pshape is not None:
@@ -1202,7 +1220,9 @@ def feature_creator(string):
             "a-" or "-flann" are optional.
     :return: feature object
     """
-    return Feature().config(string)
+    f = Feature()
+    f.config(string)
+    return f
 
 
 def loader_creator(string):
@@ -1287,7 +1307,7 @@ def shell(args=None, namespace=None):
                                     (consumes significantly more memory).
                                 5 -> print all messages, show all results and additional data.
                                     (consumes significantly more memory).""")
-    parser.add_argument('-f', '--feature', type=string_interpreter(commahandler=feature_creator),
+    parser.add_argument('-f', '--feature', type=string_interpreter(handle=feature_creator),
                         help='Configure detector and matcher')
     parser.add_argument('-u','--pool', action='store', type=int,
                         help='Use pool Ex: 4 to use 4 CPUs')

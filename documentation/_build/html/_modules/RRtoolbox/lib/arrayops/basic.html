@@ -1007,7 +1007,7 @@
 
 <span class="sd">        pts = random_points([(-100, 100), (-100, 100)])</span>
 <span class="sd">        img = points2mask(pts)</span>
-<span class="sd">        plotim(&quot;filled&quot;,img).show()</span>
+<span class="sd">        Plotim(&quot;filled&quot;,img).show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="n">pts</span><span class="o">-</span><span class="n">pts</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># shift</span>
@@ -1241,6 +1241,7 @@
 <div class="viewcode-block" id="relativeQuadrants"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.relativeQuadrants">[docs]</a><span class="k">def</span> <span class="nf">relativeQuadrants</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get quadrants of relative vectors obtained from points.</span>
+
 <span class="sd">    :param points: array of points.</span>
 <span class="sd">    :return: quadrants.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1281,7 +1282,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generate points.</span>
 
-<span class="sd">    :param shape: enclosed frame</span>
+<span class="sd">    :param shape: enclosed frame (width, height)</span>
 <span class="sd">    :param nopoints: number of points</span>
 <span class="sd">    :param convex: if True make points convex,</span>
 <span class="sd">            else points follow a circular pattern.</span>
@@ -1311,6 +1312,7 @@
 <div class="viewcode-block" id="isnumpy"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.isnumpy">[docs]</a><span class="k">def</span> <span class="nf">isnumpy</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test whether an object is a numpy array.</span>
+
 <span class="sd">    :param arr:</span>
 <span class="sd">    :return: True if numpy array, else false.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1465,6 +1467,8 @@
         <span class="n">hull</span> <span class="o">=</span> <span class="n">points2contour</span><span class="p">(</span><span class="n">cnt</span><span class="p">[</span><span class="n">hull</span><span class="p">])</span>
     <span class="n">ahull</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span>
     <span class="n">acnt</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ahull</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># solves issue dividing by 0</span>
+        <span class="n">ahull</span> <span class="o">=</span> <span class="mf">0.0000001</span>
     <span class="k">return</span> <span class="n">acnt</span><span class="o">/</span><span class="n">ahull</span> <span class="c1"># contour area / hull area</span></div>
 
 
@@ -1599,7 +1603,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, davtoh.
+      &copy;2016, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

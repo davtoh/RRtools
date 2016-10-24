@@ -1,16 +1,16 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.9)  27 JUL 2016 16:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.10.12)  24 OCT 2016 10:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **RRtoolbox.tex
 (./RRtoolbox.tex
 LaTeX2e <2015/01/01>
-Babel <3.9l> and hyphenation patterns for 4 languages loaded.
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (./sphinxmanual.cls
 Document Class: sphinxmanual 2009/06/02 Document class (Sphinx manual)
-(/usr/share/texlive/texmf-dist/tex/latex/base/report.cls
+(/home/davtoh/texmf/tex/latex/base/report.cls
 Document Class: report 2014/09/29 v1.4h Standard LaTeX document class
-(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+(/home/davtoh/texmf/tex/latex/base/size10.clo
 File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
@@ -26,23 +26,25 @@ File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
+(/home/davtoh/texmf/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
 \inpenc@prehook=\toks14
 \inpenc@posthook=\toks15
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
-File: utf8.def 2014/09/29 v1.1m UTF-8 support for inputenc
+(/home/davtoh/texmf/tex/latex/base/utf8.def
+File: utf8.def 2016/02/28 v1.1s UTF-8 support for inputenc
 Now handling font encoding OML ...
 ... no UTF-8 mapping file for font encoding OML
 Now handling font encoding T1 ...
 ... processing UTF-8 mapping file for font encoding T1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.dfu
-File: t1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
+(/home/davtoh/texmf/tex/latex/base/t1enc.dfu
+File: t1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
    defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00AD (decimal 173)
    defining Unicode char U+00BB (decimal 187)
    defining Unicode char U+00BF (decimal 191)
    defining Unicode char U+00C0 (decimal 192)
@@ -107,50 +109,94 @@ File: t1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
    defining Unicode char U+00FD (decimal 253)
    defining Unicode char U+00FE (decimal 254)
    defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0100 (decimal 256)
+   defining Unicode char U+0101 (decimal 257)
    defining Unicode char U+0102 (decimal 258)
    defining Unicode char U+0103 (decimal 259)
    defining Unicode char U+0104 (decimal 260)
    defining Unicode char U+0105 (decimal 261)
    defining Unicode char U+0106 (decimal 262)
    defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+0108 (decimal 264)
+   defining Unicode char U+0109 (decimal 265)
+   defining Unicode char U+010A (decimal 266)
+   defining Unicode char U+010B (decimal 267)
    defining Unicode char U+010C (decimal 268)
    defining Unicode char U+010D (decimal 269)
    defining Unicode char U+010E (decimal 270)
    defining Unicode char U+010F (decimal 271)
    defining Unicode char U+0110 (decimal 272)
    defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0112 (decimal 274)
+   defining Unicode char U+0113 (decimal 275)
+   defining Unicode char U+0114 (decimal 276)
+   defining Unicode char U+0115 (decimal 277)
+   defining Unicode char U+0116 (decimal 278)
+   defining Unicode char U+0117 (decimal 279)
    defining Unicode char U+0118 (decimal 280)
    defining Unicode char U+0119 (decimal 281)
    defining Unicode char U+011A (decimal 282)
    defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011C (decimal 284)
+   defining Unicode char U+011D (decimal 285)
    defining Unicode char U+011E (decimal 286)
    defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0120 (decimal 288)
+   defining Unicode char U+0121 (decimal 289)
+   defining Unicode char U+0122 (decimal 290)
+   defining Unicode char U+0123 (decimal 291)
+   defining Unicode char U+0124 (decimal 292)
+   defining Unicode char U+0125 (decimal 293)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+012A (decimal 298)
+   defining Unicode char U+012B (decimal 299)
+   defining Unicode char U+012C (decimal 300)
+   defining Unicode char U+012D (decimal 301)
+   defining Unicode char U+012E (decimal 302)
+   defining Unicode char U+012F (decimal 303)
    defining Unicode char U+0130 (decimal 304)
    defining Unicode char U+0131 (decimal 305)
    defining Unicode char U+0132 (decimal 306)
    defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0134 (decimal 308)
+   defining Unicode char U+0135 (decimal 309)
+   defining Unicode char U+0136 (decimal 310)
+   defining Unicode char U+0137 (decimal 311)
    defining Unicode char U+0139 (decimal 313)
    defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013B (decimal 315)
+   defining Unicode char U+013C (decimal 316)
    defining Unicode char U+013D (decimal 317)
    defining Unicode char U+013E (decimal 318)
    defining Unicode char U+0141 (decimal 321)
    defining Unicode char U+0142 (decimal 322)
    defining Unicode char U+0143 (decimal 323)
    defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0145 (decimal 325)
+   defining Unicode char U+0146 (decimal 326)
    defining Unicode char U+0147 (decimal 327)
    defining Unicode char U+0148 (decimal 328)
    defining Unicode char U+014A (decimal 330)
    defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+014C (decimal 332)
+   defining Unicode char U+014D (decimal 333)
+   defining Unicode char U+014E (decimal 334)
+   defining Unicode char U+014F (decimal 335)
    defining Unicode char U+0150 (decimal 336)
    defining Unicode char U+0151 (decimal 337)
    defining Unicode char U+0152 (decimal 338)
    defining Unicode char U+0153 (decimal 339)
    defining Unicode char U+0154 (decimal 340)
    defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0156 (decimal 342)
+   defining Unicode char U+0157 (decimal 343)
    defining Unicode char U+0158 (decimal 344)
    defining Unicode char U+0159 (decimal 345)
    defining Unicode char U+015A (decimal 346)
    defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015C (decimal 348)
+   defining Unicode char U+015D (decimal 349)
    defining Unicode char U+015E (decimal 350)
    defining Unicode char U+015F (decimal 351)
    defining Unicode char U+0160 (decimal 352)
@@ -159,10 +205,22 @@ File: t1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
    defining Unicode char U+0163 (decimal 355)
    defining Unicode char U+0164 (decimal 356)
    defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+016A (decimal 362)
+   defining Unicode char U+016B (decimal 363)
+   defining Unicode char U+016C (decimal 364)
+   defining Unicode char U+016D (decimal 365)
    defining Unicode char U+016E (decimal 366)
    defining Unicode char U+016F (decimal 367)
    defining Unicode char U+0170 (decimal 368)
    defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0172 (decimal 370)
+   defining Unicode char U+0173 (decimal 371)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
    defining Unicode char U+0178 (decimal 376)
    defining Unicode char U+0179 (decimal 377)
    defining Unicode char U+017A (decimal 378)
@@ -170,9 +228,38 @@ File: t1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
    defining Unicode char U+017C (decimal 380)
    defining Unicode char U+017D (decimal 381)
    defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+01CD (decimal 461)
+   defining Unicode char U+01CE (decimal 462)
+   defining Unicode char U+01CF (decimal 463)
+   defining Unicode char U+01D0 (decimal 464)
+   defining Unicode char U+01D1 (decimal 465)
+   defining Unicode char U+01D2 (decimal 466)
+   defining Unicode char U+01D3 (decimal 467)
+   defining Unicode char U+01D4 (decimal 468)
+   defining Unicode char U+01E2 (decimal 482)
+   defining Unicode char U+01E3 (decimal 483)
+   defining Unicode char U+01E6 (decimal 486)
+   defining Unicode char U+01E7 (decimal 487)
+   defining Unicode char U+01E8 (decimal 488)
+   defining Unicode char U+01E9 (decimal 489)
+   defining Unicode char U+01EA (decimal 490)
+   defining Unicode char U+01EB (decimal 491)
+   defining Unicode char U+01F0 (decimal 496)
+   defining Unicode char U+01F4 (decimal 500)
+   defining Unicode char U+01F5 (decimal 501)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
+   defining Unicode char U+1E02 (decimal 7682)
+   defining Unicode char U+1E03 (decimal 7683)
    defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2010 (decimal 8208)
+   defining Unicode char U+2011 (decimal 8209)
+   defining Unicode char U+2012 (decimal 8210)
    defining Unicode char U+2013 (decimal 8211)
    defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2015 (decimal 8213)
    defining Unicode char U+2018 (decimal 8216)
    defining Unicode char U+2019 (decimal 8217)
    defining Unicode char U+201A (decimal 8218)
@@ -188,10 +275,12 @@ File: t1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
 Now handling font encoding OT1 ...
 ... processing UTF-8 mapping file for font encoding OT1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ot1enc.dfu
-File: ot1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
+(/home/davtoh/texmf/tex/latex/base/ot1enc.dfu
+File: ot1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
+   defining Unicode char U+00A0 (decimal 160)
    defining Unicode char U+00A1 (decimal 161)
    defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AD (decimal 173)
    defining Unicode char U+00B8 (decimal 184)
    defining Unicode char U+00BF (decimal 191)
    defining Unicode char U+00C5 (decimal 197)
@@ -209,6 +298,14 @@ File: ot1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
    defining Unicode char U+0142 (decimal 322)
    defining Unicode char U+0152 (decimal 338)
    defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0174 (decimal 372)
+   defining Unicode char U+0175 (decimal 373)
+   defining Unicode char U+0176 (decimal 374)
+   defining Unicode char U+0177 (decimal 375)
+   defining Unicode char U+0218 (decimal 536)
+   defining Unicode char U+0219 (decimal 537)
+   defining Unicode char U+021A (decimal 538)
+   defining Unicode char U+021B (decimal 539)
    defining Unicode char U+2013 (decimal 8211)
    defining Unicode char U+2014 (decimal 8212)
    defining Unicode char U+2018 (decimal 8216)
@@ -219,8 +316,8 @@ File: ot1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
 Now handling font encoding OMS ...
 ... processing UTF-8 mapping file for font encoding OMS
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/omsenc.dfu
-File: omsenc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
+(/home/davtoh/texmf/tex/latex/base/omsenc.dfu
+File: omsenc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A7 (decimal 167)
    defining Unicode char U+00B6 (decimal 182)
    defining Unicode char U+00B7 (decimal 183)
@@ -248,10 +345,10 @@ Now handling font encoding U ...
 (/usr/share/texlive/texmf-dist/tex/latex/cmap/cmap.sty
 Package: cmap 2008/03/06 v1.0h CMap support: searchable PDF
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+(/home/davtoh/texmf/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/t1enc.def
+(/home/davtoh/texmf/tex/latex/base/t1enc.def
 File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
 )<<t1.cmap>>)
@@ -313,7 +410,7 @@ Package: sphinx 2010/01/15 LaTeX package (Sphinx markup)
 \f@ncyO@olf=\skip61
 \f@ncyO@orf=\skip62
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+(/home/davtoh/texmf/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
 (textcomp)               5 = only ISO-Adobe without \textcurrency
@@ -328,13 +425,13 @@ Package textcomp Info: Sub-encoding information:
 (textcomp)             See the documentation for details.
 Package textcomp Info: Setting ? sub-encoding to TS1/1 on input line 79.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
+(/home/davtoh/texmf/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.dfu
-File: ts1enc.dfu 2014/09/29 v1.1m UTF-8 support for inputenc
+(/home/davtoh/texmf/tex/latex/base/ts1enc.dfu
+File: ts1enc.dfu 2016/02/28 v1.1s UTF-8 support for inputenc
    defining Unicode char U+00A2 (decimal 162)
    defining Unicode char U+00A3 (decimal 163)
    defining Unicode char U+00A4 (decimal 164)
@@ -568,7 +665,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/makeidx.sty
+(/home/davtoh/texmf/tex/latex/base/makeidx.sty
 Package: makeidx 2014/09/29 v1.0m Standard LaTeX package
 )
 (/usr/share/texlive/texmf-dist/tex/latex/framed/framed.sty
@@ -579,7 +676,7 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \FrameRule=\dimen128
 \FrameSep=\dimen129
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+(/home/davtoh/texmf/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
@@ -635,7 +732,7 @@ Package: wrapfig 2003/01/31  v 3.6
 (/usr/share/texlive/texmf-dist/tex/latex/parskip/parskip.sty
 Package: parskip 2001/04/09 non-zero parskip adjustments
 )
-(/usr/share/texlive/texmf-dist/tex/latex/base/alltt.sty
+(/home/davtoh/texmf/tex/latex/base/alltt.sty
 Package: alltt 1997/06/16 v2.0g defines alltt environment
 )
 (/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty
@@ -846,7 +943,7 @@ LaTeX Font Info:    ... okay on input line 131.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 131.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 131.
 
- (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
+ (/home/davtoh/texmf/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 131.
@@ -998,143 +1095,143 @@ n/10 ,
  []
 
 [7] [8] [9]
-Underfull \hbox (badness 5316) in paragraph at lines 1085--1085
+Underfull \hbox (badness 5316) in paragraph at lines 1091--1091
 []\T1/ptm/m/it/10 back\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fore\T1/ptm/m/n/10 , \T1
 /ptm/m/it/10 al-pha=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 al-fainverted=False\T1
 /ptm/m/n/10 , \T1/ptm/m/it/10 un-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1110--1112
+Underfull \hbox (badness 10000) in paragraph at lines 1116--1118
 []\T1/ptm/m/n/10 superpose al-pha in
  []
 
 [10] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 1292--1294
+Underfull \hbox (badness 10000) in paragraph at lines 1298--1300
 []\T1/ptm/m/n/10 superpose al-pha in
  []
 
 [12]
-Underfull \hbox (badness 10000) in paragraph at lines 1436--1436
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1442
 []\T1/ptm/m/it/10 shape=(10\T1/ptm/m/n/10 , \T1/ptm/m/it/10 10)\T1/ptm/m/n/10 ,
  \T1/ptm/m/it/10 no-points=None\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1436--1436
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1442
 \T1/ptm/m/it/10 con-vex=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 er-ratic=False\T1
 /ptm/m/n/10 , \T1/ptm/m/it/10 com-
  []
 
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 1558--1558
+Underfull \hbox (badness 10000) in paragraph at lines 1564--1564
 []\T1/ptm/m/it/10 arr\T1/ptm/m/n/10 , \T1/ptm/m/it/10 func\T1/ptm/m/n/10 , \T1/
 ptm/m/it/10 block_shape=(3\T1/ptm/m/n/10 , \T1/ptm/m/it/10 3)\T1/ptm/m/n/10 ,
  []
 
 [14] [15] [16] [17]
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 2076.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 2088.
  [18] [19]
-Underfull \hbox (badness 10000) in paragraph at lines 2292--2292
+Underfull \hbox (badness 10000) in paragraph at lines 2304--2304
 []\T1/ptm/m/it/10 kp_pairs\T1/ptm/m/n/10 , \T1/ptm/m/it/10 osrc_sh\T1/ptm/m/n/1
 0 , \T1/ptm/m/it/10 sscr_sh\T1/ptm/m/n/10 , \T1/ptm/m/it/10 odst_sh\T1/ptm/m/n/
 10 ,
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 2405--2405
+Underfull \hbox (badness 10000) in paragraph at lines 2417--2417
 []\T1/ptm/m/it/10 points\T1/ptm/m/n/10 , \T1/ptm/m/it/10 func=<built-in func-ti
 on Key-
  []
 
-[21] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 2767--2767
+
+Underfull \hbox (badness 10000) in paragraph at lines 2472--2472
+\T1/ptm/m/it/10 al-pha=100\T1/ptm/m/n/10 , \T1/ptm/m/it/10 beta1=-400\T1/ptm/m/
+n/10 ,
+ []
+
+[21] [22] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 2779--2779
 []\T1/ptm/m/it/10 x\T1/ptm/m/n/10 , \T1/ptm/m/it/10 win-dow_len=11\T1/ptm/m/n/1
 0 , \T1/ptm/m/it/10 win-dow='hanning'\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cor-
  []
 
-[23] [24] [25]
-Underfull \hbox (badness 10000) in paragraph at lines 3122--3122
+[24] [25] [26]
+Underfull \hbox (badness 10000) in paragraph at lines 3157--3157
 []\T1/ptm/m/it/10 func\T1/ptm/m/n/10 , \T1/ptm/m/it/10 cachedir=None\T1/ptm/m/n
 /10 , \T1/ptm/m/it/10 ig-nore=None\T1/ptm/m/n/10 ,
  []
 
-[26] [27] [28]
-Underfull \hbox (badness 10000) in paragraph at lines 3442--3445
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 3397--3400
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 3503--3503
+[28]
+Underfull \hbox (badness 10000) in paragraph at lines 3458--3458
 []\T1/ptm/m/it/10 maxMemory=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mar-gin=0.8\T1
 /ptm/m/n/10 , \T1/ptm/m/it/10 unit='MB'\T1/ptm/m/n/10 ,
  []
 
 [29] [30] [31]
-Underfull \hbox (badness 10000) in paragraph at lines 3822--3825
+Underfull \hbox (badness 10000) in paragraph at lines 3828--3831
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3839--3842
+Underfull \hbox (badness 10000) in paragraph at lines 3845--3848
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3843--3846
+Underfull \hbox (badness 10000) in paragraph at lines 3849--3852
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 3929--3929
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 3935--3935
 []\T1/ptm/m/it/10 feature_name\T1/ptm/m/n/10 , \T1/ptm/m/it/10 img\T1/ptm/m/n/1
 0 , \T1/ptm/m/it/10 mask=None\T1/ptm/m/n/10 ,
  []
 
-[32] [33]
-Overfull \hbox (31.21112pt too wide) in paragraph at lines 4105--4106
+[33]
+Overfull \hbox (31.21112pt too wide) in paragraph at lines 4111--4112
 []\T1/ptm/m/n/10 # [][]http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feat
 ure2d/py_feature_homography/py_feature_homography.html[][] 
  []
 
-[34] [35]
-Overfull \hbox (131.73178pt too wide) in paragraph at lines 4402--4402
+[34] [35] [36]
+Overfull \hbox (131.73178pt too wide) in paragraph at lines 4577--4577
 []\T1/ptm/m/it/10 path='/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox/
 lib/directory.pyc'\T1/ptm/m/n/10 ,
  []
 
-[36] [37]
-Overfull \hbox (117.23178pt too wide) in paragraph at lines 4615--4615
+[37]
+Overfull \hbox (117.23178pt too wide) in paragraph at lines 4621--4621
 []\T1/ptm/m/it/10 path='/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox/
 lib/directory.pyc'\T1/pcr/m/n/10 ) 
  []
 
 
-Overfull \hbox (117.23178pt too wide) in paragraph at lines 4667--4667
+Overfull \hbox (117.23178pt too wide) in paragraph at lines 4673--4673
 []\T1/ptm/m/it/10 path='/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox/
 lib/directory.pyc'\T1/pcr/m/n/10 ) 
  []
 
 [38]
-LaTeX Font Info:    Try loading font information for TS1+pcr on input line 4735
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 4741
 .
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 )
-Overfull \hbox (141.23178pt too wide) in paragraph at lines 4753--4753
+Overfull \hbox (141.23178pt too wide) in paragraph at lines 4759--4759
 []\T1/ptm/m/it/10 path='/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox/
 lib/directory.pyc'\T1/pcr/m/n/10 ) 
  []
 
-[39] [40] [41] [42] [43]
-Underfull \hbox (badness 5924) in paragraph at lines 5388--5388
-[]\T1/ptm/m/it/10 im\T1/ptm/m/n/10 , \T1/ptm/m/it/10 win='get co-or-di-nates'\T
-1/ptm/m/n/10 , \T1/ptm/m/it/10 up-date-func=<function draw-coor-
- []
-
-[44]
-Underfull \hbox (badness 6575) in paragraph at lines 5508--5508
+[39] [40] [41]
+Underfull \hbox (badness 6575) in paragraph at lines 5161--5161
 []\T1/ptm/m/it/10 flag=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 RGB=None\T1/ptm/m/n
 /10 , \T1/ptm/m/it/10 mpath=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mode=None\T1/p
 tm/m/n/10 , \T1/ptm/m/it/10 func=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 dsize=Non
@@ -1142,226 +1239,227 @@ e\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5541--5541
+Underfull \hbox (badness 10000) in paragraph at lines 5194--5194
 \T1/ptm/m/it/10 in-ter-po-la-tion=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mmode=No
 ne\T1/ptm/m/n/10 , \T1/ptm/m/it/10 mpath=None\T1/ptm/m/n/10 ,
  []
 
 
-Overfull \hbox (23.78644pt too wide) in paragraph at lines 5587--5588
+Overfull \hbox (23.78644pt too wide) in paragraph at lines 5240--5241
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
  []
 
 
-Overfull \hbox (48.84636pt too wide) in paragraph at lines 5596--5597
+Overfull \hbox (48.84636pt too wide) in paragraph at lines 5249--5250
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
  []
 
 
-Overfull \hbox (53.21637pt too wide) in paragraph at lines 5603--5604
+Overfull \hbox (53.21637pt too wide) in paragraph at lines 5256--5257
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
  []
 
 
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 5565--5615
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 5218--5268
 [][] 
  []
 
-[45]
-Underfull \hbox (badness 10000) in paragraph at lines 5663--5665
+[42]
+Underfull \hbox (badness 10000) in paragraph at lines 5316--5318
 []|\T1/ptm/m/n/10 nearest-neighbor in-ter-po-la-
  []
 
 
-Underfull \hbox (badness 7576) in paragraph at lines 5680--5682
+Underfull \hbox (badness 7576) in paragraph at lines 5333--5335
 []|\T1/ptm/m/n/10 bicubic in-ter-po-la-tion over
  []
 
 
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 5647--5704
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 5300--5357
 [][] 
  []
 
-[46]
-Overfull \hbox (23.78644pt too wide) in paragraph at lines 5835--5836
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
+[43]
+Underfull \hbox (badness 10000) in paragraph at lines 5422--5422
+[]\T1/ptm/m/it/10 name=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 ext=None\T1/ptm/m/n
+/10 , \T1/ptm/m/it/10 path=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 shape=None\T1/p
+tm/m/n/10 , \T1/ptm/m/it/10 ver-
  []
 
 
-Overfull \hbox (48.84636pt too wide) in paragraph at lines 5844--5845
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
- []
-
-
-Overfull \hbox (53.21637pt too wide) in paragraph at lines 5851--5852
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
- []
-
-
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 5822--5856
-[][] 
- []
-
-[47]
-Overfull \hbox (23.78644pt too wide) in paragraph at lines 5942--5943
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
- []
-
-
-Overfull \hbox (48.84636pt too wide) in paragraph at lines 5951--5952
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
- []
-
-
-Overfull \hbox (53.21637pt too wide) in paragraph at lines 5958--5959
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
- []
-
-
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 5920--5970
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 6015--6017
-[]|\T1/ptm/m/n/10 nearest-neighbor in-ter-po-la-
- []
-
-
-Underfull \hbox (badness 7576) in paragraph at lines 6032--6034
-[]|\T1/ptm/m/n/10 bicubic in-ter-po-la-tion over
- []
-
-
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 5999--6056
-[][] 
- []
-
-[48]
-Overfull \hbox (23.78644pt too wide) in paragraph at lines 6117--6118
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
- []
-
-
-Overfull \hbox (48.84636pt too wide) in paragraph at lines 6126--6127
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
- []
-
-
-Overfull \hbox (53.21637pt too wide) in paragraph at lines 6133--6134
-[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
- []
-
-
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 6104--6138
-[][] 
- []
-
-[49]
-Underfull \hbox (badness 10000) in paragraph at lines 6156--6156
+Underfull \hbox (badness 10000) in paragraph at lines 5516--5516
 []\T1/ptm/m/it/10 loader=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 maxMem-ory=None\T
 1/ptm/m/n/10 , \T1/ptm/m/it/10 mar-gin=0.8\T1/ptm/m/n/10 ,
  []
 
+[44] [45] [46] [47]
+Underfull \hbox (badness 5924) in paragraph at lines 5912--5912
+[]\T1/ptm/m/it/10 im\T1/ptm/m/n/10 , \T1/ptm/m/it/10 win='get co-or-di-nates'\T
+1/ptm/m/n/10 , \T1/ptm/m/it/10 up-date-func=<function draw-coor-
+ []
 
-Overfull \hbox (23.78644pt too wide) in paragraph at lines 6223--6224
+
+Overfull \hbox (23.78644pt too wide) in paragraph at lines 6019--6020
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
  []
 
 
-Overfull \hbox (48.84636pt too wide) in paragraph at lines 6232--6233
+Overfull \hbox (48.84636pt too wide) in paragraph at lines 6028--6029
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
  []
 
 
-Overfull \hbox (53.21637pt too wide) in paragraph at lines 6239--6240
+Overfull \hbox (53.21637pt too wide) in paragraph at lines 6035--6036
 []|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
  []
 
 
-Overfull \hbox (19.71375pt too wide) in paragraph at lines 6210--6244
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 6006--6040
 [][] 
  []
 
-[50] [51] [52]
-Underfull \hbox (badness 10000) in paragraph at lines 6685--6685
+[48]
+Overfull \hbox (23.78644pt too wide) in paragraph at lines 6126--6127
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
+ []
+
+
+Overfull \hbox (48.84636pt too wide) in paragraph at lines 6135--6136
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
+ []
+
+
+Overfull \hbox (53.21637pt too wide) in paragraph at lines 6142--6143
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
+ []
+
+
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 6104--6154
+[][] 
+ []
+
+[49]
+Underfull \hbox (badness 10000) in paragraph at lines 6199--6201
+[]|\T1/ptm/m/n/10 nearest-neighbor in-ter-po-la-
+ []
+
+
+Underfull \hbox (badness 7576) in paragraph at lines 6216--6218
+[]|\T1/ptm/m/n/10 bicubic in-ter-po-la-tion over
+ []
+
+
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 6183--6240
+[][] 
+ []
+
+
+Overfull \hbox (23.78644pt too wide) in paragraph at lines 6301--6302
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
+ []
+
+
+Overfull \hbox (48.84636pt too wide) in paragraph at lines 6310--6311
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
+ []
+
+
+Overfull \hbox (53.21637pt too wide) in paragraph at lines 6317--6318
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
+ []
+
+
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 6288--6322
+[][] 
+ []
+
+[50]
+Overfull \hbox (23.78644pt too wide) in paragraph at lines 6364--6365
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_COLOR| 
+ []
+
+
+Overfull \hbox (48.84636pt too wide) in paragraph at lines 6373--6374
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_GRAYSCALE| 
+ []
+
+
+Overfull \hbox (53.21637pt too wide) in paragraph at lines 6380--6381
+[]|\T1/ptm/m/n/10 cv2.CV_LOAD_IMAGE_UNCHANGED| 
+ []
+
+
+Overfull \hbox (19.71375pt too wide) in paragraph at lines 6351--6385
+[][] 
+ []
+
+[51] [52]
+Underfull \hbox (badness 10000) in paragraph at lines 6667--6667
 []\T1/ptm/m/it/10 source=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 save-flag=True\T1
 /ptm/m/n/10 , \T1/ptm/m/it/10 la-bel='`\T1/ptm/m/n/10 ,
  []
 
 [53] [54]
-Underfull \hbox (badness 10000) in paragraph at lines 7007--7007
-\T1/ptm/m/it/10 leg-end=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 an-no-tate=True\T1
-/ptm/m/n/10 , \T1/ptm/m/it/10 cols=3\T1/ptm/m/n/10 , \T1/ptm/m/it/10 scale=0.07
-\T1/ptm/m/n/10 ,
- []
-
-[55]
-Underfull \hbox (badness 6252) in paragraph at lines 7136--7136
+Underfull \hbox (badness 6252) in paragraph at lines 7078--7078
 []\T1/ptm/m/it/10 win\T1/ptm/m/n/10 , \T1/ptm/m/it/10 img1\T1/ptm/m/n/10 , \T1/
 ptm/m/it/10 img2\T1/ptm/m/n/10 , \T1/ptm/m/it/10 kp_pairs=()\T1/ptm/m/n/10 , \T
 1/ptm/m/it/10 sta-tus=None\T1/ptm/m/n/10 ,
  []
 
-[56] [57] [58] [59] [60] [61] [62]
-Underfull \hbox (badness 10000) in paragraph at lines 7963--7968
+[55] [56] [57] [58] [59] [60] [61]
+Underfull \hbox (badness 10000) in paragraph at lines 7970--7970
+\T1/ptm/m/it/10 leg-end=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 an-no-tate=True\T1
+/ptm/m/n/10 , \T1/ptm/m/it/10 cols=3\T1/ptm/m/n/10 , \T1/ptm/m/it/10 scale=0.07
+\T1/ptm/m/n/10 ,
+ []
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 8110--8115
 
  []
 
-[63]
-Underfull \hbox (badness 10000) in paragraph at lines 8141--8141
+[63] [64] [65] [66]
+Underfull \hbox (badness 10000) in paragraph at lines 8665--8665
 []\T1/ptm/m/it/10 msg=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 fac-tor=None\T1/ptm/
 m/n/10 , \T1/ptm/m/it/10 pre-ci-sion=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 abv=N
 one\T1/ptm/m/n/10 ,
  []
 
-[64] [65] [66] [67] [68] [69]
-Underfull \hbox (badness 10000) in paragraph at lines 9020--9020
+[67] [68] [69] [70] [71]
+Underfull \hbox (badness 10000) in paragraph at lines 9301--9301
 []\T1/ptm/m/it/10 filepath\T1/ptm/m/n/10 , \T1/ptm/m/it/10 ses-sion\T1/ptm/m/n/
 10 , \T1/ptm/m/it/10 re-place=True\T1/ptm/m/n/10 , \T1/ptm/m/it/10 rd-helper=No
 ne\T1/ptm/m/n/10 ,
  []
 
-[70] [71]
-Underfull \hbox (badness 10000) in paragraph at lines 9322--9322
-[]\T1/ptm/m/it/10 data\T1/ptm/m/n/10 , \T1/ptm/m/it/10 loader=None\T1/ptm/m/n/1
-0 , \T1/ptm/m/it/10 saveTo=None\T1/ptm/m/n/10 , \T1/ptm/m/it/10 au-to-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 9322--9322
-\T1/ptm/m/it/10 qual-ify=False\T1/ptm/m/n/10 , \T1/ptm/m/it/10 showOn-ly-Passed
-Test=False\T1/ptm/m/n/10 ,
- []
-
-[72] [73]
-Underfull \hbox (badness 10000) in paragraph at lines 9580--9584
+[72] [73] [74]
+Underfull \hbox (badness 10000) in paragraph at lines 9743--9747
 []\T1/ptm/m/n/10 Yan Liu, Fei-hong Yu, An au-to-matic im-age fu-sion al-go-rith
 m for un-reg-is-tered mul-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 9580--9584
+Underfull \hbox (badness 10000) in paragraph at lines 9743--9747
 \T1/ptm/m/n/10 ti-ply multi-focus im-ages, Op-tics Com-mu-ni-ca-tions, Vol-ume 
 341, 15 April 2015,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 9580--9584
+Underfull \hbox (badness 10000) in paragraph at lines 9743--9747
 \T1/ptm/m/n/10 Pages 101-113, ISSN 0030-4018, [][]http://dx.doi.org/10.1016/j.o
 ptcom.2014.12.015[][].
  []
 
-[74] [75] [76]
+[75] [76] [77] [78
+
+]
 Chapter 2.
-[77
+[79] [80
 
-] [78
-
-] [79
+] [81
 
 
-] (./RRtoolbox.ind [80
+] (./RRtoolbox.ind [82
 
 
 ]
@@ -1376,16 +1474,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 15--16
-[]\T1/ptm/m/n/10 applythresh() (RRtool-box.lib.plotter.imtester static
+[]\T1/ptm/m/n/10 applythresh() (RRtool-box.lib.plotter.Imtester static
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 31--32
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
 []\T1/ptm/m/n/10 beta1 (RRtool-box.lib.arrayops.filters.FilterBase at-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
 []\T1/ptm/m/n/10 beta2 (RRtool-box.lib.arrayops.filters.FilterBase at-
  []
 
@@ -1405,8 +1503,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--38
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
+[]\T1/ptm/m/n/10 BilateraParameter (class in RRtool-
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 47--48
-[]\T1/ptm/m/n/10 bytes2units() (RRtool-box.lib.cache.resourceManager
+[]\T1/ptm/m/n/10 bytes2units() (RRtool-box.lib.cache.ResourceManager
  []
 
 
@@ -1429,7 +1532,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 66--67
 []\T1/ptm/m/n/10 clear() (RRtool-box.lib.cache.DynamicMemoizedFunc
  []
 
-[81
+[83
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 83--84
@@ -1453,7 +1556,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 99--100
-[]\T1/ptm/m/n/10 correctSTRBuiltin() (RRtool-box.lib.directory.directory
+[]\T1/ptm/m/n/10 correctSTRBuiltin() (RRtool-box.lib.directory.Directory
  []
 
 
@@ -1463,7 +1566,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 105--106
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 107--108
-[]\T1/ptm/m/n/10 default (RRtool-box.lib.config.directoryManager at-
+[]\T1/ptm/m/n/10 default (RRtool-box.lib.config.DirectoryManager at-
  []
 
 
@@ -1473,17 +1576,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 115--116
-[]\T1/ptm/m/n/10 done() (RRtool-box.lib.inspector.graphTraceOutput
+[]\T1/ptm/m/n/10 done() (RRtool-box.lib.inspector.GraphTraceOutput
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 124--125
-[]\T1/ptm/m/n/10 drawline() (RRtool-box.lib.plotter.matchExplorer
+[]\T1/ptm/m/n/10 drawline() (RRtool-box.lib.plotter.MatchExplorer
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 125--126
-[]\T1/ptm/m/n/10 drawrelation() (RRtool-box.lib.plotter.matchExplorer
+[]\T1/ptm/m/n/10 drawrelation() (RRtool-box.lib.plotter.MatchExplorer
  []
 
 
@@ -1492,502 +1595,545 @@ Underfull \hbox (badness 10000) in paragraph at lines 134--135
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--141
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
 []\T1/ptm/m/n/10 exactFactorIndex() (RRtool-box.lib.root.FactorConvert
  []
 
-[82]
-Underfull \hbox (badness 10000) in paragraph at lines 157--158
-[]\T1/ptm/m/n/10 filterdata() (RRtool-box.lib.directory.directory static
+[84]
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
+[]\T1/ptm/m/n/10 filterdata() (RRtool-box.lib.directory.Directory static
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--162
-[]\T1/ptm/m/n/10 find_optic_disc() (in mod-ule RRtool-
+Underfull \hbox (badness 10000) in paragraph at lines 162--163
+[]\T1/ptm/m/n/10 find_optic_disc_watershed() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--174
-[]\T1/ptm/m/n/10 formatinfo() (RRtool-box.lib.plotter.imtester static
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 181--182
-[]\T1/ptm/m/n/10 generateServer() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 182--183
-[]\T1/ptm/m/n/10 get_beta_params() (in mod-ule RRtool-
+Underfull \hbox (badness 10000) in paragraph at lines 175--176
+[]\T1/ptm/m/n/10 formatinfo() (RRtool-box.lib.plotter.Imtester static
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 184--185
-[]\T1/ptm/m/n/10 get_convertionFunc() (RRtool-box.lib.image.imFactory
+[]\T1/ptm/m/n/10 generateServer() (in mod-ule RRtool-
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 185--186
-[]\T1/ptm/m/n/10 get_errorFunc() (RRtool-box.lib.image.imFactory
+[]\T1/ptm/m/n/10 get_beta_params_hist() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
+[]\T1/ptm/m/n/10 get_beta_params_Otsu() (in mod-ule RRtool-
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 187--188
-[]\T1/ptm/m/n/10 get_loadFunc() (RRtool-box.lib.image.imFactory
+[]\T1/ptm/m/n/10 get_bright_alpha() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 188--189
-[]\T1/ptm/m/n/10 get_mapFunc() (RRtool-box.lib.image.imFactory
+Underfull \hbox (badness 10000) in paragraph at lines 189--190
+[]\T1/ptm/m/n/10 get_convertionFunc() (RRtool-box.lib.image.ImFactory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 190--191
-[]\T1/ptm/m/n/10 get_resizeFunc() (RRtool-box.lib.image.imFactory
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
-[]\T1/ptm/m/n/10 get_tracer_class() (RRtool-box.lib.inspector.graphTrace
+[]\T1/ptm/m/n/10 get_errorFunc() (RRtool-box.lib.image.ImFactory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 192--193
-[]\T1/ptm/m/n/10 get_transposeFunc() (RRtool-box.lib.image.imFactory
+[]\T1/ptm/m/n/10 get_layered_alpha() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 193--194
+[]\T1/ptm/m/n/10 get_loadFunc() (RRtool-box.lib.image.ImFactory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 194--195
-[]\T1/ptm/m/n/10 getBilateralParameters() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 195--196
-[]\T1/ptm/m/n/10 getBrightAlpha() (in mod-ule RRtool-
+[]\T1/ptm/m/n/10 get_mapFunc() (RRtool-box.lib.image.ImFactory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 196--197
-[]\T1/ptm/m/n/10 getConfiguration() (RRtool-box.lib.image.imLoader
+[]\T1/ptm/m/n/10 get_resizeFunc() (RRtool-box.lib.image.ImFactory
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
+[]\T1/ptm/m/n/10 get_tracer_class() (RRtool-box.lib.inspector.GraphTrace
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+[]\T1/ptm/m/n/10 get_transposeFunc() (RRtool-box.lib.image.ImFactory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 200--201
-[]\T1/ptm/m/n/10 getData() (RRtool-box.tools.selectors.entropyPlot
+[]\T1/ptm/m/n/10 getBilateralParameters() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
-[]\T1/ptm/m/n/10 getDicDescriptor() (in mod-ule RRtool-
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
+[]\T1/ptm/m/n/10 getConfiguration() (RRtool-box.lib.image.ImLoader
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 205--206
+[]\T1/ptm/m/n/10 getData() (RRtool-box.tools.selectors.EntropyPlot
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--210
 []\T1/ptm/m/n/10 getEnviromentSession() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-[]\T1/ptm/m/n/10 getImage() (RRtool-box.tools.selectors.entropyPlot
+Underfull \hbox (badness 10000) in paragraph at lines 215--216
+[]\T1/ptm/m/n/10 getImage() (RRtool-box.tools.selectors.EntropyPlot
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--213
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
 []\T1/ptm/m/n/10 getLen() (RRtool-box.lib.serverServices.Conection
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 215--216
+Underfull \hbox (badness 10000) in paragraph at lines 219--220
 []\T1/ptm/m/n/10 getOtsuThresh() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
-[]\T1/ptm/m/n/10 getSizeOf() (RRtool-box.lib.cache.resourceManager
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
+[]\T1/ptm/m/n/10 getSizeOf() (RRtool-box.lib.cache.ResourceManager
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 224--225
+[85]
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
 []\T1/ptm/m/n/10 getSOpointRelation() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 226--227
+Underfull \hbox (badness 10000) in paragraph at lines 230--231
 []\T1/ptm/m/n/10 getTools() (RRtool-box.lib.config.ConfigTool static
  []
 
-[83]
-Underfull \hbox (badness 10000) in paragraph at lines 227--228
+
+Underfull \hbox (badness 10000) in paragraph at lines 231--232
 []\T1/ptm/m/n/10 getTransformedCorners() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 228--229
+Underfull \hbox (badness 10000) in paragraph at lines 232--233
 []\T1/ptm/m/n/10 getTransparency() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 248--249
+Underfull \hbox (badness 10000) in paragraph at lines 254--255
 []\T1/ptm/m/n/10 im2imFormat() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 249--250
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
 []\T1/ptm/m/n/10 im2shapeFormat() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 284--285
-[]\T1/ptm/m/n/10 keepAlive() (RRtool-box.lib.cache.resourceManager
+Underfull \hbox (badness 10000) in paragraph at lines 270--271
+[]\T1/ptm/m/n/10 InvertedBandpass (class in RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--288
-[]\T1/ptm/m/n/10 keyfunc() (RRtool-box.tools.selectors.entropyPlot
+Underfull \hbox (badness 10000) in paragraph at lines 271--272
+[]\T1/ptm/m/n/10 InvertedBandstop (class in RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 288--289
+Underfull \hbox (badness 10000) in paragraph at lines 279--280
+[]\T1/ptm/m/n/10 isCreatable() (RRtool-box.lib.cache.ObjectGetter
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 291--292
+[]\T1/ptm/m/n/10 keepAlive() (RRtool-box.lib.cache.ResourceManager
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
+[]\T1/ptm/m/n/10 keyfunc() (RRtool-box.tools.selectors.EntropyPlot
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 295--296
 []\T1/ptm/m/n/10 keyPoint2tuple() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 292--293
+Underfull \hbox (badness 10000) in paragraph at lines 299--300
 []\T1/ptm/m/n/10 layeredfloods() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 311--312
+Underfull \hbox (badness 10000) in paragraph at lines 304--305
+[]\T1/ptm/m/n/10 lines_unformatted() (RRtool-box.lib.root.Profiler
+ []
+
+[86]
+Underfull \hbox (badness 10000) in paragraph at lines 320--321
 []\T1/ptm/m/n/10 makeFile() (RRtool-box.lib.directory.FileDirectory
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 312--313
+Underfull \hbox (badness 10000) in paragraph at lines 321--322
 []\T1/ptm/m/n/10 makememory() (RRtool-box.lib.cache.Memoizer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 317--318
+Underfull \hbox (badness 10000) in paragraph at lines 325--326
+[]\T1/ptm/m/n/10 margin (RRtool-box.lib.cache.ResourceManager at-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 326--327
 []\T1/ptm/m/n/10 mask_watershed() (in mod-ule RRtool-
  []
 
-[84]
-Underfull \hbox (badness 10000) in paragraph at lines 319--320
+
+Underfull \hbox (badness 10000) in paragraph at lines 328--329
 []\T1/ptm/m/n/10 MATCH_multiple() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 321--322
+Underfull \hbox (badness 10000) in paragraph at lines 330--331
 []\T1/ptm/m/n/10 matrixIntercept() (in mod-ule RRtool-
  []
 
 
-Overfull \hbox (11.32031pt too wide) in paragraph at lines 331--332
+Overfull \hbox (11.32031pt too wide) in paragraph at lines 340--341
 []\T1/ptm/m/n/10 mmap_mode (RRtool-box.lib.cache.DynamicMemoizedFunc
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 333--334
-[]\T1/ptm/m/n/10 mousefunc() (RRtool-box.lib.plotter.matchExplorer
+Underfull \hbox (badness 10000) in paragraph at lines 342--343
+[]\T1/ptm/m/n/10 mousefunc() (RRtool-box.lib.plotter.MatchExplorer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 335--336
+Underfull \hbox (badness 10000) in paragraph at lines 344--345
 []\T1/ptm/m/n/10 multiple_otsu() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 336--337
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 []\T1/ptm/m/n/10 multiple_superpose() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 341--342
+Underfull \hbox (badness 10000) in paragraph at lines 351--352
 []\T1/ptm/m/n/10 nearFactorIndex() (RRtool-box.lib.root.FactorConvert
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--348
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+[]\T1/ptm/m/n/10 nextim() (RRtool-box.tools.selectors.EntropyPlot
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
 []\T1/ptm/m/n/10 normalizeCustom() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
+Underfull \hbox (badness 10000) in paragraph at lines 358--359
 []\T1/ptm/m/n/10 normsigmoid() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 386--387
+Underfull \hbox (badness 10000) in paragraph at lines 372--373
+[]\T1/ptm/m/n/10 optimizeObject() (RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 372--373
+\T1/ptm/m/n/10 box.lib.cache.ResourceManager method),
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 397--398
 []\T1/ptm/m/n/10 points2contour() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 388--389
+Underfull \hbox (badness 10000) in paragraph at lines 399--400
 []\T1/ptm/m/n/10 points2vectos() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 389--390
+Underfull \hbox (badness 10000) in paragraph at lines 400--401
 []\T1/ptm/m/n/10 points_generator() (in mod-ule RRtool-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 391--392
+[87]
+Underfull \hbox (badness 10000) in paragraph at lines 402--403
 []\T1/ptm/m/n/10 polygonArea_calcule() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--393
+Underfull \hbox (badness 10000) in paragraph at lines 403--404
 []\T1/ptm/m/n/10 polygonArea_contour() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 393--394
+Underfull \hbox (badness 10000) in paragraph at lines 404--405
 []\T1/ptm/m/n/10 polygonArea_fill() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 394--395
-[]\T1/ptm/m/n/10 previousim() (RRtool-box.tools.selectors.entropyPlot
+Underfull \hbox (badness 10000) in paragraph at lines 405--406
+[]\T1/ptm/m/n/10 previousim() (RRtool-box.tools.selectors.EntropyPlot
  []
 
-[85]
-Underfull \hbox (badness 10000) in paragraph at lines 401--402
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
 []\T1/ptm/m/n/10 process_as_blocks() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
+Underfull \hbox (badness 10000) in paragraph at lines 427--428
 []\T1/ptm/m/n/10 random_points() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 417--418
-[]\T1/ptm/m/n/10 randomColor() (RRtool-box.lib.plotter.matchExplorer
+Underfull \hbox (badness 10000) in paragraph at lines 428--429
+[]\T1/ptm/m/n/10 randomColor() (RRtool-box.lib.plotter.MatchExplorer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 423--424
+Underfull \hbox (badness 10000) in paragraph at lines 434--435
 []\T1/ptm/m/n/10 recursiveMap() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 425--426
+Underfull \hbox (badness 10000) in paragraph at lines 436--437
 []\T1/ptm/m/n/10 recvall() (RRtool-box.lib.serverServices.Conection
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 426--427
-[]\T1/ptm/m/n/10 register() (RRtool-box.lib.cache.resourceManager
+Underfull \hbox (badness 10000) in paragraph at lines 437--438
+[]\T1/ptm/m/n/10 register() (RRtool-box.lib.cache.ResourceManager
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 429--430
+Underfull \hbox (badness 10000) in paragraph at lines 440--441
 []\T1/ptm/m/n/10 relativeQuadrants() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 430--431
+Underfull \hbox (badness 10000) in paragraph at lines 441--442
 []\T1/ptm/m/n/10 relativeVectors() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 435--436
-[]\T1/ptm/m/n/10 repr2list() (RRtool-box.lib.directory.directory static
+Underfull \hbox (badness 10000) in paragraph at lines 446--447
+[]\T1/ptm/m/n/10 repr2list() (RRtool-box.lib.directory.Directory static
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 436--437
-[]\T1/ptm/m/n/10 repr2str() (RRtool-box.lib.directory.directory static
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
+[]\T1/ptm/m/n/10 repr2str() (RRtool-box.lib.directory.Directory static
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 439--440
-[]\T1/ptm/m/n/10 resetGetter() (RRtool-box.lib.cache.resourceManager
+Underfull \hbox (badness 10000) in paragraph at lines 450--451
+[]\T1/ptm/m/n/10 resetGetter() (RRtool-box.lib.cache.ResourceManager
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 443--444
+Underfull \hbox (badness 10000) in paragraph at lines 454--455
 []\T1/ptm/m/n/10 retina_markers_thresh() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 444--445
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
 []\T1/ptm/m/n/10 retinal_mask() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 445--446
-[]\T1/ptm/m/n/10 retinal_mask_simple() (in mod-ule RRtool-
+Underfull \hbox (badness 10000) in paragraph at lines 456--457
+[]\T1/ptm/m/n/10 retinal_mask_watershed() (in mod-ule RRtool-
+ []
+
+[88]
+Underfull \hbox (badness 10000) in paragraph at lines 498--499
+[]\T1/ptm/m/n/10 save() (RRtool-box.lib.inspector.GraphTraceOutput
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 485--486
-[]\T1/ptm/m/n/10 save() (RRtool-box.lib.inspector.graphTraceOutput
+Underfull \hbox (badness 10000) in paragraph at lines 502--503
+[]\T1/ptm/m/n/10 saveSource() (RRtool-box.lib.inspector.GraphTrace
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 489--490
-[]\T1/ptm/m/n/10 saveSource() (RRtool-box.lib.inspector.graphTrace
- []
-
-[86]
-Underfull \hbox (badness 10000) in paragraph at lines 492--493
-[]\T1/ptm/m/n/10 selectlist() (RRtool-box.tools.selectors.entropyPlot
+Underfull \hbox (badness 10000) in paragraph at lines 505--506
+[]\T1/ptm/m/n/10 selectlist() (RRtool-box.tools.selectors.EntropyPlot
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 495--496
+Underfull \hbox (badness 10000) in paragraph at lines 508--509
 []\T1/ptm/m/n/10 sendLen() (RRtool-box.lib.serverServices.Conection
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 498--499
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 []\T1/ptm/m/n/10 separePointsByAxis() (in mod-ule RRtool-
  []
 
 
-Overfull \hbox (22.00922pt too wide) in paragraph at lines 506--507
+Overfull \hbox (22.00922pt too wide) in paragraph at lines 520--521
 []\T1/ptm/m/n/10 sigmaColor (RRtool-box.lib.arrayops.filters.BilateralParameter
 s
  []
 
 
-Overfull \hbox (23.1092pt too wide) in paragraph at lines 507--508
+Overfull \hbox (23.1092pt too wide) in paragraph at lines 521--522
 []\T1/ptm/m/n/10 sigmaSpace (RRtool-box.lib.arrayops.filters.BilateralParameter
 s
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 514--515
+Underfull \hbox (badness 10000) in paragraph at lines 528--529
 []\T1/ptm/m/n/10 spairs2opairs() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 517--518
+Underfull \hbox (badness 10000) in paragraph at lines 531--532
 []\T1/ptm/m/n/10 spoint2opointfunc() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--519
+Underfull \hbox (badness 10000) in paragraph at lines 532--533
 []\T1/ptm/m/n/10 standarizePoints() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 525--526
-[]\T1/ptm/m/n/10 stitch_multiple() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 529--530
+Underfull \hbox (badness 10000) in paragraph at lines 543--544
 []\T1/ptm/m/n/10 string_is_socket_address() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 543--544
+Underfull \hbox (badness 10000) in paragraph at lines 556--557
 []\T1/ptm/m/n/10 thresh_biggestCnt() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 545--546
+Underfull \hbox (badness 10000) in paragraph at lines 558--559
 []\T1/ptm/m/n/10 threshold_opening() (in mod-ule RRtool-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 560--561
+[89]
+Underfull \hbox (badness 10000) in paragraph at lines 573--574
 []\T1/ptm/m/n/10 transformPoint() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 561--562
+Underfull \hbox (badness 10000) in paragraph at lines 574--575
 []\T1/ptm/m/n/10 transformPoints() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 562--563
+Underfull \hbox (badness 10000) in paragraph at lines 575--576
 []\T1/ptm/m/n/10 translateQuadrants() (in mod-ule RRtool-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 565--566
+Underfull \hbox (badness 10000) in paragraph at lines 578--579
 []\T1/ptm/m/n/10 tuple2keyPoint() (in mod-ule RRtool-
  []
 
-[87]
-Underfull \hbox (badness 10000) in paragraph at lines 572--573
-[]\T1/ptm/m/n/10 units2bytes() (RRtool-box.lib.cache.resourceManager
- []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 577--578
-[]\T1/ptm/m/n/10 update_right() (RRtool-box.lib.directory.directory
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 579--580
-[]\T1/ptm/m/n/10 updaterenderer() (RRtool-box.lib.plotter.matchExplorer
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 582--583
-[]\T1/ptm/m/n/10 updatevisualization() (RRtool-box.lib.plotter.imtester
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 587--588
-[]\T1/ptm/m/n/10 vectorsAngles() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 588--589
-[]\T1/ptm/m/n/10 vectorsQuadrants() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 589--590
-[]\T1/ptm/m/n/10 vectos2points() (in mod-ule RRtool-
+Underfull \hbox (badness 10000) in paragraph at lines 586--587
+[]\T1/ptm/m/n/10 units2bytes() (RRtool-box.lib.cache.ResourceManager
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 590--591
-[]\T1/ptm/m/n/10 verbose (RRtool-box.lib.cache.DynamicMemoizedFunc
+[]\T1/ptm/m/n/10 update_left() (RRtool-box.lib.directory.Directory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 591--592
-[]\T1/ptm/m/n/10 vertexesAngles() (in mod-ule RRtool-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 592--593
-[]\T1/ptm/m/n/10 view_as_blocks() (in mod-ule RRtool-
+[]\T1/ptm/m/n/10 update_right() (RRtool-box.lib.directory.Directory
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 593--594
+[]\T1/ptm/m/n/10 updaterenderer() (RRtool-box.lib.plotter.MatchExplorer
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 596--597
+[]\T1/ptm/m/n/10 updatevisualization() (RRtool-box.lib.plotter.Imtester
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
+[]\T1/ptm/m/n/10 vectorsAngles() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 604--605
+[]\T1/ptm/m/n/10 vectorsQuadrants() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 605--606
+[]\T1/ptm/m/n/10 vectos2points() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 606--607
+[]\T1/ptm/m/n/10 verbose (RRtool-box.lib.cache.DynamicMemoizedFunc
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 607--608
+[]\T1/ptm/m/n/10 vertexesAngles() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 608--609
+[]\T1/ptm/m/n/10 view_as_blocks() (in mod-ule RRtool-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
 []\T1/ptm/m/n/10 view_as_windows() (in mod-ule RRtool-
  []
 
-[88
-
-])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 9860.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 9860.
+[90])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 9996.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 9996.
  (./RRtoolbox.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 9860.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 9860.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 9996.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 9996.
 
 Package rerunfilecheck Info: File `RRtoolbox.out' has not changed.
-(rerunfilecheck)             Checksum: E46C705610A6C6B2DFF21D30C2954821;2457.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9860.
+(rerunfilecheck)             Checksum: 8AC3655D2E5E1C3A65883D8B712D8B2C;2362.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 9996.
  ) 
 Here is how much of TeX's memory you used:
- 10699 strings out of 494957
- 171523 string characters out of 6180029
- 267191 words of memory out of 5000000
- 12965 multiletter control sequences out of 15000+600000
+ 10834 strings out of 493085
+ 172599 string characters out of 6136916
+ 274449 words of memory out of 5000000
+ 13325 multiletter control sequences out of 15000+600000
  68231 words of font info for 77 fonts, out of 8000000 for 9000
- 37 hyphenation exceptions out of 8191
+ 1142 hyphenation exceptions out of 8191
  36i,12n,45p,548b,675s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/
@@ -1998,10 +2144,10 @@ uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb>
 texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-d
 ist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /urw/times/utmri8a.pfb>
-Output written on RRtoolbox.pdf (92 pages, 331549 bytes).
+Output written on RRtoolbox.pdf (94 pages, 334795 bytes).
 PDF statistics:
- 1922 PDF objects out of 2073 (max. 8388607)
- 1796 compressed objects within 18 object streams
- 684 named destinations out of 1000 (max. 500000)
- 277 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1962 PDF objects out of 2073 (max. 8388607)
+ 1833 compressed objects within 19 object streams
+ 701 named destinations out of 1000 (max. 500000)
+ 269 words of extra memory for PDF output out of 10000 (max. 10000000)
 

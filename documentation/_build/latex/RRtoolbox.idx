@@ -37,11 +37,11 @@
 \indexentry{normalize2() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{10}
 \indexentry{normalizeCustom() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{10}
 \indexentry{overlay() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{10}
-\indexentry{overlay2() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{10}
+\indexentry{overlay2() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{11}
 \indexentry{overlayXY() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{11}
 \indexentry{overlaypng() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{12}
 \indexentry{padVH() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{12}
-\indexentry{pad\_to\_fit\_H() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{12}
+\indexentry{pad\_to\_fit\_H() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{13}
 \indexentry{points2mask() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{13}
 \indexentry{points\_generator() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{13}
 \indexentry{polygonArea() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{13}
@@ -50,13 +50,13 @@
 \indexentry{polygonArea\_fill() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{14}
 \indexentry{process\_as\_blocks() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{14}
 \indexentry{quadrant() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{14}
-\indexentry{random\_points() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{14}
+\indexentry{random\_points() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
 \indexentry{recursiveMap() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
 \indexentry{relativeQuadrants() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
 \indexentry{relativeVectors() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
 \indexentry{rescale() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
 \indexentry{separePointsByAxis() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
-\indexentry{splitPoints() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{15}
+\indexentry{splitPoints() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{16}
 \indexentry{standarizePoints() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{16}
 \indexentry{superpose() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{16}
 \indexentry{transformPoint() (in module RRtoolbox.lib.arrayops.basic)|hyperpage}{16}
@@ -74,13 +74,13 @@
 \indexentry{contour2points() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{18}
 \indexentry{conv3H4H() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{18}
 \indexentry{dict2keyPoint() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{18}
-\indexentry{getSOpointRelation() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{18}
+\indexentry{getSOpointRelation() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
 \indexentry{invertH() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
 \indexentry{keyPoint2tuple() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
 \indexentry{points2contour() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
 \indexentry{points2vectos() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
 \indexentry{pts2cnt() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
-\indexentry{sh2oh() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{19}
+\indexentry{sh2oh() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{20}
 \indexentry{spairs2opairs() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{20}
 \indexentry{spoint2opointfunc() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{20}
 \indexentry{toTupple() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{20}
@@ -88,136 +88,135 @@
 \indexentry{tuple2keyPoint() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{21}
 \indexentry{vectos2points() (in module RRtoolbox.lib.arrayops.convert)|hyperpage}{21}
 \indexentry{RRtoolbox.lib.arrayops.filters (module)|hyperpage}{21}
+\indexentry{Bandpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{21}
+\indexentry{Bandstop (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{21}
+\indexentry{BilateraParameter (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{21}
 \indexentry{BilateralParameters (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{21}
-\indexentry{d (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{21}
-\indexentry{filters (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{21}
-\indexentry{sigmaColor (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{21}
-\indexentry{sigmaSpace (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{21}
-\indexentry{FilterBase (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{21}
-\indexentry{alpha (RRtoolbox.lib.arrayops.filters.FilterBase attribute)|hyperpage}{21}
-\indexentry{beta1 (RRtoolbox.lib.arrayops.filters.FilterBase attribute)|hyperpage}{21}
+\indexentry{d (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{22}
+\indexentry{filters (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{22}
+\indexentry{sigmaColor (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{22}
+\indexentry{sigmaSpace (RRtoolbox.lib.arrayops.filters.BilateralParameters attribute)|hyperpage}{22}
+\indexentry{FilterBase (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
+\indexentry{alpha (RRtoolbox.lib.arrayops.filters.FilterBase attribute)|hyperpage}{22}
+\indexentry{beta1 (RRtoolbox.lib.arrayops.filters.FilterBase attribute)|hyperpage}{22}
 \indexentry{beta2 (RRtoolbox.lib.arrayops.filters.FilterBase attribute)|hyperpage}{22}
-\indexentry{bandpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
-\indexentry{bandstop (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
-\indexentry{bilateraP (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
+\indexentry{Highpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
+\indexentry{InvertedBandpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
+\indexentry{InvertedBandstop (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
+\indexentry{Lowpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
 \indexentry{bilateralFilter() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
 \indexentry{filterFactory() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
-\indexentry{getBilateralParameters() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{22}
-\indexentry{highpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
-\indexentry{invertedbandpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
-\indexentry{invertedbandstop (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
-\indexentry{lowpass (class in RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
+\indexentry{getBilateralParameters() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
 \indexentry{normsigmoid() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
 \indexentry{sigmoid() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
-\indexentry{smooth() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{23}
+\indexentry{smooth() (in module RRtoolbox.lib.arrayops.filters)|hyperpage}{24}
 \indexentry{RRtoolbox.lib.arrayops.mask (module)|hyperpage}{24}
 \indexentry{background() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{24}
 \indexentry{biggestCnt() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{24}
 \indexentry{biggestCntData() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{24}
 \indexentry{brightness() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{24}
-\indexentry{cnt\_hist() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{24}
+\indexentry{cnt\_hist() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
 \indexentry{foreground() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
 \indexentry{gethull() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
 \indexentry{hist\_cdf() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
 \indexentry{mask\_watershed() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
 \indexentry{multiple\_otsu() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
-\indexentry{thresh\_biggestCnt() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
-\indexentry{thresh\_hist() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{25}
+\indexentry{thresh\_biggestCnt() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{26}
+\indexentry{thresh\_hist() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{26}
 \indexentry{threshold\_opening() (in module RRtoolbox.lib.arrayops.mask)|hyperpage}{26}
 \indexentry{RRtoolbox.lib.arrayops (module)|hyperpage}{26}
 \indexentry{RRtoolbox.lib.cache (module)|hyperpage}{26}
-\indexentry{DynamicMemoizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{26}
-\indexentry{cachedir (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{26}
-\indexentry{call\_and\_shelve() (RRtoolbox.lib.cache.DynamicMemoizedFunc method)|hyperpage}{26}
-\indexentry{clear() (RRtoolbox.lib.cache.DynamicMemoizedFunc method)|hyperpage}{26}
-\indexentry{compress (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{26}
-\indexentry{enabled (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{26}
-\indexentry{func (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{26}
-\indexentry{ignore (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{26}
+\indexentry{Cache (class in RRtoolbox.lib.cache)|hyperpage}{26}
+\indexentry{DynamicMemoizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{27}
+\indexentry{cachedir (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
+\indexentry{call\_and\_shelve() (RRtoolbox.lib.cache.DynamicMemoizedFunc method)|hyperpage}{27}
+\indexentry{clear() (RRtoolbox.lib.cache.DynamicMemoizedFunc method)|hyperpage}{27}
+\indexentry{compress (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
+\indexentry{enabled (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
+\indexentry{func (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
+\indexentry{ignore (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
 \indexentry{mmap\_mode (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
 \indexentry{verbose (RRtoolbox.lib.cache.DynamicMemoizedFunc attribute)|hyperpage}{27}
+\indexentry{LazyDict (class in RRtoolbox.lib.cache)|hyperpage}{27}
+\indexentry{MemoizedDict (class in RRtoolbox.lib.cache)|hyperpage}{27}
+\indexentry{clear() (RRtoolbox.lib.cache.MemoizedDict method)|hyperpage}{27}
 \indexentry{Memoizer (class in RRtoolbox.lib.cache)|hyperpage}{27}
 \indexentry{ignore (RRtoolbox.lib.cache.Memoizer attribute)|hyperpage}{27}
 \indexentry{makememory() (RRtoolbox.lib.cache.Memoizer method)|hyperpage}{27}
-\indexentry{memoize() (RRtoolbox.lib.cache.Memoizer method)|hyperpage}{27}
-\indexentry{memoizers (RRtoolbox.lib.cache.Memoizer attribute)|hyperpage}{27}
-\indexentry{MemorizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{27}
-\indexentry{Memory (class in RRtoolbox.lib.cache)|hyperpage}{27}
-\indexentry{NotMemorizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{27}
-\indexentry{cache (class in RRtoolbox.lib.cache)|hyperpage}{27}
-\indexentry{cachedProperty() (in module RRtoolbox.lib.cache)|hyperpage}{28}
-\indexentry{mapper() (in module RRtoolbox.lib.cache)|hyperpage}{28}
-\indexentry{memoizedDict (class in RRtoolbox.lib.cache)|hyperpage}{28}
-\indexentry{clear() (RRtoolbox.lib.cache.memoizedDict method)|hyperpage}{28}
-\indexentry{notCallable|hyperpage}{28}
-\indexentry{notCreatable|hyperpage}{28}
-\indexentry{objectGetter (class in RRtoolbox.lib.cache)|hyperpage}{28}
-\indexentry{create() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{getObj() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{isAlive() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{isCreatable() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{isGettable() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{raw() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{update() (RRtoolbox.lib.cache.objectGetter method)|hyperpage}{29}
-\indexentry{resourceManager (class in RRtoolbox.lib.cache)|hyperpage}{29}
-\indexentry{all (RRtoolbox.lib.cache.resourceManager attribute)|hyperpage}{29}
-\indexentry{bytes2units() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{29}
-\indexentry{getSizeOf() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{29}
-\indexentry{keepAlive() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{29}
-\indexentry{margin (RRtoolbox.lib.cache.resourceManager attribute)|hyperpage}{29}
-\indexentry{maxMemory (RRtoolbox.lib.cache.resourceManager attribute)|hyperpage}{30}
-\indexentry{optimizeObject() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{30}
-\indexentry{register() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{30}
-\indexentry{resetGetter() (RRtoolbox.lib.cache.resourceManager static method)|hyperpage}{30}
-\indexentry{unit (RRtoolbox.lib.cache.resourceManager attribute)|hyperpage}{30}
-\indexentry{units2bytes() (RRtoolbox.lib.cache.resourceManager method)|hyperpage}{30}
-\indexentry{usedMemory (RRtoolbox.lib.cache.resourceManager attribute)|hyperpage}{30}
-\indexentry{retriever (class in RRtoolbox.lib.cache)|hyperpage}{30}
-\indexentry{register() (RRtoolbox.lib.cache.retriever method)|hyperpage}{30}
+\indexentry{memoize() (RRtoolbox.lib.cache.Memoizer method)|hyperpage}{28}
+\indexentry{memoizers (RRtoolbox.lib.cache.Memoizer attribute)|hyperpage}{28}
+\indexentry{MemorizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{28}
+\indexentry{Memory (class in RRtoolbox.lib.cache)|hyperpage}{28}
+\indexentry{NotMemorizedFunc (class in RRtoolbox.lib.cache)|hyperpage}{28}
+\indexentry{ObjectGetter (class in RRtoolbox.lib.cache)|hyperpage}{28}
+\indexentry{create() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{28}
+\indexentry{getObj() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{28}
+\indexentry{isAlive() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{29}
+\indexentry{isCreatable() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{29}
+\indexentry{isGettable() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{29}
+\indexentry{raw() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{29}
+\indexentry{update() (RRtoolbox.lib.cache.ObjectGetter method)|hyperpage}{29}
+\indexentry{ResourceManager (class in RRtoolbox.lib.cache)|hyperpage}{29}
+\indexentry{all (RRtoolbox.lib.cache.ResourceManager attribute)|hyperpage}{29}
+\indexentry{bytes2units() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{29}
+\indexentry{getSizeOf() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{29}
+\indexentry{keepAlive() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{29}
+\indexentry{margin (RRtoolbox.lib.cache.ResourceManager attribute)|hyperpage}{29}
+\indexentry{maxMemory (RRtoolbox.lib.cache.ResourceManager attribute)|hyperpage}{29}
+\indexentry{optimizeObject() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{29}
+\indexentry{register() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{29}
+\indexentry{resetGetter() (RRtoolbox.lib.cache.ResourceManager static method)|hyperpage}{30}
+\indexentry{unit (RRtoolbox.lib.cache.ResourceManager attribute)|hyperpage}{30}
+\indexentry{units2bytes() (RRtoolbox.lib.cache.ResourceManager method)|hyperpage}{30}
+\indexentry{usedMemory (RRtoolbox.lib.cache.ResourceManager attribute)|hyperpage}{30}
+\indexentry{Retriever (class in RRtoolbox.lib.cache)|hyperpage}{30}
+\indexentry{register() (RRtoolbox.lib.cache.Retriever method)|hyperpage}{30}
+\indexentry{cachedProperty() (in module RRtoolbox.lib.cache)|hyperpage}{31}
+\indexentry{mapper() (in module RRtoolbox.lib.cache)|hyperpage}{31}
 \indexentry{RRtoolbox.lib.config (module)|hyperpage}{31}
 \indexentry{ConfigTool (class in RRtoolbox.lib.config)|hyperpage}{31}
 \indexentry{getTools() (RRtoolbox.lib.config.ConfigTool static method)|hyperpage}{31}
-\indexentry{directoryManager (class in RRtoolbox.lib.config)|hyperpage}{31}
-\indexentry{default (RRtoolbox.lib.config.directoryManager attribute)|hyperpage}{31}
-\indexentry{load() (RRtoolbox.lib.config.directoryManager method)|hyperpage}{32}
-\indexentry{reset() (RRtoolbox.lib.config.directoryManager method)|hyperpage}{32}
-\indexentry{save() (RRtoolbox.lib.config.directoryManager method)|hyperpage}{32}
+\indexentry{DirectoryManager (class in RRtoolbox.lib.config)|hyperpage}{31}
+\indexentry{default (RRtoolbox.lib.config.DirectoryManager attribute)|hyperpage}{32}
+\indexentry{load() (RRtoolbox.lib.config.DirectoryManager method)|hyperpage}{32}
+\indexentry{reset() (RRtoolbox.lib.config.DirectoryManager method)|hyperpage}{32}
+\indexentry{save() (RRtoolbox.lib.config.DirectoryManager method)|hyperpage}{32}
 \indexentry{findModules() (in module RRtoolbox.lib.config)|hyperpage}{32}
 \indexentry{getModules() (in module RRtoolbox.lib.config)|hyperpage}{32}
 \indexentry{getPackagePath() (in module RRtoolbox.lib.config)|hyperpage}{32}
-\indexentry{RRtoolbox.lib.descriptors (module)|hyperpage}{32}
-\indexentry{ASIFT() (in module RRtoolbox.lib.descriptors)|hyperpage}{32}
+\indexentry{RRtoolbox.lib.descriptors (module)|hyperpage}{33}
+\indexentry{ASIFT() (in module RRtoolbox.lib.descriptors)|hyperpage}{33}
 \indexentry{ASIFT\_iter() (in module RRtoolbox.lib.descriptors)|hyperpage}{33}
 \indexentry{ASIFT\_multiple() (in module RRtoolbox.lib.descriptors)|hyperpage}{33}
 \indexentry{Feature (class in RRtoolbox.lib.descriptors)|hyperpage}{33}
 \indexentry{config() (RRtoolbox.lib.descriptors.Feature method)|hyperpage}{33}
-\indexentry{detectAndCompute() (RRtoolbox.lib.descriptors.Feature method)|hyperpage}{33}
+\indexentry{detectAndCompute() (RRtoolbox.lib.descriptors.Feature method)|hyperpage}{34}
 \indexentry{MATCH() (in module RRtoolbox.lib.descriptors)|hyperpage}{34}
 \indexentry{MATCH\_multiple() (in module RRtoolbox.lib.descriptors)|hyperpage}{34}
 \indexentry{affine\_skew() (in module RRtoolbox.lib.descriptors)|hyperpage}{34}
 \indexentry{filter\_matches() (in module RRtoolbox.lib.descriptors)|hyperpage}{34}
-\indexentry{init\_feature() (in module RRtoolbox.lib.descriptors)|hyperpage}{34}
+\indexentry{init\_feature() (in module RRtoolbox.lib.descriptors)|hyperpage}{35}
 \indexentry{inlineRatio() (in module RRtoolbox.lib.descriptors)|hyperpage}{35}
 \indexentry{RRtoolbox.lib.directory (module)|hyperpage}{35}
-\indexentry{FileDirectory (class in RRtoolbox.lib.directory)|hyperpage}{35}
-\indexentry{makeFile() (RRtoolbox.lib.directory.FileDirectory method)|hyperpage}{35}
-\indexentry{changedir() (in module RRtoolbox.lib.directory)|hyperpage}{35}
-\indexentry{checkDir() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{checkFile() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{checkPath() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{checkURL() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{correctPath() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{correctSep() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{decoratePath() (in module RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{directory (class in RRtoolbox.lib.directory)|hyperpage}{36}
-\indexentry{copy() (RRtoolbox.lib.directory.directory method)|hyperpage}{37}
-\indexentry{correctSTRBuiltin() (RRtoolbox.lib.directory.directory method)|hyperpage}{37}
-\indexentry{filterdata() (RRtoolbox.lib.directory.directory static method)|hyperpage}{37}
-\indexentry{repr2list() (RRtoolbox.lib.directory.directory static method)|hyperpage}{37}
-\indexentry{repr2str() (RRtoolbox.lib.directory.directory static method)|hyperpage}{37}
-\indexentry{update() (RRtoolbox.lib.directory.directory method)|hyperpage}{37}
-\indexentry{update\_left() (RRtoolbox.lib.directory.directory method)|hyperpage}{37}
-\indexentry{update\_right() (RRtoolbox.lib.directory.directory method)|hyperpage}{37}
+\indexentry{Directory (class in RRtoolbox.lib.directory)|hyperpage}{35}
+\indexentry{copy() (RRtoolbox.lib.directory.Directory method)|hyperpage}{35}
+\indexentry{correctSTRBuiltin() (RRtoolbox.lib.directory.Directory method)|hyperpage}{36}
+\indexentry{filterdata() (RRtoolbox.lib.directory.Directory static method)|hyperpage}{36}
+\indexentry{repr2list() (RRtoolbox.lib.directory.Directory static method)|hyperpage}{36}
+\indexentry{repr2str() (RRtoolbox.lib.directory.Directory static method)|hyperpage}{36}
+\indexentry{update() (RRtoolbox.lib.directory.Directory method)|hyperpage}{36}
+\indexentry{update\_left() (RRtoolbox.lib.directory.Directory method)|hyperpage}{36}
+\indexentry{update\_right() (RRtoolbox.lib.directory.Directory method)|hyperpage}{36}
+\indexentry{FileDirectory (class in RRtoolbox.lib.directory)|hyperpage}{36}
+\indexentry{makeFile() (RRtoolbox.lib.directory.FileDirectory method)|hyperpage}{37}
+\indexentry{changedir() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{checkDir() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{checkFile() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{checkPath() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{checkURL() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{correctPath() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{correctSep() (in module RRtoolbox.lib.directory)|hyperpage}{37}
+\indexentry{decoratePath() (in module RRtoolbox.lib.directory)|hyperpage}{38}
 \indexentry{getData() (in module RRtoolbox.lib.directory)|hyperpage}{38}
 \indexentry{getFileHandle() (in module RRtoolbox.lib.directory)|hyperpage}{38}
 \indexentry{getFileSize() (in module RRtoolbox.lib.directory)|hyperpage}{38}
@@ -228,308 +227,324 @@
 \indexentry{increment\_if\_exits() (in module RRtoolbox.lib.directory)|hyperpage}{39}
 \indexentry{joinPath() (in module RRtoolbox.lib.directory)|hyperpage}{39}
 \indexentry{mkPath() (in module RRtoolbox.lib.directory)|hyperpage}{39}
-\indexentry{quickOps() (in module RRtoolbox.lib.directory)|hyperpage}{39}
+\indexentry{quickOps() (in module RRtoolbox.lib.directory)|hyperpage}{40}
 \indexentry{resource\_path() (in module RRtoolbox.lib.directory)|hyperpage}{40}
 \indexentry{rmFile() (in module RRtoolbox.lib.directory)|hyperpage}{40}
 \indexentry{rmPath() (in module RRtoolbox.lib.directory)|hyperpage}{40}
 \indexentry{strdifference() (in module RRtoolbox.lib.directory)|hyperpage}{40}
-\indexentry{RRtoolbox.lib.image (module)|hyperpage}{40}
-\indexentry{bgra2bgr() (in module RRtoolbox.lib.image)|hyperpage}{41}
-\indexentry{checkLoaded() (in module RRtoolbox.lib.image)|hyperpage}{41}
-\indexentry{convertAs() (in module RRtoolbox.lib.image)|hyperpage}{41}
-\indexentry{drawcoorarea() (in module RRtoolbox.lib.image)|hyperpage}{41}
-\indexentry{drawcooraxes() (in module RRtoolbox.lib.image)|hyperpage}{42}
-\indexentry{drawcoorperspective() (in module RRtoolbox.lib.image)|hyperpage}{42}
-\indexentry{drawcoorpoints() (in module RRtoolbox.lib.image)|hyperpage}{42}
-\indexentry{drawcoorpolyArrow() (in module RRtoolbox.lib.image)|hyperpage}{42}
-\indexentry{drawcoorpolyline() (in module RRtoolbox.lib.image)|hyperpage}{43}
-\indexentry{fig2bgr() (in module RRtoolbox.lib.image)|hyperpage}{43}
-\indexentry{fig2bgra() (in module RRtoolbox.lib.image)|hyperpage}{43}
-\indexentry{getCoors (class in RRtoolbox.lib.image)|hyperpage}{43}
-\indexentry{coors (RRtoolbox.lib.image.getCoors attribute)|hyperpage}{43}
-\indexentry{drawstats() (RRtoolbox.lib.image.getCoors method)|hyperpage}{44}
-\indexentry{mousefunc() (RRtoolbox.lib.image.getCoors method)|hyperpage}{44}
-\indexentry{updatecoors() (RRtoolbox.lib.image.getCoors method)|hyperpage}{44}
-\indexentry{getcoors() (in module RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{getgeometrycoors() (in module RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{getrectcoors() (in module RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{gray2qi() (in module RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{hist\_match() (in module RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{imFactory (class in RRtoolbox.lib.image)|hyperpage}{44}
-\indexentry{get\_Func() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_code() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_convertionFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_errorFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_loadFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_mapFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_np2qi() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_resizeFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{get\_transposeFunc() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{update() (RRtoolbox.lib.image.imFactory method)|hyperpage}{45}
-\indexentry{imLoader (class in RRtoolbox.lib.image)|hyperpage}{45}
-\indexentry{getConfiguration() (RRtoolbox.lib.image.imLoader method)|hyperpage}{46}
-\indexentry{temp() (RRtoolbox.lib.image.imLoader method)|hyperpage}{46}
-\indexentry{imcoors (class in RRtoolbox.lib.image)|hyperpage}{47}
-\indexentry{dtype (RRtoolbox.lib.image.imcoors attribute)|hyperpage}{47}
-\indexentry{pts (RRtoolbox.lib.image.imcoors attribute)|hyperpage}{47}
-\indexentry{interpretImage() (in module RRtoolbox.lib.image)|hyperpage}{47}
-\indexentry{limitaxispoints() (in module RRtoolbox.lib.image)|hyperpage}{47}
-\indexentry{loadFunc() (in module RRtoolbox.lib.image)|hyperpage}{47}
-\indexentry{loadcv() (in module RRtoolbox.lib.image)|hyperpage}{49}
-\indexentry{loaderDict (class in RRtoolbox.lib.image)|hyperpage}{50}
-\indexentry{register() (RRtoolbox.lib.image.loaderDict method)|hyperpage}{50}
-\indexentry{loadsfrom() (in module RRtoolbox.lib.image)|hyperpage}{50}
-\indexentry{myline() (in module RRtoolbox.lib.image)|hyperpage}{50}
-\indexentry{np2qi() (in module RRtoolbox.lib.image)|hyperpage}{50}
+\indexentry{RRtoolbox.lib.image (module)|hyperpage}{41}
+\indexentry{GetCoors (class in RRtoolbox.lib.image)|hyperpage}{41}
+\indexentry{coors (RRtoolbox.lib.image.GetCoors attribute)|hyperpage}{41}
+\indexentry{drawstats() (RRtoolbox.lib.image.GetCoors method)|hyperpage}{41}
+\indexentry{mousefunc() (RRtoolbox.lib.image.GetCoors method)|hyperpage}{41}
+\indexentry{updatecoors() (RRtoolbox.lib.image.GetCoors method)|hyperpage}{41}
+\indexentry{ImCoors (class in RRtoolbox.lib.image)|hyperpage}{41}
+\indexentry{dtype (RRtoolbox.lib.image.ImCoors attribute)|hyperpage}{42}
+\indexentry{pts (RRtoolbox.lib.image.ImCoors attribute)|hyperpage}{42}
+\indexentry{ImFactory (class in RRtoolbox.lib.image)|hyperpage}{42}
+\indexentry{get\_Func() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_code() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_convertionFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_errorFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_loadFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_mapFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_np2qi() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_resizeFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{get\_transposeFunc() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{update() (RRtoolbox.lib.image.ImFactory method)|hyperpage}{42}
+\indexentry{ImLoader (class in RRtoolbox.lib.image)|hyperpage}{42}
+\indexentry{getConfiguration() (RRtoolbox.lib.image.ImLoader method)|hyperpage}{44}
+\indexentry{temp() (RRtoolbox.lib.image.ImLoader method)|hyperpage}{44}
+\indexentry{Image (class in RRtoolbox.lib.image)|hyperpage}{44}
+\indexentry{BGR (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{BGRA (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{RGB (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{RGBA (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{ext (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{gray (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{load() (RRtoolbox.lib.image.Image method)|hyperpage}{44}
+\indexentry{path (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{save() (RRtoolbox.lib.image.Image method)|hyperpage}{44}
+\indexentry{shape (RRtoolbox.lib.image.Image attribute)|hyperpage}{44}
+\indexentry{LoaderDict (class in RRtoolbox.lib.image)|hyperpage}{44}
+\indexentry{register() (RRtoolbox.lib.image.LoaderDict method)|hyperpage}{45}
+\indexentry{PathLoader (class in RRtoolbox.lib.image)|hyperpage}{45}
+\indexentry{insert() (RRtoolbox.lib.image.PathLoader method)|hyperpage}{45}
+\indexentry{bgra2bgr() (in module RRtoolbox.lib.image)|hyperpage}{45}
+\indexentry{checkLoaded() (in module RRtoolbox.lib.image)|hyperpage}{45}
+\indexentry{convertAs() (in module RRtoolbox.lib.image)|hyperpage}{45}
+\indexentry{drawcoorarea() (in module RRtoolbox.lib.image)|hyperpage}{46}
+\indexentry{drawcooraxes() (in module RRtoolbox.lib.image)|hyperpage}{46}
+\indexentry{drawcoorperspective() (in module RRtoolbox.lib.image)|hyperpage}{46}
+\indexentry{drawcoorpoints() (in module RRtoolbox.lib.image)|hyperpage}{47}
+\indexentry{drawcoorpolyArrow() (in module RRtoolbox.lib.image)|hyperpage}{47}
+\indexentry{drawcoorpolyline() (in module RRtoolbox.lib.image)|hyperpage}{47}
+\indexentry{fig2bgr() (in module RRtoolbox.lib.image)|hyperpage}{47}
+\indexentry{fig2bgra() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{getcoors() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{getgeometrycoors() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{getrectcoors() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{gray2qi() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{hist\_match() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{interpretImage() (in module RRtoolbox.lib.image)|hyperpage}{48}
+\indexentry{limitaxispoints() (in module RRtoolbox.lib.image)|hyperpage}{49}
+\indexentry{loadFunc() (in module RRtoolbox.lib.image)|hyperpage}{49}
+\indexentry{loadcv() (in module RRtoolbox.lib.image)|hyperpage}{50}
+\indexentry{loadsfrom() (in module RRtoolbox.lib.image)|hyperpage}{51}
+\indexentry{myline() (in module RRtoolbox.lib.image)|hyperpage}{51}
+\indexentry{np2qi() (in module RRtoolbox.lib.image)|hyperpage}{51}
 \indexentry{np2str() (in module RRtoolbox.lib.image)|hyperpage}{51}
-\indexentry{pathLoader (class in RRtoolbox.lib.image)|hyperpage}{51}
-\indexentry{insert() (RRtoolbox.lib.image.pathLoader method)|hyperpage}{51}
 \indexentry{plt2bgr() (in module RRtoolbox.lib.image)|hyperpage}{51}
 \indexentry{plt2bgra() (in module RRtoolbox.lib.image)|hyperpage}{51}
 \indexentry{qi2np() (in module RRtoolbox.lib.image)|hyperpage}{51}
-\indexentry{quadrants() (in module RRtoolbox.lib.image)|hyperpage}{51}
-\indexentry{rgb2qi() (in module RRtoolbox.lib.image)|hyperpage}{51}
-\indexentry{separe() (in module RRtoolbox.lib.image)|hyperpage}{51}
+\indexentry{quadrants() (in module RRtoolbox.lib.image)|hyperpage}{52}
+\indexentry{random\_color() (in module RRtoolbox.lib.image)|hyperpage}{52}
+\indexentry{rgb2qi() (in module RRtoolbox.lib.image)|hyperpage}{52}
+\indexentry{separe() (in module RRtoolbox.lib.image)|hyperpage}{52}
 \indexentry{str2np() (in module RRtoolbox.lib.image)|hyperpage}{52}
 \indexentry{transposeIm() (in module RRtoolbox.lib.image)|hyperpage}{52}
 \indexentry{try\_loads() (in module RRtoolbox.lib.image)|hyperpage}{52}
-\indexentry{RRtoolbox.lib.inspector (module)|hyperpage}{52}
-\indexentry{Asyncronous (class in RRtoolbox.lib.inspector)|hyperpage}{52}
-\indexentry{done() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{52}
-\indexentry{start() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{52}
-\indexentry{tracer() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{52}
-\indexentry{Logger (class in RRtoolbox.lib.inspector)|hyperpage}{52}
-\indexentry{Time\_ (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{53}
-\indexentry{Type\_ (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{53}
-\indexentry{broadcast() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{53}
-\indexentry{eventHandle (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{53}
-\indexentry{file (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{53}
-\indexentry{renew() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{53}
-\indexentry{report() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{53}
-\indexentry{throwError() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{53}
-\indexentry{tracer (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{53}
-\indexentry{writer() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{53}
-\indexentry{Syncronous (class in RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{start() (RRtoolbox.lib.inspector.Syncronous method)|hyperpage}{53}
-\indexentry{stop() (RRtoolbox.lib.inspector.Syncronous method)|hyperpage}{53}
-\indexentry{funcData() (in module RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{graphTrace (class in RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{get\_tracer\_class() (RRtoolbox.lib.inspector.graphTrace method)|hyperpage}{53}
-\indexentry{saveSource() (RRtoolbox.lib.inspector.graphTrace method)|hyperpage}{53}
-\indexentry{source (RRtoolbox.lib.inspector.graphTrace attribute)|hyperpage}{53}
-\indexentry{graphTraceOutput (class in RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{done() (RRtoolbox.lib.inspector.graphTraceOutput method)|hyperpage}{53}
-\indexentry{save() (RRtoolbox.lib.inspector.graphTraceOutput method)|hyperpage}{53}
-\indexentry{saveSource() (RRtoolbox.lib.inspector.graphTraceOutput method)|hyperpage}{53}
-\indexentry{load() (in module RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{reloadFunc() (in module RRtoolbox.lib.inspector)|hyperpage}{53}
-\indexentry{tracer() (in module RRtoolbox.lib.inspector)|hyperpage}{53}
+\indexentry{RRtoolbox.lib.inspector (module)|hyperpage}{53}
+\indexentry{Asyncronous (class in RRtoolbox.lib.inspector)|hyperpage}{53}
+\indexentry{done() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{53}
+\indexentry{start() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{53}
+\indexentry{tracer() (RRtoolbox.lib.inspector.Asyncronous method)|hyperpage}{53}
+\indexentry{GraphTrace (class in RRtoolbox.lib.inspector)|hyperpage}{53}
+\indexentry{get\_tracer\_class() (RRtoolbox.lib.inspector.GraphTrace method)|hyperpage}{53}
+\indexentry{saveSource() (RRtoolbox.lib.inspector.GraphTrace method)|hyperpage}{53}
+\indexentry{source (RRtoolbox.lib.inspector.GraphTrace attribute)|hyperpage}{53}
+\indexentry{GraphTraceOutput (class in RRtoolbox.lib.inspector)|hyperpage}{53}
+\indexentry{done() (RRtoolbox.lib.inspector.GraphTraceOutput method)|hyperpage}{53}
+\indexentry{save() (RRtoolbox.lib.inspector.GraphTraceOutput method)|hyperpage}{53}
+\indexentry{saveSource() (RRtoolbox.lib.inspector.GraphTraceOutput method)|hyperpage}{53}
+\indexentry{Logger (class in RRtoolbox.lib.inspector)|hyperpage}{53}
+\indexentry{Time\_ (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{54}
+\indexentry{Type\_ (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{54}
+\indexentry{broadcast() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{54}
+\indexentry{eventHandle (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{54}
+\indexentry{file (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{54}
+\indexentry{renew() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{54}
+\indexentry{report() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{54}
+\indexentry{throwError() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{54}
+\indexentry{tracer (RRtoolbox.lib.inspector.Logger attribute)|hyperpage}{54}
+\indexentry{writer() (RRtoolbox.lib.inspector.Logger method)|hyperpage}{54}
+\indexentry{Syncronous (class in RRtoolbox.lib.inspector)|hyperpage}{54}
+\indexentry{start() (RRtoolbox.lib.inspector.Syncronous method)|hyperpage}{54}
+\indexentry{stop() (RRtoolbox.lib.inspector.Syncronous method)|hyperpage}{54}
+\indexentry{funcData() (in module RRtoolbox.lib.inspector)|hyperpage}{54}
+\indexentry{load() (in module RRtoolbox.lib.inspector)|hyperpage}{54}
+\indexentry{reloadFunc() (in module RRtoolbox.lib.inspector)|hyperpage}{54}
+\indexentry{tracer() (in module RRtoolbox.lib.inspector)|hyperpage}{54}
 \indexentry{RRtoolbox.lib.plotter (module)|hyperpage}{54}
-\indexentry{background() (in module RRtoolbox.lib.plotter)|hyperpage}{54}
-\indexentry{convert2bgr() (in module RRtoolbox.lib.plotter)|hyperpage}{54}
-\indexentry{convert2bgra() (in module RRtoolbox.lib.plotter)|hyperpage}{54}
-\indexentry{echo() (in module RRtoolbox.lib.plotter)|hyperpage}{54}
-\indexentry{edger (class in RRtoolbox.lib.plotter)|hyperpage}{54}
-\indexentry{computeAll() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{computeEdge() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{getParameters() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{isActiveWindow() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{isBFILTER (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{isCLAHE (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{isEQUA (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{isSIZE (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{load() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{maxth (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{onTrackbar1() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{onTrackbar2() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{save() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{showgray (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{size (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{th1 (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{th2 (RRtoolbox.lib.plotter.edger attribute)|hyperpage}{55}
-\indexentry{windowfunc() (RRtoolbox.lib.plotter.edger method)|hyperpage}{55}
-\indexentry{fastplt() (in module RRtoolbox.lib.plotter)|hyperpage}{55}
-\indexentry{graph\_filter() (in module RRtoolbox.lib.plotter)|hyperpage}{55}
-\indexentry{imtester (class in RRtoolbox.lib.plotter)|hyperpage}{56}
-\indexentry{applythresh() (RRtoolbox.lib.plotter.imtester static method)|hyperpage}{56}
-\indexentry{builtcmd() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{computefunc() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{detectType() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{formatinfo() (RRtoolbox.lib.plotter.imtester static method)|hyperpage}{56}
-\indexentry{updatevisualization() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{visualize() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{windowfunc() (RRtoolbox.lib.plotter.imtester method)|hyperpage}{56}
-\indexentry{limitaxis() (in module RRtoolbox.lib.plotter)|hyperpage}{56}
-\indexentry{matchExplorer (class in RRtoolbox.lib.plotter)|hyperpage}{56}
-\indexentry{drawline() (RRtoolbox.lib.plotter.matchExplorer method)|hyperpage}{57}
-\indexentry{drawrelation() (RRtoolbox.lib.plotter.matchExplorer method)|hyperpage}{57}
-\indexentry{keyfunc() (RRtoolbox.lib.plotter.matchExplorer method)|hyperpage}{57}
-\indexentry{mousefunc() (RRtoolbox.lib.plotter.matchExplorer method)|hyperpage}{57}
-\indexentry{randomColor() (RRtoolbox.lib.plotter.matchExplorer static method)|hyperpage}{57}
-\indexentry{updaterenderer() (RRtoolbox.lib.plotter.matchExplorer method)|hyperpage}{57}
-\indexentry{plotPointsContour() (in module RRtoolbox.lib.plotter)|hyperpage}{57}
-\indexentry{plotim (class in RRtoolbox.lib.plotter)|hyperpage}{57}
-\indexentry{builtincmd() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{builtincontrol() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{builtinplot() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{builtinwindow() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{clean() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{closefunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{cmdfunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{58}
-\indexentry{errorbackground (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{59}
-\indexentry{formatcmd() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{help() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{init() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{keyfunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{makeoverlay() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{mousefunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{59}
-\indexentry{onmouse() (RRtoolbox.lib.plotter.plotim static method)|hyperpage}{59}
-\indexentry{plotatpointer() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{60}
-\indexentry{plotatxy() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{60}
-\indexentry{plotintime() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{61}
-\indexentry{real2render() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{61}
-\indexentry{render2real() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{61}
-\indexentry{rx1 (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{61}
-\indexentry{rx2 (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{61}
-\indexentry{ry1 (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{61}
-\indexentry{ry2 (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{61}
-\indexentry{save() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{61}
-\indexentry{show() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{62}
-\indexentry{showfunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{62}
-\indexentry{textbackground (RRtoolbox.lib.plotter.plotim attribute)|hyperpage}{62}
-\indexentry{updaterenderer() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{62}
-\indexentry{windowfunc() (RRtoolbox.lib.plotter.plotim method)|hyperpage}{62}
-\indexentry{RRtoolbox.lib.root (module)|hyperpage}{62}
-\indexentry{Controlstdout (class in RRtoolbox.lib.root)|hyperpage}{62}
-\indexentry{FactorConvert (class in RRtoolbox.lib.root)|hyperpage}{63}
-\indexentry{convert() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{63}
-\indexentry{convert2sample() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{63}
-\indexentry{exactFactorIndex() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{63}
-\indexentry{factor (RRtoolbox.lib.root.FactorConvert attribute)|hyperpage}{63}
-\indexentry{factors (RRtoolbox.lib.root.FactorConvert attribute)|hyperpage}{63}
-\indexentry{getFactor() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{63}
-\indexentry{nearFactorIndex() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{63}
-\indexentry{parts() (RRtoolbox.lib.root.FactorConvert static method)|hyperpage}{63}
+\indexentry{Edger (class in RRtoolbox.lib.plotter)|hyperpage}{54}
+\indexentry{computeAll() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{computeEdge() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{getParameters() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{isActiveWindow() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{isBFILTER (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{isCLAHE (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{isEQUA (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{isSIZE (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{load() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{maxth (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{onTrackbar1() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{onTrackbar2() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{save() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{showgray (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{size (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{th1 (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{th2 (RRtoolbox.lib.plotter.Edger attribute)|hyperpage}{55}
+\indexentry{windowfunc() (RRtoolbox.lib.plotter.Edger method)|hyperpage}{55}
+\indexentry{Imtester (class in RRtoolbox.lib.plotter)|hyperpage}{55}
+\indexentry{applythresh() (RRtoolbox.lib.plotter.Imtester static method)|hyperpage}{55}
+\indexentry{builtcmd() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{computefunc() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{detectType() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{formatinfo() (RRtoolbox.lib.plotter.Imtester static method)|hyperpage}{55}
+\indexentry{updatevisualization() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{visualize() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{windowfunc() (RRtoolbox.lib.plotter.Imtester method)|hyperpage}{55}
+\indexentry{MatchExplorer (class in RRtoolbox.lib.plotter)|hyperpage}{55}
+\indexentry{drawline() (RRtoolbox.lib.plotter.MatchExplorer method)|hyperpage}{56}
+\indexentry{drawrelation() (RRtoolbox.lib.plotter.MatchExplorer method)|hyperpage}{56}
+\indexentry{keyfunc() (RRtoolbox.lib.plotter.MatchExplorer method)|hyperpage}{56}
+\indexentry{mousefunc() (RRtoolbox.lib.plotter.MatchExplorer method)|hyperpage}{56}
+\indexentry{randomColor() (RRtoolbox.lib.plotter.MatchExplorer static method)|hyperpage}{56}
+\indexentry{updaterenderer() (RRtoolbox.lib.plotter.MatchExplorer method)|hyperpage}{56}
+\indexentry{Plotim (class in RRtoolbox.lib.plotter)|hyperpage}{56}
+\indexentry{builtincmd() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{builtincontrol() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{builtinplot() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{builtinwindow() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{clean() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{closefunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{cmdfunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{57}
+\indexentry{errorbackground (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{58}
+\indexentry{formatcmd() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{help() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{init() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{keyfunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{makeoverlay() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{mousefunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{58}
+\indexentry{onmouse() (RRtoolbox.lib.plotter.Plotim static method)|hyperpage}{58}
+\indexentry{plotatpointer() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{59}
+\indexentry{plotatxy() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{59}
+\indexentry{plotintime() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{60}
+\indexentry{real2render() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{60}
+\indexentry{render2real() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{60}
+\indexentry{rx1 (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{60}
+\indexentry{rx2 (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{60}
+\indexentry{ry1 (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{60}
+\indexentry{ry2 (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{60}
+\indexentry{save() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{60}
+\indexentry{show() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{61}
+\indexentry{showfunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{61}
+\indexentry{textbackground (RRtoolbox.lib.plotter.Plotim attribute)|hyperpage}{61}
+\indexentry{updaterenderer() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{61}
+\indexentry{windowfunc() (RRtoolbox.lib.plotter.Plotim method)|hyperpage}{61}
+\indexentry{background() (in module RRtoolbox.lib.plotter)|hyperpage}{61}
+\indexentry{convert2bgr() (in module RRtoolbox.lib.plotter)|hyperpage}{61}
+\indexentry{convert2bgra() (in module RRtoolbox.lib.plotter)|hyperpage}{62}
+\indexentry{echo() (in module RRtoolbox.lib.plotter)|hyperpage}{62}
+\indexentry{fastplt() (in module RRtoolbox.lib.plotter)|hyperpage}{62}
+\indexentry{graph\_filter() (in module RRtoolbox.lib.plotter)|hyperpage}{62}
+\indexentry{limitaxis() (in module RRtoolbox.lib.plotter)|hyperpage}{63}
+\indexentry{plotPointsContour() (in module RRtoolbox.lib.plotter)|hyperpage}{63}
+\indexentry{RRtoolbox.lib.root (module)|hyperpage}{63}
+\indexentry{Controlstdout (class in RRtoolbox.lib.root)|hyperpage}{63}
+\indexentry{FactorConvert (class in RRtoolbox.lib.root)|hyperpage}{64}
+\indexentry{convert() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{64}
+\indexentry{convert2sample() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{64}
+\indexentry{exactFactorIndex() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{64}
+\indexentry{factor (RRtoolbox.lib.root.FactorConvert attribute)|hyperpage}{64}
+\indexentry{factors (RRtoolbox.lib.root.FactorConvert attribute)|hyperpage}{64}
+\indexentry{getFactor() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{64}
+\indexentry{nearFactorIndex() (RRtoolbox.lib.root.FactorConvert method)|hyperpage}{64}
+\indexentry{parts() (RRtoolbox.lib.root.FactorConvert static method)|hyperpage}{64}
 \indexentry{split() (RRtoolbox.lib.root.FactorConvert static method)|hyperpage}{64}
-\indexentry{Magnitude (class in RRtoolbox.lib.root)|hyperpage}{64}
-\indexentry{format\_value() (RRtoolbox.lib.root.Magnitude method)|hyperpage}{64}
-\indexentry{TimeCode (class in RRtoolbox.lib.root)|hyperpage}{64}
-\indexentry{time (RRtoolbox.lib.root.TimeCode attribute)|hyperpage}{64}
-\indexentry{time\_end (RRtoolbox.lib.root.TimeCode attribute)|hyperpage}{64}
-\indexentry{addto() (in module RRtoolbox.lib.root)|hyperpage}{64}
-\indexentry{decorateInstanceMethods() (in module RRtoolbox.lib.root)|hyperpage}{64}
-\indexentry{glob() (in module RRtoolbox.lib.root)|hyperpage}{65}
-\indexentry{lookinglob() (in module RRtoolbox.lib.root)|hyperpage}{65}
-\indexentry{profiler (class in RRtoolbox.lib.root)|hyperpage}{65}
-\indexentry{close() (RRtoolbox.lib.root.profiler method)|hyperpage}{65}
-\indexentry{formatter() (RRtoolbox.lib.root.profiler method)|hyperpage}{65}
-\indexentry{lines\_formatted() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{lines\_unformatted() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{open\_point() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{restructure() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{string\_lines() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{string\_structured() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{structure() (RRtoolbox.lib.root.profiler method)|hyperpage}{66}
-\indexentry{time (RRtoolbox.lib.root.profiler attribute)|hyperpage}{66}
-\indexentry{stdoutLOG (class in RRtoolbox.lib.root)|hyperpage}{66}
-\indexentry{close() (RRtoolbox.lib.root.stdoutLOG method)|hyperpage}{67}
-\indexentry{flush() (RRtoolbox.lib.root.stdoutLOG method)|hyperpage}{67}
-\indexentry{printline() (RRtoolbox.lib.root.stdoutLOG method)|hyperpage}{67}
-\indexentry{printlines() (RRtoolbox.lib.root.stdoutLOG method)|hyperpage}{67}
-\indexentry{write() (RRtoolbox.lib.root.stdoutLOG method)|hyperpage}{67}
-\indexentry{stdoutMULTI (class in RRtoolbox.lib.root)|hyperpage}{67}
-\indexentry{close() (RRtoolbox.lib.root.stdoutMULTI method)|hyperpage}{67}
-\indexentry{flush() (RRtoolbox.lib.root.stdoutMULTI method)|hyperpage}{67}
-\indexentry{printline() (RRtoolbox.lib.root.stdoutMULTI method)|hyperpage}{67}
-\indexentry{printlines() (RRtoolbox.lib.root.stdoutMULTI method)|hyperpage}{67}
-\indexentry{write() (RRtoolbox.lib.root.stdoutMULTI method)|hyperpage}{67}
-\indexentry{stdoutSIM (class in RRtoolbox.lib.root)|hyperpage}{67}
-\indexentry{close() (RRtoolbox.lib.root.stdoutSIM method)|hyperpage}{67}
-\indexentry{flush() (RRtoolbox.lib.root.stdoutSIM method)|hyperpage}{67}
-\indexentry{printline() (RRtoolbox.lib.root.stdoutSIM method)|hyperpage}{67}
-\indexentry{printlines() (RRtoolbox.lib.root.stdoutSIM method)|hyperpage}{67}
-\indexentry{write() (RRtoolbox.lib.root.stdoutSIM method)|hyperpage}{67}
-\indexentry{RRtoolbox.lib.serverServices (module)|hyperpage}{67}
-\indexentry{Conection (class in RRtoolbox.lib.serverServices)|hyperpage}{67}
-\indexentry{getLen() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{67}
-\indexentry{rcv() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{67}
-\indexentry{recvall() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{67}
-\indexentry{send() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{67}
-\indexentry{sendLen() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{67}
+\indexentry{Magnitude (class in RRtoolbox.lib.root)|hyperpage}{65}
+\indexentry{format\_value() (RRtoolbox.lib.root.Magnitude method)|hyperpage}{65}
+\indexentry{NameSpace (class in RRtoolbox.lib.root)|hyperpage}{65}
+\indexentry{NoParserFound|hyperpage}{65}
+\indexentry{NotCallable|hyperpage}{65}
+\indexentry{NotCreatable|hyperpage}{65}
+\indexentry{Profiler (class in RRtoolbox.lib.root)|hyperpage}{65}
+\indexentry{close() (RRtoolbox.lib.root.Profiler method)|hyperpage}{65}
+\indexentry{formatter() (RRtoolbox.lib.root.Profiler method)|hyperpage}{65}
+\indexentry{lines\_formatted() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{lines\_unformatted() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{open\_point() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{restructure() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{string\_lines() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{string\_structured() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{structure() (RRtoolbox.lib.root.Profiler method)|hyperpage}{66}
+\indexentry{time (RRtoolbox.lib.root.Profiler attribute)|hyperpage}{66}
+\indexentry{StdoutLOG (class in RRtoolbox.lib.root)|hyperpage}{66}
+\indexentry{close() (RRtoolbox.lib.root.StdoutLOG method)|hyperpage}{67}
+\indexentry{flush() (RRtoolbox.lib.root.StdoutLOG method)|hyperpage}{67}
+\indexentry{printline() (RRtoolbox.lib.root.StdoutLOG method)|hyperpage}{67}
+\indexentry{printlines() (RRtoolbox.lib.root.StdoutLOG method)|hyperpage}{67}
+\indexentry{write() (RRtoolbox.lib.root.StdoutLOG method)|hyperpage}{67}
+\indexentry{StdoutMULTI (class in RRtoolbox.lib.root)|hyperpage}{67}
+\indexentry{close() (RRtoolbox.lib.root.StdoutMULTI method)|hyperpage}{67}
+\indexentry{flush() (RRtoolbox.lib.root.StdoutMULTI method)|hyperpage}{67}
+\indexentry{printline() (RRtoolbox.lib.root.StdoutMULTI method)|hyperpage}{67}
+\indexentry{printlines() (RRtoolbox.lib.root.StdoutMULTI method)|hyperpage}{67}
+\indexentry{write() (RRtoolbox.lib.root.StdoutMULTI method)|hyperpage}{67}
+\indexentry{StdoutSIM (class in RRtoolbox.lib.root)|hyperpage}{67}
+\indexentry{close() (RRtoolbox.lib.root.StdoutSIM method)|hyperpage}{67}
+\indexentry{flush() (RRtoolbox.lib.root.StdoutSIM method)|hyperpage}{67}
+\indexentry{printline() (RRtoolbox.lib.root.StdoutSIM method)|hyperpage}{67}
+\indexentry{printlines() (RRtoolbox.lib.root.StdoutSIM method)|hyperpage}{67}
+\indexentry{write() (RRtoolbox.lib.root.StdoutSIM method)|hyperpage}{67}
+\indexentry{TimeCode (class in RRtoolbox.lib.root)|hyperpage}{67}
+\indexentry{time (RRtoolbox.lib.root.TimeCode attribute)|hyperpage}{67}
+\indexentry{time\_end (RRtoolbox.lib.root.TimeCode attribute)|hyperpage}{67}
 \indexentry{TimeOutException|hyperpage}{67}
-\indexentry{TransferExeption|hyperpage}{67}
-\indexentry{generateServer() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{initClient() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{initServer() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{parseString() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{ping() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{rcvPickle() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{recv\_into() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{scan\_ports() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{sendPickle() (in module RRtoolbox.lib.serverServices)|hyperpage}{68}
-\indexentry{send\_from() (in module RRtoolbox.lib.serverServices)|hyperpage}{69}
-\indexentry{string\_is\_socket\_address() (in module RRtoolbox.lib.serverServices)|hyperpage}{69}
-\indexentry{RRtoolbox.lib.session (module)|hyperpage}{69}
-\indexentry{checkFromSession() (in module RRtoolbox.lib.session)|hyperpage}{69}
-\indexentry{deleteFromSession() (in module RRtoolbox.lib.session)|hyperpage}{69}
-\indexentry{flushSession() (in module RRtoolbox.lib.session)|hyperpage}{69}
-\indexentry{getEnviromentSession() (in module RRtoolbox.lib.session)|hyperpage}{69}
-\indexentry{readSession() (in module RRtoolbox.lib.session)|hyperpage}{69}
-\indexentry{saveSession() (in module RRtoolbox.lib.session)|hyperpage}{70}
-\indexentry{updateSession() (in module RRtoolbox.lib.session)|hyperpage}{70}
-\indexentry{RRtoolbox.lib (module)|hyperpage}{70}
-\indexentry{RRtoolbox.tools.lens (module)|hyperpage}{70}
-\indexentry{drawCircle() (in module RRtoolbox.tools.lens)|hyperpage}{70}
-\indexentry{drawEllipse() (in module RRtoolbox.tools.lens)|hyperpage}{70}
-\indexentry{fitLens() (in module RRtoolbox.tools.lens)|hyperpage}{71}
-\indexentry{simulateLens() (in module RRtoolbox.tools.lens)|hyperpage}{71}
-\indexentry{RRtoolbox.tools.restoration (module)|hyperpage}{71}
-\indexentry{asif\_demo() (in module RRtoolbox.tools.restoration)|hyperpage}{71}
-\indexentry{asif\_demo2() (in module RRtoolbox.tools.restoration)|hyperpage}{72}
-\indexentry{extractCSV() (in module RRtoolbox.tools.restoration)|hyperpage}{72}
-\indexentry{getDicDescriptor() (in module RRtoolbox.tools.restoration)|hyperpage}{72}
-\indexentry{qualifyData() (in module RRtoolbox.tools.restoration)|hyperpage}{72}
-\indexentry{stitch\_multiple() (in module RRtoolbox.tools.restoration)|hyperpage}{73}
-\indexentry{testRates() (in module RRtoolbox.tools.restoration)|hyperpage}{73}
-\indexentry{watchData() (in module RRtoolbox.tools.restoration)|hyperpage}{73}
+\indexentry{TransferExeption|hyperpage}{68}
+\indexentry{VariableNotDeletable|hyperpage}{68}
+\indexentry{VariableNotSettable|hyperpage}{68}
+\indexentry{addto() (in module RRtoolbox.lib.root)|hyperpage}{68}
+\indexentry{decorateInstanceMethods() (in module RRtoolbox.lib.root)|hyperpage}{68}
+\indexentry{ensureList() (in module RRtoolbox.lib.root)|hyperpage}{68}
+\indexentry{formatConsume() (in module RRtoolbox.lib.root)|hyperpage}{68}
+\indexentry{formatOnly() (in module RRtoolbox.lib.root)|hyperpage}{68}
+\indexentry{glob() (in module RRtoolbox.lib.root)|hyperpage}{69}
+\indexentry{globFilter (class in RRtoolbox.lib.root)|hyperpage}{69}
+\indexentry{lookinglob() (in module RRtoolbox.lib.root)|hyperpage}{69}
+\indexentry{RRtoolbox.lib.serverServices (module)|hyperpage}{69}
+\indexentry{Conection (class in RRtoolbox.lib.serverServices)|hyperpage}{69}
+\indexentry{getLen() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{69}
+\indexentry{rcv() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{69}
+\indexentry{recvall() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{69}
+\indexentry{send() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{69}
+\indexentry{sendLen() (RRtoolbox.lib.serverServices.Conection method)|hyperpage}{69}
+\indexentry{generateServer() (in module RRtoolbox.lib.serverServices)|hyperpage}{69}
+\indexentry{initClient() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{initServer() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{parseString() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{ping() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{rcvPickle() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{recv\_into() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{scan\_ports() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{sendPickle() (in module RRtoolbox.lib.serverServices)|hyperpage}{70}
+\indexentry{send\_from() (in module RRtoolbox.lib.serverServices)|hyperpage}{71}
+\indexentry{string\_is\_socket\_address() (in module RRtoolbox.lib.serverServices)|hyperpage}{71}
+\indexentry{RRtoolbox.lib.session (module)|hyperpage}{71}
+\indexentry{checkFromSession() (in module RRtoolbox.lib.session)|hyperpage}{71}
+\indexentry{deleteFromSession() (in module RRtoolbox.lib.session)|hyperpage}{71}
+\indexentry{flushSession() (in module RRtoolbox.lib.session)|hyperpage}{71}
+\indexentry{getEnviromentSession() (in module RRtoolbox.lib.session)|hyperpage}{71}
+\indexentry{readSession() (in module RRtoolbox.lib.session)|hyperpage}{71}
+\indexentry{saveSession() (in module RRtoolbox.lib.session)|hyperpage}{72}
+\indexentry{updateSession() (in module RRtoolbox.lib.session)|hyperpage}{72}
+\indexentry{RRtoolbox.lib (module)|hyperpage}{72}
+\indexentry{RRtoolbox.tools.lens (module)|hyperpage}{72}
+\indexentry{drawCircle() (in module RRtoolbox.tools.lens)|hyperpage}{72}
+\indexentry{drawEllipse() (in module RRtoolbox.tools.lens)|hyperpage}{72}
+\indexentry{fitLens() (in module RRtoolbox.tools.lens)|hyperpage}{73}
+\indexentry{simulateLens() (in module RRtoolbox.tools.lens)|hyperpage}{73}
 \indexentry{RRtoolbox.tools.segmentation (module)|hyperpage}{73}
-\indexentry{find\_optic\_disc() (in module RRtoolbox.tools.segmentation)|hyperpage}{73}
-\indexentry{getBrightAlpha() (in module RRtoolbox.tools.segmentation)|hyperpage}{73}
-\indexentry{get\_beta\_params() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
+\indexentry{find\_optic\_disc\_watershed() (in module RRtoolbox.tools.segmentation)|hyperpage}{73}
+\indexentry{get\_beta\_params\_Otsu() (in module RRtoolbox.tools.segmentation)|hyperpage}{73}
+\indexentry{get\_beta\_params\_hist() (in module RRtoolbox.tools.segmentation)|hyperpage}{73}
+\indexentry{get\_bright\_alpha() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
+\indexentry{get\_layered\_alpha() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
 \indexentry{layeredfloods() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
 \indexentry{retina\_markers\_thresh() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
 \indexentry{retinal\_mask() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
-\indexentry{retinal\_mask\_simple() (in module RRtoolbox.tools.segmentation)|hyperpage}{74}
-\indexentry{RRtoolbox.tools.selectors (module)|hyperpage}{74}
-\indexentry{entropy() (in module RRtoolbox.tools.selectors)|hyperpage}{74}
-\indexentry{entropyPlot (class in RRtoolbox.tools.selectors)|hyperpage}{75}
-\indexentry{getData() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{getImage() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{keyfunc() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{nextim() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{previousim() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{selectlist() (RRtoolbox.tools.selectors.entropyPlot method)|hyperpage}{75}
-\indexentry{hist\_comp() (in module RRtoolbox.tools.selectors)|hyperpage}{75}
-\indexentry{RRtoolbox.tools.sticher (module)|hyperpage}{75}
-\indexentry{stich() (in module RRtoolbox.tools.sticher)|hyperpage}{75}
-\indexentry{RRtoolbox.tools (module)|hyperpage}{75}
-\indexentry{RRtoolbox.core (module)|hyperpage}{75}
-\indexentry{f() (in module RRtoolbox.core)|hyperpage}{75}
-\indexentry{rrbox (class in RRtoolbox.core)|hyperpage}{75}
-\indexentry{asift() (RRtoolbox.core.rrbox method)|hyperpage}{75}
-\indexentry{tools() (in module RRtoolbox.core)|hyperpage}{75}
-\indexentry{tools2() (in module RRtoolbox.core)|hyperpage}{75}
+\indexentry{retinal\_mask\_watershed() (in module RRtoolbox.tools.segmentation)|hyperpage}{75}
+\indexentry{RRtoolbox.tools.selectors (module)|hyperpage}{75}
+\indexentry{EntropyPlot (class in RRtoolbox.tools.selectors)|hyperpage}{75}
+\indexentry{getData() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{getImage() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{keyfunc() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{nextim() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{previousim() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{selectlist() (RRtoolbox.tools.selectors.EntropyPlot method)|hyperpage}{75}
+\indexentry{entropy() (in module RRtoolbox.tools.selectors)|hyperpage}{75}
+\indexentry{hist\_comp() (in module RRtoolbox.tools.selectors)|hyperpage}{76}
+\indexentry{RRtoolbox.tools.sticher (module)|hyperpage}{76}
+\indexentry{stich() (in module RRtoolbox.tools.sticher)|hyperpage}{76}
+\indexentry{RRtoolbox.tools (module)|hyperpage}{76}
+\indexentry{RRtoolbox.core (module)|hyperpage}{76}
+\indexentry{f() (in module RRtoolbox.core)|hyperpage}{76}
+\indexentry{rrbox (class in RRtoolbox.core)|hyperpage}{76}
+\indexentry{asift() (RRtoolbox.core.rrbox method)|hyperpage}{76}
+\indexentry{tools() (in module RRtoolbox.core)|hyperpage}{76}
+\indexentry{tools2() (in module RRtoolbox.core)|hyperpage}{76}
 \indexentry{RRtoolbox.run (module)|hyperpage}{76}
 \indexentry{RRtoolbox.shell (module)|hyperpage}{76}
-\indexentry{NoParserFound|hyperpage}{76}
+\indexentry{Shell (class in RRtoolbox.shell)|hyperpage}{76}
+\indexentry{generateParser() (RRtoolbox.shell.Shell method)|hyperpage}{76}
+\indexentry{getParser() (RRtoolbox.shell.Shell method)|hyperpage}{76}
+\indexentry{parse() (RRtoolbox.shell.Shell method)|hyperpage}{76}
+\indexentry{parser\_fastplt() (RRtoolbox.shell.Shell method)|hyperpage}{76}
+\indexentry{parser\_loadFunc() (RRtoolbox.shell.Shell method)|hyperpage}{76}
 \indexentry{getDocParamLines() (in module RRtoolbox.shell)|hyperpage}{76}
 \indexentry{getDocParameters() (in module RRtoolbox.shell)|hyperpage}{76}
-\indexentry{shell (class in RRtoolbox.shell)|hyperpage}{76}
-\indexentry{generateParser() (RRtoolbox.shell.shell method)|hyperpage}{76}
-\indexentry{getParser() (RRtoolbox.shell.shell method)|hyperpage}{76}
-\indexentry{parse() (RRtoolbox.shell.shell method)|hyperpage}{76}
-\indexentry{parser\_fastplt() (RRtoolbox.shell.shell method)|hyperpage}{76}
-\indexentry{parser\_loadFunc() (RRtoolbox.shell.shell method)|hyperpage}{76}
-\indexentry{shell\_processor() (in module RRtoolbox.shell)|hyperpage}{76}
-\indexentry{shell\_processor\_parser() (in module RRtoolbox.shell)|hyperpage}{76}
-\indexentry{RRtoolbox (module)|hyperpage}{76}
+\indexentry{shell\_processor() (in module RRtoolbox.shell)|hyperpage}{77}
+\indexentry{shell\_processor\_parser() (in module RRtoolbox.shell)|hyperpage}{77}
+\indexentry{string\_interpreter() (in module RRtoolbox.shell)|hyperpage}{77}
+\indexentry{tuple\_creator() (in module RRtoolbox.shell)|hyperpage}{77}
+\indexentry{RRtoolbox (module)|hyperpage}{77}

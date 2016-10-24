@@ -1,5 +1,5 @@
 .. RRtoolbox documentation master file, created by
-   sphinx-quickstart on Thu Jul  7 16:29:36 2016.
+   sphinx-quickstart on Mon Oct 24 10:19:33 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

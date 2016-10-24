@@ -6,8 +6,11 @@ from __future__ import division
 
 import cv2
 import numpy as np
-#from math import exp
-from sympy.functions import exp
+try:
+    from sympy.functions import exp
+except ImportError: # if not sympy installed
+    #from math import exp
+    exp = np.exp
 
 #from RRtoolbox.lib.cache import memoize
 #from RRtoolbox.lib.config import MANAGER
