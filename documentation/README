@@ -2,8 +2,7 @@
 # command to generate
 $ sphinx-apidoc -F -H RRtoolbox -A davtoh -V 0.1 -R 1 -o . ../RRtoolbox ../RRtoolbox/temp
 
-#  place this in conf.py
-import sys,os
+#  place this in conf.py on line 21
 sys.path.insert(0, os.path.abspath("../")) # add RRtools path
 
 # command to generate html

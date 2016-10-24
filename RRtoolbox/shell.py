@@ -2,7 +2,6 @@
 __author__ = 'Davtoh'
 
 import getopt
-from RRtoolbox.lib.inspector import funcData
 from RRtoolbox.lib.root import NoParserFound
 import argparse
 import sys
@@ -86,6 +85,7 @@ class Shell:
         return self.getParser(func).parse_args(args, namespace)
 
     def generateParser(self, func):
+        from RRtoolbox.lib.inspector import funcData
         # eval won't be used to prevent security risks
         data = funcData(func)
         doc = data['doc']

@@ -101,11 +101,14 @@ class Feature(object):
             detector = cv2.SIFT()  # Scale-invariant feature transform
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'surf':
-            detector = cv2.SURF(500)  # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
+            detector = cv2.SURF() # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
             # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'orb':
-            detector = cv2.ORB(400)  # binary string based descriptors
+            detector = cv2.ORB() # around 400, binary string based descriptors
+            norm = cv2.NORM_HAMMING  # Hamming distance
+        elif chunks[index].lower() == 'brisk':
+            detector = cv2.BRISK()
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
             raise Exception("name {} with detector {} not valid".format(name,chunks[index]))
