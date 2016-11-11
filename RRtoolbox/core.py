@@ -1,9 +1,9 @@
 __author__ = 'Davtoh'
 
 import time
-from RRtoolbox.lib.inspector import Logger
-from RRtoolbox.lib.cache import memoize
-from RRtoolbox.lib import config as cf
+from lib.inspector import Logger
+from lib.cache import memoize
+from lib import config as cf
 import inspect,types
 
 pkl_path = __file__.split(".")[0]+".pkl"

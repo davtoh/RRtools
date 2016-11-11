@@ -3,7 +3,7 @@
     This module unlike common and basic array operations classifies just the from-to-conversions methods
 """
 from __future__ import division
-from RRtoolbox.lib.config import FLOAT
+from ...lib.config import FLOAT
 import numpy as np
 import cv2
 __author__ = 'Davtoh'

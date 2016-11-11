@@ -3,7 +3,7 @@ __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from RRtoolbox.lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
+from ..lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
     findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio, \
     filterFactory, brightness, background, thresh_biggestCnt, contours2mask
 

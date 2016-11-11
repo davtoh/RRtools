@@ -8,7 +8,7 @@ from time import time
 
 import numpy as np
 
-from RRtoolbox.lib.root import TimeOutException, TransferExeption
+from root import TimeOutException, TransferExeption
 from config import FLAG_DEBUG, serializer
 
 __author__ = 'Davtoh'

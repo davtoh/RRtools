@@ -18,7 +18,7 @@
 """
 from __future__ import division
 
-from RRtoolbox.lib.directory import getData, mkPath, getPath, increment_if_exits
+from directory import getData, mkPath, getPath, increment_if_exits
 from config import FLOAT,INT,MANAGER
 import cv2
 import os

@@ -21,7 +21,7 @@
     Made by Davtoh, powered by joblib.
     Dependent project: https://github.com/joblib/joblib
 """
-from RRtoolbox.lib.root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable
+from root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable
 
 __license__ = """
 

@@ -3,7 +3,7 @@
     This module contains all basic masking and pre-processing (as in segmenting phase) methods
 """
 from __future__ import division
-from RRtoolbox.lib.config import FLOAT
+from ...lib.config import FLOAT
 __author__ = 'Davtoh'
 
 import cv2
