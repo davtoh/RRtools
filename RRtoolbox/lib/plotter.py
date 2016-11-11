@@ -2090,7 +2090,7 @@ class Imtester(Plotim):
         sz = image.shape
         # PREPARE ITEMS TO PLOT
         if self.showhist and not self.portablehist:
-            from RRtoolbox.lib.image import fig2bgra
+            from image import fig2bgra
             data = [fig2bgra(histogram(image,False))]
         else:
             data = []
@@ -2100,7 +2100,7 @@ class Imtester(Plotim):
                 data.append(channel)
             if th is not None: data.append(th)
         if self.showhist and self.portablehist:
-            from RRtoolbox.lib.image import fig2bgra
+            from image import fig2bgra
             hst = fig2bgra(histogram(image,False))
             sz = hst.shape[1]/2,hst.shape[0]/2#(self.rW/2,self.rH)
             if items is None: items = [[cv2.resize(hst,sz)]]

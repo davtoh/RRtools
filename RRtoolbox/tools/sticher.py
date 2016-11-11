@@ -3,14 +3,14 @@
 # three-party
 import numpy as np
 # custom
-from RRtoolbox.lib.config import MANAGER
-from RRtoolbox.lib.plotter import MatchExplorer
-from RRtoolbox.lib.descriptors import ASIFT,MATCH, ASIFT_multiple
+from ..lib.config import MANAGER
+from ..lib.plotter import MatchExplorer
+from ..lib.descriptors import ASIFT,MATCH, ASIFT_multiple
 
 def stich(**opts):
     from multiprocessing import Process
     from glob import glob
-    from RRtoolbox.lib.image import loadFunc, PathLoader, LoaderDict
+    from ..lib.image import loadFunc, PathLoader, LoaderDict
     feature_name = opts.get("feature",'sift-flann')
     #### LOADING
     print "looking in path {}".format(MANAGER["TESTPATH"])

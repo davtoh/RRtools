@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import cv2
 import numpy as np
-from RRtoolbox.lib.arrayops import entroyTest
-from RRtoolbox.lib.config import FLOAT
-from RRtoolbox.lib.directory import getData
-from RRtoolbox.lib.plotter import Plotim,limitaxis
+from ..lib.arrayops import entroyTest
+from ..lib.config import FLOAT
+from ..lib.directory import getData
+from ..lib.plotter import Plotim,limitaxis
 
 __author__ = 'Davtoh'
 

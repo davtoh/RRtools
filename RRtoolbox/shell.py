@@ -2,7 +2,7 @@
 __author__ = 'Davtoh'
 
 import getopt
-from RRtoolbox.lib.root import NoParserFound
+from lib.root import NoParserFound
 import argparse
 import sys
 import re
@@ -85,7 +85,7 @@ class Shell:
         return self.getParser(func).parse_args(args, namespace)
 
     def generateParser(self, func):
-        from RRtoolbox.lib.inspector import funcData
+        from lib.inspector import funcData
         # eval won't be used to prevent security risks
         data = funcData(func)
         doc = data['doc']
@@ -171,7 +171,7 @@ def string_interpreter(empty=None, commahandler=None, handle=None):
 
 if __name__ == '__main__':
 
-    from RRtoolbox.lib.image import loadFunc
+    from lib.image import loadFunc
     s = Shell()
     p = s.generateParser(loadFunc)
     #getting commands from command pront
