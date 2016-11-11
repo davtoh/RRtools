@@ -230,7 +230,7 @@ def shell(args=None, namespace=None):
 
 def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
                 form = None, startfrom = None, name = None, modify=False, reset=False,
-                review = False, ask=False, help = False):
+                review = False, ask=False, help = False, ext = None):
     """
     Crop input image and save ROIs
 
@@ -271,8 +271,13 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
             print "loaded",impath
 
             a,b,c,d = getData(impath)
-            if name is not None:
+            if name is not None: # change names
                 c = name
+            if ext is not None: # change extension
+                if ext.startswith("."):
+                    d = ext
+                else:
+                    d = "."+ext
 
             # get path to save ROIs
             if outpath is None: # create default path
@@ -382,7 +387,7 @@ if __name__ == "__main__": # for a folder with many sets
         name = base_name.format(i+1)
         base_out = os.path.join(outpath,name)
         crop_expert(fn=fn, outpath=base_out, startfrom=startfrom, help=True,
-                    loader=loader, preview=preview, form= form, name=name)
+                    loader=loader, preview=preview, form= form, name=name, ext="png")
 
         # debug automatic cropping with expert data
         if debug:

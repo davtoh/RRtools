@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/RRtoolbox</OriginalElement>
+  <nodes>
+    <node x="9859.300755417416" y="6283.5">RRtoolbox.lib.root.TimeOutException</node>
+    <node x="12155.882738172313" y="1792.0">RRtoolbox.lib.root.TimeCode</node>
+    <node x="13787.05570717862" y="3888.5">RRtoolbox.lib.cache.DynamicMemoizedFunc</node>
+    <node x="23747.135378356215" y="5584.5">RRtoolbox.lib.cache.Memory</node>
+    <node x="9273.300755417416" y="6273.0">RRtoolbox.lib.arrayops.filters.InvertedBandstop</node>
+    <node x="8679.613255417416" y="4077.5">RRtoolbox.lib.arrayops.filters.FilterBase</node>
+    <node x="2505.0" y="1929.0">_abcoll.Sequence</node>
+    <node x="15364.55570717862" y="1844.5">pycallgraph.pycallgraph.PyCallGraph</node>
+    <node x="1920.0" y="6421.0">RRtoolbox.lib.root.StdoutSIM</node>
+    <node x="11449.30570717862" y="4161.5">RRtoolbox.lib.cache.ObjectGetter</node>
+    <node x="9080.175755417416" y="5595.5">RRtoolbox.lib.arrayops.filters.Bandstop</node>
+    <node x="2442.0" y="6421.0">RRtoolbox.lib.serverServices.Conection</node>
+    <node x="11250.300755417416" y="6283.5">RRtoolbox.lib.root.TransferExeption</node>
+    <node x="16601.55075541742" y="4025.0">RRtoolbox.lib.plotter.MatchExplorer</node>
+    <node x="6950.175755417416" y="4130.0">RRtoolbox.lib.image.ImLoader</node>
+    <node x="10357.30570717862" y="5595.5">Exception</node>
+    <node x="24685.462409349908" y="4067.0">pycallgraph.output.graphviz.GraphvizOutput</node>
+    <node x="682.0" y="6421.0">abc.ABCMeta</node>
+    <node x="23952.462409349908" y="4172.0">joblib.memory.Memory</node>
+    <node x="4472.96875" y="4151.0">RRtoolbox.lib.config.DirectoryManager</node>
+    <node x="14163.925755417416" y="143.0">object</node>
+    <node x="9620.300755417416" y="6283.5">RRtoolbox.lib.root.NotCallable</node>
+    <node x="10139.300755417416" y="6283.5">RRtoolbox.lib.root.VariableNotDeletable</node>
+    <node x="24625.462409349908" y="1708.0">pycallgraph.output.output.Output</node>
+    <node x="5428.179076016574" y="1498.0">RRtoolbox.lib.image.Image</node>
+    <node x="10636.30570717862" y="5574.5">RRtoolbox.lib.arrayops.filters.Lowpass</node>
+    <node x="3489.0" y="6421.0">RRtoolbox.shell.Shell</node>
+    <node x="3147.0" y="6421.0">RRtoolbox.lib.root.StdoutMULTI</node>
+    <node x="11384.882738172313" y="1771.0">RRtoolbox.lib.root.FactorConvert</node>
+    <node x="15525.05570717862" y="4246.0">RRtoolbox.lib.inspector.GraphTrace</node>
+    <node x="17093.30075541742" y="1907.5">RRtoolbox.lib.descriptors.Feature</node>
+    <node x="19244.55075541742" y="3594.5">RRtoolbox.lib.plotter.Edger</node>
+    <node x="17654.30075541742" y="1907.5">RRtoolbox.lib.root.Magnitude</node>
+    <node x="5141.387409349908" y="1960.0">_abcoll.Iterable</node>
+    <node x="0.0" y="3616.0">str</node>
+    <node x="15959.55570717862" y="1960.0">RRtoolbox.core.rrbox</node>
+    <node x="3270.2687116895495" y="1960.5">_abcoll.Iterator</node>
+    <node x="8605.300755417416" y="6230.5">RRtoolbox.lib.arrayops.filters.BilateraParameter</node>
+    <node x="24170.962409349908" y="1939.0">joblib.logger.Logger</node>
+    <node x="4139.96875" y="4182.5">RRtoolbox.lib.cache.Retriever</node>
+    <node x="3791.0" y="6421.0">RRtoolbox.lib.config.ConfigTool</node>
+    <node x="16190.55570717862" y="1907.5">pycallgraph.tracer.SyncronousTracer</node>
+    <node x="9932.863255417416" y="5574.5">RRtoolbox.lib.arrayops.filters.Highpass</node>
+    <node x="1302.0" y="6421.0">RRtoolbox.lib.root.StdoutLOG</node>
+    <node x="24678.462409349908" y="5532.0">RRtoolbox.lib.inspector.GraphTraceOutput</node>
+    <node x="2731.792460394534" y="5521.5">RRtoolbox.lib.image.PathLoader</node>
+    <node x="17843.55075541742" y="3983.0">RRtoolbox.lib.image.GetCoors</node>
+    <node x="10440.300755417416" y="6283.5">RRtoolbox.lib.root.NoParserFound</node>
+    <node x="8214.425755417416" y="6273.0">RRtoolbox.lib.arrayops.filters.InvertedBandpass</node>
+    <node x="10705.300755417416" y="6283.5">RRtoolbox.lib.root.NotCreatable</node>
+    <node x="1428.0" y="3972.5">RRtoolbox.lib.image.ImCoors</node>
+    <node x="3861.135416666666" y="1907.5">_abcoll.MutableMapping</node>
+    <node x="505.875" y="1960.0">_abcoll.Container</node>
+    <node x="9481.238255417416" y="1960.0">_abcoll.Callable</node>
+    <node x="4061.0" y="6421.0">RRtoolbox.lib.cache.NotMemorizedFunc</node>
+    <node x="2354.0" y="4193.5">_abcoll.MutableSequence</node>
+    <node x="8159.175755417416" y="5595.5">RRtoolbox.lib.arrayops.filters.Bandpass</node>
+    <node x="226.875" y="1971.0">basestring</node>
+    <node x="22141.05075541742" y="1708.0">RRtoolbox.lib.root.Profiler</node>
+    <node x="3507.4353783562156" y="195.5">_abcoll.Mapping</node>
+    <node x="25362.462409349908" y="1907.5">RRtoolbox.lib.root.Controlstdout</node>
+    <node x="22975.05075541742" y="1750.0">RRtoolbox.lib.inspector.Logger</node>
+    <node x="15111.30570717862" y="1960.0">RRtoolbox.lib.cache.Cache</node>
+    <node x="323.5" y="5427.0">RRtoolbox.lib.directory.Directory</node>
+    <node x="10857.55570717862" y="4235.0">RRtoolbox.lib.root.globFilter</node>
+    <node x="6934.179076016574" y="1992.0">RRtoolbox.lib.root.NameSpace</node>
+    <node x="2822.96875" y="4025.0">RRtoolbox.lib.cache.MemoizedDict</node>
+    <node x="5605.507096067509" y="4130.0">BaseException</node>
+    <node x="10956.300755417416" y="6283.5">RRtoolbox.lib.root.VariableNotSettable</node>
+    <node x="18862.05075541742" y="700.0">RRtoolbox.lib.plotter.Plotim</node>
+    <node x="1151.4166666666679" y="1960.0">_abcoll.Sized</node>
+    <node x="4384.0" y="6421.0">RRtoolbox.lib.cache.MemorizedFunc</node>
+    <node x="22106.55075541742" y="3563.0">RRtoolbox.lib.plotter.Imtester</node>
+    <node x="2799.0" y="6421.0">RRtoolbox.lib.arrayops.convert.SimKeyPoint</node>
+    <node x="10170.613255417416" y="4161.5">RRtoolbox.lib.cache.Memoizer</node>
+    <node x="0.0" y="6421.0">RRtoolbox.lib.image.ImFactory</node>
+    <node x="16251.55570717862" y="4256.0">RRtoolbox.lib.inspector.Syncronous</node>
+    <node x="15986.435378356215" y="5585.0">RRtoolbox.lib.inspector.Asyncronous</node>
+    <node x="7619.810370802033" y="0.0">_abcoll.Hashable</node>
+    <node x="3751.459127061202" y="6251.5">RRtoolbox.lib.image.LoaderDict</node>
+    <node x="13179.05570717862" y="4193.0">RRtoolbox.lib.arrayops.filters.BilateralParameters</node>
+    <node x="21398.55075541742" y="4119.5">RRtoolbox.tools.selectors.EntropyPlot</node>
+    <node x="3587.96875" y="4151.0">RRtoolbox.lib.cache.LazyDict</node>
+    <node x="3399.459127061202" y="5112.0">RRtoolbox.lib.cache.ResourceManager</node>
+    <node x="472.0" y="6220.0">RRtoolbox.lib.directory.FileDirectory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="RRtoolbox.lib.cache.LazyDict" target="_abcoll.Iterator">
+      <point x="-66.5" y="-151.5" />
+      <point x="3787.46875" y="3383.0" />
+      <point x="3358.5812116895495" y="3383.0" />
+      <point x="9.8125" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.TransferExeption" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="11377.300755417416" y="6170.0" />
+      <point x="10597.80570717862" y="6170.0" />
+      <point x="111.0" y="35.5" />
+    </edge>
+    <edge source="BaseException" target="_abcoll.Iterator">
+      <point x="-159.66666666666697" y="-172.5" />
+      <point x="5685.340429400842" y="3343.0" />
+      <point x="3417.4562116895495" y="3343.0" />
+      <point x="68.6875" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.InvertedBandstop" target="RRtoolbox.lib.arrayops.filters.Bandstop">
+      <point x="-81.75" y="-25.0" />
+      <point x="9355.050755417416" y="6200.0" />
+      <point x="9294.675755417416" y="6200.0" />
+      <point x="71.5" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.inspector.GraphTraceOutput" target="pycallgraph.output.graphviz.GraphvizOutput">
+      <point x="0.0" y="-99.0" />
+      <point x="0.0" y="235.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.plotter.Edger" target="RRtoolbox.lib.plotter.Plotim">
+      <point x="0.0" y="-708.0" />
+      <point x="0.0" y="1306.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.ObjectGetter" target="object">
+      <point x="183.0" y="-141.0" />
+      <point x="11998.30570717862" y="3543.0" />
+      <point x="12145.382738172313" y="3543.0" />
+      <point x="12145.382738172313" y="660.0" />
+      <point x="14373.52190926357" y="660.0" />
+      <point x="-49.903846153845734" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Retriever" target="_abcoll.Callable">
+      <point x="104.33333333333348" y="-120.0" />
+      <point x="4400.802083333334" y="3473.0" />
+      <point x="9503.57158875075" y="3473.0" />
+      <point x="-111.66666666666606" y="46.5" />
+    </edge>
+    <edge source="_abcoll.MutableSequence" target="_abcoll.Sequence">
+      <point x="0.0" y="-109.0" />
+      <point x="-101.0" y="77.5" />
+    </edge>
+    <edge source="pycallgraph.pycallgraph.PyCallGraph" target="object">
+      <point x="0.0" y="-162.0" />
+      <point x="15652.05570717862" y="660.0" />
+      <point x="14473.329601571262" y="660.0" />
+      <point x="49.903846153845734" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.InvertedBandpass" target="_abcoll.Callable">
+      <point x="82.25" y="-25.0" />
+      <point x="8461.175755417416" y="6200.0" />
+      <point x="8455.675755417416" y="6200.0" />
+      <point x="8455.675755417416" y="3513.0" />
+      <point x="9563.127144306305" y="3513.0" />
+      <point x="-52.11111111111131" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.PathLoader" target="_abcoll.MutableSequence">
+      <point x="-156.66666666666652" y="-109.5" />
+      <point x="2810.125793727868" y="5092.0" />
+      <point x="2555.5" y="5092.0" />
+      <point x="0.0" y="109.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.directory.FileDirectory" target="RRtoolbox.lib.directory.Directory">
+      <point x="0.0" y="-78.0" />
+      <point x="0.0" y="204.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.ImLoader" target="_abcoll.Callable">
+      <point x="0.0" y="-172.5" />
+      <point x="7585.175755417416" y="3493.0" />
+      <point x="9533.349366528528" y="3493.0" />
+      <point x="-81.88888888888869" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.inspector.Asyncronous" target="RRtoolbox.lib.inspector.Syncronous">
+      <point x="0.0" y="-46.0" />
+      <point x="16116.935378356215" y="5092.0" />
+      <point x="16378.55570717862" y="5092.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="str" target="_abcoll.Sized">
+      <point x="117.33333333333337" y="-686.5" />
+      <point x="821.3333333333339" y="3403.0" />
+      <point x="1194.6666666666679" y="3403.0" />
+      <point x="-43.25" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Highpass" target="_abcoll.Callable">
+      <point x="70.25" y="-56.5" />
+      <point x="10143.613255417416" y="3543.0" />
+      <point x="9637.57158875075" y="3543.0" />
+      <point x="22.33333333333394" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Retriever" target="_abcoll.Iterator">
+      <point x="-104.33333333333348" y="-120.0" />
+      <point x="4192.135416666666" y="3373.0" />
+      <point x="3378.2062116895495" y="3373.0" />
+      <point x="29.4375" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.NotCreatable" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="10820.800755417416" y="6190.0" />
+      <point x="10523.80570717862" y="6190.0" />
+      <point x="37.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.core.rrbox" target="object">
+      <point x="0.0" y="-46.5" />
+      <point x="16065.05570717862" y="650.0" />
+      <point x="14493.291140032801" y="650.0" />
+      <point x="69.86538461538476" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.globFilter" target="_abcoll.Callable">
+      <point x="-123.25" y="-67.5" />
+      <point x="10980.80570717862" y="3513.0" />
+      <point x="9682.238255417416" y="3513.0" />
+      <point x="67.0" y="46.5" />
+    </edge>
+    <edge source="str" target="_abcoll.Iterator">
+      <point x="352.0" y="-686.5" />
+      <point x="1056.0" y="3413.0" />
+      <point x="3280.0812116895495" y="3413.0" />
+      <point x="-68.6875" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Memory" target="_abcoll.Callable">
+      <point x="-138.25" y="-46.5" />
+      <point x="23885.385378356215" y="5082.0" />
+      <point x="13776.55570717862" y="5082.0" />
+      <point x="13776.55570717862" y="3483.0" />
+      <point x="9726.904922084083" y="3483.0" />
+      <point x="111.66666666666606" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.VariableNotDeletable" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="10279.800755417416" y="6200.0" />
+      <point x="10449.80570717862" y="6200.0" />
+      <point x="-37.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Bandstop" target="_abcoll.Callable">
+      <point x="71.5" y="-35.5" />
+      <point x="9294.675755417416" y="5092.0" />
+      <point x="9473.113255417416" y="5092.0" />
+      <point x="9473.113255417416" y="3543.0" />
+      <point x="9607.793810972971" y="3543.0" />
+      <point x="-7.444444444445253" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.PathLoader" target="_abcoll.Callable">
+      <point x="156.66666666666606" y="-109.5" />
+      <point x="3123.4591270612" y="5092.0" />
+      <point x="6770.25908875075" y="5092.0" />
+      <point x="6770.25908875075" y="3483.0" />
+      <point x="9518.460477639639" y="3483.0" />
+      <point x="-96.77777777777737" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.ObjectGetter" target="_abcoll.Callable">
+      <point x="-183.0" y="-141.0" />
+      <point x="11632.30570717862" y="3503.0" />
+      <point x="9697.127144306305" y="3503.0" />
+      <point x="81.88888888888869" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.BilateralParameters" target="_abcoll.Callable">
+      <point x="-146.75" y="-109.5" />
+      <point x="13325.80570717862" y="3493.0" />
+      <point x="9712.016033195194" y="3493.0" />
+      <point x="96.77777777777737" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.LoaderDict" target="RRtoolbox.lib.cache.ResourceManager">
+      <point x="0.0" y="-46.5" />
+      <point x="0.0" y="519.0" />
+    </edge>
+    <edge source="pycallgraph.output.output.Output" target="object">
+      <point x="0.0" y="-298.5" />
+      <point x="24983.962409349908" y="570.0" />
+      <point x="14652.983447725108" y="570.0" />
+      <point x="229.55769230769147" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.InvertedBandpass" target="RRtoolbox.lib.arrayops.filters.Bandpass">
+      <point x="-82.25" y="-25.0" />
+      <point x="8296.675755417416" y="6200.0" />
+      <point x="8302.175755417416" y="6200.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Memoizer" target="object">
+      <point x="131.5" y="-141.0" />
+      <point x="10565.113255417416" y="3543.0" />
+      <point x="10688.55570717862" y="3543.0" />
+      <point x="10688.55570717862" y="630.0" />
+      <point x="14313.637293878955" y="630.0" />
+      <point x="-109.78846153846098" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.globFilter" target="object">
+      <point x="123.25" y="-67.5" />
+      <point x="11227.30570717862" y="3543.0" />
+      <point x="11374.382738172313" y="3543.0" />
+      <point x="11374.382738172313" y="640.0" />
+      <point x="14333.598832340493" y="640.0" />
+      <point x="-89.82692307692378" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.FilterBase" target="object">
+      <point x="-195.7500000000009" y="-225.0" />
+      <point x="8875.363255417415" y="3453.0" />
+      <point x="7905.882096067509" y="3453.0" />
+      <point x="7905.882096067509" y="620.0" />
+      <point x="14293.675755417416" y="620.0" />
+      <point x="-129.75" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.FactorConvert" target="object">
+      <point x="0.0" y="-235.5" />
+      <point x="11759.882738172313" y="650.0" />
+      <point x="14353.560370802032" y="650.0" />
+      <point x="-69.86538461538476" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.config.DirectoryManager" target="_abcoll.Iterable">
+      <point x="231.33333333333303" y="-151.5" />
+      <point x="5051.302083333333" y="3453.0" />
+      <point x="5228.887409349908" y="3453.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="joblib.memory.Memory" target="joblib.logger.Logger">
+      <point x="0.0" y="-130.5" />
+      <point x="0.0" y="67.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Bandstop" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="-71.5" y="-35.5" />
+      <point x="9151.675755417416" y="5092.0" />
+      <point x="8973.238255417416" y="5092.0" />
+      <point x="-97.875" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.Image" target="object">
+      <point x="0.0" y="-508.5" />
+      <point x="6171.179076016574" y="590.0" />
+      <point x="14233.791140032801" y="590.0" />
+      <point x="-189.63461538461524" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.Profiler" target="object">
+      <point x="0.0" y="-298.5" />
+      <point x="22548.05075541742" y="600.0" />
+      <point x="14593.098832340493" y="600.0" />
+      <point x="169.67307692307622" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.inspector.Syncronous" target="pycallgraph.tracer.SyncronousTracer">
+      <point x="0.0" y="-46.5" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="joblib.logger.Logger" target="object">
+      <point x="0.0" y="-67.5" />
+      <point x="24308.962409349908" y="580.0" />
+      <point x="14633.02190926357" y="580.0" />
+      <point x="209.59615384615427" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Lowpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="-70.25" y="-56.5" />
+      <point x="10706.55570717862" y="5062.0" />
+      <point x="9364.738255417415" y="5062.0" />
+      <point x="293.6249999999991" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.DynamicMemoizedFunc" target="object">
+      <point x="429.5" y="-414.0" />
+      <point x="15075.55570717862" y="680.0" />
+      <point x="14433.406524648186" y="680.0" />
+      <point x="9.98076923076951" y="193.5" />
+    </edge>
+    <edge source="str" target="_abcoll.Container">
+      <point x="-117.33333333333326" y="-686.5" />
+      <point x="586.6666666666661" y="3543.0" />
+      <point x="616.875" y="3543.0" />
+      <point x="0.0" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.InvertedBandstop" target="_abcoll.Callable">
+      <point x="81.75" y="-25.0" />
+      <point x="9518.550755417416" y="6200.0" />
+      <point x="9620.738255417416" y="6200.0" />
+      <point x="9620.738255417416" y="3543.0" />
+      <point x="9622.682699861862" y="3543.0" />
+      <point x="7.444444444445253" y="46.5" />
+    </edge>
+    <edge source="str" target="_abcoll.Hashable">
+      <point x="-586.6666666666661" y="-686.5" />
+      <point x="117.33333333333394" y="3543.0" />
+      <point x="60.634615384615245" y="3543.0" />
+      <point x="60.634615384615245" y="118.0" />
+      <point x="7666.060370802033" y="118.0" />
+      <point x="-46.25" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Memory" target="joblib.memory.Memory">
+      <point x="138.25" y="-46.5" />
+      <point x="24161.885378356215" y="5092.0" />
+      <point x="24308.962409349908" y="5092.0" />
+      <point x="0.0" y="130.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.inspector.GraphTrace" target="pycallgraph.pycallgraph.PyCallGraph">
+      <point x="0.0" y="-56.5" />
+      <point x="0.0" y="162.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.GetCoors" target="RRtoolbox.lib.plotter.Plotim">
+      <point x="0.0" y="-319.5" />
+      <point x="18534.05075541742" y="3543.0" />
+      <point x="19731.750755417415" y="3543.0" />
+      <point x="-579.7999999999993" y="1306.5" />
+    </edge>
+    <edge source="_abcoll.MutableMapping" target="_abcoll.Mapping">
+      <point x="0.0" y="-99.0" />
+      <point x="4046.635416666666" y="550.0" />
+      <point x="3712.9353783562156" y="550.0" />
+      <point x="0.0" y="141.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.MemoizedDict" target="_abcoll.Iterator">
+      <point x="0.0" y="-277.5" />
+      <point x="3194.96875" y="3433.0" />
+      <point x="3319.3312116895495" y="3433.0" />
+      <point x="-29.4375" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.ImCoors" target="_abcoll.Sized">
+      <point x="-226.5" y="-330.0" />
+      <point x="1654.5" y="3403.0" />
+      <point x="1281.1666666666679" y="3403.0" />
+      <point x="43.25" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.plotter.Imtester" target="RRtoolbox.lib.plotter.Plotim">
+      <point x="0.0" y="-739.5" />
+      <point x="22930.05075541742" y="3533.0" />
+      <point x="21471.150755417417" y="3533.0" />
+      <point x="1159.5999999999985" y="1306.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.VariableNotSettable" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="11093.300755417416" y="6180.0" />
+      <point x="10560.80570717862" y="6180.0" />
+      <point x="74.0" y="35.5" />
+    </edge>
+    <edge source="str" target="_abcoll.Iterable">
+      <point x="586.6666666666665" y="-686.5" />
+      <point x="1290.666666666666" y="3443.0" />
+      <point x="5170.554076016575" y="3443.0" />
+      <point x="-58.33333333333303" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Memoizer" target="_abcoll.Callable">
+      <point x="-131.5" y="-141.0" />
+      <point x="10302.113255417416" y="3533.0" />
+      <point x="9652.460477639639" y="3533.0" />
+      <point x="37.222222222222626" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.BilateralParameters" target="object">
+      <point x="146.75" y="-109.5" />
+      <point x="13619.30570717862" y="3543.0" />
+      <point x="13766.382738172313" y="3543.0" />
+      <point x="13766.382738172313" y="680.0" />
+      <point x="14413.444986186647" y="680.0" />
+      <point x="-9.98076923076951" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.config.DirectoryManager" target="_abcoll.Iterator">
+      <point x="-231.33333333333303" y="-151.5" />
+      <point x="4588.635416666667" y="3353.0" />
+      <point x="3397.8312116895495" y="3353.0" />
+      <point x="49.0625" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.PathLoader" target="_abcoll.Iterator">
+      <point x="0.0" y="-109.5" />
+      <point x="2966.792460394534" y="5082.0" />
+      <point x="2812.46875" y="5082.0" />
+      <point x="2812.46875" y="3423.0" />
+      <point x="3299.7062116895495" y="3423.0" />
+      <point x="-49.0625" y="46.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Bandpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="71.5" y="-35.5" />
+      <point x="8373.675755417416" y="5092.0" />
+      <point x="8777.488255417416" y="5092.0" />
+      <point x="-293.625" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.ResourceManager" target="RRtoolbox.lib.cache.Retriever">
+      <point x="360.0" y="-519.0" />
+      <point x="4479.459127061202" y="5082.0" />
+      <point x="4296.46875" y="5082.0" />
+      <point x="0.0" y="120.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.NoParserFound" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="10562.800755417416" y="6200.0" />
+      <point x="10486.80570717862" y="6200.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.image.ImCoors" target="object">
+      <point x="226.5" y="-330.0" />
+      <point x="2107.5" y="3403.0" />
+      <point x="1890.2403770612018" y="3403.0" />
+      <point x="1890.2403770612018" y="570.0" />
+      <point x="14193.868063109725" y="570.0" />
+      <point x="-229.55769230769147" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.TimeCode" target="object">
+      <point x="0.0" y="-214.5" />
+      <point x="12955.882738172313" y="670.0" />
+      <point x="14393.483447725108" y="670.0" />
+      <point x="-29.942307692308532" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.Controlstdout" target="object">
+      <point x="0.0" y="-99.0" />
+      <point x="25596.462409349908" y="560.0" />
+      <point x="14672.944986186647" y="560.0" />
+      <point x="249.5192307692305" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.BilateraParameter" target="_abcoll.Callable">
+      <point x="-162.0" y="-67.5" />
+      <point x="8767.300755417416" y="6200.0" />
+      <point x="8598.800755417416" y="6200.0" />
+      <point x="8598.800755417416" y="3523.0" />
+      <point x="9578.016033195194" y="3523.0" />
+      <point x="-37.222222222222626" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.Magnitude" target="object">
+      <point x="0.0" y="-99.0" />
+      <point x="18032.80075541742" y="620.0" />
+      <point x="14553.175755417416" y="620.0" />
+      <point x="129.75" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.TimeOutException" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="9989.300755417416" y="6190.0" />
+      <point x="10412.80570717862" y="6190.0" />
+      <point x="-74.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.tools.selectors.EntropyPlot" target="RRtoolbox.lib.plotter.Plotim">
+      <point x="0.0" y="-183.0" />
+      <point x="21742.55075541742" y="3543.0" />
+      <point x="20891.350755417414" y="3543.0" />
+      <point x="579.7999999999993" y="1306.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.MemoizedDict" target="_abcoll.Sequence">
+      <point x="-248.0" y="-277.5" />
+      <point x="2946.96875" y="3403.0" />
+      <point x="2656.5" y="3403.0" />
+      <point x="0.0" y="77.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.BilateraParameter" target="RRtoolbox.lib.arrayops.filters.Bandstop">
+      <point x="162.0" y="-67.5" />
+      <point x="9091.300755417416" y="6200.0" />
+      <point x="9151.675755417416" y="6200.0" />
+      <point x="-71.5" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.descriptors.Feature" target="object">
+      <point x="0.0" y="-99.0" />
+      <point x="17363.80075541742" y="630.0" />
+      <point x="14533.214216955877" y="630.0" />
+      <point x="109.78846153846098" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.MemoizedDict" target="_abcoll.MutableMapping">
+      <point x="248.0" y="-277.5" />
+      <point x="3442.96875" y="3423.0" />
+      <point x="3922.96875" y="3423.0" />
+      <point x="-123.66666666666652" y="99.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Cache" target="object">
+      <point x="0.0" y="-46.5" />
+      <point x="15215.30570717862" y="670.0" />
+      <point x="14453.368063109725" y="670.0" />
+      <point x="29.942307692308532" y="193.5" />
+    </edge>
+    <edge source="pycallgraph.tracer.SyncronousTracer" target="object">
+      <point x="0.0" y="-99.0" />
+      <point x="16378.55570717862" y="640.0" />
+      <point x="14513.25267849434" y="640.0" />
+      <point x="89.82692307692378" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.NameSpace" target="object">
+      <point x="0.0" y="-14.5" />
+      <point x="7045.679076016574" y="600.0" />
+      <point x="14253.75267849434" y="600.0" />
+      <point x="-169.67307692307622" y="193.5" />
+    </edge>
+    <edge source="BaseException" target="object">
+      <point x="159.66666666666697" y="-172.5" />
+      <point x="6004.673762734176" y="3453.0" />
+      <point x="7167.679076016574" y="3453.0" />
+      <point x="7167.679076016574" y="610.0" />
+      <point x="14273.714216955877" y="610.0" />
+      <point x="-149.71153846153902" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.plotter.Plotim" target="object">
+      <point x="0.0" y="-1306.5" />
+      <point x="20311.55075541742" y="610.0" />
+      <point x="14573.137293878955" y="610.0" />
+      <point x="149.71153846153902" y="193.5" />
+    </edge>
+    <edge source="BaseException" target="_abcoll.Iterable">
+      <point x="0.0" y="-172.5" />
+      <point x="5845.007096067509" y="3333.0" />
+      <point x="5287.220742683241" y="3333.0" />
+      <point x="58.33333333333303" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.DynamicMemoizedFunc" target="_abcoll.Callable">
+      <point x="-429.5" y="-414.0" />
+      <point x="14216.55570717862" y="3473.0" />
+      <point x="9741.793810972971" y="3473.0" />
+      <point x="126.55555555555475" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.directory.Directory" target="str">
+      <point x="0.0" y="-204.0" />
+      <point x="0.0" y="686.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Highpass" target="RRtoolbox.lib.arrayops.filters.FilterBase">
+      <point x="-70.25" y="-56.5" />
+      <point x="10003.113255417416" y="5082.0" />
+      <point x="9168.988255417416" y="5082.0" />
+      <point x="97.875" y="225.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.LazyDict" target="_abcoll.Sequence">
+      <point x="-199.5" y="-151.5" />
+      <point x="3654.46875" y="3393.0" />
+      <point x="2757.5" y="3393.0" />
+      <point x="101.0" y="77.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.LazyDict" target="_abcoll.Callable">
+      <point x="199.5" y="-151.5" />
+      <point x="4053.46875" y="3463.0" />
+      <point x="9488.682699861862" y="3463.0" />
+      <point x="-126.55555555555475" y="46.5" />
+    </edge>
+    <edge source="pycallgraph.output.graphviz.GraphvizOutput" target="pycallgraph.output.output.Output">
+      <point x="0.0" y="-235.5" />
+      <point x="0.0" y="298.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.config.DirectoryManager" target="object">
+      <point x="0.0" y="-151.5" />
+      <point x="4819.96875" y="580.0" />
+      <point x="14213.829601571262" y="580.0" />
+      <point x="-209.59615384615427" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Bandpass" target="_abcoll.Callable">
+      <point x="-71.5" y="-35.5" />
+      <point x="8230.675755417416" y="3503.0" />
+      <point x="9548.238255417416" y="3503.0" />
+      <point x="-67.0" y="46.5" />
+    </edge>
+    <edge source="basestring" target="object">
+      <point x="0.0" y="-35.5" />
+      <point x="356.375" y="560.0" />
+      <point x="14173.906524648186" y="560.0" />
+      <point x="-249.5192307692305" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.Retriever" target="_abcoll.MutableMapping">
+      <point x="0.0" y="-120.0" />
+      <point x="4296.46875" y="3363.0" />
+      <point x="4170.302083333332" y="3363.0" />
+      <point x="123.66666666666652" y="99.0" />
+    </edge>
+    <edge source="RRtoolbox.lib.root.NotCallable" target="Exception">
+      <point x="0.0" y="-14.5" />
+      <point x="9729.800755417416" y="6180.0" />
+      <point x="10375.80570717862" y="6180.0" />
+      <point x="-111.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.LazyDict" target="_abcoll.MutableMapping">
+      <point x="66.5" y="-151.5" />
+      <point x="3920.46875" y="3433.0" />
+      <point x="4046.635416666666" y="3433.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="str" target="basestring">
+      <point x="-351.9999999999998" y="-686.5" />
+      <point x="352.0" y="3543.0" />
+      <point x="356.375" y="3543.0" />
+      <point x="0.0" y="35.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.FilterBase" target="_abcoll.Callable">
+      <point x="195.7499999999991" y="-225.0" />
+      <point x="9266.863255417415" y="3533.0" />
+      <point x="9592.904922084083" y="3533.0" />
+      <point x="-22.33333333333394" y="46.5" />
+    </edge>
+    <edge source="object" target="_abcoll.Hashable">
+      <point x="0.0" y="-193.5" />
+      <point x="14423.425755417416" y="118.0" />
+      <point x="7758.560370802033" y="118.0" />
+      <point x="46.25" y="46.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.arrayops.filters.Lowpass" target="_abcoll.Callable">
+      <point x="70.25" y="-56.5" />
+      <point x="10847.05570717862" y="3523.0" />
+      <point x="9667.349366528528" y="3523.0" />
+      <point x="52.11111111111131" y="46.5" />
+    </edge>
+    <edge source="Exception" target="BaseException">
+      <point x="0.0" y="-35.5" />
+      <point x="10486.80570717862" y="5072.0" />
+      <point x="5845.007096067509" y="5072.0" />
+      <point x="0.0" y="172.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.inspector.Logger" target="object">
+      <point x="0.0" y="-256.5" />
+      <point x="23293.55075541742" y="590.0" />
+      <point x="14613.060370802032" y="590.0" />
+      <point x="189.63461538461524" y="193.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.plotter.MatchExplorer" target="RRtoolbox.lib.plotter.Plotim">
+      <point x="0.0" y="-277.5" />
+      <point x="17212.55075541742" y="3533.0" />
+      <point x="19151.950755417416" y="3533.0" />
+      <point x="-1159.6000000000004" y="1306.5" />
+    </edge>
+    <edge source="RRtoolbox.lib.cache.ResourceManager" target="_abcoll.Iterator">
+      <point x="-360.0" y="-519.0" />
+      <point x="3759.459127061202" y="5082.0" />
+      <point x="3577.46875" y="5082.0" />
+      <point x="3577.46875" y="3413.0" />
+      <point x="3338.9562116895495" y="3413.0" />
+      <point x="-9.8125" y="46.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.3357046149085142" x="1364.7204521622896" y="6546.1220861228585" />
+  <SelectedNodes>
+    <node>RRtoolbox.lib.directory.FileDirectory</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+  </Categories>
+</Diagram>
+
