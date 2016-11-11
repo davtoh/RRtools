@@ -6,6 +6,7 @@
 
 # ignore executables
 /dist/
+/build/
 
 # ignore temporal files like caches and memoizations
 /temp/
