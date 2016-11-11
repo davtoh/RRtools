@@ -1,0 +1,11 @@
+# ignore thesis work
+/thesis/
+
+# ignore .pyc binaries
+*.pyc
+
+# ignore executables
+/dist/
+
+# ignore temporal files like caches and memoizations
+/temp/

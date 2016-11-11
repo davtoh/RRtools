@@ -488,14 +488,16 @@ class ImRestore(object):
                 if self.verbosity: print "Cache path is in {}".format(memoized._path)
                 self._feature_dict = LazyDict(getter=self.compute_keypoint,
                                               dictionary=memoized)
-                if self.clearCache==3:
+                if self.clearCache==3: # All CachePath is cleared
                     self._feature_dict.clear()
                     if self.verbosity: print "Cache path cleared"
             else:
                 self._feature_dict = LazyDict(getter=self.compute_keypoint)
-            if self.clearCache==1 or self.clearCache==2:
+            if self.clearCache==2: # check data = 1, recompute = 2
                 # tell LazyDict to recompute data if key is requested
                 self._feature_dict.cached = False
+            else:
+                self._feature_dict.cached = True
         return self._feature_dict
     @feature_dict.setter
     def feature_dict(self, value):
@@ -535,12 +537,20 @@ class ImRestore(object):
 
             # compare safely if path is in dictionary, this works for LazyDic,
             # MemoizeDic or normal dictionaries
-            if path not in self.feature_dict or self.clearCache==2 and path in self.feature_dict:
+            if self.feature_dict.cached is False or \
+                            path not in self.feature_dict or \
+                                    self.clearCache==2 and path in self.feature_dict:
                 raise KeyError # clears entry from cache
             kps, desc, pshape = self.feature_dict[path] # thread safe
+            if self.verbosity: print "'{}' is cached...".format(path)
             if pshape is None:
+                if self.verbosity: print "Cache is of different format...".format(path)
                 raise ValueError
-            if self.verbosity: print "{} is cached...".format(path)
+            if self.clearCache==1 and pshape != self.process_shape: # check integrity
+                if self.verbosity: print "Cache check not passed...".format(path)
+                raise ValueError
+            else:
+                if self.verbosity: print "Cache checked...".format(path)
         except (KeyError, ValueError) as e: # not memorized
             point = Profiler(msg=path, tag="processed")
             if self.verbosity: print "Processing features for {}...".format(path)
