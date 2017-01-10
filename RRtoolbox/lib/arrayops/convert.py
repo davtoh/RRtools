@@ -3,14 +3,13 @@
     This module unlike common and basic array operations classifies just the from-to-conversions methods
 """
 from __future__ import division
-from ...lib.config import FLOAT
 import numpy as np
 import cv2
 __author__ = 'Davtoh'
 """
 #im1: object image, im2: scenery image
-Tpt = cv2.perspectiveTransform(FLOAT([[point]]), H) # point: [col,row] -> [x,y]
-TM = cv2.getPerspectiveTransform(bx1,bx2) # box points: FLOAT([Top_left,Top_right,Bottom_left,Bottom_right])
+Tpt = cv2.perspectiveTransform(np.float32([[point]]), H) # point: [col,row] -> [x,y]
+TM = cv2.getPerspectiveTransform(bx1,bx2) # box points: np.float32([Top_left,Top_right,Bottom_left,Bottom_right])
 Tim = cv2.warpPerspective(im1,TM,(w,h)) # h,w = im2.shape
 #Tpt: transformed point, TM: transformation matrix, Tim: transformed image
 """
@@ -53,7 +52,7 @@ def spoint2opointfunc(source_shape,destine_shape):
         p2back = np.array([backfunc(i) for i in p2])
     """
     x,y = getSOpointRelation(source_shape,destine_shape)
-    op = np.array([x,y],dtype=FLOAT)
+    op = np.array([x,y],dtype=np.float32)
     def scaled2original(p):
         #rx = sx*rW/sW
         #ry = sy*rH/sH

@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.lib.arrayops.convert &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.lib.arrayops.convert</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This module unlike common and basic array operations classifies just the from-to-conversions methods</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.config</span> <span class="kn">import</span> <span class="n">FLOAT</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">#im1: object image, im2: scenery image</span>
+<span class="sd">Tpt = cv2.perspectiveTransform(FLOAT([[point]]), H) # point: [col,row] -&gt; [x,y]</span>
+<span class="sd">TM = cv2.getPerspectiveTransform(bx1,bx2) # box points: FLOAT([Top_left,Top_right,Bottom_left,Bottom_right])</span>
+<span class="sd">Tim = cv2.warpPerspective(im1,TM,(w,h)) # h,w = im2.shape</span>
+<span class="sd">#Tpt: transformed point, TM: transformation matrix, Tim: transformed image</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="getSOpointRelation"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.getSOpointRelation">[docs]</a><span class="k">def</span> <span class="nf">getSOpointRelation</span><span class="p">(</span><span class="n">source_shape</span><span class="p">,</span> <span class="n">destine_shape</span><span class="p">,</span> <span class="n">asMatrix</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return parameters to change scaled point to original point.</span>
+
+<span class="sd">        # destine_domain = relation*source_domain</span>
+
+<span class="sd">    :param source_shape: image shape for source domain</span>
+<span class="sd">    :param destine_shape: image shape for destine domain</span>
+<span class="sd">    :param asMatrix: if true returns a Transformation Matrix H</span>
+<span class="sd">    :return: x, y coordinate relations or H if asMatrix is True</span>
+
+<span class="sd">    .. note:: Used to get relations to convert scaled points to original points of an Image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rH</span> <span class="o">=</span> <span class="n">destine_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">rW</span> <span class="o">=</span> <span class="n">destine_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">sH</span> <span class="o">=</span> <span class="n">source_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sW</span> <span class="o">=</span> <span class="n">source_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">asMatrix</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">rW</span><span class="o">/</span><span class="n">sW</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">rH</span><span class="o">/</span><span class="n">sH</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">rW</span><span class="o">/</span><span class="n">sW</span><span class="p">,</span> <span class="n">rH</span><span class="o">/</span><span class="n">sH</span></div>
+
+<div class="viewcode-block" id="spoint2opointfunc"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.spoint2opointfunc">[docs]</a><span class="k">def</span> <span class="nf">spoint2opointfunc</span><span class="p">(</span><span class="n">source_shape</span><span class="p">,</span><span class="n">destine_shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return function with parameters to change scaled point to original point.</span>
+
+<span class="sd">    :param source_shape:</span>
+<span class="sd">    :param destine_shape: shape of</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        forefunc = scaled2realfunc(imgf.shape,bgr.shape)</span>
+<span class="sd">        backfunc = scaled2realfunc(imgb.shape,back.shape)</span>
+<span class="sd">        p1fore = np.array([forefunc(i) for i in p1])</span>
+<span class="sd">        p2back = np.array([backfunc(i) for i in p2])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">getSOpointRelation</span><span class="p">(</span><span class="n">source_shape</span><span class="p">,</span><span class="n">destine_shape</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="n">FLOAT</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">scaled2original</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+        <span class="c1">#rx = sx*rW/sW</span>
+        <span class="c1">#ry = sy*rH/sH</span>
+        <span class="k">return</span> <span class="n">p</span><span class="o">*</span><span class="n">op</span>
+    <span class="k">return</span> <span class="n">scaled2original</span></div>
+
+<div class="viewcode-block" id="sh2oh"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.sh2oh">[docs]</a><span class="k">def</span> <span class="nf">sh2oh</span><span class="p">(</span><span class="n">sH</span><span class="p">,</span><span class="n">osrc_sh</span><span class="p">,</span><span class="n">sscr_sh</span><span class="p">,</span><span class="n">odst_sh</span><span class="p">,</span><span class="n">sdst_sh</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert scaled transformation matrix (sH) to original (oH).</span>
+
+<span class="sd">    :param sH: scaled transformation matrix</span>
+<span class="sd">    :param osrc_sh: original source&#39;s shape</span>
+<span class="sd">    :param sscr_sh: scaled source&#39;s shape</span>
+<span class="sd">    :param odst_sh: original destine&#39;s shape</span>
+<span class="sd">    :param sdst_sh: scaled destine&#39;s shape</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">oH</span> <span class="o">=</span> <span class="n">sH</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1">#height, Width</span>
+    <span class="n">Hos</span><span class="p">,</span><span class="n">Wos</span> <span class="o">=</span> <span class="p">(</span><span class="n">osrc_sh</span><span class="p">[</span><span class="mi">0</span><span class="p">]),(</span><span class="n">osrc_sh</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># original source</span>
+    <span class="n">Hss</span><span class="p">,</span><span class="n">Wss</span> <span class="o">=</span> <span class="p">(</span><span class="n">sscr_sh</span><span class="p">[</span><span class="mi">0</span><span class="p">]),(</span><span class="n">sscr_sh</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># scaled source</span>
+    <span class="n">Hod</span><span class="p">,</span><span class="n">Wod</span> <span class="o">=</span> <span class="p">(</span><span class="n">odst_sh</span><span class="p">[</span><span class="mi">0</span><span class="p">]),(</span><span class="n">odst_sh</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># original destine</span>
+    <span class="n">Hsd</span><span class="p">,</span><span class="n">Wsd</span> <span class="o">=</span> <span class="p">(</span><span class="n">sdst_sh</span><span class="p">[</span><span class="mi">0</span><span class="p">]),(</span><span class="n">sdst_sh</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># scaled destine</span>
+    <span class="n">oH</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">oH</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">Wss</span><span class="o">/</span><span class="n">Wos</span> <span class="c1"># first row</span>
+    <span class="n">oH</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">oH</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Hss</span><span class="o">/</span><span class="n">Hos</span> <span class="c1"># second row</span>
+    <span class="n">oH</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">oH</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">Wod</span><span class="o">/</span><span class="n">Wsd</span> <span class="c1"># first column</span>
+    <span class="n">oH</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">oH</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">Hod</span><span class="o">/</span><span class="n">Hsd</span> <span class="c1"># second column</span>
+    <span class="k">return</span> <span class="n">oH</span></div>
+
+<div class="viewcode-block" id="invertH"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.invertH">[docs]</a><span class="k">def</span> <span class="nf">invertH</span><span class="p">(</span><span class="n">H</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Invert Transformation Matrix.</span>
+
+<span class="sd">    :param H:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># inverse perspective</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">H</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="conv3H4H"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.conv3H4H">[docs]</a><span class="k">def</span> <span class="nf">conv3H4H</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a 3D transformation matrix (TM) to 4D TM.</span>
+
+<span class="sd">    :param M: Matrix</span>
+<span class="sd">    :return: 4D Matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">copy</span><span class="p">(),[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># add row</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">M</span><span class="p">,[[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]],</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># add column</span></div>
+
+<div class="viewcode-block" id="apply2kp_pairs"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.apply2kp_pairs">[docs]</a><span class="k">def</span> <span class="nf">apply2kp_pairs</span><span class="p">(</span><span class="n">kp_pairs</span><span class="p">,</span> <span class="n">kp1_rel</span><span class="p">,</span> <span class="n">kp2_rel</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply to kp_pairs.</span>
+
+<span class="sd">    :param kp_pairs: list of (kp1,kp2) pairs</span>
+<span class="sd">    :param kp1_rel: x,y relation or function to apply to kp1</span>
+<span class="sd">    :param kp2_rel: x,y relation or function to apply to kp2</span>
+<span class="sd">    :param func: function to build new copy of keypoint</span>
+<span class="sd">    :return: transformed kp_pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">withtupple</span><span class="p">(</span><span class="n">keypoint</span><span class="p">,</span><span class="n">kp_op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">func</span><span class="p">:</span>
+            <span class="n">keypoint</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">keypoint</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">keypoint</span> <span class="o">=</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">keypoint</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">keypoint</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">],</span><span class="n">kp_op</span><span class="p">)</span> <span class="c1"># transform pt with kp_op</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">pt</span>
+            <span class="n">rx</span><span class="p">,</span><span class="n">ry</span> <span class="o">=</span> <span class="n">kp_op</span>
+            <span class="n">keypoint</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">rx</span><span class="p">,</span><span class="n">y</span><span class="o">*</span><span class="n">ry</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">keypoint</span>
+
+    <span class="k">def</span> <span class="nf">withfunc</span><span class="p">(</span><span class="n">keypoint</span><span class="p">,</span><span class="n">kp_op</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">func</span><span class="p">:</span>
+            <span class="n">keypoint</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">keypoint</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">keypoint</span> <span class="o">=</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">keypoint</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kp_op</span><span class="p">(</span><span class="o">*</span><span class="n">keypoint</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">])</span> <span class="c1"># transform pt with kp_op</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">pt</span>
+            <span class="n">keypoint</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">kp_op</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">keypoint</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kp1_rel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span> <span class="c1"># expected tuple operands</span>
+        <span class="n">kp1_func</span> <span class="o">=</span> <span class="n">withtupple</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kp1_func</span> <span class="o">=</span> <span class="n">withfunc</span>
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kp2_rel</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span> <span class="c1"># expected tuple operands</span>
+        <span class="n">kp2_func</span> <span class="o">=</span> <span class="n">withtupple</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kp2_func</span> <span class="o">=</span> <span class="n">withfunc</span>
+
+    <span class="k">return</span> <span class="p">[(</span><span class="n">kp1_func</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">kp1_rel</span><span class="p">),</span> <span class="n">kp2_func</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">kp2_rel</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kp_pairs</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="spairs2opairs"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.spairs2opairs">[docs]</a><span class="k">def</span> <span class="nf">spairs2opairs</span><span class="p">(</span><span class="n">kp_pairs</span><span class="p">,</span><span class="n">osrc_sh</span><span class="p">,</span><span class="n">sscr_sh</span><span class="p">,</span><span class="n">odst_sh</span><span class="p">,</span><span class="n">sdst_sh</span><span class="p">,</span><span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert scaled kp_pairs to original kp_pairs.</span>
+
+<span class="sd">    :param kp_pairs: list of kp_pairs</span>
+<span class="sd">    :param osrc_sh: original source&#39;s shape</span>
+<span class="sd">    :param sscr_sh: scaled source&#39;s shape</span>
+<span class="sd">    :param odst_sh: original destine&#39;s shape</span>
+<span class="sd">    :param sdst_sh: scaled destine&#39;s shape</span>
+<span class="sd">    :param func: function to build new copy of keypoint</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kp1_pair</span> <span class="o">=</span> <span class="n">getSOpointRelation</span><span class="p">(</span><span class="n">sscr_sh</span><span class="p">,</span><span class="n">osrc_sh</span><span class="p">)</span> <span class="c1"># fore</span>
+    <span class="n">kp2_pair</span> <span class="o">=</span> <span class="n">getSOpointRelation</span><span class="p">(</span><span class="n">sdst_sh</span><span class="p">,</span><span class="n">odst_sh</span><span class="p">)</span> <span class="c1"># back</span>
+    <span class="k">return</span> <span class="n">apply2kp_pairs</span><span class="p">(</span><span class="n">kp_pairs</span><span class="p">,</span><span class="n">kp1_pair</span><span class="p">,</span><span class="n">kp2_pair</span><span class="p">,</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="keyPoint2tuple"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.keyPoint2tuple">[docs]</a><span class="k">def</span> <span class="nf">keyPoint2tuple</span><span class="p">(</span><span class="n">keypoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; obj.angle, obj.class_id, obj.octave, obj.pt, obj.response, obj.size&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">keypoint</span><span class="o">.</span><span class="n">pt</span><span class="p">,</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">angle</span><span class="p">,</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">response</span><span class="p">,</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">octave</span><span class="p">,</span> <span class="n">keypoint</span><span class="o">.</span><span class="n">class_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="tuple2keyPoint"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.tuple2keyPoint">[docs]</a><span class="k">def</span> <span class="nf">tuple2keyPoint</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">KeyPoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; KeyPoint([x, y, _size[, _angle[, _response[, _octave[, _class_id]]]]]) -&gt; &lt;KeyPoint object&gt; &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="mi">5</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="dict2keyPoint"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.dict2keyPoint">[docs]</a><span class="k">def</span> <span class="nf">dict2keyPoint</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">KeyPoint</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; KeyPoint([x, y, _size[, _angle[, _response[, _octave[, _class_id]]]]]) -&gt; &lt;KeyPoint object&gt; &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;pt&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;size&quot;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;angle&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;octave&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;class_id&quot;</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="SimKeyPoint"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.SimKeyPoint">[docs]</a><span class="k">class</span> <span class="nc">SimKeyPoint</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulates opencv keypoint (it allows manipulation, conversion and serialization of keypoints).</span>
+
+<span class="sd">    .. note:: Used for conversions and data persistence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: correct for memoizer: some warning are created if the script is run as __main__</span>
+    <span class="c1"># it would be great if cv2.KeyPoint did not have pickling incompatibilities</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># it got a dictionary</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;__dict__&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">obj</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># it got cv2.Keypoint</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">angle</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">class_id</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">class_id</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">octave</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">octave</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">pt</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">response</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">size</span>
+                <span class="k">return</span>
+        <span class="c1"># tupple is broadcasted as in cv2.KeyPoint</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pt</span> <span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octave</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_id</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="contour2points"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.contour2points">[docs]</a><span class="k">def</span> <span class="nf">contour2points</span><span class="p">(</span><span class="n">contours</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert contours to points. (cnt2pts)</span>
+
+<span class="sd">    :param contours: array of contours (cnt) ([[x,y]] only for openCV)</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        contours = np.array([[[0, 0]], [[1, 0]]]) # contours</span>
+<span class="sd">        points = contour2points(contours)</span>
+<span class="sd">        print points # np.array([[0, 0], [1, 0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">contours</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+<span class="n">cnt2pts</span> <span class="o">=</span> <span class="n">contour2points</span> <span class="c1"># compatibility reasons</span>
+
+<div class="viewcode-block" id="points2contour"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.points2contour">[docs]</a><span class="k">def</span> <span class="nf">points2contour</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert points to contours. (pts2cnt)</span>
+
+<span class="sd">    :param points: array of points ([x,y] for openCV, [y,x] for numpy)</span>
+<span class="sd">    :return:</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        points = np.array([[0, 0], [1, 0]]) # points</span>
+<span class="sd">        contours = points2contour(points)</span>
+<span class="sd">        print contours # np.array([[[0, 0]], [[1, 0]]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">points</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span></div>
+
+<span class="n">pts2cnt</span> <span class="o">=</span> <span class="n">points2contour</span> <span class="c1"># compatibility reasons</span>
+
+<div class="viewcode-block" id="toTupple"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.toTupple">[docs]</a><span class="k">def</span> <span class="nf">toTupple</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts recursively to tuple</span>
+
+<span class="sd">    :param obj: numpy array, list structure, iterators, etc.</span>
+<span class="sd">    :return: tuple representation obj.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">toTupple</span><span class="p">,</span> <span class="n">obj</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">obj</span></div>
+
+<div class="viewcode-block" id="points2vectos"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.points2vectos">[docs]</a><span class="k">def</span> <span class="nf">points2vectos</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert points to vectors with respect to origin.</span>
+
+<span class="sd">    :param pts: array of points.</span>
+<span class="sd">    :param origin: point of origin.</span>
+<span class="sd">    :return: vectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pts</span> <span class="o">-</span> <span class="p">(</span><span class="n">origin</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">pts</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="vectos2points"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.vectos2points">[docs]</a><span class="k">def</span> <span class="nf">vectos2points</span><span class="p">(</span><span class="n">vecs</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert points to vectors with respect to origin.</span>
+
+<span class="sd">    :param vecs: array of vectors.</span>
+<span class="sd">    :param origin: point of origin.</span>
+<span class="sd">    :return: points.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vecs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vecs</span> <span class="o">+</span> <span class="p">(</span><span class="n">origin</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">vecs</span><span class="p">))</span></div>
+
+<span class="n">quadrantmap</span> <span class="o">=</span> <span class="p">{(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="s2">&quot;origin&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="s2">&quot;right&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;right-up&quot;</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;up&quot;</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;left-up&quot;</span><span class="p">,</span>
+               <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span><span class="s2">&quot;left&quot;</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;left-down&quot;</span><span class="p">,(</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;down&quot;</span><span class="p">,(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span><span class="s2">&quot;right-down&quot;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="translateQuadrants"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.convert.translateQuadrants">[docs]</a><span class="k">def</span> <span class="nf">translateQuadrants</span><span class="p">(</span><span class="n">quadrants</span><span class="p">,</span> <span class="n">quadrantmap</span> <span class="o">=</span> <span class="n">quadrantmap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert quadrants into human readable data.</span>
+
+<span class="sd">    :param quadrants: array of quadrants.</span>
+<span class="sd">    :param quadrantmap: dictionary map to translate quadrants. it is of the form::</span>
+
+<span class="sd">            {(0,0):&quot;origin&quot;,(1,0):&quot;right&quot;,(1,1):&quot;top-right&quot;,(0,1):&quot;top&quot;,(-1,1):&quot;top-left&quot;,</span>
+<span class="sd">               (-1,0):&quot;left&quot;,(-1,-1):&quot;bottom-left&quot;,(0,-1):&quot;bottom&quot;,(1,-1):&quot;bottom-right&quot;}</span>
+<span class="sd">    :return: list of translated quadrants.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">quadrantmap</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">toTupple</span><span class="p">(</span><span class="n">quadrants</span><span class="p">)]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, David Toro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

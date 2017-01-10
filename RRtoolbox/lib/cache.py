@@ -21,7 +21,8 @@
     Made by Davtoh, powered by joblib.
     Dependent project: https://github.com/joblib/joblib
 """
-from root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable
+from root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable, \
+    CorruptPersistent
 
 __license__ = """
 
@@ -1130,8 +1131,8 @@ class MemoizedDict(MutableMapping):
         if os.path.isfile(filename):
             try:
                 return self._loader(filename, self._mode)
-            except IOError:
-                raise KeyError
+            except (EOFError,IOError):
+                raise CorruptPersistent("Persistent data is corrupt")
         else:
             raise KeyError
 

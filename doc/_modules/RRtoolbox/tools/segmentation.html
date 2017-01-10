@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.tools.segmentation &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.tools.segmentation</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">RRtoolbox.lib.arrayops</span> <span class="kn">import</span> <span class="n">normsigmoid</span><span class="p">,</span> <span class="n">normalize</span><span class="p">,</span> <span class="n">Bandpass</span><span class="p">,</span> <span class="n">Bandstop</span><span class="p">,</span>\
+    <span class="n">findminima</span><span class="p">,</span> <span class="n">findmaxima</span><span class="p">,</span> <span class="n">find_near</span><span class="p">,</span> <span class="n">smooth</span><span class="p">,</span> <span class="n">getOtsuThresh</span><span class="p">,</span> <span class="n">convexityRatio</span><span class="p">,</span> \
+    <span class="n">filterFactory</span><span class="p">,</span> <span class="n">brightness</span><span class="p">,</span> <span class="n">background</span><span class="p">,</span> <span class="n">thresh_biggestCnt</span><span class="p">,</span> <span class="n">contours2mask</span>
+
+<span class="k">def</span> <span class="nf">_getBrightAlpha</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span> <span class="n">foregray</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get alpha transparency for merging foreground to</span>
+<span class="sd">    background gray image according to brightness.</span>
+<span class="sd">    (This is a test and not intended for practical use)</span>
+
+<span class="sd">    :param backgray: background image.</span>
+<span class="sd">    :param foregray: foreground image.</span>
+<span class="sd">    :param window: window used to customizing alfa. It can be a binary or alpha mask,</span>
+<span class="sd">            values go from 0 for transparency to any value where the maximum is visible</span>
+<span class="sd">            i.e a window with all the same values does nothing. A binary mask can be used,</span>
+<span class="sd">            where 0 is transparent and 1 is visible. If not window is given alfa is not</span>
+<span class="sd">            altered and the intended alpha is returned.</span>
+<span class="sd">    :return: alfa mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># this method was obtained for a particular problem, change to an automated one</span>
+    <span class="n">backmask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">180</span><span class="p">)</span> <span class="o">+</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">192</span><span class="p">)</span> <span class="o">+</span>
+                         <span class="n">normsigmoid</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span><span class="o">-</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">45</span><span class="p">))</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">foregray</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">242</span><span class="p">)</span><span class="o">*</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">foregray</span><span class="p">,</span><span class="mf">3.14</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">foremask</span> <span class="o">*</span> <span class="n">backmask</span><span class="p">)</span>
+    <span class="n">foremask</span><span class="p">[</span><span class="n">foremask</span><span class="o">&gt;</span><span class="mf">0.9</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">ksize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">blur</span><span class="p">(</span><span class="n">foremask</span><span class="p">,</span><span class="n">ksize</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="n">foremask</span> <span class="o">*=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> <span class="c1"># ensures that window is normilized to 1</span>
+    <span class="k">return</span> <span class="n">foremask</span>
+
+<div class="viewcode-block" id="get_beta_params_hist"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.get_beta_params_hist">[docs]</a><span class="k">def</span> <span class="nf">get_beta_params_hist</span><span class="p">(</span><span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatically find parameters for bright alpha masks</span>
+<span class="sd">    using a histogram analysis method.</span>
+
+<span class="sd">    :param P: gray image</span>
+<span class="sd">    :return: beta1 for minimum valley left of body, beta2 for brightest valley right of body</span>
+<span class="sd">            where the body starts at the tallest peak in the histogram.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hist_P</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="mi">256</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="s2">&quot;hamming&quot;</span> <span class="c1"># &#39;flat&#39;, &#39;hanning&#39;, &#39;hamming&#39;, &#39;bartlett&#39;, &#39;blackman&#39;</span>
+    <span class="n">window_len</span> <span class="o">=</span> <span class="mi">51</span>
+    <span class="n">hist_PS</span> <span class="o">=</span> <span class="n">smooth</span><span class="p">(</span><span class="n">hist_P</span><span class="p">,</span><span class="n">window_len</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">correct</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">otsu</span> <span class="o">=</span> <span class="n">getOtsuThresh</span><span class="p">(</span><span class="n">hist_P</span><span class="p">)</span> <span class="c1"># Otsu value</span>
+    <span class="n">minima</span> <span class="o">=</span> <span class="n">findminima</span><span class="p">(</span><span class="n">hist</span><span class="o">=</span><span class="n">hist_PS</span><span class="p">)</span> <span class="c1"># minima values</span>
+    <span class="n">maxima</span> <span class="o">=</span> <span class="n">findmaxima</span><span class="p">(</span><span class="n">hist</span><span class="o">=</span><span class="n">hist_PS</span><span class="p">)</span> <span class="c1"># maxima values</span>
+    <span class="k">if</span> <span class="n">minima</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">maxima</span> <span class="o">!=</span><span class="p">[]:</span>
+        <span class="n">data_body</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">maxima</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="n">otsu</span><span class="p">,</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+        <span class="n">beta1</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="n">data_body</span><span class="p">,</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+        <span class="n">beta2</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="n">data_body</span><span class="p">,</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># case where histogram is uniform and does not have minima or maxima values</span>
+        <span class="n">beta1</span> <span class="o">=</span> <span class="n">beta2</span> <span class="o">=</span> <span class="n">otsu</span>
+    <span class="k">if</span> <span class="n">beta2</span><span class="o">==</span><span class="n">beta1</span><span class="p">:</span>
+        <span class="n">beta2</span> <span class="o">+=</span><span class="mi">1</span> <span class="c1"># prevents overlapping</span>
+    <span class="k">return</span> <span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span></div>
+
+<div class="viewcode-block" id="get_bright_alpha"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.get_bright_alpha">[docs]</a><span class="k">def</span> <span class="nf">get_bright_alpha</span><span class="p">(</span><span class="n">backgray</span><span class="p">,</span> <span class="n">foregray</span><span class="p">,</span> <span class="n">window</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get alpha transparency for merging foreground to</span>
+<span class="sd">    background gray image according to brightness.</span>
+
+<span class="sd">    :param backgray: background image. (as float)</span>
+<span class="sd">    :param foregray: foreground image. (as float)</span>
+<span class="sd">    :param window: window used to customizing alfa. It can be a binary or alpha mask,</span>
+<span class="sd">            values go from 0 for transparency to any value where the maximum is visible</span>
+<span class="sd">            i.e a window with all the same values does nothing. A binary mask can be used,</span>
+<span class="sd">            where 0 is transparent and 1 is visible. If not window is given alfa is not</span>
+<span class="sd">            altered and the intended alpha is returned.</span>
+<span class="sd">    :return: alfa mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backmask</span> <span class="o">=</span> <span class="n">Bandpass</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">get_beta_params_hist</span><span class="p">(</span><span class="n">backgray</span><span class="p">))(</span><span class="n">backgray</span><span class="p">)</span> <span class="c1"># beta1 = 50, beta2 = 190</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">Bandpass</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">get_beta_params_hist</span><span class="p">(</span><span class="n">foregray</span><span class="p">))(</span><span class="n">foregray</span><span class="p">)</span> <span class="c1"># beta1 = 50, beta2 = 220</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">foremask</span> <span class="o">*</span> <span class="n">backmask</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="n">foremask</span> <span class="o">*=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> <span class="c1"># ensures that window is normilized to 1</span>
+    <span class="k">return</span> <span class="n">foremask</span></div>
+
+<div class="viewcode-block" id="get_beta_params_Otsu"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.get_beta_params_Otsu">[docs]</a><span class="k">def</span> <span class="nf">get_beta_params_Otsu</span><span class="p">(</span><span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Automatically find parameters for alpha masks using Otsu threshold value.</span>
+
+<span class="sd">    :param P: gray image</span>
+<span class="sd">    :return: beta1 for minimum histogram value, beta2 for Otsu value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># process histogram for uint8 gray image</span>
+    <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">any</span><span class="p">():</span> <span class="c1"># if array is not empty</span>
+        <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">256</span><span class="p">)</span>
+
+        <span class="c1"># get Otsu thresh as beta2</span>
+        <span class="n">beta2</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="n">getOtsuThresh</span><span class="p">(</span><span class="n">hist</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">P</span><span class="p">),</span> <span class="n">beta2</span> <span class="c1"># beta1, beta2</span>
+    <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="get_layered_alpha"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.get_layered_alpha">[docs]</a><span class="k">def</span> <span class="nf">get_layered_alpha</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get bright alpha mask (using Otsu method)</span>
+
+<span class="sd">    :param back: BGR background image</span>
+<span class="sd">    :param fore: BGR foreground image</span>
+<span class="sd">    :return: alpha mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># find retinal area and its alpha</span>
+    <span class="n">mask_back</span><span class="p">,</span> <span class="n">alpha_back</span> <span class="o">=</span> <span class="n">retinal_mask</span><span class="p">(</span><span class="n">back</span><span class="p">,</span><span class="n">biggest</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">addalpha</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">mask_fore</span><span class="p">,</span> <span class="n">alpha_fore</span> <span class="o">=</span> <span class="n">retinal_mask</span><span class="p">(</span><span class="n">fore</span><span class="p">,</span><span class="n">biggest</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">addalpha</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="c1"># convert uint8 to float</span>
+    <span class="n">backgray</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">back</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">foregray</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">fore</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># scale from 0-1 to 0-255</span>
+    <span class="n">backm</span> <span class="o">=</span> <span class="n">alpha_back</span><span class="o">*</span><span class="mi">255</span>
+    <span class="n">forem</span> <span class="o">=</span> <span class="n">alpha_fore</span><span class="o">*</span><span class="mi">255</span>
+
+    <span class="c1"># get alpha masks fro background and foreground</span>
+    <span class="n">backmask</span> <span class="o">=</span> <span class="n">Bandstop</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">get_beta_params_Otsu</span><span class="p">(</span><span class="n">backm</span><span class="p">[</span><span class="n">mask_back</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]))(</span><span class="n">backgray</span><span class="p">)</span>
+    <span class="n">foremask</span> <span class="o">=</span> <span class="n">Bandpass</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">*</span><span class="n">get_beta_params_Otsu</span><span class="p">(</span><span class="n">forem</span><span class="p">[</span><span class="n">mask_fore</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]))(</span><span class="n">foregray</span><span class="p">)</span>
+
+    <span class="c1"># merge masks</span>
+    <span class="n">alphamask</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">foremask</span> <span class="o">*</span> <span class="n">backmask</span> <span class="o">*</span> <span class="p">(</span><span class="n">backm</span><span class="o">/</span><span class="mf">255.</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">alphamask</span></div>
+
+<div class="viewcode-block" id="retina_markers_thresh"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.retina_markers_thresh">[docs]</a><span class="k">def</span> <span class="nf">retina_markers_thresh</span><span class="p">(</span><span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retinal markers thresholds to find background,</span>
+<span class="sd">    retinal area and optic disc with flares based</span>
+<span class="sd">    in the histogram.</span>
+
+<span class="sd">    :param P: gray image</span>
+<span class="sd">    :return: min,b1,b2,max</span>
+
+<span class="sd">    .. were::</span>
+<span class="sd">        black background &lt; min</span>
+<span class="sd">        b1 &gt; retina &lt; b2</span>
+<span class="sd">        flares &gt; max</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># calculate histogram</span>
+    <span class="c1">#hist_P = histogram(P)[0]</span>
+    <span class="n">hist_P</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="mi">256</span><span class="p">,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">256</span><span class="p">])</span>
+
+    <span class="c1"># filter histogram to smooth it.</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="s2">&quot;hamming&quot;</span> <span class="c1"># &#39;flat&#39;, &#39;hanning&#39;, &#39;hamming&#39;, &#39;bartlett&#39;, &#39;blackman&#39;</span>
+    <span class="n">window_len</span> <span class="o">=</span> <span class="mi">51</span>
+    <span class="n">hist_PS</span> <span class="o">=</span> <span class="n">smooth</span><span class="p">(</span><span class="n">hist_P</span><span class="p">,</span><span class="n">window_len</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">correct</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># it smooths and expands the histogram</span>
+    <span class="c1">#from scipy.signal import savgol_filter</span>
+    <span class="c1">#hist_PS = savgol_filter(hist_P, window_len, polyorder = 3)</span>
+
+    <span class="n">otsu</span> <span class="o">=</span> <span class="n">getOtsuThresh</span><span class="p">(</span><span class="n">hist_P</span><span class="p">)</span> <span class="c1"># Otsu value</span>
+    <span class="n">minima</span> <span class="o">=</span> <span class="n">findminima</span><span class="p">(</span><span class="n">hist</span><span class="o">=</span><span class="n">hist_PS</span><span class="p">)</span> <span class="c1"># minima values</span>
+    <span class="n">maxima</span> <span class="o">=</span> <span class="n">findmaxima</span><span class="p">(</span><span class="n">hist</span><span class="o">=</span><span class="n">hist_PS</span><span class="p">)</span> <span class="c1"># maxima values</span>
+
+    <span class="c1"># INITIAL DATA</span>
+    <span class="n">data_min_left</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="c1"># initial minimum value</span>
+    <span class="n">data_min</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">maxima</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="n">data_min_left</span><span class="p">)</span>
+    <span class="c1">#data_min_right = find_near(minima, thresh=data_min, side=&quot;right&quot;)</span>
+    <span class="n">data_max</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="n">data_max_left</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="n">data_max</span><span class="p">,</span> <span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+    <span class="c1"># SECONDARY DATA</span>
+    <span class="n">data_body</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">maxima</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="n">otsu</span><span class="p">,</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+    <span class="n">data_body_left</span> <span class="o">=</span> <span class="n">find_near</span><span class="p">(</span><span class="n">minima</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="n">data_body</span><span class="p">,</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="c1">#data_body_right = find_near(minima,thresh=data_body,side=&quot;right&quot;)</span>
+    <span class="k">return</span> <span class="n">data_min</span><span class="p">,</span><span class="n">data_body_left</span><span class="p">,</span><span class="n">data_body</span><span class="p">,</span><span class="n">data_max_left</span></div>
+
+
+<div class="viewcode-block" id="find_optic_disc_watershed"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.find_optic_disc_watershed">[docs]</a><span class="k">def</span> <span class="nf">find_optic_disc_watershed</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find optic disk in image using a watershed method.</span>
+
+<span class="sd">    :param img: BGR image</span>
+<span class="sd">    :param P: gray image</span>
+<span class="sd">    :return: optic_disc, Crs, markers, watershed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">img</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">P</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+    <span class="c1">#fore = cv2.cvtColor(P,cv2.COLOR_GRAY2BGR)</span>
+    <span class="c1"># create watershed</span>
+    <span class="n">data_min</span><span class="p">,</span><span class="n">data_body_left</span><span class="p">,</span><span class="n">data_body</span><span class="p">,</span><span class="n">data_max_left</span> <span class="o">=</span> <span class="n">retina_markers_thresh</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">watershed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">P</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">)</span>
+    <span class="n">mk_back</span><span class="p">,</span><span class="n">mk_body</span><span class="p">,</span><span class="n">mk_flare</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span>
+    <span class="n">watershed</span><span class="p">[</span><span class="n">P</span> <span class="o">&lt;=</span> <span class="n">data_min</span><span class="p">]</span><span class="o">=</span><span class="n">mk_back</span> <span class="c1"># background FIXMED use P.min() and aproaching to local maxima</span>
+    <span class="n">watershed</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">P</span><span class="o">&gt;</span><span class="n">data_body_left</span><span class="p">,</span><span class="n">P</span><span class="o">&lt;</span><span class="n">data_body</span><span class="p">)]</span><span class="o">=</span><span class="n">mk_body</span> <span class="c1"># main body</span>
+    <span class="c1"># find bright objects</span>
+    <span class="n">flares_thresh</span> <span class="o">=</span> <span class="p">(</span><span class="n">P</span> <span class="o">&gt;=</span> <span class="n">data_max_left</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">flares_thresh</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_LIST</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+    <span class="n">mks_flare</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">cnt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">contours</span><span class="p">):</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">mk_flare</span><span class="o">+</span><span class="n">i</span>
+        <span class="n">mks_flare</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">watershed</span><span class="p">[</span><span class="n">contours2mask</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span><span class="n">shape</span><span class="o">=</span><span class="n">watershed</span><span class="o">.</span><span class="n">shape</span><span class="p">)]</span><span class="o">=</span><span class="n">index</span> <span class="c1"># Flares. this can be used approaching</span>
+                                        <span class="c1"># to local maxima, but brightest areas are almost</span>
+                                        <span class="c1"># always saturated so no need to use it</span>
+    <span class="n">markers</span> <span class="o">=</span> <span class="n">watershed</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># apply watershed to watershed</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">watershed</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">watershed</span><span class="p">)</span> <span class="c1"># FIXME perhaps the function should be cv2.floodFill?</span>
+
+    <span class="c1"># different classification algorithms could be used using watershed</span>
+    <span class="n">contours_flares</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">mk_flare</span> <span class="ow">in</span> <span class="n">mks_flare</span><span class="p">:</span>
+        <span class="n">brightest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">watershed</span><span class="o">==</span><span class="n">mk_flare</span><span class="p">)</span>
+        <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">brightest</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_LIST</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+        <span class="n">contours_flares</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span>
+    <span class="n">Crs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">convexityRatio</span><span class="p">(</span><span class="n">cnt</span><span class="p">),</span><span class="n">cnt</span><span class="p">)</span> <span class="k">for</span> <span class="n">cnt</span> <span class="ow">in</span> <span class="n">contours_flares</span><span class="p">]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># convexity ratios</span>
+    <span class="n">Crs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">candidate</span> <span class="o">=</span> <span class="n">Crs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ellipse</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">fitEllipse</span><span class="p">(</span><span class="n">candidate</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">optic_disc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">cv2</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">optic_disc</span><span class="p">,</span> <span class="n">ellipse</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># get elliptical ROI</span>
+    <span class="k">return</span> <span class="n">optic_disc</span><span class="p">,</span> <span class="n">Crs</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">watershed</span></div>
+
+<div class="viewcode-block" id="layeredfloods"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.layeredfloods">[docs]</a><span class="k">def</span> <span class="nf">layeredfloods</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">gray</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">backmask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">connectivity</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an alpha mask from an image using a weighted layered flooding algorithm,</span>
+
+<span class="sd">    :param img: BGR image</span>
+<span class="sd">    :param gray: Gray image</span>
+<span class="sd">    :param backmask: background mask</span>
+<span class="sd">    :param step: step to increase upDiff in the floodFill algorithm. If weight is True</span>
+<span class="sd">            step also increases the weight of the layers.</span>
+<span class="sd">    :param connectivity: pixel connectivity of 4 or 8 to use in the floodFill algorithm</span>
+<span class="sd">    :param weight: Increase progressively the weight of the layers using the step parameter.</span>
+<span class="sd">    :return: alpha mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">gray</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+            <span class="n">gray</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gray</span> <span class="o">=</span> <span class="n">img</span>
+
+    <span class="c1"># initialization of flags for flooding</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">connectivity</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FLOODFILL_FIXED_RANGE</span> <span class="o">|</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FLOODFILL_MASK_ONLY</span>
+
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">gray</span><span class="o">.</span><span class="n">shape</span><span class="c1"># get image shape</span>
+
+    <span class="c1"># pad mask to add 1 layer of pixels</span>
+    <span class="c1"># this is needed in the flood operation</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="c1">#</span>
+
+    <span class="c1"># create the background mask</span>
+    <span class="k">if</span> <span class="n">backmask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">backmask</span> <span class="o">=</span> <span class="n">background</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+    <span class="n">mask_background</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">mask_background</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">backmask</span>
+
+    <span class="c1"># get area of background mask</span>
+    <span class="n">area_background</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask_background</span><span class="p">)</span>
+
+    <span class="c1"># low and high limits for flooding</span>
+    <span class="n">lo</span><span class="p">,</span><span class="n">hi</span> <span class="o">=</span> <span class="mi">255</span><span class="p">,</span><span class="mi">0</span>
+
+    <span class="c1"># first seed point of the minimum color</span>
+    <span class="n">xs</span><span class="p">,</span><span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">gray</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">gray</span><span class="p">))</span>
+    <span class="n">seed_pt</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1">#flood adding overal layers starting from background</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">step</span>
+    <span class="nb">all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">hi</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">:</span>
+        <span class="n">mask</span><span class="p">[:]</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">floodFill</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">seed_pt</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="p">(</span><span class="n">lo</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">hi</span><span class="p">,)</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">and</span> <span class="n">area</span> <span class="o">&gt;=</span> <span class="n">area_background</span><span class="p">:</span>
+            <span class="nb">all</span> <span class="o">+=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span><span class="o">*</span><span class="n">hi</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">weight</span> <span class="ow">and</span> <span class="n">area</span> <span class="o">&gt;=</span> <span class="n">area_background</span><span class="p">:</span>
+            <span class="nb">all</span> <span class="o">+=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">area</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bitwise_and</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span><span class="n">mask_background</span><span class="p">))</span>
+        <span class="n">hi</span> <span class="o">+=</span> <span class="n">step</span>
+    <span class="nb">all</span> <span class="o">=</span> <span class="nb">all</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="nb">all</span> <span class="o">/=</span> <span class="nb">all</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">all</span></div>
+
+<div class="viewcode-block" id="retinal_mask"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.retinal_mask">[docs]</a><span class="k">def</span> <span class="nf">retinal_mask</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">biggest</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">addalpha</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain the mask of the retinal area in an image.</span>
+<span class="sd">    For a simpler and lightweight algorithm see :func:`retinal_mask_watershed`.</span>
+
+<span class="sd">    :param img: BGR or gray image</span>
+<span class="sd">    :param biggest: True to return only biggest object</span>
+<span class="sd">    :param addalpha: True to add additional alpha mask parameter</span>
+<span class="sd">    :return: if addalpha:</span>
+<span class="sd">                binary mask, alpha mask</span>
+<span class="sd">            else:</span>
+<span class="sd">                binary mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># pad image to add 1 layer of pixels</span>
+    <span class="c1"># this is used to correctly flood all the background</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">imgP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">imgP</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">=</span> <span class="n">img</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">imgP</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">imgP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">h</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">w</span><span class="o">+</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">imgP</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">img</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">imgP</span>
+
+    <span class="c1"># get flooded alpha mask</span>
+    <span class="n">mask_alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">layeredfloods</span><span class="p">(</span><span class="n">imgP</span><span class="p">,</span> <span class="n">gray</span><span class="o">=</span><span class="n">P</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">mask_alpha</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span><span class="mi">256</span><span class="p">)</span>
+    <span class="n">thresh</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="n">getOtsuThresh</span><span class="p">(</span><span class="n">hist</span><span class="p">)]</span>
+    <span class="n">mask_binary</span> <span class="o">=</span> <span class="p">(</span><span class="n">mask_alpha</span> <span class="o">&gt;</span> <span class="n">thresh</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">biggest</span><span class="p">:</span> <span class="c1"># process to give only the biggest object</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">thresh_biggestCnt</span><span class="p">(</span><span class="n">mask_binary</span><span class="p">)</span>
+        <span class="n">mask_binary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">mask_binary</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">drawContours</span><span class="p">(</span><span class="n">mask_binary</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># get current fillet ROI</span>
+
+    <span class="k">if</span> <span class="n">addalpha</span><span class="p">:</span>
+        <span class="c1">#if biggest: mask_alpha[mask_binary==0] = 0</span>
+        <span class="k">return</span> <span class="n">mask_binary</span><span class="p">,</span><span class="n">mask_alpha</span>
+    <span class="k">return</span> <span class="n">mask_binary</span></div>
+
+<div class="viewcode-block" id="retinal_mask_watershed"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.segmentation.retinal_mask_watershed">[docs]</a><span class="k">def</span> <span class="nf">retinal_mask_watershed</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="n">addMarkers</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quick and simple watershed method to obtain the mask of the retinal area in an image.</span>
+<span class="sd">    For a more robust algorithm see :func:`retinal_mask`.</span>
+
+<span class="sd">    :param img: BGR or gray image</span>
+<span class="sd">    :param parameters: tuple of parameters to pass to :func:`filterFactory`</span>
+<span class="sd">    :param addMarkers: True to add additional Marker mask. It contains 0 for unknown</span>
+<span class="sd">            areas, 1 for background and 2 for retinal area.</span>
+<span class="sd">    :return: if addMarkers:</span>
+<span class="sd">                binary mask, Markers mask</span>
+<span class="sd">            else:</span>
+<span class="sd">                binary mask</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">myfilter</span> <span class="o">=</span> <span class="n">filterFactory</span><span class="p">(</span><span class="o">*</span><span class="n">parameters</span><span class="p">)</span> <span class="c1"># alfa,beta1,beta2</span>
+        <span class="n">img</span><span class="o">=</span><span class="p">(</span><span class="n">myfilter</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">))</span><span class="o">*</span><span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span><span class="c1">#*fore.astype(&quot;float&quot;)</span>
+
+    <span class="n">P</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">img</span><span class="p">)</span> <span class="c1"># get scaled image brightness</span>
+    <span class="n">thresh</span><span class="p">,</span><span class="n">sure_bg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="o">+</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span> <span class="c1"># obtain over threshold</span>
+    <span class="n">thresh</span><span class="p">,</span><span class="n">sure_fg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">P</span><span class="p">,</span><span class="n">thresh</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
+
+    <span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">sure_fg</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">)</span> <span class="c1"># make background markers</span>
+    <span class="n">markers</span><span class="p">[</span><span class="n">sure_bg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span> <span class="c1"># mark unknown markers</span>
+    <span class="n">markers</span><span class="p">[</span><span class="n">sure_fg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">2</span> <span class="c1"># mark sure object markers</span>
+
+    <span class="n">cv2</span><span class="o">.</span><span class="n">watershed</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">markers</span><span class="p">)</span> <span class="c1"># get watershed on markers</span>
+
+    <span class="n">thresh</span><span class="p">,</span><span class="n">mask</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">markers</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span> <span class="c1"># get binary image of contour</span>
+    <span class="k">if</span> <span class="n">addMarkers</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mask</span><span class="p">,</span> <span class="n">thresh</span>
+    <span class="k">return</span> <span class="n">mask</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, David Toro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
