@@ -109,7 +109,7 @@ def checkFile(path):
 
 def getPath(path=__file__):
     """
-    Get standard path from path.
+    Get standard path from path. It supports ~ as home directory.
 
     :param path: it can be to a folder or file. Default is __file__ or module's path.
                 If file exists it selects its folder.
@@ -117,6 +117,8 @@ def getPath(path=__file__):
 
     .. note:: It is the same as os.path.dirname(os.path.abspath(path)).
     """
+    if path.startswith("~"):
+        path = os.path.expanduser("~") + path[1:]
     if "." in path: # check extension
         return os.path.dirname(os.path.abspath(path)) # just use os
     else:

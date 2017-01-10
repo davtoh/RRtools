@@ -1,0 +1,471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.lib.arrayops.filters &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.lib.arrayops.filters</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This module contains custom 1D adn 2D-array filters and pre-processing (as in filtering phase) methods</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="c1">#from math import exp</span>
+<span class="kn">from</span> <span class="nn">sympy.functions</span> <span class="kn">import</span> <span class="n">exp</span>
+
+<span class="c1">#from RRtoolbox.lib.cache import memoize</span>
+<span class="c1">#from RRtoolbox.lib.config import MANAGER</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+
+<span class="c1">#@memoize(MANAGER[&quot;TEMPPATH&quot;]) # convert cv2.bilateralfilter to memoized bilateral filter</span>
+<div class="viewcode-block" id="bilateralFilter"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.bilateralFilter">[docs]</a><span class="k">def</span> <span class="nf">bilateralFilter</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply bilateral Filter.</span>
+
+<span class="sd">    :param im:</span>
+<span class="sd">    :param d:</span>
+<span class="sd">    :param sigmaColor:</span>
+<span class="sd">    :param sigmaSpace:</span>
+<span class="sd">    :return: filtered image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">bilateralFilter</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">sigmaColor</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="normsigmoid"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.normsigmoid">[docs]</a><span class="k">def</span> <span class="nf">normsigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply normalized sigmoid filter.</span>
+
+<span class="sd">    :param x: data to apply filter</span>
+<span class="sd">    :param alpha: if alpha &gt; 0: pass high filter, if alpha &lt; 0: pass low filter, alpha must be != 0</span>
+<span class="sd">    :param beta: shift from origin</span>
+<span class="sd">    :return: filtered values normalized to range [-1 if x&lt;0, 1 if x&gt;=0]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">beta</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">exp</span><span class="p">((</span><span class="n">beta</span><span class="o">-</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FilterBase"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.FilterBase">[docs]</a><span class="k">class</span> <span class="nc">FilterBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    base filter to create custom filters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">beta2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param alpha:</span>
+<span class="sd">        :param beta1:</span>
+<span class="sd">        :param beta2:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span> <span class="o">=</span> <span class="n">beta1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span> <span class="o">=</span> <span class="n">beta2</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="k">if</span> <span class="n">beta1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta1</span> <span class="o">=</span> <span class="n">beta1</span>
+        <span class="k">if</span> <span class="n">beta2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span> <span class="o">=</span> <span class="n">beta2</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span>
+    <span class="nd">@alpha.setter</span>
+    <span class="k">def</span> <span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_test_alpha</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@alpha.deleter</span>
+    <span class="k">def</span> <span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span>
+    <span class="nd">@beta1.setter</span>
+    <span class="k">def</span> <span class="nf">beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_test_beta1</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@beta1.deleter</span>
+    <span class="k">def</span> <span class="nf">beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span>
+    <span class="nd">@beta2.setter</span>
+    <span class="k">def</span> <span class="nf">beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_test_beta2</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@beta2.deleter</span>
+    <span class="k">def</span> <span class="nf">beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span>
+
+    <span class="k">def</span> <span class="nf">_test_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">value</span><span class="o">&gt;</span><span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">_test_beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta2</span><span class="o">&gt;</span><span class="n">value</span>
+    <span class="k">def</span> <span class="nf">_test_beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">value</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Lowpass"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.Lowpass">[docs]</a><span class="k">class</span> <span class="nc">Lowpass</span><span class="p">(</span><span class="n">FilterBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lowpass filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Lowpass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_test_beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">_test_beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Lowpass filter does not implement beta2&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Highpass"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.Highpass">[docs]</a><span class="k">class</span> <span class="nc">Highpass</span><span class="p">(</span><span class="n">FilterBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Highpass filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Highpass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_test_beta1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">_test_beta2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Highpass filter does not implement beta2&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Bandstop"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.Bandstop">[docs]</a><span class="k">class</span> <span class="nc">Bandstop</span><span class="p">(</span><span class="n">FilterBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bandstop filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bandstop</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span> <span class="o">-</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="Bandpass"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.Bandpass">[docs]</a><span class="k">class</span> <span class="nc">Bandpass</span><span class="p">(</span><span class="n">FilterBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Bandpass filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bandpass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span><span class="o">-</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InvertedBandstop"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.InvertedBandstop">[docs]</a><span class="k">class</span> <span class="nc">InvertedBandstop</span><span class="p">(</span><span class="n">Bandstop</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    inverted Bandstop filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span><span class="p">)</span><span class="o">-</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span><span class="o">-</span><span class="mf">1.0</span></div>
+
+<div class="viewcode-block" id="InvertedBandpass"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.InvertedBandpass">[docs]</a><span class="k">class</span> <span class="nc">InvertedBandpass</span><span class="p">(</span><span class="n">Bandpass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    inverted Bandpass filter (recommended to use float types)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta2</span><span class="p">)</span><span class="o">-</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">levels</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_beta1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="filterFactory"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.filterFactory">[docs]</a><span class="k">def</span> <span class="nf">filterFactory</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make filter.</span>
+
+<span class="sd">    :param alpha: steepness of filter</span>
+<span class="sd">    :param beta1: first shift from origin</span>
+<span class="sd">    :param beta2: second shift from origin::</span>
+
+<span class="sd">        alpha must be != 0</span>
+<span class="sd">        if beta2 = None:</span>
+<span class="sd">            if alpha &gt; 0: high-pass filter, if alpha &lt; 0: low-pass filter</span>
+<span class="sd">        else:</span>
+<span class="sd">            if beta2 &gt; beta1:</span>
+<span class="sd">                if alpha &gt; 0: band-pass filter, if alpha &lt; 0: band-stop filter</span>
+<span class="sd">            else:</span>
+<span class="sd">                if alpha &gt; 0: inverted-band-pass filter, if alpha &lt; 0: inverted-band-stop filter</span>
+<span class="sd">    :return: filter funtion with intup levels</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        alpha,beta1,beta2 = 10,20,100</span>
+<span class="sd">        myfilter = filter(alpha,beta1,beta2)</span>
+<span class="sd">        print myfilter,type(myfilter)</span>
+<span class="sd">        print myfilter.alpha,myfilter.beta1,myfilter.beta2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#http://en.wikipedia.org/wiki/Filter_%28signal_processing%29</span>
+    <span class="k">if</span> <span class="n">beta2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># low pass</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="n">Lowpass</span><span class="p">(</span><span class="n">alpha</span><span class="o">=-</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># high pass</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="n">Highpass</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">beta2</span><span class="o">&gt;</span><span class="n">beta1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># band stop</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">Bandstop</span><span class="p">(</span><span class="n">alpha</span><span class="o">=-</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># band pass</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">Bandpass</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># inverted</span>
+            <span class="n">beta1</span><span class="p">,</span><span class="n">beta2</span> <span class="o">=</span> <span class="n">beta2</span><span class="p">,</span><span class="n">beta1</span>
+            <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># inverted band stop</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">InvertedBandstop</span><span class="p">(</span><span class="n">alpha</span><span class="o">=-</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># inverted band pass</span>
+                <span class="n">func</span> <span class="o">=</span> <span class="n">InvertedBandpass</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span></div>
+
+<div class="viewcode-block" id="sigmoid"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.sigmoid">[docs]</a><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply sigmoid filter.</span>
+
+<span class="sd">    :param x: data to apply filter</span>
+<span class="sd">    :param alpha: if alpha &gt; 0: pass high filter, if alpha &lt; 0: pass low filter, alpha must be != 0</span>
+<span class="sd">    :param beta: shift from origin</span>
+<span class="sd">    :param max: maximum output value</span>
+<span class="sd">    :param min: minimum output value</span>
+<span class="sd">    :return: filtered values ranging as [min,max]</span>
+
+<span class="sd">    .. note:: Based from http://www.itk.org/Doxygen/html/classitk_1_1SigmoidImageFilter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">min</span><span class="p">:</span> <span class="k">return</span> <span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span><span class="o">*</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span><span class="o">+</span><span class="nb">min</span>
+    <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="nb">max</span><span class="o">*</span><span class="n">normsigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">alpha</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>  <span class="c1"># speeds up operation</span></div>
+
+<div class="viewcode-block" id="smooth"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.smooth">[docs]</a><span class="k">def</span> <span class="nf">smooth</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">window_len</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s1">&#39;hanning&#39;</span><span class="p">,</span> <span class="n">correct</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Smooth the data using a window with requested size.</span>
+
+<span class="sd">    This method is based on the convolution of a scaled window with the signal.</span>
+<span class="sd">    The signal is prepared by introducing reflected copies of the signal</span>
+<span class="sd">    (with the window size) in both ends so that transient parts are minimized</span>
+<span class="sd">    in the beginning and end part of the output signal.</span>
+
+<span class="sd">    input:</span>
+<span class="sd">        x: the input signal</span>
+<span class="sd">        window_len: the dimension of the smoothing window; should be an odd integer</span>
+<span class="sd">        window: the type of window from &#39;flat&#39;, &#39;hanning&#39;, &#39;hamming&#39;, &#39;bartlett&#39;, &#39;blackman&#39;</span>
+<span class="sd">            flat window will produce a moving average smoothing.</span>
+
+<span class="sd">    output:</span>
+<span class="sd">        the smoothed signal</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        t=linspace(-2,2,0.1)</span>
+<span class="sd">        x=sin(t)+randn(len(t))*0.1</span>
+<span class="sd">        y=smooth(x)</span>
+
+<span class="sd">    .. seealso:: numpy.hanning, numpy.hamming, numpy.bartlett, numpy.blackman, numpy.convolve, scipy.signal.lfilter</span>
+
+<span class="sd">    .. note:: length(output) != length(input), to correct this: return y[(window_len/2-1):-(window_len/2)] instead of just y.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#TODO: the window parameter could be the window itself if an array instead of a string</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;smooth only accepts 1 dimension arrays.&quot;</span>
+
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="n">window_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Input vector needs to be bigger than window size.&quot;</span>
+
+    <span class="k">if</span> <span class="n">window_len</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">window</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;flat&#39;</span><span class="p">,</span> <span class="s1">&#39;hanning&#39;</span><span class="p">,</span> <span class="s1">&#39;hamming&#39;</span><span class="p">,</span> <span class="s1">&#39;bartlett&#39;</span><span class="p">,</span> <span class="s1">&#39;blackman&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="s2">&quot;Window is on of &#39;flat&#39;, &#39;hanning&#39;, &#39;hamming&#39;, &#39;bartlett&#39;, &#39;blackman&#39;&quot;</span>
+
+    <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">window_len</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="n">window_len</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="c1">#print(len(s))</span>
+    <span class="k">if</span> <span class="n">window</span> <span class="o">==</span> <span class="s1">&#39;flat&#39;</span><span class="p">:</span> <span class="c1">#moving average</span>
+        <span class="n">w</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">window_len</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w</span><span class="o">=</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;np.&#39;</span><span class="o">+</span><span class="n">window</span><span class="o">+</span><span class="s1">&#39;(window_len)&#39;</span><span class="p">)</span>
+
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">w</span><span class="o">/</span><span class="n">w</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span><span class="n">s</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">correct</span><span class="p">:</span>
+        <span class="n">displaced</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># how much it was expanded, increased or displaced</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">displaced</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">displaced</span> <span class="o">-</span> <span class="n">displaced</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span> <span class="c1"># adjusted to original size</span>
+    <span class="k">return</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="BilateraParameter"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.BilateraParameter">[docs]</a><span class="k">class</span> <span class="nc">BilateraParameter</span><span class="p">(</span><span class="n">Bandstop</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    bilateral parameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="mi">33</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=-</span><span class="mi">400</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BilateraParameter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shift</span> <span class="o">=</span> <span class="n">shift</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levels</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">BilateraParameter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span>
+            <span class="n">levels</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BilateralParameters"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.BilateralParameters">[docs]</a><span class="k">class</span> <span class="nc">BilateralParameters</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    create instance to calculate bilateral</span>
+<span class="sd">    parameters from image shape.</span>
+
+<span class="sd">    d -&gt; inf then:</span>
+<span class="sd">        * computation is slower</span>
+<span class="sd">        * filtering is better to eliminate noise</span>
+<span class="sd">        * images look more cartoon-like</span>
+
+<span class="sd">    :param d: distance</span>
+<span class="sd">    :param sigmaColor: sigma in color</span>
+<span class="sd">    :param sigmaSpace: sigma in space</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">BilateraParameter</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">31</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">beta1</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">)</span>
+    <span class="n">sigmaColor</span> <span class="o">=</span> <span class="n">BilateraParameter</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span><span class="s2">&quot;sigmaColor&quot;</span><span class="p">)</span>
+    <span class="n">sigmaSpace</span> <span class="o">=</span> <span class="n">BilateraParameter</span><span class="p">(</span><span class="n">scale</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span><span class="s2">&quot;sigmaSpace&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">sigmaColor</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">sigmaSpace</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        replace bilateral limit parameters. It can be a</span>
+<span class="sd">        instance from BilateraParameter or a value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="k">if</span> <span class="n">sigmaColor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigmaColor</span> <span class="o">=</span> <span class="n">sigmaColor</span>
+        <span class="k">if</span> <span class="n">sigmaSpace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigmaSpace</span> <span class="o">=</span> <span class="n">sigmaSpace</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">filters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        list of filters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">create_func</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">custom_val</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">val</span>
+            <span class="n">custom_val</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Custom value {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">custom_val</span>
+        <span class="n">fs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmaColor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmaSpace</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="n">fs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">fs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">create_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">fs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">create_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmaColor</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">fs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">create_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigmaSpace</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">fs</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        calculate bilateral parameters from image shape.</span>
+
+<span class="sd">        :param shape: image shape</span>
+<span class="sd">        :return: d,sigmaColor,sigmaSpace</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="getBilateralParameters"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.filters.getBilateralParameters">[docs]</a><span class="k">def</span> <span class="nf">getBilateralParameters</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate from shape bilateral parameters.</span>
+
+<span class="sd">    :param shape: image shape. if None it returns the instace to use with shapes.</span>
+<span class="sd">    :param mode: &quot;mild&quot;, &quot;heavy&quot; or &quot;normal&quot; to process noise</span>
+<span class="sd">    :return: instance or parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#15,82,57 # 21,75,75 # faster and for low noise</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;mild&quot;</span> <span class="ow">or</span> <span class="n">mode</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;heavy&quot;</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;normal&quot;</span><span class="p">:</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="mi">27</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mode</span><span class="p">,(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">)):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Bilateral Parameter mode &#39;{}&#39; not recognised&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+    <span class="n">bp</span> <span class="o">=</span> <span class="n">BilateralParameters</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">bp</span>
+    <span class="k">return</span> <span class="n">bp</span><span class="p">(</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, David Toro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

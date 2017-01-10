@@ -1,0 +1,1052 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>RRtoolbox.lib.root &mdash; RRtoolbox 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for RRtoolbox.lib.root</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This module holds core-like methods for library modules but not for the hole package</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># system</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatch</span><span class="p">,</span><span class="n">fnmatchcase</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
+<span class="n">formater</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span> <span class="c1"># string formatter str.format</span>
+<span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="c1"># ----------------------------BASIC FUNCTIONS---------------------------- #</span>
+
+
+<div class="viewcode-block" id="StdoutSIM"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM">[docs]</a><span class="k">class</span> <span class="nc">StdoutSIM</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    simple logger to simulate stdout output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disable</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stdout</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="n">disable</span>
+<div class="viewcode-block" id="StdoutSIM.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="StdoutSIM.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="StdoutSIM.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="StdoutSIM.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+<div class="viewcode-block" id="StdoutSIM.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutSIM.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+<span class="n">stdout</span> <span class="o">=</span> <span class="n">StdoutSIM</span><span class="p">()</span>
+
+<div class="viewcode-block" id="StdoutLOG"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG">[docs]</a><span class="k">class</span> <span class="nc">StdoutLOG</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    simple logger to save stdout output</span>
+<span class="sd">    so anything printed in the console is logged to a file.</span>
+
+<span class="sd">    :param path: path to logging file</span>
+<span class="sd">    :param mode: mode for opening the file.</span>
+<span class="sd">    :param chain: if True closes previous logs and continues with new log</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">chain</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chain</span> <span class="o">=</span> <span class="n">chain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="c1"># close previous StdoutLOG</span>
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">StdoutLOG</span><span class="p">):</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chain</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">StdoutSIM</span><span class="p">):</span>
+            <span class="c1"># continue using previous logs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># use new log and stdout</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logs</span> <span class="o">=</span> <span class="p">[</span><span class="n">stdout</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">]</span>
+
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span> <span class="c1"># register log</span>
+
+<div class="viewcode-block" id="StdoutLOG.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutLOG.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutLOG.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutLOG.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">flush</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutLOG.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutLOG.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># close according to chain option</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chain</span><span class="p">:</span>
+            <span class="c1"># close all the logs in the chain</span>
+            <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+            <span class="c1"># only closes this log but keep alive</span>
+            <span class="c1"># previous logs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">logs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="bp">True</span></div></div>
+
+<div class="viewcode-block" id="StdoutMULTI"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI">[docs]</a><span class="k">class</span> <span class="nc">StdoutMULTI</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enclose several file-like objects.</span>
+
+<span class="sd">    :param filelist = list of file-like objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filelist</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span> <span class="o">=</span> <span class="n">filelist</span>
+
+<div class="viewcode-block" id="StdoutMULTI.write"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutMULTI.printline"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.printline">[docs]</a>    <span class="k">def</span> <span class="nf">printline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">printline</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutMULTI.printlines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.printlines">[docs]</a>    <span class="k">def</span> <span class="nf">printlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">printlines</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutMULTI.flush"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">flush</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StdoutMULTI.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.StdoutMULTI.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">log</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filelist</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="decorateInstanceMethods"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.decorateInstanceMethods">[docs]</a><span class="k">def</span> <span class="nf">decorateInstanceMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decorator</span><span class="p">,</span><span class="n">excludeMth</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;__init__&quot;</span><span class="p">),</span><span class="n">includeMth</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorate methods in an instance. It should be used in the __init__ method of a class.</span>
+
+<span class="sd">    :param self: class instance.</span>
+<span class="sd">    :param decorator: decorator function to apply to self.</span>
+<span class="sd">    :param excludeMth: list of methods to exclude.</span>
+<span class="sd">    :param includeMth: list of methods to include if not in exclude.</span>
+<span class="sd">            if excludeMth is None then decorateInstanceMethods checks for includeMth list.</span>
+<span class="sd">            if includeMth and excludeMth is None then all methods of self are decorated.</span>
+<span class="sd">    :return: self</span>
+
+<span class="sd">    .. note:: It must be used at instance initialization (i.e. inside __init__ method)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">classmethods</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">))</span>
+    <span class="c1">#if &quot;__init__&quot; in classmethods.keys(): del classmethods[&quot;__init__&quot;] # init method should not be decorated</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">classmethods</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">excludeMth</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">excludeMth</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">includeMth</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">includeMth</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">decorator</span><span class="p">(</span><span class="n">classmethods</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<span class="c1"># ----------------------------DECORATORS---------------------------- #</span>
+
+<div class="viewcode-block" id="addto"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.addto">[docs]</a><span class="k">def</span> <span class="nf">addto</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span><span class="n">funcname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator: Add function as method to instance.</span>
+
+<span class="sd">    :param instance: class instance.</span>
+<span class="sd">    :param funcname: name to register in instance.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">instance</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span> <span class="c1"># convert to bound method</span>
+        <span class="k">if</span> <span class="n">funcname</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">funcname</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">fn</span><span class="o">.</span><span class="n">func_name</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span> <span class="c1"># set fn method with name fn.func_name in instance</span>
+        <span class="k">return</span> <span class="n">fn</span>
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+<span class="c1"># ----------------------------CLASS OBJECTS---------------------------- #</span>
+
+<span class="c1"># ----------------------------DECORATED FUNCTIONS---------------------------- #</span>
+
+<span class="c1"># ----------------------------SPECIALISED FUNCTIONS---------------------------- #</span>
+
+<div class="viewcode-block" id="formatOnly"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatOnly">[docs]</a><span class="k">def</span> <span class="nf">formatOnly</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format string only with provided keys</span>
+
+<span class="sd">    :param format_string: string to format</span>
+<span class="sd">    :param kwargs: format keys</span>
+<span class="sd">    :return: formatted string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{{{}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="formatConsume"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatConsume">[docs]</a><span class="k">def</span> <span class="nf">formatConsume</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">handle</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format with dictionary and consume keys.</span>
+
+<span class="sd">    :param format_string: string to format</span>
+<span class="sd">    :param kwargs: dictionary containing the keys and values to format string.</span>
+<span class="sd">            The keys must be supported by the string formatter</span>
+<span class="sd">    :param formatter: (None) formatter function to format string</span>
+<span class="sd">    :return: formatted string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">keys_in_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">formatter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_in_str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">handle</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">formatted_string</span></div>
+
+
+<div class="viewcode-block" id="FactorConvert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert">[docs]</a><span class="k">class</span> <span class="nc">FactorConvert</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Keep track of factor and converts to any available factor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_factors</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;exa&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="mi">1000000000000000000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;peta&quot;</span><span class="p">,</span><span class="s2">&quot;P&quot;</span><span class="p">,</span><span class="mi">1000000000000000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;tera&quot;</span><span class="p">,</span><span class="s2">&quot;T&quot;</span><span class="p">,</span><span class="mi">1000000000000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;giga&quot;</span><span class="p">,</span><span class="s2">&quot;G&quot;</span><span class="p">,</span><span class="mi">1000000000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;mega&quot;</span><span class="p">,</span><span class="s2">&quot;M&quot;</span><span class="p">,</span><span class="mi">1000000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;kilo&quot;</span><span class="p">,</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;hecto&quot;</span><span class="p">,</span><span class="s2">&quot;h&quot;</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;deca&quot;</span><span class="p">,</span><span class="s2">&quot;da&quot;</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
+                <span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;deci&quot;</span><span class="p">,</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;centi&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;milli&quot;</span><span class="p">,</span><span class="s2">&quot;m&quot;</span><span class="p">,</span><span class="mf">0.001</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;micro&quot;</span><span class="p">,</span><span class="s2">&quot;u&quot;</span><span class="p">,</span><span class="mf">0.000001</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;nano&quot;</span><span class="p">,</span><span class="s2">&quot;n&quot;</span><span class="p">,</span><span class="mf">0.000000001</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;pico&quot;</span><span class="p">,</span><span class="s2">&quot;p&quot;</span><span class="p">,</span><span class="mf">0.000000000001</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;femto&quot;</span><span class="p">,</span><span class="s2">&quot;f&quot;</span><span class="p">,</span><span class="mf">0.000000000000001</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;atto&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mf">0.000000000000000001</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :param factor: anything to look in factors (i.e. factor list with Factor structures).</span>
+<span class="sd">        :param abbreviate: index to return from Factor structure when factor is asked.</span>
+
+<span class="sd">        .. notes: A factor structure is of the form (&quot;Name&quot;,&quot;abbreviation&quot;,value)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span> <span class="o">=</span> <span class="n">abbreviate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span>
+    <span class="nd">@factors.setter</span>
+    <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">)</span> <span class="c1"># itertools.izip is faster but this operation is one time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@factors.deleter</span>
+    <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Property cannot be deleted&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">]</span>
+    <span class="nd">@factor.setter</span>
+    <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFactor</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="c1"># transform units</span>
+    <span class="nd">@factor.deleter</span>
+    <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Property cannot be deleted&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FactorConvert.convert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert from actual factor to another factor.</span>
+
+<span class="sd">        :param factor: number</span>
+<span class="sd">        :param to: factor to convert</span>
+<span class="sd">        :return: converted value, units</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFactor</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">to</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">to</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">]</span> <span class="c1"># converted value, factor</span></div>
+
+<div class="viewcode-block" id="FactorConvert.convert2sample"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert2sample">[docs]</a>    <span class="k">def</span> <span class="nf">convert2sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert to resemble sample.</span>
+
+<span class="sd">        :param factor: number</span>
+<span class="sd">        :param to: sample factor.</span>
+<span class="sd">        :return: converted value, units</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">to</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">to</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># calculate as fast as possible</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">to</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFactor</span><span class="p">(</span><span class="n">to</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">to</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span> <span class="c1"># to units.</span></div>
+
+<div class="viewcode-block" id="FactorConvert.exactFactorIndex"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.exactFactorIndex">[docs]</a>    <span class="k">def</span> <span class="nf">exactFactorIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the index of a factor that contains a key.</span>
+
+<span class="sd">        :param key: anything to look in factors (i.e. factor name, factor value, abbreviation).</span>
+<span class="sd">        :return: factor structure, else None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span><span class="p">:</span><span class="c1"># try to find it</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span> <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FactorConvert.nearFactorIndex"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.nearFactorIndex">[docs]</a>    <span class="k">def</span> <span class="nf">nearFactorIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the index of nearest factor value.</span>
+
+<span class="sd">        :param factor: factor value.</span>
+<span class="sd">        :return: factor structure near factor value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">-</span> <span class="n">factor</span><span class="p">))</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FactorConvert.getFactor"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.getFactor">[docs]</a>    <span class="k">def</span> <span class="nf">getFactor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tries to find factor value in factors.</span>
+
+<span class="sd">        :param key: anything to look in factors (i.e. factor name, factor value, abbreviation).</span>
+<span class="sd">                    If key is a factor value it will look for the nearest factor value.</span>
+<span class="sd">        :return: factor structure, else raises error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exactFactorIndex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Factor not found for {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearFactorIndex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span><span class="p">[</span><span class="n">index</span><span class="p">]</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FactorConvert.split"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.split">[docs]</a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number fraction.</span>
+
+<span class="sd">        :param value: number</span>
+<span class="sd">        :return: integer, fraction</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">value</span><span class="o">-</span><span class="n">left</span>
+        <span class="k">return</span> <span class="n">left</span><span class="p">,</span><span class="n">right</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="FactorConvert.parts"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.parts">[docs]</a>    <span class="k">def</span> <span class="nf">parts</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get number parts.</span>
+
+<span class="sd">        :param value: number</span>
+<span class="sd">        :param precision: decimal precision</span>
+<span class="sd">        :return: ([... ,Hundreds, Tens, Ones],[Tenths, ...])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;{{:0.{}f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[]</span></div></div>
+
+<div class="viewcode-block" id="Magnitude"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Magnitude">[docs]</a><span class="k">class</span> <span class="nc">Magnitude</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span> <span class="o">=</span> <span class="n">abbreviate</span>
+<div class="viewcode-block" id="Magnitude.format_value"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Magnitude.format_value">[docs]</a>    <span class="k">def</span> <span class="nf">format_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{:f} {}{}&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{{:0.{}f}} {{}}{{}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">:</span> <span class="c1">#</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">FactorConvert</span><span class="p">(</span>
+                        <span class="n">abbreviate</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">FactorConvert</span><span class="p">(</span>
+                        <span class="n">abbreviate</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">)</span><span class="o">.</span><span class="n">convert2sample</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_value</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TimeCode"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TimeCode">[docs]</a><span class="k">class</span> <span class="nc">TimeCode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context to profile code by printing a prelude and prologue with time.</span>
+
+<span class="sd">    :param msg: prelude or description message</span>
+<span class="sd">    :param factor: factor supported by FactorConvert class</span>
+<span class="sd">    :param precision: number of digits after a float point</span>
+<span class="sd">    :param abv: if True prints &quot;s&quot;, if False &quot;seconds&quot; for time</span>
+<span class="sd">    :param endmsg: prologue message</span>
+<span class="sd">    :param enableMsg: (True) A flag specifying if context</span>
+<span class="sd">            should be printed or not.</span>
+<span class="sd">    :param printfunc: function to print messages. By default it</span>
+<span class="sd">            is sys.stdout.write</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                 <span class="n">abv</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">endmsg</span> <span class="o">=</span> <span class="s2">&quot;{time}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">enableMsg</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                 <span class="n">printfunc</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">profiler</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">profile_point</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">abv</span> <span class="o">=</span> <span class="n">abv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span> <span class="o">=</span> <span class="n">endmsg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="o">=</span> <span class="n">enableMsg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="o">=</span> <span class="n">printfunc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span> <span class="o">=</span> <span class="n">profiler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="n">profile_point</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span>
+    <span class="nd">@time_end.setter</span>
+    <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="nd">@time_end.deleter</span>
+    <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="c1"># begin chronometer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="o">*</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span> <span class="n">Profiler</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="p">,</span> <span class="n">Profiler</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="c1"># end chronometer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># abbreviation</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abv</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span><span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot; seconds&quot;</span><span class="p">,</span><span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">abbreviate</span><span class="o">=</span><span class="n">i</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Profiler"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler">[docs]</a><span class="k">class</span> <span class="nc">Profiler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    profiler for code points</span>
+
+<span class="sd">    :param msg: custom comment for profiling point</span>
+<span class="sd">    :param tag: classification tag</span>
+<span class="sd">    :parameter space: (&quot; &quot;)</span>
+<span class="sd">    :parameter format_line: (&quot;{space}{tag}{msg}{time}&quot;)</span>
+<span class="sd">    :parameter format_structure: (&quot;\n{space}[{tag}{msg}{time}{child}]{side}&quot;)</span>
+<span class="sd">    :parameter points: profile instaces which are divided in &quot;side&quot; or &quot;children&quot; points</span>
+<span class="sd">            according if they are side by side or are inside of the profiler.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_line</span> <span class="o">=</span> <span class="s2">&quot;{space}{tag}{msg}{time}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_structure</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">{space}[{tag}{msg}{time}{child}]{side}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span> <span class="o">=</span> <span class="s2">&quot;({}) &quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span> <span class="o">=</span> <span class="s2">&quot; -&gt; {:0.4f} secs&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span> <span class="o">=</span> <span class="s2">&quot;{!r}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: overall time of profiling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">points_diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">time</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">points_diff</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">points_diff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_add_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        keep track of points and organize self.points (not intended for the user)</span>
+
+<span class="sd">        :param point: profile instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">child</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_close_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        close a points and adds to the list of points (not intended for the user)</span>
+
+<span class="sd">        :param point: profile instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Profiler.open_point"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.open_point">[docs]</a>    <span class="k">def</span> <span class="nf">open_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a profiling point to track time.</span>
+
+<span class="sd">        :param msg: custom comment for profiling point</span>
+<span class="sd">        :param tag: classification tag</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">point</span> <span class="o">=</span> <span class="n">Profiler</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">point</span></div>
+
+<div class="viewcode-block" id="Profiler.close"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        close profiler and all their points</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Profiler.formatter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.formatter">[docs]</a>    <span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        format profiling point arguments.</span>
+
+<span class="sd">        :param level:</span>
+<span class="sd">        :param tag: classification tag</span>
+<span class="sd">        :param msg: custom comment of profiling point</span>
+<span class="sd">        :param time: time of profiling</span>
+<span class="sd">        :return: formatted (spacing, tag, msg, time)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tag</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">time</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">*</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span></div>
+
+    <span class="k">def</span> <span class="nf">_collapse_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Collapse list of profiles (not intended for the user)</span>
+
+<span class="sd">        :param children: list of profiles</span>
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :return: filtered list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># collapse them</span>
+        <span class="k">if</span> <span class="n">collapse</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">children</span><span class="p">:</span>
+            <span class="n">new_children</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># init new list of collapsed children</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c1"># keep cache of indexed children</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span> <span class="c1"># loop over children</span>
+                <span class="nb">cmp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">child</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># comparison and key index</span>
+                <span class="k">if</span> <span class="n">new_children</span> \
+                        <span class="ow">and</span> <span class="p">(</span><span class="n">collapse</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span><span class="p">)</span> \
+                        <span class="ow">and</span> <span class="nb">cmp</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="nb">cmp</span><span class="p">]</span> <span class="c1"># return cached index</span>
+                    <span class="n">new_children</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">child</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># add time</span>
+                    <span class="n">new_children</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">child</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="c1"># add children of child</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># if not indexed</span>
+                    <span class="n">indexes</span><span class="p">[</span><span class="nb">cmp</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_children</span><span class="p">)</span> <span class="c1"># cache actual index</span>
+                    <span class="n">new_children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="c1"># append a new child</span>
+            <span class="k">return</span> <span class="n">new_children</span> <span class="c1"># replace for new children list</span>
+        <span class="k">return</span> <span class="n">children</span>
+
+<div class="viewcode-block" id="Profiler.restructure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.restructure">[docs]</a>    <span class="k">def</span> <span class="nf">restructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">,</span> <span class="n">collapse</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        reprocess an already created structure.</span>
+
+<span class="sd">        :param structure: structure.</span>
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :return: reprocessed structure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">structure</span>
+        <span class="k">if</span> <span class="n">children</span><span class="p">:</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collapse_structure</span><span class="p">(</span><span class="n">children</span><span class="p">,</span><span class="n">collapse</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">child</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+                <span class="n">children</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">restructure</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">collapse</span><span class="p">)</span>
+            <span class="n">structure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">children</span>
+        <span class="k">return</span> <span class="n">structure</span></div>
+
+<div class="viewcode-block" id="Profiler.structure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        profiling structure.</span>
+
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :return: structure with format [tag,msg,time,children]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># collect structure of children</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">point</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">)</span> <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">]</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collapse_structure</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">collapse</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">children</span><span class="p">]</span> <span class="c1"># permit item assignment</span></div>
+
+    <span class="k">def</span> <span class="nf">_helper_lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        helper to generate lines (not intended for the user)</span>
+
+<span class="sd">        :param struct: profiling structure</span>
+<span class="sd">        :param level: structure level</span>
+<span class="sd">        :return: generator with outputs (level, tag, msg, time)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span><span class="p">,</span><span class="n">children</span> <span class="o">=</span> <span class="n">struct</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">i</span>
+
+<div class="viewcode-block" id="Profiler.lines_unformatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_unformatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        generate structure lines</span>
+
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :return: generator with outputs (level, tag, msg, time)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Profiler.lines_formatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        generate string lines</span>
+
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :return: list of lines</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">level</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines_unformatted</span><span class="p">(</span><span class="n">collapse</span><span class="p">):</span>
+            <span class="n">space</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">(</span><span class="n">level</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">lns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_line</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">lns</span></div>
+
+<div class="viewcode-block" id="Profiler.string_lines"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_lines">[docs]</a>    <span class="k">def</span> <span class="nf">string_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        string with plain structure of profiling</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lines_formatted</span><span class="p">())</span></div>
+
+    <span class="k">def</span> <span class="nf">_helper_string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structs</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        helper to generate string with structure of profiling</span>
+
+<span class="sd">        :param structs: list of structures</span>
+<span class="sd">        :param level: structure level</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">structs</span><span class="p">:</span>
+            <span class="n">mystr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_structure</span>
+            <span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span><span class="p">,</span><span class="n">children</span> <span class="o">=</span> <span class="n">structs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">space</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatter</span><span class="p">(</span><span class="n">level</span><span class="p">,</span><span class="n">tag</span><span class="p">,</span><span class="n">msg</span><span class="p">,</span><span class="n">time</span><span class="p">)</span>
+            <span class="n">mystr</span> <span class="o">=</span> <span class="n">mystr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">space</span><span class="o">=</span><span class="n">space</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+                                 <span class="n">child</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
+                                 <span class="n">side</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">(</span><span class="n">structs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">level</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">mystr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="Profiler.string_structured"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_structured">[docs]</a>    <span class="k">def</span> <span class="nf">string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">structure</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        string with plain structure of profiling</span>
+
+<span class="sd">        :param collapse: list for collapsing repeated tags or messages.</span>
+<span class="sd">        :param structure: (None) uses and already created structure. If None</span>
+<span class="sd">                it creates the structure.</span>
+<span class="sd">        :return: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">structure</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">restructure</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">collapse</span><span class="p">)])</span></div></div>
+
+<div class="viewcode-block" id="Controlstdout"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Controlstdout">[docs]</a><span class="k">class</span> <span class="nc">Controlstdout</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context manager to control output to stdout</span>
+
+<span class="sd">    :param disable: if True suppress output.</span>
+<span class="sd">    :param buffer: (None) if True creates a buffer to collect all data</span>
+<span class="sd">            printed to the stdout which can be retrieved with self.buffered.</span>
+<span class="sd">            A file can be given but if it is write-only it cannot retrieve</span>
+<span class="sd">            data to self.buffered so &quot;w+&quot; is recommended to be used with self.buffered.</span>
+
+<span class="sd">    .. warning:: If a references to sys.stdout is kept before the Controlstdout</span>
+<span class="sd">            instance then output can be printed trough it and cannot be</span>
+<span class="sd">            controlled by the Controlstdout context.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disable</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="nb">buffer</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="n">disable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffered</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutSIM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># in case it is not defined</span>
+                <span class="kn">import</span> <span class="nn">StringIO</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutMULTI</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">])</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffered</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span></div>
+
+<div class="viewcode-block" id="glob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.glob">[docs]</a><span class="k">def</span> <span class="nf">glob</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">contents</span><span class="o">=</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">check</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of paths matching a pathname pattern with valid files.</span>
+
+<span class="sd">    :param path: path to process ing glob filter</span>
+<span class="sd">    :param contents: If path is a folder then looks for contents using</span>
+<span class="sd">    :param check: function to filter contents. it must receive the path</span>
+<span class="sd">            and return True to let it pass and False to suppress it.</span>
+<span class="sd">    :return: return list of files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+    <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="c1"># special case: Folder</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fns</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fns</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">contents</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">check</span><span class="p">,</span><span class="n">fns</span><span class="p">)</span> <span class="c1"># [p for p in fns if check(p)]</span></div>
+
+<div class="viewcode-block" id="ensureList"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.ensureList">[docs]</a><span class="k">def</span> <span class="nf">ensureList</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; ensures that object is list &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span> <span class="c1"># returns original lis</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span> <span class="c1"># for python 2.x check if obj is iterablet</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="c1"># converts to list</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="c1"># object is returned inside list</span></div>
+
+<div class="viewcode-block" id="globFilter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.globFilter">[docs]</a><span class="k">class</span> <span class="nc">globFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;glob filter for patterns&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param include: permitted patterns</span>
+<span class="sd">        :param exclude: excluded patterns. it takes priority over includes</span>
+<span class="sd">        :param case: True or False for case sensitive patterns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">include</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">include</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">include</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">exclude</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">case</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatchcase</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatch</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">cmp</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         Evaluate filter.</span>
+
+<span class="sd">        :param cmp: iterator or string</span>
+<span class="sd">        :return: True or false if cmp pass filter test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span><span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">cmp</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cmpfunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="c1"># prevents from accessing self</span>
+            <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span><span class="p">:</span> <span class="c1"># if exclude is [] don&#39;t do the test</span>
+                <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span> <span class="c1"># test includes</span>
+                <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+                        <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span> <span class="c1"># if include is False or None return True anyway i.e. equivalent to [&#39;*&#39;]</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+
+
+<div class="viewcode-block" id="lookinglob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.lookinglob">[docs]</a><span class="k">def</span> <span class="nf">lookinglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">filelist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">raiseErr</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.</span>
+
+<span class="sd">    :param pattern: string to look for pattern.</span>
+<span class="sd">    :param path: (None) path to look for pattern</span>
+<span class="sd">    :param ext: (None) extension of pattern in path</span>
+<span class="sd">    :param forward: (None) look changes after pattern and before ext parameter.</span>
+<span class="sd">    :param filelist: (None) simulates the files in path and look patterns in this list.</span>
+<span class="sd">    :param aslist: (False) if False it returns the first match case string</span>
+<span class="sd">            else the list of matching cases.</span>
+<span class="sd">    :param raiseErr: If true raises Exception if patter is not found in path or there</span>
+<span class="sd">            are more than one match</span>
+<span class="sd">    :return: matched case if returnAll is False else the list of matched cases</span>
+<span class="sd">            or if no match is found None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">forward</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># filter pure pattern</span>
+        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># create a list of test with pattern</span>
+        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;*{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">forward</span><span class="p">:</span>
+            <span class="n">tests</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;{pattern}*&quot;</span><span class="p">,</span><span class="s2">&quot;*{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}*&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+                <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">ext</span>
+            <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">ext</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
+
+    <span class="n">tests</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span> <span class="c1"># eliminate repeated keys</span>
+    <span class="k">if</span> <span class="n">filelist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># look in a real path</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
+            <span class="c1"># get list of matches</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="p">:</span> <span class="c1"># if not match continue</span>
+                <span class="k">continue</span>
+            <span class="c1"># return first match</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">aslist</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># keep acumulatting matches</span>
+            <span class="n">ress</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># look in a simulated path with files in filelist</span>
+        <span class="n">include</span> <span class="o">=</span> <span class="p">[</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">globFilter</span><span class="p">(</span><span class="n">case</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">),</span><span class="n">filelist</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">aslist</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ress</span> <span class="c1"># return list anyways</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># return only matched</span>
+    <span class="k">elif</span> <span class="n">ress</span> <span class="ow">and</span> <span class="n">raiseErr</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;More than one file with pattern &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">raiseErr</span><span class="p">:</span>
+        <span class="c1">#if filelist is not None:</span>
+        <span class="c1">#    path = filelist</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">aslist</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ress</span><span class="p">))</span> <span class="c1"># return unique matches</span>
+    <span class="k">return</span> <span class="bp">None</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">myfc</span><span class="p">():</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;======&quot;</span><span class="o">*</span><span class="mi">10000</span>
+        <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">abv</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+            <span class="n">myfc</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">fac</span> <span class="o">=</span> <span class="n">FactorConvert</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">fac</span><span class="o">.</span><span class="n">parts</span><span class="p">(</span><span class="mf">1001010.01010101</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s2">&quot;{:f} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert2sample</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">))</span>
+        <span class="k">print</span> <span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">pf</span> <span class="o">=</span> <span class="n">Profiler</span><span class="p">(</span><span class="s2">&quot;Init&quot;</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;for loop&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
+                <span class="k">pass</span>
+            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;in level of p1&quot;</span><span class="p">)</span>
+        <span class="n">p1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;other process&quot;</span><span class="p">)</span>
+        <span class="c1">#print pf.string_structured()</span>
+        <span class="k">print</span> <span class="n">pf</span><span class="o">.</span><span class="n">string_structured</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="n">pf</span><span class="o">.</span><span class="n">structure</span><span class="p">())</span>
+
+<span class="c1"># ---------------------------- EXCEPTIONS ---------------------------- #</span>
+
+<div class="viewcode-block" id="TimeOutException"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TimeOutException">[docs]</a><span class="k">class</span> <span class="nc">TimeOutException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="TransferExeption"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TransferExeption">[docs]</a><span class="k">class</span> <span class="nc">TransferExeption</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="VariableNotSettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotSettable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotSettable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="VariableNotDeletable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotDeletable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotDeletable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NotCallable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCallable">[docs]</a><span class="k">class</span> <span class="nc">NotCallable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines objectGetter error: given object is not callable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NotCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCreatable">[docs]</a><span class="k">class</span> <span class="nc">NotCreatable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines objectGetter error: objectGetter cannot create new object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NoParserFound"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NoParserFound">[docs]</a><span class="k">class</span> <span class="nc">NoParserFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="NameSpace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NameSpace">[docs]</a><span class="k">class</span> <span class="nc">NameSpace</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    used to store variables</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, David Toro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

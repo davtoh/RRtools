@@ -6,7 +6,6 @@ from __future__ import division
 
 import cv2
 import numpy as np
-from ...lib.config import FLOAT
 try:
     #from skimage.util import view_as_windows, view_as_blocks
     raise
@@ -687,9 +686,9 @@ def vectorsAngles(pts, ptaxis=(1, 0), origin=(0, 0), dtype= None, deg = False, a
     :return:
     """
     if np.sum(origin)==0: # speed up calculations
-        return np.array([angle2D(v1=ptaxis,v2=i,deg=deg,absolute=absolute) for i in FLOAT(pts)], dtype) # caculate angles
-    ptaxis = FLOAT(ptaxis) - origin
-    return np.array([angle2D(v1=ptaxis,v2=i-origin,deg=deg,absolute=absolute) for i in FLOAT(pts)], dtype) # caculate angles
+        return np.array([angle2D(v1=ptaxis,v2=i,deg=deg,absolute=absolute) for i in np.float32(pts)], dtype) # caculate angles
+    ptaxis = np.float32(ptaxis) - origin
+    return np.array([angle2D(v1=ptaxis,v2=i-origin,deg=deg,absolute=absolute) for i in np.float32(pts)], dtype) # caculate angles
 
 def separePointsByAxis(pts, ptaxis=(1, 0), origin = (0,0)):
     """
@@ -801,7 +800,7 @@ def transformPoint(p,H):
     #amp = np.array(H).dot(np.array([x,y,1]))
     #return (amp/amp[-1])[:-1]
     #METHOD 2
-    return cv2.perspectiveTransform(FLOAT([[p]]), H)[0,0]
+    return cv2.perspectiveTransform(np.float32([[p]]), H)[0,0]
 
 def transformPoints(p,H):
     """
@@ -811,7 +810,7 @@ def transformPoints(p,H):
     :param H: transformation matrix
     :return: transformed array of x,y point
     """
-    return cv2.perspectiveTransform(FLOAT([p]), H).reshape(-1,2)
+    return cv2.perspectiveTransform(np.float32([p]), H).reshape(-1,2)
 
 def getTransformedCorners(shape,H):
     """
@@ -883,7 +882,7 @@ def superpose(back, fore, H, foreMask= None, grow = True):
     if grow: # this makes the images bigger if possible
         # fore(x,y)*H = fore(u,v) -> fore(u,v) + back(u,v)
         ((left,top),(right,bottom)) = pad_to_fit_H(fore.shape, back.shape, H)
-        H_back = FLOAT([[1,0,left],[0,1,top],[0,0,1]]) # moved transformation matrix with pad
+        H_back = np.float32([[1,0,left],[0,1,top],[0,0,1]]) # moved transformation matrix with pad
         H_fore = H_back.dot(H) # moved transformation matrix with pad
         # need: top_left, bottom_left, top_right,bottom_right
         h2,w2 = back.shape[:2]
@@ -1159,7 +1158,7 @@ polygonArea = polygonArea_calcule
 
 def normalize(arr):
     """Normalize array to ensure range [0,1]"""
-    arr = FLOAT(arr-np.min(arr)) # shift array to 0
+    arr = np.float32(arr-np.min(arr)) # shift array to 0
     return arr / np.max(arr) # scales to 1
 
 def normalize2(arr):
@@ -1195,8 +1194,8 @@ def normalizeCustom(arr, by = np.max, axis = None):
     # max, sum,
     factor = by(arr,axis=axis)
     if axis is None:
-        return FLOAT(arr) / factor
-    return FLOAT(arr) / np.expand_dims(factor, axis=axis)
+        return np.float32(arr) / factor
+    return np.float32(arr) / np.expand_dims(factor, axis=axis)
 
 def relativeQuadrants(points):
     """
@@ -1392,7 +1391,7 @@ def getOtsuThresh(hist):
     """
     #http://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html
     # find normalized_histogram, and its cumulative distribution function
-    hist_norm = hist.astype(FLOAT).ravel()/hist.max()
+    hist_norm = hist.astype(np.float32).ravel()/hist.max()
     Q = hist_norm.cumsum() # cumulative distribution function
     bins = np.arange(len(hist_norm))
     fn_min = np.inf # begin from infinity

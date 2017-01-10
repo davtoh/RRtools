@@ -402,9 +402,12 @@ def loadsfrom(path, flags=cv2.IMREAD_COLOR):
                 +-------+------------------------------+--------+
     :return:
     """
-    if path.endswith(".npy"):# reads numpy arrays
-        return np.lib.load(path, None)
-    resp = getFileHandle(path) # download the image
+    if isinstance(path,basestring):
+        if path.endswith(".npy"):# reads numpy arrays
+            return np.lib.load(path, None)
+        resp = getFileHandle(path) # download the image
+    else:
+        resp = path # assume path is a file-like object ie. cStringIO or file
     #nparr = np.asarray(bytearray(resp.read()), dtype=dtype) # convert it to a NumPy array
     nparr = np.fromstring(resp.read(), dtype=np.uint8)
     image = cv2.imdecode(nparr, flags=flags) # decode using OpenCV format
@@ -796,7 +799,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
             return func(path)
         except Exception as e:
             if throw:
-                raise e
+                raise
     return loader # factory function
 
 class ImLoader:

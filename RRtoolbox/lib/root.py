@@ -964,3 +964,8 @@ class NameSpace(object):
     """
     used to store variables
     """
+
+class CorruptPersistent(EOFError,IOError):
+    """
+    Used for persistent data read from disk like pickles to denote it has been corrupted
+    """
