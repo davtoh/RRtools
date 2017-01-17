@@ -169,6 +169,13 @@ from __future__ import division
 
 __author__ = 'Davtoh'
 # needed for installing executable
+import six ### DO NOT DELETE used for executable
+import packaging ### DO NOT DELETE used for executable
+import packaging.specifiers ### DO NOT DELETE used for executable
+import packaging.requirements ### DO NOT DELETE used for executable
+import appdirs ### DO NOT DELETE used for executable
+import six ### DO NOT DELETE used for executable
+import FileDialog ### DO NOT DELETE used for executable
 # program imports
 import os
 import cv2
