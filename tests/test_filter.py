@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from tesisfunctions import histogram,graphmath,Plotim,IMAGEPATH,filterFactory
+from .tesisfunctions import histogram,graphmath,Plotim,IMAGEPATH,filterFactory
 
 fn1 = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/IMG_20150730_131444.jpg"
 #fn1 = r'C:\Users\Davtoh\Dropbox\PYTHON\projects\Descriptors\im4_1.jpg'

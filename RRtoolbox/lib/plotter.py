@@ -14,7 +14,14 @@
 # https://docs.python.org/3/library/string.html
 # http://stackoverflow.com/questions/101128/how-do-i-read-text-from-the-windows-clipboard-from-python
 from __future__ import division
-from config import FLOAT,FLAG_DEBUG
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from builtins import chr
+from builtins import range
+from past.builtins import basestring
+from builtins import object
+from .config import FLOAT,FLAG_DEBUG
 import copy # copy lists
 import sys
 import os
@@ -22,10 +29,10 @@ import time
 import traceback
 import cv2
 import numpy as np
-from root import formatConsume
-from arrayops.basic import overlayXY,convertXY,overlay,padVH,anorm,get_x_space,isnumpy, histogram
-from arrayops.convert import dict2keyPoint
-from arrayops.filters import sigmoid, bilateralFilter, FilterBase
+from .root import formatConsume
+from .arrayops.basic import overlayXY,convertXY,overlay,padVH,anorm,get_x_space,isnumpy, histogram
+from .arrayops.convert import dict2keyPoint
+from .arrayops.filters import sigmoid, bilateralFilter, FilterBase
 import matplotlib.animation as animation
 from multiprocessing import Process
 import matplotlib.pyplot as plt
@@ -60,7 +67,7 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
     #from RRtoolbox.lib.image import plt2bgr
     #image = plt2bgr(image) # once miniprogram is made this should work -> UPDATED 07/04/16
     wins[-1] += 1
-    if FLAG_DEBUG: print "fastplt received image type: ",type(image)
+    if FLAG_DEBUG: print("fastplt received image type: ",type(image))
     def myplot():
         if isinstance(image, matplotlib.axes.SubplotBase):
             f = image.figure
@@ -77,35 +84,35 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
         #wins[0]+=1
         if win: f.canvas.set_window_title(win)
         else:f.canvas.set_window_title("Figure {}".format(wins[-1]))
-        if FLAG_DEBUG: print "showing now..."
+        if FLAG_DEBUG: print("showing now...")
         #plt.ion()
         plt.show()
-        if FLAG_DEBUG: print "showed..."
+        if FLAG_DEBUG: print("showed...")
     if block:
         myplot()
     elif __name__ == "__main__": # if called from shell or directly
-        if FLAG_DEBUG: print "multiprocessing..."
+        if FLAG_DEBUG: print("multiprocessing...")
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()
     else: # Workaround to solve problem multiprocessing with matplotlib this sends to shell
-        from serverServices import generateServer,sendPickle
+        from .serverServices import generateServer,sendPickle
         s,addr = generateServer()
         props = ['python "{script}"'.format(script = os.path.abspath(__file__))]
         props.append("{}:{}".format(*addr))
-        if FLAG_DEBUG: print "generated server at {}".format(addr)
+        if FLAG_DEBUG: print("generated server at {}".format(addr))
         d = dict(cmap=cmap,title=title,win=win,num=wins[0])
-        props.extend(['--{} "{}"'.format(key,val) for key,val in d.items() if val is not None])
+        props.extend(['--{} "{}"'.format(key,val) for key,val in list(d.items()) if val is not None])
         if block: props.append("--block")
         if daemon: props.append("--daemon")
         txt = " ".join(props)
         sendPickle(image,s,timeout=servertimeout, threaded = True)
-        if FLAG_DEBUG: print "sending",txt
+        if FLAG_DEBUG: print("sending",txt)
         def myplot(): os.system(txt) # FIXME under windows this cannot be pickled thus multiprocessed
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()
-    if FLAG_DEBUG: print "left fastplt..."
+    if FLAG_DEBUG: print("left fastplt...")
 
 def graph_filter(filters, levels=None, titles=None, win=None,
                  single = True, legend = True, annotate = True,
@@ -134,7 +141,7 @@ def graph_filter(filters, levels=None, titles=None, win=None,
                 return type(filter).__name__
             except:
                 try:
-                    return filter.func_name
+                    return filter.__name__
                 except:
                     return ""
 
@@ -157,7 +164,7 @@ def graph_filter(filters, levels=None, titles=None, win=None,
                 name = formatConsume(name,params)
                 if "*" in name:
                     parts = name.split("*")
-                    f = ["{key}: {{{key}}}".format(key=key) for key in params.keys()]
+                    f = ["{key}: {{{key}}}".format(key=key) for key in list(params.keys())]
                     return safeReplace([[part,f] for part in parts],params)
                 return name
             except Exception as e:
@@ -168,7 +175,7 @@ def graph_filter(filters, levels=None, titles=None, win=None,
 
     def getTitle(name, params):
         if params:
-            return name + ", ".join("{}: {}".format(key, val) for key, val in params.items())
+            return name + ", ".join("{}: {}".format(key, val) for key, val in list(params.items()))
         else:
             return name + " filter"
 
@@ -186,7 +193,7 @@ def graph_filter(filters, levels=None, titles=None, win=None,
             try:
                 level = get_x_space(filters) # try to fit to filters
                 if level.size == 0:
-                    print "in cero"
+                    print("in cero")
                     raise Exception
             except:
                 level = np.linspace(0, 256,256) # assume it is for an image
@@ -229,7 +236,7 @@ def graph_filter(filters, levels=None, titles=None, win=None,
                 try:
                     level = get_x_space([f]) # try to fit to filters
                     if level.size == 0:
-                        print "in cero"
+                        print("in cero")
                         raise Exception
                 except:
                     level = np.linspace(0, 256,256) # assume it is for an image
@@ -248,13 +255,13 @@ def graph_filter(filters, levels=None, titles=None, win=None,
             # get the parameters in a dictionary
             # TODO implement getattr() instead with a list of parameters from annotate
             params = {}
-            for key,val in f.__dict__.items():
+            for key,val in list(f.__dict__.items()):
                 if val is not None:
                     if key.startswith("_"):
                         key = str(key)[1:]
                     params[key] = val
             if annotate:
-                items = sorted([(key,val) for key,val in params.items() if key.startswith("beta")],
+                items = sorted([(key,val) for key,val in list(params.items()) if key.startswith("beta")],
                                key= lambda x:x[1])
                 for j,(key,val) in enumerate(items):
                     del params[key] # consumes parameters
@@ -365,8 +372,8 @@ def plotPointsContour(pts, ax= None, lcor="k", pcor=None,
     :return: axes
     """
     # http://stackoverflow.com/a/12267492/5288758
-    label = unicode(label)
-    from arrayops.basic import relativeVectors,vertexesAngles
+    label = u"{}".format(label) # needs to be unicode
+    from .arrayops.basic import relativeVectors,vertexesAngles
     ax = ax or plt.gca() # get axes, creates and show figure if interactive is ON, disable with plt.ioff()
     if pcor is not None:
         ax.plot(pts[:, 0], pts[:, 1], markerfacecolor = pcor , marker='o') # plot points
@@ -403,7 +410,7 @@ def echo(obj):
     Printer (used when user wants to print an object from Plotim)
     :param obj: object
     """
-    print obj
+    print(obj)
 
 def background(color,x=1,y=1,flag=0):
     """
@@ -609,7 +616,7 @@ class Plotim(object):
         garbage collection.
         :return:
         """
-        for k in self.__dict__.keys():
+        for k in list(self.__dict__.keys()):
             try:
                 del self.__dict__[k]
             except:
@@ -667,7 +674,7 @@ class Plotim(object):
                 if isinstance(obj,bool):
                     lines.append(key)
         for i in lines:
-            print i
+            print(i)
         return lines
 
     @property
@@ -776,22 +783,22 @@ class Plotim(object):
         if block:
             _show(frames)
         elif isinstance(self, Plotim): # if called from shell or directly #FIXED __name__ == "__main__" does not work when pickled
-            if FLAG_DEBUG: print "multiprocessing..."
+            if FLAG_DEBUG: print("multiprocessing...")
             p = Process(target=_show,args=(frames,)) # FIXME i shoud call a miniprogram
             p.daemon = daemon
             p.start()
         else: # Workaround to solve problem multiprocessing with matplotlib this sends to shell
-            from serverServices import generateServer,sendPickle
+            from .serverServices import generateServer,sendPickle
             s,addr = generateServer()
             props = ["python '{script}'".format(script = os.path.abspath(__file__))]
             props.append("{}:{}".format(*addr))
-            if FLAG_DEBUG: print "generated server at {}".format(addr)
+            if FLAG_DEBUG: print("generated server at {}".format(addr))
             if block: props.append("--block")
             if daemon: props.append("--daemon")
             if frames: props.append("--frames")
             txt = " ".join(props)
             sendPickle(self,s,timeout=servertimeout, threaded = True)
-            if FLAG_DEBUG: print "sending",txt
+            if FLAG_DEBUG: print("sending",txt)
             def myplot(): os.system(txt)
             p = Process(target=myplot) # FIXME i shoud call a miniprogram
             p.daemon = daemon
@@ -807,7 +814,7 @@ class Plotim(object):
         if self.builtincontrol():
             self.updaterenderer()
         if self.y is not None and self.x is not None:
-            self.builtinplot(self.sample[self.y,self.x])
+            self.builtinplot(self.sample[int(self.y),int(self.x)])
 
     def keyfunc(self):
         """
@@ -817,7 +824,7 @@ class Plotim(object):
         """
         if self.builtincmd():
             if self.y is not None and self.x is not None:
-                self.builtinplot(self.sample[self.y,self.x])
+                self.builtinplot(self.sample[int(self.y),int(self.x)])
             else:
                 self.builtinplot()
 
@@ -866,7 +873,7 @@ class Plotim(object):
                     try:
                         if "=" in command or "(" in command or "." in command:
                             result = locals()
-                            exec "_ = {}".format(command) in result # ,globals() do not use it
+                            exec("_ = {}".format(command), result) # ,globals() do not use it
                             if showresult:
                                 self.plotintime(items=[[command+" executed"]],wait=wait)
                                 if result["_"]:
@@ -889,7 +896,7 @@ class Plotim(object):
                         lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
                         msg = lines[-1]  # Log it or whatever here
                         self.plotintime(items=[["Error executing "+command+": "+msg]],wait=wait,bgrcolor=self.errorbackground)
-                        print msg
+                        print(msg)
                         return False
                 if showresult: self.plotintime(items=[[self.cmd+" executed"]],wait=wait)
                 return True
@@ -897,7 +904,7 @@ class Plotim(object):
                 return evalcommand(self,[cmd],showresult,wait)
         text = []
         if execute and self.cmd != "": # in execution
-            choice = filter(lambda x: x.startswith(self.cmd), self.cmdlist)
+            choice = [x for x in self.cmdlist if x.startswith(self.cmd)]
             if choice != []:
                 self.cmd = choice[0]
             command = self.cmdeval.get(self.cmd)
@@ -952,7 +959,7 @@ class Plotim(object):
 
         def format(cmd,strlist,lmissing):
             if len(strlist)!=1: # ensures toggle functionality for single expression in evalcommand
-                for i in xrange(len(strlist)):
+                for i in range(len(strlist)):
                     cmd = cmd.replace(strlist[i],correct(strlist[i],lmissing))
             return cmd
 
@@ -1192,7 +1199,7 @@ class Plotim(object):
                     if self.cmd == "":
                         self.cmdfiltered = self.cmdlist
                     else:
-                        self.cmdfiltered = [i for i in filter(lambda x: x.startswith(self.cmd), self.cmdlist)]
+                        self.cmdfiltered = [i for i in [x for x in self.cmdlist if x.startswith(self.cmd)]]
 
             if self.pressedkey == 2490368: # if up key
                 text = []
@@ -1306,7 +1313,7 @@ class Plotim(object):
             elif self.cmd != "":
                 text = []
                 text.extend([["cmd: "+self.cmd]])
-                mylist = [i for i in filter(lambda x: x.startswith(self.cmd), self.cmdlist)] # pattern list
+                mylist = [i for i in [x for x in self.cmdlist if x.startswith(self.cmd)]] # pattern list
                 if mylist:
                     toshow = [[i] for i in mylist]
                     text.extend(toshow)
@@ -1426,7 +1433,7 @@ class Plotim(object):
             if m is None:
                 textbox, baseLine = cv2.getTextSize("ss", self.fontFace, self.fontScale, self.thickness)  # text dimensions
                 m=int(textbox[1]*2)
-            n = m/6
+            n = int(m/6)
             graph = cv2.resize(bgr,(m,m))  # text image
             graph[n:-n,n:-n] = convert2bgra(background(pixelval))[0,0]
             return graph
@@ -1447,7 +1454,7 @@ class Plotim(object):
             elif isinstance(items,list): # if iteration
                 if items != []:
                     imgs.append([])
-                    for i in xrange(len(items)):
+                    for i in range(len(items)):
                         evaluate(imgs[-1],items[i],bgr)
             elif items is not None: # something else
                 try:
@@ -1457,12 +1464,12 @@ class Plotim(object):
 
         imgs = []
         r = 0
-        for i in xrange(len(items)): # rows
+        for i in range(len(items)): # rows
             if items[i]==[]: # discarding empty lists
                 r+=1
             else:
                 imgs.append([])
-                for j in xrange(len(items[i])): # columns
+                for j in range(len(items[i])): # columns
                     if type(bgrcolor) is list:
                         evaluate(imgs[i-r],items[i][j],bgrcolor[i][j])
                     else:
@@ -1517,7 +1524,7 @@ class Plotim(object):
             strname = strname.format(win=self.win)
         strname+=ext
         r = cv2.imwrite(strname,getattr(self,name))
-        if FLAG_DEBUG and r: print name, "from Plotim saved as",strname
+        if FLAG_DEBUG and r: print(name, "from Plotim saved as",strname)
         return r
 
 class MatchExplorer(Plotim):
@@ -1571,8 +1578,8 @@ class MatchExplorer(Plotim):
         self.kp_pairs = kp_pairs # key-points pairs
         self.showgoods = True # show good keypoints
         self.showbads = False # show bad keypoints
-        from image import colors
-        for key,val in colors.items():
+        from .image import colors
+        for key,val in list(colors.items()):
             if not hasattr(self,key): # ensures that there is not conflicts
                 setattr(self,key,val) # insert available colors
         defColor = (0, 255, 0)
@@ -1672,7 +1679,7 @@ class MatchExplorer(Plotim):
             kp1s, kp2s = [], []
             for i in idxs:  # for all keypints near pointer
                 (rx1, ry1), (rx2, ry2) = self.rp1[i], self.rp2[i]  # my keypoint
-                col = (self.badcolor, self.goodcolor)[self.status[i]]  # choosing False=red,True=green
+                col = (self.badcolor, self.goodcolor)[int(self.status[i])]  # choosing False=red,True=green
                 cv2.line(cur_vis, (rx1,ry1), (rx2,ry2), col, self.thick)  # drawing line
                 # keypoints to show on event
                 kp1, kp2 = self.kp_pairs[i]
@@ -1686,7 +1693,7 @@ class MatchExplorer(Plotim):
             self.rimg = self.vis
 
         if self.y is not None and self.x is not None:
-            self.builtinplot(self.sample[self.y,self.x])
+            self.builtinplot(self.sample[int(self.y),int(self.x)])
         else:
             self.builtinplot()
 
@@ -1743,7 +1750,7 @@ class Edger(Plotim):
 
     def load(self,img,compute=True):
         if isinstance(img,str):
-            from directory import getData
+            from .directory import getData
             self.pathdata = getData(img) # [drive,body,name,header]
             self.data2 = cv2.imread(img)
         else:
@@ -1923,7 +1930,7 @@ class Edger(Plotim):
         self.img = vis
         self.updaterenderer()
         if self.y is not None and self.x is not None:
-            self.builtinplot(self.sample[self.y,self.x])
+            self.builtinplot(self.sample[int(self.y),int(self.x)])
 
     def onTrackbar1(self,*args):
         self.th1 = cv2.getTrackbarPos('th1', self.win)
@@ -2051,7 +2058,7 @@ class Imtester(Plotim):
         infolist = info.split()
         newlist = [[""]]
         j=1
-        for i in xrange(len(infolist)):
+        for i in range(len(infolist)):
             if i>words*j:
                 j+=1
                 newlist.append([""])
@@ -2090,7 +2097,7 @@ class Imtester(Plotim):
         sz = image.shape
         # PREPARE ITEMS TO PLOT
         if self.showhist and not self.portablehist:
-            from image import fig2bgra
+            from .image import fig2bgra
             data = [fig2bgra(histogram(image,False))]
         else:
             data = []
@@ -2100,7 +2107,7 @@ class Imtester(Plotim):
                 data.append(channel)
             if th is not None: data.append(th)
         if self.showhist and self.portablehist:
-            from image import fig2bgra
+            from .image import fig2bgra
             hst = fig2bgra(histogram(image,False))
             sz = hst.shape[1]/2,hst.shape[0]/2#(self.rW/2,self.rH)
             if items is None: items = [[cv2.resize(hst,sz)]]
@@ -2170,7 +2177,7 @@ class Imtester(Plotim):
             for i in range(sz[2]):
                 self.cmdeval[self.channels[i]] = "self.channel=self.data0[:,:,"+str(i)+"].copy()"
 
-        self.cmdlist.extend(self.cmdeval.keys())
+        self.cmdlist.extend(list(self.cmdeval.keys()))
 
     def computefunc(self,image=None):
         # this function is designed to work with countless initializations of image after self.builtcmd()
@@ -2246,8 +2253,9 @@ class Imtester(Plotim):
         self.updatevisualization(image,chimg,self.th,items,thresh1,thresh2)
 
 if __name__ == "__main__":
+    # FIXME: not working for relative imports use fastplt(block=True)
     import argparse
-    from serverServices import parseString as _parseString
+    from .serverServices import parseString as _parseString
     #import sys
     #if FLAG_DEBUG: print sys.argv
     parser = argparse.ArgumentParser(description='fast plot of images.')
@@ -2275,4 +2283,4 @@ if __name__ == "__main__":
             image.show(args.frames, args.block, args.daemon)
         else:
             fastplt(image, args.cmap, args.title, args.win, args.block, args.daemon)
-    if FLAG_DEBUG: print "leaving plotter module..."
+    if FLAG_DEBUG: print("leaving plotter module...")

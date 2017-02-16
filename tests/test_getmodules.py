@@ -1,3 +1,4 @@
+from __future__ import print_function
 __author__ = 'Davtoh'
 
 import ast # https://docs.python.org/3.2/library/ast.html#module-ast
@@ -40,4 +41,4 @@ d0 = listfunctions(__file__)
 d = package_contents("RRtoolbox")
 data = config.getModules(config.MANAGER["MAINPATH"])
 #information = info(RRtoolbox)
-print data
+print(data)

@@ -1,5 +1,6 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
-import tesisfunctions as tf
+from . import tesisfunctions as tf
 import cv2
 import numpy as np
 

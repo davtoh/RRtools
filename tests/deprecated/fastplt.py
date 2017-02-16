@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
+from __future__ import print_function
 import matplotlib.pyplot as plt
 import matplotlib.axes
 import matplotlib.figure
@@ -19,7 +20,7 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
     :param daemon: if True window closes if main thread ends, else windows must be closed to main thread to end
     :return: plt
     """
-    if FLAG_DEBUG: print "fastplt received image type: ",type(image)
+    if FLAG_DEBUG: print("fastplt received image type: ",type(image))
     def myplot():
         if isinstance(image, matplotlib.axes.SubplotBase):
             f = image.figure
@@ -36,18 +37,18 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
         wins[0]+=1
         if win: f.canvas.set_window_title(win)
         else:f.canvas.set_window_title("Figure {}".format(wins[-1]))
-        if FLAG_DEBUG: print "showing now..."
+        if FLAG_DEBUG: print("showing now...")
         #plt.ion()
         plt.show()
-        if FLAG_DEBUG: print "showed..."
+        if FLAG_DEBUG: print("showed...")
     if block:
         myplot()
     else:
-        if FLAG_DEBUG: print "multiprocessing..."
+        if FLAG_DEBUG: print("multiprocessing...")
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()
-    if FLAG_DEBUG: print "left fastplt..."
+    if FLAG_DEBUG: print("left fastplt...")
 
 if __name__ == "__main__":
     import argparse
@@ -72,6 +73,6 @@ if __name__ == "__main__":
     v = vars(parser.parse_args())
     images = _parseString(v.pop("image"))
     wins[-1] = v.pop("num")
-    if FLAG_DEBUG: print "properties:", v
+    if FLAG_DEBUG: print("properties:", v)
     for image in images: fastplt(image,**v)
-    if FLAG_DEBUG: print "leaving fastplt module..."
+    if FLAG_DEBUG: print("leaving fastplt module...")

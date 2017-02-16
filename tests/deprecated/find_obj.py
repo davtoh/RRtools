@@ -11,7 +11,9 @@ USAGE
 
   Press left mouse button on a feature point to see its matching point.
 '''
+from __future__ import print_function
 
+from builtins import zip
 import cv2
 import numpy as np
 
@@ -70,7 +72,7 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
             mkp2.append( kp2[m.trainIdx] )  # keypoint with Index of the descriptor in train descriptors
     p1 = np.float32([kp.pt for kp in mkp1])
     p2 = np.float32([kp.pt for kp in mkp2])
-    kp_pairs = zip(mkp1, mkp2)
+    kp_pairs = list(zip(mkp1, mkp2))
     return p1, p2, kp_pairs
 
 def explore_match(win, img1, img2, kp_pairs, status = None, H = None):
@@ -157,7 +159,7 @@ def explore_match(win, img1, img2, kp_pairs, status = None, H = None):
     return vis
 
 if __name__ == '__main__':
-    print __doc__
+    print(__doc__)
 
     import sys, getopt
     opts, args = getopt.getopt(sys.argv[1:], '', ['feature='])
@@ -172,26 +174,26 @@ if __name__ == '__main__':
     img2 = cv2.imread(fn2, 0)
     detector, matcher = init_feature(feature_name)
     if detector != None:
-        print 'using', feature_name
+        print('using', feature_name)
     else:
-        print 'unknown feature:', feature_name
+        print('unknown feature:', feature_name)
         sys.exit(1)
 
 
     kp1, desc1 = detector.detectAndCompute(img1, None)
     kp2, desc2 = detector.detectAndCompute(img2, None)
-    print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
+    print('imgf - %d features, imgb - %d features' % (len(kp1), len(kp2)))
 
     def match_and_draw(win):
-        print 'matching...'
+        print('matching...')
         raw_matches = matcher.knnMatch(desc1, trainDescriptors = desc2, k = 2) #2
         p1, p2, kp_pairs = filter_matches(kp1, kp2, raw_matches)
         if len(p1) >= 4:
             H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
-            print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+            print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
         else:
             H, status = None, None
-            print '%d matches found, not enough for homography estimation' % len(p1)
+            print('%d matches found, not enough for homography estimation' % len(p1))
 
         vis = explore_match(win, img1, img2, kp_pairs, status, H)
 

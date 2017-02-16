@@ -1,3 +1,8 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import input
+from past.builtins import basestring
+from builtins import object
 __author__ = 'Davtoh'
 
 import os
@@ -122,9 +127,9 @@ class Expert(object):
         data = self.data
         for i,fn in enumerate(self.fns):
             inpath = self.inpath
-            if self.ask and not raw_input("check {}?(yes/no)".format(fn)).lower() in ("not","no","n"):
+            if self.ask and not input("check {}?(yes/no)".format(fn)).lower() in ("not","no","n"):
                 continue
-            print "{}/{} checking {}".format(i+1,len(self.fns),fn)
+            print("{}/{} checking {}".format(i+1,len(self.fns),fn))
             key = Expert.get_key(fn)
             exp = None
             memo_inpath = None
@@ -250,9 +255,9 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
     :param help: help the user by providinf some coordinates (experimental)
     :return: ROI object, list of transformations
     """
-    from RRtoolFC.GUI.forms import getROI
+    from .RRtoolFC.GUI.forms import getROI
     #from RRtoolbox.lib.arrayops import foreground
-    from RRtoolbox.tools.segmentation import retinal_mask
+    from .RRtoolbox.tools.segmentation import retinal_mask
 
     imsets = glob(fn) # only folders
     if preview is None:
@@ -268,7 +273,7 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
             start = True
         if start:
             image = loader(impath).astype(np.float32)
-            print "loaded",impath
+            print("loaded",impath)
 
             a,b,c,d = getData(impath)
             if name is not None: # change names
@@ -296,7 +301,7 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
             # save ROI
             fn = os.path.join(outpath2,"_original_"+c+d)
             if cv2.imwrite(fn, image):
-                print "Original image saved as {}".format(fn)
+                print("Original image saved as {}".format(fn))
             else:
                 "Original image {} could not be saved".format(fn)
                 fn = impath
@@ -311,10 +316,10 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
             if help and main_key not in exp.data: # help the user by guessing initial threshold
                 exp.data[main_key] = {"fn":fn,"shape":image.shape[:2],"coors_retina":contours}
             exp.start()
-            expertfield = exp.data.values()[0]
+            expertfield = list(exp.data.values())[0]
 
             # get ROIs
-            while not raw_input("get ROI?(y,n)").lower() in ("n","not","no"):
+            while not input("get ROI?(y,n)").lower() in ("n","not","no"):
                 # get ROI
                 roi, crop = getROI(image, preview=preview, form= form, crop=False)
                 fn = increment_if_exits(os.path.join(outpath2,"{}{}".format(c,d)),force=True)
@@ -322,13 +327,13 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
                 imroi = roi.getArrayRegion(image, crop)
                 # save ROI
                 if cv2.imwrite(fn, imroi):
-                    print "Saved: {}".format(fn)
+                    print("Saved: {}".format(fn))
                 else:
                     "{} could not be saved".format(fn)
 
                 info = {}
                 # automatically calculate expert data from parent image
-                for field,val in expertfield.iteritems():
+                for field,val in list(expertfield.items()):
                     if field.startswith("coors_"):
                         mask = contours2mask(val,shape=image.shape)
                         mask = roi.getArrayRegion(mask, crop)
@@ -391,15 +396,15 @@ if __name__ == "__main__": # for a folder with many sets
 
         # debug automatic cropping with expert data
         if debug:
-            print "################ DEBUG ################"
+            print("################ DEBUG ################")
             exp = Expert(base_out,data=os.path.join(base_out,"_expert"),review=True)
             exp.start()
-            print "############## END DEBUG ##############"
+            print("############## END DEBUG ##############")
 
 
 if __name__ == "__main__":
     """
     Call expert program from terminal
     """
-    # shell("./results/ --subfolders".split()) # call expert shell
-    shell() # call expert shell
+    shell("./results/ --subfolders".split()) # call expert shell
+    #shell() # call expert shell

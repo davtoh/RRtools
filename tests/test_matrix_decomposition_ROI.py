@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 import numpy as np
 import cv2
 from RRtoolbox.lib.arrayops import brightness,normalize
 from RRtoolbox.lib.plotter import fastplt,Plotim,plt
-from tesisfunctions import graphHistogram,thresh_biggestCnt
+from .tesisfunctions import graphHistogram,thresh_biggestCnt
 
 shape = (300,300)
 im = cv2.imread("im1_1.jpg")
@@ -24,7 +25,7 @@ graphHistogram(P,show=False)
 
 x0,y0,w,h = cv2.boundingRect(thresh_biggestCnt(ROI))
 x,y = x0+w,y0+h
-P_ROI = P[x0:x,y0:y]
+P_ROI = P[y0:y,x0:x]
 
 #Plotim("P ROI",P_ROI).show()
 plt.subplot(122)

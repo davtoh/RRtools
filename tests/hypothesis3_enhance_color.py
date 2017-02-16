@@ -1,8 +1,13 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
-from tesisfunctions import getcoors, drawcoorperspective, Plotim
+from .tesisfunctions import getcoors, drawcoorperspective, Plotim
 import cv2
 import numpy as np
-from tesisfunctions import histogram,graphmath,filterFactory,normsigmoid
+from .tesisfunctions import histogram,graphmath,filterFactory,normsigmoid
 
 def histogram_filters(bgr,filters,title="bgr filters",win="histogram"):
     """
@@ -35,7 +40,7 @@ def histogram_filters(bgr,filters,title="bgr filters",win="histogram"):
 def enhancer(alfa,beta1,beta2=None):
     def filter(levels):
         #return np.log(levels)
-        return (normsigmoid(-50+levels,alfa,0+beta1)+normsigmoid(levels,alfa,255-beta2))/1.7
+        return old_div((normsigmoid(-50+levels,alfa,0+beta1)+normsigmoid(levels,alfa,255-beta2)),1.7)
     return filter
 
 fn1 = r'im1_1.jpg'
@@ -52,14 +57,14 @@ pmax = [170,166,255]
 pmean= [127,106,238]
 
 #print "pixels: ", pixels
-print "min: ",pmin
-print "max: ",pmax
-print "mean: ",pmean
+print("min: ",pmin)
+print("max: ",pmax)
+print("mean: ",pmean)
 
 alfa = 20
 beta = 10
 filters = []
-for i in xrange(len(pmin)):
+for i in range(len(pmin)):
     #filters.append(filter(alfa,pmin[i]-beta,pmax[i]+beta))
     #filters.append(filter(alfa,pmean[i]))
     #filters.append(enhancer(pmean[i],pmin[i]-beta,pmax[i]+beta))
@@ -68,7 +73,7 @@ for i in xrange(len(pmin)):
 histogram_filters(img,filters)
 
 fimg = img.copy()
-for i in xrange(len(pmin)):
+for i in range(len(pmin)):
     channel = img[:,:,i].astype("float")
     fchannel=filters[i](channel)*255
     fimg[:,:,i] = fchannel.astype("uint8")

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
+from past.builtins import basestring
+from past.utils import old_div
 import cv2
 import numpy as np
 from ..lib.arrayops import entroyTest
@@ -8,11 +11,16 @@ from ..lib.plotter import Plotim,limitaxis
 
 __author__ = 'Davtoh'
 
-
-hist_map = dict((("correlation", (cv2.cv.CV_COMP_CORREL,True)),
-                ("chi-squared", (cv2.cv.CV_COMP_CHISQR,False)),
-                ("intersection", (cv2.cv.CV_COMP_INTERSECT,True)),
-                ("hellinger", (cv2.cv.CV_COMP_BHATTACHARYYA,False))))
+try: # opencv 2
+    hist_map = dict((("correlation", (cv2.cv.CV_COMP_CORREL,True)),
+                    ("chi-squared", (cv2.cv.CV_COMP_CHISQR,False)),
+                    ("intersection", (cv2.cv.CV_COMP_INTERSECT,True)),
+                    ("hellinger", (cv2.cv.CV_COMP_BHATTACHARYYA,False))))
+except AttributeError: # opencv 3
+    hist_map = dict((("correlation", (cv2.HISTCMP_CORREL,True)),
+                    ("chi-squared", (cv2.HISTCMP_CHISQR,False)),
+                    ("intersection", (cv2.HISTCMP_INTERSECT,True)),
+                    ("hellinger", (cv2.HISTCMP_BHATTACHARYYA,False))))
 
 def entropy(imlist, loadfunc = None, invert = False):
     """
@@ -43,7 +51,7 @@ def entropy(imlist, loadfunc = None, invert = False):
             gray_img = im
         E[num] = entroyTest(gray_img)
 
-    RMS = np.sqrt(np.sum(E**2)/len(imlist)) # get root mean square
+    RMS = np.sqrt(old_div(np.sum(E**2),len(imlist))) # get root mean square
     D = np.abs(E-RMS) # absolute difference error
     sortedD = np.sort(D) # sort errors # order from minor to greater
     if invert: sortedD = sortedD[::-1] # order from greater to minor

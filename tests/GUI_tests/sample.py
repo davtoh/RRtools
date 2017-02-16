@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
@@ -38,7 +39,7 @@ win.setWindowTitle(fname)
 def click(event):
     event.accept()
     pos = event.pos()
-    print (int(pos.x()),int(pos.y()))
+    print((int(pos.x()),int(pos.y())))
 
 g = imv.getImageItem()
 g.mouseClickEvent = click

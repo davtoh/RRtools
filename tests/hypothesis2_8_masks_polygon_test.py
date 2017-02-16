@@ -1,12 +1,16 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from past.utils import old_div
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
-import tesisfunctions as tf
+from . import tesisfunctions as tf
 
 
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
-from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,circularKernel
+from .tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,circularKernel
 
 #http://stackoverflow.com/questions/14725181/speed-up-iteration-over-numpy-arrays-opencv-cv2-image
 #http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html
@@ -38,7 +42,7 @@ lastthresh = opening
 """
 P = brightness(fore)
 thresh = getthresh(cv2.resize(P,(300,300)))
-print thresh
+print(thresh)
 lastthresh=threshold(P,thresh,1,0)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = pad(lastthresh,1)
@@ -46,11 +50,11 @@ plotc = Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh *
 
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-print "objects: ",len(contours)
+print("objects: ",len(contours))
 index,maxarea = tf.biggestCntData(contours)
-print "area contour:",maxarea,"index: ",index
+print("area contour:",maxarea,"index: ",index)
 cnt = contours[index]
-print "optaining polygon test..."
+print("optaining polygon test...")
 
 #POLYGON TEST
 polygontest = tf.polygontest(P.copy().astype(np.int32),cnt)
@@ -65,9 +69,9 @@ plotc.show()
 lastthresh = test
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-print "objects: ",len(contours)
+print("objects: ",len(contours))
 index,maxarea = tf.biggestCntData(contours)
-print "area contour:",maxarea,"index: ",index
+print("area contour:",maxarea,"index: ",index)
 cnt = contours[index]
 
 #DEFECTS
@@ -110,12 +114,12 @@ plotc.show()
 
 M = cv2.moments(cnt) # find moments
 #M2 = invmoments(ROI,Area=None,center=None)
-cx = int(M['m10']/M['m00'])
-cy = int(M['m01']/M['m00'])
+cx = int(old_div(M['m10'],M['m00']))
+cy = int(old_div(M['m01'],M['m00']))
 #x,y = centroid(ROI,maxarea)
 #normalizedinvariantmoment(ROI,maxarea,0,0,x,y)
 #n00 = bwmoment(ROI,0,0,cx,cy)
-print "(cx,cy)",(cx,cy)
+print("(cx,cy)",(cx,cy))
 #print "x,y",x,y
 cv2.circle(fore, (cx,cy), 10, (0, 0, 255), -1, 8)
 #cv2.circle(fore, (int(x),int(y)), 10, (0, 255, 255), -1, 8)

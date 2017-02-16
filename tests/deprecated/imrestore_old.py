@@ -163,9 +163,12 @@ Notes:
         depending on the tastes of the user.
 '''
 from __future__ import division
+from __future__ import print_function
 
 # needed for installing
 # program inputs
+from builtins import zip
+from past.builtins import basestring
 import os
 import cv2
 import warnings
@@ -333,11 +336,11 @@ def imrestore(images, **opts):
     cachePath = opts.get("cachePath",None)
     if cachePath is not None:
         feature_dic = MemoizedDict(cachePath + "descriptors")
-        if FLAG_DEBUG: print "Cache path is in {}".format(feature_dic._path)
+        if FLAG_DEBUG: print("Cache path is in {}".format(feature_dic._path))
         clearCache = opts.get("clearCache",0)
         if clearCache==1:
             feature_dic.clear()
-            if FLAG_DEBUG: print "Cache path cleared"
+            if FLAG_DEBUG: print("Cache path cleared")
     else:
         feature_dic = {}
 
@@ -348,15 +351,15 @@ def imrestore(images, **opts):
     ################################## LOADING IMAGES ###################################
     if images is None or len(images)==0: # if images is empty use demonstration
         test = MANAGER.TESTPATH
-        if FLAG_DEBUG: print "Looking in DEMO path {}".format(test)
+        if FLAG_DEBUG: print("Looking in DEMO path {}".format(test))
         fns = glob(test + "*")
     elif isinstance(images,basestring):
         # if string assume it is a path
-        if FLAG_DEBUG:print "Looking as {}".format(images)
+        if FLAG_DEBUG:print("Looking as {}".format(images))
         fns = glob(images)
     elif not isinstance(images,basestring) and len(images) == 1 and "*" in images[0]:
         images = images[0] # get string
-        if FLAG_DEBUG:print "Looking as {}".format(images)
+        if FLAG_DEBUG:print("Looking as {}".format(images))
         fns = glob(images)
     else: # iterator containing data
         fns = images # list file names
@@ -384,7 +387,7 @@ def imrestore(images, **opts):
                             "\n A pattern is {}".format(
                             base_old,baseImage,fns[0]))
 
-    if FLAG_DEBUG: print "No. images {}...".format(len(fns))
+    if FLAG_DEBUG: print("No. images {}...".format(len(fns)))
 
     # make loader
     loader = opts.get("loader",None) # BGR loader
@@ -414,7 +417,7 @@ def imrestore(images, **opts):
                         if ii!=jj: raise KeyError
 
                 except (KeyError, ValueError) as e: # not memorized
-                    if FLAG_DEBUG: print "Processing features for {}...".format(path)
+                    if FLAG_DEBUG: print("Processing features for {}...".format(path))
                     img = loader(path) #cv2.imread(path)
                     img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
                     if pshape is None: # get features directly from original
@@ -447,7 +450,7 @@ def imrestore(images, **opts):
 
                 # number of key-points, index, path, key-points, descriptors
                 feature_list.append((len(kps),index,path,kps,desc))
-                if FLAG_DEBUG: print "\rFeatures {}/{}...".format(index+1,len(fns)),
+                if FLAG_DEBUG: print("\rFeatures {}/{}...".format(index+1,len(fns)), end=' ')
                 index += 1
                 tries = 0
             except Exception as e:
@@ -469,7 +472,7 @@ def imrestore(images, **opts):
     else:
         raise Exception("baseImage must be None, True or String")
 
-    if FLAG_DEBUG: print "baseImage is", path
+    if FLAG_DEBUG: print("baseImage is", path)
     used = [path] # select first image path
     restored = loader(path) # load first image for merged image
     if usepshape:
@@ -479,18 +482,18 @@ def imrestore(images, **opts):
     ############################# Order set initialization ################################
     if orderValue: # obtain comparison with structure (value, path)
         if orderValue == 1: # entropy
-            comparison = zip(*entropy(fns,loadfunc=loadFunc(1,pshape),invert=False)[:2])
-            if FLAG_DEBUG: print "Configured to sort by entropy..."
+            comparison = list(zip(*entropy(fns,loadfunc=loadFunc(1,pshape),invert=False)[:2]))
+            if FLAG_DEBUG: print("Configured to sort by entropy...")
         elif orderValue == 2: # histogram comparison
             comparison = hist_comp(fns,loadfunc=loadFunc(1,pshape),method=selectMethod)
-            if FLAG_DEBUG: print "Configured to sort by {}...".format(selectMethod)
+            if FLAG_DEBUG: print("Configured to sort by {}...".format(selectMethod))
         elif orderValue == 3:
             comparison = selectMethod(fns)
-            if FLAG_DEBUG: print "Configured to sort by Custom Function..."
+            if FLAG_DEBUG: print("Configured to sort by Custom Function...")
         else:
             raise Exception("DEBUG: orderValue {} does "
                             +"not correspond to {}".format(orderValue,selectMethod))
-    elif FLAG_DEBUG: print "Configured to sort by best matches"
+    elif FLAG_DEBUG: print("Configured to sort by best matches")
 
     with TimeCode("Restoring ...\n",
                   endmsg= "Restoring overall time was {time}\n", enableMsg= FLAG_DEBUG):
@@ -505,7 +508,7 @@ def imrestore(images, **opts):
                         desc_remain.extend(desc)
 
                 if not kps_remain: # if there is not image remaining to stitch break
-                    if FLAG_DEBUG: print "All images used"
+                    if FLAG_DEBUG: print("All images used")
                     break
 
                 desc_remain = np.array(desc_remain) # convert descriptors to array
@@ -533,20 +536,20 @@ def imrestore(images, **opts):
                 if orderValue: # use only those in classified of histogram or entropy comparison
                     ordered = [(val,path) for val,path in comparison if path in classified]
                 else: # order with best matches
-                    ordered = sorted([(len(kps),path) for path,kps in classified.items()],reverse=True)
+                    ordered = sorted([(len(kps),path) for path,kps in list(classified.items())],reverse=True)
 
 
             for rank, path in ordered: # feed key-points in order according to order set
 
                 ########################### Calculate Homography ##########################
-                mkp1,mkp2 = zip(*classified[path]) # probably good matches
+                mkp1,mkp2 = list(zip(*classified[path])) # probably good matches
                 if len(mkp1)>minKps and len(mkp2)>minKps:
                     p1 = np.float32([kp["pt"] for kp in mkp1])
                     p2 = np.float32([kp["pt"] for kp in mkp2])
-                    if FLAG_DEBUG > 1: print 'Calculating Homography for {}...'.format(path)
+                    if FLAG_DEBUG > 1: print('Calculating Homography for {}...'.format(path))
                     H, status = cv2.findHomography(p1, p2, cv2.RANSAC, ransacReprojThreshold)
                 else:
-                    if FLAG_DEBUG > 1: print 'Not enough key-points for {}...'.format(path)
+                    if FLAG_DEBUG > 1: print('Not enough key-points for {}...'.format(path))
                     H = None
 
                 if H is not None: #first test
@@ -578,7 +581,7 @@ def imrestore(images, **opts):
                     text = "inlines/lines: {}/{}={} and rectangularity {}".format(
                         inlines, lines, inlineratio, c.rotatedRectangularity)
 
-                    if FLAG_DEBUG>1: print text
+                    if FLAG_DEBUG>1: print(text)
 
                     if FLAG_DEBUG > 2: # show matches
                         MatchExplorer("Match " + text, fore,
@@ -588,7 +591,7 @@ def imrestore(images, **opts):
                     if inlineratio>inlineThresh \
                             and c.rotatedRectangularity>rectangularityThresh: # second test
 
-                        if FLAG_DEBUG>1: print "Test succeeded..."
+                        if FLAG_DEBUG>1: print("Test succeeded...")
                         while path in failed: # clean path in fail registry
                             try: # race-conditions safe
                                 failed.remove(path)
@@ -596,7 +599,7 @@ def imrestore(images, **opts):
                                 pass
 
                         ###################### merging and stitching #######################
-                        if FLAG_DEBUG > 1: print "Merging..."
+                        if FLAG_DEBUG > 1: print("Merging...")
                         restored, H_back, H_fore= mergefunc(restored,fore,H)
                         if H_fore is None: # H is not modified use itself
                             H_fore = H
@@ -606,7 +609,7 @@ def imrestore(images, **opts):
 
                         ####################### update base features #######################
                         # make projection to test key-points inside it
-                        if FLAG_DEBUG > 1: print "Updating key-points..."
+                        if FLAG_DEBUG > 1: print("Updating key-points...")
                         projection = getTransformedCorners((h,w),H_fore)
                         newkps, newdesc = [], []
                         for _,_,p,kps,desc in feature_list:
@@ -637,7 +640,7 @@ def imrestore(images, **opts):
                                        im2shapeFormat(restored,restored.shape[:2]+(3,)),
                                               [dict2keyPoint(index) for index in kps_base],
                                               flags=4, color=(0,0,255))).show()
-                        if FLAG_DEBUG: print "This image has been merged: {}...".format(path)
+                        if FLAG_DEBUG: print("This image has been merged: {}...".format(path))
                         used.append(path) # update used
                         if not centric:
                             break
@@ -649,13 +652,13 @@ def imrestore(images, **opts):
             # if all classified have failed then end
             if set(classified.keys()) == set(failed):
                 if FLAG_DEBUG:
-                    print "Ended, these images do not fit: "
-                    for index in classified.keys():
-                        print index
+                    print("Ended, these images do not fit: ")
+                    for index in list(classified.keys()):
+                        print(index)
                 break
 
         if postfunc is not None:
-            if FLAG_DEBUG: print "Applying post function..."
+            if FLAG_DEBUG: print("Applying post function...")
             restored = postfunc(restored)
         ####################################### Save image ####################################
         save = opts.get("save",False)
@@ -669,9 +672,9 @@ def imrestore(images, **opts):
             mkPath(getPath(fn))
             r = cv2.imwrite(fn,restored)
             if FLAG_DEBUG and r:
-                print "Saved: {}".format(fn)
+                print("Saved: {}".format(fn))
             else:
-                print "{} could not be saved".format(fn)
+                print("{} could not be saved".format(fn))
 
     return restored # return merged image
 
@@ -904,13 +907,13 @@ def shell(args=None, namespace=None):
     ###########################################################################
     args["expert"] = "/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/tests/experimental_expert_cached"
     if args['debug']>2:
-        print "Parsed Arguments\n",args
+        print("Parsed Arguments\n",args)
     r = args.pop("restorer")
     if r == 'retinalRestore':
-        if args['debug']: print "Configured for retinal restoration..."
+        if args['debug']: print("Configured for retinal restoration...")
         retinalRestore(**args)
     elif r == 'imrestore':
-        if args['debug']: print "Configured for general restoration..."
+        if args['debug']: print("Configured for general restoration...")
         imrestore(**args)
 
     return namespace

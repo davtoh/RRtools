@@ -1,11 +1,13 @@
+from __future__ import print_function
 # http://stackoverflow.com/questions/15247075/how-can-i-dynamically-create-derived-classes-from-a-base-class
+from builtins import object
 from pyqtgraph.flowchart import Node
 from pyqtgraph.flowchart.library.common import CtrlNode
 from RRtoolbox.lib.inspector import funcData
 
 # TODO: see info under mylibs to come up with a way to convert functions to flowchar nodes.
 
-class NodeGenerator:
+class NodeGenerator(object):
     """
     Generate Nodes.
 
@@ -123,7 +125,7 @@ class NodeGenerator:
 
         d = {}
         for tmpl in templates:
-            exec "def handle_{0}(self,kwargs): kwargs[{0}] = self.ctrls[{0}]".format(tmpl) in d
+            exec("def handle_{0}(self,kwargs): kwargs[{0}] = self.ctrls[{0}]".format(tmpl), d)
             _process_handles.append(d["handle_{}".format(tmpl)])
 
         def init(self,name,**kwargs):
@@ -152,19 +154,19 @@ if __name__ == "__main__":
     @NodeGenerator()
     def my_function1(param1, param2):
         "some comment here"
-        print "processing something"
+        print("processing something")
         output1,output2 = 10,100
         return output1,output2 # it must be clear
 
     @NodeGenerator()
     def my_function2(param1, param2, defparam1 = 10):
-        print "processing something"
+        print("processing something")
         output1,output2 = 10,100 # this shoud works
         return output1,output2 # it must be clear
 
     @NodeGenerator()
     def my_function3(param1, param2, defparam1 = 10, defparam2 = 20, *args, **kwargs):
-        print "processing something"
+        print("processing something")
         output1,output2 = 10,100
         return output1,output2 # it must be clear
 
@@ -172,4 +174,4 @@ if __name__ == "__main__":
     n2 = my_function2
     n3 = my_function3
 
-    print n1,n2,n3
+    print(n1,n2,n3)

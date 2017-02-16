@@ -1,7 +1,12 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from past.utils import old_div
 __author__ = 'Davtoh'
 
-from asift import affine_detect, init_feature, filter_matches, explore_match
-from common import Timer
+from .asift import affine_detect, init_feature, filter_matches, explore_match
+from .common import Timer
 from tests.tesisfunctions import Plotim,overlay
 import sys
 
@@ -25,7 +30,7 @@ def scaled2realfunc(real_shape,scaled_shape):
     rW = float(real_shape[1])
     sH = float(scaled_shape[0])
     sW = float(scaled_shape[1])
-    op = np.array([rW/sW,rH/sH],dtype=np.float32)
+    op = np.array([old_div(rW,sW),old_div(rH,sH)],dtype=np.float32)
     def scaled2real(p):
         #rx = sx*rW/sW
         #ry = sy*rH/sH
@@ -76,16 +81,16 @@ if __name__ == '__main__':
 
     detector, matcher = init_feature(feature_name)
     if detector != None:
-        print 'using', feature_name
+        print('using', feature_name)
     else:
-        print 'unknown feature:', feature_name
+        print('unknown feature:', feature_name)
         sys.exit(1)
 
     pool=ThreadPool(processes = cv2.getNumberOfCPUs())
     with Timer('detecting features...'):
         kp1, desc1 = affine_detect(detector, imgf, pool=pool)
         kp2, desc2 = affine_detect(detector, imgb, pool=pool)
-        print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
+        print('imgf - %d features, imgb - %d features' % (len(kp1), len(kp2)))
 
     win = 'affine find_obj'
     with Timer('matching'):
@@ -98,12 +103,12 @@ if __name__ == '__main__':
         H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
         H2 = hs2hr(H,fore.shape,imgf.shape,back.shape,imgb.shape)
 
-        print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+        print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
         # do not draw outliers (there will be a lot of them)
         kp_pairs = [kpp for kpp, flag in zip(kp_pairs, status) if flag]
     else:
         H, status = None, None
-        print '%d matches found, not enough for homography estimation' % len(p1)
+        print('%d matches found, not enough for homography estimation' % len(p1))
 
     vis = explore_match(win, imgf, imgb, kp_pairs, None, H)
     cv2.waitKey()
@@ -111,7 +116,7 @@ if __name__ == '__main__':
 
     if H is not None:
         def normsigmoide(x,alfa,beta):
-            return 1/(np.exp((beta*1.0-x)/alfa)+1)
+            return old_div(1,(np.exp(old_div((beta*1.0-x),alfa))+1))
         fore2 = cv2.cvtColor(fore.copy(),cv2.COLOR_BGR2BGRA)
         dst = cv2.warpPerspective(fore2.copy(),H2,(back.shape[1],back.shape[0]))
         cv2.imwrite("asift2fore.png",dst)

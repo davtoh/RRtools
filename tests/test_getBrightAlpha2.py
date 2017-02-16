@@ -1,9 +1,10 @@
 """
 test the alfa mask created to merge two retinal images
 """
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
-from tesisfunctions import filterFactory,normsigmoid,graph_filter, normalize, histogram,getOtsuThresh
+from .tesisfunctions import filterFactory,normsigmoid,graph_filter, normalize, histogram,getOtsuThresh
 from RRtoolbox.lib.arrayops import Bandpass, FilterBase,Bandstop,Bandpass
 import numpy as np
 import cv2
@@ -77,7 +78,7 @@ back_norm = normalize(back)
 plt.plot(level,fore_norm,level,back_norm)
 Otsu_fore = int(getOtsuThresh(fore))
 Otsu_back = int(getOtsuThresh(back))
-data = {"Back":(Otsu_back,back_norm[Otsu_back]),"Fore":(Otsu_fore,fore_norm[Otsu_fore])}.items()
+data = list({"Back":(Otsu_back,back_norm[Otsu_back]),"Fore":(Otsu_fore,fore_norm[Otsu_fore])}.items())
 for i,(key,(xp,yp)) in enumerate(data):
     val = 10
     if i%2: val = -10

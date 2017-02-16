@@ -1,9 +1,11 @@
+from builtins import range
+from builtins import object
 from RRtoolbox.lib.cache import MemoizedDict,mapper
 import unittest
 from time import time
 persistIn = "mydict"
 
-class TextOp:
+class TextOp(object):
     # this is a main class
     def __init__(self,val):
         self.val = val
@@ -28,7 +30,7 @@ class TestMemoizedDisc(unittest.TestCase):
         mydict = MemoizedDict(persistIn)
         secs = 2
         try:
-            for i in xrange(1000):
+            for i in range(1000):
                 t1 = time()
                 mydict[i] = (("12"*100)*100)*100
                 mytime = time()-t1
@@ -42,7 +44,7 @@ class TestMemoizedDisc(unittest.TestCase):
 
         mydict = MemoizedDict(persistIn)
 
-        class textOp_fail:
+        class textOp_fail(object):
             # unfortunately all classes that are memoized must be present
             # as main classes and not inside other objects
             def __init__(self,val):

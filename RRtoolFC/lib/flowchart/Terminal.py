@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
+from past.utils import old_div
+from builtins import object
 from ..Qt import QtCore, QtGui
 import weakref
 from ..graphicsItems.GraphicsObject import GraphicsObject
@@ -381,15 +384,15 @@ class TerminalGraphicsItem(GraphicsObject):
         
         
         if self.term.isInput():
-            self.box.setPos(pos.x(), pos.y()-br.height()/2.)
-            self.label.setPos(pos.x() + br.width(), pos.y() - lr.height()/2.)
+            self.box.setPos(pos.x(), pos.y()-old_div(br.height(),2.))
+            self.label.setPos(pos.x() + br.width(), pos.y() - old_div(lr.height(),2.))
         else:
-            self.box.setPos(pos.x()-br.width(), pos.y()-br.height()/2.)
-            self.label.setPos(pos.x()-br.width()-lr.width(), pos.y()-lr.height()/2.)
+            self.box.setPos(pos.x()-br.width(), pos.y()-old_div(br.height(),2.))
+            self.label.setPos(pos.x()-br.width()-lr.width(), pos.y()-old_div(lr.height(),2.))
         self.updateConnections()
         
     def updateConnections(self):
-        for t, c in self.term.connections().items():
+        for t, c in list(self.term.connections().items()):
             c.updateLine()
             
     def mousePressEvent(self, ev):
@@ -499,7 +502,7 @@ class TerminalGraphicsItem(GraphicsObject):
         return self.mapToView(self.mapFromItem(self.box, self.box.boundingRect().center()))
 
     def nodeMoved(self):
-        for t, item in self.term.connections().items():
+        for t, item in list(self.term.connections().items()):
             item.updateLine()
 
 

@@ -1,3 +1,4 @@
+from __future__ import print_function
 #########################################################
 ## customize Title bar
 ## dotpy.ir
@@ -73,11 +74,11 @@ class TitleBar(QtGui.QDialog):
             box.showNormal();
             self.maxNormal= False;
             self.maximize.setIcon(QtGui.QIcon('img/max.png'));
-            print '1'
+            print('1')
         else:
             box.showMaximized();
             self.maxNormal=  True;
-            print '2'
+            print('2')
             self.maximize.setIcon(QtGui.QIcon('img/max2.png'));
 
     def close(self):

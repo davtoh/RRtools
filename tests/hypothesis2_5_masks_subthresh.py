@@ -1,9 +1,11 @@
+from __future__ import print_function
+from __future__ import absolute_import
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay,padVH
+from .tesisfunctions import Plotim,overlay,padVH
 import cv2
 import numpy as np
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
-from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,graphpolygontest, polygontest
+from .tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,graphpolygontest, polygontest
 
 #http://stackoverflow.com/questions/14725181/speed-up-iteration-over-numpy-arrays-opencv-cv2-image
 #http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html
@@ -35,13 +37,13 @@ opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
 #dilation = cv2.dilate(opening,kernel,iterations = 1)
 lastthresh = opening
 """
-from recommended import getKernel
+from .recommended import getKernel
 P = brightness(fore)
 shape = P.shape
 kernel = getKernel(shape[0]*shape[1])
 
 thresh = getthresh(cv2.resize(P,(300,300)))
-print thresh
+print(thresh)
 ### METHOD 1
 #lastthresh=threshold(P,thresh,1,0)
 

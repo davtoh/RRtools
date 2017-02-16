@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from tesisfunctions import histogram,graphmath,filterFactory,Plotim
+from .tesisfunctions import histogram,graphmath,filterFactory,Plotim
 
 fn1 = r'im1_2.jpg'
 bgr = cv2.resize(cv2.imread(fn1),(300,300))

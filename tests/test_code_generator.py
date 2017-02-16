@@ -1,8 +1,9 @@
+from builtins import object
 requirements = {""}
 parameters = {}
 outputs = {}
 code = """
 """
 
-class CodeGenerator:
+class CodeGenerator(object):
     pass

@@ -1,3 +1,4 @@
+from builtins import zip
 __author__ = 'Davtoh'
 
 import numpy as np
@@ -91,7 +92,7 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
             mkp2.append( kp2[m.trainIdx] )  # keypoint with Index of the descriptor in train descriptors
     p1 = np.float32([kp.pt for kp in mkp1])
     p2 = np.float32([kp.pt for kp in mkp2])
-    kp_pairs = zip(mkp1, mkp2)
+    kp_pairs = list(zip(mkp1, mkp2))
     return p1, p2, kp_pairs
 
 

@@ -1,8 +1,9 @@
+from __future__ import absolute_import
 # snippet from http://stackoverflow.com/a/9667121/5288758
 # http://scipy.github.io/devdocs/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter
 # http://stackoverflow.com/a/28857249/5288758
 
-from tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
+from .tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
     overlay, findmaxima, findminima, smooth, graph_filter, getOtsuThresh, SAVETO, correctString,StdoutLOG,printParams
 from RRtoolbox.lib.directory import getData,mkPath
 from RRtoolbox.lib.arrayops import Bandpass

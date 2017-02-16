@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+from builtins import filter
+from builtins import range
 from errno import ECONNREFUSED
 from functools import partial
 from multiprocessing import Pool
@@ -23,7 +26,7 @@ def ping(host, port):
 def scan_ports(host):
     p = Pool(NUM_CORES)
     ping_host = partial(ping, host)
-    return filter(bool, p.map(ping_host, range(1, 65536)))
+    return list(filter(bool, p.map(ping_host, list(range(1, 65536)))))
 
 
 def main(host=None):

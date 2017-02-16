@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 import numpy as np
 import cv2
 from RRtoolbox.lib.arrayops import overlay, brightness, background, getOtsuThresh, \
@@ -6,7 +8,7 @@ from RRtoolbox.lib.image import loadFunc
 from RRtoolbox.lib.plotter import fastplt
 from RRtoolbox.lib.root import glob
 from RRtoolbox.lib.directory import getData
-from tesisfunctions import std_deviation, plainness, thresh_biggestCnt
+from .tesisfunctions import std_deviation, plainness, thresh_biggestCnt
 from RRtoolbox.tools.segmentation import layeredfloods
 
 def pad(IMG):
@@ -96,7 +98,7 @@ shape_block = (4,4) # processing block shapes for tests 2,3
 useWindows = True # mode to process blocks in tests 2,3
 
 for fn in fns:
-    print "processing {}".format(fn)
+    print("processing {}".format(fn))
     img = pad(loadFunc(1,(300,300))(fn)) # load image with padding
     P = brightness(img)
     all = layeredfloods(img, gray=P)

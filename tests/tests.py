@@ -1,8 +1,10 @@
+from __future__ import absolute_import
+from builtins import range
 __author__ = 'Davtoh'
 
 import numpy as np
 
-from deprecated.common import Timer
+from .deprecated.common import Timer
 
 
 def test(x,max=255,min=0):
@@ -15,5 +17,5 @@ def test(x,max=255,min=0):
 x = np.ones((5000,5000),dtype=np.float)
 
 with Timer("here"):
-    for i in xrange(100):
+    for i in range(100):
         test(x,max=60000,min=100)

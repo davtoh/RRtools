@@ -11,6 +11,10 @@
 #
 # Note: before use, change the line 63
 
+from __future__ import division
+from past.builtins import cmp
+from builtins import object
+from past.utils import old_div
 import os
 import time
 import glob
@@ -53,7 +57,7 @@ class Ui_MainWindow(object):
         QtCore.QCoreApplication.processEvents()
 
         QtCore.QObject.connect(self.toolButton_3, QtCore.SIGNAL("clicked()"), self.prec)
-        QtCore.QObject.connect(self.toolButton_4, QtCore.SIGNAL("clicked()"), self.next)
+        QtCore.QObject.connect(self.toolButton_4, QtCore.SIGNAL("clicked()"), self.__next__)
         QtCore.QObject.connect(self.toolButton_6, QtCore.SIGNAL("clicked()"), exit)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -84,7 +88,7 @@ class Ui_MainWindow(object):
         self.load_prec()
         self.p_pointer = 0
 
-    def next(self):
+    def __next__(self):
         self.i_pointer += 1
         if self.i_pointer == len(self.images):
             self.i_pointer = 0
@@ -164,8 +168,8 @@ class Ui_MainWindow(object):
                                             QtCore.Qt.FastTransformation)
 
     def wheel_event (self, event):
-        numDegrees = event.delta() / 8
-        numSteps = numDegrees / 15.0
+        numDegrees = old_div(event.delta(), 8)
+        numSteps = old_div(numDegrees, 15.0)
         self.zoom(numSteps)
         event.accept()
 

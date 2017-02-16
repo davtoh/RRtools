@@ -1,3 +1,4 @@
+from builtins import zip
 __author__ = 'Davtoh'
 
 import os
@@ -33,7 +34,7 @@ for fn in fns:
         obj.clean()
 
 if False:
-    data = zip(*data)
+    data = list(zip(*data))
     data.insert(0,headers)
     with open('experimental_data.csv', 'wb') as csvfile:
         wr = csv.writer(csvfile, delimiter=";", dialect='excel')

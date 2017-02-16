@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from past.utils import old_div
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay,polygontest, polycenter, graphpolygontest
+from .tesisfunctions import Plotim,overlay,polygontest, polycenter, graphpolygontest
 from RRtoolbox.lib.arrayops import relativeQuadrants, relativeVectors,angle, contour2points, anorm, anorm2
 import cv2
 import numpy as np
@@ -8,7 +13,7 @@ import pylab as plt
 
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
 from RRtoolbox.lib.arrayops import sigmoid, histogram,brightness,biggestCntData
-from tesisfunctions import getthresh,threshold,pad
+from .tesisfunctions import getthresh,threshold,pad
 
 def plotPointToPoint(pts1, pts2, ax= None, cor="k", annotate =u'{i}({x:1.1f}, {y:1.1f})'):
     """
@@ -40,7 +45,7 @@ fore = cv2.resize(fore,(300,300))
 name = fn1.split('\\')[-1].split(".")[0]
 P = brightness(fore)
 thresh = getthresh(cv2.resize(P,(300,300)))
-print thresh
+print(thresh)
 lastthresh=threshold(P,thresh,1,0)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = pad(lastthresh,1)
@@ -48,18 +53,18 @@ thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-print "objects: ",len(contours)
+print("objects: ",len(contours))
 index,maxarea = biggestCntData(contours)
-print "area contour:",maxarea,"index: ",index
+print("area contour:",maxarea,"index: ",index)
 cnt = contours[index]
 pts = contour2points(cnt)
 test = polygontest(P.copy().astype(np.int32),cnt,mask = None)
 #pg = graphpolygontest(test).show()
 center,center_pts = polycenter(test)
 magnitudes = anorm((np.array(pts-(center))))
-mean = np.sum(magnitudes)/np.float(len(magnitudes))
+mean = old_div(np.sum(magnitudes),np.float(len(magnitudes)))
 deviation = np.abs(magnitudes-mean)
-variance = anorm2(deviation)/np.float(len(magnitudes))
+variance = old_div(anorm2(deviation),np.float(len(magnitudes)))
 standard_deviation= np.sqrt(variance)
 bads = pts[deviation>standard_deviation]
 goods = pts[deviation<=standard_deviation]

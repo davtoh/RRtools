@@ -1,11 +1,14 @@
 """
  Some test to make thresholds
 """
+from __future__ import division
+from __future__ import absolute_import
+from past.utils import old_div
 __author__ = 'Davtoh'
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from tesisfunctions import hist_cdf,findminima,threshold,brightness,getOtsuThresh
+from .tesisfunctions import hist_cdf,findminima,threshold,brightness,getOtsuThresh
 from glob import glob
 
 root = ""
@@ -88,7 +91,7 @@ for i,fn in enumerate(fns):
     ax.plot(x[thresh], hist[thresh], "ro",color="r") # plot selected threshold
     ax.annotate(u' threshold', xy=(x[thresh], hist[thresh]),
                 textcoords='data',
-                xytext=(100, hist.max()/2),
+                xytext=(100, old_div(hist.max(),2)),
                 horizontalalignment='left',
                 verticalalignment='bottom',
                 arrowprops=dict(facecolor='black',

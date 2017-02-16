@@ -1,3 +1,7 @@
+from __future__ import division
+from __future__ import print_function
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
 import cv2
 from tesisfunctions import Plotim,overlay,padVH
@@ -47,7 +51,7 @@ def fomatinfo(info,words=9):
     infolist = info.split()
     newlist = [[""]]
     j=1
-    for i in xrange(len(infolist)):
+    for i in range(len(infolist)):
         if i>words*j:
             j+=1
             newlist.append([""])
@@ -96,7 +100,7 @@ def updatevisualization(self,image,channel,th = None,items=None,thresh1=None,thr
         if th is not None: data.append(th)
     if self.showhist and self.portablehist:
         hst = fig2bgra(histogram(image,False))
-        sz = hst.shape[1]/2,hst.shape[0]/2#(self.rW/2,self.rH)
+        sz = old_div(hst.shape[1],2),old_div(hst.shape[0],2)#(self.rW/2,self.rH)
         if items is None: items = [[cv2.resize(hst,sz)]]
         else: items.insert(0,[cv2.resize(hst,sz)])
     if items is None:
@@ -160,7 +164,7 @@ def builtcmd(self):
         for i in range(sz[2]):
             self.cmdeval[self.channels[i]] = "self.channel=self.data0[:,:,"+str(i)+"].copy()"
 
-    self.cmdlist.extend(self.cmdeval.keys())
+    self.cmdlist.extend(list(self.cmdeval.keys()))
 
 def compute(self,image=None):
     # this function is designed to work with countless initializations of image after builtcmd(self)
@@ -189,7 +193,7 @@ def compute(self,image=None):
     ksize = self.ksize
     if flags==0 or type(ksize) is np.ndarray: # convolution
         if type(ksize) is not np.ndarray: # d is divisor
-            ksize = np.ones(ksize,np.float32)/self.d
+            ksize = old_div(np.ones(ksize,np.float32),self.d)
         chimg = cv2.filter2D(chimg,-1,ksize)
         info += ". Convolution: ksize= "+str(tuple(ksize.shape))
     elif flags==1: # gaussian filter: highly effective in removing Gaussian noise
@@ -271,7 +275,7 @@ def imtester(img, win="Imtester plot", plotter=Plotim):
     self.blocksz2=11
     self.c2=30
     self.maximum=255
-    self.th1= 255/2
+    self.th1= old_div(255,2)
     self.th2 = 0
     # types of threshold
     self.type1=cv2.THRESH_BINARY
@@ -310,4 +314,4 @@ if __name__=="__main__":
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     test = imtester(img)
-    print test.info
+    print(test.info)

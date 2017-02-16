@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 # ----------------------------    IMPORTS    ---------------------------- #
 from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 # multiprocessing
+from builtins import zip
+from builtins import object
 import itertools as it
 from multiprocessing.pool import ThreadPool as Pool
 # three-party
 import cv2
 import numpy as np
 # custom
-from config import MANAGER, FLAG_DEBUG
+from .config import MANAGER, FLAG_DEBUG
 #from cache import memoize
-from arrayops import SimKeyPoint, normsigmoid
+from .arrayops import SimKeyPoint, normsigmoid
 
 # ----------------------------    GLOBALS    ---------------------------- #
 cpc = cv2.getNumberOfCPUs()
-if FLAG_DEBUG: print "configured to use {} cpus".format(cpc)
+if FLAG_DEBUG: print("configured to use {} cpus".format(cpc))
 pool = Pool(processes = cpc) # DO NOT USE IT when module is imported and this runs with it. It creates a deadlock"
 feature_name = 'sift-flann'
 
@@ -64,14 +68,17 @@ class Feature(object):
                 return keypoints, descrs
 
             if self.pool is None:
-                ires = it.imap(helper, params) # process asynchronously
+                try:
+                    ires = it.imap(helper, params) # process asynchronously
+                except AttributeError: # compatibility with python 3
+                    ires = map(helper,params)
             else:
                 ires = self.pool.imap(helper, params)  # process asynchronously in pool
             keypoints, descrs = [], []
             for i, (k, d) in enumerate(ires):
                 keypoints.extend(k)
                 descrs.extend(d)
-                if self.debug: print 'affine sampling: %d / %d\r' % (i+1, len(params)),
+                if self.debug: print('affine sampling: %d / %d\r' % (i+1, len(params)), end=' ')
         else:
             keypoints, descrs = self.detector.detectAndCompute(img, mask) # use detector
 
@@ -89,6 +96,8 @@ class Feature(object):
                 This feature is to reduce time by reusing created features.
         :return: detector, matcher
         """
+        # Here is agood explanation for all the decisions in the features and matchers
+        # http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_matcher/py_matcher.html
         FLANN_INDEX_KDTREE = 1  # bug: flann enums are missing
         FLANN_INDEX_LSH    = 6
 
@@ -98,20 +107,32 @@ class Feature(object):
             self.useASIFT = True
             index+=1
         if chunks[index].lower() == 'sift':
-            detector = cv2.SIFT()  # Scale-invariant feature transform
+            try: # opencv 2
+                detector = cv2.SIFT()  # Scale-invariant feature transform
+            except AttributeError: # opencv 3
+                detector = cv2.xfeatures2d.SIFT_create()
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'surf':
-            detector = cv2.SURF() # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
+            try: # opencv 2
+                detector = cv2.SURF() # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
+            except AttributeError: # opencv 3
+                detector = cv2.xfeatures2d.SURF_create()
             # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'orb':
-            detector = cv2.ORB() # around 400, binary string based descriptors
+            try: # opencv 2
+                detector = cv2.ORB() # around 400, binary string based descriptors
+            except AttributeError: # opencv 3
+                detector = cv2.ORB_create()
             norm = cv2.NORM_HAMMING  # Hamming distance
         elif chunks[index].lower() == 'brisk':
-            detector = cv2.BRISK()
+            try: # opencv 2
+                detector = cv2.BRISK()
+            except AttributeError: # opencv 3
+                detector = cv2.BRISK_create()
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
-            raise Exception("name {} with detector {} not valid".format(name,chunks[index]))
+            raise Exception("name '{}' with detector '{}' not valid".format(name,chunks[index]))
         index +=1
         if len(chunks)-1 >= index and chunks[index].lower() == 'flann':
             # FLANN based Matcher, Fast Approximate Nearest Neighbor Search Library
@@ -251,7 +272,7 @@ def ASIFT(feature_name, img, mask=None, pool=pool):
     for i, (k, d) in enumerate(ires):
         keypoints.extend(k)
         descrs.extend(d)
-        if FLAG_DEBUG: print 'affine sampling: %d / %d\r' % (i+1, len(params)),
+        if FLAG_DEBUG: print('affine sampling: %d / %d\r' % (i+1, len(params)), end=' ')
     keypoints = [getattr(SimKeyPoint(obj),"__dict__") for obj in keypoints] # convert to dictionaries
     #return keyPoint2tuple(keypoints), np.array(descrs)
     return keypoints, np.array(descrs)
@@ -297,7 +318,7 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
             mkp2.append( kp2[m.trainIdx] )  # keypoint with Index of the descriptor in train descriptors
     p1 = np.float32([kp["pt"] for kp in mkp1])
     p2 = np.float32([kp["pt"] for kp in mkp2])
-    return p1, p2, zip(mkp1, mkp2) # p1, p2, kp_pairs
+    return p1, p2, list(zip(mkp1, mkp2)) # p1, p2, kp_pairs
 
 #@memoize(MANAGER["TEMPPATH"])
 def MATCH(feature_name,kp1,desc1,kp2,desc2):
@@ -322,12 +343,12 @@ def MATCH(feature_name,kp1,desc1,kp2,desc2):
     p1, p2, kp_pairs = filter_matches(kp1, kp2, raw_matches) #ratio test of 0.75
     if len(p1) >= 4:
         H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0) # status specifies the inlier and outlier points
-        if FLAG_DEBUG: print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+        if FLAG_DEBUG: print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
         # do not draw outliers (there will be a lot of them)
         #kp_pairs = [kpp for kpp, flag in zip(kp_pairs, status) if flag] # uncomment to give only good kp_pairs
     else:
         H, status = None, None
-        if FLAG_DEBUG: print '%d matches found, not enough for homography estimation' % len(p1)
+        if FLAG_DEBUG: print('%d matches found, not enough for homography estimation' % len(p1))
     return H, status, kp_pairs
 
 

@@ -1,9 +1,14 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
 import cv2
 import numpy as np
 from RRtoolbox.lib.directory import getData,mkPath
 from RRtoolbox.lib.arrayops import angle2D, vectorsAngles, contour2points, points2contour, vectorsQuadrants
-from tesisfunctions import Plotim,overlay,sigmoid,histogram,brightness,getthresh,threshold,pad,\
+from .tesisfunctions import Plotim,overlay,sigmoid,histogram,brightness,getthresh,threshold,pad,\
     IMAGEPATH,SAVETO,thresh_biggestCnt,extendedSeparatingLine,graphDeffects
 from glob import glob
 name_script = getData(__file__)[-2]
@@ -37,8 +42,8 @@ thresh, bImage = cv2.threshold(P, 0, 1, cv2.THRESH_BINARY + cv2.THRESH_OTSU) # t
 ROI = bImage
 
 if show or save:
-    for i in xrange(iterations): # test iterations over the same algorithm
-        print "ITERATION",i
+    for i in range(iterations): # test iterations over the same algorithm
+        print("ITERATION",i)
         bImage = ROI
         fore1 = overlay(fore.copy(), bImage * 255, alpha=bImage)
         plot = Plotim("{} ITER {} STEP 1 get binary image".format(name_image, i), fore1)
@@ -82,9 +87,9 @@ if show or save:
         if show: plot.show()
 
         M = cv2.moments(cnt) # find moments
-        cx = int(M['m10']/M['m00'])
-        cy = int(M['m01']/M['m00'])
-        print "(cx,cy)",(cx,cy)
+        cx = int(old_div(M['m10'],M['m00']))
+        cy = int(old_div(M['m01'],M['m00']))
+        print("(cx,cy)",(cx,cy))
         fore1 = fore.copy()
         cv2.circle(fore1, (cx,cy), 10, (0, 0, 255), -1, 8)
         cv2.drawContours(fore1,[cnt],0,(0, 0, 255),2)

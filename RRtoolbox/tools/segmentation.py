@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
+from past.utils import old_div
 __author__ = 'Davtoh'
 
 import cv2
@@ -120,7 +122,7 @@ def get_layered_alpha(back, fore):
     foremask = Bandpass(3, *get_beta_params_Otsu(forem[mask_fore.astype(bool)]))(foregray)
 
     # merge masks
-    alphamask = normalize(foremask * backmask * (backm/255.))
+    alphamask = normalize(foremask * backmask * (old_div(backm,255.)))
     return alphamask
 
 def retina_markers_thresh(P):

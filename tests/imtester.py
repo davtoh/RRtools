@@ -1,6 +1,8 @@
+from __future__ import print_function
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 import cv2
-from tesisfunctions import Plotim,overlay,padVH
+from .tesisfunctions import Plotim,overlay,padVH
 import numpy as np
 from RRtoolbox.lib.plotter import Imtester
 
@@ -14,4 +16,4 @@ if __name__=="__main__":
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     test = Imtester(img)
-    print test.info
+    print(test.info)

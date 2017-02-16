@@ -1,4 +1,6 @@
-from tesisfunctions import simulateLens, IMAGEPATH
+from __future__ import print_function
+from __future__ import absolute_import
+from .tesisfunctions import simulateLens, IMAGEPATH
 import glob
 import cv2
 imlist= glob.glob(IMAGEPATH+"IMG*.jpg")
@@ -10,9 +12,9 @@ for fn in imlist:
         img = cv2.imread(fn)
         name = "lens_"+fn.split('\\')[-1]
         cv2.imwrite(rootpath+name,simulateLens(img,parameters=None)[0])
-        print fn, " saved as ",name
+        print(fn, " saved as ",name)
     except:
         if img is None:
-            print fn, " does not exists"
+            print(fn, " does not exists")
         else:
-            print fn, " could not be processed"
+            print(fn, " could not be processed")

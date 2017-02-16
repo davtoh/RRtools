@@ -1,7 +1,9 @@
 """
 This is a sample code that works as in http://stackoverflow.com/a/10561359/5288758 to adjust sheets of papers' colors.
 """
+from __future__ import division
 
+from past.utils import old_div
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -21,7 +23,7 @@ gray = (255-gray) # TODO: this is a tweak of the code
 
 kernel1 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(5,5))
 close = cv2.morphologyEx(gray,cv2.MORPH_CLOSE,kernel1)
-div = np.float32(gray)/(close)
+div = old_div(np.float32(gray),(close))
 res = np.uint8(cv2.normalize(div,div,0,255,cv2.NORM_MINMAX))
 res = (255-res) # TODO: this is a tweak of the code
 

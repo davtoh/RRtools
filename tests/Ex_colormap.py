@@ -32,6 +32,9 @@ Miscellaneous:
     Colormaps that don't fit into the categories above.
 
 """
+from __future__ import division
+from builtins import zip
+from past.utils import old_div
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -73,7 +76,7 @@ def plot_color_gradients(cmap_category, cmap_list):
         ax.imshow(gradient, aspect='auto', cmap=plt.get_cmap(name))
         pos = list(ax.get_position().bounds)
         x_text = pos[0] - 0.01
-        y_text = pos[1] + pos[3]/2.
+        y_text = pos[1] + old_div(pos[3],2.)
         fig.text(x_text, y_text, name, va='center', ha='right', fontsize=10)
 
     # Turn off *all* ticks & spines, not just the ones with colormaps.

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys, os
 sys.path.insert(0,os.path.abspath("../")) # add relative path
 from RRtoolFC.lib.app import execApp, app
@@ -14,4 +15,4 @@ from RRtoolbox.lib.plotter import Plotim,fastplt
 #fastplt(data,block=True) # FIXME block=False does not work under windows
 p = Plotim("Plotim",data)
 p.show(block=True)
-print "after plots"
+print("after plots")

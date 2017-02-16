@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 if __name__=="__main__":
@@ -12,7 +14,7 @@ if __name__=="__main__":
         return "that is a test"
 
     #from pycallgraph import PyCallGraph
-    from lib.inspector import GraphTraceOutput,GraphTrace
+    from .lib.inspector import GraphTraceOutput,GraphTrace
 
     graphviz1 = GraphTraceOutput()
     graphviz1.output_file = 'run.png'
@@ -29,9 +31,9 @@ if __name__=="__main__":
             """
             x = Test()
             x = x.replace("is","was")
-            print x
+            print(x)
         return tracer
 
     tracer = do()
     tracer.saveSource("runSource")
-    print tracer.source
+    print(tracer.source)

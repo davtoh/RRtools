@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # http://stackoverflow.com/a/12465861/5288758
 # http://stackoverflow.com/a/3783303/5288758
+from __future__ import print_function
 from RRtoolFC.lib.app import execApp # get application, unsupported multiprocessing
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
@@ -147,5 +148,5 @@ if __name__ == '__main__':
     fname = r"/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/tests/im1_1.jpg"    # This can be any photo image file
     photo=np.array(mpimg.imread(fname))
     p = fastplt(photo) # block=True
-    print "some other process"
+    print("some other process")
     execApp() # all plots from RRtoolFC expect an execApp somewhere

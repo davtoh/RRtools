@@ -3,12 +3,14 @@
     This module contains all basic masking and pre-processing (as in segmenting phase) methods
 """
 from __future__ import division
+from __future__ import absolute_import
+from builtins import range
 __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
-from basic import findminima, im2shapeFormat, getOtsuThresh
-from filters import smooth
+from .basic import findminima, im2shapeFormat, getOtsuThresh
+from .filters import smooth
 
 def brightness(img):
     """
@@ -36,7 +38,7 @@ def background(gray, mask = None, iterations = 3):
     """
     #gray = works with any gray image
     if mask is None: mask = np.ones_like(gray)
-    for i in xrange(iterations):
+    for i in range(iterations):
         hist, bins = np.histogram(gray[mask.astype(bool)].flatten(), 256, [0, 256])
         thresh = getOtsuThresh(hist)
         cv2.threshold(gray, thresh, 1, cv2.THRESH_BINARY_INV, dst=mask)
@@ -70,7 +72,7 @@ def multiple_otsu(gray, mask = None, flag = cv2.THRESH_BINARY, iterations = 1):
         mask = np.zeros_like(gray)
 
     if iterations>0:
-        for i in xrange(iterations):
+        for i in range(iterations):
             hist, bins = np.histogram(gray[mask.astype(bool)].flatten(), 256, [0, 256])
             thresh = getOtsuThresh(hist)
             cv2.threshold(gray, thresh, 1, flag, dst=mask)
@@ -131,7 +133,7 @@ def biggestCntData(contours):
     :return: index, area
     """
     index,maxarea = 0,0
-    for i in xrange(len(contours)):
+    for i in range(len(contours)):
         area = cv2.contourArea(contours[i])
         if area>maxarea: index, maxarea = i, area
     return index,maxarea

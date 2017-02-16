@@ -13,6 +13,7 @@ Keys:
   c     - toggle 4/8 connectivity
   ESC   - exit
 '''
+from __future__ import print_function
 
 import numpy as np
 import cv2
@@ -25,7 +26,7 @@ if __name__ == '__main__':
         fn = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/20150730_092749.jpg"
         fn = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/IMG_0421.jpg"
         fn = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/IMG_0401.jpg"
-    print __doc__
+    print(__doc__)
 
     img = cv2.resize(cv2.imread(fn, True),(600,600))
     h, w = img.shape[:2]
@@ -66,10 +67,10 @@ if __name__ == '__main__':
             break
         if ch == ord('f'):
             fixed_range = not fixed_range
-            print 'using %s range' % ('floating', 'fixed')[fixed_range]
+            print('using %s range' % ('floating', 'fixed')[fixed_range])
             update()
         if ch == ord('c'):
             connectivity = 12-connectivity
-            print 'connectivity =', connectivity
+            print('connectivity =', connectivity)
             update()
     cv2.destroyAllWindows()

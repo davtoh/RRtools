@@ -1,5 +1,8 @@
+from __future__ import division
 # http://stackoverflow.com/a/12465861/5288758
 
+from builtins import range
+from past.utils import old_div
 import sys
 from PyQt4 import QtGui
 
@@ -70,13 +73,13 @@ class OverlayOld(QtGui.QLabel):
         painter.setPen(QtGui.QPen(Qt.NoPen))
 
         for i in range(6):
-            if (self.counter / 5) % 6 == i:
+            if (old_div(self.counter, 5)) % 6 == i:
                 painter.setBrush(QtGui.QBrush(QtGui.QColor(127 + (self.counter % 5)*32, 127, 127)))
             else:
                 painter.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
             painter.drawEllipse(
-                self.width()/2 + 30 * math.cos(2 * math.pi * i / 6.0) - 10,
-                self.height()/2 + 30 * math.sin(2 * math.pi * i / 6.0) - 10,
+                old_div(self.width(),2) + 30 * math.cos(2 * math.pi * i / 6.0) - 10,
+                old_div(self.height(),2) + 30 * math.sin(2 * math.pi * i / 6.0) - 10,
                 20, 20)
         painter.end()
 
@@ -129,13 +132,13 @@ class MatplotlibCanvas(FigureCanvas):
         if self.counter<60:
             painter.setPen(QtGui.QPen(Qt.NoPen))
             for i in range(6):
-                if (self.counter / 5) % 6 == i:
+                if (old_div(self.counter, 5)) % 6 == i:
                     painter.setBrush(QtGui.QBrush(QtGui.QColor(127 + (self.counter % 5)*32, 127, 127)))
                 else:
                     painter.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
                 painter.drawEllipse(
-                    self.width()/2 + 30 * math.cos(2 * math.pi * i / 6.0) - 10,
-                    self.height()/2 + 30 * math.sin(2 * math.pi * i / 6.0) - 10,
+                    old_div(self.width(),2) + 30 * math.cos(2 * math.pi * i / 6.0) - 10,
+                    old_div(self.height(),2) + 30 * math.sin(2 * math.pi * i / 6.0) - 10,
                     20, 20)
         painter.end()
 

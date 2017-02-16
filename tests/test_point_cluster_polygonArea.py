@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 # http://stackoverflow.com/questions/5147112/matplotlib-how-to-put-individual-tags-for-a-scatter-plot
 # http://stackoverflow.com/questions/22272081/label-python-data-points-on-plot
+from __future__ import print_function
+from builtins import zip
+from builtins import range
 import pylab as plt
 import numpy as np
 import cv2
@@ -24,7 +27,7 @@ def tests_groundTrue(funcs):
     if callable(funcs): funcs = (funcs,) # it is just one function
     pts60 = np.array([[-3,-2],[-1,4],[6,1],[3,10],[-4,9],[-3,-2]]) # expected area 60
     pts100 = np.array([[-5,5],[5,5],[5,-5],[-5,-5]]) # expected area 100
-    for key,val in locals().iteritems():
+    for key,val in locals().items():
         if key.startswith("pts"):
             ans = int(key[3:])
             for func in funcs:
@@ -42,21 +45,21 @@ def test_random(funcs, n_tests=1, n_points = 4, axes_range = ((-50, 50),), toler
     :return: None
     """
     if callable(funcs): funcs = (funcs,) # it is just one function
-    for ntest in xrange(1,n_tests+1):
+    for ntest in range(1,n_tests+1):
         text =  "test No {}".format(ntest)
-        print text
+        print(text)
         if points:
             pts = points.pop()
         else:
             pts = random_points(axes_range, n_points)
-        print "points {}".format(pts)
+        print("points {}".format(pts))
         ans = [func(pts) for func in funcs]
         mean = np.mean(ans)
         for i,val in enumerate(np.abs(mean-ans)): # similar to np.allclose
             if val > tolerance:
-                print "{} failed to be in the mean {} answering {} and deviation {}".format(funcs[i].func_name,mean,ans[i],val)
+                print("{} failed to be in the mean {} answering {} and deviation {}".format(funcs[i].__name__,mean,ans[i],val))
             else:
-                print "{} passed mean {} answering {} and deviation {}".format(funcs[i].func_name,mean,ans[i],val)
+                print("{} passed mean {} answering {} and deviation {}".format(funcs[i].__name__,mean,ans[i],val))
         if show:
             Plotim("filled", points2mask(pts)).show(block=False)
             f = plt.figure()
@@ -82,7 +85,7 @@ def py_ang(v1, v2):
 def getRelativeAngles(pts):
     vs = relativeVectors(pts)
     angles = []
-    for i in xrange(1,len(vs)):
+    for i in range(1,len(vs)):
         angles.append(py_ang(vs[i-1], vs[i]))
     return angles
 
@@ -116,21 +119,21 @@ else:
 
 def getQuadrantComparison(pts1,pts2):
     hashp = toTupple(pts2)
-    mapping = dict(zip(hashp,pts1))
+    mapping = dict(list(zip(hashp,pts1)))
     return quadrants(pts1),[[mapping[j] for j in i] for i in toTupple(quadrants(pts2))]
 
 
 plotPointsContour(pts, deg=True)
 plt.hold(True)
 plotPointsContour(projections, lcor="b", deg=True)
-print (polygonArea(pts), polygonArea(projections))
+print((polygonArea(pts), polygonArea(projections)))
 q1,q2 = getQuadrantComparison(pts,projections)
-print "points quadrants" # [Top_left,Top_right,Bottom_left,Bottom_right]
-print q1
-print translateQuadrants(relativeQuadrants(pts))
-print "points quadrants after projection"
-print q2
-print translateQuadrants(relativeQuadrants(projections))
+print("points quadrants") # [Top_left,Top_right,Bottom_left,Bottom_right]
+print(q1)
+print(translateQuadrants(relativeQuadrants(pts)))
+print("points quadrants after projection")
+print(q2)
+print(translateQuadrants(relativeQuadrants(projections)))
 U, s, V = np.linalg.svd(pts, full_matrices=False)
 pU, ps, pV = np.linalg.svd(projections, full_matrices=False)
 pass # U, pU, ps, s, pV, V

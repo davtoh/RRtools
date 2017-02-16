@@ -1,5 +1,6 @@
 # https://wiki.python.org/moin/PyQt/Threading,_Signals_and_Slots
 
+from builtins import range
 import math
 import random
 import sys

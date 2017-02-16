@@ -4,12 +4,13 @@ This example demonstrates writing a custom Node subclass for use with flowcharts
 
 We implement a couple of simple image processing nodes.
 """
+from __future__ import absolute_import
 import numpy as np
 import pyqtgraph as pg
 import pyqtgraph.flowchart.library as fclib
 from pyqtgraph.flowchart import Flowchart, Node
 from pyqtgraph.flowchart.library.common import CtrlNode, metaArrayWrapper
-from main import GUIRRTool, RRtoolFlowchart
+from .main import GUIRRTool, RRtoolFlowchart
 ## Create an empty flowchart with a single input and output
 fc = RRtoolFlowchart(terminals={
     'dataIn': {'io': 'in'},

@@ -14,6 +14,12 @@
 # https://docs.python.org/3/library/string.html
 # http://stackoverflow.com/questions/101128/how-do-i-read-text-from-the-windows-clipboard-from-python
 from __future__ import division
+from __future__ import print_function
+from builtins import zip
+from builtins import chr
+from builtins import range
+from past.builtins import basestring
+from builtins import object
 from config import FLOAT,FLAG_DEBUG
 import copy # copy lists
 import sys
@@ -58,7 +64,7 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
     #from RRtoolbox.lib.image import plt2bgr
     #image = plt2bgr(image) # once miniprogram is made this should work -> UPDATED 07/04/16
     wins[-1] += 1
-    if FLAG_DEBUG: print "fastplt received image type: ",type(image)
+    if FLAG_DEBUG: print("fastplt received image type: ",type(image))
     def myplot():
         if isinstance(image, matplotlib.axes.SubplotBase):
             f = image.figure
@@ -75,14 +81,14 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
         wins[0]+=1
         if win: f.canvas.set_window_title(win)
         else:f.canvas.set_window_title("Figure {}".format(wins[-1]))
-        if FLAG_DEBUG: print "showing now..."
+        if FLAG_DEBUG: print("showing now...")
         #plt.ion()
         plt.show()
-        if FLAG_DEBUG: print "showed..."
+        if FLAG_DEBUG: print("showed...")
     if block:
         myplot()
     elif __name__ == "__main__": # if called from shell or directly
-        if FLAG_DEBUG: print "multiprocessing..."
+        if FLAG_DEBUG: print("multiprocessing...")
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()
@@ -91,19 +97,19 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
         s,addr = generateServer()
         props = ["python '{script}'".format(script = os.path.abspath(__file__))]
         props.append("{}:{}".format(*addr))
-        if FLAG_DEBUG: print "generated server at {}".format(addr)
+        if FLAG_DEBUG: print("generated server at {}".format(addr))
         d = dict(cmap=cmap,title=title,win=win,num=wins[0])
-        props.extend(["--{} '{}'".format(key,val) for key,val in d.items() if val is not None])
+        props.extend(["--{} '{}'".format(key,val) for key,val in list(d.items()) if val is not None])
         if block: props.append("--block")
         if daemon: props.append("--daemon")
         txt = " ".join(props)
         sendPickle(image,s,timeout=10, threaded = True)
-        if FLAG_DEBUG: print "sending",txt
+        if FLAG_DEBUG: print("sending",txt)
         def myplot(): os.system(txt)
         p = Process(target=myplot) # FIXME i shoud call a miniprogram
         p.daemon = daemon
         p.start()
-    if FLAG_DEBUG: print "left fastplt..."
+    if FLAG_DEBUG: print("left fastplt...")
 
 def graph_filter(filters, levels=None, titles=None, win=None, single = True, legend = True, annotate = True, cols = 3, scale = 0.1, show = True):
     """
@@ -141,7 +147,7 @@ def graph_filter(filters, levels=None, titles=None, win=None, single = True, leg
                 name = formatConsume(name,params)
                 if "*" in name:
                     parts = name.split("*")
-                    f = ["{key}: {{{key}}}".format(key=key) for key in params.keys()]
+                    f = ["{key}: {{{key}}}".format(key=key) for key in list(params.keys())]
                     return safeReplace([[part,f] for part in parts],params)
                 return name
             except Exception as e:
@@ -152,7 +158,7 @@ def graph_filter(filters, levels=None, titles=None, win=None, single = True, leg
 
     def getTitle(name, params):
         if params:
-            return name + ", ".join("{}: {}".format(key, val) for key, val in params.items())
+            return name + ", ".join("{}: {}".format(key, val) for key, val in list(params.items()))
         else:
             return name + " filter"
 
@@ -170,7 +176,7 @@ def graph_filter(filters, levels=None, titles=None, win=None, single = True, leg
             try:
                 level = get_x_space(filters) # try to fit to filters
                 if level.size == 0:
-                    print "in cero"
+                    print("in cero")
                     raise Exception
             except:
                 level = np.linspace(0, 256,256) # assume it is for an image
@@ -206,7 +212,7 @@ def graph_filter(filters, levels=None, titles=None, win=None, single = True, leg
                 try:
                     level = get_x_space([f]) # try to fit to filters
                     if level.size == 0:
-                        print "in cero"
+                        print("in cero")
                         raise Exception
                 except:
                     level = np.linspace(0, 256,256) # assume it is for an image
@@ -225,9 +231,9 @@ def graph_filter(filters, levels=None, titles=None, win=None, single = True, leg
         if isinstance(f,FilterBase):
             # get the parameters in a dictionary
             # TODO implement getattr() instead with a list of parameters from annotate
-            params = {str(key)[1:]:val for key,val in f.__dict__.items() if val is not None}
+            params = {str(key)[1:]:val for key,val in list(f.__dict__.items()) if val is not None}
             if annotate:
-                for key,val in params.items():
+                for key,val in list(params.items()):
                     if key != "alfa":
                         xp,yp = val,f(val)
                         if key == "beta1" and "beta2" in params: #xp < (xmax+abs(xmin))/2: # label position at x
@@ -400,7 +406,7 @@ def formatcmd(self, cmd, references=("+","-","*","="), lmissing="self."):
 
     def format(cmd,strlist,lmissing):
         if len(strlist)!=1: # ensures toggle functionality for single expression in evalcommand
-            for i in xrange(len(strlist)):
+            for i in range(len(strlist)):
                 cmd = cmd.replace(strlist[i],correct(strlist[i],lmissing))
         return cmd
 
@@ -411,7 +417,7 @@ def echo(obj):
     Printer (used when user wants to print an object from Plotim)
     :param obj: object
     """
-    print obj
+    print(obj)
 
 def cmdfunc(self,execute = False):
     """
@@ -425,7 +431,7 @@ def cmdfunc(self,execute = False):
             for command in cmd:
                 try:
                     if command.find("=")!=-1 or command.find(" ")!=-1 or command.find("(")!=-1 or command.find(".")!=-1:
-                        exec command in globals(), locals()
+                        exec(command, globals(), locals())
                         if showresult: self.plotintime(items=[[command+" executed"]],wait=wait)
                     else:
                         setattr(self,command,not getattr(self,command))
@@ -439,7 +445,7 @@ def cmdfunc(self,execute = False):
                     lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
                     msg = lines[-1]  # Log it or whatever here
                     self.plotintime(items=[["Error executing "+command+": "+msg]],wait=wait,bgrcolor=self.errorbackground)
-                    print ValueError
+                    print(ValueError)
                     return False
             if showresult: self.plotintime(items=[[self.cmd+" executed"]],wait=wait)
             return True
@@ -447,7 +453,7 @@ def cmdfunc(self,execute = False):
             return evalcommand(self,[cmd],showresult,wait)
     text = []
     if execute and self.cmd != "": # in execution
-        choice = filter(lambda x: x.startswith(self.cmd), self.cmdlist)
+        choice = [x for x in self.cmdlist if x.startswith(self.cmd)]
         if choice != []:
             self.cmd = choice[0]
         command = self.cmdeval.get(self.cmd)
@@ -786,7 +792,7 @@ class plotim(object):
         if block:
             _show(frames)
         elif isinstance(self,plotim): # if called from shell or directly #FIXED __name__ == "__main__" does not work when pickled
-            if FLAG_DEBUG: print "multiprocessing..."
+            if FLAG_DEBUG: print("multiprocessing...")
             p = Process(target=_show,args=(frames,)) # FIXME i shoud call a miniprogram
             p.daemon = daemon
             p.start()
@@ -795,13 +801,13 @@ class plotim(object):
             s,addr = generateServer()
             props = ["python '{script}'".format(script = os.path.abspath(__file__))]
             props.append("{}:{}".format(*addr))
-            if FLAG_DEBUG: print "generated server at {}".format(addr)
+            if FLAG_DEBUG: print("generated server at {}".format(addr))
             if block: props.append("--block")
             if daemon: props.append("--daemon")
             if frames: props.append("--frames")
             txt = " ".join(props)
             sendPickle(self,s,timeout=10, threaded = True)
-            if FLAG_DEBUG: print "sending",txt
+            if FLAG_DEBUG: print("sending",txt)
             def myplot(): os.system(txt)
             p = Process(target=myplot) # FIXME i shoud call a miniprogram
             p.daemon = daemon
@@ -1005,7 +1011,7 @@ class plotim(object):
                     if self.cmd == "":
                         self.cmdfiltered = self.cmdlist
                     else:
-                        self.cmdfiltered = [i for i in filter(lambda x: x.startswith(self.cmd), self.cmdlist)]
+                        self.cmdfiltered = [i for i in [x for x in self.cmdlist if x.startswith(self.cmd)]]
 
             if self.pressedkey == 2490368: # if up key
                 text = []
@@ -1119,7 +1125,7 @@ class plotim(object):
             elif self.cmd != "":
                 text = []
                 text.extend([["cmd: "+self.cmd]])
-                mylist = [i for i in filter(lambda x: x.startswith(self.cmd), self.cmdlist)] # pattern list
+                mylist = [i for i in [x for x in self.cmdlist if x.startswith(self.cmd)]] # pattern list
                 if mylist:
                     toshow = [[i] for i in mylist]
                     text.extend(toshow)
@@ -1231,7 +1237,7 @@ class plotim(object):
             elif isinstance(items,list):
                 if items != []:
                     imgs.append([])
-                    for i in xrange(len(items)):
+                    for i in range(len(items)):
                         evaluate(imgs[-1],items[i],bgr)
             elif isinstance(items,np.ndarray):
                 imgs.append(items)
@@ -1240,12 +1246,12 @@ class plotim(object):
 
         imgs = []
         r = 0
-        for i in xrange(len(items)): # rows
+        for i in range(len(items)): # rows
             if items[i]==[]: # discarding empty lists
                 r+=1
             else:
                 imgs.append([])
-                for j in xrange(len(items[i])): # columns
+                for j in range(len(items[i])): # columns
                     if type(bgrcolor) is list:
                         evaluate(imgs[i-r],items[i][j],bgrcolor[i][j])
                     else:
@@ -1300,7 +1306,7 @@ class plotim(object):
             strname = strname.format(win=self.win)
         strname+=ext
         r = cv2.imwrite(strname,getattr(self,name))
-        if FLAG_DEBUG and r: print name, "from Plotim saved as",strname
+        if FLAG_DEBUG and r: print(name, "from Plotim saved as",strname)
         return r
 
     # CONTROL METHODS
@@ -1845,4 +1851,4 @@ if __name__ == "__main__":
             image.show(args.frames, args.block, args.daemon)
         else:
             fastplt(image, args.cmap, args.title, args.win, args.block, args.daemon)
-    if FLAG_DEBUG: print "leaving plotter module..."
+    if FLAG_DEBUG: print("leaving plotter module...")

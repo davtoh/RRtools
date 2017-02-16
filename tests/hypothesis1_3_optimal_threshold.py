@@ -1,13 +1,15 @@
 """
     Robust thresholds to segment retinal images
 """
+from __future__ import print_function
+from __future__ import absolute_import
 # TODO, complete
 __author__ = 'Davtoh'
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 from RRtoolbox.lib.arrayops import findminima, getOtsuThresh, brightness, hist_cdf
-from tesisfunctions import threshold
+from .tesisfunctions import threshold
 from glob import glob
 
 imlist= glob("im*.jpg")
@@ -20,7 +22,7 @@ ishull = False # True to apply convex hull
 save = False # True to save figure
 show = True # True to show figure
 shape = None #(20,5*len(fns))
-print "thresholdgin ",len(imlist),"images"
+print("thresholdgin ",len(imlist),"images")
 
 fig = plt.figure("threshs",figsize=shape) # window name
 # make title

@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 import numpy as np
 import cv2
 from RRtoolbox.lib.arrayops import overlay, brightness, process_as_blocks, rescale, getOtsuThresh
@@ -6,7 +8,7 @@ from RRtoolbox.lib.plotter import fastplt
 from RRtoolbox.lib.image import GetCoors
 from RRtoolbox.lib.root import glob
 from RRtoolbox.lib.directory import getData
-from tesisfunctions import std_deviation, plainness
+from .tesisfunctions import std_deviation, plainness
 
 root = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/" # lighting/
 fns = glob(root+"*")
@@ -28,7 +30,7 @@ drawMask = False
 test = 0
 
 for fn in fns:
-    print "processing {}".format(fn)
+    print("processing {}".format(fn))
     img = loadFunc(1,(300,300))(fn) # load image
     h, w, c = img.shape # get image shape
 
@@ -47,7 +49,7 @@ for fn in fns:
 
     pl = plainness(ROI)
     sd = std_deviation(ROI)
-    print "plainness = {}, deviation = {}".format(pl,sd)
+    print("plainness = {}, deviation = {}".format(pl,sd))
 
 
     if test==0:

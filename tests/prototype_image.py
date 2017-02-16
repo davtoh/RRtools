@@ -16,6 +16,10 @@
     TIFF files - *.tiff, *.tif (see the Notes section)
 """
 from __future__ import division
+from __future__ import print_function
+from builtins import zip
+from builtins import range
+from builtins import object
 from config import FLOAT,INT
 import glob
 import cv2
@@ -261,7 +265,7 @@ def saveAs(fn, base = "", ext = "jpg"):
         if replaceparts[1]: parts[1] = replaceparts[1] # replace root
         if replaceparts[2]: # to replace basic name
             diff1,diff2,index = strdifference(mainparts[2],parts[2])
-            for i in xrange(len(diff2)):
+            for i in range(len(diff2)):
                 if i not in index:
                     diff2[i] = replaceparts[2]
                     break
@@ -281,9 +285,9 @@ def checkLoaded(obj, fn="", raiseError = False):
     :return: None
     """
     if obj is not None:
-        print fn, " Loaded..."
+        print(fn, " Loaded...")
     else:
-        print fn, " Could not be loaded..."
+        print(fn, " Could not be loaded...")
         if raiseError: raise
 
 def loadcv(path, flags=-1, shape=None):
@@ -377,7 +381,7 @@ def loadsfrom(path, flags=cv2.IMREAD_COLOR):
     image = cv2.imdecode(nparr, flags=flags) # decode using OpenCV format
     return image
 
-class imFactory:
+class imFactory(object):
     """
     image factory for RRToolbox to create scripts to standardize loading images and
     provide lazy loading (it can load images from disk with the customized options
@@ -419,7 +423,7 @@ class imFactory:
         self.update(**kwargs)
 
     def update(self, **kwargs):
-        for key,value in kwargs.iteritems():
+        for key,value in kwargs.items():
             if hasattr(self,key):
                 setattr(self,key,value)
             else:
@@ -943,7 +947,7 @@ class imcoors(object):
         """
         vs = self.relativeVectors # get all vectors from points.
         vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-        return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in xrange(1,len(vs))],self._dtype) # caculate angles
+        return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in range(1,len(vs))],self._dtype) # caculate angles
     @cache
     def pointsAngles(self):
         """

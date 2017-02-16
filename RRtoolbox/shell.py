@@ -1,8 +1,12 @@
+from __future__ import print_function
+from __future__ import absolute_import
 
+from past.builtins import basestring
+from builtins import object
 __author__ = 'Davtoh'
 
 import getopt
-from lib.root import NoParserFound
+from .lib.root import NoParserFound
 import argparse
 import sys
 import re
@@ -43,7 +47,7 @@ def shell_processor(commands):
     for command in commands:
         parsed_commands.append(shell_processor_parser(command)) # opts, args
 
-class Shell:
+class Shell(object):
 
     def parser_fastplt(self):
         parser = argparse.ArgumentParser(description='fast plot of images.',argument_default=argparse.SUPPRESS)
@@ -74,7 +78,7 @@ class Shell:
         if isinstance(func,basestring):
             name = func # it is the name
         else:
-            name = func.func_name # get name from object
+            name = func.__name__ # get name from object
         # TODO: use generateParser too
         getparser = getattr(self,"parser_"+name, None)
         if getparser is None:
@@ -85,7 +89,7 @@ class Shell:
         return self.getParser(func).parse_args(args, namespace)
 
     def generateParser(self, func):
-        from lib.inspector import funcData
+        from .lib.inspector import funcData
         # eval won't be used to prevent security risks
         data = funcData(func)
         doc = data['doc']
@@ -171,10 +175,10 @@ def string_interpreter(empty=None, commahandler=None, handle=None):
 
 if __name__ == '__main__':
 
-    from lib.image import loadFunc
+    from .lib.image import loadFunc
     s = Shell()
     p = s.generateParser(loadFunc)
     #getting commands from command pront
     opts, args = shell_processor_parser(sys.argv[1:])
-    print opts,args
+    print(opts,args)
     #detector, matcher = init_feature(feature_name)

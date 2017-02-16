@@ -1,11 +1,16 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
 import cv2
 import numpy as np
 
 from RRtoolbox.lib.arrayops import convexityRatio
 from RRtoolbox.lib.directory import getData,mkPath
-from recommended import getKernel
-from tesisfunctions import Plotim,overlay, brightness, SAVETO, StdoutLOG,thresh_biggestCnt,\
+from .recommended import getKernel
+from .tesisfunctions import Plotim,overlay, brightness, SAVETO, StdoutLOG,thresh_biggestCnt,\
     extendedSeparatingLine,graphDeffects,printParams
 
 name_script = getData(__file__)[-2]
@@ -125,7 +130,7 @@ def demo():
         if shape: # if the shape is known then use predefined variables too
             template = np.zeros(shape, dtype=np.uint8) # template to use in each binary image
             k = getKernel(shape[0]*shape[1])
-            ks = k.shape[0]/3 # lines thickness
+            ks = old_div(k.shape[0],3) # lines thickness
 
         for fn in fns:
             name_image = getData(fn)[-2]#fn1.split('\\')[-1].split(".")[0]
@@ -143,7 +148,7 @@ def demo():
             else:
                 template = np.zeros(fore.shape[:2], dtype=np.uint8) # template to use in each binary image
                 k = getKernel(fore.shape[0]*fore.shape[1])
-                ks = k.shape[0]/3 # lines thickness
+                ks = old_div(k.shape[0],3) # lines thickness
 
             P = brightness(fore) # get gray image
             #thresh = getthresh(cv2.resize(P,shape)) # obtain threshold value
@@ -152,12 +157,12 @@ def demo():
 
             if invertROI: ROI = invert(ROI) # this is used when the object is inverted
             if filterROI: ROI = cv2.morphologyEx(ROI,3,k,iterations = 2)
-            print "performed morphological operation: closing with kernel of shape {}".format(k.shape)
+            print("performed morphological operation: closing with kernel of shape {}".format(k.shape))
             # find biggest cnt
             cnt = thresh_biggestCnt(ROI)
 
-            for i in xrange(maxIter): # test iterations over the same algorithm
-                print "ITERATION",i
+            for i in range(maxIter): # test iterations over the same algorithm
+                print("ITERATION",i)
                 fore1 = overlay(fore.copy(), pallet[ROI], alpha=ROI * alfa2)
                 plot = Plotim("ITER {} STEP 1 get binary image".format(i), fore1)
                 if save: plot.save("{}{{win}}".format(saveTo))
@@ -167,37 +172,37 @@ def demo():
                 defects = cv2.convexityDefects(cnt, hull) # get defects
 
                 if defects is None: # there are no defects
-                    print "defects is None"
+                    print("defects is None")
                     if i == 0:
-                        print "perhaps you should use ROI = invert(ROI) for this image: {}".format(name_image)
+                        print("perhaps you should use ROI = invert(ROI) for this image: {}".format(name_image))
                     if not forceIterations:
-                        print "breaking algorithm"
+                        print("breaking algorithm")
                         break
                     else:
-                        print "forced to continue"
+                        print("forced to continue")
 
                 if defects.size<=4: # cannot separate by defects
-                    print "not enough defects to create lines"
+                    print("not enough defects to create lines")
                     if not forceIterations:
-                        print "breaking algorithm"
+                        print("breaking algorithm")
                         break
                     else:
-                        print "forced to continue"
+                        print("forced to continue")
 
                 distances = defects[:,0,3] # get its distances from hull
                 two_max = np.argpartition(distances, -2)[-2:] # get indexes of two maximum distances
-                print "two max indexes values",distances[np.argpartition(distances, -2)[-2:]]
+                print("two max indexes values",distances[np.argpartition(distances, -2)[-2:]])
 
                 ratio = convexityRatio(cnt, hull)
-                print "convexity Ratio",ratio
+                print("convexity Ratio",ratio)
 
                 if ratio>ratioCheck: # there should not be a good defect
-                    print "image should not have more defects"
+                    print("image should not have more defects")
                     if not forceIterations:
-                        print "breaking algorithm"
+                        print("breaking algorithm")
                         break
                     else:
-                        print "forced to continue"
+                        print("forced to continue")
 
                 graphDeffects(fore1, cnt, defects,cline=cline,cpoint=cpoint, alfa=alfa1,thickness=ks)
                 plot = Plotim("ITER {} STEP 2 get contour defects".format(i), fore1)

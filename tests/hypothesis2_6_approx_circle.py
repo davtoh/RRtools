@@ -1,9 +1,10 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
-import tesisfunctions as tf
-from recommended import getKernel
+from . import tesisfunctions as tf
+from .recommended import getKernel
 
 fn1 = r'im1_2.jpg'
 #fn1 = tf.IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/IMG_20150730_115534_1.jpg"

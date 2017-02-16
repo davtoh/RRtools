@@ -1,8 +1,12 @@
+from __future__ import division
+from __future__ import absolute_import
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-from tesisfunctions import hist_cdf,findminima,threshold
+from .tesisfunctions import hist_cdf,findminima,threshold
 import glob
 
 def brightness(img):
@@ -20,7 +24,7 @@ def stem(x,y,color):
 def otsuthresh(hist):
     #http://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html
     # find normalized_histogram, and its cumulative distribution function
-    hist_norm = hist.astype("float").ravel()/hist.max()
+    hist_norm = old_div(hist.astype("float").ravel(),hist.max())
     Q = hist_norm.cumsum()
 
     bins = np.arange(len(hist_norm))
@@ -28,14 +32,14 @@ def otsuthresh(hist):
     fn_min = np.inf
     thresh = -1
 
-    for i in xrange(1,len(hist_norm)):
+    for i in range(1,len(hist_norm)):
         p1,p2 = np.hsplit(hist_norm,[i]) # probabilities
         q1,q2 = Q[i],Q[len(hist_norm)-1]-Q[i] # cum sum of classes
         b1,b2 = np.hsplit(bins,[i]) # weights
 
         # finding means and variances
-        m1,m2 = np.sum(p1*b1)/q1, np.sum(p2*b2)/q2
-        v1,v2 = np.sum(((b1-m1)**2)*p1)/q1,np.sum(((b2-m2)**2)*p2)/q2
+        m1,m2 = old_div(np.sum(p1*b1),q1), old_div(np.sum(p2*b2),q2)
+        v1,v2 = old_div(np.sum(((b1-m1)**2)*p1),q1),old_div(np.sum(((b2-m2)**2)*p2),q2)
 
         # calculates the minimization function
         fn = v1*q1 + v2*q2

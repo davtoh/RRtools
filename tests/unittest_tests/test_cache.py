@@ -1,3 +1,6 @@
+from __future__ import print_function
+from builtins import range
+from builtins import object
 from RRtoolbox.lib.cache import MemoizedDict,mapper
 from RRtoolbox.lib.root import TimeCode
 import unittest
@@ -5,7 +8,7 @@ from time import time
 persistIn = "mydict"
 
 
-class TextOp:
+class TextOp(object):
     # this is a main class
     # used in TestMemoizedDisc
     def __init__(self,val):
@@ -55,7 +58,7 @@ class TestMemoizedDisc(unittest.TestCase):
         mydict = MemoizedDict(persistIn)
         secs = 2
         try:
-            for i in xrange(1000):
+            for i in range(1000):
                 t1 = time()
                 data = (("12"*100)*100)*100
                 mydict[i] = data
@@ -77,14 +80,14 @@ class TestMemoizedDisc(unittest.TestCase):
         nokeys = 1000
         with TimeCode("adding {} keys...".format(nokeys)):
             print("")
-            for i in xrange(nokeys):
+            for i in range(nokeys):
                 mydict[i] = i
-                print "\rkey {}/{}".format(i+1,nokeys),
+                print("\rkey {}/{}".format(i+1,nokeys), end=' ')
         try:
             t1 = time()
             mydict.clear()
             mytime = time()-t1
-            print "cleaning time: {}".format(mytime)
+            print("cleaning time: {}".format(mytime))
             self.assertTrue(mytime<=secs,"It took {} to eliminate {} keys where the indended time was {}".format(mytime,nokeys,secs))
         finally:
             mydict.clear() # clean up
@@ -95,7 +98,7 @@ class TestMemoizedDisc(unittest.TestCase):
 
         mydict = MemoizedDict(persistIn)
 
-        class TextOpFail:
+        class TextOpFail(object):
             # unfortunately all classes that are memoized must be present
             # as main classes and not inside other objects
             def __init__(self,val):

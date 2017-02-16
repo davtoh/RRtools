@@ -1,7 +1,8 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 import cv2
 import numpy as np
-import tesisfunctions as tf
+from . import tesisfunctions as tf
 
 def blobDetector():
     # Setup SimpleBlobDetector parameters.

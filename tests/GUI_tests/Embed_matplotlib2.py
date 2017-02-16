@@ -1,5 +1,6 @@
 # http://stackoverflow.com/a/12465861/5288758
 
+from builtins import range
 import sys
 from PyQt4 import QtGui
 

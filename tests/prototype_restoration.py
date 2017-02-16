@@ -1,7 +1,13 @@
+from __future__ import division
+from __future__ import print_function
 
 # ----------------------------    IMPORTS    ---------------------------- #
 
 # multiprocessing
+from builtins import zip
+from builtins import range
+from builtins import object
+from past.utils import old_div
 import itertools as it
 from multiprocessing.pool import ThreadPool as Pool
 # three-party
@@ -14,7 +20,7 @@ from RRtool.RRtoolbox.lib.arrayops import convert
 
 # ----------------------------    GLOBALS    ---------------------------- #
 cpc = cv2.getNumberOfCPUs()
-print "configured to use {} cpus".format(cpc)
+print("configured to use {} cpus".format(cpc))
 pool = Pool(processes = cpc) # DO NOT USE IT when module is imported and this runs with it. It creates a deadlock"
 feature_name = 'sift-flann'
 paths = config.ConfigFile()
@@ -274,7 +280,7 @@ def init_feature(name,features = None):
     FLANN_INDEX_KDTREE = 1  # bug: flann enums are missing
     FLANN_INDEX_LSH    = 6
     if features is None: features = {}
-    if not features.has_key(name): # if called with a different name
+    if name not in features: # if called with a different name
         chunks = name.split('-')
         if chunks[0] == 'sift':
             detector = cv2.SIFT()  # Scale-invariant feature transform
@@ -327,7 +333,7 @@ def affine_skew(tilt, phi, img, mask=None):
     if tilt != 1.0:
         s = 0.8*np.sqrt(tilt*tilt-1)
         img = cv2.GaussianBlur(img, (0, 0), sigmaX=s, sigmaY=0.01)
-        img = cv2.resize(img, (0, 0), fx=1.0/tilt, fy=1.0, interpolation=cv2.INTER_NEAREST)
+        img = cv2.resize(img, (0, 0), fx=old_div(1.0,tilt), fy=1.0, interpolation=cv2.INTER_NEAREST)
         A[0] /= tilt
     if phi != 0.0 or tilt != 1.0:
         h, w = img.shape[:2]
@@ -350,7 +356,7 @@ def dict2keyPoint(d, func = cv2.KeyPoint):
     """ KeyPoint([x, y, _size[, _angle[, _response[, _octave[, _class_id]]]]]) -> <KeyPoint object> """
     return func(*(d["pt"][0],d["pt"][1],d["size"],d["angle"], d["response"],d["octave"], d["class_id"]))
 
-class SimKeyPoint:
+class SimKeyPoint(object):
     # FIXME: correct for memoizer: some warning are created if the script is run as __main__
     # it would be great if cv2.KeyPoint did not have pickling incompatibilities
     def __init__(self,*args):
@@ -450,7 +456,7 @@ def ASIFT(feature_name, img, mask=None, pool=pool):
     params = [(1.0, 0.0)]
     # phi rotations for t tilts of the image
     for t in 2**(0.5*np.arange(1,6)):
-        for phi in np.arange(0, 180, 72.0 / t):
+        for phi in np.arange(0, 180, old_div(72.0, t)):
             params.append((t, phi))
 
     def f(p):
@@ -471,7 +477,7 @@ def ASIFT(feature_name, img, mask=None, pool=pool):
         ires = pool.imap(f, params)
     keypoints, descrs = [], []
     for i, (k, d) in enumerate(ires):
-        print 'affine sampling: %d / %d\r' % (i+1, len(params)),
+        print('affine sampling: %d / %d\r' % (i+1, len(params)), end=' ')
         keypoints.extend(k)
         descrs.extend(d)
     keypoints = [SimKeyPoint(obj)._dict for obj in keypoints]
@@ -506,7 +512,7 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
             mkp2.append( kp2[m.trainIdx] )  # keypoint with Index of the descriptor in train descriptors
     p1 = np.float32([kp["pt"] for kp in mkp1])
     p2 = np.float32([kp["pt"] for kp in mkp2])
-    kp_pairs = zip(mkp1, mkp2)
+    kp_pairs = list(zip(mkp1, mkp2))
     return p1, p2, kp_pairs
 
 @cache.memoize(paths.TEMPPATH)
@@ -530,12 +536,12 @@ def MATCH(feature_name,kp1,desc1,kp2,desc2):
     if len(p1) >= 4:
         H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0) # status specifies the inlier and outlier points
 
-        print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+        print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
         # do not draw outliers (there will be a lot of them)
         #kp_pairs = [kpp for kpp, flag in zip(kp_pairs, status) if flag] # uncomment to give only good kp_pairs
     else:
         H, status = None, None
-        print '%d matches found, not enough for homography estimation' % len(p1)
+        print('%d matches found, not enough for homography estimation' % len(p1))
 
     return H, status, kp_pairs
 
@@ -640,7 +646,7 @@ def asif_demo(**opts):
 
     if not original_fore:
         original_fore = cv2.imread(fn1) # foreground
-        print fn1, " Loaded..."
+        print(fn1, " Loaded...")
 
     #### SCALING
     rzyf,rzxf = opts.get("fore_scale",(400,400)) # dimensions to scale foreground
@@ -656,7 +662,7 @@ def asif_demo(**opts):
 
     if not original_back:
         original_back = cv2.imread(fn2) # background
-        print fn2, " Loaded..."
+        print(fn2, " Loaded...")
 
     #### SCALING
     rzyb,rzxb = opts.get("back_scale",(400,400)) # dimensions to scale background
@@ -668,20 +674,20 @@ def asif_demo(**opts):
         d,sigmaColor,sigmaSpace = 50,100,100
         scaled_fore = bilateralFilter(scaled_fore,d,sigmaColor,sigmaSpace)
         scaled_back = bilateralFilter(scaled_back,d,sigmaColor,sigmaSpace)
-        print "merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace)
+        print("merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace))
     if flag_filter_original:  # persistent by @root.memoize
         d,sigmaColor,sigmaSpace = 50,100,100
         original_fore = bilateralFilter(original_fore,d,sigmaColor,sigmaSpace)
         original_back = bilateralFilter(original_back,d,sigmaColor,sigmaSpace)
-        print "merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace)
+        print("merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace))
 
     #### FEATURE DETECTOR  # persistent by @root.memoize
-    print "finding keypoints with its descriptos..."
+    print("finding keypoints with its descriptos...")
     result = multipleASIFT([scaled_fore, scaled_back]) # OR use ASIFT for each image
     #kp1,desc1 = ASIFT(feature_name, scaled_fore, mask=None, pool=pool)
     #kp2,desc2 = ASIFT(feature_name, scaled_back, mask=None, pool=pool)
     #### MATCHING  # persistent by @root.memoize
-    print "matching..."
+    print("matching...")
     H, status, kp_pairs = multipleMATCH(result)[0] # OR use MATCH
     #H, status, kp_pairs = MATCH(feature_name,kp1,desc1,kp2,desc2)
 
@@ -698,7 +704,7 @@ def asif_demo(**opts):
         if flag_show_match: # show matching
             win = 'matching result'
             kp_pairs2 = spairs2opairs(kp_pairs,*shapes)
-            print "waiting to close match explorer..."
+            print("waiting to close match explorer...")
             vis = matchExplorer(win, original_fore, original_back, kp_pairs2, status, H2)
             #vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
 
@@ -710,10 +716,10 @@ def asif_demo(**opts):
         saveas = "perspective.png"
         if flag_save_perspective:
             cv2.imwrite(saveas,fore_in_back) # save perspective
-            print "perspective saved as: "+saveas
+            print("perspective saved as: "+saveas)
         # find alfa and do overlay
         alfa = fore_in_back[:,:,3].copy()
-        for i in xrange(1): # testing damage by iteration
+        for i in range(1): # testing damage by iteration
             backgray = cv2.cvtColor(original_back.astype(np.uint8),cv2.COLOR_BGR2GRAY).astype(float)
             fore_in_back[:,:,3]= getalfa(foregray,backgray,alfa) #### GET ALFA MASK
             original_back = ar.overlay(original_back, fore_in_back) #### MERGING
@@ -728,7 +734,7 @@ def asif_demo(**opts):
         else:
             saveas = "merged_nofilter.png"
             title = "merged image"
-        print "image merged..."
+        print("image merged...")
         if flag_show_result: # plot result
             plt = plotter.plt
             plt.imshow(cv2.cvtColor(original_back,cv2.COLOR_BGR2RGB))
@@ -736,8 +742,8 @@ def asif_demo(**opts):
             plt.show()
         if flag_save_result:
             cv2.imwrite(saveas,original_back) # save result
-            print "result saved as: "+saveas
-        print "process finished... "
+            print("result saved as: "+saveas)
+        print("process finished... ")
 
 def asif_demo2(args=None):
 
@@ -752,9 +758,9 @@ def asif_demo2(args=None):
 
     def check(im, fn):
         if im is not None:
-            print fn, " Loaded..."
+            print(fn, " Loaded...")
         else:
-            print fn, " could not be loaded..."
+            print(fn, " could not be loaded...")
 
     #original_fore = cv2.imread(fn1) # foreground
     #original_back = cv2.imread(fn2) # background
@@ -771,12 +777,12 @@ def asif_demo2(args=None):
     check(scaled_back, fn2)
 
     #### FEATURE DETECTOR  # persistent by @root.memoize
-    print "finding keypoints with its descriptos..."
+    print("finding keypoints with its descriptos...")
     result = multipleASIFT([scaled_fore, scaled_back]) # OR use ASIFT for each image
     #kp1,desc1 = ASIFT(feature_name, scaled_fore, mask=None, pool=pool)
     #kp2,desc2 = ASIFT(feature_name, scaled_back, mask=None, pool=pool)
     #### MATCHING  # persistent by @root.memoize
-    print "matching..."
+    print("matching...")
     H, status, kp_pairs = multipleMATCH(result)[0] # OR use MATCH
     #H, status, kp_pairs = MATCH(feature_name,kp1,desc1,kp2,desc2)
 
@@ -785,7 +791,7 @@ def asif_demo2(args=None):
         #shapes = original_fore.shape,scaled_fore.shape,original_back.shape,scaled_back.shape
         #H2 = sh2oh(H,*shapes) #### sTM to oTM
         #kp_pairs2 = spairs2opairs(kp_pairs,*shapes)
-        print "waiting to close match explorer..."
+        print("waiting to close match explorer...")
         win = "stitch"
         p = Process(target=superposeGraph,args= (win, scaled_fore, scaled_back, H))
         p.start()
@@ -801,10 +807,10 @@ def stich():
     from glob import glob
     from RRtool.RRtoolbox import imloader
     #### LOADING
-    print "looking in path {}".format(paths.TESTPATH)
+    print("looking in path {}".format(paths.TESTPATH))
     fns = glob(paths.TESTPATH + "*.jpg")
     fns = fns[:3]
-    print "found {} filtered files...".format(len(fns))
+    print("found {} filtered files...".format(len(fns)))
     #### SCALING
     rzyf,rzxf = 400,400 # dimensions to scale foregrounds
     #ims = [cv2.resize(cv2.imread(i, 0), (rzxf, rzyf)) for i in fns] # normal list
@@ -816,24 +822,24 @@ def stich():
     #nfns = [changedir(i,paths.TEMPPATH) for i in fns] # this get the temp files
     #### FEATURE DETECTOR  # persistent by @root.memoize
 
-    print "finding keypoints with its descriptors..."
+    print("finding keypoints with its descriptors...")
     descriptors = multipleASIFT(ims) # OR use ASIFT for each image
-    print "total descriptors {}".format(len(descriptors))
+    print("total descriptors {}".format(len(descriptors)))
     #### MATCHING
     # H, status, kp_pairs
     threads,counter = [],0
-    print "matching..."
-    for i in xrange(len(descriptors)):
-        for j in xrange(len(descriptors)):
+    print("matching...")
+    for i in range(len(descriptors)):
+        for j in range(len(descriptors)):
             if j>i: # do not test itself and inverted tests
                 counter +=1
-                print "comparision No.{}".format(counter)
+                print("comparision No.{}".format(counter))
                 # FIXME inefficient code ... just 44 descriptors generate 946 Homographies
                 fore,back = ims[i], ims[j]
                 (kp1,desc1),(kp2,desc2) = descriptors[i],descriptors[j]
                 H, status, kp_pairs = MATCH(feature_name,kp1,desc1,kp2,desc2)
                 inlines,lines = np.sum(status), len(status)
-                pro = float(inlines)/lines
+                pro = old_div(float(inlines),lines)
                 test = pro>0.5 # do test to see if both match
                 win = '{0}({2}) - {1}({3}) inliers({4})/matched({5}) rate({6}) pass({7})'.format(i,j,len(kp1),len(kp2), inlines,lines,pro,test)
                 d = Process(target=explore_match,args = (win, fore, back, kp_pairs, status, H))

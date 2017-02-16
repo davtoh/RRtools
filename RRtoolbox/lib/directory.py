@@ -11,6 +11,11 @@
     *dirname*: the path to a folder
     *url*: Universal Resource Locator
 """
+from __future__ import print_function
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
 __author__ = 'Davtoh'
 
 import os, sys
@@ -26,7 +31,8 @@ from glob import glob
 try:
     from urllib.request import urlopen, URLError # urllib.urlopen disappears in python 3
 except ImportError:
-    from urllib2 import urlopen, URLError
+    from urllib.request import urlopen
+    from urllib.error import URLError
 
 def resource_path(relative_path=""):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -225,7 +231,7 @@ def strdifference(s1,s2):
 
     ls1,ls2,state,equal,diff1,diff2= [],[],[],[],[],[]
     i=0
-    for i in xrange(min(len(s1),len(s2))):
+    for i in range(min(len(s1),len(s2))):
         if s1[i]==s2[i]:
             equal.append(s1[i])
             if fordiff(): diff1,diff2= [],[]
@@ -500,7 +506,7 @@ class Directory(str):
         self = super(Directory, cls).__new__(cls, string)
         if copy:
             # do not use __dict__ to not overlook custom setters
-            for k, v in data.iteritems(): # self.__dict__.update(data)
+            for k, v in data.items(): # self.__dict__.update(data)
                 setattr(self, k, v)
             setattr(self, "repr", string) # self.__dict__["repr"] = [string]
         else:
@@ -527,8 +533,8 @@ class Directory(str):
                 data = {"repr":[data]}
         if kwargs: data.update(kwargs) # update data with kwargs
         if ispath is not None: data["ispath"]= ispath
-        if not data.has_key("ispath"): data["ispath"] = True # ispath default
-        if data.has_key("repr"):
+        if "ispath" not in data: data["ispath"] = True # ispath default
+        if "repr" in data:
             data["repr"] = Directory.repr2list(data["repr"]) # ensure repr is maintained
         else:
             data["repr"] = [""] # repr default
@@ -625,17 +631,17 @@ class Directory(str):
         """
         if isinstance(data,list): # if list
             if len(data)>len(self.repr):
-                for i in xrange(len(self.repr)):
+                for i in range(len(self.repr)):
                     self.repr[i] = data[i]
-                for j in xrange(i+1,len(data)):
+                for j in range(i+1,len(data)):
                     self.repr.append(data[j])
             else:
-                for i in xrange(len(data)):
+                for i in range(len(data)):
                     self.repr[i] = data[i]
                 del self.repr[i+1:]
             return Directory(self) # string is immutable and must be renewed
         elif isinstance(data,dict): # if dictionary
-            for k, v in data.iteritems(): # self.__dict__.update(data)
+            for k, v in data.items(): # self.__dict__.update(data)
                 setattr(self, k, v)
             return Directory(self)
         elif data: # if not list or dict
@@ -710,7 +716,7 @@ class FileDirectory(Directory):
 
 if __name__=="__main__":
 
-    import session as sn
+    from . import session as sn
     ## TESTS
     a = Directory("string1", sapo ="mamo")
     b = a.update(["string2",["string4","string 5"]])
@@ -719,20 +725,20 @@ if __name__=="__main__":
     c = Directory(["string3"]) - a
     sn.saveSession("test.pkl",{"d",a})
     c = sn.readSession("test.pkl")
-    print type(a) == Directory
-    print type(a) is Directory
-    print a is Directory
-    print a == Directory
-    print "with str"
-    print type(a)==str
-    print type(a) is str
-    print a is str
-    print a == str
-    print isinstance(a,str)
-    print type(a)
-    print os.path.splitext(os.path.basename(__file__)) ### look here ###
+    print(type(a) == Directory)
+    print(type(a) is Directory)
+    print(a is Directory)
+    print(a == Directory)
+    print("with str")
+    print(type(a)==str)
+    print(type(a) is str)
+    print(a is str)
+    print(a == str)
+    print(isinstance(a,str))
+    print(type(a))
+    print(os.path.splitext(os.path.basename(__file__))) ### look here ###
 
     path = Directory(["path1", "path2", "path3"])
     #path += "path4"
-    print path
-    print os.path.join(path,"new path")
+    print(path)
+    print(os.path.join(path,"new path"))
