@@ -2,7 +2,15 @@
 """
     This module holds core-like methods for library modules but not for the hole package
 """
+from __future__ import print_function
 # system
+from future import standard_library
+standard_library.install_aliases()
+from builtins import filter
+from builtins import zip
+from builtins import range
+from past.builtins import basestring
+from builtins import object
 import sys
 import os
 import inspect
@@ -19,7 +27,7 @@ __author__ = 'Davtoh'
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 
-class StdoutSIM:
+class StdoutSIM(object):
     """
     simple logger to simulate stdout output
     """
@@ -45,7 +53,7 @@ class StdoutSIM:
 
 stdout = StdoutSIM()
 
-class StdoutLOG:
+class StdoutLOG(object):
     """
     simple logger to save stdout output
     so anything printed in the console is logged to a file.
@@ -103,7 +111,7 @@ class StdoutLOG:
             self._log.close()
             self._closed = True
 
-class StdoutMULTI:
+class StdoutMULTI(object):
     """
     Enclose several file-like objects.
 
@@ -171,7 +179,7 @@ def addto(instance,funcname=None):
         if funcname:
             setattr(instance, funcname, fn)
         else:
-            setattr(instance, fn.func_name, fn) # set fn method with name fn.func_name in instance
+            setattr(instance, fn.__name__, fn) # set fn method with name fn.func_name in instance
         return fn
     return decorator
 
@@ -263,7 +271,7 @@ class FactorConvert(object):
         return self._factors
     @factors.setter
     def factors(self, value):
-        self._factorsCache = zip(*value) # itertools.izip is faster but this operation is one time
+        self._factorsCache = list(zip(*value)) # itertools.izip is faster but this operation is one time
         self._factors = value
     @factors.deleter
     def factors(self):
@@ -752,8 +760,8 @@ class Controlstdout(object):
         self.stdout_new = StdoutSIM(self.disable)
         if self.buffer:
             if self.buffer is True: # in case it is not defined
-                import StringIO
-                self.buffer = StringIO.StringIO()
+                import io
+                self.buffer = io.StringIO()
             self.stdout_new = StdoutMULTI([self.stdout_new, self.buffer])
         sys.stdout = self.stdout_new
         return self
@@ -783,7 +791,7 @@ def glob(path, contents="*", check = os.path.isfile):
     # special case: Folder
     if len(fns) == 1 and not os.path.isfile(fns[0]):
         fns = glob(os.path.join(fns[0], contents))
-    return filter(check,fns) # [p for p in fns if check(p)]
+    return list(filter(check,fns)) # [p for p in fns if check(p)]
 
 def ensureList(obj):
     """ ensures that object is list """
@@ -885,7 +893,7 @@ def lookinglob(pattern, path=None, ext=None, forward=None,
     else:
         # look in a simulated path with files in filelist
         include = [test.format(path=path, pattern=pattern) for test in tests]
-        ress = filter(globFilter(case=True,include=include),filelist)
+        ress = list(filter(globFilter(case=True,include=include),filelist))
 
     if len(ress)==1 and aslist:
         return ress # return list anyways
@@ -915,16 +923,16 @@ if __name__ == "__main__":
 
     if False:
         fac = FactorConvert()
-        print fac.convert(10,100)
-        print fac.parts(1001010.01010101)
-        print "{:f} {}".format(*FactorConvert("m").convert2sample(36797.59, "m"))
-        print FactorConvert("m").convert(36797.59)
-        print fac.convert(1000)
+        print(fac.convert(10,100))
+        print(fac.parts(1001010.01010101))
+        print("{:f} {}".format(*FactorConvert("m").convert2sample(36797.59, "m")))
+        print(FactorConvert("m").convert(36797.59))
+        print(fac.convert(1000))
 
     if True:
         pf = Profiler("Init")
         p1 = pf.open_point("for loop")
-        for i in xrange(5):
+        for i in range(5):
             with TimeCode("loop {}".format(i),profiler=pf):
                 pass
             with TimeCode("loop {}".format(i),profiler=pf):
@@ -933,7 +941,7 @@ if __name__ == "__main__":
         p1.close()
         p3 = pf.open_point("other process")
         #print pf.string_structured()
-        print pf.string_structured(True,pf.structure())
+        print(pf.string_structured(True,pf.structure()))
 
 # ---------------------------- EXCEPTIONS ---------------------------- #
 

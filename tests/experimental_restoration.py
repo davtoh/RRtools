@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 # ----------------------------    IMPORTS    ---------------------------- #
 # three-party
+from __future__ import division
+from __future__ import print_function
+from builtins import input
+from builtins import zip
+from builtins import range
+from past.builtins import basestring
+from past.utils import old_div
 import cv2
 import numpy as np
 # custom
@@ -28,7 +35,7 @@ def watchData(request, loader, data, onlyTest = False):
     :param onlyTest: if True show only test results, else also show stitched images and some other data.
     :return: request data.
     """
-    if FLAG_DEBUG: print "request is: ",request
+    if FLAG_DEBUG: print("request is: ",request)
     temp =  data[request]
     scaled_fore, scaled_back = list(PathLoader(request, loader))
     if temp:
@@ -54,46 +61,46 @@ def watchData(request, loader, data, onlyTest = False):
                     mask1 = get_bright_alpha(scaled_back.astype(float), scaled_fore.astype(float))
                     m1 = fastplt(mask1,"gray",mwin)
                 except:
-                    if FLAG_DEBUG: print mwin, "crashed"
+                    if FLAG_DEBUG: print(mwin, "crashed")
 
                 try:
                     merged1 = superpose(scaled_back, scaled_fore, H, mask1)[0]
                     p1 = fastplt(merged1,"gray",win)
                 except:
-                    if FLAG_DEBUG: print win, "crashed"
+                    if FLAG_DEBUG: print(win, "crashed")
 
                 win,mwin = "inverted stitch", "mask for inverted stitch"
                 try:
                     mask2 = get_bright_alpha(scaled_fore.astype(float), scaled_back.astype(float))
                     m2 = fastplt(mask2,"gray",mwin)
                 except:
-                    if FLAG_DEBUG: print mwin, "crashed"
+                    if FLAG_DEBUG: print(mwin, "crashed")
 
                 try:
                     merged2 = superpose(scaled_fore,scaled_back, invertH(H), mask2)[0]
                     p2 = fastplt(merged2,"gray",win)
                 except:
-                    if FLAG_DEBUG: print win, "crashed"
+                    if FLAG_DEBUG: print(win, "crashed")
 
             notes = "inlines/lines:{inlines}/{lines},\noverall test: {overall_test}".format(**temp)
             if FLAG_DEBUG:
-                print "quadrants:", temp["quadrants_translated"]
-                print notes
+                print("quadrants:", temp["quadrants_translated"])
+                print(notes)
             win = 'matching result: '+notes
             try:
                 vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H, show=False)
                 fastplt(vis.img,title=win,block=True)
             except:
-                if FLAG_DEBUG: print win, " crashed"
+                if FLAG_DEBUG: print(win, " crashed")
         else:
-            if FLAG_DEBUG: print "Homography is None"
+            if FLAG_DEBUG: print("Homography is None")
     else:
         win = 'matching result: None'
         try:
             vis = MatchExplorer(win, scaled_fore, scaled_back, show=False)
             fastplt(vis.img,title=win,block=True)
         except:
-            if FLAG_DEBUG: print win, " crashed"
+            if FLAG_DEBUG: print(win, " crashed")
     return temp
 
 def qualifyData(data, loader= None, saveTo = None, autoqualify = False, showOnlyPassedTest= False, clear = False):
@@ -111,7 +118,7 @@ def qualifyData(data, loader= None, saveTo = None, autoqualify = False, showOnly
     if loader is None:
         rzyf,rzxf = 400,400 # dimensions to scale foregrounds
         loader = loadFunc(0,dsize=(rzxf, rzyf))
-    requests = data.keys()
+    requests = list(data.keys())
     #for request in requests:
     #    watchData(request,loader,data,True)
     if saveTo: # persists
@@ -123,7 +130,7 @@ def qualifyData(data, loader= None, saveTo = None, autoqualify = False, showOnly
     else: # just save to normal dictionary
         qualification,algorithmFails = {},{}
     for i,request in enumerate(requests):
-        print "test No{} of {}".format(i,len(requests))
+        print("test No{} of {}".format(i,len(requests)))
         if request not in qualification: # qualify
             overall_test = None
             if autoqualify or showOnlyPassedTest:
@@ -134,26 +141,26 @@ def qualifyData(data, loader= None, saveTo = None, autoqualify = False, showOnly
                     overall_test = False
 
                 if autoqualify:
-                    print "qualification {} was given to request: {}".format(overall_test,request)
+                    print("qualification {} was given to request: {}".format(overall_test,request))
 
                 if not showOnlyPassedTest or showOnlyPassedTest and not overall_test:
                     qualification[request] = (overall_test,"autoqualified")
                     continue # only let pass those that were good to be qualified
 
             watchData(request,loader,data,True)
-            if raw_input("did these match? (y/n):").lower() in ("yes","y","yeah","true"):
+            if input("did these match? (y/n):").lower() in ("yes","y","yeah","true"):
                 correct = True
             else:
                 correct = False
             if overall_test is not None and overall_test != correct:
-                print "test seem to have failed with {}/{}(auto/user) qualification in request {}".format(overall_test,correct,request)
+                print("test seem to have failed with {}/{}(auto/user) qualification in request {}".format(overall_test,correct,request))
                 algorithmFails[request] = (overall_test,correct)
-            notes = raw_input("notes?: ")
+            notes = input("notes?: ")
             if overall_test is not None:
                 qualification[request] = (correct,"autoqualified {} with notes: ".format(overall_test)+notes)
             else:
                 qualification[request] = (correct,notes)
-            print request, "was marked as", correct
+            print(request, "was marked as", correct)
     return qualification,algorithmFails
 
 def asif_demo(fn_back =None,fn_fore = None, **opts):
@@ -221,17 +228,17 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
         d,sigmaColor,sigmaSpace = 50,100,100
         scaled_fore = bilateralFilter(scaled_fore,d,sigmaColor,sigmaSpace)
         scaled_back = bilateralFilter(scaled_back,d,sigmaColor,sigmaSpace)
-        print "merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace)
+        print("merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace))
     if flag_filter_original:  # persistent by @root.memoize
         d,sigmaColor,sigmaSpace = 50,100,100
         original_fore = bilateralFilter(original_fore,d,sigmaColor,sigmaSpace)
         original_back = bilateralFilter(original_back,d,sigmaColor,sigmaSpace)
-        print "merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace)
+        print("merged image filtered with bilateral filter d={},sigmaColor={},sigmaSpace={}".format(d,sigmaColor,sigmaSpace))
 
 
     results = {} # dictionary to contain results
     #### FEATURE DETECTOR  # persistent by @root.memoize
-    print "finding keypoints with its descriptos..."
+    print("finding keypoints with its descriptos...")
     #result = ASIFT_multiple([scaled_fore, scaled_back]) # OR use ASIFT for each image
     kp1,desc1 = ASIFT(feature_name, scaled_fore, mask=None)
     results["kp1"],results["desc1"] = kp1,desc1 # collect descriptors foreground
@@ -239,7 +246,7 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
     results["kp2"],results["desc2"] = kp2,desc2 # collect descriptors background
 
     #### MATCHING  # persistent by @root.memoize
-    print "matching..."
+    print("matching...")
     #H, status, kp_pairs = MATCH_multiple(result)[0] # OR use MATCH
     H, status, kp_pairs = MATCH(feature_name,kp1,desc1,kp2,desc2)
     results["H"],results["status"],results["kp_pairs"] = H.copy(), status, kp_pairs # collect match results
@@ -262,7 +269,7 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
 
         if flag_show_match: # show matching
             win = 'matching result'
-            print "waiting to close match explorer..."
+            print("waiting to close match explorer...")
             vis = MatchExplorer(win, original_fore, original_back, kp_pairs2, status, H2)
             #vis = MatchExplorer(win, scaled_fore, scaled_back, kp_pairs, status, H)
 
@@ -275,10 +282,10 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
         saveas = "perspective.png"
         if flag_save_perspective:
             cv2.imwrite(saveas,fore_in_back) # save perspective
-            print "perspective saved as: "+saveas
+            print("perspective saved as: "+saveas)
         # find alpha and do overlay
         alpha = fore_in_back[:,:,3].copy()
-        for i in xrange(1): # testing damage by iteration
+        for i in range(1): # testing damage by iteration
             backgray = cv2.cvtColor(original_back.astype(np.uint8),cv2.COLOR_BGR2GRAY).astype(float)
             fore_in_back[:,:,3]= n = get_bright_alpha(backgray, foregray, alpha) #### GET ALFA MASK
             fastplt(n)
@@ -294,14 +301,14 @@ def asif_demo(fn_back =None,fn_fore = None, **opts):
         else:
             saveas = "merged_nofilter.png"
             title = "merged image"
-        print "image merged..."
+        print("image merged...")
         if flag_show_result: # plot result
             fastplt(cv2.cvtColor(original_back,cv2.COLOR_BGR2RGB), title = title)
         if flag_save_result:
             cv2.imwrite(saveas,original_back) # save result
-            print "result saved as: "+saveas
+            print("result saved as: "+saveas)
         results["img_restored"] = original_back # collect image result
-        print "process finished... "
+        print("process finished... ")
         #raw_input("")
     return results
 
@@ -339,11 +346,11 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
     #### LOADING
     fn_fore = fn_fore or MANAGER["TESTPATH"] + 'im1_2.jpg' # foreground is placed to background
     #original_fore = cv2.imread(fn_fore) # foreground
-    print fn_fore, " Loaded..."
+    print(fn_fore, " Loaded...")
 
     fn_back = fn_back or MANAGER["TESTPATH"] + 'im1_1.jpg' # background
     #original_back = cv2.imread(fn_back) # background
-    print fn_back, " Loaded..."
+    print(fn_back, " Loaded...")
 
     #### SCALING
     rzyf,rzxf = opts.get("fore_scale",(400,400)) # dimensions to scale foreground
@@ -353,12 +360,12 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
     scaled_back = cv2.resize(cv2.imread(fn_back, 0), (rzxb, rzyb))
 
     #### FEATURE DETECTOR  # persistent by @root.memoize
-    print "finding keypoints with its descriptos..."
+    print("finding keypoints with its descriptos...")
     #result = ASIFT_multiple([scaled_fore, scaled_back]) # OR use ASIFT for each image
     kp1,desc1 = ASIFT(feature_name, scaled_fore, mask=None)
     kp2,desc2 = ASIFT(feature_name, scaled_back, mask=None)
     #### MATCHING  # persistent by @root.memoize
-    print "matching..."
+    print("matching...")
     #H, status, kp_pairs = MATCH_multiple(result)[0] # OR use MATCH
     H, status, kp_pairs = MATCH(feature_name,kp1,desc1,kp2,desc2)
 
@@ -366,7 +373,7 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
         #shapes = original_fore.shape,scaled_fore.shape,original_back.shape,scaled_back.shape
         #H2 = sh2oh(H,*shapes) #### sTM to oTM
         #kp_pairs2 = spairs2opairs(kp_pairs,*shapes)
-        print "waiting to close match explorer..."
+        print("waiting to close match explorer...")
         win,mwin = "stitch","mask for stitch"
         mask1 = get_bright_alpha(scaled_back.astype(float), scaled_fore.astype(float))
         m1 = fastplt(mask1,"gray",mwin)
@@ -382,7 +389,7 @@ def asif_demo2(fn_back =None,fn_fore = None, **opts):
 
 def extractCSV(data, saveTo = None):
     import csv
-    saveTo = saveTo or testRates.func_name+".csv"
+    saveTo = saveTo or testRates.__name__+".csv"
     with open(saveTo,"a+") as csvfile:
         wr = csv.writer(csvfile, delimiter=";", dialect='excel')
         wr.writerows(data) # save columns # FIXME not implemented yet
@@ -400,7 +407,7 @@ def getDicDescriptor(path, loader, feature_name, dic = None):
     if path in dic:
         return dic[path]
     else:
-        if FLAG_DEBUG: print "finding ASIFT of {}".format(path)
+        if FLAG_DEBUG: print("finding ASIFT of {}".format(path))
         im = loader(path)
         kps,desc = ASIFT(feature_name, im)
         for kp in kps:
@@ -433,7 +440,7 @@ def testRates(images = None, **opts):
         if np.array(quadrants).dtype.type is not np.string_:
             quadrants = translateQuadrants(quadrants) # translate to string
         unique = np.unique(quadrants)
-        if len(unique) == len(quadrants) or len(unique) == len(quadrants)/2:
+        if len(unique) == len(quadrants) or len(unique) == old_div(len(quadrants),2):
             return True
         return False
 
@@ -450,15 +457,15 @@ def testRates(images = None, **opts):
         descriptors,shapes,data = {},{},{}
     #### LOADING
     if images is None:
-        print "looking in path {}".format(MANAGER["TESTPATH"])
+        print("looking in path {}".format(MANAGER["TESTPATH"]))
         fns = glob(MANAGER["TESTPATH"] + "*.jpg")
     elif isinstance(images,basestring):
-        print "looking as {}".format(images)
+        print("looking as {}".format(images))
         fns = glob(images)
     else: # iterator containing data
         fns = images
     #fns = fns[:3]
-    print "testing {} files...".format(len(fns))
+    print("testing {} files...".format(len(fns)))
     #### SCALING
     loader = opts.get("loader",None)
     if isinstance(loader, basestring):
@@ -475,7 +482,7 @@ def testRates(images = None, **opts):
             for j,back_name in enumerate(fns):
                 if j>i: # do not test itself and inverted tests
                     counter +=1
-                    if FLAG_DEBUG: print "comparision No.{}".format(counter)
+                    if FLAG_DEBUG: print("comparision No.{}".format(counter))
                     if (fore_name,back_name) not in data:
                         with TimeCode("finding keypoints with its descriptors..."):
                             # FIXME inefficient code ... just 44 descriptors generate 946 Homographies
@@ -484,7 +491,7 @@ def testRates(images = None, **opts):
                             H, status, kp_pairs = MATCH(feature_name,kps1,desc1,kps2,desc2)
                             if H is None:
                                 countNone +=1
-                                if FLAG_DEBUG: print "comparison {},{} is None".format(fore_name,back_name)
+                                if FLAG_DEBUG: print("comparison {},{} is None".format(fore_name,back_name))
                                 data[(fore_name,back_name)] = None
                             else:
                                 projection = getTransformedCorners(kps1[0]["shape"][:2],H)
@@ -526,8 +533,8 @@ def testRates(images = None, **opts):
                             pass #data[(fore_name,back_name)] = temp[0]
                         else:
                             countNone +=1
-                            if FLAG_DEBUG: print "comparison {},{} is None".format(fore_name,back_name)
-    print "{} of {} were None while calculating...".format(countNone,counter)
+                            if FLAG_DEBUG: print("comparison {},{} is None".format(fore_name,back_name))
+    print("{} of {} were None while calculating...".format(countNone,counter))
     if opts.get("qualify",False):
         with TimeCode("Qualifying data..."):
             qualification,algorithmFails = qualifyData(data=data,loader=loader, saveTo=saveTo,
@@ -575,15 +582,15 @@ def stitch_multiple(images = None, **opts):
         descriptors_dic,shapes,data = {},{},{}
     #### LOADING
     if images is None:
-        print "looking in path {}".format(MANAGER["TESTPATH"])
+        print("looking in path {}".format(MANAGER["TESTPATH"]))
         fns = glob(MANAGER["TESTPATH"] + "*.jpg")
     elif isinstance(images,basestring):
-        print "looking as {}".format(images)
+        print("looking as {}".format(images))
         fns = glob(images)
     else: # iterator containing data
         fns = images
     #fns = fns[:3]
-    print "testing {} files...".format(len(fns))
+    print("testing {} files...".format(len(fns)))
     #### SCALING
     loader = opts.get("loader",None)
     if isinstance(loader, basestring):
@@ -606,7 +613,7 @@ def stitch_multiple(images = None, **opts):
                 kp["modified"] = [] # statistical data
                 kp["pt_original"] = kp["pt"]
             descriptors_list.append((len(kps),i,path,kps,desc))
-            if FLAG_DEBUG: print "descriptor {}/{}...".format(i+1,len(fns))
+            if FLAG_DEBUG: print("descriptor {}/{}...".format(i+1,len(fns)))
 
     #### MATCHING
     matcher = init_feature(feature_name)[1] # it must get matcher object of cv2 here to prevent conflict with memoizers
@@ -629,7 +636,7 @@ def stitch_multiple(images = None, **opts):
                         assert kp["modified"] == []
 
             if not kps_remain: # if there is not image remaining to stitch break
-                print "all images used"
+                print("all images used")
                 break
 
             desc_remain = np.array(desc_remain) # convert descriptors to array
@@ -656,10 +663,10 @@ def stitch_multiple(images = None, **opts):
                     else:
                         classified[key] = [(kp1,kp2)]
 
-            ordered = sorted([(len(v),k) for k,v in classified.items()],reverse=True) # order with best matches
+            ordered = sorted([(len(v),k) for k,v in list(classified.items())],reverse=True) # order with best matches
 
             for v,k in ordered:
-                mkp1,mkp2 = zip(*classified[k]) # probably good matches
+                mkp1,mkp2 = list(zip(*classified[k])) # probably good matches
                 p1 = np.float32([kp["pt"] for kp in mkp1])
                 p2 = np.float32([kp["pt"] for kp in mkp2])
                 H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
@@ -753,9 +760,9 @@ def stitch_multiple(images = None, **opts):
                     failed.append(k)
 
             if set(classified.keys()) == set(failed):
-                print "Ended, these images do not fit: "
-                for i in classified.keys():
-                    print i
+                print("Ended, these images do not fit: ")
+                for i in list(classified.keys()):
+                    print(i)
                 break
 
     base,path,name,ext = getData(used[0])

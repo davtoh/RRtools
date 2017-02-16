@@ -3,7 +3,11 @@
     This module contains simple array operation methods
 """
 from __future__ import division
+from __future__ import absolute_import
 
+from builtins import zip
+from builtins import map
+from builtins import range
 import cv2
 import numpy as np
 try:
@@ -363,7 +367,7 @@ def overlaypng(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
         alpha = alpha / 255.0
 
     def png(back,fore,dst):
-        for chanel in xrange(3):
+        for chanel in range(3):
             dst[:,:,chanel] = fore[:,:,chanel]*(alpha) + back[:, :, chanel] * (1 - alpha) #(2) without correction
         temp = dst.shape
         if not under and len(temp) == 3 and temp[2]>3:
@@ -423,10 +427,10 @@ def overlay(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     elif len(temp) == 3: # more than one channel but 4
         fore = im2imFormat(fore, back)
         if alfainverted:
-            for chanel in xrange(temp[2]):
+            for chanel in range(temp[2]):
                 back[:,:,chanel] = fore[:,:,chanel]*(1 - alpha) + back[:, :, chanel] * (alpha)
         else:
-            for chanel in xrange(temp[2]):
+            for chanel in range(temp[2]):
                 back[:,:,chanel] = fore[:,:,chanel]*(alpha) + back[:, :, chanel] * (1 - alpha)
     return back
 
@@ -522,14 +526,14 @@ def getdataVH(array, ypad=0, xpad=0, bgrcolor = None, alfa = None):
     row_grid = [] # get grid pixel dimensions
     row_gridpad = [] # get grid pixel dimensions with pad
     gy,gx,gc=0,0,0 # for global shape
-    for i in xrange(len(array)): # rows
+    for i in range(len(array)): # rows
         matrix_shapes.append([])
         grid_div.append((1,len(array[i])))
         row_grid.append([])
         row_gridpad.append([])
         x=0
         xp=0
-        for j in xrange(len(array[i])): # columns
+        for j in range(len(array[i])): # columns
             if not isnumpy(array[i][j]):
                 array[i][j] = padVH(array[i], ypad, xpad, bgrcolor, alfa)[0]
             if len(array[i][j].shape)>2: # if more than 1 channel
@@ -595,17 +599,17 @@ def padVH(imgs, ypad=0, xpad=0, bgrcolor = None, alfa = None):
     shape = graph.shape
     mask = makeVis(globalgrid[0:2], 0)
     Ha = 0 # accumulated high
-    for i in xrange(len(div)): # vertical or rows
+    for i in range(len(div)): # vertical or rows
         # WT = W1+...+WN + W_space*(N+1) where N = div[i][1],
         # W1+...+WN = grid[i][1], W_space*(N+1) = globalgrid[1]-grid[i][1]
         Ws = (globalgrid[1]-grid[i][1])/(div[i][1]+1)
         Wa = 0 # accumulated Wide
-        for j in xrange(div[i][1]):
+        for j in range(div[i][1]):
             # HT = HN+H_space*2 where HT = gridpad[i][0]
-            Hn = shapes[i][j][0]
-            Hs = Ha+(gridpad[i][0]-Hn)/2
-            Wa += Ws
-            Wn = shapes[i][j][1]
+            Hn = int(shapes[i][j][0])
+            Hs = int(Ha+(gridpad[i][0]-Hn)/2)
+            Wa = int(Wa+Ws)
+            Wn = int(shapes[i][j][1])
             if alfa is None:
                 graph[Hs:Hs+Hn,Wa:Wa+Wn] = im2shapeFormat(imgs[i][j], shape)
             else:
@@ -664,7 +668,7 @@ def vertexesAngles(pts, dtype= None, deg = False):
     """
     vs = relativeVectors(pts, all =True) # get all vectors from points.
     vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-    return np.array([angle(vs[i-1],vs[i],deg) for i in xrange(1,len(vs))],dtype) # caculate angles
+    return np.array([angle(vs[i-1],vs[i],deg) for i in range(1,len(vs))],dtype) # caculate angles
 
 def vectorsAngles(pts, ptaxis=(1, 0), origin=(0, 0), dtype= None, deg = False, absolute = None):
     """
@@ -780,7 +784,7 @@ def entroyTest(arr):
     """
     N = arr.shape[0] * arr.shape[1] # gray image contains N pixels
     E = 0.0
-    for i in xrange(256):
+    for i in range(256):
         Ni = np.count_nonzero(arr == i) # number of pixels having intensity i
         if Ni: # if Ni different to 0
             pi = Ni/N # probability that an arbitrary pixel has intensity i in the image
@@ -933,7 +937,7 @@ def recursiveMap(function, sequence):
     """
     def helper(seq):
         try:
-            return map(helper, seq)
+            return list(map(helper, seq))
         except TypeError:
             return function(seq)
     return helper(sequence)
@@ -1128,7 +1132,7 @@ def standarizePoints(pts, aslist = False):
 
     pts =  pts.reshape(half,2)
     if aslist: # as list
-         return map(tuple,pts)
+         return list(map(tuple,pts))
     return pts
 
 
@@ -1148,8 +1152,8 @@ def polygonArea_calcule(pts):
     if (pts[0]==pts[-1]).all(): # test if last is the first (closed points)
         x,y= pts[:, 0], pts[:, 1]
     else: # complete the points (last point must be the first)
-        x = pts[range(len(pts))+[0],0]
-        y = pts[range(len(pts))+[0],1]
+        x = pts[list(range(len(pts)))+[0],0]
+        y = pts[list(range(len(pts)))+[0],1]
     xmul = x[:]*np.roll(y, -1) # shifted multiplication in axis x
     ymul = y[:]*np.roll(x, -1) # shifted multiplication in axis y
     return np.abs(np.sum(xmul)-np.sum(ymul))/2. # summation and absolute area
@@ -1233,7 +1237,7 @@ def random_points(axes_range = ((-50,50),), nopoints = 4, complete = False):
     def getRandom(rmin,rmax):
         return np.random.random()*(rmax-rmin)+rmin
     xr,yr = getRange(axes_range)
-    arr = [(getRandom(*xr),getRandom(*yr)) for _ in xrange(nopoints)]
+    arr = [(getRandom(*xr),getRandom(*yr)) for _ in range(nopoints)]
     if complete: arr.append(arr[0])
     return np.array(arr)
 
@@ -1252,13 +1256,13 @@ def points_generator(shape = (10,10), nopoints = None, convex = False, erratic =
         nopoints = np.min(shape)
     random = np.random.random
     if convex and erratic:
-        pts = [(w*random(), h*random()) for _ in xrange(nopoints)]
+        pts = [(w*random(), h*random()) for _ in range(nopoints)]
     else:
         h2,w2 = h/2.,w/2. # center
         div = 2*np.pi/float(nopoints) # circle angle division
         subdiv = 0.9
         pts = []
-        for i in xrange(nopoints):
+        for i in range(nopoints):
             if convex and i%2:
                 r = np.sqrt((h2-(h2*subdiv)*random())**2+
                             (w2-(w2*subdiv)*random())**2)# radius
@@ -1329,7 +1333,7 @@ def histogram(img):
         histr = [np.histogram(img.flatten(),256,[0,256])[0]]
         #histr = [cv2.calcHist([img],[0],None,[256],[0,256])]
     else: # it has colors
-        histr = [np.histogram(img[:,:,i].flatten(),256,[0,256])[0] for i in xrange(sz[2])]
+        histr = [np.histogram(img[:,:,i].flatten(),256,[0,256])[0] for i in range(sz[2])]
         #histr = [cv2.calcHist([img],[i],None,[256],[0,256]) for i in xrange(sz[2])]
     return histr
 
@@ -1396,10 +1400,15 @@ def getOtsuThresh(hist):
     bins = np.arange(len(hist_norm))
     fn_min = np.inf # begin from infinity
     thresh = -1 # start thresh from invalid value
-    for i in xrange(1,len(hist_norm)):
+    for i in range(1,len(hist_norm)):
         p1,p2 = np.hsplit(hist_norm,[i]) # probabilities
         q1,q2 = Q[i],Q[len(hist_norm)-1]-Q[i] # cum sum of classes
         b1,b2 = np.hsplit(bins,[i]) # weights
+        if q1 == 0 or q2 == 0:
+            # explicedly continue when there are Nan values
+            # it gives the same result even if this block is not evalauted
+            # it is used to not create Invalid Division warnings
+            continue
         # finding means and variances
         m1,m2 = np.sum(p1*b1)/q1, np.sum(p2*b2)/q2
         v1,v2 = np.sum(((b1-m1)**2)*p1)/q1,np.sum(((b2-m2)**2)*p2)/q2
@@ -1422,7 +1431,7 @@ def convexityRatio(cnt,hull=None):
     if hull is None:
         hull = cv2.convexHull(cnt) # get convex hull
     if len(hull.shape)==2: # convert back from indexes
-        from convert import points2contour
+        from .convert import points2contour
         hull = points2contour(cnt[hull])
     ahull = cv2.contourArea(hull)
     acnt = cv2.contourArea(cnt)
@@ -1499,8 +1508,8 @@ def process_as_blocks(arr, func, block_shape = (3, 3), mask = None, asWindows = 
         if mask is not None:
             blocks_mask = view_as_windows(mask, block_shape)
         sr,sc = blocks_in.shape[:2]
-        for row in xrange(sr):
-            for col in xrange(sc):
+        for row in range(sr):
+            for col in range(sc):
                 b_in = blocks_in[row,col]
                 if mask is not None:
                     b_mask = blocks_mask[row,col]
@@ -1517,8 +1526,8 @@ def process_as_blocks(arr, func, block_shape = (3, 3), mask = None, asWindows = 
         if mask is not None:
             blocks_mask = view_as_blocks(mask, block_shape)
         sr,sc = blocks_in.shape[:2]
-        for row in xrange(sr):
-            for col in xrange(sc):
+        for row in range(sr):
+            for col in range(sc):
                 b_in = blocks_in[row,col]
                 b_result = blocks_result[row,col]
                 if mask is not None:

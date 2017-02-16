@@ -5,7 +5,8 @@ for the main distribution.
 These functions are found here because they cannot be included in the main distribution of
 the module but are valuable to for investigations and development of new algorithms
 """
-from tesisfunctions import circularKernel
+from __future__ import absolute_import
+from .tesisfunctions import circularKernel
 import numpy as np
 
 def getKernel(imsize):

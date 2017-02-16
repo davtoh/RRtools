@@ -23,7 +23,7 @@ except:
 
 import types
 import os
-__excludeType = [types.FunctionType,types.ModuleType,types.NoneType,types.ClassType,types.TypeType]
+__excludeType = [types.FunctionType,types.ModuleType,type(None),type,type]
 __excludeVar = []
 __excludePattern = ['__']
 
@@ -37,7 +37,7 @@ def getEnviromentSession(enviroment = None):
     enviroment = enviroment or globals()
     #globals(), dir(), [type(enviroment[keys]) for keys in enviroment]
     session = {}
-    for keys in enviroment.keys():
+    for keys in list(enviroment.keys()):
         if __excludePattern != [] and keys.startswith(*__excludePattern):
             continue
         if not (type(enviroment[keys]) in __excludeType or keys in __excludeVar):
@@ -94,7 +94,7 @@ def updateSession(filepath, session, replace=True, rdhelper=None, svhelper=None)
         current.update(session)
     else: # update without replacing existing values
         for key in session:
-            if not current.has_key(key):
+            if key not in current:
                 current[key] = session[key]
     saveSession(filepath, current, svhelper) # save updated session
 
@@ -117,7 +117,7 @@ def checkFromSession(filepath, varlist):
     :return: list checkLoaded results
     """
     current = readSession(filepath)
-    return [current.has_key(var) for var in varlist] # checking variables
+    return [var in current for var in varlist] # checking variables
 
 def deleteFromSession(filepath, varlist):
     """

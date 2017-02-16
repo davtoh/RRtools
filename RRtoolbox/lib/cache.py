@@ -21,7 +21,15 @@
     Made by Davtoh, powered by joblib.
     Dependent project: https://github.com/joblib/joblib
 """
-from root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable, \
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from past.utils import old_div
+from builtins import object
+from .root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable, \
     CorruptPersistent
 
 __license__ = """
@@ -377,7 +385,7 @@ def cachedProperty(watch=[],handle=[]):
     :return:
     """
     #http://code.activestate.com/recipes/576563-cached-property/
-    class Memo:
+    class Memo(object):
         """ Memo function for cache """
         def __init__(self):
             self._cache ={}
@@ -472,7 +480,7 @@ class ObjectGetter(object):
         if obj is not None or callback is not None:
             if callback is not None: self._callback = callback
             self._ref = ref(obj, self._callback)
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             setattr(self, k, v)
 
     def getObj(self, throw = False):
@@ -702,7 +710,7 @@ class ResourceManager(Retriever):
         getter._calls += 1 # actual calls
         # time it and increase _calls
         if getter._calls: # get successive times
-            getter._processT = (time()-t1 + getter._processT)/2 # process time
+            getter._processT = old_div((time()-t1 + getter._processT),2) # process time
         else: # if first call then get first profile time
             getter._processT = time()-t1
 
@@ -764,7 +772,7 @@ class ResourceManager(Retriever):
         """
         converts value from bytes to user units
         """
-        return value/self._conv
+        return old_div(value,self._conv)
 
     def units2bytes(self,value):
         """
@@ -791,11 +799,11 @@ class ResourceManager(Retriever):
     @maxMemory.setter
     def maxMemory(self, value):
         if value is None:
-            print "WARNING: maximum memory configured to be unlimited"
+            print("WARNING: maximum memory configured to be unlimited")
             self._limit = None
             self._maxMemory = None
         else:
-            print "WARNING: maximum memory is {} {}".format(value,self.unit)
+            print("WARNING: maximum memory is {} {}".format(value,self.unit))
             self._maxMemory = self.units2bytes(value) # pass in bytes
             self._limit = self._maxMemory * self.margin # re calculate limit
         self._optimizeMemory()
@@ -946,7 +954,7 @@ class ResourceManager(Retriever):
 
         data = [] # frame: key, size, calls, fails
         if all:
-            for key,getter in self.references.iteritems():
+            for key,getter in self.references.items():
                 if getter.isAlive():
                     val = getter.raw()
                     size = self.getSizeOf(val)
@@ -955,7 +963,7 @@ class ResourceManager(Retriever):
                     else:
                         data.append((key,size))
         else:
-            for key,val in self.keptAlive.iteritems():
+            for key,val in self.keptAlive.items():
                 size = self.getSizeOf(val)
                 if size:
                     if usemethod:
@@ -990,8 +998,8 @@ class ResourceManager(Retriever):
         c = self.bytes2units
         unit = self.unit
         if self.verbosity:
-            print "{1} {0} used of {2} {0}.".format(unit,self.usedMemory,self.maxMemory)
-            print "{1} {0} needs to be freed to allocate {2} {0}.".format(unit,c(tofree),c(needed))
+            print("{1} {0} used of {2} {0}.".format(unit,self.usedMemory,self.maxMemory))
+            print("{1} {0} needs to be freed to allocate {2} {0}.".format(unit,c(tofree),c(needed)))
 
         # FIRST STAGE
         blacklist = list(self.blacklist)
@@ -1002,12 +1010,12 @@ class ResourceManager(Retriever):
             if key in self.keptAlive:
                 size = self._free(key)
                 freed += size
-                if self.verbosity: print "Eliminated '{}' of size {} {}".format(key,c(size),unit)
+                if self.verbosity: print("Eliminated '{}' of size {} {}".format(key,c(size),unit))
                 self.blacklist.pop(key) # liminate in real black list
 
         tofree -= freed
         if tofree<=0:
-            if self.verbosity: print "{0} {1} where freed".format(c(freed),unit)
+            if self.verbosity: print("{0} {1} where freed".format(c(freed),unit))
             return tofree # successful
 
         # SECOND STAGE: if it did not work keep freeing
@@ -1029,16 +1037,16 @@ class ResourceManager(Retriever):
                         size2 = self._free(key)
                         freed += size2
                         if size2 != size:
-                            print "DEBUG: key {0} had size {1} but was freed {2}".format(key,size,size2)
-                        if self.verbosity: print "Eliminated '{}' of size {} {}".format(key,c(size),unit)
+                            print("DEBUG: key {0} had size {1} but was freed {2}".format(key,size,size2))
+                        if self.verbosity: print("Eliminated '{}' of size {} {}".format(key,c(size),unit))
                 tofree-= freed
                 if tofree>0:
-                    if self.verbosity: print "WARNING: {} {} not adequately freed".format(c(tofree),unit)
-                if self.verbosity: print "{0} {2} where freed, remaining {1} {2}".format(c(freed),c(total-freed),unit)
+                    if self.verbosity: print("WARNING: {} {} not adequately freed".format(c(tofree),unit))
+                if self.verbosity: print("{0} {2} where freed, remaining {1} {2}".format(c(freed),c(total-freed),unit))
             else:
-                if self.verbosity: print "{} {} is an optimal memory. Not optimized.".format(c(total),unit)
+                if self.verbosity: print("{} {} is an optimal memory. Not optimized.".format(c(total),unit))
         else:
-            if self.verbosity: print "{} {} is considered low memory. Not optimized.".format(self.usedMemory, unit)
+            if self.verbosity: print("{} {} is considered low memory. Not optimized.".format(self.usedMemory, unit))
         return tofree # this means: > 0 bytes not able to free; < 0 bytes over freed; == 0 successful
 
 def mapper(path, obj = None, mode =None, onlynumpy = False):
@@ -1082,12 +1090,12 @@ class MemoizedDict(MutableMapping):
     """
     def __init__(self, path, mode = None):
         #from directory import checkFile, checkDir, mkPath, rmFile
-        from directory import mkPath
-        import cPickle
+        from .directory import mkPath
+        import pickle
         # TODO: change serializer to use json (it seems it is more reliable and compatible)
         # TODO: It is slow load key per key, consider making a way to load al de dictionary keys quickly
         # TODO: when clear is called, delete all memoized folder instead each key. it could be dangerous but faster
-        self._map_serializer = cPickle # serializer for keys
+        self._map_serializer = pickle # serializer for keys
         self._path = mkPath(path) # path to memoized keys and values
         self._map_file = os.path.join(self._path, "metadata") # file containing the keys
         #self._map = self._load_map() or {} # keeps the map to persistent files
@@ -1162,7 +1170,7 @@ class MemoizedDict(MutableMapping):
             self._map_old[key] = (hashed,self._saver(value, filename))
             self._save_map()
         except OSError:
-            print " Race condition in the creation of the directory "
+            print(" Race condition in the creation of the directory ")
 
     def _save_map(self):
         """
@@ -1190,7 +1198,7 @@ class MemoizedDict(MutableMapping):
         """
         # for security it is better to wait until all keys are
         # safely deleted and not deleting everything at once
-        for key in self._map.keys():
+        for key in list(self._map.keys()):
             try:
                 del self[key]
             except KeyError:

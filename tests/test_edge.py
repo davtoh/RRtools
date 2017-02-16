@@ -1,7 +1,9 @@
+from __future__ import print_function
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html
 import cv2
-from tesisfunctions import IMAGEPATH, bilateralFilter
+from .tesisfunctions import IMAGEPATH, bilateralFilter
 import glob
 
 rootpath = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/"
@@ -58,4 +60,4 @@ for fn in imlist:
 
     bgr[edges != 0] = (0, 255, 0)
     cv2.imwrite(rootpath+strname,bgr)
-    print fn, " saved as ",strname
+    print(fn, " saved as ",strname)

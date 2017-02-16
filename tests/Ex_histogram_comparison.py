@@ -1,7 +1,10 @@
+from __future__ import division
 # http://docs.opencv.org/2.4/doc/tutorials/imgproc/histograms/histogram_comparison/histogram_comparison.html
 # http://www.pyimagesearch.com/2014/07/14/3-ways-compare-histograms-using-opencv-python/
 
 # import the necessary packages
+from builtins import zip
+from past.utils import old_div
 from scipy.spatial import distance as dist
 import matplotlib.pyplot as plt
 import numpy as np
@@ -61,14 +64,14 @@ for (methodName, method) in OPENCV_METHODS:
 	if methodName in ("Correlation", "Intersection"):
 		reverse = True
 
-	for (k, hist) in index.items():
+	for (k, hist) in list(index.items()):
 		# compute the distance between the two histograms
 		# using the method and update the results dictionary
 		d = cv2.compareHist(index[comp], hist, method)
 		results[k] = d
 
 	# sort the results
-	results = sorted([(v, k) for (k, v) in results.items()], reverse = reverse)
+	results = sorted([(v, k) for (k, v) in list(results.items())], reverse = reverse)
 
 	# show the query image
 	fig = plt.figure("Query")
@@ -104,14 +107,14 @@ for (methodName, method) in SCIPY_METHODS:
 	results = {}
 
 	# loop over the index
-	for (k, hist) in index.items():
+	for (k, hist) in list(index.items()):
 		# compute the distance between the two histograms
 		# using the method and update the results dictionary
 		d = method(index[comp], hist)
 		results[k] = d
 
 	# sort the results
-	results = sorted([(v, k) for (k, v) in results.items()])
+	results = sorted([(v, k) for (k, v) in list(results.items())])
 
 	# show the query image
 	fig = plt.figure("Query")
@@ -137,7 +140,7 @@ plt.show()
 # METHOD #3: ROLL YOUR OWN
 def chi2_distance(histA, histB, eps = 1e-10):
 	# compute the chi-squared distance
-	d = 0.5 * np.sum([((a - b) ** 2) / (a + b + eps)
+	d = 0.5 * np.sum([old_div(((a - b) ** 2), (a + b + eps))
 		for (a, b) in zip(histA, histB)])
 
 	# return the chi-squared distance
@@ -147,7 +150,7 @@ def chi2_distance(histA, histB, eps = 1e-10):
 results = {}
 
 # loop over the index
-for (k, hist) in index.items():
+for (k, hist) in list(index.items()):
 	# compute the distance between the two histograms
 	# using the custom chi-squared method, then update
 	# the results dictionary
@@ -155,7 +158,7 @@ for (k, hist) in index.items():
 	results[k] = d
 
 # sort the results
-results = sorted([(v, k) for (k, v) in results.items()])
+results = sorted([(v, k) for (k, v) in list(results.items())])
 
 # show the query image
 fig = plt.figure("Query")

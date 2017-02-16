@@ -10,6 +10,7 @@ displaying and analyzing 2D and 3D data. ImageView provides:
   4. Tools for very basic analysis of image data (see ROI and Norm buttons)
 
 """
+from __future__ import print_function
 # SEE:http://www.pyqtgraph.org/documentation/how_to_use.html
 import numpy as np
 from pyqtgraph.Qt import QtCore, QtGui
@@ -40,7 +41,7 @@ if __name__ == '__main__':
     def func():
         #time.sleep(2)
         img[1100:1200,100:200] = 0
-        print "image changed, try resizing"
+        print("image changed, try resizing")
         imv.setImage(img)
     t = threading.Thread(target=func)
     import sys

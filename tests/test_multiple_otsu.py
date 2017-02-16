@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import range
 import numpy as np
 import cv2
 from RRtoolbox.lib.arrayops import getOtsuThresh, overlay, brightness, filterFactory, background
@@ -25,7 +27,7 @@ def brightest(P, mask = None, iterations = 3):
     #P = should be with cv2.cvtColor(img,cv2.COLOR_BGR2GRAY), this
     # prevents false bright areas and includes others
     if mask is None: mask = np.ones_like(P)
-    for i in xrange(iterations):
+    for i in range(iterations):
         hist, bins = np.histogram(P[mask.astype(bool)].flatten(),256,[0,256])
         thresh = getOtsuThresh(hist)
         cv2.threshold(P,thresh,1,cv2.THRESH_BINARY,dst=mask)
@@ -46,12 +48,12 @@ fn = "/mnt/4E443F99443F82AF/MEGAsync/TESIS/DATA_RAW/analysis/20150730_092758(0).
 
 
 for fn in fns:
-    print "processing {}".format(fn)
+    print("processing {}".format(fn))
     img = loadFunc(1,(300,300))(fn)
     P = brightness(img) #img[:,:,2]#cv2.cvtColor(img,cv2.COLOR_BGR2GRAY) #
     mask = 1-background(P)#np.ones_like(P) #
     iterations = 3
-    for i in xrange(iterations):
+    for i in range(iterations):
         hist, bins = np.histogram(P[mask.astype(bool)].flatten(),256,[0,256])
         """
         # faster but not precise

@@ -25,15 +25,20 @@ EDIT: This code has been obtained from OpenCV examples and modified by Davtoh 15
       Documentation has been expanded for better understanding of ASIFT implementation
       explained at http://www.ipol.im/pub/algo/my_affine_sift/
 '''
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
+from builtins import zip
+from past.utils import old_div
 import itertools as it
 from multiprocessing.pool import ThreadPool
 
 import cv2
 import numpy as np
 
-from common import Timer
-from find_obj import init_feature, filter_matches, explore_match
+from .common import Timer
+from .find_obj import init_feature, filter_matches, explore_match
 
 
 def affine_skew(tilt, phi, img, mask=None):
@@ -59,7 +64,7 @@ def affine_skew(tilt, phi, img, mask=None):
     if tilt != 1.0:
         s = 0.8*np.sqrt(tilt*tilt-1)
         img = cv2.GaussianBlur(img, (0, 0), sigmaX=s, sigmaY=0.01)
-        img = cv2.resize(img, (0, 0), fx=1.0/tilt, fy=1.0, interpolation=cv2.INTER_NEAREST)
+        img = cv2.resize(img, (0, 0), fx=old_div(1.0,tilt), fy=1.0, interpolation=cv2.INTER_NEAREST)
         A[0] /= tilt
     if phi != 0.0 or tilt != 1.0:
         h, w = img.shape[:2]
@@ -82,7 +87,7 @@ def affine_detect(detector, img, mask=None, pool=None):
     params = [(1.0, 0.0)]
     #phi rotations for t tilts of the image
     for t in 2**(0.5*np.arange(1,6)):
-        for phi in np.arange(0, 180, 72.0 / t):
+        for phi in np.arange(0, 180, old_div(72.0, t)):
             params.append((t, phi))
 
     def f(p):
@@ -103,14 +108,14 @@ def affine_detect(detector, img, mask=None, pool=None):
     else:
         ires = pool.imap(f, params)
     for i, (k, d) in enumerate(ires):
-        print 'affine sampling: %d / %d\r' % (i+1, len(params)),
+        print('affine sampling: %d / %d\r' % (i+1, len(params)), end=' ')
         keypoints.extend(k)
         descrs.extend(d)
-    print
+    print()
     return keypoints, np.array(descrs)
 
 if __name__ == '__main__':
-    print __doc__
+    print(__doc__)
 
     #getting commands from command pront
     import sys, getopt
@@ -128,16 +133,16 @@ if __name__ == '__main__':
 
     detector, matcher = init_feature(feature_name)
     if detector != None:
-        print 'using', feature_name
+        print('using', feature_name)
     else:
-        print 'unknown feature:', feature_name
+        print('unknown feature:', feature_name)
         sys.exit(1)
 
     pool=ThreadPool(processes = cv2.getNumberOfCPUs())
     with Timer('detecting features...'):
         kp1, desc1 = affine_detect(detector, img1, pool=pool)
         kp2, desc2 = affine_detect(detector, img2, pool=pool)
-        print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
+        print('imgf - %d features, imgb - %d features' % (len(kp1), len(kp2)))
 
     def match_and_draw(win):
         with Timer('matching'):
@@ -150,12 +155,12 @@ if __name__ == '__main__':
             #status = mask and H = transformation or homography matrix
             # X1 = H * X2
             H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
-            print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+            print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
             # do not draw outliers (there will be a lot of them)
             kp_pairs = [kpp for kpp, flag in zip(kp_pairs, status) if flag]
         else:
             H, status = None, None
-            print '%d matches found, not enough for homography estimation' % len(p1)
+            print('%d matches found, not enough for homography estimation' % len(p1))
 
         vis = explore_match(win, img1, img2, kp_pairs, None, H)
 

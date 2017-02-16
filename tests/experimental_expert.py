@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import zip
 __author__ = 'Davtoh'
 
 import os
@@ -19,14 +21,14 @@ data = MemoizedDict(os.path.abspath(__file__).split(".")[0] + "_cached")
 loader = loadFunc(1)
 
 for fn in fns:
-    print "checking",fn
+    print("checking",fn)
     key = "".join(getData(fn)[-2:])
     if key in data and mode > 0:
         data_fn = data[key]
     else:
         data_fn = {}
     if key not in data or mode == 1: # cache new data or replace previous test
-        print "test for",fn
+        print("test for",fn)
         img = loader(fn)
         coors_retina = [getcoors(img,"select retinal area for {}".format(key),drawcoorarea,coors=data_fn.get("coors_retina"))]
         coors_optic_disc = [getcoors(img,"select optic disc for {}".format(key),drawcoorarea,coors=data_fn.get("coors_optic_disc"))]
@@ -54,7 +56,7 @@ for fn in fns:
         data[key] = data_fn
 
 if False:
-    data = zip(*data)
+    data = list(zip(*data))
     data.insert(0,headers)
     with open('experimental_data.csv', 'wb') as csvfile:
         wr = csv.writer(csvfile, delimiter=";", dialect='excel')

@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import filter
+from builtins import range
+from past.builtins import basestring
+from builtins import object
 import socket
 import threading
 from errno import ECONNREFUSED
@@ -8,8 +14,8 @@ from time import time
 
 import numpy as np
 
-from root import TimeOutException, TransferExeption
-from config import FLAG_DEBUG, serializer
+from .root import TimeOutException, TransferExeption
+from .config import FLAG_DEBUG, serializer
 
 __author__ = 'Davtoh'
 
@@ -45,9 +51,9 @@ def scan_ports(host):
     # http://codereview.stackexchange.com/questions/38452/python-port-scanner
     p = Pool(NUM_CORES)
     ping_host = partial(ping, host)
-    return filter(bool, p.map(ping_host, range(1, 65536)))
+    return list(filter(bool, p.map(ping_host, list(range(1, 65536)))))
 
-class Conection:
+class Conection(object):
     """
     represent a connection to interchange objects between servers and clients.
     """
@@ -64,9 +70,9 @@ class Conection:
             if ans=="False":
                 txt = "({},)".format(length)
                 dest.send(txt)
-                if FLAG_DEBUG: print "size",txt,"sent"
+                if FLAG_DEBUG: print("size",txt,"sent")
                 ans = dest.recvfrom(5)[0] # get True or False
-                if FLAG_DEBUG: print "received",ans
+                if FLAG_DEBUG: print("received",ans)
             if timeout is not None and time()-t1 > timeout:
                 raise TimeOutException("Timeout sending length")
 
@@ -76,11 +82,11 @@ class Conection:
         t1 = time()
         while not size: # sent length of recipient for length
             try:
-                if FLAG_DEBUG: print "waiting size..."
+                if FLAG_DEBUG: print("waiting size...")
                 size = eval(source.recvfrom(1024)[0])
-                if FLAG_DEBUG: print "received size", size
+                if FLAG_DEBUG: print("received size", size)
             except Exception as e:
-                print e
+                print(e)
             if isinstance(size,tuple):
                 source.send("True")
             else:
@@ -202,21 +208,21 @@ def sendPickle(obj,addr = addr, timeout = None, threaded = False):
     notToClose = isinstance(addr,socket.socket)
     if notToClose:
         s = addr
-        if FLAG_DEBUG: print "address is a connection"
+        if FLAG_DEBUG: print("address is a connection")
     else:
-        if FLAG_DEBUG: print "initializing Server at {}".format(addr)
+        if FLAG_DEBUG: print("initializing Server at {}".format(addr))
         s = initServer(addr)
     def helper():
         try:
             s.settimeout(timeout)
-            if FLAG_DEBUG: print "waiting for connection..."
+            if FLAG_DEBUG: print("waiting for connection...")
             conn, addr1 = s.accept()
             s.settimeout(None)
-            if FLAG_DEBUG: print "connection accepted.."
+            if FLAG_DEBUG: print("connection accepted..")
             tosend = serializer.dumps(obj)
-            if FLAG_DEBUG: print "waiting to confirm sending len"
+            if FLAG_DEBUG: print("waiting to confirm sending len")
             Conection(conn).sendLen(len(tosend),timeout=timeout)
-            if FLAG_DEBUG: print "sending data"
+            if FLAG_DEBUG: print("sending data")
             conn.send(tosend)
             return True
         except Exception as e:
@@ -246,18 +252,18 @@ def rcvPickle(addr=addr, timeout = None):
     if notToClose:
         s = addr
     else:
-        if FLAG_DEBUG: print "initializing client at {}".format(addr)
+        if FLAG_DEBUG: print("initializing client at {}".format(addr))
         s = initClient(addr, timeout)
     try:
         #s.settimeout(timeout)
-        if FLAG_DEBUG: print "creating connection..."
+        if FLAG_DEBUG: print("creating connection...")
         c = Conection(s)
         length = c.getLen(timeout=timeout)
-        if FLAG_DEBUG: print "loading data..."
+        if FLAG_DEBUG: print("loading data...")
         rcvdata = c.recvall()
         if len(rcvdata) != length:
             raise TransferExeption("Data was transferred incomplete. Expected {} and got {} bytes".format(length, len(rcvdata)))
-        if FLAG_DEBUG: print "received data of len {}".format(len(rcvdata))
+        if FLAG_DEBUG: print("received data of len {}".format(len(rcvdata)))
         data = serializer.loads(rcvdata)
         s.close()
         return data

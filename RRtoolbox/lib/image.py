@@ -17,24 +17,30 @@
     TIFF files - *.tiff, *.tif (see the Notes section)
 """
 from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 
-from directory import getData, mkPath, getPath, increment_if_exits
-from config import FLOAT,INT,MANAGER
+from builtins import zip
+from builtins import range
+from past.builtins import basestring
+from builtins import object
+from .directory import getData, mkPath, getPath, increment_if_exits
+from .config import FLOAT,INT,MANAGER
 import cv2
 import os
 import numpy as np
-from arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAngles, overlay, \
+from .arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAngles, overlay, \
     standarizePoints, splitPoints
-from root import glob
+from .root import glob
 #from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import name QtOpenGL
-from cache import Cache, ResourceManager
+from .cache import Cache, ResourceManager
 from collections import MutableSequence
-from directory import getData, strdifference, changedir, checkFile, getFileHandle, \
+from .directory import getData, strdifference, changedir, checkFile, getFileHandle, \
     increment_if_exits, mkPath
 import matplotlib.axes
 import matplotlib.figure
-from plotter import Plotim, limitaxis
-from serverServices import parseString, string_is_socket_address
+from .plotter import Plotim, limitaxis
+from .serverServices import parseString, string_is_socket_address
 __author__ = 'Davtoh'
 
 supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png","pbm","pgm","ppm","sr","ras","tiff","tif")
@@ -355,9 +361,9 @@ def checkLoaded(obj, fn="", raiseError = False):
     :return: None
     """
     if obj is not None:
-        print fn, " Loaded..."
+        print(fn, " Loaded...")
     else:
-        print fn, " Could not be loaded..."
+        print(fn, " Could not be loaded...")
         if raiseError: raise
 
 def loadcv(path, flags=-1, shape=None):
@@ -455,7 +461,7 @@ def interpretImage(toparse, flags):
         # test path to file or URL
         return loadsfrom(toparse,flags)
 
-class ImFactory:
+class ImFactory(object):
     """
     image factory for RRToolbox to create scripts to standardize loading images and
     provide lazy loading (it can load images from disk with the customized options
@@ -498,7 +504,7 @@ class ImFactory:
         #TODO not finished
 
     def update(self, **kwargs):
-        for key,value in kwargs.iteritems():
+        for key,value in kwargs.items():
             if hasattr(self,key):
                 setattr(self,key,value)
             else:
@@ -802,7 +808,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 raise
     return loader # factory function
 
-class ImLoader:
+class ImLoader(object):
     """
     Class to load image array from path, url,
     server, string or directly from numpy array (supports databases).
@@ -1021,7 +1027,7 @@ def try_loads(fns, func = cv2.imread, paths = None, debug = False, addpath=False
             path += fn
             im = func(path) # foreground
             if im is not None:
-                if debug: print path, " Loaded..."
+                if debug: print(path, " Loaded...")
                 if addpath:
                     return im,path
                 return im
@@ -1042,7 +1048,7 @@ def hist_match(source, template, alpha = None):
     # see http://www.mathworks.com/help/images/ref/imhistmatch.html
     if len(source.shape)>2:
         matched = np.zeros_like(source)
-        for i in xrange(3):
+        for i in range(3):
             matched[:,:,i] = hist_match(source[:,:,i], template[:,:,i])
         return matched
     else:
@@ -1152,6 +1158,13 @@ class ImCoors(object):
         """
         Rectangular box dimensions enclosing points.
 
+        .. example::
+
+            P = np.ones((400,400))
+            a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
+            x0,y0,w,h = a.boundingRect
+            P[y0:y0+h,x0:x0+w] = 0
+
         :return: x0,y0,w,h
         """
         return cv2.boundingRect(self._pts)
@@ -1165,7 +1178,10 @@ class ImCoors(object):
 
         :return: 4 points.
         """
-        return self._dtype(cv2.cv.BoxPoints(self.minAreaRect))
+        try: # opencv 2
+            return self._dtype(cv2.cv.BoxPoints(self.minAreaRect))
+        except AttributeError: # opencv 3
+            return self._dtype(cv2.boxPoints(self.minAreaRect))
     @Cache
     def boxCenter(self):
         """
@@ -1278,7 +1294,7 @@ class ImCoors(object):
         """
         vs = self.relativeVectors # get all vectors from points.
         vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-        return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in xrange(1,len(vs))],self._dtype) # caculate angles
+        return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in range(1,len(vs))],self._dtype) # caculate angles
     @Cache
     def pointsAngles(self):
         """
@@ -1423,7 +1439,7 @@ def drawcoorpolyArrow(vis,points,col_out=black,col_in=red,radius=2):
     points = np.array(points,INT)
     thickness = radius-1
     if len(points)>1:
-        for i in xrange(len(points)-1):
+        for i in range(len(points)-1):
             pt1 = (points[i][0], points[i][1])
             pt2 = (points[i+1][0], points[i+1][1])
             cv2.arrowedLine(vis, pt1, pt2, col_in, thickness)
@@ -1446,16 +1462,16 @@ def drawcoorperspective(vis,points,col_out=black,col_in=red,radius=2):
     points = np.array(points,INT)
     thickness = radius-1
     if len(points)>1 and len(points)<5:
-        for i in xrange(len(points)-1):
+        for i in range(len(points)-1):
             if i%2:
-                for j in xrange(i+1,min(len(points),i+3)):
+                for j in range(i+1,min(len(points),i+3)):
                     if j%2:
                         #print "i=",i," j=",j
                         pt1 = (points[i][0], points[i][1])
                         pt2 = (points[j][0], points[j][1])
                         cv2.arrowedLine(vis, pt1, pt2, col_in, thickness)
             else:
-                for j in xrange(i+1,min(len(points),i+3)):
+                for j in range(i+1,min(len(points),i+3)):
                     #print "i=",i," j=",j
                     pt1 = (points[i][0], points[i][1])
                     pt2 = (points[j][0], points[j][1])
@@ -1723,7 +1739,7 @@ def random_color(channels = 1, min=0, max=256):
     :param max: max color in any channel
     :return: random color
     """
-    return [np.random.randint(min,max) for i in xrange(channels)]
+    return [np.random.randint(min,max) for i in range(channels)]
 
 
 class Image(object):
@@ -1897,11 +1913,11 @@ class Image(object):
             fn = increment_if_exits(fn)
 
         if cv2.imwrite(fn,image):
-            if self.verbosity: print "Saved: {}".format(fn)
+            if self.verbosity: print("Saved: {}".format(fn))
             if self.log_saved is not None: self.log_saved.append(fn)
             return fn, True
         else:
-            if self.verbosity: print "{} could not be saved".format(fn)
+            if self.verbosity: print("{} could not be saved".format(fn))
             return fn, False
 
     def load(self, name = None, path = None, shape = None):
@@ -1919,7 +1935,7 @@ class Image(object):
         img, last_loaded = data
         if self.log_loaded is not None: self.log_loaded.append(last_loaded)
         if self.verbosity:
-            print "loaded: {}".format(last_loaded)
+            print("loaded: {}".format(last_loaded))
         self.last_loaded = last_loaded
 
         self._RGB=None

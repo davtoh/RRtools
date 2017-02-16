@@ -1,9 +1,10 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 
 import cv2
 import numpy as np
-from tesisfunctions import brightness,sigmoid,IMAGEPATH,Plotim
+from .tesisfunctions import brightness,sigmoid,IMAGEPATH,Plotim
 import glob
 
 rootpath = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/"

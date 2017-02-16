@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+from builtins import range
+from past.builtins import basestring
 from pyqtgraph.Qt import QtCore, QtGui
 import numpy as np
 import pyqtgraph as pg
@@ -134,7 +137,7 @@ if __name__ == '__main__':
     #myroi = roi.getArrayRegion(image, imgla)
     myroi, coors = roi.getArrayRegion(image, imgla, returnMappedCoords=True)
     #import pdb; pdb.set_trace()
-    print myroi
-    print coors
-    print coors.shape
+    print(myroi)
+    print(coors)
+    print(coors.shape)
     getROI(myroi)

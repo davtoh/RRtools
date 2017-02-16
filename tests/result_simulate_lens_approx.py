@@ -1,4 +1,6 @@
-from tesisfunctions import simulateLens_approx,IMAGEPATH,Plotim
+from __future__ import print_function
+from __future__ import absolute_import
+from .tesisfunctions import simulateLens_approx,IMAGEPATH,Plotim
 import glob
 import cv2
 imlist= glob.glob(IMAGEPATH+"IMG*.jpg")
@@ -15,6 +17,6 @@ for fn in imlist:
         #print fn, " saved as ",name
     except:
         if img is None:
-            print fn, " does not exists"
+            print(fn, " does not exists")
         else:
-            print fn, " could not be processed"
+            print(fn, " could not be processed")

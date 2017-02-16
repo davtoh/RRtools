@@ -3,12 +3,19 @@
 '''
 This module contais some common routines used by other samples.
 '''
+from __future__ import division
+from __future__ import print_function
 
+from builtins import zip
+from builtins import map
+from past.utils import old_div
+from builtins import object
 import numpy as np
 import cv2
 import os
 from contextlib import contextmanager
 import itertools as it
+from functools import reduce
 
 image_extensions = ['.bmp', '.jpg', '.jpeg', '.png', '.tif', '.tiff', '.pbm', '.pgm', '.ppm']
 
@@ -32,7 +39,7 @@ def homotrans(H, x, y):
     xs = H[0, 0]*x + H[0, 1]*y + H[0, 2]
     ys = H[1, 0]*x + H[1, 1]*y + H[1, 2]
     s  = H[2, 0]*x + H[2, 1]*y + H[2, 2]
-    return xs/s, ys/s
+    return old_div(xs,s), old_div(ys,s)
 
 def to_rect(a):
     a = np.ravel(a)
@@ -42,7 +49,7 @@ def to_rect(a):
 
 def rect2rect_mtx(src, dst):
     src, dst = to_rect(src), to_rect(dst)
-    cx, cy = (dst[1] - dst[0]) / (src[1] - src[0])
+    cx, cy = old_div((dst[1] - dst[0]), (src[1] - src[0]))
     tx, ty = dst[0] - src[0] * (cx, cy)
     M = np.float64([[ cx,  0, tx],
                     [  0, cy, ty],
@@ -68,11 +75,12 @@ def mtx2rvec(R):
     axis = np.cross(vt[0], vt[1])
     return axis * np.arctan2(s, c)
 
-def draw_str(dst, (x, y), s):
+def draw_str(dst, xxx_todo_changeme, s):
+    (x, y) = xxx_todo_changeme
     cv2.putText(dst, s, (x+1, y+1), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 0), thickness = 2, lineType=cv2.CV_AA)
     cv2.putText(dst, s, (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (255, 255, 255), lineType=cv2.CV_AA)
 
-class Sketcher:
+class Sketcher(object):
     def __init__(self, windowname, dests, colors_func):
         self.prev_pt = None
         self.windowname = windowname
@@ -128,18 +136,18 @@ def nothing(*arg, **kw):
     pass
 
 def clock():
-    return cv2.getTickCount() / cv2.getTickFrequency()
+    return old_div(cv2.getTickCount(), cv2.getTickFrequency())
 
 @contextmanager
 def Timer(msg):
-    print msg, '...',
+    print(msg, '...', end=' ')
     start = clock()
     try:
         yield
     finally:
-        print "%.2f ms" % ((clock()-start)*1000)
+        print("%.2f ms" % ((clock()-start)*1000))
 
-class StatValue:
+class StatValue(object):
     def __init__(self, smooth_coef = 0.5):
         self.value = None
         self.smooth_coef = smooth_coef
@@ -150,7 +158,7 @@ class StatValue:
             c = self.smooth_coef
             self.value = c * self.value + (1.0-c) * v
 
-class RectSelector:
+class RectSelector(object):
     def __init__(self, win, callback):
         self.win = win
         self.callback = callback
@@ -198,11 +206,11 @@ def mosaic(w, imgs):
     imgs -- images (must have same size and format)
     '''
     imgs = iter(imgs)
-    img0 = imgs.next()
+    img0 = next(imgs)
     pad = np.zeros_like(img0)
     imgs = it.chain([img0], imgs)
     rows = grouper(w, imgs, pad)
-    return np.vstack(map(np.hstack, rows))
+    return np.vstack(list(map(np.hstack, rows)))
 
 def getsize(img):
     h, w = img.shape[:2]

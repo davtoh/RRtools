@@ -1,3 +1,4 @@
+from __future__ import print_function
 from RRtoolbox.lib.root import Controlstdout, TimeCode
 
 if __name__ == "__main__":
@@ -14,5 +15,5 @@ if __name__ == "__main__":
     with Controlstdout(True,buffer=open("supress_output_test","w+")) as a:
         print("This should not appear now, but will be printed afterwards")
 
-    print "After Controlstdout:"
+    print("After Controlstdout:")
     print(a.buffered)

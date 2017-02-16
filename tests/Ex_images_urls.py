@@ -1,6 +1,8 @@
 # http://www.pyimagesearch.com/2015/03/02/convert-url-to-image-with-python-and-opencv/
 
 # import the necessary packages
+from future import standard_library
+standard_library.install_aliases()
 import numpy as np
 
 import requests
@@ -13,7 +15,7 @@ PY3 = sys.version_info >= (3,0)
 try:
     from urllib.request import urlopen # urllib.urlopen disappears in python 3
 except ImportError:
-    from urllib2 import urlopen
+    from urllib.request import urlopen
 
 def getFileHandle(path):
     # urllib.urlopen does the same but is deprecated in python 3

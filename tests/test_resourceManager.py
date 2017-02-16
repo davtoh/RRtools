@@ -1,5 +1,8 @@
 from __future__ import division
+from __future__ import print_function
 
+from builtins import input
+from builtins import object
 import weakref
 import numpy as np
 import inspect
@@ -69,7 +72,7 @@ def loadcv(pth,mode=-1,shape=None):
 def mymethod(shape=None,mode=-1):
     return loadcv("/mnt/4E443F99443F82AF/Dropbox/PYTHON/RRtools/tests/equalization.png",mode,shape)
 
-class MyObj:
+class MyObj(object):
     def __init__(self, size):
         self.size = size
     def __sizeof__(self):
@@ -77,14 +80,14 @@ class MyObj:
 
 def factoryfunc(time,memory):
     def myfunc():
-        print "OBJECT IS BEING CREATED"
+        print("OBJECT IS BEING CREATED")
         sleep(random()*time)
         return MyObj(memory)
     return myfunc
 
-entrada = raw_input("Select units: ")
+entrada = input("Select units: ")
 ret = ResourceManager(unit=entrada)
-entrada = raw_input("Max memory ({}): ".format(ret.unit))
+entrada = input("Max memory ({}): ".format(ret.unit))
 ret.maxMemory = int(entrada)
 
 #maxX,maxY = 1000,1000
@@ -95,14 +98,14 @@ ret.maxMemory = int(entrada)
 
 keepOutSide = []
 while True:
-    name = raw_input("name of object: ")
+    name = input("name of object: ")
     if not name:
         break
-    print "To create object select:"
-    t = int(raw_input("max time processing: "))
-    s = ret.units2bytes(float(raw_input("memory size ({}): ".format(ret.unit))))
+    print("To create object select:")
+    t = int(input("max time processing: "))
+    s = ret.units2bytes(float(input("memory size ({}): ".format(ret.unit))))
     func = factoryfunc(t,s)
-    val = input("method 1,2,3,other: ")
+    val = eval(input("method 1,2,3,other: "))
     if val==1: # creation method is given but it once called it is kept alive
         ret[name] = func
         keepOutSide.append(ret[name])

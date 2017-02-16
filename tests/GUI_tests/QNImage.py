@@ -1,3 +1,7 @@
+from __future__ import division
+from __future__ import print_function
+from builtins import range
+from past.utils import old_div
 import numpy as np
 from pyqtgraph import QtGui
 QImage = QtGui.QImage
@@ -114,7 +118,7 @@ if __name__ == '__main__':
         a=np.reshape(a, (spectroHeight, spectroWidth))
         a=np.require(a, np.uint8, 'C')
         COLORTABLE=[]
-        for i in range(256): COLORTABLE.append(QtGui.qRgb(i/4,i,i/2))
+        for i in range(256): COLORTABLE.append(QtGui.qRgb(old_div(i,4),i,old_div(i,2)))
         a=np.roll(a, -5)
         QI = QtGui.QImage(a.data, spectroWidth, spectroHeight, QtGui.QImage.Format_Indexed8)
         QI.setColorTable(COLORTABLE)
@@ -183,7 +187,7 @@ if __name__ == '__main__':
         #shit.setImage(qim.ndarray)
         shit.updateImage()
         QtGui.qApp.processEvents() # update
-        print "image changed, try minimizing and then maximazing"
+        print("image changed, try minimizing and then maximazing")
 
     t = threading.Thread(target=func)
     win_main = QtGui.QMainWindow()
@@ -198,7 +202,7 @@ if __name__ == '__main__':
         else:
             axes = {'t': 2, 'x': 1, 'y': 0, 'c': None}
     if axes:
-        print "sending with axes"
+        print("sending with axes")
         shit = pg.image(img)
     else:
         shit = pg.image(img)

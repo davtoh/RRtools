@@ -1,9 +1,14 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
-from tesisfunctions import Plotim,overlay,padVH
+from .tesisfunctions import Plotim,overlay,padVH
 import cv2
 import numpy as np
 #from invariantMoments import centroid,invmoments,normalizedinvariantmoment,bwmoment
-from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,graphpolygontest, polygontest
+from .tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,graphpolygontest, polygontest
 
 #http://stackoverflow.com/questions/14725181/speed-up-iteration-over-numpy-arrays-opencv-cv2-image
 #http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html
@@ -37,7 +42,7 @@ lastthresh = opening
 """
 P = brightness(fore)
 thresh = getthresh(cv2.resize(P,(300,300)))
-print thresh
+print(thresh)
 lastthresh=threshold(P,thresh,1,0)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 #lastthresh = pad(lastthresh,1)
@@ -46,19 +51,19 @@ plotc.show()
 
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-print "objects: ",len(contours)
+print("objects: ",len(contours))
 index = 0
 maxarea = 0
 #objectarea = np.sum(lastthresh)
-for i in xrange(len(contours)):
+for i in range(len(contours)):
     area = cv2.contourArea(contours[i])
     if area>maxarea:
         index = i
         maxarea = area
 
-print "area contour:",maxarea,"index: ",index
+print("area contour:",maxarea,"index: ",index)
 cnt = contours[index]
-print "optaining polygon test..."
+print("optaining polygon test...")
 polygontest = graphpolygontest((P,cnt)).show()
 
 #DEFECTS
@@ -83,16 +88,16 @@ for i in range(defects.shape[0]):
 points = defects[:,0,2]
 x1,y1 = tuple(cnt[points[two_max[0]]][0])
 x2,y2 = tuple(cnt[points[two_max[1]]][0])
-m = (y2-y1)/float(x2-x1)
+m = old_div((y2-y1),float(x2-x1))
 b = int(y1-x1*m)
 # find interception with xf and yf axis
 if b>imdefects.shape[0]: # if start outside yf
-    start = int((imdefects.shape[0]-b)/m),imdefects.shape[0] # (yf-b)/m, yf
+    start = int(old_div((imdefects.shape[0]-b),m)),imdefects.shape[0] # (yf-b)/m, yf
 else: # if start inside yf
     start = 0,b # 0,y
 y = int(m*imdefects.shape[1]+b) # m*xf+b
 if y<0: # if end outside yf
-    end = int(-b/m),0# x,0
+    end = int(old_div(-b,m)),0# x,0
 else: # if end inside yf
     end = imdefects.shape[1],y # xf, y
 

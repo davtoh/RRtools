@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 import cv2
 import numpy as np
 import glob
-from tesisfunctions import brightness,sigmoid,Plotim,overlay,IMAGEPATH, circularKernel
-from recommended import getKernel
+from .tesisfunctions import brightness,sigmoid,Plotim,overlay,IMAGEPATH, circularKernel
+from .recommended import getKernel
 
 rootpath = IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/"
 imlist= glob.glob(rootpath+"IMG*.jpg")

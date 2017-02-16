@@ -1,3 +1,8 @@
+from __future__ import division
+from __future__ import print_function
+from builtins import zip
+from past.builtins import basestring
+from past.utils import old_div
 import numpy as np
 from tests.tesisfunctions import separatingLine,anorm,contour2points,vectorsAngles,normsigmoid
 
@@ -15,21 +20,21 @@ def angle(v1,v2, deg = False):
     # v1.v2 = ||v1||||v2|| cos(angle) => angle = arcos(v1.v2/||v1||||v2||)
     # see more: http://www.wikihow.com/Find-the-Angle-Between-Two-Vectors
     # tested with http://codereview.stackexchange.com/a/54413
-    if deg: return np.rad2deg(np.arccos(np.dot(v1,v2)/(anorm(v1)*anorm(v2)))) # *180.0/np.pi
-    return np.arccos(np.dot(v1,v2)/(anorm(v1)*anorm(v2)))
+    if deg: return np.rad2deg(np.arccos(old_div(np.dot(v1,v2),(anorm(v1)*anorm(v2))))) # *180.0/np.pi
+    return np.arccos(old_div(np.dot(v1,v2),(anorm(v1)*anorm(v2))))
 
 def normalize(data):
     """normalize data to [0,1]"""
     min = np.min(data)
     if min:
         data = data + min
-        return data/np.max(data)
+        return old_div(data,np.max(data))
     else: # if min is 0
-        return data/np.max(data)
+        return old_div(data,np.max(data))
 
 def normalize2(data):
     """normalize data to [-1,1]"""
-    return data/np.max([np.max(data),-1.0*np.min(data)])
+    return old_div(data,np.max([np.max(data),-1.0*np.min(data)]))
 
 def normalizeToRange(data,max=255,min=0):
     """
@@ -117,7 +122,7 @@ def filter(alfa,beta1,beta2=None):
                 func = invertedbandstop
             else: # inverted band pass
                 func = invertedbandpass
-    func.func_dict = {"alfa":alfa,"beta1":beta1,"beta2":beta2}
+    func.__dict__ = {"alfa":alfa,"beta1":beta1,"beta2":beta2}
     return func
 
 def getparameters(filter,title = ""):
@@ -128,8 +133,8 @@ def getparameters(filter,title = ""):
     :param title:
     :return:
     """
-    vardic = filter.func_dict
-    for i in vardic.keys():
+    vardic = filter.__dict__
+    for i in list(vardic.keys()):
         if vardic[i] is not None:
             title += " "+i+": "
             title += str(vardic[i])+","
@@ -497,15 +502,15 @@ def stitch_multiple(images = None, **opts):
         descriptors_dic,shapes,data = {},{},{}
     #### LOADING
     if images is None:
-        print "looking in path {}".format(MANAGER.TESTPATH)
+        print("looking in path {}".format(MANAGER.TESTPATH))
         fns = glob(MANAGER.TESTPATH + "*.jpg")
     elif isinstance(images,basestring):
-        print "looking as {}".format(images)
+        print("looking as {}".format(images))
         fns = glob(images)
     else: # iterator containing data
         fns = images
     #fns = fns[:3]
-    print "testing {} files...".format(len(fns))
+    print("testing {} files...".format(len(fns)))
     #### SCALING
     loader = opts.get("loader",None)
     if isinstance(loader, basestring):
@@ -528,7 +533,7 @@ def stitch_multiple(images = None, **opts):
                 kp["modified"] = [] # statistical data
                 kp["pt_original"] = kp["pt"]
             descriptors_list.append((len(kps),i,path,kps,desc))
-            if FLAG_DEBUG: print "descriptor {}/{}...".format(i+1,len(fns))
+            if FLAG_DEBUG: print("descriptor {}/{}...".format(i+1,len(fns)))
 
     #### MATCHING
     matcher = init_feature(feature_name)[1] # it must get matcher object of cv2 here to prevent conflict with memoizers
@@ -549,7 +554,7 @@ def stitch_multiple(images = None, **opts):
                     desc_remain.extend(desc)
 
             if not kps_remain: # if there is not image remaining to stitch break
-                print "all images used"
+                print("all images used")
                 break
 
             desc_remain = np.array(desc_remain) # convert descriptors to array
@@ -576,10 +581,10 @@ def stitch_multiple(images = None, **opts):
                     else:
                         classified[key] = [(kp1,kp2)]
 
-            ordered = sorted([(len(v),k) for k,v in classified.items()],reverse=True) # order with best matches
+            ordered = sorted([(len(v),k) for k,v in list(classified.items())],reverse=True) # order with best matches
 
             for v,k in ordered:
-                mkp1,mkp2 = zip(*classified[k]) # probably good matches
+                mkp1,mkp2 = list(zip(*classified[k])) # probably good matches
                 p1 = np.float32([kp["pt"] for kp in mkp1])
                 p2 = np.float32([kp["pt"] for kp in mkp2])
                 H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
@@ -671,9 +676,9 @@ def stitch_multiple(images = None, **opts):
                     failed.append(k)
 
             if set(classified.keys()) == set(failed):
-                print "Ended, these images do not fit: "
-                for i in classified.keys():
-                    print i
+                print("Ended, these images do not fit: ")
+                for i in list(classified.keys()):
+                    print(i)
                 break
 
     base,path,name,ext = getData(used[0])

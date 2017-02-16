@@ -1,3 +1,7 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from past.utils import old_div
 import numpy as np
 import cv2
 from RRtoolbox.lib.arrayops import overlay, brightness, background, getOtsuThresh, \
@@ -6,7 +10,7 @@ from RRtoolbox.lib.image import loadFunc
 from RRtoolbox.lib.plotter import fastplt
 from RRtoolbox.lib.root import glob
 from RRtoolbox.lib.directory import getData
-from tesisfunctions import std_deviation, plainness
+from .tesisfunctions import std_deviation, plainness
 
 
 
@@ -45,7 +49,7 @@ flags |= cv2.FLOODFILL_MASK_ONLY
 pallet = np.array([(0,0,0),newVal],np.uint8) # pallet to color masks
 
 for fn in fns:
-    print "processing {}".format(fn)
+    print("processing {}".format(fn))
     img = loadFunc(1,(300,300))(fn) # load image
     #params = getBilateralParameters(img.shape) # calculate bilateral parameters (21,82,57)
     #img = cv2.bilateralFilter(img, *params)
@@ -87,7 +91,7 @@ for fn in fns:
             hi += step
             cv2.floodFill(img, mask, seed_pt, newVal, (lo,)*3, (hi,)*3, flags)
             area = np.sum(np.bitwise_and(mask,mask_background))
-            print "{} and  {}".format(hi,area)
+            print("{} and  {}".format(hi,area))
         mask = mask[1:-1,1:-1]
 
         # cv2.fillConvexPoly(array,pts.astype(np.int32),1,0)
@@ -117,11 +121,11 @@ for fn in fns:
 
         fastplt(1-all,block=len(fns)>1, title="alpha mask")
         hist, bins = np.histogram((all*255).astype(np.uint8).flatten(),256,[0,256])
-        thresh = getOtsuThresh(hist)/255.0
+        thresh = old_div(getOtsuThresh(hist),255.0)
         mask = (all < thresh).astype(np.uint8)
 
         hist, bins = np.histogram((all[mask==1]*255).astype(np.uint8).flatten(),256,[0,256])
-        thresh = getOtsuThresh(hist)/255.0
+        thresh = old_div(getOtsuThresh(hist),255.0)
         mask = (all < thresh).astype(np.uint8)
 
         t = "{} mask with thresh = {}".format(getData(fn)[-2],thresh)

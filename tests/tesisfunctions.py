@@ -11,6 +11,12 @@ Region growing: https://en.wikipedia.org/wiki/Region_growing
     watershed: https://en.wikipedia.org/wiki/Watershed_(image_processing)
     watershed example: http://docs.opencv.org/3.1.0/d3/db4/tutorial_py_watershed.html#gsc.tab=0
 """
+from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from builtins import range
+from past.utils import old_div
 __author__ = 'Davtoh'
 
 import cv2
@@ -43,12 +49,12 @@ def printParams(params, header = True, epilog = True, width = 100):
     """
     if header is True:
         header="These Are The Parameters:".center(width,"*")
-    if header: print header
-    for key,val in params.items():
-        print "{}: {}".format(key,val)
+    if header: print(header)
+    for key,val in list(params.items()):
+        print("{}: {}".format(key,val))
     if epilog is True:
         epilog="*"*width
-    if epilog: print epilog
+    if epilog: print(epilog)
 
 def correctString(string, includeSpaces = True, replace = None):
     """
@@ -243,7 +249,7 @@ def threshold(src, thresh, maxval=255, type=cv2.THRESH_BINARY):
     :param type:
     :return:
     """
-    from recommended import getKernel
+    from .recommended import getKernel
     shape = src.shape
     kernel = getKernel(shape[0]*shape[1])
     #ks = kernel.shape[0]/3 # kenerl size?
@@ -302,7 +308,7 @@ def retinalmask(gray,invert = False):
     rough_mask=threshold(gray,thresh,1,0)
     contours,hierarchy = cv2.findContours(rough_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     index,maxarea = 0,0
-    for i in xrange(len(contours)):
+    for i in range(len(contours)):
         area = cv2.contourArea(contours[i])
         if area>maxarea: index,maxarea = i,area
     cnt = contours[index]
@@ -384,7 +390,7 @@ def simulateLens(img, scaled_shape = (300,300), parameters = (10,30,None),color 
     contours,hierarchy = cv2.findContours(lastthresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     index = 0
     maxarea = 0
-    for i in xrange(len(contours)):
+    for i in range(len(contours)):
         area = cv2.contourArea(contours[i])
         if area>maxarea:
             index = i
@@ -505,7 +511,7 @@ def drawContours(mask, contours, min=50, max=256):
         ch = mask.shape[2]
     else:
         ch = 1
-    for i in xrange(len(contours)):
+    for i in range(len(contours)):
         cv2.drawContours(mask, contours, i, random_color(ch, min, max), 2)
     return mask
 
@@ -591,7 +597,7 @@ def extendLine(shape,point1,point2):
     h,w = shape[0:2]
     x1,y1 = point1
     x2,y2 = point2
-    m = (y2-y1)/float(x2-x1)
+    m = old_div((y2-y1),float(x2-x1))
     if m != float:
         if x1==x2: # vertical line
             start = x1,0
@@ -606,12 +612,12 @@ def extendLine(shape,point1,point2):
     b = int(y1-x1*m)
     # find interception with xf and yf axis
     if b>h: # if start outside yf
-        start = int((h-b)/m),h # (yf-b)/m, yf
+        start = int(old_div((h-b),m)),h # (yf-b)/m, yf
     else: # if start inside yf
         start = 0,b # 0,y
     y = int(m*w+b) # m*xf+b
     if y<0: # if end outside yf
-        end = int(-b/m),0# x,0
+        end = int(old_div(-b,m)),0# x,0
     else: # if end inside yf
         end = w,y # xf, y
     return start,end # return extended line to image border
@@ -625,10 +631,10 @@ def colorpolygontest(res):
     res = np.int0(np.around(res))
     mini = res.min()
     if not mini: mini = -1
-    minie = 255.0/mini
+    minie = old_div(255.0,mini)
     maxi = res.max()
     if not maxi: maxi = 1
-    maxie = 255.0/maxi
+    maxie = old_div(255.0,maxi)
 
     drawing = np.zeros((maxi-mini+1,3),np.uint8)  # image to draw the distance
     # correct res by adding minimum distance to res it is shifted to 0
@@ -637,7 +643,7 @@ def colorpolygontest(res):
     else:
         res -= mini
     #define the colors
-    for h,i in enumerate(xrange(mini,maxi+1)):
+    for h,i in enumerate(range(mini,maxi+1)):
         if i<0:
             drawing.itemset((h,0),255-int(minie*i))
         elif i>0:
@@ -656,8 +662,8 @@ def _polygontest(src,cnt):
     :return: calculated polygon test in src
     """
     rows,cols = src.shape[0:2]
-    for i in xrange(rows):# Calculate distance from each point
-        for j in xrange(cols):
+    for i in range(rows):# Calculate distance from each point
+        for j in range(cols):
             src.itemset((i,j),cv2.pointPolygonTest(cnt,(j,i),True))
     return src
 
@@ -718,8 +724,8 @@ def polycenter(res):
     :return: center, multiple centers
     """
     pts =  np.where(res == res.max())
-    center_pts = zip(pts[1],pts[0])
-    center = pts[1][len(pts[0])/2],pts[0][len(pts[0])/2]
+    center_pts = list(zip(pts[1],pts[0]))
+    center = pts[1][old_div(len(pts[0]),2)],pts[0][old_div(len(pts[0]),2)]
     return center,center_pts
 
 def getThreshCenter1(thresh):
@@ -743,8 +749,8 @@ def getThreshCenter2(thresh):
     """
     cnt = thresh_biggestCnt(thresh)
     M = cv2.moments(cnt) # find moments
-    cx = int(M['m10']/M['m00'])
-    cy = int(M['m01']/M['m00'])
+    cx = int(old_div(M['m10'],M['m00']))
+    cy = int(old_div(M['m01'],M['m00']))
     return cx,cy
 
 def getThreshCenter3(thresh):
@@ -755,7 +761,7 @@ def getThreshCenter3(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return ImCoors(zip(x, y), np.int32).boxCenter
+    return ImCoors(list(zip(x, y)), np.int32).boxCenter
 
 def getThreshCenter4(thresh):
     """
@@ -765,7 +771,7 @@ def getThreshCenter4(thresh):
     :return:
     """
     y,x = np.where(thresh==1)
-    return ImCoors(zip(x, y), np.int32).mean
+    return ImCoors(list(zip(x, y)), np.int32).mean
 
 def CircleClosure(thresh,epsilon=0.5):
     """
@@ -843,7 +849,7 @@ def std_deviation(arr):
     arr = arr.flatten()
     mean = np.mean(arr)
     deviation = np.abs(arr - mean)
-    variance = anorm2(deviation)/np.float(len(arr))
+    variance = old_div(anorm2(deviation),np.float(len(arr)))
     standard_deviation= np.sqrt(variance)
     return standard_deviation
 
@@ -857,5 +863,5 @@ def plainness(ROI):
     # find normalized_histogram, and its cumulative distribution function
     hist, bins = np.histogram(ROI.flatten(),256,[0,256])
     #s_values, bin_idx, s_counts = np.unique(ROI.flatten(), return_inverse=True, return_counts=True)
-    hist_norm = hist.astype("float").ravel()/hist.max()
+    hist_norm = old_div(hist.astype("float").ravel(),hist.max())
     return std_deviation(hist_norm)

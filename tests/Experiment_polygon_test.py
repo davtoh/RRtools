@@ -1,7 +1,10 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
 __author__ = 'Davtoh'
 import cv2
 import numpy as np
-from tesisfunctions import padVH,Plotim,graphpolygontest,polygontest
+from .tesisfunctions import padVH,Plotim,graphpolygontest,polygontest
 import time
 import itertools as it
 from multiprocessing.pool import ThreadPool
@@ -13,7 +16,7 @@ def polygontestPool(src,cnt,pool=None):
         i,j = data
         return i,j,cv2.pointPolygonTest(cnt,(j,i),True)
     #src = np.zeros(src.shape,np.float32)
-    params = zip(*np.where(src==src))
+    params = list(zip(*np.where(src==src)))
     if pool is None:
         ires = it.imap(f, params)
     else:
@@ -39,7 +42,7 @@ test2 = cv2.distanceTransform(src,cv2.DIST_LABEL_PIXEL,5).astype(np.float)
 test2[test2==0] = -1
 #test2 = polygontestPool(src.copy().astype(np.int32),cnt,pool)
 time3 = time.time()
-print "Time normal: ",time2-time1,"Time pool: ",time3-time2
+print("Time normal: ",time2-time1,"Time pool: ",time3-time2)
 test1 = graphpolygontest(test1,"poligon Test").data
 test2 = graphpolygontest(test2,"distance Transform").data
 grapth = padVH([[test1,test2]])[0]

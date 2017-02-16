@@ -1,3 +1,7 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from builtins import range
 __author__ = 'Davtoh'
 
 import sys
@@ -7,8 +11,8 @@ from multiprocessing.pool import ThreadPool
 import cv2
 import numpy as np
 
-from tesisfunctions import normsigmoid,normalize,sh2oh,Plotim,overlay
-from deprecated.asift import affine_detect, init_feature, filter_matches, explore_match,Timer
+from .tesisfunctions import normsigmoid,normalize,sh2oh,Plotim,overlay
+from .deprecated.asift import affine_detect, init_feature, filter_matches, explore_match,Timer
 
 
 def getalfa_(foregray,backgray,window):
@@ -67,16 +71,16 @@ if __name__ == '__main__':
 
     detector, matcher = init_feature(feature_name)
     if detector != None:
-        print 'using', feature_name
+        print('using', feature_name)
     else:
-        print 'unknown feature:', feature_name
+        print('unknown feature:', feature_name)
         sys.exit(1)
 
     pool=ThreadPool(processes = cv2.getNumberOfCPUs())
     with Timer('detecting features...'):
         kp1, desc1 = affine_detect(detector, scaled_fore, pool=pool)
         kp2, desc2 = affine_detect(detector, scaled_back, pool=pool)
-        print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
+        print('imgf - %d features, imgb - %d features' % (len(kp1), len(kp2)))
 
     win = 'affine find_obj'
     with Timer('matching'):
@@ -88,12 +92,12 @@ if __name__ == '__main__':
     if len(p1) >= 4:
         H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
 
-        print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+        print('%d / %d  inliers/matched' % (np.sum(status), len(status)))
         # do not draw outliers (there will be a lot of them)
         kp_pairs = [kpp for kpp, flag in zip(kp_pairs, status) if flag]
     else:
         H, status = None, None
-        print '%d matches found, not enough for homography estimation' % len(p1)
+        print('%d matches found, not enough for homography estimation' % len(p1))
 
     t2 = time.time()
     vis = explore_match(win, scaled_fore, scaled_back, kp_pairs, None, H)
@@ -111,14 +115,14 @@ if __name__ == '__main__':
         fore_in_back = fore_in_back.astype(float)
         # find alfa and do overlay
         window = fore_in_back[:,:,3].copy()
-        for i in xrange(1): # testing damage by repetition
+        for i in range(1): # testing damage by repetition
             backgray = cv2.cvtColor(original_back.astype("uint8"),cv2.COLOR_BGR2GRAY).astype(float)
             fore_in_back[:,:,3]= getalfa(foregray,backgray,window)
             original_back = overlay(original_back,fore_in_back)
         # plot and save result
         original_back = original_back.astype("uint8")
         cv2.imwrite("im_completer_Result.png",original_back)
-        print "process finished... ",time.time()-t1-t2
+        print("process finished... ",time.time()-t1-t2)
         plot = Plotim("result", original_back)
         plot.show()
         # cv2.compare(src1, src2, cmpop[, dst])

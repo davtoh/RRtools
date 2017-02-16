@@ -1,4 +1,5 @@
 """Demo of how to pop up plots asynchronously using separate processes."""
+from __future__ import print_function
 # https://gist.github.com/dwf/1222883
 from multiprocessing import Process
 import time
@@ -13,7 +14,7 @@ def demo():
         i += 1
         s = time.time()
         while time.time() - s < 5:
-            print 'HA',
+            print('HA', end=' ')
             sys.stdout.flush()
         def do_something():
             figno = i

@@ -7,16 +7,31 @@
     This module contains all config data to the package.
 """
 from __future__ import division
-from directory import Directory as _directory
-from directory import FileDirectory as _FileDirectory
-from directory import correctPath as _correctPath
-from directory import resource_path as _resource_path
-from session import serializer
-from session import updateSession as _updateSession
-from session import readSession as _readSession
-from session import saveSession as _saveSession
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import object
+from .directory import Directory as _directory
+from .directory import FileDirectory as _FileDirectory
+from .directory import correctPath as _correctPath
+from .directory import resource_path as _resource_path
+from .session import serializer
+from .session import updateSession as _updateSession
+from .session import readSession as _readSession
+from .session import saveSession as _saveSession
 import pkgutil
 from numpy import float32, int32
+import sys
+if sys.version_info[0] < 3:  # Python 2?
+    # using exec avoids a SyntaxError in Python 3
+    exec("""def reraise(exc_type, exc_value, exc_traceback=None):
+                raise exc_type, exc_value, exc_traceback""")
+else:
+    def reraise(exc_type, exc_value, exc_traceback=None):
+        if exc_value is None:
+            exc_value = exc_type()
+        if exc_value.__traceback__ is not exc_traceback:
+            raise exc_value.with_traceback(exc_traceback)
+        raise exc_value
 
 __author__ = 'Davtoh'
 
@@ -133,7 +148,7 @@ class DirectoryManager(object):
         # save path is where results are placed
         SAVEPATH = TESTPATH.copy()
         #return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}
-        return {key:val for key,val in locals().iteritems() if key != "self"}
+        return {key:val for key,val in locals().items() if key != "self"}
 
     def reset(self):
         """
@@ -145,11 +160,11 @@ class DirectoryManager(object):
 
         .. warning:: ConfigFile is purposely not updated. Call manually method load()
         """
-        if FLAG_DEBUG: print "Creating default '{}' file...".format(self._path)
+        if FLAG_DEBUG: print("Creating default '{}' file...".format(self._path))
         try:
             data = _saveSession(str(self._path), self.default)
             if FLAG_DEBUG:
-                print "'{}' has been reset successfully...".format(self._path)
+                print("'{}' has been reset successfully...".format(self._path))
             return data
         except Exception as e:
             if self._raiseError:
@@ -164,15 +179,15 @@ class DirectoryManager(object):
 
         .. warning:: Unsaved instance variables will be replaced by configuration file variables.
         """
-        if FLAG_DEBUG: print "Loading '{}'...".format(self._path)
+        if FLAG_DEBUG: print("Loading '{}'...".format(self._path))
         error = False
         try:
             vars = _readSession(str(self._path))
         except IOError:
-            if FLAG_DEBUG: print "'{}' not found...".format(self._path)
+            if FLAG_DEBUG: print("'{}' not found...".format(self._path))
             error = True
         except AttributeError:
-            if FLAG_DEBUG: print "'{}' structure is old...".format(self._path)
+            if FLAG_DEBUG: print("'{}' structure is old...".format(self._path))
             error = True
 
         if error:
@@ -181,11 +196,11 @@ class DirectoryManager(object):
             try:
                 vars =  _readSession(str(self._path))
             except Exception as e:
-                import sys
-                raise Exception("Trying to read '{}' with writted "
-                                "session as '{}'".format(self._path,data)), None, sys.exc_info()[2]
+                # http://stackoverflow.com/questions/6062576/adding-information-to-an-exception
+                reraise(type(e), type(e)(str(e) + "Trying to read '{}' with writted "
+                                "session as '{}'".format(self._path,data)), sys.exc_info()[2])
 
-        if FLAG_DEBUG: print "Default '{}' read successfully...".format(self._path)
+        if FLAG_DEBUG: print("Default '{}' read successfully...".format(self._path))
         self._loaded.update(vars)
         return vars
 
@@ -247,7 +262,7 @@ class DirectoryManager(object):
 
 MANAGER = DirectoryManager() # configure directories
 
-class ConfigTool:
+class ConfigTool(object):
     """
     Manage the configured Tools.
     """

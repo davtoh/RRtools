@@ -8,6 +8,8 @@
 """
 
 from __future__ import print_function
+from __future__ import absolute_import
+from builtins import object
 import sys,os
 import tempfile
 import traceback
@@ -22,7 +24,7 @@ from importlib import import_module
 
 __license__ = pycallgraph.__license__ + " see https://github.com/gak/pycallgraph/blob/develop/LICENSE"
 
-import directory as dr
+from . import directory as dr
 
 __author__ = 'Davtoh'
 
@@ -33,8 +35,8 @@ def funcData(func):
     defaults = argspec.defaults
     if defaults: # get args with their values
         defaults = {args[i-len(defaults)]:val for i,val in enumerate(defaults)}
-    name = func.func_name
-    doc = func.func_doc
+    name = func.__name__
+    doc = func.__doc__
     sourcefile = inspect.getsourcefile(func) # get path of source, unlike getfile that even gets compiled
     lines, line = inspect.getsourcelines(func) # get source
     imp_from = inspect.getmodule(func).__name__
@@ -68,7 +70,7 @@ def tracer(instance, broadcast = True, report = True):
     """
     def decorator(func):
         #argnames = func.func_code.co_varnames[:func.func_code.co_argcount]
-        funcname = func.func_name
+        funcname = func.__name__
         @functools.wraps(func)
         def wrapper(*args,**kwargs):
             instance.func = func
@@ -159,8 +161,8 @@ class Logger(object):
 
     def writer(self, sender, *arg):
         FILE = self.file
-        HEADER = (sender.im_self, sender.im_func, self.func)
-        if sender.im_func.__name__== "throwError":
+        HEADER = (sender.__self__, sender.__func__, self.func)
+        if sender.__func__.__name__== "throwError":
             if self.throwAtError:
                 raise arg[0]
             else:

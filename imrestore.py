@@ -30,7 +30,7 @@ STEPS:
         -ASIFT*
 
     (2) Select main or base image from set for merging:
-        -Raw, Sorting, User input
+        -First image, Most keypoints, Sorting, User input
 
     (3) Matching (spacial):
         -filter 0.7 below Hamming distance
@@ -163,10 +163,17 @@ Notes:
         depending on the tastes of the user.
 '''
 from __future__ import division
+from __future__ import print_function
+from __future__ import absolute_import
 # TODO install openCV 2.4.12 as described in http://stackoverflow.com/a/37283690/5288758
 # to solve the error Process finished with exit code 139
 # UPDATE: openCV 2.4.12 does not solve the error Process finished with exit code 139
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from past.builtins import basestring
+from builtins import object
 __author__ = 'Davtoh'
 # needed for installing executable
 import six ### DO NOT DELETE used for executable
@@ -175,7 +182,7 @@ import packaging.specifiers ### DO NOT DELETE used for executable
 import packaging.requirements ### DO NOT DELETE used for executable
 import appdirs ### DO NOT DELETE used for executable
 import six ### DO NOT DELETE used for executable
-import FileDialog ### DO NOT DELETE used for executable
+import tkinter.filedialog ### DO NOT DELETE used for executable
 # program imports
 import os
 import cv2
@@ -312,17 +319,17 @@ class ImRestore(object):
         ################################## GET IMAGES ####################################
         if filenames is None or len(filenames)==0: # if images is empty use demonstration
             #test = MANAGER["TESTPATH"]
-            #if self.verbosity: print "Looking in DEMO path {}".format(test)
+            #if self.verbosity: print("Looking in DEMO path '{}'".format(test))
             #fns = glob(test + "*",check=check_valid)
             raise Exception("List of filenames is Empty")
         elif isinstance(filenames, basestring):
             # if string assume it is a path
-            if self.verbosity: print "Looking as {}".format(filenames)
+            if self.verbosity: print("Looking as '{}'".format(filenames))
             fns = glob(filenames, check=check_valid)
         elif not isinstance(filenames, basestring) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
-            if self.verbosity: print "Looking as {}".format(filenames)
+            if self.verbosity: print("Looking as '{}'".format(filenames))
             fns = glob(filenames, check=check_valid)
         else: # iterator containing data
             fns = filenames # list file names
@@ -330,17 +337,17 @@ class ImRestore(object):
         # check images
         if not len(fns)>1:
             raise Exception("list of images must be "
-                            "greater than 1, got {}".format(len(fns)))
+                            "greater than 1, got '{}'".format(len(fns)))
 
         # for multiprocessing
         self.pool = opts.pop("pool", None)
         if self.pool is not None: # convert pool count to pool class
-            NO_CPU = cv2.popNumberOfCPUs()
+            NO_CPU = cv2.getNumberOfCPUs()
             if self.pool <= NO_CPU:
                 self.pool = Pool(processes = self.pool)
             else:
                 raise Exception("pool of {} exceeds the "
-                                "number of processors {}".format(self.pool, NO_CPU))
+                                "number of {} processors".format(self.pool, NO_CPU))
         # for features
         self.feature = opts.pop("feature", None)
         # init detector and matcher to compute descriptors
@@ -364,7 +371,7 @@ class ImRestore(object):
         elif self.selectMethod in best_match_list or self.selectMethod is None:
             self._orderValue = 0
         else:
-            raise Exception("selectMethod {} not recognized".format(self.selectMethod))
+            raise Exception("selectMethod '{}' not recognized".format(self.selectMethod))
 
         # distance threshold to filter best matches
         self.distanceThresh = opts.pop("distanceThresh", 0.75) # filter ratio
@@ -386,7 +393,7 @@ class ImRestore(object):
         # it is not memory efficient to compute descriptors from big images
         self.process_shape = opts.pop("process_shape", (400, 400)) # use processing shape
         self.load_shape = opts.pop("load_shape", None) # shape to load images for merging
-        self.minKps = 3 # minimum len of key-points to find Homography
+        self.minKps = 4 # minimum len of key-points to find Homography
         self.histMatch = opts.pop("hist_match", False)
         self.denoise=opts.pop("denoise", None)
 
@@ -424,13 +431,14 @@ class ImRestore(object):
 
         self.baseImage = baseImage
 
-        if self.verbosity: print "No. images {}...".format(len(fns))
+        if self.verbosity: print("No. images '{}'...".format(len(fns)))
 
         # assign filenames
         self.filenames = fns
 
         # make loader
         self.loader = opts.pop("loader", None) # BGR loader
+        # TODO replace loadFunc for class object so that it can provide load_shape and drop that argument
         if self.loader is None: self.loader = loadFunc(1)
         self._loader_cache = None # keeps last image reference
         self._loader_params = None # keeps last track of last loading options to reload
@@ -442,7 +450,7 @@ class ImRestore(object):
 
         # do a check of the options
         if opts:
-            raise Exception("Unknown keyword(s) {}".format(opts.keys()))
+            raise Exception("Unknown keyword(s) '{}'".format(list(opts.keys())))
 
         # processing variables
         self._feature_list = None
@@ -492,12 +500,12 @@ class ImRestore(object):
                 if self.cachePath == "{temp}":
                     self.cachePath = self.cachePath.format(temp=MANAGER["TEMPPATH"])
                 memoized = MemoizedDict(os.path.join(self.cachePath, "descriptors"))
-                if self.verbosity: print "Cache path is in {}".format(memoized._path)
+                if self.verbosity: print("Cache path is in '{}'".format(memoized._path))
                 self._feature_dict = LazyDict(getter=self.compute_keypoint,
                                               dictionary=memoized)
                 if self.clearCache==3: # All CachePath is cleared
                     self._feature_dict.clear()
-                    if self.verbosity: print "Cache path cleared"
+                    if self.verbosity: print("Cache path cleared")
             else:
                 self._feature_dict = LazyDict(getter=self.compute_keypoint)
             if self.clearCache==2: # check data = 1, recompute = 2
@@ -549,18 +557,18 @@ class ImRestore(object):
                                     self.clearCache==2 and path in self.feature_dict:
                 raise KeyError # clears entry from cache
             kps, desc, pshape = self.feature_dict[path] # thread safe
-            if self.verbosity: print "'{}' is cached...".format(path)
+            if self.verbosity: print("'{}' is cached...".format(path))
             if pshape is None:
-                if self.verbosity: print "Cache is of different format...".format(path)
+                if self.verbosity: print("Cache is of different format...")
                 raise ValueError
             if self.clearCache==1 and pshape != self.process_shape: # check integrity
-                if self.verbosity: print "Cache check not passed...".format(path)
+                if self.verbosity: print("Cache check not passed...")
                 raise ValueError
             else:
-                if self.verbosity: print "Cache checked...".format(path)
+                if self.verbosity: print("Cache checked...")
         except (KeyError, ValueError) as e: # not memorized
             point = Profiler(msg=path, tag="processed")
-            if self.verbosity: print "Processing features for {}...".format(path)
+            if self.verbosity: print("Processing features for '{}'...".format(path))
             if lshape != self.process_shape:
                 img = cv2.resize(img, self.process_shape)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -580,10 +588,10 @@ class ImRestore(object):
                             mask2 = np.ones(img.shape[:2])*255
                             mask2[0,0] = 0 # add lowest value
                             fastplt(mask2, block=True,
-                                    title="{} mask to detect features".format(getData(path)[-2]))
+                                    title="Mask to detect features for '{}'".format(path))
                         else:
                             fastplt(overlay(img.copy(), mask*255, alpha=mask*0.8), block=True,
-                                    title="{} mask to detect features".format(getData(path)[-2]))
+                                    title="Mask to detect features for '{}'".format(path))
                     except:
                         pass
 
@@ -628,7 +636,7 @@ class ImRestore(object):
             fns = self.filenames
             self._feature_list = [] # list of key points and descriptors
             for index, path in enumerate(fns):
-                if self.verbosity: print "\rFeatures {}/{}...".format(index + 1, len(fns)),
+                if self.verbosity: print("\rFeatures {}/{}...".format(index + 1, len(fns)), end=' ')
                 kps, desc, pshape = self.compute_keypoint(path)
                 # number of key-points, index, path, key-points, descriptors
                 self._feature_list.append((len(kps), index, path, kps, desc))
@@ -657,7 +665,7 @@ class ImRestore(object):
         else:
             raise Exception("baseImage must be None, True or String")
 
-        if self.verbosity: print "baseImage is", baseImage
+        if self.verbosity: print("baseImage is", baseImage)
         self.used = [baseImage] # select first image path
         # load first image for merged image
         self.restored = self.load_image(baseImage, self.load_shape)
@@ -680,21 +688,21 @@ class ImRestore(object):
             ########################## Order set initialization #############################
             if self._orderValue: # obtain comparison with structure (value, path)
                 if self._orderValue == 1: # entropy
-                    comparison = zip(*entropy(fns, loadfunc=loadFunc(1, self.process_shape),
-                                              invert=False)[:2])
-                    if self.verbosity: print "Configured to sort by entropy..."
+                    comparison = list(zip(*entropy(fns, loadfunc=loadFunc(1, self.process_shape),
+                                              invert=False)[:2]))
+                    if self.verbosity: print("Configured to sort by entropy...")
                 elif self._orderValue == 2: # histogram comparison
                     comparison = hist_comp(fns, loadfunc=loadFunc(1, self.process_shape),
                                            method=self.selectMethod)
                     if self.verbosity:
-                        print "Configured to sort by {}...".format(self.selectMethod)
+                        print("Configured to sort by '{}'...".format(self.selectMethod))
                 elif self._orderValue == 3:
                     comparison = self.selectMethod(fns)
-                    if self.verbosity: print "Configured to sort by Custom Function..."
+                    if self.verbosity: print("Configured to sort by Custom Function...")
                 else:
                     raise Exception("DEBUG: orderValue {} does "
                         "not correspond to {}".format(self._orderValue, self.selectMethod))
-            elif self.verbosity: print "Configured to sort by best matches"
+            elif self.verbosity: print("Configured to sort by best matches")
             self.comparison = comparison
 
         with TimeCode("Matching ...\n", profiler=self.profiler,
@@ -717,12 +725,12 @@ class ImRestore(object):
 
             ############################ Matching ###############################
             # select only those with good distance (hamming, L1, L2)
-            raw_matches = self.feature.matcher.knnMatch(desc_remain,
+            raw_matches = self.feature.matcher.knnMatch(queryDescriptors = desc_remain,
                             trainDescriptors = self.desc_base, k = 2) #2
             # If path=2, it will draw two match-lines for each key-point.
             classified = {}
             for m in raw_matches:
-                # filter by Hamming, L1 or L2 distance
+                # Apply ratio test as D Lowe suggestion, L1 or L2 distance
                 try:
                     if m[0].distance < m[1].distance * self.distanceThresh:
                         m = m[0]
@@ -744,7 +752,7 @@ class ImRestore(object):
                            in comparison if path in classified]
             else: # order with best matches
                 ordered = sorted([(len(kps), path)
-                            for path, kps in classified.items()], reverse=True)
+                            for path, kps in list(classified.items())], reverse=True)
 
         return ordered, classified
 
@@ -773,9 +781,9 @@ class ImRestore(object):
                 if ordered is None:
                     if self.verbosity:
                         if self.failed:
-                            print "No image remains to merge..."
+                            print("No image remains to merge...")
                         else:
-                            print "All images have been merged..."
+                            print("All images have been merged...")
                     break
 
                 with TimeCode("Merging ...\n", profiler=self.profiler,
@@ -787,21 +795,21 @@ class ImRestore(object):
                     for rank, path in ordered:
                         point = Profiler(msg=path) # profiling point
                         ######################### Calculate Homography ###################
-                        mkp1, mkp2 = zip(*classified[path]) # probably good matches
+                        mkp1, mkp2 = list(zip(*classified[path])) # probably good matches
                         if len(mkp1)>self.minKps and len(mkp2)>self.minKps:
 
                             # get only key-points
                             p1 = np.float32([kp["pt"] for kp in mkp1])
                             p2 = np.float32([kp["pt"] for kp in mkp2])
                             if self.verbosity > 4:
-                                print 'Calculating Homography for {}...'.format(path)
+                                print("Calculating Homography for '{}'...".format(path))
 
                             # Calculate homography of fore over back
                             H, status = cv2.findHomography(p1, p2,
                                         cv2.RANSAC, self.ransacReprojThreshold)
                         else: # not sufficient key-points
                             if self.verbosity > 1:
-                                print 'Not enough key-points for {}...'.format(path)
+                                print("Not enough key-points for '{}'...".format(path))
                             H = None
 
                         # test that there is homography
@@ -826,7 +834,7 @@ class ImRestore(object):
                                 inlines, lines, inlineratio, c.rotatedRectangularity,
                                 ("failed", "succeeded")[Test])
 
-                            if self.verbosity>1: print text
+                            if self.verbosity>1: print(text)
 
                             if self.verbosity > 3: # show matches
                                 MatchExplorer("Match " + text, fore,
@@ -835,7 +843,7 @@ class ImRestore(object):
                             ####################### probability test #####################
                             if Test: # second test
 
-                                if self.verbosity>1: print "Test succeeded..."
+                                if self.verbosity>1: print("Test succeeded...")
                                 while path in self.failed: # clean path in fail registry
                                     try: # race-conditions safe
                                         self.failed.remove(path)
@@ -864,9 +872,9 @@ class ImRestore(object):
                                             set(self.failed) ^
                                             set(self.filenames)))
                     if self.verbosity:
-                        print "Restoration finished, these images do not fit: "
+                        print("Restoration finished, these images do not fit: ")
                         for p in self.failed:
-                            print p
+                            print(p)
 
                     break
 
@@ -923,11 +931,11 @@ class ImRestore(object):
             fn = increment_if_exits(fn)
 
         if cv2.imwrite(fn, self.restored):
-            if self.verbosity: print "Saved: {}".format(fn)
+            if self.verbosity: print("Saved: '{}'".format(fn))
             self.log_saved.append(fn)
             return fn, True
         else:
-            if self.verbosity: print "{} could not be saved".format(fn)
+            if self.verbosity: print("'{}' could not be saved".format(fn))
             return fn, False
 
     def merge(self, path, H, shape = None):
@@ -949,7 +957,7 @@ class ImRestore(object):
         if self.histMatch: # apply histogram matching
             fore = hist_match(fore, self.restored)
 
-        if self.verbosity > 1: print "Merging..."
+        if self.verbosity > 1: print("Merging...")
 
         # process expert alpha mask if alpha was not provided by the user
         if self.expert is not None:
@@ -1026,7 +1034,7 @@ class ImRestore(object):
             alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
 
         if self.verbosity > 3: # show merging result
-            fastplt(alpha, title="alpha mask from {}".format(path), block=True)
+            fastplt(alpha, title="alpha mask from '{}'".format(path), block=True)
 
         self.restored = overlay(self.restored, fore, alpha) # overlay fore on top of back
 
@@ -1034,12 +1042,12 @@ class ImRestore(object):
             H_fore = H
 
         if self.verbosity > 4: # show merging result
-            Plotim("Last added from {}".format(path), self.restored).show()
+            Plotim("Last added from '{}'".format(path), self.restored).show()
 
         ####################### update base features #######################
         self.transformations[path] = (H_back, H_fore)
         # make projection to test key-points inside it
-        if self.verbosity > 1: print "Updating key-points..."
+        if self.verbosity > 1: print("Updating key-points...")
         # fore projection in restored image
         projection = getTransformedCorners(fore.shape[:2], H_fore)
         # update key-points
@@ -1072,7 +1080,7 @@ class ImRestore(object):
                        im2shapeFormat(self.restored, self.restored.shape[:2]+(3,)),
                               [dict2keyPoint(index) for index in self.kps_base],
                               flags=4, color=(0, 0, 255))).show()
-        if self.verbosity: print "This image has been merged: {}...".format(path)
+        if self.verbosity: print("This image has been merged: {}...".format(path))
         self.used.append(path) # update used
 
         return self.restored
@@ -1215,16 +1223,16 @@ class RetinalRestore(ImRestore):
             # convert to gray
             gray = brightness(image)
             # get object mask
-            mask = foreground(gray)
+            mask = foreground(gray,iterations=1)
             # get contour of biggest area
             cnt = thresh_biggestCnt(mask)
             # get enclosure box
             x, y, w, h = cv2.boundingRect(cnt)
             # crop image
             if len(image.shape)>2:
-                image = image[x:x+w, y:y+h, :]
+                image = image[y:y+h,x:x+w, :]
             else:
-                image = image[x:x+w, y:y+h]
+                image = image[y:y+h,x:x+w]
 
         return image
 
@@ -1281,7 +1289,7 @@ def denoise_creator(string):
     return denoiser
 
 
-def shell(args=None, namespace=None):
+def shell(args=None, namespace=None, restorers = None):
     """
     Shell to run in terminal the imrestore program
 
@@ -1289,10 +1297,28 @@ def shell(args=None, namespace=None):
             arguments in sys.
     :param namespace: (None) namespace to place variables. If None
             it creates a namespace.
+    :param restorers: List of restoring classes that can be used. By default
+            it has ImRestore and RetinalRestore
     :return: namespace
     """
     if namespace is None:
         namespace = NameSpace()
+
+    # make default restorer list
+    if restorers is None:
+        restorers = []
+    else:
+        restorers = list(restorers)
+    restorers.extend((ImRestore,RetinalRestore)) # add default restorers
+
+    # extract restorer names
+    restorers_names = []
+    try:
+        for restorer in restorers:
+            restorers_names.append(restorer.__name__) # get class name
+    except:
+        raise Exception("Restorer in the restorer list must be class")
+
     import argparse
     parser = argparse.ArgumentParser(formatter_class = argparse.RawDescriptionHelpFormatter,
                                      description = "Restore images by merging and stitching "
@@ -1353,7 +1379,7 @@ def shell(args=None, namespace=None):
                             'x, y" where colorflag is -1, 0, 1 for BGRA, gray and BGR images '
                             'and the load shape are represented by x and y. '
                             'Ex 1: "0, 100, 100" loads gray images of shape (100, 100) in '
-                            'gray scale. Ex 2: "1" loads images in BGR color and with '
+                            'gray scale. Ex 2: "1," loads images in BGR color and with '
                             'original shapes. Ex 3: "0, 200, None" loads gray images of shape '
                             '(200, None) where None is calculated to keep image ratio.')
     parser.add_argument('-p', '--process_shape', default=(400, 400), type=string_interpreter(),
@@ -1448,7 +1474,7 @@ def shell(args=None, namespace=None):
 
     # debugger
     if debug:
-        print "debug ON."
+        print("debug ON.")
         import pdb; pdb.set_trace()
 
     # this is needed because the shell process wildcards before it gets to argparse
@@ -1456,23 +1482,28 @@ def shell(args=None, namespace=None):
     # to prevent this behaviour
     if len(args['filenames'])>1:
         args['filenames'] = [p for p in args['filenames'] if check_valid(p) or "*" in p]
-    else:
+    elif len(args['filenames'])==1:
         args['filenames'] = args['filenames'][0]
+    else:
+        raise Exception("Not images provided")
 
     # print parsed arguments
     if args['verbosity']>1:
-        print "Parsed Arguments\n", args
+        print("Parsed Arguments\n", args)
 
     # use configuration
     use_restorer = args.pop("restorer")
-    if use_restorer == 'RetinalRestore':
-        if args['verbosity']: print "Configured for retinal restoration..."
-        self = RetinalRestore(**args)
-    elif use_restorer == 'ImRestore':
-        if args['verbosity']: print "Configured for general restoration..."
-        for key in ['enclose', 'lens']:
-            args.pop(key) # clean up unused key
-        self = ImRestore(**args)
+
+    #TODO infering what additional methods have each class and automatically handling them
+    if use_restorer in restorers_names:
+        index = restorers_names.index(use_restorer)
+        if use_restorer == 'RetinalRestore':
+            if args['verbosity']: print("Configured for retinal restoration...")
+        elif use_restorer == 'ImRestore':
+            if args['verbosity']: print("Configured for general restoration...")
+            for key in ['enclose', 'lens']:
+                args.pop(key) # clean up unused key
+        self = restorers[index](**args)
     else:
         raise Exception("no restoration class called {}".format(use_restorer))
 
@@ -1481,9 +1512,9 @@ def shell(args=None, namespace=None):
         namespace.restorer = self
 
     if console:
-        print "interactive ON."
-        print "restoring instance is 'namespace.restorer' or 'self'"
-        print "Ex: type 'self.restore()' to proceed with restoration."
+        print("interactive ON.")
+        print("restoring instance is 'namespace.restorer' or 'self'")
+        print("Ex: type 'self.restore()' to proceed with restoration.")
         import code; code.interact(local=locals())
     elif onlykeys:
         self.compute_keypoints()
@@ -1495,5 +1526,9 @@ def shell(args=None, namespace=None):
 
 if __name__ == "__main__":
     shell() # run the shell
+    #shell(" tests/im1* --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --grow_scene --denoise mild --lens --enclose --restorer RetinalRestore".split())
+    #shell(' /home/davtoh/Downloads/test/*.jpg --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --restorer RetinalRestore'.split())
+    #shell("-z ImRestore /home/davtoh/Downloads/test/*.jpg -g -l 800,800 -t".split())
+    #shell("tests/im1*".split()) # run this for testing
     # TODO visualizator for alpha mask
     # TODO implement standard deviation in bright areas to detect optic disk

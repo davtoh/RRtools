@@ -1,9 +1,12 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
 __author__ = 'Davtoh'
 
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
-from tesisfunctions import brightness, IMAGEPATH,graphpolygontest,thresh_biggestCnt,\
+from .tesisfunctions import brightness, IMAGEPATH,graphpolygontest,thresh_biggestCnt,\
     CircleClosure,twoMaxTest,graphDeffects,extendedSeparatingLine
 
 
@@ -18,7 +21,7 @@ P = brightness(fore)
 thresh,lastthresh = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 Plotim(name + " overlayed lastthresh", overlay(fore.copy(), lastthresh * 255, alpha=lastthresh * 0.2)).show()
 
-for i in xrange(2): # test multiple applications to results
+for i in range(2): # test multiple applications to results
     # SIMULATE polygon test
     dist_transform = cv2.distanceTransform(lastthresh,cv2.DIST_LABEL_PIXEL,5)
     dist_transform[lastthresh==0] = -1 # simulate outside points
@@ -27,7 +30,7 @@ for i in xrange(2): # test multiple applications to results
     cx,cy = center
     centerVal = dist_transform[cy,cx]
 
-    print "center: ", center, " Value: ", centerVal
+    print("center: ", center, " Value: ", centerVal)
     graph.show()
     overcircle = np.zeros_like(lastthresh,np.uint8)
     cv2.circle(overcircle,center,centerVal,1,-1)

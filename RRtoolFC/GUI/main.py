@@ -1,3 +1,5 @@
+from __future__ import print_function
+from past.builtins import execfile
 import sys
 from collections import OrderedDict
 from pyqtgraph.Qt import QtCore, QtGui # import GUI libraries
@@ -102,7 +104,7 @@ class GUIRRTool(QtGui.QMainWindow):
         if namespace is None:
             namespace = RRtoolnamespace
         if flowchart is None:
-            fcs = [fc for fc in namespace.itervalues() if isFlowChar(fc)]
+            fcs = [fc for fc in namespace.values() if isFlowChar(fc)]
             if fcs:
                 if len(fcs)>1:
                     raise Exception("{} flowcharts not supported: {}".format(len(fcs),fcs))
@@ -179,7 +181,7 @@ class GUIRRTool(QtGui.QMainWindow):
         """
         menuHandles = OrderedDict()
         actionHandles = OrderedDict()
-        for menupath,actions in menuDescriptors.iteritems():
+        for menupath,actions in menuDescriptors.items():
             temp = [menubar]
             for i,menu in enumerate(menupath):
                 hash = menupath[:i+1]
@@ -200,7 +202,7 @@ class GUIRRTool(QtGui.QMainWindow):
                         Action.triggered.connect(method)
                     else:
                         Action.setEnabled(False)
-                        print "{} is not implemented!".format(method)
+                        print("{} is not implemented!".format(method))
                 menu.addAction(Action) # add to handle
                 actionH.append(Action)
             actionHandles[hash] = actionH
@@ -296,7 +298,7 @@ class GUIRRTool(QtGui.QMainWindow):
         if namespace is None:
             namespace = RRtoolnamespace
         if flowchart is None:
-            fcs = [fc for fc in namespace.itervalues() if isFlowChar(fc)]
+            fcs = [fc for fc in namespace.values() if isFlowChar(fc)]
             if fcs:
                 if len(fcs)>1:
                     raise Exception("{} flowcharts not supported: {}".format(len(fcs),fcs))

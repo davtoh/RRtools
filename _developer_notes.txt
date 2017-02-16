@@ -1,3 +1,8 @@
+########################### LOG
+- scripts were written in python 2 and ported to python 3 with back compatibility using
+$ find . -name "*.py" | xargs -I{} futurize --both-stages -w -n {}
+# see how to create a setup.py file from example https://github.com/mkrphys/ipython-tikzmagic 
+########################### NOTEs
 do not use __dict__ to not overlook custom setters
 
 *Threat http://stackoverflow.com/questions/1865727/how-to-design-an-application-in-a-modular-way

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -18,7 +19,7 @@ class tooldemo(QMainWindow):
       self.setWindowTitle("toolbar demo")
 
    def toolbtnpressed(self,a):
-      print "pressed tool button is",a.text()
+      print("pressed tool button is",a.text())
 
 def main():
    app = QApplication(sys.argv)

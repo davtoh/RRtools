@@ -1,10 +1,13 @@
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
 __author__ = 'Davtoh'
 
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
-import tesisfunctions as tf
-from tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,filterFactory,graphpolygontest
+from . import tesisfunctions as tf
+from .tesisfunctions import sigmoid,histogram,brightness,getthresh,threshold,pad,filterFactory,graphpolygontest
 
 #http://stackoverflow.com/questions/14725181/speed-up-iteration-over-numpy-arrays-opencv-cv2-image
 #http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_contours/py_contour_features/py_contour_features.html
@@ -36,7 +39,7 @@ plotc = Plotim(name + " brightness", P)
 plotc.show()
 
 thresh,sure_bg = cv2.threshold(P,0,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU) # obtain over threshold
-print thresh
+print(thresh)
 dist_transform = cv2.distanceTransform(sure_bg,cv2.DIST_LABEL_PIXEL,5)
 ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),1,0)  # obtain under threshold
 
@@ -65,17 +68,17 @@ plotc.show()
 
 # find biggest area
 contours,hierarchy = cv2.findContours(lastthresh.copy(),cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-print "objects: ",len(contours)
+print("objects: ",len(contours))
 index = 0
 maxarea = 0
 #objectarea = np.sum(lastthresh)
-for i in xrange(len(contours)):
+for i in range(len(contours)):
     area = cv2.contourArea(contours[i])
     if area>maxarea:
         index = i
         maxarea = area
 
-print "area contour:",maxarea,"index: ",index
+print("area contour:",maxarea,"index: ",index)
 cnt = contours[index]
 
 """

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -17,7 +18,7 @@ else:
     pts1 = pts2
 
 M = cv2.getPerspectiveTransform(pts1,pts2)
-print M.shape
+print(M.shape)
 dst = cv2.warpPerspective(img,M,(cols,rows))
 
 plt.subplot(121),plt.imshow(img),plt.title('Input')

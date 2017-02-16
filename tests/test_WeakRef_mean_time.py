@@ -1,4 +1,5 @@
 from __future__ import division
+from builtins import range
 from random import random
 from time import time, sleep
 import pylab as plt

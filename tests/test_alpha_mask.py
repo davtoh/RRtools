@@ -1,10 +1,12 @@
+from __future__ import print_function
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 
 import time
 
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
-from tesisfunctions import normsigmoid,normalize
+from .tesisfunctions import normsigmoid,normalize
 
 fn1 = r'im1_1.jpg'
 fn2 = r"asift2fore.png"
@@ -21,7 +23,7 @@ b = normsigmoid(foregray,3.14,50)
 b[b<0.1]=0
 foremask = a*b*normsigmoid(foregray,20,112)
 window = normalize(fore[:,:,3].copy())
-print time.time()-t1
+print(time.time()-t1)
 plot = Plotim("foremask", foremask)
 plot.show()
 plot = Plotim("backmask", backmask)

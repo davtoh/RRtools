@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import object
 from RRtoolbox.lib.cache import MemoizedDict,mapper, memoize
 from RRtoolbox.lib.session import saveSession,updateSession,readSession
 from RRtoolbox.lib.root import TimeCode
@@ -30,16 +32,16 @@ def test2(saveTo = "/mnt/4E443F99443F82AF/restoration_data2/"):
 #descriptors,shapes,data = test2()
 
 mydict = MemoizedDict("mydict")
-class textOp:
+class textOp(object):
     pass
 
 if "TextOp" not in mydict:
-    print "inserting TextOp"
+    print("inserting TextOp")
     mydict["TextOp"] = textOp()
 
-print mydict
+print(mydict)
 #memoize.ignore = [tomemoize] # or it can be tomemoize_old
 v = "something"
-print v, tomemoize(v), tomemoize_processed
+print(v, tomemoize(v), tomemoize_processed)
 
 

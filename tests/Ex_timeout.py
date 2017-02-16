@@ -1,3 +1,5 @@
+from __future__ import print_function
+from builtins import object
 import signal
 import time
 # https://pythonadventures.wordpress.com/2012/12/08/raise-a-timeout-exception-after-x-seconds/
@@ -9,7 +11,7 @@ def test_request(arg=None):
     time.sleep(2)
     return arg
  
-class Timeout():
+class Timeout(object):
     """Timeout class using ALARM signal."""
     class Timeout(Exception):
         pass
@@ -31,11 +33,11 @@ def main():
     # Run block of code with timeouts
     try:
         with Timeout(3):
-            print test_request("Request 1")
+            print(test_request("Request 1"))
         with Timeout(1):
-            print test_request("Request 2")
+            print(test_request("Request 2"))
     except Timeout.Timeout:
-        print "Timeout"
+        print("Timeout")
 
 if __name__ == "__main__":
     main()

@@ -7,6 +7,8 @@
 #
 # WARNING! All changes made in this file will be lost!
  #https://gist.github.com/FichteFoll/5477908
+from __future__ import print_function
+from builtins import object
 from PyQt4 import QtCore, QtGui
 
 try:

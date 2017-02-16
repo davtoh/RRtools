@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 __author__ = 'Davtoh'
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_histograms/py_histogram_equalization/py_histogram_equalization.html
 # http://opencvpython.blogspot.com.co/2013/03/histograms-2-histogram-equalization.html
 # http://stackoverflow.com/a/31493356/5288758
 import cv2
 import numpy as np
-from tesisfunctions import graphHistogram, Plotim, equalization
+from .tesisfunctions import graphHistogram, Plotim, equalization
 from matplotlib import pyplot as plt
 
 img = cv2.imread(r'im1_1.jpg',0)

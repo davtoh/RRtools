@@ -3,6 +3,8 @@
     This module unlike common and basic array operations classifies just the from-to-conversions methods
 """
 from __future__ import division
+from builtins import map
+from builtins import object
 import numpy as np
 import cv2
 __author__ = 'Davtoh'
@@ -175,7 +177,7 @@ def dict2keyPoint(d, func = cv2.KeyPoint):
     """ KeyPoint([x, y, _size[, _angle[, _response[, _octave[, _class_id]]]]]) -> <KeyPoint object> """
     return func(*(d["pt"][0],d["pt"][1],d["size"],d["angle"], d["response"],d["octave"], d["class_id"]))
 
-class SimKeyPoint:
+class SimKeyPoint(object):
     """
     Simulates opencv keypoint (it allows manipulation, conversion and serialization of keypoints).
 

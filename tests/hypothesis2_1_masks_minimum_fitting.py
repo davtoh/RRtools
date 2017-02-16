@@ -1,9 +1,12 @@
+from __future__ import division
+from __future__ import absolute_import
+from past.utils import old_div
 __author__ = 'Davtoh'
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_video/py_meanshift/py_meanshift.html
-from tesisfunctions import Plotim,overlay
+from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np
-import tesisfunctions as tf
+from . import tesisfunctions as tf
 
 fn1 = r'im1_2.jpg'
 #fn1 = tf.IMAGEPATH+r"cellphone_retinal/ALCATEL ONE TOUCH IDOL X/left_DAVID/IMG_20150730_115534_1.jpg"
@@ -60,7 +63,7 @@ cv2.imshow('img2',frame)
 noclose = True
 maxcount = 50
 count = 0
-while(np.sum(mask[ROI==1]==0)/np.sum(ROI).astype(float)<=percent): # np.all(mask[ROI==1])
+while(old_div(np.sum(mask[ROI==1]==0),np.sum(ROI).astype(float))<=percent): # np.all(mask[ROI==1])
     # np.sum(mask[ROI==1]==0)/np.sum(ROI).astype(float)<=percent
     frame = fore.copy()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

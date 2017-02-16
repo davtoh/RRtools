@@ -1,10 +1,12 @@
 """
 Trying to threshold only the arteries from a retinal image, silly idea
 """
+from __future__ import absolute_import
+from builtins import range
 __author__ = 'Davtoh'
 
 import cv2
-from tesisfunctions import Plotim
+from .tesisfunctions import Plotim
 
 fn1 = 'im1_2.jpg'
 fore = cv2.imread(fn1)
@@ -15,8 +17,8 @@ fr = fore[:,:,2]
 fgray = cv2.cvtColor(fore,cv2.COLOR_BGR2GRAY)
 
 
-for i in xrange(fore.shape[1]): # rows
-    for j in xrange(fore.shape[0]): # columns
+for i in range(fore.shape[1]): # rows
+    for j in range(fore.shape[0]): # columns
         b,g,r = fb.item(j, i),fg.item(j, i),fr.item(j, i)
         if (b-g)>0 and r>g and r>b and b>70 and g>70:
             cv2.circle(fore, (i,j), 1, (0, 0, 255), -1, 8)

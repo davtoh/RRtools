@@ -1,6 +1,8 @@
+from __future__ import absolute_import
+from builtins import zip
 __author__ = 'Davtoh'
 
-from tesisfunctions import hist_cdf
+from .tesisfunctions import hist_cdf
 
 import cv2
 import csv
@@ -20,7 +22,7 @@ for fn in imlist:
         data.append(list(hist))
         headers.append(fn+names[i]+"cdf")
         data.append(list(cdf))
-data = zip(*data)
+data = list(zip(*data))
 data.insert(0,headers)
 with open('experimental_data.csv', 'wb') as csvfile:
     wr = csv.writer(csvfile, delimiter=";", dialect='excel')

@@ -2,7 +2,10 @@
 Demonstrates the sys.getsizeof (to get memory size of an object) with numpy arrays in comparison with the actual
 computer RAM memory used by the program. It is to confirm that sys.getsizeof as a memory profiler fro WeakREf.py
 """
+from __future__ import division
+from __future__ import print_function
 
+from past.utils import old_div
 import os, datetime
 import pylab as plt
 import sys
@@ -13,7 +16,7 @@ import numpy as np
 
 def memory_usage_psutil():
     process = psutil.Process(os.getpid())
-    mem = process.memory_info().rss / float(2 ** 20)
+    mem = old_div(process.memory_info().rss, float(2 ** 20))
     return mem
 
 mem_sys = []
@@ -31,7 +34,7 @@ psutil_timing = (datetime.datetime.now() - start).total_seconds()
 start = datetime.datetime.now()
 for i in r:
     a = np.ones((100*i, 100*i))
-    mem_sys.append(sys.getsizeof(a) / float(2 ** 20)) # getting MB
+    mem_sys.append(old_div(sys.getsizeof(a), float(2 ** 20))) # getting MB
 sys_timing = (datetime.datetime.now() - start).total_seconds()
 
 barWidth = 5
@@ -45,9 +48,9 @@ plt.show()
 
 #norm_resource = np.array(mem_sys, np.float32)/np.sum(mem_sys)
 #norm_psutil = np.array(mem_psutil, np.float32)/np.sum(mem_psutil)
-print "used memory (sys): ",np.sum(mem_sys)
-print "used memory (psutil): ",np.sum(mem_psutil)
-print "pid: ",os.getpid()
+print("used memory (sys): ",np.sum(mem_sys))
+print("used memory (psutil): ",np.sum(mem_psutil))
+print("pid: ",os.getpid())
 plt.plot(mem_sys, color='blue', label='sys', lw=4)
 plt.plot(mem_psutil, color='red', label='psutil', lw=4)
 plt.legend(loc='upper left')

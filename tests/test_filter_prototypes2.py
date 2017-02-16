@@ -1,12 +1,15 @@
+from __future__ import division
+from __future__ import absolute_import
+from past.utils import old_div
 __author__ = 'Davtoh'
 
-from tesisfunctions import histogram,graphmath,filterFactory,normsigmoid,graph_filter
+from .tesisfunctions import histogram,graphmath,filterFactory,normsigmoid,graph_filter
 import numpy as np
 
 def enhancer(alfa1,alfa2,beta1,beta2=None):
     def filter(levels):
         #return np.log(levels)
-        return 1/(np.exp((beta1-levels)/alfa1)+1)+1/(np.exp((beta2-levels)/alfa2)+1)
+        return old_div(1,(np.exp(old_div((beta1-levels),alfa1))+1))+old_div(1,(np.exp(old_div((beta2-levels),alfa2))+1))
         #return (normsigmoid(levels,alfa,0+beta1)+normsigmoid(levels,alfa,255-beta2))/1.7
 
     return filter

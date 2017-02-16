@@ -1,3 +1,6 @@
+from __future__ import division
+from __future__ import print_function
+from past.utils import old_div
 import sys
 import os
 import utils
@@ -28,7 +31,7 @@ class SlideShowPics(QtGui.QMainWindow):
         # Centre UI
         screen = QtGui.QDesktopWidget().screenGeometry(self)
         size = self.geometry()
-        self.move((screen.width()-size.width())/2, (screen.height()-size.height())/2)
+        self.move(old_div((screen.width()-size.width()),2), old_div((screen.height()-size.height()),2))
         self.setStyleSheet("QWidget{background-color: #000000;}")
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         self.buildUi()
@@ -96,7 +99,7 @@ def main(paths):
     elif isinstance(paths, str):
         imgLst =  utils.imageFilePaths([paths])
     else:
-        print " You can either enter a list of paths or single path"
+        print(" You can either enter a list of paths or single path")
     app = QtGui.QApplication(sys.argv)
     if imgLst:
         window =  SlideShowPics(imgLst)

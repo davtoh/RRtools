@@ -1,3 +1,6 @@
+from __future__ import print_function
+from builtins import input
+from builtins import object
 from RRtoolbox.lib.image import loadFunc, ImLoader, convertAs
 from RRtoolbox.lib.plotter import fastplt
 from RRtoolbox.lib.config import MANAGER
@@ -9,7 +12,7 @@ import sys,os
 import cv2
 path = MANAGER["TESTPATH"] + r"im1_1.jpg"
 
-class ima:
+class ima(object):
     # TEST mapper! it was demostrated that first saved data is returned regardlest that data was changed
     # (that's because only path to map file is given and not the other arguments)
     im = None
@@ -35,14 +38,14 @@ if False: # example test
     interpolation=0#None
     loader = loadFunc(flag=flag,dsize=dsize,dst=dst,fx=fx,fy=fy,interpolation=interpolation)
     img = loader(path)
-    print img.shape
+    print(img.shape)
 
 if False: # print interpolation flag values
-    print cv2.INTER_NEAREST
-    print cv2.INTER_LINEAR
-    print cv2.INTER_CUBIC
-    print cv2.INTER_AREA
-    print cv2.INTER_LANCZOS4
+    print(cv2.INTER_NEAREST)
+    print(cv2.INTER_LINEAR)
+    print(cv2.INTER_CUBIC)
+    print(cv2.INTER_AREA)
+    print(cv2.INTER_LANCZOS4)
 
 if False: # mmapped test of loading the same mapped file
     f = loadFunc(interpolation=cv2.INTER_NEAREST)
@@ -56,7 +59,7 @@ if False: # mmapped test of loading the same mapped file
         while True:
             images.append(f(path))
             #fastplt(images[-1])
-            if raw_input("continue? (y/n)") in ("n","not"):
+            if input("continue? (y/n)") in ("n","not"):
                 break
 
 if False: # load numpy array test
@@ -76,12 +79,12 @@ if True:
     """
     successes = [(k,nk) for k,v,nk in stats if not v]
     if successes:
-        print "These succeeded:"
+        print("These succeeded:")
         for s,ns in successes:
-            print s, "as", ns
+            print(s, "as", ns)
 
     fails = [k for k,v,nk in stats if v]
     if fails:
-        print "These failed:"
+        print("These failed:")
         for failed in fails:
-            print failed
+            print(failed)

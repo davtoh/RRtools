@@ -1,7 +1,10 @@
 """
 crop input images and save them
 """
+from __future__ import print_function
 
+from builtins import input
+from past.builtins import basestring
 from RRtoolFC.GUI.forms import getROI
 from RRtoolbox.lib.directory import getData, increment_if_exits, getPath, mkPath
 from RRtoolbox.lib.image import loadFunc
@@ -43,7 +46,7 @@ def crops(fn, outpath = None, loader=None, preview=None,
             start = True
         if start:
             image = loader(impath).astype(np.float32)
-            print "loaded",impath
+            print("loaded",impath)
             cropping = True
             a,b,c,d = getData(impath)
 
@@ -68,7 +71,7 @@ def crops(fn, outpath = None, loader=None, preview=None,
                     # save ROI
                     fn = increment_if_exits(os.path.join(outpath2,"{}{}".format(c,d)),force=True)
                     if cv2.imwrite(fn, roi.getArrayRegion(image, imgla)):
-                        print "Saved: {}".format(fn)
+                        print("Saved: {}".format(fn))
                     else:
                         "{} could not be saved".format(fn)
                         fn = None
@@ -76,7 +79,7 @@ def crops(fn, outpath = None, loader=None, preview=None,
                 if append:
                     ops.append((imgla,fn))
 
-                if raw_input("continue?(y,n)").lower() in ("n","not","no"):
+                if input("continue?(y,n)").lower() in ("n","not","no"):
                     cropping = False
 
     return roi,ops
