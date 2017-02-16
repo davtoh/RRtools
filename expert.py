@@ -255,9 +255,9 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
     :param help: help the user by providinf some coordinates (experimental)
     :return: ROI object, list of transformations
     """
-    from .RRtoolFC.GUI.forms import getROI
+    from RRtoolFC.GUI.forms import getROI
     #from RRtoolbox.lib.arrayops import foreground
-    from .RRtoolbox.tools.segmentation import retinal_mask
+    from RRtoolbox.tools.segmentation import retinal_mask
 
     imsets = glob(fn) # only folders
     if preview is None:
@@ -373,7 +373,7 @@ if False and __name__ == "__main__": # for a folder with many sets
 
 
 
-if __name__ == "__main__": # for a folder with many sets
+if False and __name__ == "__main__": # for a folder with many sets
     """
     Example using crop_expert function: generate expert data from X image and save
     perspectives in another path with expert data along.

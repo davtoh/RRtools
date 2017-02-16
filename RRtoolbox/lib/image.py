@@ -1647,7 +1647,7 @@ class GetCoors(Plotim):
                 data = self.mapdata2[self.data2[self.ry,self.rx]]
                 if not isnear and data is not None:
                     self.coordinateText = [[data]]
-            self.builtinplot(self.data[self.y,self.x])
+            self.builtinplot(self.data[int(self.y),int(self.x)])
 
 def getcoors(im, win ="get coordinates", updatefunc=drawcoorpoints, coors = None, prox=8, radius = 3, unique=True, col_out=black, col_in=red):
     self = GetCoors(im, win, updatefunc, unique=unique, col_out=col_out, col_in=col_in)
