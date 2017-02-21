@@ -1298,7 +1298,7 @@ def shell(args=None, namespace=None, restorers = None):
     :param namespace: (None) namespace to place variables. If None
             it creates a namespace.
     :param restorers: List of restoring classes that can be used. By default
-            it has ImRestore and RetinalRestore
+            it have ImRestore and RetinalRestore
     :return: namespace
     """
     if namespace is None:

@@ -5,7 +5,7 @@ from pyqtgraph.flowchart import Node
 from pyqtgraph.flowchart.library.common import CtrlNode
 from RRtoolbox.lib.inspector import funcData
 
-# TODO: see info under mylibs to come up with a way to convert functions to flowchar nodes.
+# TODO: see info under sharedlibs to come up with a way to convert functions to flowchar nodes.
 
 class NodeGenerator(object):
     """
