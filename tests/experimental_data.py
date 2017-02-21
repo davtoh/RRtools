@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from builtins import zip
-__author__ = 'Davtoh'
+
 
 from .tesisfunctions import hist_cdf
 

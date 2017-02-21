@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from builtins import input
 from past.builtins import basestring
 from builtins import object
-__author__ = 'Davtoh'
+
 
 import os
 

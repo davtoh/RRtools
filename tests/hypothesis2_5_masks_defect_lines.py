@@ -3,7 +3,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 import cv2
 import numpy as np
 from RRtoolbox.lib.directory import getData,mkPath

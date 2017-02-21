@@ -2,7 +2,7 @@ from __future__ import division
 from __future__ import print_function
 from builtins import range
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 import cv2
 from tesisfunctions import Plotim,overlay,padVH
 import numpy as np

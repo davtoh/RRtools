@@ -17,7 +17,7 @@ from __future__ import absolute_import
 from builtins import zip
 from builtins import range
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 
 import cv2
 import matplotlib.animation as animation

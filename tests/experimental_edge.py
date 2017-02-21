@@ -1,5 +1,5 @@
 from builtins import zip
-__author__ = 'Davtoh'
+
 
 import os
 import csv

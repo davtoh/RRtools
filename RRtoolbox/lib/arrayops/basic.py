@@ -58,7 +58,7 @@ except:
 
         return arr_out
 
-__author__ = 'Davtoh'
+
 
 ################## OVERLAY
 

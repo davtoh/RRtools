@@ -33,7 +33,7 @@ else:
             raise exc_value.with_traceback(exc_traceback)
         raise exc_value
 
-__author__ = 'Davtoh'
+
 
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 # FLAGS
@@ -269,7 +269,7 @@ class ConfigTool(object):
 
     # CONTENTS
     _init_tool = _FileDirectory(["""
-    __author__ = 'Davtoh'
+
     import sys
     sys.path.append('""", MANAGER["LIBPATH"],"""')
     sys.path.append('""", MANAGER["MAINPATH"],"""')"""]
@@ -278,7 +278,7 @@ class ConfigTool(object):
                             , path = MANAGER["TOOLPATH"])
 
     _init_box = _FileDirectory(["""
-    __author__ = 'Davtoh'
+
     import sys
     sys.path.append('""", MANAGER["LIBPATH"],"""')
     sys.path.append('""", MANAGER["TOOLPATH"],"""')"""]

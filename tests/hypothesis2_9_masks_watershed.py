@@ -1,7 +1,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range
-__author__ = 'Davtoh'
+
 
 from .tesisfunctions import Plotim,overlay
 import cv2

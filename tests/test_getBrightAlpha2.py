@@ -2,7 +2,7 @@
 test the alfa mask created to merge two retinal images
 """
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 
 from .tesisfunctions import filterFactory,normsigmoid,graph_filter, normalize, histogram,getOtsuThresh
 from RRtoolbox.lib.arrayops import Bandpass, FilterBase,Bandstop,Bandpass

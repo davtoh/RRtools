@@ -41,7 +41,7 @@ import matplotlib.axes
 import matplotlib.figure
 from .plotter import Plotim, limitaxis
 from .serverServices import parseString, string_is_socket_address
-__author__ = 'Davtoh'
+
 
 supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png","pbm","pgm","ppm","sr","ras","tiff","tif")
 

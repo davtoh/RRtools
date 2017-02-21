@@ -7,7 +7,7 @@ from builtins import map
 from builtins import object
 import numpy as np
 import cv2
-__author__ = 'Davtoh'
+
 """
 #im1: object image, im2: scenery image
 Tpt = cv2.perspectiveTransform(np.float32([[point]]), H) # point: [col,row] -> [x,y]

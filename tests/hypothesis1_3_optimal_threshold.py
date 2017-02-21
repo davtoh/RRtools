@@ -4,7 +4,7 @@
 from __future__ import print_function
 from __future__ import absolute_import
 # TODO, complete
-__author__ = 'Davtoh'
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt

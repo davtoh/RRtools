@@ -17,7 +17,7 @@ import numpy as np
 from .root import TimeOutException, TransferExeption
 from .config import FLAG_DEBUG, serializer
 
-__author__ = 'Davtoh'
+
 
 host ='localhost'
 port = 50007

@@ -4,7 +4,7 @@
 from __future__ import division
 from __future__ import absolute_import
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt

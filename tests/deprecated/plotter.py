@@ -40,7 +40,7 @@ from matplotlib import gridspec
 from string import Formatter
 formater = Formatter() # string formatter str.format
 #from fastplt import fastplt as _fastplt
-__author__ = 'Davtoh'
+
 wins = [0] # keeps track of image number through different processes
 #plt.rcParams['image.cmap'] = 'gray'  # change default colormap
 

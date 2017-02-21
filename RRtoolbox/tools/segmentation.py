@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 
 import cv2
 import numpy as np

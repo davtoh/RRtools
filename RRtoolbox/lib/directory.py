@@ -16,7 +16,7 @@ from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 from builtins import range
-__author__ = 'Davtoh'
+
 
 import os, sys
 from functools import wraps

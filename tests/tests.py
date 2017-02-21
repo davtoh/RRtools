@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from builtins import range
-__author__ = 'Davtoh'
+
 
 import numpy as np
 

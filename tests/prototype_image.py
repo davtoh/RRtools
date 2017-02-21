@@ -31,7 +31,7 @@ from collections import MutableSequence
 from directory import getData,strdifference,changedir, checkFile, getFileHandle
 import matplotlib.axes
 import matplotlib.figure
-__author__ = 'Davtoh'
+
 
 supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png","pbm","pgm","ppm","sr","ras","tiff","tif")
 

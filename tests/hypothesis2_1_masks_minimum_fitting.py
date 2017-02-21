@@ -1,7 +1,7 @@
 from __future__ import division
 from __future__ import absolute_import
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_video/py_meanshift/py_meanshift.html
 from .tesisfunctions import Plotim,overlay
 import cv2

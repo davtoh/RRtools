@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 
 from .tesisfunctions import filterFactory,normsigmoid,graph_filter
 from RRtoolbox.lib.arrayops import Bandpass

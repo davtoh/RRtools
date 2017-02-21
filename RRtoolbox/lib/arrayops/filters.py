@@ -16,7 +16,7 @@ except ImportError: # if not sympy installed
 #from RRtoolbox.lib.cache import memoize
 #from RRtoolbox.lib.config import MANAGER
 
-__author__ = 'Davtoh'
+
 
 #@memoize(MANAGER["TEMPPATH"]) # convert cv2.bilateralfilter to memoized bilateral filter
 def bilateralFilter(im,d,sigmaColor,sigmaSpace):

@@ -3,7 +3,7 @@ Trying to threshold only the arteries from a retinal image, silly idea
 """
 from __future__ import absolute_import
 from builtins import range
-__author__ = 'Davtoh'
+
 
 import cv2
 from .tesisfunctions import Plotim

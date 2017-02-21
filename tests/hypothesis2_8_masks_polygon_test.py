@@ -2,7 +2,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 from .tesisfunctions import Plotim,overlay
 import cv2
 import numpy as np

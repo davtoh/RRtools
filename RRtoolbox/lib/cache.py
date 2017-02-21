@@ -66,7 +66,7 @@ __license__ = """
     of this software, even if advised of the possibility of such damage.
 
 """
-__author__ = 'Davtoh'
+
 ## READ: https://wiki.python.org/moin/PythonDecoratorLibrary
 
 import joblib

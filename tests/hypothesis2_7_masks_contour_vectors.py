@@ -4,7 +4,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import zip
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 from .tesisfunctions import Plotim,overlay,polygontest, polycenter, graphpolygontest
 from RRtoolbox.lib.arrayops import relativeQuadrants, relativeVectors,angle, contour2points, anorm, anorm2
 import cv2

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from builtins import map
-__author__ = 'Davtoh'
+
 
 from ..lib.arrayops import spoint2opointfunc, thresh_biggestCnt
 from .segmentation import retinal_mask
