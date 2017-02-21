@@ -1,6 +1,6 @@
 from __future__ import print_function
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 
 from RRtoolbox.tools.selectors import EntropyPlot
 from RRtoolbox.lib import directory as dr

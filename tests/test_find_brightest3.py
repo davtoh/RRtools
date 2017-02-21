@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 from .tesisfunctions import histogram, brightness,Plotim, graphmath, graphHistogram, \
     overlay, findmaxima, findminima, smooth, graph_filter, getOtsuThresh, find_near
 from RRtoolbox.lib.arrayops import Bandpass,convexityRatio

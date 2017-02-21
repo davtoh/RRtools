@@ -1,6 +1,6 @@
 from __future__ import print_function
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 from .tesisfunctions import Plotim,overlay,padVH
 import cv2
 import numpy as np

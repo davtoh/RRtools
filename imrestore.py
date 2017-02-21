@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+# (C) 2015-2017 David Toro <davsamirtor@gmail.com>
 '''
 imrestore (oriented to retinal images):
 
@@ -174,7 +175,9 @@ standard_library.install_aliases()
 from builtins import zip
 from past.builtins import basestring
 from builtins import object
-__author__ = 'Davtoh'
+
+__author__ = 'David Toro'
+
 # needed for installing executable
 import six ### DO NOT DELETE used for executable
 import packaging ### DO NOT DELETE used for executable

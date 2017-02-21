@@ -1,6 +1,6 @@
 from __future__ import print_function
 from builtins import zip
-__author__ = 'Davtoh'
+
 
 import os
 import csv

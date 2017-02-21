@@ -1,7 +1,7 @@
 """
     This module contains core-like, too-much-used and too-much-referenced modules
 """
-__author__ = 'Davtoh'
+
 
 #__all__ = ['cache','overlay','root','session']
 # add relativity to script

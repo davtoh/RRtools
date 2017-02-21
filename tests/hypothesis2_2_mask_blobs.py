@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 
 from .tesisfunctions import Plotim,overlay
 import cv2

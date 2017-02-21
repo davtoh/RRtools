@@ -3,7 +3,7 @@ this script profiles the imrestore code using graphviz
 """
 from __future__ import print_function
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 
 # This script has been made to test imrestore.py.
 

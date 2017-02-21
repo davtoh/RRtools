@@ -1,4 +1,4 @@
-__author__ = 'Davtoh'
+
 # http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_imgproc/py_canny/py_canny.html
 from RRtoolbox.lib.plotter import Edger
 

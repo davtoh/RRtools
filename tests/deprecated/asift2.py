@@ -3,7 +3,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import zip
 from past.utils import old_div
-__author__ = 'Davtoh'
+
 
 from .asift import affine_detect, init_feature, filter_matches, explore_match
 from .common import Timer

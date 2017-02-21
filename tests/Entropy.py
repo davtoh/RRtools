@@ -1,5 +1,5 @@
 from __future__ import print_function
-__author__ = 'Davtoh'
+
 
 import glob
 from tools import entropy

@@ -1,7 +1,29 @@
 ########################### LOG
-- scripts were written in python 2 and ported to python 3 with back compatibility using
-$ find . -name "*.py" | xargs -I{} futurize --both-stages -w -n {}
-# see how to create a setup.py file from example https://github.com/mkrphys/ipython-tikzmagic 
+# scripts were written in python 2 and ported to python 3 with back compatibility using
+	$ find . -name "*.py" | xargs -I{} futurize --both-stages -w -n {}
+# version control from https://www.python.org/dev/peps/pep-0440/ or http://semver.org/ in which case Python projects adopting semantic versioning should abide by clauses 1-8 of the Semantic Versioning 2.0.0 specification.
+	# From http://semver.org but not supported by PEP440 but useful for version precedence
+		1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0.
+	1.2.0.dev1  # Development release
+	1.2.0a1     # Alpha Release
+	1.2.0b1     # Beta Release
+	1.2.0rc1    # Release Candidate
+	1.2.0       # Final Release
+	1.2.0.post1 # Post Release
+	15.10       # Date based release
+	23          # Serial release
+	# use + sign to denote local version not intended for publication
+		1.2.0.dev1+hg.5.b11e5e6f0b0b  # 5th VCS commmit since 1.2.0.dev1 release
+# see how to create a setup.py file from example
+	# https://github.com/pypa/sampleproject
+	# https://github.com/mkrphys/ipython-tikzmagic
+	# https://github.com/pyserial/pyserial
+	# run $ python setup.py --help-commands
+# see how to distribute package
+	# https://packaging.python.org/distributing/
+	# http://peterdowns.com/posts/first-time-with-pypi.html
+# build relseases
+	# https://travis-ci.org/pyserial/pyserial
 ########################### NOTEs
 do not use __dict__ to not overlook custom setters
 
@@ -118,3 +140,98 @@ memoization, caching, persistence
 serializing and de-serializing a Python object structure
 https://docs.python.org/2/glossary.html
 https://docs.python.org/2/library/persistence.html
+
+############################# LICENSES
+
+dill==0.2.4
+"""
+    session module made by Davtoh and powered by dill
+    Dependency project: https://github.com/uqfoundation/dill
+
+    dill dependency license:
+
+    This software is part of the open-source mystic project at the California
+    Institute of Technology, and is available subject to the conditions and
+    terms laid out below. By downloading and using this software you are
+    agreeing to the following conditions.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met::
+
+        - Redistribution of source code must retain the above copyright
+          notice, this list of conditions and the following disclaimer.
+
+        - Redistribution in binary form must reproduce the above copyright
+          notice, this list of conditions and the following disclaimer in the
+          documentations and/or other materials provided with the distribution.
+
+        - Neither the name of the California Institute of Technology nor
+          the names of its contributors may be used to endorse or promote
+          products derived from this software without specific prior written
+          permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+    PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+    OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+    OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+    ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+    Copyright (c) 2015 California Institute of Technology. All rights reserved.
+
+    M.M. McKerns, L. Strand, T. Sullivan, A. Fang, M.A.G. Aivazis,
+    "Building a framework for predictive science", Proceedings of
+    the 10th Python in Science Conference, 2011;
+    http://arxiv.org/pdf/1202.1056
+
+    Michael McKerns and Michael Aivazis,
+    "pathos: a framework for heterogeneous computing", 2010- ;
+    http://trac.mystic.cacr.caltech.edu/project/pathos
+"""
+
+joblib>=0.8.4
+"""
+    cache module made by Davtoh and powered by joblib
+    Dependency project: https://github.com/joblib/joblib
+
+    joblib is BSD-licenced (3 clause):
+
+    This software is OSI Certified Open Source Software. OSI Certified is a
+    certification mark of the Open Source Initiative.
+
+    Copyright (c) 2009-2011, joblib developpers All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without modification,
+    are permitted provided that the following conditions are met:
+
+    ** Redistributions of source code must retain the above copyright notice,
+    this list of conditions and the following disclaimer.
+    ** Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation and/or
+    other materials provided with the distribution.
+    ** Neither the name of Gael Varoquaux. nor the names of other joblib contributors may be used
+    to endorse or promote products derived from this software without specific prior written permission.
+
+    This software is provided by the copyright holders and contributors "as is" and any
+    express or implied warranties, including, but not limited to, the implied warranties
+    of merchantability and fitness for a particular purpose are disclaimed.
+    In no event shall the copyright owner or contributors be liable for any direct, indirect,
+    incidental, special, exemplary, or consequential damages (including, but not limited to,
+    procurement of substitute goods or services; loss of use, data, or profits; or business
+    interruption) however caused and on any theory of liability, whether in contract, strict
+    liability, or tort (including negligence or otherwise) arising in any way out of the use
+    of this software, even if advised of the possibility of such damage.
+
+"""
+
+opencv == 2.9.11
+BSD License
+"""
+http://opencv.org/license.html
+"""

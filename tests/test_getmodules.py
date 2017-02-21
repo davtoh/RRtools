@@ -1,5 +1,5 @@
 from __future__ import print_function
-__author__ = 'Davtoh'
+
 
 import ast # https://docs.python.org/3.2/library/ast.html#module-ast
 import imp # see https://docs.python.org/2/library/imp.html

@@ -7,7 +7,7 @@
 
 """
 
-__author__ = 'Davtoh'
+
 
 try:
     # for security reason read this: http://www.benfrederickson.com/dont-pickle-your-data/

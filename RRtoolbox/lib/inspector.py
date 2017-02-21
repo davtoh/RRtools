@@ -26,7 +26,7 @@ __license__ = pycallgraph.__license__ + " see https://github.com/gak/pycallgraph
 
 from . import directory as dr
 
-__author__ = 'Davtoh'
+
 
 
 def funcData(func):

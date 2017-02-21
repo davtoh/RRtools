@@ -23,7 +23,7 @@ from collections import OrderedDict
 from string import Formatter
 formater = Formatter() # string formatter str.format
 # ----------------------------GLOBAL VARIABLES---------------------------- #
-__author__ = 'Davtoh'
+
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 

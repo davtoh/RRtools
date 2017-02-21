@@ -9,7 +9,7 @@ from ..lib.config import FLOAT
 from ..lib.directory import getData
 from ..lib.plotter import Plotim,limitaxis
 
-__author__ = 'Davtoh'
+
 
 try: # opencv 2
     hist_map = dict((("correlation", (cv2.cv.CV_COMP_CORREL,True)),

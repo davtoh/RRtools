@@ -43,7 +43,7 @@ from string import Formatter
 servertimeout = None # seconds to show an image
 
 #from fastplt import fastplt as _fastplt
-__author__ = 'Davtoh'
+
 wins = [0] # keeps track of image number through different processes
 #plt.rcParams['image.cmap'] = 'gray'  # change default colormap
 

@@ -2,7 +2,7 @@
  Some test to make thresholds and its comparison
 """
 from __future__ import absolute_import
-__author__ = 'Davtoh'
+
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
