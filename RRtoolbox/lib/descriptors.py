@@ -333,8 +333,8 @@ def MATCH(feature_name,kp1,desc1,kp2,desc2):
     :param kp2: keypoints of destine image
     :param desc2: descriptors of kp2
     :return: TM
-    # http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html
     """
+    # http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html
     matcher = init_feature(feature_name)[1] # it must get matcher object of cv2 here to prevent conflict with memoizers
     # BFMatcher.knnMatch() returns k best matches where k is specified by the user
     raw_matches = matcher.knnMatch(desc1, trainDescriptors = desc2, k = 2) #2

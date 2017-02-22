@@ -1052,7 +1052,7 @@ def splitPoints(pts, aslist = None):
     :param aslist: True to return lists instead of arrays
     :return: x, y columns
 
-    .. example::
+    example::
 
         splitPoints((1,2))
         >>> ([1], [2])
@@ -1094,7 +1094,7 @@ def standarizePoints(pts, aslist = False):
     :param aslist: True to return list instead of array
     :return: standard points
 
-    .. example::
+    example::
 
         standarizePoints((1,2))
         >>> array([[1, 2]])

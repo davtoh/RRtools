@@ -19,6 +19,7 @@
 	# https://github.com/mkrphys/ipython-tikzmagic
 	# https://github.com/pyserial/pyserial
 	# run $ python setup.py --help-commands
+	# localy install pip install -e .
 # see how to distribute package
 	# https://packaging.python.org/distributing/
 	# http://peterdowns.com/posts/first-time-with-pypi.html
@@ -124,7 +125,7 @@ dill==0.2.4 # for serializing manipulation
 joblib>=0.8.4 # for memoization and Memory-mapped file
 pycallgraph==1.0.1
 pyqtgraph==0.9.10 # for image array visualization and visual interfaces (it got pyqt in it)
-sympy
+sympy==1.0
 matplotlib==1.4.3
 clipboard==0.0.4 or pyperclip>=1.5.26
 

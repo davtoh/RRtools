@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    .. moduleauthor:: David Toro <davsamirtor@gmail.com>
-    :platform: Unix, Windows
-    :synopsis: Looking for a reference? look here!.
+.. moduleauthor:: David Toro <davsamirtor@gmail.com>
 
-    This module contains all config data to the package.
+:platform: Unix, Windows
+:synopsis: Looking for a reference? look here!.
+
+This module contains all config data to the package.
 """
 from __future__ import division
 from __future__ import print_function

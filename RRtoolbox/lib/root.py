@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-    This module holds core-like methods for library modules but not for the hole package
+This module holds core-like methods for library modules but not for the hole package
 """
 from __future__ import print_function
 # system
@@ -29,116 +29,153 @@ formater = Formatter() # string formatter str.format
 
 class StdoutSIM(object):
     """
-    simple logger to simulate stdout output
+    Simple logger to simulate stdout output adding a closed control
     """
-    def __init__(self, disable = False, stdout = None):
+    def __init__(self, stdout = None, closed = False):
         if stdout is None:
             stdout = sys.stdout
         self.stdout = stdout
-        self.disable = disable
+        self.closed = closed
+
     def write(self, text, **kwargs):
-        if not self.disable:
+        if not self.closed:
             self.stdout.write(text,**kwargs)
+
     def printline(self, text, **kwargs):
-        if not self.disable:
+        if not self.closed:
             self.stdout.printline(text, **kwargs)
+
     def printlines(self, lines, **kwargs):
-        if not self.disable:
+        if not self.closed:
             self.stdout.printlines(lines, **kwargs)
+
     def flush(self):
-        if not self.disable:
+        if not self.closed:
             self.stdout.flush()
+
     def close(self):
+        """
+        do nothing
+        """
         pass
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
 
 stdout = StdoutSIM()
 
-class StdoutLOG(object):
-    """
-    simple logger to save stdout output
-    so anything printed in the console is logged to a file.
-
-    :param path: path to logging file
-    :param mode: mode for opening the file.
-    :param chain: if True closes previous logs and continues with new log
-    """
-    def __init__(self, path, mode = "w+", chain = False):
-        self._path = path
-        self._mode = mode
-        self._chain = chain
-        self._log = open(path,mode)
-        self._closed = False
-
-        # close previous StdoutLOG
-        if chain and isinstance(sys.stdout, StdoutLOG):
-            sys.stdout.close()
-
-        if not chain and isinstance(sys.stdout, StdoutSIM):
-            # continue using previous logs
-            self.logs = [sys.stdout,self._log]
-        else:
-            # use new log and stdout
-            self.logs = [stdout,self._log]
-
-        sys.stdout = self # register log
-
-    def write(self, text, **kwargs):
-        for log in self.logs:
-            log.write(text, **kwargs)
-
-    def printline(self, text, **kwargs):
-        for log in self.logs:
-            log.printline(text, **kwargs)
-
-    def printlines(self, lines, **kwargs):
-        for log in self.logs:
-            log.printlines(lines, **kwargs)
-
-    def flush(self,**kwargs):
-        for log in self.logs:
-            log.flush(**kwargs)
-
-    def close(self,**kwargs):
-        # close according to chain option
-        if self._chain:
-            # close all the logs in the chain
-            for log in self.logs:
-                log.close(**kwargs)
-        elif not self._closed:
-            # only closes this log but keep alive
-            # previous logs
-            self.logs.remove(self._log)
-            self._log.close()
-            self._closed = True
 
 class StdoutMULTI(object):
     """
     Enclose several file-like objects.
 
-    :param filelist = list of file-like objects
+    :param file_list = list of file-like objects
     """
-    def __init__(self, filelist):
-        self.filelist = filelist
+    def __init__(self, file_list):
+        self.file_list = file_list
 
     def write(self, text, **kwargs):
-        for log in self.filelist:
+        for log in self.file_list:
             log.write(text, **kwargs)
 
     def printline(self, text, **kwargs):
-        for log in self.filelist:
+        for log in self.file_list:
             log.printline(text, **kwargs)
 
     def printlines(self, lines, **kwargs):
-        for log in self.filelist:
+        for log in self.file_list:
             log.printlines(lines, **kwargs)
 
     def flush(self,**kwargs):
-        for log in self.filelist:
+        for log in self.file_list:
             log.flush(**kwargs)
 
     def close(self,**kwargs):
-        for log in self.filelist:
+        for log in self.file_list:
             log.close(**kwargs)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
+
+class StdoutLOG(StdoutMULTI):
+    """
+    Simple logger to save stdout output
+    so anything printed in the console is logged to a file.
+
+    :param path: path to logging file
+    :param mode: mode for opening the file.
+    :param add_stdout: if True closes previous logs
+            and continues with new log
+    """
+    def __init__(self, path, mode = "w+", add_stdout = True):
+        self.closed = False
+        self._old = sys.stdout # register old logger
+        self._cleaned = False
+
+        if hasattr(path,"write"): # must be file-lie
+            self._file = path
+            self._path = None
+            self.mode = None
+        else:
+            self._file = open(path, mode)
+            self._path = path
+            self.mode = mode
+
+        # keep logs to write to
+        if add_stdout:
+            file_list = [self._old, self._file]
+        else:
+            file_list = [self._file]
+        super(StdoutLOG,self).__init__(file_list=file_list)
+        sys.stdout = self # register log
+
+    def close(self,**kwargs):
+        """
+        Close StdoutLOG but it does not ensures cleanup to
+         restore sys.stdout
+        """
+        if not self.closed:
+            # close file
+            self._file.close()
+
+            # unregister this log
+            if self._file in self.file_list:
+                # removes from file_list of loggers to prevent output
+                # but sys.stdout is not replaced with old to not effect
+                # anything done after the instance creating
+                self.file_list.remove(self._file)
+
+            self.closed = True
+            self._cleanup()
+
+    def _cleanup(self):
+        """
+        Ensure first sys.stdout is restored after all
+        StdoutLOG are closed
+        """
+        if not self._cleaned and self.closed:
+            # if possible restore sys.stdout as it was before
+            if sys.stdout is self:  # output not replaced
+                sys.stdout = self._old  # return old log
+
+                # at least this node has been cleaned
+                self._cleaned = True
+
+                try: # try to clean up old references
+                    self._old._cleanup()
+                    # overheats more but deletes circular references
+                    if self._old._cleaned and self._old in self.file_list:
+                        self.file_list.remove(self._old)
+                except AttributeError:
+                    pass # old node not cleaned
+                    # other node must have the old reference
+
 
 def decorateInstanceMethods(self, decorator,excludeMth=("__init__"),includeMth=None):
     """
@@ -258,7 +295,7 @@ class FactorConvert(object):
         :param factor: anything to look in factors (i.e. factor list with Factor structures).
         :param abbreviate: index to return from Factor structure when factor is asked.
 
-        .. notes: A factor structure is of the form ("Name","abbreviation",value)
+        .. note: A factor structure is of the form ("Name","abbreviation",value)
         """
         self._factor = None
         self._factorsCache = None
@@ -488,14 +525,14 @@ class TimeCode(object):
                 unit=u, factor=self.factor, abbreviate=i)))
 
 class Profiler(object):
-    """
-    profiler for code points
+    r"""
+    profiler for code points.
 
     :param msg: custom comment for profiling point
     :param tag: classification tag
     :parameter space: (" ")
     :parameter format_line: ("{space}{tag}{msg}{time}")
-    :parameter format_structure: ("\n{space}[{tag}{msg}{time}{child}]{side}")
+    :parameter format_structure: ("\\n{space}[{tag}{msg}{time}{child}]{side}")
     :parameter points: profile instaces which are divided in "side" or "children" points
             according if they are side by side or are inside of the profiler.
     """
@@ -891,7 +928,7 @@ def lookinglob(pattern, path=None, ext=None, forward=None,
             # keep acumulatting matches
             ress.extend(res)
     else:
-        # look in a simulated path with files in filelist
+        # look in a simulated path with files in file_list
         include = [test.format(path=path, pattern=pattern) for test in tests]
         ress = list(filter(globFilter(case=True,include=include),filelist))
 
@@ -902,8 +939,8 @@ def lookinglob(pattern, path=None, ext=None, forward=None,
     elif ress and raiseErr:
         raise Exception("More than one file with pattern '{}'".format(pattern))
     elif raiseErr:
-        #if filelist is not None:
-        #    path = filelist
+        #if file_list is not None:
+        #    path = file_list
         if path is None:
             raise Exception("pattern '{}' not found".format(pattern))
         raise Exception("pattern '{}' not in {}".format(pattern, path))

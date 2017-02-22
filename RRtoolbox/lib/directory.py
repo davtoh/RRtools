@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-    This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)
-    designed to support :mod:`config` and be used with :mod:`session`.
+This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)
+designed to support :mod:`config` and be used with :mod:`session`.
 
-    keywords:
-    ----------
-    *path*: it can be to a folder or file or url if specified
-    *filename*: the file name without its path
-    *filepath*: the path to a file
-    *dirname*: the path to a folder
-    *url*: Universal Resource Locator
+keywords:
+----------
+*path*: it can be to a folder or file or url if specified
+*filename*: the file name without its path
+*filepath*: the path to a file
+*dirname*: the path to a folder
+*url*: Universal Resource Locator
 """
 from __future__ import print_function
 from __future__ import absolute_import
