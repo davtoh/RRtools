@@ -96,18 +96,24 @@ to imrestore to load from the test path images that start with im1 specified by 
 * So, it loads this image which presents some flares and noise:
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg
+	:align:   center
+	
 	Retina photo 1
 
 * The second image is from a different perspective of the same retinal area but has information
 that the other does not have:
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg
+	:align:   center
+	
 	Retina photo 2
 
 * And Voilà they are merged into one! notice how the flares tend to disappear and the lens
 were added too! Because it is in development it still is not that pretty...
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg
+	:align:   center
+	
 	Rethina photo result
 
 
