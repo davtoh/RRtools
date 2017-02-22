@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    This module have serializing methods for data persistence so to let the package "save" custom objects
+This module have serializing methods for data persistence so to let the package "save" custom objects
 
-    session module made by Davtoh and powered by dill
-    Dependency project: https://github.com/uqfoundation/dill
-
+session module made by Davtoh and powered by dill
+Dependency project: https://github.com/uqfoundation/dill
 """
 
 

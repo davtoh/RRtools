@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-    This module is an all purpose intended for debugging, tracking, auto-documenting and self-introspecting the
-    package
+This module is an all purpose intended for debugging, tracking, auto-documenting and self-introspecting the
+package
 
-    Made by Davtoh. Powered partially by pycallgraph.
-    Dependent project: https://github.com/gak/pycallgraph/#python-call-graph
+Made by Davtoh. Powered partially by pycallgraph.
+Dependent project: https://github.com/gak/pycallgraph/#python-call-graph
 """
 
 from __future__ import print_function

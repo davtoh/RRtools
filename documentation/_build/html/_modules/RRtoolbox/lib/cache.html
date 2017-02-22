@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.cache &mdash; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.cache &#8212; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,11 +26,14 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,28 +43,38 @@
   <h1>Source code for RRtoolbox.lib.cache</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. moduleauthor:: David Toro &lt;davsamirtor@gmail.com&gt;</span>
-<span class="sd">    :platform: Unix, Windows</span>
-<span class="sd">    :synopsis: Serialize and Memoize.</span>
+<span class="sd">.. moduleauthor:: David Toro &lt;davsamirtor@gmail.com&gt;</span>
 
-<span class="sd">    Contains memoizing, caching, serializing and memory-mapping methods so as to let the package</span>
-<span class="sd">    save its state (persistence) and to let a method &quot;remember&quot; what it processed in a session (with cache) or</span>
-<span class="sd">    between sessions (memoization and serializization) of the same input contend once processed. It also wraps mmapping</span>
-<span class="sd">    functions to let objects &quot;live&quot; in the disk (slower but almost unlimited) rather than in memory (faster but limited).</span>
+<span class="sd">:platform: Unix, Windows</span>
+<span class="sd">:synopsis: Serialize and Memoize.</span>
 
-<span class="sd">    *@cache* is used as replacement of *@property* to compute a class method once.</span>
-<span class="sd">    It is computed only one time after which an attribute of the same name is generated in its place.</span>
+<span class="sd">Contains memoizing, caching, serializing and memory-mapping methods so as to let the package</span>
+<span class="sd">save its state (persistence) and to let a method &quot;remember&quot; what it processed in a session (with cache) or</span>
+<span class="sd">between sessions (memoization and serializization) of the same input contend once processed. It also wraps mmapping</span>
+<span class="sd">functions to let objects &quot;live&quot; in the disk (slower but almost unlimited) rather than in memory (faster but limited).</span>
 
-<span class="sd">    *@cachedProperty* is used as replacement of *@property* to compute</span>
-<span class="sd">    a class method depending on changes in its watched variables.</span>
+<span class="sd">*@cache* is used as replacement of *@property* to compute a class method once.</span>
+<span class="sd">It is computed only one time after which an attribute of the same name is generated in its place.</span>
 
-<span class="sd">    *@memoize* used as a general memoizer decorator for functions</span>
-<span class="sd">    where metadata is generated to disk for persistence.</span>
+<span class="sd">*@cachedProperty* is used as replacement of *@property* to compute</span>
+<span class="sd">a class method depending on changes in its watched variables.</span>
 
-<span class="sd">    Made by Davtoh, powered by joblib.</span>
-<span class="sd">    Dependent project: https://github.com/joblib/joblib</span>
+<span class="sd">*@memoize* used as a general memoizer decorator for functions</span>
+<span class="sd">where metadata is generated to disk for persistence.</span>
+
+<span class="sd">Made by Davtoh, powered by joblib.</span>
+<span class="sd">Dependent project: https://github.com/joblib/joblib</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.root</span> <span class="kn">import</span> <span class="n">NotCallable</span><span class="p">,</span> <span class="n">NotCreatable</span><span class="p">,</span> <span class="n">VariableNotSettable</span><span class="p">,</span> <span class="n">VariableNotDeletable</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">.root</span> <span class="k">import</span> <span class="n">NotCallable</span><span class="p">,</span> <span class="n">NotCreatable</span><span class="p">,</span> <span class="n">VariableNotSettable</span><span class="p">,</span> <span class="n">VariableNotDeletable</span><span class="p">,</span> \
+    <span class="n">CorruptPersistent</span>
 
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 
@@ -97,27 +110,27 @@
 <span class="s2">    of this software, even if advised of the possibility of such damage.</span>
 
 <span class="s2">&quot;&quot;&quot;</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+
 <span class="c1">## READ: https://wiki.python.org/moin/PythonDecoratorLibrary</span>
 
 <span class="kn">import</span> <span class="nn">joblib</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">ref</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">numpy.lib</span> <span class="kn">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">numpyLoad</span><span class="p">,</span> <span class="n">save</span> <span class="k">as</span> <span class="n">numpySave</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">weakref</span> <span class="k">import</span> <span class="n">ref</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">numpy.lib</span> <span class="k">import</span> <span class="n">load</span> <span class="k">as</span> <span class="n">numpyLoad</span><span class="p">,</span> <span class="n">save</span> <span class="k">as</span> <span class="n">numpySave</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="c1">#print &quot;using joblib version&quot;, joblib.__version__</span>
 
-<div class="viewcode-block" id="NotMemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.NotMemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">NotMemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">NotMemorizedFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="NotMemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.NotMemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">NotMemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">NotMemorizedFunc</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="MemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">MemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">MemorizedFunc</span><span class="p">):</span>
+<div class="viewcode-block" id="MemorizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.MemorizedFunc">[docs]</a><span class="k">class</span> <span class="nc">MemorizedFunc</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">MemorizedFunc</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="DynamicMemoizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc">[docs]</a><span class="k">class</span> <span class="nc">DynamicMemoizedFunc</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">banned</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc">[docs]</a><span class="k">class</span> <span class="nc">DynamicMemoizedFunc</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">cachedir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">timestamp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">banned</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">func</span> <span class="c1"># the only one that should not be able to change</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mmap_mode</span> <span class="o">=</span> <span class="n">mmap_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="n">ignore</span>
@@ -126,10 +139,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_compress</span> <span class="o">=</span> <span class="n">compress</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span> <span class="o">=</span> <span class="n">timestamp</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="n">banned</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_use</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_use</span> <span class="o">=</span> <span class="n">NotMemorizedFunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_use</span> <span class="o">=</span> <span class="n">MemorizedFunc</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">,</span><span class="n">cachedir</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span><span class="p">,</span>
@@ -139,93 +152,93 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span>
-    <span class="nd">@func.setter</span>
+    <span class="nd">@func</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">MemorizedFunc</span><span class="p">,</span><span class="n">NotMemorizedFunc</span><span class="p">,</span><span class="n">DynamicMemoizedFunc</span><span class="p">)):</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">func</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@func.deleter</span>
+    <span class="nd">@func</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mmap_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mmap_mode</span>
-    <span class="nd">@mmap_mode.setter</span>
+    <span class="nd">@mmap_mode</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">mmap_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mmap_mode</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_mmap_mode</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@mmap_mode.deleter</span>
+    <span class="nd">@mmap_mode</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">mmap_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span>
-    <span class="nd">@ignore.setter</span>
+    <span class="nd">@ignore</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@ignore.deleter</span>
+    <span class="nd">@ignore</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">verbose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span>
-    <span class="nd">@verbose.setter</span>
+    <span class="nd">@verbose</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">verbose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_verbose</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@verbose.deleter</span>
+    <span class="nd">@verbose</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">verbose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">cachedir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span>
-    <span class="nd">@cachedir.setter</span>
+    <span class="nd">@cachedir</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">cachedir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cachedir</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@cachedir.deleter</span>
+    <span class="nd">@cachedir</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">cachedir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compress</span>
-    <span class="nd">@compress.setter</span>
+    <span class="nd">@compress</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compress</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_compress</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@compress.deleter</span>
+    <span class="nd">@compress</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span>
-    <span class="nd">@enabled.setter</span>
+    <span class="nd">@enabled</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="n">value</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_build</span><span class="p">()</span>
-    <span class="nd">@enabled.deleter</span>
+    <span class="nd">@enabled</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DynamicMemoizedFunc.call_and_shelve"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc.call_and_shelve">[docs]</a>    <span class="k">def</span> <span class="nf">call_and_shelve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc.call_and_shelve"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc.call_and_shelve">[docs]</a>    <span class="k">def</span> <span class="nf">call_and_shelve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">call_and_shelve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -233,17 +246,17 @@
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
-<div class="viewcode-block" id="DynamicMemoizedFunc.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.DynamicMemoizedFunc.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="DynamicMemoizedFunc.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.DynamicMemoizedFunc.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warn</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="n">warn</span><span class="o">=</span><span class="n">warn</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="Memory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memory">[docs]</a><span class="k">class</span> <span class="nc">Memory</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="p">):</span>
+<div class="viewcode-block" id="Memory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memory">[docs]</a><span class="k">class</span> <span class="nc">Memory</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A wrapper to joblib Memory to have better control.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cachedir</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Memory</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="p">,</span> <span class="n">compress</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">cachedir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cachedir</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Memory</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="p">,</span> <span class="n">compress</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cachedir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cachedir</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cachedir</span> <span class="o">=</span> <span class="n">cachedir</span>
             <span class="n">joblib</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">mkdirp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cachedir</span><span class="p">)</span>
@@ -295,10 +308,10 @@
 <span class="sd">                                   timestamp=self.timestamp)&#39;&#39;&#39;</span>
     <span class="n">__call__</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">Memory</span><span class="o">.</span><span class="n">cache</span></div>
 
-<div class="viewcode-block" id="Memoizer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer">[docs]</a><span class="k">class</span> <span class="nc">Memoizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer">[docs]</a><span class="k">class</span> <span class="nc">Memoizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">memoizers</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">(),</span> <span class="n">ignoreAll</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="p">(),</span> <span class="n">ignoreAll</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignoreAll</span> <span class="o">=</span> <span class="n">ignoreAll</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="n">ignore</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memoized</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># FOR CLEANING UP handle # flag = True is safe to remove, flag = False is unsafe to remove</span>
@@ -307,19 +320,19 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span>
-    <span class="nd">@ignore.setter</span>
+    <span class="nd">@ignore</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="n">temp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;{} must be callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> must be callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
             <span class="n">temp</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="n">temp</span>
-    <span class="nd">@ignore.deleter</span>
+    <span class="nd">@ignore</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">ignore</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ignore</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Memoizer.makememory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer.makememory">[docs]</a>    <span class="k">def</span> <span class="nf">makememory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cachedir</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer.makememory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer.makememory">[docs]</a>    <span class="k">def</span> <span class="nf">makememory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cachedir</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make memory for :func:`memoize` decorator.</span>
 
@@ -344,7 +357,7 @@
         <span class="n">MEMORY</span> <span class="o">=</span> <span class="n">Memory</span><span class="p">(</span><span class="n">cachedir</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="p">,</span> <span class="n">compress</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">MEMORY</span></div>
 
-<div class="viewcode-block" id="Memoizer.memoize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Memoizer.memoize">[docs]</a>    <span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Memoizer.memoize"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Memoizer.memoize">[docs]</a>    <span class="k">def</span> <span class="nf">memoize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decorated functions are faster by trading memory for time, only hashable values can be memoized.</span>
 
@@ -378,7 +391,7 @@
 
 <span class="n">memoize</span> <span class="o">=</span> <span class="n">Memoizer</span><span class="p">()</span> <span class="c1"># make memoizer manager</span>
 
-<div class="viewcode-block" id="Cache"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Cache">[docs]</a><span class="k">class</span> <span class="nc">Cache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Cache"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Cache">[docs]</a><span class="k">class</span> <span class="nc">Cache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Descriptor (non-data) for building an attribute on-demand at first use.</span>
 <span class="sd">    @cache decorator is used for class methods without inputs (only self reference to the object)</span>
@@ -406,7 +419,7 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cached</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cached</span></div>
 
-<div class="viewcode-block" id="cachedProperty"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.cachedProperty">[docs]</a><span class="k">def</span> <span class="nf">cachedProperty</span><span class="p">(</span><span class="n">watch</span><span class="o">=</span><span class="p">[],</span><span class="n">handle</span><span class="o">=</span><span class="p">[]):</span>
+<div class="viewcode-block" id="cachedProperty"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.cachedProperty">[docs]</a><span class="k">def</span> <span class="nf">cachedProperty</span><span class="p">(</span><span class="n">watch</span><span class="o">=</span><span class="p">[],</span><span class="n">handle</span><span class="o">=</span><span class="p">[]):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A memoize decorator of @property decorator specifying what to trigger caching.</span>
 
@@ -416,7 +429,7 @@
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#http://code.activestate.com/recipes/576563-cached-property/</span>
-    <span class="k">class</span> <span class="nc">Memo</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">Memo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Memo function for cache &quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span><span class="p">{}</span>
@@ -466,11 +479,11 @@
     <span class="k">return</span> <span class="n">withargs</span></div>
 
 
-<div class="viewcode-block" id="ObjectGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter">[docs]</a><span class="k">class</span> <span class="nc">ObjectGetter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter">[docs]</a><span class="k">class</span> <span class="nc">ObjectGetter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates or get instance object depending if it is alive.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callfunc</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>  <span class="o">**</span><span class="n">annotations</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callfunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">obj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="o">**</span><span class="n">annotations</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param callfunc: function to create object</span>
 <span class="sd">        :param obj: (optional) alive object already obtained from callfunc</span>
@@ -495,32 +508,32 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ObjectGetter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="n">callfunc</span> <span class="o">=</span> <span class="n">callfunc</span><span class="p">,</span> <span class="o">**</span><span class="n">annotations</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ObjectGetter.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">callfunc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callfunc&quot;</span><span class="p">,</span><span class="bp">None</span><span class="p">)</span>
+<div class="viewcode-block" id="ObjectGetter.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">callfunc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callfunc&quot;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">callfunc</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">callfunc</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">NotCallable</span><span class="p">(</span><span class="s2">&quot;callfunc {} is not callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">callfunc</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">callfunc</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">NotCallable</span><span class="p">(</span><span class="s2">&quot;callfunc </span><span class="si">{}</span><span class="s2"> is not callable&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">callfunc</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span> <span class="o">=</span> <span class="n">callfunc</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="n">callback</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callback&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="n">callback</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">callback</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;callback&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="n">callback</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span> <span class="o">=</span> <span class="n">ref</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ObjectGetter.getObj"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.getObj">[docs]</a>    <span class="k">def</span> <span class="nf">getObj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.getObj"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.getObj">[docs]</a>    <span class="k">def</span> <span class="nf">getObj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">ob</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">throw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ob</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">throw</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ob</span></div>
     <span class="n">__call__</span> <span class="o">=</span> <span class="n">getObj</span>
 
-<div class="viewcode-block" id="ObjectGetter.create"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.create"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">throw</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates an object and keep reference.</span>
 
@@ -538,7 +551,7 @@
         <span class="k">elif</span> <span class="n">throw</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NotCreatable</span><span class="p">(</span><span class="s2">&quot;No callfunc to create object&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ObjectGetter.raw"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.raw">[docs]</a>    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.raw"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.raw">[docs]</a>    <span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        get object from reference.</span>
 <span class="sd">        :return: None if object is dead, object itself if is alive.</span>
@@ -547,33 +560,33 @@
             <span class="n">ob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ref</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">ob</span></div>
 
-<div class="viewcode-block" id="ObjectGetter.isAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isAlive">[docs]</a>    <span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.isAlive">[docs]</a>    <span class="k">def</span> <span class="nf">isAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if object of reference is alive</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="ObjectGetter.isCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isCreatable">[docs]</a>    <span class="k">def</span> <span class="nf">isCreatable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.isCreatable">[docs]</a>    <span class="k">def</span> <span class="nf">isCreatable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if can create object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callfunc</span></div>
 
-<div class="viewcode-block" id="ObjectGetter.isGettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ObjectGetter.isGettable">[docs]</a>    <span class="k">def</span> <span class="nf">isGettable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectGetter.isGettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ObjectGetter.isGettable">[docs]</a>    <span class="k">def</span> <span class="nf">isGettable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        test if object can be gotten either by reference or creation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isCreatable</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">isAlive</span><span class="p">()</span></div></div>
 
-<div class="viewcode-block" id="Retriever"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Retriever">[docs]</a><span class="k">class</span> <span class="nc">Retriever</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="Retriever"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Retriever">[docs]</a><span class="k">class</span> <span class="nc">Retriever</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    keep track of references and create objects on demand if needed.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">references</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="Retriever.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.Retriever.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Retriever.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.Retriever.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register object to retrieve.</span>
 
@@ -623,7 +636,7 @@
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LazyDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.LazyDict">[docs]</a><span class="k">class</span> <span class="nc">LazyDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="LazyDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.LazyDict">[docs]</a><span class="k">class</span> <span class="nc">LazyDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create objects on demand if needed. call the instance with keys to prevent it</span>
 <span class="sd">    from using lazy evaluations (e.g. instead of self[key] use self(key) to prevent</span>
@@ -631,19 +644,19 @@
 <span class="sd">    instead of self[key]). In addition use self.isLazy flag to enable or disable lazy</span>
 <span class="sd">    operations to prevent possible recursions when getter is called.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">dictionary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">NotCallable</span><span class="p">(</span><span class="s2">&quot;getter must be a callable function to process keys&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dictionary</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dictionary</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dictionary</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">getter</span> <span class="o">=</span> <span class="n">getter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span> <span class="o">=</span> <span class="n">dictionary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">isLazy</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cached</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLazy</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cached</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_lastKey</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -683,11 +696,11 @@
             <span class="c1">#self[key] # It can create a recursion</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="ResourceManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager">[docs]</a><span class="k">class</span> <span class="nc">ResourceManager</span><span class="p">(</span><span class="n">Retriever</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager">[docs]</a><span class="k">class</span> <span class="nc">ResourceManager</span><span class="p">(</span><span class="n">Retriever</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    keep track of references, create objects on demand, manage their memory and optimize for better performance.</span>
 
@@ -700,28 +713,28 @@
 <span class="sd">    :param all: if True used memory is from all alive references,</span>
 <span class="sd">                    if False used memory is only from keptAlive references.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxMemory</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;MB&quot;</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxMemory</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">margin</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;MB&quot;</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ResourceManager</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="c1">#self.references is a dictionary containing all the references</span>
         <span class="c1">#self._lastkey is effectively the last key to use when Manager is called</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># used memory in bytes of references</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_refMemory</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># used memory in bytes of keptAlive</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># maximum memory in bytes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># unit of memory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># maximum memory in bytes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># unit of memory</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># convert to any unit: equivalence with bytes from unit</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_margin</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># private data of margin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># private data representing _maxMemory*_margin in bytes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_margin</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># private data of margin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># private data representing _maxMemory*_margin in bytes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_all</span> <span class="o">=</span> <span class="nb">all</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">blacklist</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># key of objects likely to destroy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span> <span class="c1"># key of objects likely to keep in memory and only delete in extreme cases</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># objects currently being kept alive</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># if true print debugging messages</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">invert</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># invert any order made by user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># if true print debugging messages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invert</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># invert any order made by user</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># mapping methods for user defined fields</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="bp">None</span> <span class="c1"># (&quot;size&quot;,&quot;_call&quot;,&quot;_fail&quot;,&quot;_mean&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># (&quot;size&quot;,&quot;_call&quot;,&quot;_fail&quot;,&quot;_mean&quot;)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span> <span class="c1"># set units</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margin</span> <span class="o">=</span> <span class="n">margin</span> <span class="c1"># margin of percentage (0 to 1) of memory</span>
-        <span class="k">if</span> <span class="n">maxMemory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxMemory</span> <span class="o">=</span> <span class="n">maxMemory</span> <span class="c1"># set maximum memory</span>
+        <span class="k">if</span> <span class="n">maxMemory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxMemory</span> <span class="o">=</span> <span class="n">maxMemory</span> <span class="c1"># set maximum memory</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -733,15 +746,15 @@
         <span class="n">wasAlive</span> <span class="o">=</span> <span class="n">getter</span><span class="o">.</span><span class="n">isAlive</span><span class="p">()</span>
         <span class="n">wasAtFail</span> <span class="o">=</span> <span class="n">getter</span><span class="o">.</span><span class="n">_fails</span><span class="o">&gt;</span><span class="mi">0</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">throw</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">throw</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">wasAtFail</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">NotCreatable</span><span class="p">:</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">getter</span><span class="o">.</span><span class="n">_fails</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># keep accumulating fails</span>
         <span class="n">getter</span><span class="o">.</span><span class="n">_calls</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1"># actual calls</span>
         <span class="c1"># time it and increase _calls</span>
         <span class="k">if</span> <span class="n">getter</span><span class="o">.</span><span class="n">_calls</span><span class="p">:</span> <span class="c1"># get successive times</span>
-            <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">+</span> <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># process time</span>
+            <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">((</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">+</span> <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># process time</span>
         <span class="k">else</span><span class="p">:</span> <span class="c1"># if first call then get first profile time</span>
             <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span>
 
@@ -764,29 +777,29 @@
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="p">:</span> <span class="c1"># clear form white list</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ResourceManager.getSizeOf"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.getSizeOf">[docs]</a>    <span class="k">def</span> <span class="nf">getSizeOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.getSizeOf"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.getSizeOf">[docs]</a>    <span class="k">def</span> <span class="nf">getSizeOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">__sizeof__</span><span class="p">()</span><span class="c1">#getsizeof(item,0)</span></div>
 
-<div class="viewcode-block" id="ResourceManager.optimizeObject"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.optimizeObject">[docs]</a>    <span class="k">def</span> <span class="nf">optimizeObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">toWhiteList</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.optimizeObject"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.optimizeObject">[docs]</a>    <span class="k">def</span> <span class="nf">optimizeObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">getter</span><span class="p">,</span> <span class="n">toWhiteList</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">getter</span><span class="o">.</span><span class="n">isAlive</span><span class="p">():</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">getter</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;given a dead reference&quot;</span><span class="p">)</span>
             <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keepAlive</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">obj</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">flag</span> <span class="ow">and</span> <span class="n">toWhiteList</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">whitelist</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">flag</span></div>
 
-<div class="viewcode-block" id="ResourceManager.keepAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.keepAlive">[docs]</a>    <span class="k">def</span> <span class="nf">keepAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.keepAlive"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.keepAlive">[docs]</a>    <span class="k">def</span> <span class="nf">keepAlive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="p">:</span>
             <span class="c1">#self._free(key)</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Already ketp alive&quot;</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSizeOf</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="c1"># needed memory to allocate</span>
         <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizeMemory</span><span class="p">(</span><span class="n">needed</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">flag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">flag</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span> <span class="c1"># manage memory to allocate new object</span>
+        <span class="k">if</span> <span class="n">flag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">flag</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span> <span class="c1"># manage memory to allocate new object</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">+=</span> <span class="n">s</span> <span class="c1"># update kept memory</span>
-            <span class="k">return</span> <span class="bp">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span></div>
 
     <span class="k">def</span> <span class="nf">_free</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -799,13 +812,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">-=</span> <span class="n">s</span> <span class="c1"># update kept memory</span>
         <span class="k">return</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="ResourceManager.bytes2units"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.bytes2units">[docs]</a>    <span class="k">def</span> <span class="nf">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.bytes2units"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.bytes2units">[docs]</a>    <span class="k">def</span> <span class="nf">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        converts value from bytes to user units</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">value</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_conv</span></div>
+        <span class="k">return</span> <span class="n">old_div</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_conv</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ResourceManager.units2bytes"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.units2bytes">[docs]</a>    <span class="k">def</span> <span class="nf">units2bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.units2bytes"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.units2bytes">[docs]</a>    <span class="k">def</span> <span class="nf">units2bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        converts value from user units two bytes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -818,23 +831,23 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refMemory</span><span class="p">)</span>
 
-    <span class="nd">@usedMemory.setter</span>
+    <span class="nd">@usedMemory</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">usedMemory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;variable not settable&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">maxMemory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes2units</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span><span class="p">)</span>
 
-    <span class="nd">@maxMemory.setter</span>
+    <span class="nd">@maxMemory</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">maxMemory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&quot;WARNING: maximum memory configured to be unlimited&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: maximum memory configured to be unlimited&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&quot;WARNING: maximum memory is {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: maximum memory is </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">units2bytes</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="c1"># pass in bytes</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">margin</span> <span class="c1"># re calculate limit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_optimizeMemory</span><span class="p">()</span>
@@ -846,14 +859,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_margin</span>
 
-    <span class="nd">@margin.setter</span>
+    <span class="nd">@margin</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">margin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">value</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Margin must be between 0 and 1&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="c1"># set limit to maxMemory</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span> <span class="o">*</span> <span class="n">value</span>
 
@@ -868,7 +881,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span>
 
-    <span class="nd">@all.setter</span>
+    <span class="nd">@all</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span> <span class="o">!=</span> <span class="n">flag</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_all</span> <span class="o">=</span> <span class="n">flag</span>
@@ -881,7 +894,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
 
-    <span class="nd">@unit.setter</span>
+    <span class="nd">@unit</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span><span class="s2">&quot;bytes&quot;</span><span class="p">,</span><span class="s2">&quot;byte&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span> <span class="o">=</span> <span class="mi">1</span>
@@ -890,11 +903,11 @@
         <span class="k">elif</span> <span class="n">unit</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;g&quot;</span><span class="p">,</span><span class="s2">&quot;gb&quot;</span><span class="p">,</span><span class="s2">&quot;gigas&quot;</span><span class="p">,</span><span class="s2">&quot;gigabytes&quot;</span><span class="p">,</span><span class="s2">&quot;giga&quot;</span><span class="p">,</span><span class="s2">&quot;gigabyte&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_conv</span> <span class="o">=</span>  <span class="mi">1000</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="mi">20</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;unit &#39;{}&#39; not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;unit &#39;</span><span class="si">{}</span><span class="s2">&#39; not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">unit</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ResourceManager.resetGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.resetGetter">[docs]</a>    <span class="k">def</span> <span class="nf">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.resetGetter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.resetGetter">[docs]</a>    <span class="k">def</span> <span class="nf">resetGetter</span><span class="p">(</span><span class="n">getter</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to reset getter parameters.</span>
 
@@ -905,7 +918,7 @@
         <span class="n">getter</span><span class="o">.</span><span class="n">_processT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># init mean of retrieving time</span>
         <span class="n">getter</span><span class="o">.</span><span class="n">_iddleT</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ResourceManager.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.ResourceManager.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceManager.register"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.ResourceManager.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register object to retrieve.</span>
 
@@ -955,7 +968,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_limit</span>
 
-        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">needed</span><span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span><span class="p">:</span>
                 <span class="k">return</span> <span class="c1"># indicates not capacity</span>
             <span class="k">if</span> <span class="n">needed</span><span class="o">&gt;</span> <span class="n">limit</span><span class="p">:</span> <span class="n">limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxMemory</span>
@@ -967,7 +980,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span> <span class="c1"># return 0 bytes to free</span>
 
-    <span class="k">def</span> <span class="nf">_getOrderedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_getOrderedData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct list of alive objects.</span>
 
@@ -980,12 +993,12 @@
 <span class="sd">        :return: list with items (key,size,calculated)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">method</span> <span class="o">=</span> <span class="n">method</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span>
-        <span class="k">if</span> <span class="nb">all</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span> <span class="c1"># let user data pass or choose default</span>
-        <span class="n">usemethod</span> <span class="o">=</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;size&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">all</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_all</span> <span class="c1"># let user data pass or choose default</span>
+        <span class="n">usemethod</span> <span class="o">=</span> <span class="n">method</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">method</span> <span class="o">!=</span> <span class="s2">&quot;size&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">methods</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># frame: key, size, calls, fails</span>
         <span class="k">if</span> <span class="nb">all</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">getter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">getter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">references</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">getter</span><span class="o">.</span><span class="n">isAlive</span><span class="p">():</span>
                     <span class="n">val</span> <span class="o">=</span> <span class="n">getter</span><span class="o">.</span><span class="n">raw</span><span class="p">()</span>
                     <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSizeOf</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
@@ -994,7 +1007,7 @@
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span><span class="n">size</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSizeOf</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">size</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">usemethod</span><span class="p">:</span>
@@ -1021,7 +1034,7 @@
         <span class="c1"># if limit&lt; total &gt; limit*percent then eliminate</span>
         <span class="c1"># methods: None, by ascendant, by descendant, by creations</span>
         <span class="n">tofree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkMemory</span><span class="p">(</span><span class="n">needed</span><span class="o">=</span><span class="n">needed</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tofree</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="c1"># nothing to do, not capacity to allocate</span>
+        <span class="k">if</span> <span class="n">tofree</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="c1"># nothing to do, not capacity to allocate</span>
 
         <span class="k">if</span> <span class="n">tofree</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">tofree</span> <span class="c1"># successful</span>
@@ -1029,8 +1042,8 @@
         <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytes2units</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&quot;{1} {0} used of {2} {0}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">usedMemory</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">maxMemory</span><span class="p">)</span>
-            <span class="k">print</span> <span class="s2">&quot;{1} {0} needs to be freed to allocate {2} {0}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">tofree</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">needed</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{1}</span><span class="s2"> </span><span class="si">{0}</span><span class="s2"> used of </span><span class="si">{2}</span><span class="s2"> </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">usedMemory</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">maxMemory</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{1}</span><span class="s2"> </span><span class="si">{0}</span><span class="s2"> needs to be freed to allocate </span><span class="si">{2}</span><span class="s2"> </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">tofree</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">needed</span><span class="p">)))</span>
 
         <span class="c1"># FIRST STAGE</span>
         <span class="n">blacklist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blacklist</span><span class="p">)</span>
@@ -1041,23 +1054,23 @@
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keptAlive</span><span class="p">:</span>
                 <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_free</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="n">freed</span> <span class="o">+=</span> <span class="n">size</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Eliminated &#39;{}&#39; of size {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">size</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eliminated &#39;</span><span class="si">{}</span><span class="s2">&#39; of size </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">size</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">blacklist</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="c1"># liminate in real black list</span>
 
         <span class="n">tofree</span> <span class="o">-=</span> <span class="n">freed</span>
         <span class="k">if</span> <span class="n">tofree</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{0} {1} where freed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">freed</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> where freed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">freed</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">tofree</span> <span class="c1"># successful</span>
 
         <span class="c1"># SECOND STAGE: if it did not work keep freeing</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getOrderedData</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># get only in keptAlive</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getOrderedData</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># get only in keptAlive</span>
         <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">keys</span><span class="p">,</span><span class="n">sizes</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)[:</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># just needed keys and sizes</span>
             <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="c1"># total used memory in bytes</span>
             <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">total</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span> <span class="c1"># difference of 10 bytes</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_keptMemory</span> <span class="o">=</span> <span class="n">total</span>
                 <span class="n">tofree</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkMemory</span><span class="p">(</span><span class="n">needed</span><span class="o">=</span><span class="n">needed</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;WARNING: data was not well collected&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: data was not well collected&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">tofree</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
                 <span class="c1">#ratios = np.array(sizes)/total</span>
                 <span class="n">freed</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1068,19 +1081,19 @@
                         <span class="n">size2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_free</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                         <span class="n">freed</span> <span class="o">+=</span> <span class="n">size2</span>
                         <span class="k">if</span> <span class="n">size2</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
-                            <span class="k">print</span> <span class="s2">&quot;DEBUG: key {0} had size {1} but was freed {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">size2</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Eliminated &#39;{}&#39; of size {} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">size</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DEBUG: key </span><span class="si">{0}</span><span class="s2"> had size </span><span class="si">{1}</span><span class="s2"> but was freed </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">size2</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Eliminated &#39;</span><span class="si">{}</span><span class="s2">&#39; of size </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="n">c</span><span class="p">(</span><span class="n">size</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
                 <span class="n">tofree</span><span class="o">-=</span> <span class="n">freed</span>
                 <span class="k">if</span> <span class="n">tofree</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;WARNING: {} {} not adequately freed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">tofree</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{0} {2} where freed, remaining {1} {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">freed</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">total</span><span class="o">-</span><span class="n">freed</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> not adequately freed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">tofree</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2"> where freed, remaining </span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">freed</span><span class="p">),</span><span class="n">c</span><span class="p">(</span><span class="n">total</span><span class="o">-</span><span class="n">freed</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} {} is an optimal memory. Not optimized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">total</span><span class="p">),</span><span class="n">unit</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> is an optimal memory. Not optimized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">total</span><span class="p">),</span><span class="n">unit</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} {} is considered low memory. Not optimized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usedMemory</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> is considered low memory. Not optimized.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usedMemory</span><span class="p">,</span> <span class="n">unit</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tofree</span> <span class="c1"># this means: &gt; 0 bytes not able to free; &lt; 0 bytes over freed; == 0 successful</span></div>
 
-<div class="viewcode-block" id="mapper"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.mapper">[docs]</a><span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">onlynumpy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mapper"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.mapper">[docs]</a><span class="k">def</span> <span class="nf">mapper</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">onlynumpy</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save and load or map live objects to disk to free RAM memory.</span>
 
@@ -1090,63 +1103,67 @@
 <span class="sd">    :param onlynumpy: if True, it saves a numpy mapper from obj.</span>
 <span class="sd">    :return: mmap image, names of mmap files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">onlynumpy</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">+=</span> <span class="s2">&quot;.npy&quot;</span> <span class="c1"># correct path</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">numpySave</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">obj</span><span class="p">)</span> <span class="c1"># save numpy array</span>
             <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span> <span class="c1"># simulates answer as onlynumpy = False</span>
         <span class="k">return</span> <span class="n">numpyLoad</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">mode</span><span class="p">),</span><span class="n">names</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">names</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span> <span class="c1"># dump object to file for mapping</span>
         <span class="k">return</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mmap_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">),</span> <span class="n">names</span></div>
 
-<div class="viewcode-block" id="MemoizedDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemoizedDict">[docs]</a><span class="k">class</span> <span class="nc">MemoizedDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
+<div class="viewcode-block" id="MemoizedDict"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.MemoizedDict">[docs]</a><span class="k">class</span> <span class="nc">MemoizedDict</span><span class="p">(</span><span class="n">MutableMapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    memoized dictionary with keys and values persisted to files.</span>
+<span class="sd">    Memoized dictionary with keys and values persisted to files.</span>
 
 <span class="sd">    :param path: path to save memo file</span>
 <span class="sd">    :param mode: loading mode from memo file {None, &#39;r+&#39;, &#39;r&#39;, &#39;w+&#39;, &#39;c&#39;}</span>
 
-<span class="sd">    .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added</span>
-<span class="sd">                and throw an error if not successful. But if saveAtKey is False this process</span>
-<span class="sd">                will be carried out when the MemoizedDict instance is being destroyed in</span>
-<span class="sd">                a proper deletion, that is, if the program ends unexpectedly all data will be</span>
-<span class="sd">                lost or if data cannot be saved it will be lost without warning.</span>
+<span class="sd">    .. note::</span>
 
-<span class="sd">    .. warning:: Some data structures cannot be memoize, so this structure is not save yet.</span>
-<span class="sd">                Use at your own risk.</span>
+<span class="sd">        If saveAtKey is True it will attempt to memoize each time a keyword is added</span>
+<span class="sd">        and throw an error if not successful. But if saveAtKey is False this process</span>
+<span class="sd">        will be carried out when the MemoizedDict instance is being destroyed in</span>
+<span class="sd">        a proper deletion, that is, if the program ends unexpectedly all data will be</span>
+<span class="sd">        lost or if data cannot be saved it will be lost without warning.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        Some data structures cannot be memoize, so this structure is not save yet.</span>
+<span class="sd">        Use at your own risk.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="c1">#from directory import checkFile, checkDir, mkPath, rmFile</span>
-        <span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">mkPath</span>
-        <span class="kn">import</span> <span class="nn">cPickle</span>
+        <span class="kn">from</span> <span class="nn">.directory</span> <span class="k">import</span> <span class="n">mkPath</span>
+        <span class="kn">import</span> <span class="nn">pickle</span>
         <span class="c1"># TODO: change serializer to use json (it seems it is more reliable and compatible)</span>
         <span class="c1"># TODO: It is slow load key per key, consider making a way to load al de dictionary keys quickly</span>
         <span class="c1"># TODO: when clear is called, delete all memoized folder instead each key. it could be dangerous but faster</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span> <span class="o">=</span> <span class="n">cPickle</span> <span class="c1"># serializer for keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span> <span class="o">=</span> <span class="n">pickle</span> <span class="c1"># serializer for keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">mkPath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># path to memoized keys and values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_map_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">)</span> <span class="c1"># file containing the keys</span>
         <span class="c1">#self._map = self._load_map() or {} # keeps the map to persistent files</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span> <span class="c1"># mode to read the values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span> <span class="c1"># loader for values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">dump</span> <span class="c1"># saver for values</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_hasher</span> <span class="o">=</span> <span class="nb">hash</span> <span class="c1"># function to hash the keys</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_secure</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># this is an option to use dangerous and secure routines</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_secure</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># this is an option to use dangerous and secure routines</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_map</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span>
-    <span class="nd">@_map.setter</span>
+    <span class="nd">@_map</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">VariableNotSettable</span><span class="p">(</span><span class="s2">&quot;_map cannot be set&quot;</span><span class="p">)</span>
-    <span class="nd">@_map.deleter</span>
+    <span class="nd">@_map</span><span class="o">.</span><span class="n">deleter</span>
     <span class="k">def</span> <span class="nf">_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">VariableNotDeletable</span><span class="p">(</span><span class="s2">&quot;_map cannot be deleted&quot;</span><span class="p">)</span>
 
@@ -1156,7 +1173,7 @@
 
 <span class="sd">        :param key: key to hash</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s1">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hasher</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hasher</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1170,8 +1187,8 @@
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">KeyError</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">EOFError</span><span class="p">,</span><span class="ne">IOError</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">CorruptPersistent</span><span class="p">(</span><span class="s2">&quot;Persistent data is corrupt&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span>
 
@@ -1185,9 +1202,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">hashed</span><span class="p">,</span><span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-            <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># remove old keys</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># remove old keys</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
                 <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">pass</span> <span class="c1"># file could have been deleted</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -1201,13 +1218,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">hashed</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_saver</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_save_map</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&quot; Race condition in the creation of the directory &quot;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Race condition in the creation of the directory &quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_save_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        persist dictionary map to file (metadata).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="c1"># FIXME: consumes too much time</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_serializer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="c1"># save dictionary</span>
 
@@ -1223,13 +1240,13 @@
         <span class="k">except</span> <span class="ne">EOFError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">e</span>
 
-<div class="viewcode-block" id="MemoizedDict.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.core.MemoizedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># overloads clear in the abc class</span>
+<div class="viewcode-block" id="MemoizedDict.clear"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.cache.MemoizedDict.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># overloads clear in the abc class</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove all items from D.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># for security it is better to wait until all keys are</span>
         <span class="c1"># safely deleted and not deleting everything at once</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -1259,9 +1276,9 @@
 
     <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">hashed</span><span class="p">,</span><span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># remove old keys</span>
+        <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># remove old keys</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="c1"># FIXME enclose in try/except, who knows files could be deleted</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="k">pass</span> <span class="c1"># file could have been deleted</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_old</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
@@ -1277,13 +1294,13 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="c1">#self[key] # It has to load values taking too long</span>
             <span class="n">hashed</span><span class="p">,</span><span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="c1"># test that key is in map</span>
-            <span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># test that key really exists in disk</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="nb">file</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span> <span class="c1"># test that key really exists in disk</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">KeyError</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">False</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span></div>
+            <span class="k">return</span> <span class="kc">True</span></div>
 </pre></div>
 
           </div>
@@ -1302,14 +1319,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1317,11 +1331,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.tools.selectors &mdash; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.tools.selectors &#8212; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,11 +26,14 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -39,22 +42,30 @@
             
   <h1>Source code for RRtoolbox.tools.selectors</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="k">import</span> <span class="n">basestring</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.arrayops</span> <span class="kn">import</span> <span class="n">entroyTest</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.config</span> <span class="kn">import</span> <span class="n">FLOAT</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.directory</span> <span class="kn">import</span> <span class="n">getData</span>
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.plotter</span> <span class="kn">import</span> <span class="n">Plotim</span><span class="p">,</span><span class="n">limitaxis</span>
-
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">..lib.arrayops</span> <span class="k">import</span> <span class="n">entroyTest</span>
+<span class="kn">from</span> <span class="nn">..lib.config</span> <span class="k">import</span> <span class="n">FLOAT</span>
+<span class="kn">from</span> <span class="nn">..lib.directory</span> <span class="k">import</span> <span class="n">getData</span>
+<span class="kn">from</span> <span class="nn">..lib.plotter</span> <span class="k">import</span> <span class="n">Plotim</span><span class="p">,</span><span class="n">limitaxis</span>
 
 
-<span class="n">hist_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;correlation&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_CORREL</span><span class="p">,</span><span class="bp">True</span><span class="p">)),</span>
-                <span class="p">(</span><span class="s2">&quot;chi-squared&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_CHISQR</span><span class="p">,</span><span class="bp">False</span><span class="p">)),</span>
-                <span class="p">(</span><span class="s2">&quot;intersection&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_INTERSECT</span><span class="p">,</span><span class="bp">True</span><span class="p">)),</span>
-                <span class="p">(</span><span class="s2">&quot;hellinger&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_BHATTACHARYYA</span><span class="p">,</span><span class="bp">False</span><span class="p">))))</span>
 
-<div class="viewcode-block" id="entropy"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.entropy">[docs]</a><span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">imlist</span><span class="p">,</span> <span class="n">loadfunc</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<span class="k">try</span><span class="p">:</span> <span class="c1"># opencv 2</span>
+    <span class="n">hist_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;correlation&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_CORREL</span><span class="p">,</span><span class="kc">True</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;chi-squared&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_CHISQR</span><span class="p">,</span><span class="kc">False</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;intersection&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_INTERSECT</span><span class="p">,</span><span class="kc">True</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;hellinger&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">CV_COMP_BHATTACHARYYA</span><span class="p">,</span><span class="kc">False</span><span class="p">))))</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="c1"># opencv 3</span>
+    <span class="n">hist_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(((</span><span class="s2">&quot;correlation&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">HISTCMP_CORREL</span><span class="p">,</span><span class="kc">True</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;chi-squared&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">HISTCMP_CHISQR</span><span class="p">,</span><span class="kc">False</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;intersection&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">HISTCMP_INTERSECT</span><span class="p">,</span><span class="kc">True</span><span class="p">)),</span>
+                    <span class="p">(</span><span class="s2">&quot;hellinger&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">HISTCMP_BHATTACHARYYA</span><span class="p">,</span><span class="kc">False</span><span class="p">))))</span>
+
+<div class="viewcode-block" id="entropy"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.entropy">[docs]</a><span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">imlist</span><span class="p">,</span> <span class="n">loadfunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">invert</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Entropy function modified from:</span>
 
@@ -74,8 +85,8 @@
     <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imlist</span><span class="p">),</span><span class="n">FLOAT</span><span class="p">)</span> <span class="c1"># pre-allocate array</span>
     <span class="k">for</span> <span class="n">num</span><span class="p">,</span><span class="n">im</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imlist</span><span class="p">):</span> <span class="c1"># for each image get data</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">loadfunc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">loadfunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">def</span> <span class="nf">loadfunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">gray_img</span> <span class="o">=</span> <span class="n">loadfunc</span><span class="p">(</span><span class="n">im</span><span class="p">)</span> <span class="c1"># read gray image</span>
@@ -83,14 +94,14 @@
             <span class="n">gray_img</span> <span class="o">=</span> <span class="n">im</span>
         <span class="n">E</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">entroyTest</span><span class="p">(</span><span class="n">gray_img</span><span class="p">)</span>
 
-    <span class="n">RMS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">E</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">imlist</span><span class="p">))</span> <span class="c1"># get root mean square</span>
+    <span class="n">RMS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">old_div</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">E</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">imlist</span><span class="p">)))</span> <span class="c1"># get root mean square</span>
     <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">E</span><span class="o">-</span><span class="n">RMS</span><span class="p">)</span> <span class="c1"># absolute difference error</span>
     <span class="n">sortedD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="c1"># sort errors # order from minor to greater</span>
     <span class="k">if</span> <span class="n">invert</span><span class="p">:</span> <span class="n">sortedD</span> <span class="o">=</span> <span class="n">sortedD</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># order from greater to minor</span>
     <span class="n">sortedImlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">imlist</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">D</span><span class="o">==</span><span class="n">s</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sortedD</span><span class="p">]</span> <span class="c1"># get sorted images</span>
     <span class="k">return</span> <span class="n">sortedD</span><span class="p">,</span><span class="n">sortedImlist</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">imlist</span></div>
 
-<div class="viewcode-block" id="hist_comp"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.hist_comp">[docs]</a><span class="k">def</span> <span class="nf">hist_comp</span><span class="p">(</span><span class="n">imlist</span><span class="p">,</span> <span class="n">loadfunc</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span> <span class="s2">&quot;correlation&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="hist_comp"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.hist_comp">[docs]</a><span class="k">def</span> <span class="nf">hist_comp</span><span class="p">(</span><span class="n">imlist</span><span class="p">,</span> <span class="n">loadfunc</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span> <span class="s2">&quot;correlation&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Histogram comparison</span>
 
@@ -101,16 +112,16 @@
     <span class="c1">#image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)</span>
     <span class="c1">#assert(len(fns)&gt;=2) # no images to compare. There must be 2 or more</span>
     <span class="k">def</span> <span class="nf">helper</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">loadfunc</span><span class="o">=</span><span class="n">loadfunc</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">loadfunc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">loadfunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">def</span> <span class="nf">loadfunc</span><span class="p">(</span><span class="n">im</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">loadfunc</span><span class="p">(</span><span class="n">im</span><span class="p">)</span> <span class="c1"># read BGR image</span>
         <span class="k">return</span> <span class="n">im</span>
     <span class="n">method</span><span class="p">,</span> <span class="n">reverse</span> <span class="o">=</span> <span class="n">hist_map</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
-    <span class="n">comp</span><span class="p">,</span><span class="n">comparison</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,[]</span>
+    <span class="n">comp</span><span class="p">,</span><span class="n">comparison</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,[]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">im</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imlist</span><span class="p">):</span> <span class="c1"># for each image get data</span>
-        <span class="n">hist</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calcHist</span><span class="p">([</span><span class="n">helper</span><span class="p">(</span><span class="n">im</span><span class="p">)],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">calcHist</span><span class="p">([</span><span class="n">helper</span><span class="p">(</span><span class="n">im</span><span class="p">)],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
         <span class="n">hist</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">comp</span> <span class="o">=</span> <span class="n">hist</span>
@@ -123,8 +134,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot entropy test</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">images</span><span class="p">,</span><span class="n">win</span><span class="o">=</span><span class="s2">&quot;Entropy tests&quot;</span><span class="p">,</span><span class="n">func</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">images</span><span class="p">,</span><span class="n">win</span><span class="o">=</span><span class="s2">&quot;Entropy tests&quot;</span><span class="p">,</span><span class="n">func</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">def</span> <span class="nf">loadfunc</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">400</span><span class="p">)):</span>
                 <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">im</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">size</span><span class="p">)</span>
             <span class="n">func</span> <span class="o">=</span> <span class="n">loadfunc</span>
@@ -152,7 +163,7 @@
             <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Sorted image&quot;</span>
             <span class="n">number</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
             <span class="n">D</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedD</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; {}/{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedD</span><span class="p">)),</span><span class="s2">&quot; Entropy = &quot;</span><span class="o">+</span><span class="n">D</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">name</span><span class="p">,</span><span class="s2">&quot; </span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sortedD</span><span class="p">)),</span><span class="s2">&quot; Entropy = &quot;</span><span class="o">+</span><span class="n">D</span><span class="p">]</span></div>
 <div class="viewcode-block" id="EntropyPlot.selectlist"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.EntropyPlot.selectlist">[docs]</a>    <span class="k">def</span> <span class="nf">selectlist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">imlist</span><span class="p">):</span> <span class="c1"># actual list</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">imlist</span> <span class="o">=</span> <span class="n">imlist</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span></div>
@@ -169,15 +180,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">controlText</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imlist</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="p">()</span></div>
 <div class="viewcode-block" id="EntropyPlot.keyfunc"><a class="viewcode-back" href="../../../RRtoolbox.tools.html#RRtoolbox.tools.selectors.EntropyPlot.keyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">keyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">replaced</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">replaced</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressedkey</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2555904</span><span class="p">,</span><span class="mi">65363</span><span class="p">):</span> <span class="c1"># if right key (win,linux)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nextim</span><span class="p">()</span>
-            <span class="n">replaced</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">replaced</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pressedkey</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2424832</span><span class="p">,</span><span class="mi">65361</span><span class="p">):</span> <span class="c1"># if left key (win,linux)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">previousim</span><span class="p">()</span>
-            <span class="n">replaced</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">replaced</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">replaced</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtincmd</span><span class="p">():</span> <span class="c1"># replaced left and right keys</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">()</span></div></div>
@@ -199,14 +210,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -214,11 +222,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

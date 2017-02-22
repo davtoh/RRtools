@@ -1,25 +1,26 @@
 # -*- coding: utf-8 -*-
 """
-    .. moduleauthor:: David Toro <davsamirtor@gmail.com>
-    :platform: Unix, Windows
-    :synopsis: Serialize and Memoize.
+.. moduleauthor:: David Toro <davsamirtor@gmail.com>
 
-    Contains memoizing, caching, serializing and memory-mapping methods so as to let the package
-    save its state (persistence) and to let a method "remember" what it processed in a session (with cache) or
-    between sessions (memoization and serializization) of the same input contend once processed. It also wraps mmapping
-    functions to let objects "live" in the disk (slower but almost unlimited) rather than in memory (faster but limited).
+:platform: Unix, Windows
+:synopsis: Serialize and Memoize.
 
-    *@cache* is used as replacement of *@property* to compute a class method once.
-    It is computed only one time after which an attribute of the same name is generated in its place.
+Contains memoizing, caching, serializing and memory-mapping methods so as to let the package
+save its state (persistence) and to let a method "remember" what it processed in a session (with cache) or
+between sessions (memoization and serializization) of the same input contend once processed. It also wraps mmapping
+functions to let objects "live" in the disk (slower but almost unlimited) rather than in memory (faster but limited).
 
-    *@cachedProperty* is used as replacement of *@property* to compute
-    a class method depending on changes in its watched variables.
+*@cache* is used as replacement of *@property* to compute a class method once.
+It is computed only one time after which an attribute of the same name is generated in its place.
 
-    *@memoize* used as a general memoizer decorator for functions
-    where metadata is generated to disk for persistence.
+*@cachedProperty* is used as replacement of *@property* to compute
+a class method depending on changes in its watched variables.
 
-    Made by Davtoh, powered by joblib.
-    Dependent project: https://github.com/joblib/joblib
+*@memoize* used as a general memoizer decorator for functions
+where metadata is generated to disk for persistence.
+
+Made by Davtoh, powered by joblib.
+Dependent project: https://github.com/joblib/joblib
 """
 from __future__ import division
 from __future__ import print_function
@@ -1074,19 +1075,23 @@ def mapper(path, obj = None, mode =None, onlynumpy = False):
 
 class MemoizedDict(MutableMapping):
     """
-    memoized dictionary with keys and values persisted to files.
+    Memoized dictionary with keys and values persisted to files.
 
     :param path: path to save memo file
     :param mode: loading mode from memo file {None, 'r+', 'r', 'w+', 'c'}
 
-    .. notes:: If saveAtKey is True it will attempt to memoize each time a keyword is added
-                and throw an error if not successful. But if saveAtKey is False this process
-                will be carried out when the MemoizedDict instance is being destroyed in
-                a proper deletion, that is, if the program ends unexpectedly all data will be
-                lost or if data cannot be saved it will be lost without warning.
+    .. note::
 
-    .. warning:: Some data structures cannot be memoize, so this structure is not save yet.
-                Use at your own risk.
+        If saveAtKey is True it will attempt to memoize each time a keyword is added
+        and throw an error if not successful. But if saveAtKey is False this process
+        will be carried out when the MemoizedDict instance is being destroyed in
+        a proper deletion, that is, if the program ends unexpectedly all data will be
+        lost or if data cannot be saved it will be lost without warning.
+
+    .. warning::
+
+        Some data structures cannot be memoize, so this structure is not save yet.
+        Use at your own risk.
     """
     def __init__(self, path, mode = None):
         #from directory import checkFile, checkDir, mkPath, rmFile

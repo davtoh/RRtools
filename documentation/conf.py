@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'RRtoolbox'
-copyright = u'2016, David Toro'
+copyright = u'2017, David Toro'
 author = u'David Toro'
 
 # The version info for the project you're documenting, acts as replacement for

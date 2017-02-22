@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.directory &mdash; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.directory &#8212; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,11 +26,14 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,23 +43,28 @@
   <h1>Source code for RRtoolbox.lib.directory</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)</span>
-<span class="sd">    designed to support :mod:`config` and be used with :mod:`session`.</span>
+<span class="sd">This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)</span>
+<span class="sd">designed to support :mod:`config` and be used with :mod:`session`.</span>
 
-<span class="sd">    keywords:</span>
-<span class="sd">    ----------</span>
-<span class="sd">    *path*: it can be to a folder or file or url if specified</span>
-<span class="sd">    *filename*: the file name without its path</span>
-<span class="sd">    *filepath*: the path to a file</span>
-<span class="sd">    *dirname*: the path to a folder</span>
-<span class="sd">    *url*: Universal Resource Locator</span>
+<span class="sd">keywords:</span>
+<span class="sd">----------</span>
+<span class="sd">*path*: it can be to a folder or file or url if specified</span>
+<span class="sd">*filename*: the file name without its path</span>
+<span class="sd">*filepath*: the path to a file</span>
+<span class="sd">*dirname*: the path to a folder</span>
+<span class="sd">*url*: Universal Resource Locator</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+
 
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">wraps</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
 <span class="c1">#from urlparse import urlparse</span>
 <span class="c1">#import urllib</span>
 <span class="c1">#import urllib2</span>
@@ -64,9 +72,10 @@
 <span class="c1">#import requests</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span> <span class="c1"># urllib.urlopen disappears in python 3</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span> <span class="c1"># urllib.urlopen disappears in python 3</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="k">import</span> <span class="n">urlopen</span>
+    <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="k">import</span> <span class="n">URLError</span>
 
 <div class="viewcode-block" id="resource_path"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.resource_path">[docs]</a><span class="k">def</span> <span class="nf">resource_path</span><span class="p">(</span><span class="n">relative_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Get absolute path to resource, works for dev and for PyInstaller &quot;&quot;&quot;</span>
@@ -134,9 +143,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c1"># invalid URL</span>
-        <span class="k">return</span> <span class="bp">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="checkFile"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.checkFile">[docs]</a><span class="k">def</span> <span class="nf">checkFile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -149,7 +158,7 @@
 
 <div class="viewcode-block" id="getPath"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.getPath">[docs]</a><span class="k">def</span> <span class="nf">getPath</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">__file__</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get standard path from path.</span>
+<span class="sd">    Get standard path from path. It supports ~ as home directory.</span>
 
 <span class="sd">    :param path: it can be to a folder or file. Default is __file__ or module&#39;s path.</span>
 <span class="sd">                If file exists it selects its folder.</span>
@@ -157,6 +166,8 @@
 
 <span class="sd">    .. note:: It is the same as os.path.dirname(os.path.abspath(path)).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span> <span class="c1"># check extension</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="c1"># just use os</span>
     <span class="k">else</span><span class="p">:</span>
@@ -182,7 +193,7 @@
         <span class="n">drive</span><span class="p">,</span><span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitdrive</span><span class="p">(</span><span class="n">dirname</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">filename</span><span class="p">)])</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">drive</span><span class="p">,</span><span class="n">dirname</span><span class="p">,</span><span class="n">filename</span><span class="p">,</span><span class="n">ext</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="increment_if_exits"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.increment_if_exits">[docs]</a><span class="k">def</span> <span class="nf">increment_if_exits</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span><span class="s2">&quot;_{num}&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="increment_if_exits"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.increment_if_exits">[docs]</a><span class="k">def</span> <span class="nf">increment_if_exits</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span><span class="s2">&quot;_</span><span class="si">{num}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates new name if it exits.</span>
 
@@ -198,9 +209,9 @@
 
     <span class="c1"># list of exceptions</span>
     <span class="n">listing</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="n">force</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">force</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">listing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># append itself</span>
-    <span class="k">elif</span> <span class="n">force</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">force</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">force</span><span class="p">:</span> <span class="c1"># normalize all paths</span>
             <span class="n">listing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
 
@@ -209,11 +220,11 @@
         <span class="c1"># get parts</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="c1"># make pattern from parts</span>
-        <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;{}&quot;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># get a priory list of files</span>
         <span class="n">listing</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)))</span>
         <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">num</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">listing</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
@@ -222,7 +233,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">path</span></div>
 
-<div class="viewcode-block" id="changedir"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.changedir">[docs]</a><span class="k">def</span> <span class="nf">changedir</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="changedir"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.changedir">[docs]</a><span class="k">def</span> <span class="nf">changedir</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Change path to file with dirname.</span>
 
@@ -233,7 +244,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">ext</span><span class="p">:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
     <span class="k">else</span><span class="p">:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">getData</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span> <span class="o">+</span> <span class="n">Directory</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span> <span class="o">+</span> <span class="n">Directory</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="strdifference"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.strdifference">[docs]</a><span class="k">def</span> <span class="nf">strdifference</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -250,20 +261,20 @@
             <span class="n">streq</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">equal</span><span class="p">)</span>
             <span class="n">ls1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">streq</span><span class="p">)</span>
             <span class="n">ls2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">streq</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">fordiff</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">diff1</span> <span class="ow">or</span> <span class="n">diff2</span><span class="p">:</span>
             <span class="n">ls1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff1</span><span class="p">))</span>
             <span class="n">ls2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff2</span><span class="p">))</span>
             <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ls1</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
     <span class="n">ls1</span><span class="p">,</span><span class="n">ls2</span><span class="p">,</span><span class="n">state</span><span class="p">,</span><span class="n">equal</span><span class="p">,</span><span class="n">diff1</span><span class="p">,</span><span class="n">diff2</span><span class="o">=</span> <span class="p">[],[],[],[],[],[]</span>
     <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))):</span>
         <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
             <span class="n">equal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">fordiff</span><span class="p">():</span> <span class="n">diff1</span><span class="p">,</span><span class="n">diff2</span><span class="o">=</span> <span class="p">[],[]</span>
@@ -284,7 +295,7 @@
 <span class="sd">    :param path: it can be to a folder or file. Default is __file__ or module&#39;s path.</span>
 <span class="sd">    :return: splitted path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">getSep</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">getSep</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="correctSep"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.correctSep">[docs]</a><span class="k">def</span> <span class="nf">correctSep</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">__file__</span><span class="p">,</span> <span class="n">separator</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -311,7 +322,7 @@
         <span class="kn">import</span> <span class="nn">errno</span>
         <span class="k">if</span> <span class="n">exception</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Folder not created. There is a file with the same name at {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Folder not created. There is a file with the same name at </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span> <span class="c1">#exception.errno == errno.EACCES:</span>
             <span class="k">raise</span> <span class="n">exception</span> <span class="c1">#Exception(&quot;Permission Denied&quot;)</span>
     <span class="k">return</span> <span class="n">path</span> <span class="c1"># returns created path</span></div>
@@ -328,7 +339,7 @@
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
         <span class="k">pass</span> <span class="c1"># file could have been deleted</span></div>
 
-<div class="viewcode-block" id="rmPath"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.rmPath">[docs]</a><span class="k">def</span> <span class="nf">rmPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">onerror</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="rmPath"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.rmPath">[docs]</a><span class="k">def</span> <span class="nf">rmPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onerror</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove path from path.</span>
 
@@ -451,11 +462,11 @@
         <span class="n">toCorrect</span> <span class="o">=</span> <span class="n">getSplitted</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># what has to be corrected</span>
         <span class="n">toCompare</span> <span class="o">=</span> <span class="n">getSplitted</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="c1"># what is used to correct</span>
         <span class="c1">#isrel = not where and &quot;..&quot; in toCompare # isRelative</span>
-        <span class="n">isrel</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">isrel</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">cp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toCompare</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">cp</span> <span class="o">==</span> <span class="s2">&quot;..&quot;</span><span class="p">:</span> <span class="c1"># go to previous folder</span>
                 <span class="k">del</span> <span class="n">toCorrect</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># eliminate last</span>
-                <span class="n">isrel</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">isrel</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">elif</span> <span class="n">cp</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span> <span class="c1"># stay in folder</span>
                 <span class="k">pass</span> <span class="c1">#do nothing</span>
             <span class="k">elif</span> <span class="n">isrel</span> <span class="ow">or</span> <span class="n">cp</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">toCorrect</span><span class="p">:</span> <span class="c1"># place new folders in position</span>
@@ -526,7 +537,7 @@
 <span class="sd">            dictionary data but they are not the same object.</span>
 <span class="sd">    :param kwargs: additional data to add in directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates and initializes directory.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -538,7 +549,7 @@
         <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Directory</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
             <span class="c1"># do not use __dict__ to not overlook custom setters</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;repr&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span> <span class="c1"># self.__dict__[&quot;repr&quot;] = [string]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -547,7 +558,7 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Directory.filterdata"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.filterdata">[docs]</a>    <span class="k">def</span> <span class="nf">filterdata</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Directory.filterdata"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.filterdata">[docs]</a>    <span class="k">def</span> <span class="nf">filterdata</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adequate data for dictionary creation.</span>
 
@@ -564,9 +575,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;repr&quot;</span><span class="p">:[</span><span class="n">data</span><span class="p">]}</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># update data with kwargs</span>
-        <span class="k">if</span> <span class="n">ispath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">ispath</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s2">&quot;ispath&quot;</span><span class="p">):</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># ispath default</span>
-        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s2">&quot;repr&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ispath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">ispath</span>
+        <span class="k">if</span> <span class="s2">&quot;ispath&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># ispath default</span>
+        <span class="k">if</span> <span class="s2">&quot;repr&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Directory</span><span class="o">.</span><span class="n">repr2list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">])</span> <span class="c1"># ensure repr is maintained</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="c1"># repr default</span>
@@ -593,7 +604,7 @@
             <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Directory.repr2str"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.repr2str">[docs]</a>    <span class="k">def</span> <span class="nf">repr2str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="Directory.repr2str"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.repr2str">[docs]</a>    <span class="k">def</span> <span class="nf">repr2str</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ispath</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the representation of a directory.repr to string.</span>
 
@@ -653,7 +664,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">other</span><span class="p">)</span> <span class="c1"># it will be parsed at directory creation</span>
         <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># string is immutable and must be renewed</span></div>
 
-<div class="viewcode-block" id="Directory.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Directory.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.Directory.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an updated copy with provided data.</span>
 
@@ -663,17 +674,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span> <span class="c1"># if list</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
             <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># string is immutable and must be renewed</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># if dictionary</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">data</span><span class="p">:</span> <span class="c1"># if not list or dict</span>
@@ -687,7 +698,7 @@
 
 <span class="sd">        :return: non-referenced directory copy.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Directory</span><span class="o">.</span><span class="n">repr2str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ispath</span><span class="p">)</span>
@@ -727,8 +738,8 @@
 <span class="sd">    :param notes: optional description string</span>
 <span class="sd">    :param kwargs: additional data to add in directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">notes</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FileDirectory</span><span class="p">,</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="bp">False</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">notes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FileDirectory</span><span class="p">,</span><span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">notes</span> <span class="o">=</span> <span class="n">notes</span>
@@ -744,11 +755,11 @@
         <span class="n">initfile</span> <span class="o">=</span> <span class="n">joinPath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">initfile</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">logger</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-            <span class="k">return</span> <span class="bp">True</span></div></div>
+            <span class="k">return</span> <span class="kc">True</span></div></div>
 
 <span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="kn">import</span> <span class="nn">session</span> <span class="kn">as</span> <span class="nn">sn</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">session</span> <span class="k">as</span> <span class="n">sn</span>
     <span class="c1">## TESTS</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">(</span><span class="s2">&quot;string1&quot;</span><span class="p">,</span> <span class="n">sapo</span> <span class="o">=</span><span class="s2">&quot;mamo&quot;</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">&quot;string2&quot;</span><span class="p">,[</span><span class="s2">&quot;string4&quot;</span><span class="p">,</span><span class="s2">&quot;string 5&quot;</span><span class="p">]])</span>
@@ -757,23 +768,23 @@
     <span class="n">c</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">([</span><span class="s2">&quot;string3&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a</span>
     <span class="n">sn</span><span class="o">.</span><span class="n">saveSession</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">,{</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="n">a</span><span class="p">})</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">readSession</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">)</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="o">==</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="s2">&quot;with str&quot;</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="ow">is</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="o">==</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">str</span><span class="p">)</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="k">print</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="c1">### look here ###</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;with str&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">str</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span> <span class="c1">### look here ###</span>
 
     <span class="n">path</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">([</span><span class="s2">&quot;path1&quot;</span><span class="p">,</span> <span class="s2">&quot;path2&quot;</span><span class="p">,</span> <span class="s2">&quot;path3&quot;</span><span class="p">])</span>
     <span class="c1">#path += &quot;path4&quot;</span>
-    <span class="k">print</span> <span class="n">path</span>
-    <span class="k">print</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s2">&quot;new path&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s2">&quot;new path&quot;</span><span class="p">))</span>
 </pre></div>
 
           </div>
@@ -792,14 +803,11 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -807,11 +815,11 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

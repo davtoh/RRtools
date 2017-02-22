@@ -1,20 +1,30 @@
 # -*- coding: utf-8 -*-
 """
-    Bundle of methods for handling images. Rather than manipulating specialized
-    operations in images methods in this module are used for loading, outputting
-    and format-converting methods, as well as color manipulation.
+Bundle of methods for handling images. Rather than manipulating specialized
+operations in images methods in this module are used for loading, outputting
+and format-converting methods, as well as color manipulation.
 
-    SUPPORTED FORMATS
+SUPPORTED FORMATS
 
-    see http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread
+see http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread
 
-    Windows bitmaps - *.bmp, *.dib (always supported)
-    JPEG files - *.jpeg, *.jpg, *.jpe (see the Notes section)
-    JPEG 2000 files - *.jp2 (see the Notes section)
-    Portable Network Graphics - *.png (see the Notes section)
-    Portable image format - *.pbm, *.pgm, *.ppm (always supported)
-    Sun rasters - *.sr, *.ras (always supported)
-    TIFF files - *.tiff, *.tif (see the Notes section)
++---------------------------+--------------------------------------------------+
+| Format                    | Extension                                        |
++===========================+==================================================+
+| Windows bitmaps           | \*.bmp, \*.dib (always supported)                |
++---------------------------+--------------------------------------------------+
+| JPEG files                | \*.jpeg, \*.jpg, \*.jpe (see the Notes section)  |
++---------------------------+--------------------------------------------------+
+| JPEG 2000 files           | \*.jp2 (see the Notes section)                   |
++---------------------------+--------------------------------------------------+
+| Portable Network Graphics | \*.png (see the Notes section)                   |
++---------------------------+--------------------------------------------------+
+| Portable image format     | \*.pbm, \*.pgm, \*.ppm (always supported)        |
++---------------------------+--------------------------------------------------+
+| Sun rasters               | \*.sr, \*.ras (always supported)                 |
++---------------------------+--------------------------------------------------+
+| TIFF files                | \*.tiff, \*.tif (see the Notes section)          |
++---------------------------+--------------------------------------------------+
 """
 from __future__ import division
 from __future__ import print_function
@@ -421,16 +431,16 @@ def loadsfrom(path, flags=cv2.IMREAD_COLOR):
 
 def interpretImage(toparse, flags):
     """
-
     Interprets to get image.
 
     :param toparse: string to parse or array. It can interpret:
 
-        *connection to server (i.e. host:port)
-        *path to file (e.g. /path_to_image/image_name.ext)
-        *URL to image (e.g. http://domain.com/path_to_image/image_name.ext)
-        *image as string (i.g. numpy converted to string)
-        *image itself (i.e. numpy array)
+        * connection to server (i.e. host:port)
+        * path to file (e.g. /path_to_image/image_name.ext)
+        * URL to image (e.g. http://domain.com/path_to_image/image_name.ext)
+        * image as string (i.g. numpy converted to string)
+        * image itself (i.e. numpy array)
+
     :param flags: openCV flags:
 
                 +-------+------------------------------+--------+
@@ -442,6 +452,7 @@ def interpretImage(toparse, flags):
                 +-------+------------------------------+--------+
                 | (-1)  | cv2.CV_LOAD_IMAGE_UNCHANGED  | format |
                 +-------+------------------------------+--------+
+
     :return: image or None if not successfull
     """
     # test it is from server
@@ -610,12 +621,14 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 +-------+-------------------------------+--------+
                 | (-2)  | N/A                           | RGBA   |
                 +-------+-------------------------------+--------+
+
     :param dsize: (None) output image size; if it equals zero, it is computed as:
 
                 \texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}
 
                 If (integer,None) or (None,integer) it completes the values according
                 to keepratio parameter.
+
     :param dst: (None) output image; it has the size dsize (when it is non-zero) or the
                 size computed from src.size(), fx, and fy; the type of dst is uint8.
     :param fx: scale factor along the horizontal axis
@@ -638,6 +651,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 +-----+-----------------+-------------------------------------------------------+
                 |(4)  | INTER_LANCZOS4  | Lanczos interpolation over 8x8 pixel neighborhood     |
                 +-----+-----------------+-------------------------------------------------------+
+
     :param mmode: (None) mmode to create mapped file. if mpath is specified loads image, converts
                 to mapped file and then loads mapping file with mode {None, 'r+', 'r', 'w+', 'c'}
                 (it is slow for big images). If None, loads mapping file to memory (useful to keep
@@ -650,9 +664,12 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
     :param keepratio: True to keep image ratio when completing data from dsize,fx and fy,
                 False to not keep ratio.
 
-    .. note:: If mmode is None and mpath is given it creates mmap file but loads from it to memory.
-             It is useful to create physical copy of data to keep loading from (data can be reloaded
-             even if original file is moved or deleted).
+    .. note::
+
+        If mmode is None and mpath is given it creates mmap file but loads from it to memory.
+        It is useful to create physical copy of data to keep loading from (data can be reloaded
+        even if original file is moved or deleted).
+
     :return loader function
     """
     # create factory functions
@@ -904,7 +921,8 @@ class ImLoader(object):
         return self.load(self.path)
     def getConfiguration(self,**kwargs):
         """
-        get Custom configuration from default configuration
+        Get Custom configuration from default configuration.
+
         :param kwargs: keys to customize default configuration.
                     If no key is provided default configuration is returned.
         :return: dictionary of configuration
@@ -932,7 +950,7 @@ class PathLoader(MutableSequence):
     :param fns: list of paths
     :param loader: path loader (loadcv,loadsfrom, or function from loadFunc)
 
-    .. olsosee:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`
+    Also see:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`
 
     Example::
 
@@ -1158,7 +1176,7 @@ class ImCoors(object):
         """
         Rectangular box dimensions enclosing points.
 
-        .. example::
+        example::
 
             P = np.ones((400,400))
             a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))
@@ -1667,7 +1685,7 @@ def separe(values, sep, axis=0):
     :param values: list of values
     :param sep: peparator value
     :param axis: axis in each value
-    :return:lists of greater values, list of lesser values
+    :return: lists of greater values, list of lesser values
     """
     greater,lesser = [],[]
     for i in values:

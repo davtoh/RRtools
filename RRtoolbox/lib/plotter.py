@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-    This module holds the plotting and data-visualization tools. Motto: don't know how it is interpreted? i'll show you!
+This module holds the plotting and data-visualization tools. Motto: don't know how it is interpreted? i'll show you!
 
-    #Plotim example
-    filename = "t2.jpg"
-    win = "test"
-    img = cv2.resize(cv2.imread(filename), (400, 400))  # (height, width)
-    plot = Plotim(win,img)
-    plot.show()
+#Plotim example
+filename = "t2.jpg"
+win = "test"
+img = cv2.resize(cv2.imread(filename), (400, 400))  # (height, width)
+plot = Plotim(win,img)
+plot.show()
 """
 
 # http://docs.opencv.org/2.4.9/modules/highgui/doc/highgui.html
@@ -60,7 +60,10 @@ def fastplt(image, cmap = None, title ="visualazor", win = None, block = False, 
                 must be closed to main thread to end (Experimental)
     :return: plt
 
-    .. notes:: This is a wrapper of the module fastplt.
+    .. note::
+
+        This is a wrapper of the module fastplt.
+
     """
     # FIXED: incompatibility with Qt application. It seem the server X works with sockets and can't be accessed at the same time
     # UPDATE 07/04/16: made another library with the same name and images are sent though sockets
@@ -990,7 +993,7 @@ class Plotim(object):
         :param pixel: color to add as item im items,
         :return:
 
-        .. olsosee:: :func:`convertXY`, :func:`self.makeoverlay`
+        Also see:: :func:`convertXY`, :func:`self.makeoverlay`
         """
         text = copy.deepcopy(items)
         if x is not None and y is not None:
@@ -1511,7 +1514,8 @@ class Plotim(object):
 
     def save(self,strname=None,ext=".png",name="img"):
         """
-        Save image (save image if not Qt backend is installed)
+        Save image (save image if not Qt backend is installed).
+
         :param strname: name to save, a label with {win} can be used to be replaced with the plot win name
         :param ext: (".png") extension.
         :param name: ("img") name of image object from self. default is "img" that is self.img

@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox package &mdash; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox package &#8212; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,11 +27,14 @@
     <link rel="next" title="RRtoolbox.lib package" href="RRtoolbox.lib.html" />
     <link rel="prev" title="Welcome to RRtoolbox’s documentation!" href="index.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -65,7 +68,7 @@
 <li class="toctree-l3"><a class="reference internal" href="RRtoolbox.lib.html#keywords">keywords:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="RRtoolbox.lib.html#rrtoolbox-lib-image-module">RRtoolbox.lib.image module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.image">RRtoolbox.lib.image module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.inspector">RRtoolbox.lib.inspector module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.plotter">RRtoolbox.lib.plotter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.root">RRtoolbox.lib.root module</a></li>
@@ -93,7 +96,7 @@
 <span id="rrtoolbox-core-module"></span><h2>RRtoolbox.core module<a class="headerlink" href="#module-RRtoolbox.core" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="RRtoolbox.core.f">
-<code class="descclassname">RRtoolbox.core.</code><code class="descname">f</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/core.html#f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.core.f" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">RRtoolbox.core.</code><code class="descname">f</code><span class="sig-paren">(</span><em>a</em>, <em>b=1</em>, <em>*pos</em>, <em>**named</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/core.html#f"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.core.f" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
@@ -126,7 +129,8 @@
 <dl class="class">
 <dt id="RRtoolbox.shell.Shell">
 <em class="property">class </em><code class="descclassname">RRtoolbox.shell.</code><code class="descname">Shell</code><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
 <dt id="RRtoolbox.shell.Shell.generateParser">
 <code class="descname">generateParser</code><span class="sig-paren">(</span><em>func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/shell.html#Shell.generateParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.shell.Shell.generateParser" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -224,6 +228,8 @@ Ex: param1, param2, ..., paramN</td>
 </div>
 <div class="section" id="module-RRtoolbox">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-RRtoolbox" title="Permalink to this headline">¶</a></h2>
+<p>RRtoolbox is a python package which contains source code designed to process
+images built mainly using OpenCV.</p>
 </div>
 </div>
 
@@ -264,14 +270,11 @@ Ex: param1, param2, ..., paramN</td>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -279,11 +282,11 @@ Ex: param1, param2, ..., paramN</td>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="_sources/RRtoolbox.txt"
