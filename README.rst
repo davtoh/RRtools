@@ -97,7 +97,7 @@ to imrestore to load from the test path images that start with im1 specified by 
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg
 	:align:   center
-	:scale: 50 %
+	:width: 50%
 	
 	Retina photo 1
 
@@ -106,7 +106,7 @@ that the other does not have:
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg
 	:align:   center
-	:scale: 50 %
+	:width: 50%
 	
 	Retina photo 2
 
@@ -115,7 +115,7 @@ were added too! Because it is in development it still is not that pretty...
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg
 	:align:   center
-	:scale: 50 %
+	:width: 50%
 	
 	Rethina photo result
 
