@@ -17,13 +17,13 @@ restore retinal images. Because it is still in development it is the alpha progr
 and to let the users find out about its utilities. Do not hesitate to share it to the world,
 let everyone know how awesome it is!! (be warned that it is for research purposes)
 
-Stable::
-	- Documentation: http://pythonhosted.org/rrtoolbox/
-	- Download Page: https://pypi.python.org/pypi/rrtoolbox
+Stable:
+- Documentation: http://pythonhosted.org/rrtoolbox/
+- Download Page: https://pypi.python.org/pypi/rrtoolbox
 
-Latest::
-	- Documentation: http://rrtools.readthedocs.io/en/latest/
-	- Project Homepage: https://github.com/davtoh/RRtools
+Latest:
+- Documentation: http://rrtools.readthedocs.io/en/latest/
+- Project Homepage: https://github.com/davtoh/RRtools
 
 BSD license, (C) 2015-2017 David Toro <davsamirtor@gmail.com>
 
@@ -95,10 +95,11 @@ to imrestore to load from the test path images that start with im1 specified by 
 
 * So, it loads this image which presents some flares and noise:
 
-<figure>
-  <img src="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg" width="100" align="middle">
-  <figcaption>Retina photo 1</figcaption>
-</figure>
+.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg
+	:align: center
+	:scale: 10%
+	
+	Retina photo 1
 
 * The second image is from a different perspective of the same retinal area but has information
 that the other does not have:
