@@ -95,10 +95,7 @@ to imrestore to load from the test path images that start with im1 specified by 
 
 * So, it loads this image which presents some flares and noise:
 
-<figure>
-  <img src="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg" width="100" align="middle">
-  <figcaption>Retina photo 1</figcaption>
-</figure>
+<img src="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg" width="100" align="middle">
 
 * The second image is from a different perspective of the same retinal area but has information
 that the other does not have:
