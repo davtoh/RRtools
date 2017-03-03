@@ -95,6 +95,7 @@ setup(
     keywords='sample setuptools development',
     platforms='any',
     install_requires=[#'opencv-python>=2.4.11,<3', # for image manipulation
+                        'future>=0.16.0',
                         'numpy>=1.9.2', # for array manipulation and Memory-mapped file
                         'dill>=0.2.4', # for serializing manipulation
                         'joblib>=0.8.4', # for memoization and Memory-mapped file
