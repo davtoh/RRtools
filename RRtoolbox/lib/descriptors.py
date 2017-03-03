@@ -91,9 +91,7 @@ class Feature(object):
         This function takes parameters from a command to initialize a detector and matcher.
 
         :param name: "[a-]<sift|surf|orb>[-flann]" (str) Ex: "a-sift-flann"
-        :param features: it is a dictionary containing the mapping from name to the
-                initialized detector, matcher pair. If None it is created.
-                This feature is to reduce time by reusing created features.
+        :param separator: separator character
         :return: detector, matcher
         """
         # Here is agood explanation for all the decisions in the features and matchers
@@ -133,6 +131,7 @@ class Feature(object):
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
             raise Exception("name '{}' with detector '{}' not valid".format(name,chunks[index]))
+
         index +=1
         if len(chunks)-1 >= index and chunks[index].lower() == 'flann':
             # FLANN based Matcher, Fast Approximate Nearest Neighbor Search Library
@@ -146,14 +145,16 @@ class Feature(object):
             matcher = cv2.FlannBasedMatcher(flann_params, {})  # bug : need to pass empty dict (#1329)
         else:  # brute force matcher
             matcher = cv2.BFMatcher(norm) # difference in norm http://stackoverflow.com/a/32849908/5288758
+
         self.detector, self.matcher = detector, matcher
         return detector, matcher
 
-def init_feature(name, features = None):
+def init_feature(name, separator = "-", features = {}): # dictionary caches the features
     """
     This function takes parameters from a command to initialize a detector and matcher.
 
     :param name: "<sift|surf|orb>[-flann]" (str) Ex: "sift-flann"
+    :param separator: separator character
     :param features: it is a dictionary containing the mapping from name to the
             initialized detector, matcher pair. If None it is created.
             This feature is to reduce time by reusing created features.
@@ -163,20 +164,40 @@ def init_feature(name, features = None):
     FLANN_INDEX_LSH    = 6
     if features is None: features = {} # reset features
     if name not in features: # if called with a different name
-        chunks = name.split('-')
-        if chunks[0] == 'sift':
-            detector = cv2.SIFT()  # Scale-invariant feature transform
+
+        chunks = name.split(separator)
+        index = 0
+        if chunks[index].lower() == 'sift':
+            try: # opencv 2
+                detector = cv2.SIFT()  # Scale-invariant feature transform
+            except AttributeError: # opencv 3
+                detector = cv2.xfeatures2d.SIFT_create()
             norm = cv2.NORM_L2  # distance measurement to be used
-        elif chunks[0] == 'surf':
-            detector = cv2.SURF(500)  # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
+        elif chunks[index].lower() == 'surf':
+            try: # opencv 2
+                detector = cv2.SURF() # Hessian Threshold to 800, 500 # http://stackoverflow.com/a/18891668/5288758
+            except AttributeError: # opencv 3
+                detector = cv2.xfeatures2d.SURF_create()
             # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
             norm = cv2.NORM_L2  # distance measurement to be used
-        elif chunks[0] == 'orb':
-            detector = cv2.ORB(400)  # binary string based descriptors
+        elif chunks[index].lower() == 'orb':
+            try: # opencv 2
+                detector = cv2.ORB() # around 400, binary string based descriptors
+            except AttributeError: # opencv 3
+                detector = cv2.ORB_create()
+            norm = cv2.NORM_HAMMING  # Hamming distance
+        elif chunks[index].lower() == 'brisk':
+            try: # opencv 2
+                detector = cv2.BRISK()
+            except AttributeError: # opencv 3
+                detector = cv2.BRISK_create()
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
-            return None, None
-        if 'flann' in chunks:  # FLANN based Matcher, Fast Approximate Nearest Neighbor Search Library
+            raise Exception("name '{}' with detector '{}' not valid".format(name,chunks[index]))
+
+        index +=1
+        if len(chunks)-1 >= index and chunks[index].lower() == 'flann':
+            # FLANN based Matcher, Fast Approximate Nearest Neighbor Search Library
             if norm == cv2.NORM_L2:  # for SIFT ans SURF
                 flann_params = dict(algorithm = FLANN_INDEX_KDTREE, trees = 5)
             else:  # for ORB
@@ -187,6 +208,7 @@ def init_feature(name, features = None):
             matcher = cv2.FlannBasedMatcher(flann_params, {})  # bug : need to pass empty dict (#1329)
         else:  # brute force matcher
             matcher = cv2.BFMatcher(norm) # difference in norm http://stackoverflow.com/a/32849908/5288758
+
         features[name] = detector, matcher # cache detector and matcher
     return features[name] # get buffered: detector, matcher
 

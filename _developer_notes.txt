@@ -25,8 +25,20 @@
 	# http://peterdowns.com/posts/first-time-with-pypi.html
 	# to install localy
 		$ pip install -e .
+	# ready to upload
+		# create Source distribution
+		$ python setup.py sdist
+		# Create univerlas wheels (py2 and py3 supported)
+		$ python setup.py bdist_wheel --universal
 # build relseases
 	# https://travis-ci.org/pyserial/pyserial
+
+# install virtualenvwrapper for virtual enviroments
+	$ pip install virtualenvwrapper
+	# make commands permanet
+	$ echo -e "\n# virtualenv and virtualenvwrapper" >> ~/.profile
+	$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.profile
+	$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.profile
 ########################### NOTEs
 do not use __dict__ to not overlook custom setters
 
