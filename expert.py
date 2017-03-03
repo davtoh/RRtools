@@ -10,7 +10,7 @@ import os
 import cv2
 import numpy as np
 
-from RRtoolbox.lib.arrayops import contours2mask
+from RRtoolbox.lib.arrayops import contours2mask, findContours
 from RRtoolbox.lib.cache import MemoizedDict
 from RRtoolbox.lib.directory import getData, getPath, mkPath, increment_if_exits
 from RRtoolbox.lib.image import getcoors, loadFunc, drawcoorarea, Image
@@ -309,7 +309,7 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
             # get expert data
             exp = Expert(fn,data=expertpath2, shape=image.shape, modify=modify, reset=reset,
                          review = review, ask=ask, filter=os.path.isfile)
-            contours, _ = cv2.findContours(retinal_mask(image.copy()),
+            contours, _ = findContours(retinal_mask(image.copy()),
                                            cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
             main_key = getData(fn)[-2]+d
@@ -337,7 +337,7 @@ def crop_expert(fn, outpath = None, expertpath=None, loader=None, preview=None,
                     if field.startswith("coors_"):
                         mask = contours2mask(val,shape=image.shape)
                         mask = roi.getArrayRegion(mask, crop)
-                        contours, _ = cv2.findContours(mask.astype(np.uint8),
+                        contours, _ = findContours(mask.astype(np.uint8),
                                                        cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
                         info[field] = contours
                     elif "fn" == field:
