@@ -1,6 +1,7 @@
 from __future__ import division
 from __future__ import print_function
 from past.utils import old_div
+from past.builtins import basestring
 import sys
 import os
 import utils
@@ -96,7 +97,7 @@ class SlideShowPics(QtGui.QMainWindow):
 def main(paths):
     if isinstance(paths, list):
         imgLst = utils.imageFilePaths(paths)
-    elif isinstance(paths, str):
+    elif isinstance(paths, basestring):
         imgLst =  utils.imageFilePaths([paths])
     else:
         print(" You can either enter a list of paths or single path")

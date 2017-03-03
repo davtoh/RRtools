@@ -1613,7 +1613,7 @@ class edger(plotim):
     def getParameters(self,params = ("d","sigmaColor","sigmaSpace","clipLimit","tileGridSize",
                                      "isSIZE","isEQUA","isCLAHE","isBFILTER","th1","th2","size",
                                      "apertureSize","L2gradient")):
-        if isinstance(params,str):
+        if isinstance(params,basestring):
             params = (params,)
         p = {}
         for param in params:
@@ -1628,7 +1628,7 @@ class edger(plotim):
         return super(edger,self).save(strname,ext,name)
 
     def load(self,img,compute=True):
-        if isinstance(img,str):
+        if isinstance(img,basestring):
             from directory import getData
             self.pathdata = getData(img) # [drive,body,name,header]
             self.data2 = cv2.imread(img)

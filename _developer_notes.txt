@@ -23,6 +23,8 @@
 # see how to distribute package
 	# https://packaging.python.org/distributing/
 	# http://peterdowns.com/posts/first-time-with-pypi.html
+	# to install localy
+		$ pip install -e .
 # build relseases
 	# https://travis-ci.org/pyserial/pyserial
 ########################### NOTEs

@@ -1,5 +1,5 @@
 from __future__ import print_function
-from past.builtins import execfile
+from past.builtins import execfile, basestring
 import sys
 from collections import OrderedDict
 from pyqtgraph.Qt import QtCore, QtGui # import GUI libraries
@@ -196,7 +196,7 @@ class GUIRRTool(QtGui.QMainWindow):
             for act in actions:
                 Action = self.createAction(act)
                 method = act["method"]
-                if isinstance(method,str):
+                if isinstance(method,basestring):
                     if hasattr(self,method):
                         method = getattr(self,method)
                         Action.triggered.connect(method)

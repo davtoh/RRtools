@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# (C) 2015-2017 David Toro <davsamirtor@gmail.com>
+# (C) 2016-2017 David Toro <davsamirtor@gmail.com>
 """
 RRtoolbox is a python package which contains source code designed to process
 images built mainly using OpenCV.
