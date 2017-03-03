@@ -111,7 +111,7 @@ def affine_detect(detector, img, mask=None, pool=None):
         print('affine sampling: %d / %d\r' % (i+1, len(params)), end=' ')
         keypoints.extend(k)
         descrs.extend(d)
-    print()
+    print("")
     return keypoints, np.array(descrs)
 
 if __name__ == '__main__':

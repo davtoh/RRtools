@@ -103,14 +103,14 @@ class EntropyPlot(Plotim):
         self.controlText.append(self.getData(self.imlist[self.index]))
         self.init()
     def getImage(self,im):
-        if isinstance(im,str): # list is reference to image
+        if isinstance(im,basestring): # list is reference to image
             return self.loadfunc(im)
         elif type(im) in (float,int): # is entropy value
             return self.getImage(self.sortedImages[self.sortedD.index(im)])
         else: # list is image itself
             return im
     def getData(self,im):
-        if isinstance(im,str): # list is reference to image
+        if isinstance(im,basestring): # list is reference to image
             name = "".join(getData(im)[2:])
             number = str(1+self.index)
             D = str(self.sortedD[self.sortedImages.index(im)])
