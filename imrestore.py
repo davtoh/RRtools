@@ -1528,10 +1528,10 @@ def shell(args=None, namespace=None, restorers = None):
     return namespace # return given namespace
 
 if __name__ == "__main__":
-    shell() # run the shell
+    #shell() # run the shell
     #shell(" tests/im1* --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --grow_scene --denoise mild --lens --enclose --restorer RetinalRestore".split())
     #shell(' /home/davtoh/Downloads/test/*.jpg --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --restorer RetinalRestore'.split())
     #shell("-z ImRestore /home/davtoh/Downloads/test/*.jpg -g -l 800,800 -t".split())
-    #shell("tests/im1*".split()) # run this for testing
+    shell("tests/im1*".split()) # run this for testing
     # TODO visualizator for alpha mask
     # TODO implement standard deviation in bright areas to detect optic disk

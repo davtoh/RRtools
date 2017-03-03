@@ -9,7 +9,8 @@ from builtins import range
 
 import cv2
 import numpy as np
-from .basic import findminima, im2shapeFormat, getOtsuThresh
+from .basic import findminima, im2shapeFormat, getOtsuThresh, findContours, \
+    isnumpy
 from .filters import smooth
 
 def brightness(img):
@@ -160,7 +161,7 @@ def cnt_hist(gray):
     """
     thresh = thresh_hist(gray) # obtain optimum threshold
     rough_mask=threshold_opening(gray,thresh,1,0)
-    contours,hierarchy = cv2.findContours(rough_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    contours,hierarchy = findContours(rough_mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     return biggestCnt(contours)
 
 def mask_watershed(BGR, GRAY = None):
@@ -189,7 +190,7 @@ def thresh_biggestCnt(thresh):
     :return: cnt
     """
     #http://docs.opencv.org/master/d9/d8b/tutorial_py_contours_hierarchy.html#gsc.tab=0
-    contours,hierarchy = cv2.findContours(thresh.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    contours,hierarchy = findContours(thresh.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
     return biggestCnt(contours)
 
 def gethull(contours):
@@ -199,7 +200,7 @@ def gethull(contours):
     :param contours: contours or mask array
     :return: cnt
     """
-    if type(contours).__module__ == np.__name__:
-        contours, _ = cv2.findContours(contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    if isnumpy(contours):
+        contours, _ = findContours(contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     allcontours = np.vstack(contours[i] for i in np.arange(len(contours)))
     return cv2.convexHull(allcontours)

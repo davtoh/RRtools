@@ -7,7 +7,8 @@ import cv2
 import numpy as np
 from ..lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
     findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio, \
-    filterFactory, brightness, background, thresh_biggestCnt, contours2mask
+    filterFactory, brightness, background, thresh_biggestCnt, contours2mask, \
+    findContours
 
 def _getBrightAlpha(backgray, foregray, window = None):
     """
@@ -186,7 +187,7 @@ def find_optic_disc_watershed(img, P):
     watershed[np.bitwise_and(P>data_body_left,P<data_body)]=mk_body # main body
     # find bright objects
     flares_thresh = (P >= data_max_left).astype(np.uint8)
-    contours,hierarchy = cv2.findContours(flares_thresh.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    contours,hierarchy = findContours(flares_thresh.copy(),cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
     mks_flare = []
     for i,cnt in enumerate(contours):
         index = mk_flare+i
@@ -202,7 +203,7 @@ def find_optic_disc_watershed(img, P):
     contours_flares = []
     for mk_flare in mks_flare:
         brightest = np.uint8(watershed==mk_flare)
-        contours,hierarchy = cv2.findContours(brightest,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+        contours,hierarchy = findContours(brightest,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
         contours_flares.extend(contours)
     Crs = [(i,j) for i,j in [(convexityRatio(cnt),cnt) for cnt in contours_flares] if i != 0] # convexity ratios
     Crs.sort(reverse=True,key=lambda x:x[0])

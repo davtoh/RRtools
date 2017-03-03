@@ -624,6 +624,19 @@ def padVH(imgs, ypad=0, xpad=0, bgrcolor = None, alfa = None):
 
 ### OTHERS
 
+def findContours(*args,**kwargs):
+    """
+    Compatibility wrapper around cv2.findContour to support both openCV 2 and
+    openCV 3.
+
+    findContours(image, mode, method[, contours[, hierarchy[, offset]]]) -> image, contours, hierarchy
+    """
+    try:
+        contours, hierarchy = cv2.findContours(*args,**kwargs)
+    except ValueError: # opencv >= 3.2
+        image, contours, hierarchy = cv2.findContours(*args,**kwargs)
+    return contours, hierarchy
+
 def anorm2(a):
     """
     Summation of squares (helper function for :func:`anorm`)
@@ -951,7 +964,7 @@ def contoursArea(contours):
     :return: area.
     """
     if isnumpy(contours):
-        contours, _ = cv2.findContours(contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = findContours(contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     area = 0 # accumulate area
     for cnt in contours:
         area += cv2.contourArea(cnt.astype(np.int32)) # get each contour area
