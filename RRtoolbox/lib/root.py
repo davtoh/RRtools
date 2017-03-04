@@ -22,8 +22,6 @@ from itertools import groupby
 from collections import OrderedDict
 from string import Formatter
 formater = Formatter() # string formatter str.format
-# ----------------------------GLOBAL VARIABLES---------------------------- #
-
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 
@@ -780,7 +778,7 @@ class Controlstdout(object):
             A file can be given but if it is write-only it cannot retrieve
             data to self.buffered so "w+" is recommended to be used with self.buffered.
 
-    .. warning:: If a references to sys.stdout is kept before the Controlstdout
+    .. warning:: If a reference to sys.stdout is kept before the Controlstdout
             instance then output can be printed trough it and cannot be
             controlled by the Controlstdout context.
     """
@@ -982,35 +980,73 @@ if __name__ == "__main__":
 
 # ---------------------------- EXCEPTIONS ---------------------------- #
 
-class TimeOutException(Exception): pass
-
-class TransferExeption(Exception): pass
-
-class VariableNotSettable(Exception): pass
-
-class VariableNotDeletable(Exception): pass
-
-class NotCallable(Exception):
+class TimeOutException(Exception):
     """
-    Defines objectGetter error: given object is not callable.
+    Raise an exception when a process surpasses the timeout
     """
-    pass
+
+class TransferExeption(Exception):
+    """
+    Raise an exception when transfered data is corrupt
+    """
+
+class VariableNotSettable(Exception):
+    """
+    Exception for property not settable
+    """
+
+
+class VariableNotDeletable(Exception):
+    """
+    Exception for property not deletable
+    """
+
+
+class VariableNotGettable(Exception):
+    """
+    Exception for property not gettable
+    """
+
+
+class VariableNotAvailable(Exception):
+    """
+    Exception for variable that is not available
+    """
+
+
+class NotConvertibleToInt(ValueError):
+    """
+    Exception to denote that value cannot be represented as int
+    """
+
+
+class ClassNotAllowed(Exception):
+    """
+    Exception to denote that given class is not allowed
+    """
+
 
 class NotCreatable(Exception):
     """
     Defines objectGetter error: objectGetter cannot create new object.
     """
-    pass
-
-class NoParserFound(Exception): pass
 
 
-class NameSpace(object):
+class NoParserFound(Exception):
     """
-    used to store variables
+    Raise when no parser is found to use in a shell i.e to interpret user
+    input
     """
+
 
 class CorruptPersistent(EOFError,IOError):
     """
-    Used for persistent data read from disk like pickles to denote it has been corrupted
+    Used for persistent data read from disk like pickles to denote
+    it has been corrupted
+    """
+# ----------------------------GLOBAL VARIABLES---------------------------- #
+
+class NameSpace(object):
+    """
+    Used to store variables
     """

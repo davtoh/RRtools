@@ -10,6 +10,6 @@ __author__ = "David Toro"
 #__copyright__ = "Copyright 2017, The <name> Project"
 #__credits__ = [""]
 __license__ = "BSD-3-Clause"
-__version__ = '1.0.0a2'
+__version__ = '1.0.0a2.post3'
 __email__ = "davsamirtor@gmail.com"
 #__status__ = "Pre-release"
