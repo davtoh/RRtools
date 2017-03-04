@@ -5,8 +5,10 @@ include LICENSE.txt README.rst
 recursive-include examples *.py
 
 # Include the tests files
+recursive-exclude tests * # exclude all test data for better control
 #recursive-include tests *.py # only scripts
-recursive-include tests *.py im*.jpg # scripts and test images
+#recursive-include tests *.py im*.jpg # scripts and test images
+#recursive-include tests *.py im1*.jpg # scripts and only some test images
 
 # If using Python 2.6 or less, then have to include package data, even though
 # it's already declared in setup.py

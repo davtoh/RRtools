@@ -4,6 +4,7 @@ RRtools - Raster Restoration Tools  |build-status| |docs|
 
 Overview
 ========
+
 This module encapsulates algorithms for the restoration of images and it is
 specialized in retinal images.
 
@@ -18,17 +19,20 @@ and to let the users find out about its utilities. Do not hesitate to share it t
 let everyone know how awesome it is!! (be warned that it is for research purposes)
 
 Stable:
-- Documentation: http://pythonhosted.org/rrtoolbox/
-- Download Page: https://pypi.python.org/pypi/rrtoolbox
+
+	- Documentation: http://pythonhosted.org/rrtoolbox/
+	- Download Page: https://pypi.python.org/pypi/rrtoolbox
 
 Latest:
-- Documentation: http://rrtools.readthedocs.io/en/latest/
-- Project Homepage: https://github.com/davtoh/RRtools
+
+	- Documentation: http://rrtools.readthedocs.io/en/latest/
+	- Project Homepage: https://github.com/davtoh/RRtools
 
 BSD license, (C) 2015-2017 David Toro <davsamirtor@gmail.com>
 
 Documentation
 =============
+
 For API documentation, usage and examples see files in the "documentation"
 directory.  The ".rst" files can be read in any text editor or being converted to
 HTML or PDF using Sphinx_. A HTML version is online at
@@ -37,8 +41,6 @@ http://rrtools.readthedocs.io/en/latest/
 Read RRtoolbox (Retinal Restauration Toolbox) manual_ or the dissertation_
 which made this project possible with all the concepts.
 
-Examples
-========
 Examples are found in the directory examples_ and unit tests in tests_.
 
 Installation
@@ -48,26 +50,11 @@ Installation
 The usual setup.py for Python_ libraries is used for the source distribution.
 Windows installers are also available (see download link above).
 
-.. _`documentation/index.rst`: https://github.com/davtoh/RRtools/blob/master/documentation/index.rst
-.. _examples: https://github.com/davtoh/RRtools/tree/master/examples
-.. _tests: https://github.com/davtoh/RRtools/tree/master/tests
-.. _Python: http://python.org/
-.. _Sphinx: http://sphinx-doc.org/
-.. _pyinstaller: http://www.pyinstaller.org/
-.. |build-status| image:: https://travis-ci.org/pyserial/pyserial.svg?branch=master
-   :target: https://github.com/davtoh/RRtools/releases
-   :alt: Build status
-.. |docs| image:: https://readthedocs.org/projects/pyserial/badge/?version=latest
-   :target: http://rrtools.readthedocs.io/
-   :alt: Documentation
-.. _manual: https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/RRtoolbox.pdf
-.. _dissertation:
-.. _demo: https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb
-
 Releases
 ========
 
-All releases follow semantic rules proposed in https://www.python.org/dev/peps/pep-0440/ and http://semver.org/
+All releases follow semantic rules proposed in https://www.python.org/dev/peps/pep-0440/ 
+and http://semver.org/
 
 To create executable from source code::
 
@@ -89,9 +76,9 @@ To test imrestore executable if in dist folder::
 
     $ ./imrestore ../tests/im1*
 
-A basic usage would be typing `./imrestore tests/im1* --lens` in the terminal which species
+A basic usage would be typing ``./imrestore tests/im1* --lens`` in the terminal which species
 to imrestore to load from the test path images that start with im1 specified by the wildcard
-'*' and the option --lens adds, as its name implies, lens to the retinal area.
+'*' and the option ``--lens`` adds, as its name implies, lens to the retinal area.
 
 * So, it loads this image which presents some flares and noise:
 
@@ -101,8 +88,8 @@ to imrestore to load from the test path images that start with im1 specified by 
 	
 	Retina photo 1
 
-* The second image is from a different perspective of the same retinal area but has information
-that the other does not have:
+* The second image is from a different perspective of the same retinal area but has information 
+  that the other does not have:
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg
 	:align: center
@@ -110,8 +97,8 @@ that the other does not have:
 	
 	Retina photo 2
 
-* And Voilà they are merged into one! notice how the flares tend to disappear and the lens
-were added too! Because it is in development it still is not that pretty...
+* And Voilà they are merged into one! notice how the flares tend to disappear and the lens were 
+  added too! Because it is in development it still is not that pretty...
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg
 	:align: center
@@ -122,7 +109,8 @@ were added too! Because it is in development it still is not that pretty...
 
 Usage
 =====
-For help just type in './imrestore --help', it could not be easier than that! but a demo_
+
+For help just type in ``./imrestore --help``, it could not be easier than that! but a demo_
 is available using the jupyter notebook to generate the desired commands to learn or use
 in the console while still running the program.
 
@@ -130,3 +118,19 @@ in the console while still running the program.
 - author: David Toro
 - e-mail: davsamirtor@gmail.com
 - project: https://github.com/davtoh/RRtools
+
+.. _`documentation/index.rst`: https://github.com/davtoh/RRtools/blob/master/documentation/index.rst
+.. _examples: https://github.com/davtoh/RRtools/tree/master/examples
+.. _tests: https://github.com/davtoh/RRtools/tree/master/tests
+.. _Python: http://python.org/
+.. _Sphinx: http://sphinx-doc.org/
+.. _pyinstaller: http://www.pyinstaller.org/
+.. |build-status| image:: https://travis-ci.org/pyserial/pyserial.svg?branch=master
+   :target: https://github.com/davtoh/RRtools/releases
+   :alt: Build status
+.. |docs| image:: https://readthedocs.org/projects/pyserial/badge/?version=latest
+   :target: http://rrtools.readthedocs.io/
+   :alt: Documentation
+.. _manual: https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/RRtoolbox.pdf
+.. _dissertation:
+.. _demo: https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb

@@ -52,7 +52,8 @@
 
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.basic</span> <span class="k">import</span> <span class="n">findminima</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">getOtsuThresh</span>
+<span class="kn">from</span> <span class="nn">.basic</span> <span class="k">import</span> <span class="n">findminima</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">getOtsuThresh</span><span class="p">,</span> <span class="n">findContours</span><span class="p">,</span> \
+    <span class="n">isnumpy</span>
 <span class="kn">from</span> <span class="nn">.filters</span> <span class="k">import</span> <span class="n">smooth</span>
 
 <div class="viewcode-block" id="brightness"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.brightness">[docs]</a><span class="k">def</span> <span class="nf">brightness</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
@@ -203,7 +204,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">thresh</span> <span class="o">=</span> <span class="n">thresh_hist</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span> <span class="c1"># obtain optimum threshold</span>
     <span class="n">rough_mask</span><span class="o">=</span><span class="n">threshold_opening</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span><span class="n">thresh</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">rough_mask</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+    <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">rough_mask</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">biggestCnt</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="mask_watershed"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.mask_watershed">[docs]</a><span class="k">def</span> <span class="nf">mask_watershed</span><span class="p">(</span><span class="n">BGR</span><span class="p">,</span> <span class="n">GRAY</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -232,7 +233,7 @@
 <span class="sd">    :return: cnt</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#http://docs.opencv.org/master/d9/d8b/tutorial_py_contours_hierarchy.html#gsc.tab=0</span>
-    <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">thresh</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_LIST</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+    <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">thresh</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_LIST</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">biggestCnt</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="gethull"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.gethull">[docs]</a><span class="k">def</span> <span class="nf">gethull</span><span class="p">(</span><span class="n">contours</span><span class="p">):</span>
@@ -242,8 +243,8 @@
 <span class="sd">    :param contours: contours or mask array</span>
 <span class="sd">    :return: cnt</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span><span class="o">.</span><span class="n">__module__</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">__name__</span><span class="p">:</span>
-        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">contours</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">isnumpy</span><span class="p">(</span><span class="n">contours</span><span class="p">):</span>
+        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">contours</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
     <span class="n">allcontours</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">contours</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">contours</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">convexHull</span><span class="p">(</span><span class="n">allcontours</span><span class="p">)</span></div>
 </pre></div>

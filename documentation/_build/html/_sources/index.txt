@@ -6,7 +6,10 @@
 Welcome to RRtoolbox's documentation!
 =====================================
 
-Contents:
+.. include:: ../README.rst
+
+Contents
+========
 
 .. toctree::
    :maxdepth: 4

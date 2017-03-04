@@ -65,8 +65,6 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">Formatter</span>
 <span class="n">formater</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span> <span class="c1"># string formatter str.format</span>
-<span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
-
 <span class="c1"># ----------------------------BASIC FUNCTIONS---------------------------- #</span>
 
 
@@ -823,7 +821,7 @@
 <span class="sd">            A file can be given but if it is write-only it cannot retrieve</span>
 <span class="sd">            data to self.buffered so &quot;w+&quot; is recommended to be used with self.buffered.</span>
 
-<span class="sd">    .. warning:: If a references to sys.stdout is kept before the Controlstdout</span>
+<span class="sd">    .. warning:: If a reference to sys.stdout is kept before the Controlstdout</span>
 <span class="sd">            instance then output can be printed trough it and cannot be</span>
 <span class="sd">            controlled by the Controlstdout context.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1025,37 +1023,75 @@
 
 <span class="c1"># ---------------------------- EXCEPTIONS ---------------------------- #</span>
 
-<div class="viewcode-block" id="TimeOutException"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TimeOutException">[docs]</a><span class="k">class</span> <span class="nc">TimeOutException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="TransferExeption"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TransferExeption">[docs]</a><span class="k">class</span> <span class="nc">TransferExeption</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="VariableNotSettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotSettable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotSettable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="VariableNotDeletable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotDeletable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotDeletable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="NotCallable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCallable">[docs]</a><span class="k">class</span> <span class="nc">NotCallable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeOutException"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TimeOutException">[docs]</a><span class="k">class</span> <span class="nc">TimeOutException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defines objectGetter error: given object is not callable.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
+<span class="sd">    Raise an exception when a process surpasses the timeout</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="TransferExeption"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.TransferExeption">[docs]</a><span class="k">class</span> <span class="nc">TransferExeption</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raise an exception when transfered data is corrupt</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="VariableNotSettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotSettable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotSettable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception for property not settable</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="VariableNotDeletable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotDeletable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotDeletable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception for property not deletable</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="VariableNotGettable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotGettable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotGettable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception for property not gettable</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="VariableNotAvailable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.VariableNotAvailable">[docs]</a><span class="k">class</span> <span class="nc">VariableNotAvailable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception for variable that is not available</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="NotConvertibleToInt"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotConvertibleToInt">[docs]</a><span class="k">class</span> <span class="nc">NotConvertibleToInt</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception to denote that value cannot be represented as int</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="ClassNotAllowed"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.ClassNotAllowed">[docs]</a><span class="k">class</span> <span class="nc">ClassNotAllowed</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception to denote that given class is not allowed</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="NotCreatable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCreatable">[docs]</a><span class="k">class</span> <span class="nc">NotCreatable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Defines objectGetter error: objectGetter cannot create new object.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-<div class="viewcode-block" id="NoParserFound"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NoParserFound">[docs]</a><span class="k">class</span> <span class="nc">NoParserFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span> <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="NameSpace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NameSpace">[docs]</a><span class="k">class</span> <span class="nc">NameSpace</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    used to store variables</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="NoParserFound"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NoParserFound">[docs]</a><span class="k">class</span> <span class="nc">NoParserFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raise when no parser is found to use in a shell i.e to interpret user</span>
+<span class="sd">    input</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
 
 <div class="viewcode-block" id="CorruptPersistent"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.CorruptPersistent">[docs]</a><span class="k">class</span> <span class="nc">CorruptPersistent</span><span class="p">(</span><span class="ne">EOFError</span><span class="p">,</span><span class="ne">IOError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Used for persistent data read from disk like pickles to denote it has been corrupted</span>
+<span class="sd">    Used for persistent data read from disk like pickles to denote</span>
+<span class="sd">    it has been corrupted</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
+
+<div class="viewcode-block" id="NameSpace"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NameSpace">[docs]</a><span class="k">class</span> <span class="nc">NameSpace</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Used to store variables</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
 

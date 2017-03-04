@@ -667,6 +667,19 @@
 
 <span class="c1">### OTHERS</span>
 
+<div class="viewcode-block" id="findContours"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.findContours">[docs]</a><span class="k">def</span> <span class="nf">findContours</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compatibility wrapper around cv2.findContour to support both openCV 2 and</span>
+<span class="sd">    openCV 3.</span>
+
+<span class="sd">    findContours(image, mode, method[, contours[, hierarchy[, offset]]]) -&gt; image, contours, hierarchy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="c1"># opencv &gt;= 3.2</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">contours</span><span class="p">,</span> <span class="n">hierarchy</span></div>
+
 <div class="viewcode-block" id="anorm2"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.anorm2">[docs]</a><span class="k">def</span> <span class="nf">anorm2</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Summation of squares (helper function for :func:`anorm`)</span>
@@ -994,7 +1007,7 @@
 <span class="sd">    :return: area.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">isnumpy</span><span class="p">(</span><span class="n">contours</span><span class="p">):</span>
-        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">contours</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">contours</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
     <span class="n">area</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># accumulate area</span>
     <span class="k">for</span> <span class="n">cnt</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
         <span class="n">area</span> <span class="o">+=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span> <span class="c1"># get each contour area</span>

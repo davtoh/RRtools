@@ -8,6 +8,7 @@
 #
 # (C) 2015-2017 David Toro <davsamirtor@gmail.com>
 #
+import sys
 import io
 import os
 import re
@@ -42,18 +43,20 @@ def find_version(*file_paths):
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
 
+# information of package
+print(sys.version) # version of python
+
 package = 'RRtoolbox'
 version = find_version(package, '__init__.py')
-print("Package '{}' is in version {}".format(package,version))
+print("Package '{}' is in version {}".format(package,version)) # package version
 
 packages = find_packages(exclude=['RRtoolFC*', 'thesis*', 'tests*'])
-print("Packages to include {}".format(packages))
+print("Packages to include {}".format(packages)) # package includes
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Get the long description from the README file
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
+long_description = read(os.path.join(here, 'README.rst'))
 
 setup(
     name="rrtools",
@@ -90,22 +93,21 @@ setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Descriptors :: Memoization',
     ],
     keywords='sample setuptools development',
     platforms='any',
     install_requires=[#'opencv-python>=2.4.11,<3', # for image manipulation
-                        'packaging',
-                        'appdirs',
-                        'future>=0.16.0',
-                        'numpy>=1.9.2', # for array manipulation and Memory-mapped file
-                        'dill>=0.2.4', # for serializing manipulation
-                        'joblib>=0.8.4', # for memoization and Memory-mapped file
-                        'pycallgraph>=1.0.1',
-                        'pyqtgraph>=0.9.10', # for image array visualization and visual interfaces (it got pyqt in it)
-                        'sympy>=1.0',
-                        'matplotlib>=1.4.3',
-                        'pyperclip>=1.5.26',
+                        'packaging>=16.8',
+                        'appdirs>=1.4',
+                        'future>=0.16',
+                        'numpy>=1.9', # for array manipulation and Memory-mapped file
+                        'dill>=0.2', # for serializing manipulation
+                        'joblib>=0.8', # for memoization and Memory-mapped file
+                        'pycallgraph>=1',
+                        'pyqtgraph>=0.9', # for image array visualization and visual interfaces (it got pyqt in it)
+                        'sympy>=1',
+                        'matplotlib>=1.4',
+                        'pyperclip>=1.5',
                       ],
     #scripts=['imrestore.py'],
     entry_points={
