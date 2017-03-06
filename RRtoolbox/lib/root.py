@@ -1031,6 +1031,10 @@ class NotCreatable(Exception):
     Defines objectGetter error: objectGetter cannot create new object.
     """
 
+class NotCallable(Exception):
+    """
+    Defines objectGetter error: given object is not callable.
+    """
 
 class NoParserFound(Exception):
     """
