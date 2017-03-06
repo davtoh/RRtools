@@ -26,7 +26,7 @@ except ImportError:
         ImportWarning
     )
     class MockOpenCV(object):
-        def __int__(self):
+        def __init__(self):
             self.KeyPoint = None
     # solves ImportError: No module named cv2
     # this changes the behaviour of the module by mocking cv2
