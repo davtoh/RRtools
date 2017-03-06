@@ -40,42 +40,58 @@
   <h1>Source code for RRtoolbox.lib.image</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Bundle of methods for handling images. Rather than manipulating specialized</span>
-<span class="sd">    operations in images methods in this module are used for loading, outputting</span>
-<span class="sd">    and format-converting methods, as well as color manipulation.</span>
+<span class="sd">Bundle of methods for handling images. Rather than manipulating specialized</span>
+<span class="sd">operations in images methods in this module are used for loading, outputting</span>
+<span class="sd">and format-converting methods, as well as color manipulation.</span>
 
-<span class="sd">    SUPPORTED FORMATS</span>
+<span class="sd">SUPPORTED FORMATS</span>
 
-<span class="sd">    see http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread</span>
+<span class="sd">see http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_and_video.html#imread</span>
 
-<span class="sd">    Windows bitmaps - *.bmp, *.dib (always supported)</span>
-<span class="sd">    JPEG files - *.jpeg, *.jpg, *.jpe (see the Notes section)</span>
-<span class="sd">    JPEG 2000 files - *.jp2 (see the Notes section)</span>
-<span class="sd">    Portable Network Graphics - *.png (see the Notes section)</span>
-<span class="sd">    Portable image format - *.pbm, *.pgm, *.ppm (always supported)</span>
-<span class="sd">    Sun rasters - *.sr, *.ras (always supported)</span>
-<span class="sd">    TIFF files - *.tiff, *.tif (see the Notes section)</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| Format                    | Extension                                        |</span>
+<span class="sd">+===========================+==================================================+</span>
+<span class="sd">| Windows bitmaps           | \*.bmp, \*.dib (always supported)                |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| JPEG files                | \*.jpeg, \*.jpg, \*.jpe (see the Notes section)  |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| JPEG 2000 files           | \*.jp2 (see the Notes section)                   |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| Portable Network Graphics | \*.png (see the Notes section)                   |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| Portable image format     | \*.pbm, \*.pgm, \*.ppm (always supported)        |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| Sun rasters               | \*.sr, \*.ras (always supported)                 |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
+<span class="sd">| TIFF files                | \*.tiff, \*.tif (see the Notes section)          |</span>
+<span class="sd">+---------------------------+--------------------------------------------------+</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
-<span class="kn">from</span> <span class="nn">RRtoolbox.lib.directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">mkPath</span><span class="p">,</span> <span class="n">getPath</span><span class="p">,</span> <span class="n">increment_if_exits</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">FLOAT</span><span class="p">,</span><span class="n">INT</span><span class="p">,</span><span class="n">MANAGER</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="kn">import</span> <span class="nb">basestring</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">mkPath</span><span class="p">,</span> <span class="n">getPath</span><span class="p">,</span> <span class="n">increment_if_exits</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">FLOAT</span><span class="p">,</span><span class="n">INT</span><span class="p">,</span><span class="n">MANAGER</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">arrayops.basic</span> <span class="kn">import</span> <span class="n">anorm</span><span class="p">,</span> <span class="n">polygonArea</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">vectorsAngles</span><span class="p">,</span> <span class="n">overlay</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">.arrayops.basic</span> <span class="kn">import</span> <span class="n">anorm</span><span class="p">,</span> <span class="n">polygonArea</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">vectorsAngles</span><span class="p">,</span> <span class="n">overlay</span><span class="p">,</span> \
     <span class="n">standarizePoints</span><span class="p">,</span> <span class="n">splitPoints</span>
-<span class="kn">from</span> <span class="nn">root</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">.root</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="c1">#from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import name QtOpenGL</span>
-<span class="kn">from</span> <span class="nn">cache</span> <span class="kn">import</span> <span class="n">Cache</span><span class="p">,</span> <span class="n">ResourceManager</span>
+<span class="kn">from</span> <span class="nn">.cache</span> <span class="kn">import</span> <span class="n">Cache</span><span class="p">,</span> <span class="n">ResourceManager</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">MutableSequence</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">strdifference</span><span class="p">,</span> <span class="n">changedir</span><span class="p">,</span> <span class="n">checkFile</span><span class="p">,</span> <span class="n">getFileHandle</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">getData</span><span class="p">,</span> <span class="n">strdifference</span><span class="p">,</span> <span class="n">changedir</span><span class="p">,</span> <span class="n">checkFile</span><span class="p">,</span> <span class="n">getFileHandle</span><span class="p">,</span> \
     <span class="n">increment_if_exits</span><span class="p">,</span> <span class="n">mkPath</span>
 <span class="kn">import</span> <span class="nn">matplotlib.axes</span>
 <span class="kn">import</span> <span class="nn">matplotlib.figure</span>
-<span class="kn">from</span> <span class="nn">plotter</span> <span class="kn">import</span> <span class="n">Plotim</span><span class="p">,</span> <span class="n">limitaxis</span>
-<span class="kn">from</span> <span class="nn">serverServices</span> <span class="kn">import</span> <span class="n">parseString</span><span class="p">,</span> <span class="n">string_is_socket_address</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="kn">from</span> <span class="nn">.plotter</span> <span class="kn">import</span> <span class="n">Plotim</span><span class="p">,</span> <span class="n">limitaxis</span>
+<span class="kn">from</span> <span class="nn">.serverServices</span> <span class="kn">import</span> <span class="n">parseString</span><span class="p">,</span> <span class="n">string_is_socket_address</span>
+
 
 <span class="n">supported_formats</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bmp&quot;</span><span class="p">,</span><span class="s2">&quot;dib&quot;</span><span class="p">,</span><span class="s2">&quot;jpeg&quot;</span><span class="p">,</span><span class="s2">&quot;jpg&quot;</span><span class="p">,</span><span class="s2">&quot;jpe&quot;</span><span class="p">,</span><span class="s2">&quot;jp2&quot;</span><span class="p">,</span><span class="s2">&quot;png&quot;</span><span class="p">,</span><span class="s2">&quot;pbm&quot;</span><span class="p">,</span><span class="s2">&quot;pgm&quot;</span><span class="p">,</span><span class="s2">&quot;ppm&quot;</span><span class="p">,</span><span class="s2">&quot;sr&quot;</span><span class="p">,</span><span class="s2">&quot;ras&quot;</span><span class="p">,</span><span class="s2">&quot;tiff&quot;</span><span class="p">,</span><span class="s2">&quot;tif&quot;</span><span class="p">)</span>
 
@@ -395,9 +411,9 @@
 <span class="sd">    :return: None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">print</span> <span class="n">fn</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span> <span class="n">fn</span><span class="p">,</span> <span class="s2">&quot; Could not be loaded...&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot; Could not be loaded...&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">raiseError</span><span class="p">:</span> <span class="k">raise</span></div>
 
 <div class="viewcode-block" id="loadcv"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.loadcv">[docs]</a><span class="k">def</span> <span class="nf">loadcv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">flags</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -442,9 +458,12 @@
 <span class="sd">                +-------+------------------------------+--------+</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">):</span><span class="c1"># reads numpy arrays</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">getFileHandle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># download the image</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">):</span><span class="c1"># reads numpy arrays</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">getFileHandle</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># download the image</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">path</span> <span class="c1"># assume path is a file-like object ie. cStringIO or file</span>
     <span class="c1">#nparr = np.asarray(bytearray(resp.read()), dtype=dtype) # convert it to a NumPy array</span>
     <span class="n">nparr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imdecode</span><span class="p">(</span><span class="n">nparr</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">)</span> <span class="c1"># decode using OpenCV format</span>
@@ -452,16 +471,16 @@
 
 <div class="viewcode-block" id="interpretImage"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.interpretImage">[docs]</a><span class="k">def</span> <span class="nf">interpretImage</span><span class="p">(</span><span class="n">toparse</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="sd">    Interprets to get image.</span>
 
 <span class="sd">    :param toparse: string to parse or array. It can interpret:</span>
 
-<span class="sd">        *connection to server (i.e. host:port)</span>
-<span class="sd">        *path to file (e.g. /path_to_image/image_name.ext)</span>
-<span class="sd">        *URL to image (e.g. http://domain.com/path_to_image/image_name.ext)</span>
-<span class="sd">        *image as string (i.g. numpy converted to string)</span>
-<span class="sd">        *image itself (i.e. numpy array)</span>
+<span class="sd">        * connection to server (i.e. host:port)</span>
+<span class="sd">        * path to file (e.g. /path_to_image/image_name.ext)</span>
+<span class="sd">        * URL to image (e.g. http://domain.com/path_to_image/image_name.ext)</span>
+<span class="sd">        * image as string (i.g. numpy converted to string)</span>
+<span class="sd">        * image itself (i.e. numpy array)</span>
+
 <span class="sd">    :param flags: openCV flags:</span>
 
 <span class="sd">                +-------+------------------------------+--------+</span>
@@ -473,6 +492,7 @@
 <span class="sd">                +-------+------------------------------+--------+</span>
 <span class="sd">                | (-1)  | cv2.CV_LOAD_IMAGE_UNCHANGED  | format |</span>
 <span class="sd">                +-------+------------------------------+--------+</span>
+
 <span class="sd">    :return: image or None if not successfull</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># test it is from server</span>
@@ -492,7 +512,7 @@
         <span class="c1"># test path to file or URL</span>
         <span class="k">return</span> <span class="n">loadsfrom</span><span class="p">(</span><span class="n">toparse</span><span class="p">,</span><span class="n">flags</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ImFactory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory">[docs]</a><span class="k">class</span> <span class="nc">ImFactory</span><span class="p">:</span>
+<div class="viewcode-block" id="ImFactory"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory">[docs]</a><span class="k">class</span> <span class="nc">ImFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    image factory for RRToolbox to create scripts to standardize loading images and</span>
 <span class="sd">    provide lazy loading (it can load images from disk with the customized options</span>
@@ -535,7 +555,7 @@
         <span class="c1">#TODO not finished</span>
 
 <div class="viewcode-block" id="ImFactory.update"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImFactory.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -641,12 +661,14 @@
 <span class="sd">                +-------+-------------------------------+--------+</span>
 <span class="sd">                | (-2)  | N/A                           | RGBA   |</span>
 <span class="sd">                +-------+-------------------------------+--------+</span>
+
 <span class="sd">    :param dsize: (None) output image size; if it equals zero, it is computed as:</span>
 
 <span class="sd">                \texttt{dsize = Size(round(fx*src.cols), round(fy*src.rows))}</span>
 
 <span class="sd">                If (integer,None) or (None,integer) it completes the values according</span>
 <span class="sd">                to keepratio parameter.</span>
+
 <span class="sd">    :param dst: (None) output image; it has the size dsize (when it is non-zero) or the</span>
 <span class="sd">                size computed from src.size(), fx, and fy; the type of dst is uint8.</span>
 <span class="sd">    :param fx: scale factor along the horizontal axis</span>
@@ -669,6 +691,7 @@
 <span class="sd">                +-----+-----------------+-------------------------------------------------------+</span>
 <span class="sd">                |(4)  | INTER_LANCZOS4  | Lanczos interpolation over 8x8 pixel neighborhood     |</span>
 <span class="sd">                +-----+-----------------+-------------------------------------------------------+</span>
+
 <span class="sd">    :param mmode: (None) mmode to create mapped file. if mpath is specified loads image, converts</span>
 <span class="sd">                to mapped file and then loads mapping file with mode {None, &#39;r+&#39;, &#39;r&#39;, &#39;w+&#39;, &#39;c&#39;}</span>
 <span class="sd">                (it is slow for big images). If None, loads mapping file to memory (useful to keep</span>
@@ -681,9 +704,12 @@
 <span class="sd">    :param keepratio: True to keep image ratio when completing data from dsize,fx and fy,</span>
 <span class="sd">                False to not keep ratio.</span>
 
-<span class="sd">    .. note:: If mmode is None and mpath is given it creates mmap file but loads from it to memory.</span>
-<span class="sd">             It is useful to create physical copy of data to keep loading from (data can be reloaded</span>
-<span class="sd">             even if original file is moved or deleted).</span>
+<span class="sd">    .. note::</span>
+
+<span class="sd">        If mmode is None and mpath is given it creates mmap file but loads from it to memory.</span>
+<span class="sd">        It is useful to create physical copy of data to keep loading from (data can be reloaded</span>
+<span class="sd">        even if original file is moved or deleted).</span>
+
 <span class="sd">    :return loader function</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># create factory functions</span>
@@ -836,10 +862,10 @@
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">throw</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">e</span>
+                <span class="k">raise</span>
     <span class="k">return</span> <span class="n">loader</span> <span class="c1"># factory function</span></div>
 
-<div class="viewcode-block" id="ImLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader">[docs]</a><span class="k">class</span> <span class="nc">ImLoader</span><span class="p">:</span>
+<div class="viewcode-block" id="ImLoader"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader">[docs]</a><span class="k">class</span> <span class="nc">ImLoader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class to load image array from path, url,</span>
 <span class="sd">    server, string or directly from numpy array (supports databases).</span>
@@ -935,7 +961,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 <div class="viewcode-block" id="ImLoader.getConfiguration"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImLoader.getConfiguration">[docs]</a>    <span class="k">def</span> <span class="nf">getConfiguration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        get Custom configuration from default configuration</span>
+<span class="sd">        Get Custom configuration from default configuration.</span>
+
 <span class="sd">        :param kwargs: keys to customize default configuration.</span>
 <span class="sd">                    If no key is provided default configuration is returned.</span>
 <span class="sd">        :return: dictionary of configuration</span>
@@ -963,7 +990,7 @@
 <span class="sd">    :param fns: list of paths</span>
 <span class="sd">    :param loader: path loader (loadcv,loadsfrom, or function from loadFunc)</span>
 
-<span class="sd">    .. olsosee:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`</span>
+<span class="sd">    Also see:: :func:`loadcv`, :func:`loadsfrom`, :func:`loadFunc`</span>
 
 <span class="sd">    Example::</span>
 
@@ -1058,7 +1085,7 @@
             <span class="n">path</span> <span class="o">+=</span> <span class="n">fn</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="c1"># foreground</span>
             <span class="k">if</span> <span class="n">im</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span> <span class="k">print</span> <span class="n">path</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span>
+                <span class="k">if</span> <span class="n">debug</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot; Loaded...&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">addpath</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">im</span><span class="p">,</span><span class="n">path</span>
                 <span class="k">return</span> <span class="n">im</span></div>
@@ -1079,7 +1106,7 @@
     <span class="c1"># see http://www.mathworks.com/help/images/ref/imhistmatch.html</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
         <span class="n">matched</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
             <span class="n">matched</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">hist_match</span><span class="p">(</span><span class="n">source</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">],</span> <span class="n">template</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">matched</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1159,52 +1186,62 @@
     <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.max"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.max">[docs]</a>    <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Maximum in each axis.</span>
 
 <span class="sd">        :return: x_max, y_max</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#self.max_x, self.max_y = np.max(self.data,0)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.min"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.min">[docs]</a>    <span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Minimum in each axis.</span>
 
 <span class="sd">        :return: x_min, y_min</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#self.min_x, self.min_y = np.min(self.data,0)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rectbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rectbox"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rectbox">[docs]</a>    <span class="k">def</span> <span class="nf">rectbox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rectangular box enclosing points (origin and end point or rectangle).</span>
 
 <span class="sd">        :return: (x0,y0),(x,y)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.boundingRect"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.boundingRect">[docs]</a>    <span class="k">def</span> <span class="nf">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rectangular box dimensions enclosing points.</span>
 
+<span class="sd">        example::</span>
+
+<span class="sd">            P = np.ones((400,400))</span>
+<span class="sd">            a = ImCoors(np.array([(116, 161), (295, 96), (122, 336), (291, 286)]))</span>
+<span class="sd">            x0,y0,w,h = a.boundingRect</span>
+<span class="sd">            P[y0:y0+h,x0:x0+w] = 0</span>
+
 <span class="sd">        :return: x0,y0,w,h</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">boundingRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
+<div class="viewcode-block" id="ImCoors.minAreaRect"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.minAreaRect">[docs]</a>    <span class="k">def</span> <span class="nf">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rotatedBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rotatedBox"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rotatedBox">[docs]</a>    <span class="k">def</span> <span class="nf">rotatedBox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rotated rectangular box enclosing points.</span>
 
 <span class="sd">        :return: 4 points.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">BoxPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span> <span class="c1"># opencv 2</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cv</span><span class="o">.</span><span class="n">BoxPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="c1"># opencv 3</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">boxPoints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">))</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">boxCenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.boxCenter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.boxCenter">[docs]</a>    <span class="k">def</span> <span class="nf">boxCenter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mean in each axis.</span>
 
@@ -1214,9 +1251,9 @@
         <span class="c1">#self.mean_y = (self.max_y+self.min_y)/2</span>
         <span class="n">xX</span><span class="p">,</span><span class="n">xY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
         <span class="n">nX</span><span class="p">,</span><span class="n">nY</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">((</span><span class="n">xX</span> <span class="o">+</span> <span class="n">nX</span><span class="p">,</span> <span class="n">xY</span> <span class="o">+</span> <span class="n">nY</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">((</span><span class="n">xX</span> <span class="o">+</span> <span class="n">nX</span><span class="p">,</span> <span class="n">xY</span> <span class="o">+</span> <span class="n">nY</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.mean"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.mean">[docs]</a>    <span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Center or mean.</span>
 <span class="sd">        :return: x,y</span>
@@ -1226,18 +1263,18 @@
         <span class="c1">#self.center_x, self.center_y = np.sum(self.data,axis=0)/len(self.data)</span>
         <span class="c1">#map(int,np.mean(self.data,0))</span>
         <span class="c1">#tuple(np.sum(self.data,axis=0)/len(self.data))</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">))</span></div>
     <span class="n">center</span> <span class="o">=</span> <span class="n">mean</span>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.area"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.area">[docs]</a>    <span class="k">def</span> <span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of points.</span>
 
 <span class="sd">        :return: area number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rectangularArea"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rectangularArea">[docs]</a>    <span class="k">def</span> <span class="nf">rectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of rectangle enclosing points aligned with x,y axes.</span>
 
@@ -1245,17 +1282,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">#method 1, it is not precise in rotation</span>
         <span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">),(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rectbox</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">y0</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">y0</span><span class="p">)))</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rotatedRectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rotatedRectangularArea"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rotatedRectangularArea">[docs]</a>    <span class="k">def</span> <span class="nf">rotatedRectangularArea</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Area of Rotated rectangle enclosing points.</span>
 
 <span class="sd">        :return: area number</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedBox</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">polygonArea</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedBox</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rectangularity"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rectangularity">[docs]</a>    <span class="k">def</span> <span class="nf">rectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ratio that represent a perfect square aligned with x,y axes.</span>
 
@@ -1266,9 +1303,9 @@
         <span class="c1">#bcx,bcy=self.boxCenter</span>
         <span class="c1">#return (cx)/bcx,(cy)/bcy # x_ratio, y_ratio</span>
         <span class="c1">#method 2</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rectangularArea</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rectangularArea</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">rotatedRectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.rotatedRectangularity"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.rotatedRectangularity">[docs]</a>    <span class="k">def</span> <span class="nf">rotatedRectangularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ratio that represent a perfect rotated square fitting points.</span>
 
@@ -1279,9 +1316,9 @@
             <span class="n">area</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># needed to prevent false values</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">area</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">area</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedRectangularArea</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">area</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">rotatedRectangularArea</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">regularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.regularity"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.regularity">[docs]</a>    <span class="k">def</span> <span class="nf">regularity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ratio of forms with similar measurements and angles.</span>
 <span class="sd">        e.g. squares and rectangles have rect angles so they are regular.</span>
@@ -1292,9 +1329,9 @@
         <span class="c1"># TODO this algorithm is still imperfect</span>
         <span class="n">pi</span> <span class="o">=</span> <span class="n">angle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="c1"># get pi value in radian or degrees</span>
         <span class="n">av</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertexesAngles</span>
-        <span class="k">return</span> <span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">av</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">av</span><span class="p">)</span> <span class="c1"># pi*number_agles/sum_angles</span>
+        <span class="k">return</span> <span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">av</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">av</span><span class="p">)</span> <span class="c1"># pi*number_agles/sum_angles</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">relativeVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.relativeVectors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.relativeVectors">[docs]</a>    <span class="k">def</span> <span class="nf">relativeVectors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Form vectors from points.</span>
 
@@ -1302,9 +1339,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">)</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pts</span><span class="p">,[</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># adds last vector from last and first point.</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])],</span> <span class="mi">1</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">vertexesAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.vertexesAngles"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.vertexesAngles">[docs]</a>    <span class="k">def</span> <span class="nf">vertexesAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Relative angle of vectors formed by vertexes.</span>
 
@@ -1315,9 +1352,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeVectors</span> <span class="c1"># get all vectors from points.</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vs</span><span class="p">,[</span><span class="n">vs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># add last vector to first position</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">(</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">))],</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> <span class="c1"># caculate angles</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">(</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">))],</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> <span class="c1"># caculate angles</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">pointsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.pointsAngles"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.pointsAngles">[docs]</a>    <span class="k">def</span> <span class="nf">pointsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Angle of vectors formed by points in Cartesian plane with respect to x axis.</span>
 
@@ -1326,16 +1363,16 @@
 <span class="sd">        :return: angles.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relativeVectors</span> <span class="c1"># get all vectors from points.</span>
-        <span class="k">return</span> <span class="n">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="o">=</span><span class="n">vs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="o">=</span><span class="n">vs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">,</span> <span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span></div>
     <span class="nd">@Cache</span>
-    <span class="k">def</span> <span class="nf">vectorsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ImCoors.vectorsAngles"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.ImCoors.vectorsAngles">[docs]</a>    <span class="k">def</span> <span class="nf">vectorsAngles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Angle of vectors in Cartesian plane with respect to x axis.</span>
 
 <span class="sd">        i.e. angle between vector &quot;v0&quot; (formed by point &quot;p0&quot; and the origin) and vector unity in axis x.</span>
 <span class="sd">        :return: angles.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">i</span><span class="p">,</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> <span class="c1"># caculate angles with respect to x axis</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">i</span><span class="p">,</span><span class="n">deg</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pts</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span><span class="p">)</span> <span class="c1"># caculate angles with respect to x axis</span></div></div>
 
 <div class="viewcode-block" id="drawcoorpoints"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.drawcoorpoints">[docs]</a><span class="k">def</span> <span class="nf">drawcoorpoints</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span><span class="n">points</span><span class="p">,</span><span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span><span class="n">col_in</span><span class="o">=</span><span class="n">red</span><span class="p">,</span><span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1460,7 +1497,7 @@
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">INT</span><span class="p">)</span>
     <span class="n">thickness</span> <span class="o">=</span> <span class="n">radius</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">pt1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">pt2</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">cv2</span><span class="o">.</span><span class="n">arrowedLine</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">col_in</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
@@ -1483,16 +1520,16 @@
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">INT</span><span class="p">)</span>
     <span class="n">thickness</span> <span class="o">=</span> <span class="n">radius</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">5</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">i</span><span class="o">%</span><span class="mi">2</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)):</span>
                     <span class="k">if</span> <span class="n">j</span><span class="o">%</span><span class="mi">2</span><span class="p">:</span>
                         <span class="c1">#print &quot;i=&quot;,i,&quot; j=&quot;,j</span>
                         <span class="n">pt1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
                         <span class="n">pt2</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
                         <span class="n">cv2</span><span class="o">.</span><span class="n">arrowedLine</span><span class="p">(</span><span class="n">vis</span><span class="p">,</span> <span class="n">pt1</span><span class="p">,</span> <span class="n">pt2</span><span class="p">,</span> <span class="n">col_in</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">),</span><span class="n">i</span><span class="o">+</span><span class="mi">3</span><span class="p">)):</span>
                     <span class="c1">#print &quot;i=&quot;,i,&quot; j=&quot;,j</span>
                     <span class="n">pt1</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
                     <span class="n">pt2</span> <span class="o">=</span> <span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
@@ -1668,7 +1705,7 @@
                 <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapdata2</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data2</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ry</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">rx</span><span class="p">]]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">isnear</span> <span class="ow">and</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">coordinateText</span> <span class="o">=</span> <span class="p">[[</span><span class="n">data</span><span class="p">]]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">])</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">builtinplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)])</span></div></div>
 
 <div class="viewcode-block" id="getcoors"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.getcoors">[docs]</a><span class="k">def</span> <span class="nf">getcoors</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">win</span> <span class="o">=</span><span class="s2">&quot;get coordinates&quot;</span><span class="p">,</span> <span class="n">updatefunc</span><span class="o">=</span><span class="n">drawcoorpoints</span><span class="p">,</span> <span class="n">coors</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">prox</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">red</span><span class="p">):</span>
     <span class="bp">self</span> <span class="o">=</span> <span class="n">GetCoors</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">updatefunc</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="n">unique</span><span class="p">,</span> <span class="n">col_out</span><span class="o">=</span><span class="n">col_out</span><span class="p">,</span> <span class="n">col_in</span><span class="o">=</span><span class="n">col_in</span><span class="p">)</span>
@@ -1688,7 +1725,7 @@
 <span class="sd">    :param values: list of values</span>
 <span class="sd">    :param sep: peparator value</span>
 <span class="sd">    :param axis: axis in each value</span>
-<span class="sd">    :return:lists of greater values, list of lesser values</span>
+<span class="sd">    :return: lists of greater values, list of lesser values</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">greater</span><span class="p">,</span><span class="n">lesser</span> <span class="o">=</span> <span class="p">[],[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
@@ -1760,7 +1797,7 @@
 <span class="sd">    :param max: max color in any channel</span>
 <span class="sd">    :return: random color</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">channels</span><span class="p">)]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">channels</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="Image"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.Image">[docs]</a><span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1934,11 +1971,11 @@
             <span class="n">fn</span> <span class="o">=</span> <span class="n">increment_if_exits</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imwrite</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">image</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Saved: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Saved: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_saved</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_saved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">fn</span><span class="p">,</span> <span class="bp">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;{} could not be saved&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{} could not be saved&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">fn</span><span class="p">,</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="Image.load"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.image.Image.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
@@ -1956,7 +1993,7 @@
         <span class="n">img</span><span class="p">,</span> <span class="n">last_loaded</span> <span class="o">=</span> <span class="n">data</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_loaded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_loaded</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last_loaded</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbosity</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s2">&quot;loaded: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_loaded</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;loaded: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_loaded</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">last_loaded</span> <span class="o">=</span> <span class="n">last_loaded</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_RGB</span><span class="o">=</span><span class="bp">None</span>
@@ -2003,7 +2040,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

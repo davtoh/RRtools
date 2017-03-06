@@ -40,25 +40,41 @@
   <h1>Source code for RRtoolbox.lib.config</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    .. moduleauthor:: David Toro &lt;davsamirtor@gmail.com&gt;</span>
-<span class="sd">    :platform: Unix, Windows</span>
-<span class="sd">    :synopsis: Looking for a reference? look here!.</span>
+<span class="sd">.. moduleauthor:: David Toro &lt;davsamirtor@gmail.com&gt;</span>
 
-<span class="sd">    This module contains all config data to the package.</span>
+<span class="sd">:platform: Unix, Windows</span>
+<span class="sd">:synopsis: Looking for a reference? look here!.</span>
+
+<span class="sd">This module contains all config data to the package.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">Directory</span> <span class="k">as</span> <span class="n">_directory</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">FileDirectory</span> <span class="k">as</span> <span class="n">_FileDirectory</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">correctPath</span> <span class="k">as</span> <span class="n">_correctPath</span>
-<span class="kn">from</span> <span class="nn">directory</span> <span class="kn">import</span> <span class="n">resource_path</span> <span class="k">as</span> <span class="n">_resource_path</span>
-<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">serializer</span>
-<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">updateSession</span> <span class="k">as</span> <span class="n">_updateSession</span>
-<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">readSession</span> <span class="k">as</span> <span class="n">_readSession</span>
-<span class="kn">from</span> <span class="nn">session</span> <span class="kn">import</span> <span class="n">saveSession</span> <span class="k">as</span> <span class="n">_saveSession</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">Directory</span> <span class="k">as</span> <span class="n">_directory</span>
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">FileDirectory</span> <span class="k">as</span> <span class="n">_FileDirectory</span>
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">correctPath</span> <span class="k">as</span> <span class="n">_correctPath</span>
+<span class="kn">from</span> <span class="nn">.directory</span> <span class="kn">import</span> <span class="n">resource_path</span> <span class="k">as</span> <span class="n">_resource_path</span>
+<span class="kn">from</span> <span class="nn">.session</span> <span class="kn">import</span> <span class="n">serializer</span>
+<span class="kn">from</span> <span class="nn">.session</span> <span class="kn">import</span> <span class="n">updateSession</span> <span class="k">as</span> <span class="n">_updateSession</span>
+<span class="kn">from</span> <span class="nn">.session</span> <span class="kn">import</span> <span class="n">readSession</span> <span class="k">as</span> <span class="n">_readSession</span>
+<span class="kn">from</span> <span class="nn">.session</span> <span class="kn">import</span> <span class="n">saveSession</span> <span class="k">as</span> <span class="n">_saveSession</span>
 <span class="kn">import</span> <span class="nn">pkgutil</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">float32</span><span class="p">,</span> <span class="n">int32</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>  <span class="c1"># Python 2?</span>
+    <span class="c1"># using exec avoids a SyntaxError in Python 3</span>
+    <span class="k">exec</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;def reraise(exc_type, exc_value, exc_traceback=None):</span>
+<span class="s2">                raise exc_type, exc_value, exc_traceback&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+<div class="viewcode-block" id="reraise"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.reraise">[docs]</a>    <span class="k">def</span> <span class="nf">reraise</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">exc_traceback</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">exc_value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">exc_value</span> <span class="o">=</span> <span class="n">exc_type</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">__traceback__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">exc_traceback</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exc_value</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">exc_traceback</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">exc_value</span></div>
 
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+
 
 <span class="c1"># ----------------------------GLOBAL VARIABLES---------------------------- #</span>
 <span class="c1"># FLAGS</span>
@@ -173,7 +189,7 @@
         <span class="c1"># save path is where results are placed</span>
         <span class="n">SAVEPATH</span> <span class="o">=</span> <span class="n">TESTPATH</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1">#return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">}</span>
 
 <div class="viewcode-block" id="DirectoryManager.reset"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.DirectoryManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -185,11 +201,11 @@
 
 <span class="sd">        .. warning:: ConfigFile is purposely not updated. Call manually method load()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Creating default &#39;{}&#39; file...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Creating default &#39;{}&#39; file...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">_saveSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span>
-                <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; has been reset successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&#39;{}&#39; has been reset successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">data</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raiseError</span><span class="p">:</span>
@@ -204,15 +220,15 @@
 
 <span class="sd">        .. warning:: Unsaved instance variables will be replaced by configuration file variables.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Loading &#39;{}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loading &#39;{}&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="n">error</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="nb">vars</span> <span class="o">=</span> <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&#39;{}&#39; not found...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
             <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;&#39;{}&#39; structure is old...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&#39;{}&#39; structure is old...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
             <span class="n">error</span> <span class="o">=</span> <span class="bp">True</span>
 
         <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
@@ -221,11 +237,11 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="nb">vars</span> <span class="o">=</span>  <span class="n">_readSession</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="kn">import</span> <span class="nn">sys</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Trying to read &#39;{}&#39; with writted &quot;</span>
-                                <span class="s2">&quot;session as &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span><span class="n">data</span><span class="p">)),</span> <span class="bp">None</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="c1"># http://stackoverflow.com/questions/6062576/adding-information-to-an-exception</span>
+                <span class="n">reraise</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;Trying to read &#39;{}&#39; with writted &quot;</span>
+                                <span class="s2">&quot;session as &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span><span class="n">data</span><span class="p">)),</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span> <span class="s2">&quot;Default &#39;{}&#39; read successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Default &#39;{}&#39; read successfully...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">vars</span></div>
 
@@ -287,14 +303,14 @@
 
 <span class="n">MANAGER</span> <span class="o">=</span> <span class="n">DirectoryManager</span><span class="p">()</span> <span class="c1"># configure directories</span>
 
-<div class="viewcode-block" id="ConfigTool"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.ConfigTool">[docs]</a><span class="k">class</span> <span class="nc">ConfigTool</span><span class="p">:</span>
+<div class="viewcode-block" id="ConfigTool"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.config.ConfigTool">[docs]</a><span class="k">class</span> <span class="nc">ConfigTool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manage the configured Tools.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># CONTENTS</span>
     <span class="n">_init_tool</span> <span class="o">=</span> <span class="n">_FileDirectory</span><span class="p">([</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    __author__ = &#39;Davtoh&#39;</span>
+
 <span class="s2">    import sys</span>
 <span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;LIBPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)</span>
 <span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;MAINPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)&quot;&quot;&quot;</span><span class="p">]</span>
@@ -303,7 +319,7 @@
                             <span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TOOLPATH&quot;</span><span class="p">])</span>
 
     <span class="n">_init_box</span> <span class="o">=</span> <span class="n">_FileDirectory</span><span class="p">([</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    __author__ = &#39;Davtoh&#39;</span>
+
 <span class="s2">    import sys</span>
 <span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;LIBPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)</span>
 <span class="s2">    sys.path.append(&#39;&quot;&quot;&quot;</span><span class="p">,</span> <span class="n">MANAGER</span><span class="p">[</span><span class="s2">&quot;TOOLPATH&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;&quot;&#39;)&quot;&quot;&quot;</span><span class="p">]</span>
@@ -372,7 +388,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

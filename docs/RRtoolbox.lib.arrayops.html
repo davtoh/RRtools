@@ -408,6 +408,14 @@ if left quartile=0 image won&#8217;t be moved.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="RRtoolbox.lib.arrayops.basic.findContours">
+<code class="descclassname">RRtoolbox.lib.arrayops.basic.</code><code class="descname">findContours</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/basic.html#findContours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.basic.findContours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compatibility wrapper around cv2.findContour to support both openCV 2 and
+openCV 3.</p>
+<p>findContours(image, mode, method[, contours[, hierarchy[, offset]]]) -&gt; image, contours, hierarchy</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="RRtoolbox.lib.arrayops.basic.find_near">
 <code class="descclassname">RRtoolbox.lib.arrayops.basic.</code><code class="descname">find_near</code><span class="sig-paren">(</span><em>m</em>, <em>thresh=None</em>, <em>side=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/basic.html#find_near"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.basic.find_near" title="Permalink to this definition">¶</a></dt>
 <dd><p>helper function for findminima and findmaxima
@@ -1428,6 +1436,19 @@ given in blocks equivalent for each processed blocks of arr (faster).</li>
 </tr>
 </tbody>
 </table>
+<p>example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>splitPoints((1,2))
+&gt;&gt;&gt; ([1], [2])
+splitPoints([[[[(1,2),(1,2),(2,3)]]]])
+&gt;&gt;&gt; ([1, 1, 2], [2, 2, 3])
+splitPoints(np.array([[[[(1,2),(1,2),(2,3)]]]]))
+&gt;&gt;&gt; (array([1, 1, 2]), array([2, 2, 3]))
+splitPoints(np.array([[[[(1,2),(1,2),(2,3)]]]]), True)
+&gt;&gt;&gt; ([1, 1, 2], [2, 2, 3])
+splitPoints([(1,2,3,4,5),(1,2,3,4,5)]) # it is processed anyways
+&gt;&gt;&gt; ([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -1437,6 +1458,19 @@ given in blocks equivalent for each processed blocks of arr (faster).</li>
 :param pts: list or array of points
 :param aslist: True to return list instead of array
 :return: standard points</p>
+<p>example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>standarizePoints((1,2))
+&gt;&gt;&gt; array([[1, 2]])
+standarizePoints([[[[(1,2)]]]])
+&gt;&gt;&gt; array([[1, 2]])
+standarizePoints([[[[(1,2),(1,2),(2,3)]]]],True)
+&gt;&gt;&gt; [(1, 2), (1, 2), (2, 3)]
+standarizePoints([[[[(1,2,3),(1,2,3)]]]],True)
+&gt;&gt;&gt; [(1, 2), (1, 2), (2, 3)]
+standarizePoints([(1,2,3,4,5),(1,2,3,4,5)],True)
+&gt;&gt;&gt; [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -1649,7 +1683,8 @@ compatible with the shape of arr_in.</p>
 <dl class="class">
 <dt id="RRtoolbox.lib.arrayops.convert.SimKeyPoint">
 <em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.convert.</code><code class="descname">SimKeyPoint</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/convert.html#SimKeyPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.convert.SimKeyPoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Simulates opencv keypoint (it allows manipulation, conversion and serialization of keypoints).</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">future.types.newobject.newobject</span></code></p>
+<p>Simulates opencv keypoint (it allows manipulation, conversion and serialization of keypoints).</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Used for conversions and data persistence.</p>
@@ -2035,7 +2070,7 @@ compatible with the shape of arr_in.</p>
 <dl class="class">
 <dt id="RRtoolbox.lib.arrayops.filters.BilateralParameters">
 <em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">BilateralParameters</code><span class="sig-paren">(</span><em>d=None</em>, <em>sigmaColor=None</em>, <em>sigmaSpace=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#BilateralParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.BilateralParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">future.types.newobject.newobject</span></code></p>
 <p>create instance to calculate bilateral
 parameters from image shape.</p>
 <dl class="docutils">
@@ -2086,7 +2121,7 @@ parameters from image shape.</p>
 <dl class="class">
 <dt id="RRtoolbox.lib.arrayops.filters.FilterBase">
 <em class="property">class </em><code class="descclassname">RRtoolbox.lib.arrayops.filters.</code><code class="descname">FilterBase</code><span class="sig-paren">(</span><em>alpha=None</em>, <em>beta1=None</em>, <em>beta2=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RRtoolbox/lib/arrayops/filters.html#FilterBase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RRtoolbox.lib.arrayops.filters.FilterBase" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">future.types.newobject.newobject</span></code></p>
 <p>base filter to create custom filters</p>
 <dl class="attribute">
 <dt id="RRtoolbox.lib.arrayops.filters.FilterBase.alpha">
@@ -2618,7 +2653,7 @@ with otsu threshold.</li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

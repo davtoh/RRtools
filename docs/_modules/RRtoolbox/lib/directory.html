@@ -40,18 +40,23 @@
   <h1>Source code for RRtoolbox.lib.directory</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)</span>
-<span class="sd">    designed to support :mod:`config` and be used with :mod:`session`.</span>
+<span class="sd">This module holds all path manipulation methods and a string concept called directory (referenced paths and strings)</span>
+<span class="sd">designed to support :mod:`config` and be used with :mod:`session`.</span>
 
-<span class="sd">    keywords:</span>
-<span class="sd">    ----------</span>
-<span class="sd">    *path*: it can be to a folder or file or url if specified</span>
-<span class="sd">    *filename*: the file name without its path</span>
-<span class="sd">    *filepath*: the path to a file</span>
-<span class="sd">    *dirname*: the path to a folder</span>
-<span class="sd">    *url*: Universal Resource Locator</span>
+<span class="sd">keywords:</span>
+<span class="sd">----------</span>
+<span class="sd">*path*: it can be to a folder or file or url if specified</span>
+<span class="sd">*filename*: the file name without its path</span>
+<span class="sd">*filepath*: the path to a file</span>
+<span class="sd">*dirname*: the path to a folder</span>
+<span class="sd">*url*: Universal Resource Locator</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Davtoh&#39;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="kn">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
+
 
 <span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
@@ -66,7 +71,8 @@
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span> <span class="c1"># urllib.urlopen disappears in python 3</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+    <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
 
 <div class="viewcode-block" id="resource_path"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.resource_path">[docs]</a><span class="k">def</span> <span class="nf">resource_path</span><span class="p">(</span><span class="n">relative_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Get absolute path to resource, works for dev and for PyInstaller &quot;&quot;&quot;</span>
@@ -149,7 +155,7 @@
 
 <div class="viewcode-block" id="getPath"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.directory.getPath">[docs]</a><span class="k">def</span> <span class="nf">getPath</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">__file__</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get standard path from path.</span>
+<span class="sd">    Get standard path from path. It supports ~ as home directory.</span>
 
 <span class="sd">    :param path: it can be to a folder or file. Default is __file__ or module&#39;s path.</span>
 <span class="sd">                If file exists it selects its folder.</span>
@@ -157,6 +163,8 @@
 
 <span class="sd">    .. note:: It is the same as os.path.dirname(os.path.abspath(path)).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">path</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
     <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="p">:</span> <span class="c1"># check extension</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="c1"># just use os</span>
     <span class="k">else</span><span class="p">:</span>
@@ -263,7 +271,7 @@
 
     <span class="n">ls1</span><span class="p">,</span><span class="n">ls2</span><span class="p">,</span><span class="n">state</span><span class="p">,</span><span class="n">equal</span><span class="p">,</span><span class="n">diff1</span><span class="p">,</span><span class="n">diff2</span><span class="o">=</span> <span class="p">[],[],[],[],[],[]</span>
     <span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">))):</span>
         <span class="k">if</span> <span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
             <span class="n">equal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">fordiff</span><span class="p">():</span> <span class="n">diff1</span><span class="p">,</span><span class="n">diff2</span><span class="o">=</span> <span class="p">[],[]</span>
@@ -538,7 +546,7 @@
         <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Directory</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
             <span class="c1"># do not use __dict__ to not overlook custom setters</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;repr&quot;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span> <span class="c1"># self.__dict__[&quot;repr&quot;] = [string]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -565,8 +573,8 @@
                 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;repr&quot;</span><span class="p">:[</span><span class="n">data</span><span class="p">]}</span>
         <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># update data with kwargs</span>
         <span class="k">if</span> <span class="n">ispath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">ispath</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s2">&quot;ispath&quot;</span><span class="p">):</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># ispath default</span>
-        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s2">&quot;repr&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;ispath&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ispath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># ispath default</span>
+        <span class="k">if</span> <span class="s2">&quot;repr&quot;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Directory</span><span class="o">.</span><span class="n">repr2list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">])</span> <span class="c1"># ensure repr is maintained</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;repr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="c1"># repr default</span>
@@ -663,17 +671,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span> <span class="c1"># if list</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">&gt;</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">):</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">repr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
             <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="c1"># string is immutable and must be renewed</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># if dictionary</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># self.__dict__.update(data)</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">Directory</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">data</span><span class="p">:</span> <span class="c1"># if not list or dict</span>
@@ -748,7 +756,7 @@
 
 <span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="kn">import</span> <span class="nn">session</span> <span class="kn">as</span> <span class="nn">sn</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">session</span> <span class="k">as</span> <span class="n">sn</span>
     <span class="c1">## TESTS</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">(</span><span class="s2">&quot;string1&quot;</span><span class="p">,</span> <span class="n">sapo</span> <span class="o">=</span><span class="s2">&quot;mamo&quot;</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">update</span><span class="p">([</span><span class="s2">&quot;string2&quot;</span><span class="p">,[</span><span class="s2">&quot;string4&quot;</span><span class="p">,</span><span class="s2">&quot;string 5&quot;</span><span class="p">]])</span>
@@ -757,23 +765,23 @@
     <span class="n">c</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">([</span><span class="s2">&quot;string3&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="n">a</span>
     <span class="n">sn</span><span class="o">.</span><span class="n">saveSession</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">,{</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="n">a</span><span class="p">})</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">sn</span><span class="o">.</span><span class="n">readSession</span><span class="p">(</span><span class="s2">&quot;test.pkl&quot;</span><span class="p">)</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="o">==</span> <span class="n">Directory</span>
-    <span class="k">print</span> <span class="s2">&quot;with str&quot;</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="ow">is</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="n">a</span> <span class="o">==</span> <span class="nb">str</span>
-    <span class="k">print</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">str</span><span class="p">)</span>
-    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="k">print</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="c1">### look here ###</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">Directory</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;with str&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">==</span><span class="nb">str</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="nb">str</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span> <span class="c1">### look here ###</span>
 
     <span class="n">path</span> <span class="o">=</span> <span class="n">Directory</span><span class="p">([</span><span class="s2">&quot;path1&quot;</span><span class="p">,</span> <span class="s2">&quot;path2&quot;</span><span class="p">,</span> <span class="s2">&quot;path3&quot;</span><span class="p">])</span>
     <span class="c1">#path += &quot;path4&quot;</span>
-    <span class="k">print</span> <span class="n">path</span>
-    <span class="k">print</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s2">&quot;new path&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s2">&quot;new path&quot;</span><span class="p">))</span>
 </pre></div>
 
           </div>
@@ -807,7 +815,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
