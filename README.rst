@@ -146,7 +146,7 @@ in the console while still running the program.
    :target: http://rrtools.readthedocs.io/
    :alt: Documentation
 .. _manual: https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/RRtoolbox.pdf
-.. _dissertation:
+.. _dissertation: https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/dissertation.pdf
 .. _demo: https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb
 .. _`Unofficial Windows Binaries for Python`: http://www.lfd.uci.edu/~gohlke/pythonlibs/
 .. _`OpenCV linux installation`: https://github.com/davtoh/RRtools/blob/master/install_opencv.sh
