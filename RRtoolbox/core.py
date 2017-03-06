@@ -1,3 +1,8 @@
+"""
+(Development state) This module is intended to manage added plugins known
+as tools in RRtools which currently has it hardcoded as RRtoolbox.tools but
+is intended to be scalable in the future to hold external tools.
+"""
 from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range

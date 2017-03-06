@@ -36,7 +36,7 @@ def entropy(imlist, loadfunc = None, invert = False):
 
     where sortedD is the ranking of the Entropy test, D = [D0,...,DN] D0>DN
           sortedImlist is fns sorted to match sortedD,
-          D is the list of the absolute difference between entropy and the root mean square, D = |E-RMS|
+          D is the list of the absolute difference between entropy and the root mean square, D = ||E-RMS||
     """
     #assert(len(fns)>=2) # no images to compare. There must be 2 or more
     E = np.zeros(len(imlist),FLOAT) # pre-allocate array

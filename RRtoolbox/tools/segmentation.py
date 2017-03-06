@@ -135,7 +135,8 @@ def retina_markers_thresh(P):
     :param P: gray image
     :return: min,b1,b2,max
 
-    .. were::
+    where:
+
         black background < min
         b1 > retina < b2
         flares > max

@@ -17,9 +17,9 @@ from .config import MANAGER, FLAG_DEBUG
 from .arrayops import SimKeyPoint, normsigmoid
 
 # ----------------------------    GLOBALS    ---------------------------- #
-cpc = cv2.getNumberOfCPUs()
-if FLAG_DEBUG: print("configured to use {} cpus".format(cpc))
-pool = Pool(processes = cpc) # DO NOT USE IT when module is imported and this runs with it. It creates a deadlock"
+NO_CPUs = cv2.getNumberOfCPUs()
+if FLAG_DEBUG: print("configured to use {} CPUs".format(NO_CPUs))
+pool = Pool(processes = NO_CPUs) # DO NOT USE IT when module is imported and this runs with it. It creates a deadlock"
 feature_name = 'sift-flann'
 
 # ----------------------------SPECIALIZED FUNCTIONS---------------------------- #

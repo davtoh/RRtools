@@ -1,3 +1,8 @@
+"""
+(Development state) This module is intended to provide managers to run code
+which can provide statistics, debugging and facilities to run tools from the
+RRtoolbox package.
+"""
 from __future__ import print_function
 from __future__ import absolute_import
 
