@@ -96,7 +96,8 @@ to imrestore to load from the test path images that start with im1 specified by 
 
 * So, it loads this image which presents some flares and noise:
 
-.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg:align: center
+.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg
+    :align: center
     :scale: 10%
 
     Retina photo 1
