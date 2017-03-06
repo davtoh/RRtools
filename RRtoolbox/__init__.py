@@ -19,12 +19,21 @@ import os
 try:
     import cv2
 except ImportError:
+    import warnings
+    warnings.warn(
+        "OpenCV is not installed, a mock module will be used but wont work "
+        "for functions that use OpenCV",
+        ImportWarning
+    )
+    class MockOpenCV(object):
+        def __int__(self):
+            self.KeyPoint = None
     # solves ImportError: No module named cv2
     # this changes the behaviour of the module by mocking cv2
     # this is done so it can be documented in readthedocs.org and
     # in the future it will be replaced with binaries to
     # facilitate users that do not know how to install openCV
     if os.name == 'nt':
-        sys.modules["cv2"] = ""
+        sys.modules["cv2"] = MockOpenCV()
     elif os.name == 'posix':
-        sys.modules["cv2"] = ""
+        sys.modules["cv2"] = MockOpenCV()
