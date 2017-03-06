@@ -1,3 +1,8 @@
+"""
+(Development state) This module is intended to provide dynamic front ends to
+interface with users. (This is inspired in the way SymPy converts expressions
+to the adequate Tex constructs)
+"""
 from __future__ import print_function
 from __future__ import absolute_import
 

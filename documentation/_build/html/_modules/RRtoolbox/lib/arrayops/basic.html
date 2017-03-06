@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.arrayops.basic &#8212; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.arrayops.basic &mdash; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -26,14 +26,11 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
-  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -45,19 +42,19 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This module contains simple array operation methods</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">zip</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">map</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">map</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
 <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="c1">#from skimage.util import view_as_windows, view_as_blocks</span>
     <span class="k">raise</span>
 <span class="k">except</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="k">import</span> <span class="n">as_strided</span> <span class="k">as</span> <span class="n">_ast</span>
+    <span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="kn">import</span> <span class="n">as_strided</span> <span class="k">as</span> <span class="n">_ast</span>
 
 <div class="viewcode-block" id="view_as_blocks"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.view_as_blocks">[docs]</a>    <span class="k">def</span> <span class="nf">view_as_blocks</span><span class="p">(</span><span class="n">arr_in</span><span class="p">,</span> <span class="n">block_shape</span><span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -248,7 +245,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">coor</span><span class="o">-</span><span class="n">maxM</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="convertXY"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.convertXY">[docs]</a><span class="k">def</span> <span class="nf">convertXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">backshape</span><span class="p">,</span><span class="n">foreshape</span><span class="p">,</span><span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">quartile</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="convertXY"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.convertXY">[docs]</a><span class="k">def</span> <span class="nf">convertXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">backshape</span><span class="p">,</span><span class="n">foreshape</span><span class="p">,</span><span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">quartile</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">angle</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert absolute XY 0,0 coordinates to new system WZ.</span>
 
@@ -301,7 +298,7 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">invertM</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">foreshape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">quadrant</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">foreshape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">foreshape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">quartile</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">angleXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">angle</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span></div>
@@ -379,7 +376,7 @@
         <span class="n">trans</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">trans</span></div>
 
-<div class="viewcode-block" id="overlaypng"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlaypng">[docs]</a><span class="k">def</span> <span class="nf">overlaypng</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alfainverted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">under</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="overlaypng"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlaypng">[docs]</a><span class="k">def</span> <span class="nf">overlaypng</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">alfainverted</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">under</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overlay only BGRA.</span>
 
@@ -404,7 +401,7 @@
 
 <span class="sd">    .. seealso:: :func:`overlay`, :func:`overlay2`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">getTransparency</span><span class="p">(</span><span class="n">fore</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mf">255.0</span>
@@ -427,7 +424,7 @@
         <span class="n">png</span><span class="p">(</span><span class="n">back</span><span class="p">,</span><span class="n">fore</span><span class="p">,</span><span class="n">back</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">back</span></div>
 
-<div class="viewcode-block" id="overlay"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlay">[docs]</a><span class="k">def</span> <span class="nf">overlay</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alfainverted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">under</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="overlay"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlay">[docs]</a><span class="k">def</span> <span class="nf">overlay</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">alfainverted</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">under</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Try to Overlay any dimension array.</span>
 
@@ -452,7 +449,7 @@
 
 <span class="sd">    .. seealso:: :func:`overlay2`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">getTransparency</span><span class="p">(</span><span class="n">fore</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="mf">255.0</span>
@@ -520,7 +517,7 @@
         <span class="n">back</span><span class="p">[:,:,</span><span class="n">chanel</span><span class="p">]</span> <span class="o">=</span> <span class="n">fore</span><span class="p">[:,:,</span><span class="n">chanel</span><span class="p">]</span><span class="o">*</span><span class="n">data</span> <span class="o">+</span> <span class="n">back</span><span class="p">[:,:,</span><span class="n">chanel</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">back</span></div>
 
-<div class="viewcode-block" id="overlayXY"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlayXY">[docs]</a><span class="k">def</span> <span class="nf">overlayXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">back</span><span class="p">,</span><span class="n">fore</span><span class="p">,</span><span class="n">alfa</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">alfainverted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">under</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="overlayXY"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.overlayXY">[docs]</a><span class="k">def</span> <span class="nf">overlayXY</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">back</span><span class="p">,</span><span class="n">fore</span><span class="p">,</span><span class="n">alfa</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">alfainverted</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">under</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">flag</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overlay foreground image to x,y coordinates in background image.</span>
 <span class="sd">    This function support images of different sizes with formats: BGR background</span>
@@ -554,7 +551,7 @@
 
 <span class="c1">################## STITCH</span>
 
-<div class="viewcode-block" id="getdataVH"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.getdataVH">[docs]</a><span class="k">def</span> <span class="nf">getdataVH</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alfa</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="getdataVH"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.getdataVH">[docs]</a><span class="k">def</span> <span class="nf">getdataVH</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alfa</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get data from array according to padding (Helper function for :func:`padVH`).</span>
 
@@ -601,7 +598,7 @@
         <span class="n">globalgrid</span> <span class="o">=</span> <span class="p">(</span><span class="n">gy</span><span class="p">,</span><span class="n">gx</span><span class="p">)</span> <span class="c1"># assign global dimension of grid with pad</span>
     <span class="k">return</span> <span class="n">matrix_shapes</span><span class="p">,</span><span class="n">grid_div</span><span class="p">,</span><span class="n">row_grid</span><span class="p">,</span><span class="n">row_gridpad</span><span class="p">,</span><span class="n">globalgrid</span></div>
 
-<div class="viewcode-block" id="makeVis"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.makeVis">[docs]</a><span class="k">def</span> <span class="nf">makeVis</span><span class="p">(</span><span class="n">globalgrid</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="makeVis"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.makeVis">[docs]</a><span class="k">def</span> <span class="nf">makeVis</span><span class="p">(</span><span class="n">globalgrid</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make visualization (Helper function for :func:`padVH`)</span>
 
@@ -609,7 +606,7 @@
 <span class="sd">    :param bgrcolor: color of visualization</span>
 <span class="sd">    :return: array of shape globalgrid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">bgrcolor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">bgrcolor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">bgrcolor</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">bgrcolor</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">globalgrid</span><span class="p">:</span>
                 <span class="n">graph</span> <span class="o">=</span> <span class="n">bgrcolor</span>
@@ -622,7 +619,7 @@
         <span class="n">graph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">globalgrid</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>  <span class="c1"># making visualization image</span>
     <span class="k">return</span> <span class="n">graph</span></div>
 
-<div class="viewcode-block" id="padVH"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.padVH">[docs]</a><span class="k">def</span> <span class="nf">padVH</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">alfa</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="padVH"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.padVH">[docs]</a><span class="k">def</span> <span class="nf">padVH</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">ypad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xpad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bgrcolor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">alfa</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pad Vertically and Horizontally image or group of images into an array.</span>
 
@@ -653,7 +650,7 @@
             <span class="n">Hs</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Ha</span><span class="o">+</span><span class="p">(</span><span class="n">gridpad</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">Hn</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
             <span class="n">Wa</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">Wa</span><span class="o">+</span><span class="n">Ws</span><span class="p">)</span>
             <span class="n">Wn</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">shapes</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">alfa</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">alfa</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">graph</span><span class="p">[</span><span class="n">Hs</span><span class="p">:</span><span class="n">Hs</span><span class="o">+</span><span class="n">Hn</span><span class="p">,</span><span class="n">Wa</span><span class="p">:</span><span class="n">Wa</span><span class="o">+</span><span class="n">Wn</span><span class="p">]</span> <span class="o">=</span> <span class="n">im2shapeFormat</span><span class="p">(</span><span class="n">imgs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">alfa</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
@@ -698,7 +695,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">anorm2</span><span class="p">(</span><span class="n">a</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="relativeVectors"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.relativeVectors">[docs]</a><span class="k">def</span> <span class="nf">relativeVectors</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="relativeVectors"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.relativeVectors">[docs]</a><span class="k">def</span> <span class="nf">relativeVectors</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Form vectors from points.</span>
 
@@ -710,7 +707,7 @@
     <span class="k">if</span> <span class="nb">all</span><span class="p">:</span> <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pts</span><span class="p">,[</span><span class="n">pts</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])],</span> <span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="vertexesAngles"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.vertexesAngles">[docs]</a><span class="k">def</span> <span class="nf">vertexesAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="vertexesAngles"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.vertexesAngles">[docs]</a><span class="k">def</span> <span class="nf">vertexesAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Relative angle of vectors formed by vertexes (where vectors cross).</span>
 
@@ -722,11 +719,11 @@
 <span class="sd">    :param deg: if True angle is in Degrees, else radians.</span>
 <span class="sd">    :return: angles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">vs</span> <span class="o">=</span> <span class="n">relativeVectors</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># get all vectors from points.</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="n">relativeVectors</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="nb">all</span> <span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="c1"># get all vectors from points.</span>
     <span class="n">vs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vs</span><span class="p">,[</span><span class="n">vs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># add last vector to first position</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">angle</span><span class="p">(</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">vs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">deg</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">vs</span><span class="p">))],</span><span class="n">dtype</span><span class="p">)</span> <span class="c1"># caculate angles</span></div>
 
-<div class="viewcode-block" id="vectorsAngles"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.vectorsAngles">[docs]</a><span class="k">def</span> <span class="nf">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">ptaxis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">absolute</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="vectorsAngles"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.vectorsAngles">[docs]</a><span class="k">def</span> <span class="nf">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">ptaxis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">absolute</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Angle of formed vectors in Cartesian plane with respect to formed axis vector.</span>
 
@@ -759,7 +756,7 @@
 <span class="sd">    :param origin: origin</span>
 <span class="sd">    :return: left, right points from axis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">ptaxis</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">vectorsAngles</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">ptaxis</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
     <span class="c1"># compare this angles[angles&gt;=0].size+angles[angles&lt;0].size == angles.size but it fails, i suspect it is nan values</span>
     <span class="c1"># update, yup it was Nan values, i used np.nan_to_num to convert to numbers.</span>
     <span class="k">return</span> <span class="n">pts</span><span class="p">[</span><span class="n">angles</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">angles</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span></div>
@@ -768,7 +765,7 @@
     <span class="sd">&quot;&quot;&quot; Returns the unit vector of the vector.  &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">vector</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="angle"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.angle">[docs]</a><span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="angle"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.angle">[docs]</a><span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Angle between two N dimmensional vectors.</span>
 
@@ -798,7 +795,7 @@
     <span class="k">return</span> <span class="n">a</span></div>
 
 
-<div class="viewcode-block" id="angle2D"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.angle2D">[docs]</a><span class="k">def</span> <span class="nf">angle2D</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="angle2D"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.angle2D">[docs]</a><span class="k">def</span> <span class="nf">angle2D</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="n">v2</span><span class="p">,</span> <span class="n">deg</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Angle between two 2 dimensional vectors.</span>
 
@@ -819,7 +816,7 @@
     <span class="k">if</span> <span class="n">cross</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;angle2D receives only cartesian coordinates&quot;</span><span class="p">)</span>
     <span class="n">mag</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="n">absolute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">absolute</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">cross</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v1</span><span class="p">)</span><span class="o">+</span><span class="n">v2</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
@@ -919,7 +916,7 @@
     <span class="n">corners</span> <span class="o">=</span> <span class="n">getTransformedCorners</span><span class="p">(</span><span class="n">shape1</span><span class="p">,</span><span class="n">H</span><span class="p">)</span> <span class="c1"># get corners from image</span>
     <span class="k">return</span> <span class="n">boxPads</span><span class="p">(</span><span class="n">bx</span><span class="p">,</span> <span class="n">corners</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="superpose"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.superpose">[docs]</a><span class="k">def</span> <span class="nf">superpose</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">foreMask</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">grow</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="superpose"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.superpose">[docs]</a><span class="k">def</span> <span class="nf">superpose</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">foreMask</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">grow</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Superpose foreground image to background image.</span>
 
@@ -956,18 +953,18 @@
         <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">back</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">fore</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpPerspective</span><span class="p">(</span><span class="n">fore</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">H_fore</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">foreMask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># create valid mask for stitching</span>
+    <span class="k">if</span> <span class="n">foreMask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="c1"># create valid mask for stitching</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpPerspective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">alpha_shape</span><span class="p">),</span> <span class="n">H_fore</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">foreMask</span><span class="p">):</span> <span class="c1"># get alpha with custom function</span>
+    <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">foreMask</span><span class="p">):</span> <span class="c1"># get alpha with custom function</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">foreMask</span><span class="p">(</span><span class="n">back</span><span class="p">,</span><span class="n">fore</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">alpha</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpPerspective</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">alpha_shape</span><span class="p">),</span> <span class="n">H_fore</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span> <span class="c1"># update foreMask to new position</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">warpPerspective</span><span class="p">(</span><span class="n">foreMask</span><span class="p">,</span> <span class="n">H_fore</span><span class="p">,</span> <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">overlay</span><span class="p">(</span><span class="n">back</span><span class="p">,</span> <span class="n">fore</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="c1"># overlay fore on top of back</span>
     <span class="k">return</span> <span class="n">im</span><span class="p">,</span> <span class="n">H_back</span><span class="p">,</span> <span class="n">H_fore</span></div>
 
-<div class="viewcode-block" id="multiple_superpose"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.multiple_superpose">[docs]</a><span class="k">def</span> <span class="nf">multiple_superpose</span><span class="p">(</span><span class="n">base</span><span class="p">,</span><span class="n">fore</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">foremask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="multiple_superpose"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.multiple_superpose">[docs]</a><span class="k">def</span> <span class="nf">multiple_superpose</span><span class="p">(</span><span class="n">base</span><span class="p">,</span><span class="n">fore</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">foremask</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Superpose multiple foreground images to a single base image.</span>
 
@@ -1013,7 +1010,7 @@
         <span class="n">area</span> <span class="o">+=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span> <span class="c1"># get each contour area</span>
     <span class="k">return</span> <span class="n">area</span></div>
 
-<div class="viewcode-block" id="points2mask"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.points2mask">[docs]</a><span class="k">def</span> <span class="nf">points2mask</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">):</span>
+<div class="viewcode-block" id="points2mask"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.points2mask">[docs]</a><span class="k">def</span> <span class="nf">points2mask</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates an array with the filled polygon formed by points.</span>
 
@@ -1028,7 +1025,7 @@
 <span class="sd">        img = points2mask(pts)</span>
 <span class="sd">        Plotim(&quot;filled&quot;,img).show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">pts</span> <span class="o">=</span> <span class="n">pts</span><span class="o">-</span><span class="n">pts</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># shift</span>
         <span class="n">xmax</span><span class="p">,</span><span class="n">ymax</span> <span class="o">=</span> <span class="n">pts</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">ymax</span><span class="p">,</span><span class="n">xmax</span><span class="p">),</span><span class="n">astype</span><span class="p">)</span>
@@ -1038,7 +1035,7 @@
     <span class="n">cv2</span><span class="o">.</span><span class="n">fillConvexPoly</span><span class="p">(</span><span class="n">array</span><span class="p">,</span><span class="n">pts</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">array</span></div>
 
-<div class="viewcode-block" id="contours2mask"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.contours2mask">[docs]</a><span class="k">def</span> <span class="nf">contours2mask</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">):</span>
+<div class="viewcode-block" id="contours2mask"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.contours2mask">[docs]</a><span class="k">def</span> <span class="nf">contours2mask</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">astype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates an array with filled polygons formed by contours.</span>
 
@@ -1052,11 +1049,11 @@
     <span class="n">minx</span><span class="p">,</span><span class="n">miny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="n">maxx</span><span class="p">,</span><span class="n">maxy</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
     <span class="k">for</span> <span class="n">coors</span> <span class="ow">in</span> <span class="n">contours</span><span class="p">:</span>
-        <span class="n">coors</span> <span class="o">=</span> <span class="n">standarizePoints</span><span class="p">(</span><span class="n">coors</span><span class="p">,</span><span class="n">aslist</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">coors</span> <span class="o">=</span> <span class="n">standarizePoints</span><span class="p">(</span><span class="n">coors</span><span class="p">,</span><span class="n">aslist</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">coors</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">ncoors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coors</span><span class="p">)</span>
             <span class="c1"># calculate variables for shape</span>
-            <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">pminx</span><span class="p">,</span><span class="n">pminy</span> <span class="o">=</span> <span class="n">coors</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                 <span class="n">pmaxx</span><span class="p">,</span><span class="n">pmaxy</span> <span class="o">=</span> <span class="n">coors</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">pminx</span> <span class="o">&lt;</span> <span class="n">minx</span><span class="p">:</span>
@@ -1067,7 +1064,7 @@
                     <span class="n">maxx</span> <span class="o">=</span> <span class="n">pmaxx</span>
                 <span class="k">if</span> <span class="n">pmaxy</span> <span class="o">&gt;</span> <span class="n">maxy</span><span class="p">:</span>
                     <span class="n">maxy</span> <span class="o">=</span> <span class="n">pmaxy</span>
-    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">shape</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">minv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">minx</span><span class="p">,</span><span class="n">miny</span><span class="p">)])</span>
         <span class="n">ncoors</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">-</span><span class="n">minv</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">ncoors</span><span class="p">]</span> <span class="c1"># shift</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">maxy</span><span class="p">,</span><span class="n">maxx</span><span class="p">))</span>
@@ -1100,7 +1097,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">points2mask</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="splitPoints"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.splitPoints">[docs]</a><span class="k">def</span> <span class="nf">splitPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="splitPoints"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.splitPoints">[docs]</a><span class="k">def</span> <span class="nf">splitPoints</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    from points get x,y columns</span>
 
@@ -1121,13 +1118,13 @@
 <span class="sd">        splitPoints([(1,2,3,4,5),(1,2,3,4,5)]) # it is processed anyways</span>
 <span class="sd">        &gt;&gt;&gt; ([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">aslist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="c1"># select automatically if not specified</span>
+    <span class="k">if</span> <span class="n">aslist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="c1"># select automatically if not specified</span>
         <span class="k">if</span> <span class="n">isnumpy</span><span class="p">(</span><span class="n">pts</span><span class="p">):</span>
             <span class="c1"># it is a numpy so it should be array</span>
-            <span class="n">aslist</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">aslist</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># it is something else so it should be list</span>
-            <span class="n">aslist</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">aslist</span> <span class="o">=</span> <span class="bp">True</span>
 
     <span class="n">pts</span> <span class="o">=</span> <span class="n">standarizePoints</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span> <span class="c1"># standard points</span>
 
@@ -1143,7 +1140,7 @@
         <span class="k">else</span><span class="p">:</span> <span class="c1"># as array</span>
             <span class="k">return</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">pts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="standarizePoints"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.standarizePoints">[docs]</a><span class="k">def</span> <span class="nf">standarizePoints</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="standarizePoints"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.standarizePoints">[docs]</a><span class="k">def</span> <span class="nf">standarizePoints</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    converts points to a standard form</span>
 <span class="sd">    :param pts: list or array of points</span>
@@ -1174,7 +1171,7 @@
 
     <span class="k">if</span> <span class="n">pts</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="mi">2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shape</span> <span class="ow">or</span> <span class="n">half</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shape</span><span class="p">):</span>
     <span class="c1">#if pts.size != 0 and (2 != shape[0] and 2 != shape[-1]):</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;array of shape </span><span class="si">{}</span><span class="s2"> does not seems to correspond to points&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;array of shape {} does not seems to correspond to points&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
 
     <span class="c1"># return empty points</span>
     <span class="k">if</span> <span class="n">pts</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1240,7 +1237,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span><span class="o">*</span><span class="n">normalize</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">+</span><span class="nb">min</span></div>
 
-<div class="viewcode-block" id="normalizeCustom"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.normalizeCustom">[docs]</a><span class="k">def</span> <span class="nf">normalizeCustom</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="normalizeCustom"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.normalizeCustom">[docs]</a><span class="k">def</span> <span class="nf">normalizeCustom</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Normalize array with custom operations.</span>
 
@@ -1253,7 +1250,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># max, sum,</span>
     <span class="n">factor</span> <span class="o">=</span> <span class="n">by</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">factor</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
 
@@ -1276,7 +1273,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">vecs</span><span class="p">)</span> <span class="c1"># recursiveMap(np.sign, vecs)</span></div>
 
-<div class="viewcode-block" id="random_points"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.random_points">[docs]</a><span class="k">def</span> <span class="nf">random_points</span><span class="p">(</span><span class="n">axes_range</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">),),</span> <span class="n">nopoints</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">complete</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="random_points"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.random_points">[docs]</a><span class="k">def</span> <span class="nf">random_points</span><span class="p">(</span><span class="n">axes_range</span> <span class="o">=</span> <span class="p">((</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">),),</span> <span class="n">nopoints</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">complete</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get random points.</span>
 
@@ -1297,7 +1294,7 @@
     <span class="k">if</span> <span class="n">complete</span><span class="p">:</span> <span class="n">arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="points_generator"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.points_generator">[docs]</a><span class="k">def</span> <span class="nf">points_generator</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nopoints</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">convex</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">erratic</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">complete</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="points_generator"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.points_generator">[docs]</a><span class="k">def</span> <span class="nf">points_generator</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">nopoints</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">convex</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">erratic</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">complete</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    generate points.</span>
 
@@ -1308,7 +1305,7 @@
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">h</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">nopoints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">nopoints</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">nopoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
     <span class="n">random</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span>
     <span class="k">if</span> <span class="n">convex</span> <span class="ow">and</span> <span class="n">erratic</span><span class="p">:</span>
@@ -1357,9 +1354,9 @@
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">guess</span><span class="p">,</span><span class="n">stop</span><span class="o">=</span><span class="n">maximum</span><span class="p">)</span>
         <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">]))))</span>
         <span class="k">if</span> <span class="n">val</span><span class="o">&lt;=</span><span class="n">tolerance</span><span class="p">:</span> <span class="c1"># check minimization</span>
-            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">guess</span>
+            <span class="k">return</span> <span class="bp">True</span><span class="p">,</span> <span class="n">guess</span>
         <span class="n">guess</span> <span class="o">+=</span> <span class="n">step</span> <span class="c1"># update step</span>
-    <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">guess</span> <span class="c1"># not found or limit reached</span></div>
+    <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="n">guess</span> <span class="c1"># not found or limit reached</span></div>
 
 <div class="viewcode-block" id="get_x_space"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.get_x_space">[docs]</a><span class="k">def</span> <span class="nf">get_x_space</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">xleft</span> <span class="o">=</span> <span class="o">-</span><span class="mi">300</span><span class="p">,</span> <span class="n">xright</span> <span class="o">=</span> <span class="mi">300</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1393,7 +1390,7 @@
         <span class="c1">#histr = [cv2.calcHist([img],[i],None,[256],[0,256]) for i in xrange(sz[2])]</span>
     <span class="k">return</span> <span class="n">histr</span></div>
 
-<div class="viewcode-block" id="find_near"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.find_near">[docs]</a><span class="k">def</span> <span class="nf">find_near</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">thresh</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="find_near"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.find_near">[docs]</a><span class="k">def</span> <span class="nf">find_near</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">thresh</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    helper function for findminima and findmaxima</span>
 <span class="sd">    :param m: minima or maxima points</span>
@@ -1401,7 +1398,7 @@
 <span class="sd">    :param side: left or right</span>
 <span class="sd">    :return: value</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">thresh</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">m</span>
+    <span class="k">if</span> <span class="n">thresh</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">return</span> <span class="n">m</span>
     <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">thresh</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="n">m</span> <span class="o">&lt;=</span> <span class="n">thresh</span><span class="p">]</span>
@@ -1416,7 +1413,7 @@
     <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span><span class="o">==</span><span class="n">distances</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># get index</span>
     <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="findminima"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.findminima">[docs]</a><span class="k">def</span> <span class="nf">findminima</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="findminima"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.findminima">[docs]</a><span class="k">def</span> <span class="nf">findminima</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get nearest valley value to a thresh point from a histogram.</span>
 
@@ -1429,7 +1426,7 @@
     <span class="n">mn</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">hist</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># local min</span>
     <span class="k">return</span> <span class="n">find_near</span><span class="p">(</span><span class="n">mn</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">side</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="findmaxima"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.findmaxima">[docs]</a><span class="k">def</span> <span class="nf">findmaxima</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="findmaxima"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.findmaxima">[docs]</a><span class="k">def</span> <span class="nf">findmaxima</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span><span class="n">thresh</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">side</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get nearest peak value to a thresh point from a histogram.</span>
 
@@ -1476,7 +1473,7 @@
     <span class="k">return</span> <span class="n">thresh</span></div>
 
 
-<div class="viewcode-block" id="convexityRatio"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.convexityRatio">[docs]</a><span class="k">def</span> <span class="nf">convexityRatio</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span><span class="n">hull</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="convexityRatio"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.convexityRatio">[docs]</a><span class="k">def</span> <span class="nf">convexityRatio</span><span class="p">(</span><span class="n">cnt</span><span class="p">,</span><span class="n">hull</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ratio to test if contours are irregular</span>
 
@@ -1484,10 +1481,10 @@
 <span class="sd">    :param hull:(None) convex hull</span>
 <span class="sd">    :return: ratio</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">hull</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">hull</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">hull</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">convexHull</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span> <span class="c1"># get convex hull</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hull</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span> <span class="c1"># convert back from indexes</span>
-        <span class="kn">from</span> <span class="nn">.convert</span> <span class="k">import</span> <span class="n">points2contour</span>
+        <span class="kn">from</span> <span class="nn">.convert</span> <span class="kn">import</span> <span class="n">points2contour</span>
         <span class="n">hull</span> <span class="o">=</span> <span class="n">points2contour</span><span class="p">(</span><span class="n">cnt</span><span class="p">[</span><span class="n">hull</span><span class="p">])</span>
     <span class="n">ahull</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span>
     <span class="n">acnt</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
@@ -1543,9 +1540,9 @@
         <span class="n">gauss</span> <span class="o">=</span> <span class="n">gauss</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">arr</span> <span class="o">+</span> <span class="n">arr</span> <span class="o">*</span> <span class="n">gauss</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;mode </span><span class="si">{}</span><span class="s2"> not recognized&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;mode {} not recognized&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="process_as_blocks"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.process_as_blocks">[docs]</a><span class="k">def</span> <span class="nf">process_as_blocks</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">block_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">asWindows</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="process_as_blocks"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.basic.process_as_blocks">[docs]</a><span class="k">def</span> <span class="nf">process_as_blocks</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">block_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">asWindows</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    process with function over an array using blocks (using re-striding).</span>
 
@@ -1561,13 +1558,13 @@
     <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">asWindows</span><span class="p">:</span>
         <span class="n">blocks_in</span> <span class="o">=</span> <span class="n">view_as_windows</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">block_shape</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">blocks_mask</span> <span class="o">=</span> <span class="n">view_as_windows</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">block_shape</span><span class="p">)</span>
         <span class="n">sr</span><span class="p">,</span><span class="n">sc</span> <span class="o">=</span> <span class="n">blocks_in</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sr</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sc</span><span class="p">):</span>
                 <span class="n">b_in</span> <span class="o">=</span> <span class="n">blocks_in</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">b_mask</span> <span class="o">=</span> <span class="n">blocks_mask</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
                     <span class="n">indexes</span> <span class="o">=</span> <span class="n">b_mask</span><span class="o">==</span><span class="mi">1</span>
                     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">indexes</span><span class="p">):</span>
@@ -1579,14 +1576,14 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">blocks_in</span> <span class="o">=</span> <span class="n">view_as_blocks</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">block_shape</span><span class="p">)</span>
         <span class="n">blocks_result</span> <span class="o">=</span> <span class="n">view_as_blocks</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">block_shape</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">blocks_mask</span> <span class="o">=</span> <span class="n">view_as_blocks</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">block_shape</span><span class="p">)</span>
         <span class="n">sr</span><span class="p">,</span><span class="n">sc</span> <span class="o">=</span> <span class="n">blocks_in</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sr</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sc</span><span class="p">):</span>
                 <span class="n">b_in</span> <span class="o">=</span> <span class="n">blocks_in</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
                 <span class="n">b_result</span> <span class="o">=</span> <span class="n">blocks_result</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
                     <span class="n">b_mask</span> <span class="o">=</span> <span class="n">blocks_mask</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">]</span>
                     <span class="n">indexes</span> <span class="o">=</span> <span class="n">b_mask</span><span class="o">==</span><span class="mi">1</span>
                     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">indexes</span><span class="p">):</span>
@@ -1612,11 +1609,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1627,8 +1627,8 @@
       &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

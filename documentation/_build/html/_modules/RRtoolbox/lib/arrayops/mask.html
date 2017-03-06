@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.arrayops.mask &#8212; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.arrayops.mask &mdash; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -26,14 +26,11 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" />
    
-  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -45,16 +42,16 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This module contains all basic masking and pre-processing (as in segmenting phase) methods</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
 
 
 <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">.basic</span> <span class="k">import</span> <span class="n">findminima</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">getOtsuThresh</span><span class="p">,</span> <span class="n">findContours</span><span class="p">,</span> \
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.basic</span> <span class="kn">import</span> <span class="n">findminima</span><span class="p">,</span> <span class="n">im2shapeFormat</span><span class="p">,</span> <span class="n">getOtsuThresh</span><span class="p">,</span> <span class="n">findContours</span><span class="p">,</span> \
     <span class="n">isnumpy</span>
-<span class="kn">from</span> <span class="nn">.filters</span> <span class="k">import</span> <span class="n">smooth</span>
+<span class="kn">from</span> <span class="nn">.filters</span> <span class="kn">import</span> <span class="n">smooth</span>
 
 <div class="viewcode-block" id="brightness"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.brightness">[docs]</a><span class="k">def</span> <span class="nf">brightness</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -70,7 +67,7 @@
     <span class="c1">### HSV</span>
     <span class="c1">#return cv2.cvtColor(img,cv2.COLOR_BGR2HSV)[:,:,2]</span>
 
-<div class="viewcode-block" id="background"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.background">[docs]</a><span class="k">def</span> <span class="nf">background</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="background"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.background">[docs]</a><span class="k">def</span> <span class="nf">background</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    get the background mask of a gray image. (this it the inverted of :func:`foreground`)</span>
 
@@ -81,14 +78,14 @@
 <span class="sd">    :return: output mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#gray = works with any gray image</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
         <span class="n">hist</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">gray</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="mi">256</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
         <span class="n">thresh</span> <span class="o">=</span> <span class="n">getOtsuThresh</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
         <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mask</span></div>
 
-<div class="viewcode-block" id="foreground"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.foreground">[docs]</a><span class="k">def</span> <span class="nf">foreground</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="foreground"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.foreground">[docs]</a><span class="k">def</span> <span class="nf">foreground</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    get the foreground mask of a gray image. (this it the inverted of :func:`background`)</span>
 
@@ -100,7 +97,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">1</span><span class="o">-</span><span class="n">background</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span><span class="n">mask</span><span class="p">,</span><span class="n">iterations</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="multiple_otsu"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.multiple_otsu">[docs]</a><span class="k">def</span> <span class="nf">multiple_otsu</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="multiple_otsu"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.multiple_otsu">[docs]</a><span class="k">def</span> <span class="nf">multiple_otsu</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">flag</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">,</span> <span class="n">iterations</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    get the mask of a gray image applying Otsu threshold.</span>
 
@@ -110,9 +107,9 @@
 <span class="sd">    :return: thresh, mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1">#get mask</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">flag</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">flag</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY_INV</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">flag</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">flag</span> <span class="o">==</span> <span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">gray</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">iterations</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
@@ -122,7 +119,7 @@
             <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">gray</span><span class="p">,</span> <span class="n">thresh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">dst</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">thresh</span><span class="p">,</span> <span class="n">mask</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;iterations must be greater than 0 and got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iterations</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;iterations must be greater than 0 and got {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iterations</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="hist_cdf"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.hist_cdf">[docs]</a><span class="k">def</span> <span class="nf">hist_cdf</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">window_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">window</span><span class="o">=</span><span class="s1">&#39;hanning&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -207,7 +204,7 @@
     <span class="n">contours</span><span class="p">,</span><span class="n">hierarchy</span> <span class="o">=</span> <span class="n">findContours</span><span class="p">(</span><span class="n">rough_mask</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">RETR_TREE</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">biggestCnt</span><span class="p">(</span><span class="n">contours</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="mask_watershed"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.mask_watershed">[docs]</a><span class="k">def</span> <span class="nf">mask_watershed</span><span class="p">(</span><span class="n">BGR</span><span class="p">,</span> <span class="n">GRAY</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="mask_watershed"><a class="viewcode-back" href="../../../../RRtoolbox.lib.arrayops.html#RRtoolbox.lib.arrayops.mask.mask_watershed">[docs]</a><span class="k">def</span> <span class="nf">mask_watershed</span><span class="p">(</span><span class="n">BGR</span><span class="p">,</span> <span class="n">GRAY</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get retinal mask with watershed method.</span>
 
@@ -215,7 +212,7 @@
 <span class="sd">    :param GRAY:</span>
 <span class="sd">    :return: mask</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">GRAY</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">GRAY</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">BGR</span><span class="p">)</span> <span class="c1"># get image brightness</span>
+    <span class="k">if</span> <span class="n">GRAY</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">GRAY</span> <span class="o">=</span> <span class="n">brightness</span><span class="p">(</span><span class="n">BGR</span><span class="p">)</span> <span class="c1"># get image brightness</span>
     <span class="n">thresh</span><span class="p">,</span><span class="n">sure_bg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">GRAY</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="o">+</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_OTSU</span><span class="p">)</span> <span class="c1"># obtain over threshold</span>
     <span class="n">thresh</span><span class="p">,</span><span class="n">sure_fg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="n">GRAY</span><span class="p">,</span><span class="n">thresh</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">THRESH_BINARY</span><span class="p">)</span>
     <span class="n">markers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">GRAY</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span> <span class="c1"># make background markers</span>
@@ -265,11 +262,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -280,8 +280,8 @@
       &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

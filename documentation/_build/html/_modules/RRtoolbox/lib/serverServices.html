@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.serverServices &#8212; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.serverServices &mdash; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,14 +26,11 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
-  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -42,23 +39,23 @@
             
   <h1>Source code for RRtoolbox.lib.serverServices</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">filter</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
-<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="k">import</span> <span class="n">basestring</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">filter</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="kn">import</span> <span class="nb">basestring</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">object</span>
 <span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">threading</span>
-<span class="kn">from</span> <span class="nn">errno</span> <span class="k">import</span> <span class="n">ECONNREFUSED</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="k">import</span> <span class="n">Pool</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">errno</span> <span class="kn">import</span> <span class="n">ECONNREFUSED</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">.root</span> <span class="k">import</span> <span class="n">TimeOutException</span><span class="p">,</span> <span class="n">TransferExeption</span>
-<span class="kn">from</span> <span class="nn">.config</span> <span class="k">import</span> <span class="n">FLAG_DEBUG</span><span class="p">,</span> <span class="n">serializer</span>
+<span class="kn">from</span> <span class="nn">.root</span> <span class="kn">import</span> <span class="n">TimeOutException</span><span class="p">,</span> <span class="n">TransferExeption</span>
+<span class="kn">from</span> <span class="nn">.config</span> <span class="kn">import</span> <span class="n">FLAG_DEBUG</span><span class="p">,</span> <span class="n">serializer</span>
 
 
 
@@ -81,7 +78,7 @@
         <span class="k">return</span> <span class="n">port</span>
     <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">ECONNREFUSED</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">False</span>
         <span class="k">raise</span></div>
 
 <div class="viewcode-block" id="scan_ports"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.scan_ports">[docs]</a><span class="k">def</span> <span class="nf">scan_ports</span><span class="p">(</span><span class="n">host</span><span class="p">):</span>
@@ -105,37 +102,37 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">conn</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="Conection.sendLen"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.Conection.sendLen">[docs]</a>    <span class="k">def</span> <span class="nf">sendLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">length</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Conection.sendLen"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.Conection.sendLen">[docs]</a>    <span class="k">def</span> <span class="nf">sendLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">length</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="n">dest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="s2">&quot;False&quot;</span>
         <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">ans</span> <span class="o">!=</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span> <span class="c1"># get length of recipient for length</span>
             <span class="k">if</span> <span class="n">ans</span><span class="o">==</span><span class="s2">&quot;False&quot;</span><span class="p">:</span>
-                <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">,)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+                <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;({},)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
                 <span class="n">dest</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span><span class="n">txt</span><span class="p">,</span><span class="s2">&quot;sent&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;size&quot;</span><span class="p">,</span><span class="n">txt</span><span class="p">,</span><span class="s2">&quot;sent&quot;</span><span class="p">)</span>
                 <span class="n">ans</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># get True or False</span>
-                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;received&quot;</span><span class="p">,</span><span class="n">ans</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;received&quot;</span><span class="p">,</span><span class="n">ans</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">TimeOutException</span><span class="p">(</span><span class="s2">&quot;Timeout sending length&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Conection.getLen"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.Conection.getLen">[docs]</a>    <span class="k">def</span> <span class="nf">getLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Conection.getLen"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.Conection.getLen">[docs]</a>    <span class="k">def</span> <span class="nf">getLen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span>
-        <span class="n">size</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="n">size</span><span class="p">:</span> <span class="c1"># sent length of recipient for length</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;waiting size...&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;waiting size...&quot;</span><span class="p">)</span>
                 <span class="n">size</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">source</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;received size&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;received size&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="nb">tuple</span><span class="p">):</span>
                 <span class="n">source</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">source</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">&quot;False&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">TimeOutException</span><span class="p">(</span><span class="s2">&quot;Timeout of </span><span class="si">{}</span><span class="s2"> receiving length&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">timeout</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">TimeOutException</span><span class="p">(</span><span class="s2">&quot;Timeout of {} receiving length&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">timeout</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
@@ -170,7 +167,7 @@
     <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">s</span> <span class="c1"># conn, addr = s.accept()</span></div>
 
-<div class="viewcode-block" id="initClient"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.initClient">[docs]</a><span class="k">def</span> <span class="nf">initClient</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="initClient"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.initClient">[docs]</a><span class="k">def</span> <span class="nf">initClient</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inits a simple client from address.</span>
 <span class="sd">    :param addr: (host, port)</span>
@@ -181,17 +178,17 @@
     <span class="c1"># The same port as used by the server</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
     <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="c1"># (host, port) host =&#39;localhost&#39;, port = 50007</span>
             <span class="k">return</span> <span class="n">s</span>
         <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
             <span class="k">elif</span> <span class="n">e</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="n">ECONNREFUSED</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">e</span>
             <span class="k">if</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t1</span> <span class="o">&gt;</span> <span class="n">timeout</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">TimeOutException</span><span class="p">(</span><span class="s2">&quot;Timeout connecting to server in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span></div>
+                <span class="k">raise</span> <span class="n">TimeOutException</span><span class="p">(</span><span class="s2">&quot;Timeout connecting to server in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="send_from"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.send_from">[docs]</a><span class="k">def</span> <span class="nf">send_from</span><span class="p">(</span><span class="n">viewable</span><span class="p">,</span> <span class="n">socket</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -201,7 +198,7 @@
 <span class="sd">    :param socket: destine socket</span>
 <span class="sd">    :return: None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">view</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">viewable</span><span class="p">)</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">memoryview</span><span class="p">(</span><span class="n">viewable</span><span class="p">)</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">view</span><span class="p">):</span>
         <span class="n">nsent</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">view</span><span class="p">[</span><span class="n">nsent</span><span class="p">:]</span></div>
@@ -214,7 +211,7 @@
 <span class="sd">    :param socket: source socket</span>
 <span class="sd">    :return: None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">view</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">viewable</span><span class="p">)</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">memoryview</span><span class="p">(</span><span class="n">viewable</span><span class="p">)</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">view</span><span class="p">):</span>
         <span class="n">nrecv</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">view</span><span class="p">[</span><span class="n">nrecv</span><span class="p">:]</span></div>
@@ -226,8 +223,8 @@
 <span class="sd">    :param to: until port.</span>
 <span class="sd">    :return: socket, address</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span><span class="o">*</span><span class="n">to</span><span class="p">)</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="n">port</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -239,7 +236,7 @@
             <span class="k">except</span><span class="p">:</span>
                 <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="sendPickle"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.sendPickle">[docs]</a><span class="k">def</span> <span class="nf">sendPickle</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">threaded</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="sendPickle"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.sendPickle">[docs]</a><span class="k">def</span> <span class="nf">sendPickle</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">threaded</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Send potentially any data using sockets.</span>
 
@@ -251,23 +248,23 @@
     <span class="n">notToClose</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span><span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">notToClose</span><span class="p">:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">addr</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;address is a connection&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;address is a connection&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;initializing Server at </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;initializing Server at {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">initServer</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">helper</span><span class="p">():</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">s</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;waiting for connection...&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;waiting for connection...&quot;</span><span class="p">)</span>
             <span class="n">conn</span><span class="p">,</span> <span class="n">addr1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;connection accepted..&quot;</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">settimeout</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;connection accepted..&quot;</span><span class="p">)</span>
             <span class="n">tosend</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;waiting to confirm sending len&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;waiting to confirm sending len&quot;</span><span class="p">)</span>
             <span class="n">Conection</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span><span class="o">.</span><span class="n">sendLen</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tosend</span><span class="p">),</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sending data&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;sending data&quot;</span><span class="p">)</span>
             <span class="n">conn</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">tosend</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="bp">True</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">e</span>
         <span class="k">finally</span><span class="p">:</span>
@@ -278,12 +275,12 @@
                     <span class="k">pass</span>
     <span class="k">if</span> <span class="n">threaded</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">helper</span><span class="p">)</span>
-        <span class="n">t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">helper</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="rcvPickle"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.rcvPickle">[docs]</a><span class="k">def</span> <span class="nf">rcvPickle</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="rcvPickle"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.rcvPickle">[docs]</a><span class="k">def</span> <span class="nf">rcvPickle</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Receive potentially any data using sockets.</span>
 
@@ -295,18 +292,18 @@
     <span class="k">if</span> <span class="n">notToClose</span><span class="p">:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">addr</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;initializing client at </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;initializing client at {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">addr</span><span class="p">))</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">initClient</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="c1">#s.settimeout(timeout)</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;creating connection...&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;creating connection...&quot;</span><span class="p">)</span>
         <span class="n">c</span> <span class="o">=</span> <span class="n">Conection</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="n">length</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">getLen</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loading data...&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;loading data...&quot;</span><span class="p">)</span>
         <span class="n">rcvdata</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">recvall</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)</span> <span class="o">!=</span> <span class="n">length</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">TransferExeption</span><span class="p">(</span><span class="s2">&quot;Data was transferred incomplete. Expected </span><span class="si">{}</span><span class="s2"> and got </span><span class="si">{}</span><span class="s2"> bytes&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;received data of len </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)))</span>
+            <span class="k">raise</span> <span class="n">TransferExeption</span><span class="p">(</span><span class="s2">&quot;Data was transferred incomplete. Expected {} and got {} bytes&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">FLAG_DEBUG</span><span class="p">:</span> <span class="k">print</span><span class="p">(</span><span class="s2">&quot;received data of len {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)))</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">serializer</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">rcvdata</span><span class="p">)</span>
         <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">data</span>
@@ -323,9 +320,9 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">host</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
         <span class="nb">int</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="bp">True</span>
     <span class="k">except</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="bp">False</span></div>
 
 <div class="viewcode-block" id="parseString"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.serverServices.parseString">[docs]</a><span class="k">def</span> <span class="nf">parseString</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -334,7 +331,7 @@
 <span class="sd">    :param timeout:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
         <span class="n">host</span><span class="p">,</span><span class="n">addr</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rcvPickle</span><span class="p">((</span><span class="n">host</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">addr</span><span class="p">)),</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -361,11 +358,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -376,8 +376,8 @@
       &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

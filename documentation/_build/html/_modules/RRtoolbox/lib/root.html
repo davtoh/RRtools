@@ -2,11 +2,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RRtoolbox.lib.root &#8212; RRtoolbox 1 documentation</title>
+    <title>RRtoolbox.lib.root &mdash; RRtoolbox 1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,14 +26,11 @@
     <link rel="top" title="RRtoolbox 1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" />
    
-  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
-  
+  <body role="document">  
 
     <div class="document">
       <div class="documentwrapper">
@@ -45,25 +42,25 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module holds core-like methods for library modules but not for the hole package</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="c1"># system</span>
-<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="kn">import</span> <span class="n">standard_library</span>
 <span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">filter</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">zip</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
-<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="k">import</span> <span class="n">basestring</span>
-<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">filter</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.builtins</span> <span class="kn">import</span> <span class="nb">basestring</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">object</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">types</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="k">import</span> <span class="n">fnmatch</span><span class="p">,</span><span class="n">fnmatchcase</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="k">import</span> <span class="n">groupby</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">Formatter</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span><span class="p">,</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatch</span><span class="p">,</span><span class="n">fnmatchcase</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Formatter</span>
 <span class="n">formater</span> <span class="o">=</span> <span class="n">Formatter</span><span class="p">()</span> <span class="c1"># string formatter str.format</span>
 <span class="c1"># ----------------------------BASIC FUNCTIONS---------------------------- #</span>
 
@@ -72,8 +69,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple logger to simulate stdout output adding a closed control</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">closed</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">stdout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdout</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">closed</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">stdout</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="n">closed</span>
@@ -154,15 +151,15 @@
 <span class="sd">    :param add_stdout: if True closes previous logs</span>
 <span class="sd">            and continues with new log</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">add_stdout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">add_stdout</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_old</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="c1"># register old logger</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cleaned</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cleaned</span> <span class="o">=</span> <span class="bp">False</span>
 
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s2">&quot;write&quot;</span><span class="p">):</span> <span class="c1"># must be file-lie</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="n">path</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
@@ -192,7 +189,7 @@
                 <span class="c1"># anything done after the instance creating</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">file_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">closed</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -206,7 +203,7 @@
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_old</span>  <span class="c1"># return old log</span>
 
                 <span class="c1"># at least this node has been cleaned</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_cleaned</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cleaned</span> <span class="o">=</span> <span class="bp">True</span>
 
                 <span class="k">try</span><span class="p">:</span> <span class="c1"># try to clean up old references</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_old</span><span class="o">.</span><span class="n">_cleanup</span><span class="p">()</span>
@@ -218,7 +215,7 @@
                     <span class="c1"># other node must have the old reference</span>
 
 
-<div class="viewcode-block" id="decorateInstanceMethods"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.decorateInstanceMethods">[docs]</a><span class="k">def</span> <span class="nf">decorateInstanceMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decorator</span><span class="p">,</span><span class="n">excludeMth</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;__init__&quot;</span><span class="p">),</span><span class="n">includeMth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="decorateInstanceMethods"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.decorateInstanceMethods">[docs]</a><span class="k">def</span> <span class="nf">decorateInstanceMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decorator</span><span class="p">,</span><span class="n">excludeMth</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;__init__&quot;</span><span class="p">),</span><span class="n">includeMth</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorate methods in an instance. It should be used in the __init__ method of a class.</span>
 
@@ -237,14 +234,14 @@
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">classmethods</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">excludeMth</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">excludeMth</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">includeMth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">includeMth</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">includeMth</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">includeMth</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">decorator</span><span class="p">(</span><span class="n">classmethods</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
     <span class="k">return</span> <span class="bp">self</span></div>
 
 
 <span class="c1"># ----------------------------DECORATORS---------------------------- #</span>
 
-<div class="viewcode-block" id="addto"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.addto">[docs]</a><span class="k">def</span> <span class="nf">addto</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span><span class="n">funcname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="addto"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.addto">[docs]</a><span class="k">def</span> <span class="nf">addto</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span><span class="n">funcname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator: Add function as method to instance.</span>
 
@@ -275,14 +272,14 @@
 <span class="sd">    :param kwargs: format keys</span>
 <span class="sd">    :return: formatted string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{{</span><span class="si">{}</span><span class="s2">}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;{{{}}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="formatConsume"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatConsume">[docs]</a><span class="k">def</span> <span class="nf">formatConsume</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">handle</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="formatConsume"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.formatConsume">[docs]</a><span class="k">def</span> <span class="nf">formatConsume</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">handle</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Format with dictionary and consume keys.</span>
 
@@ -292,13 +289,13 @@
 <span class="sd">    :param formatter: (None) formatter function to format string</span>
 <span class="sd">    :return: formatted string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">keys_in_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">formatter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">keys_in_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">formater</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">format_string</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">formatter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">format_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">formatted_string</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">(</span><span class="n">format_string</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys_in_str</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">handle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">handle</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -320,7 +317,7 @@
                 <span class="p">(</span><span class="s2">&quot;kilo&quot;</span><span class="p">,</span><span class="s2">&quot;k&quot;</span><span class="p">,</span><span class="mi">1000</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;hecto&quot;</span><span class="p">,</span><span class="s2">&quot;h&quot;</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;deca&quot;</span><span class="p">,</span><span class="s2">&quot;da&quot;</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span>
-                <span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                <span class="p">(</span><span class="bp">None</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;deci&quot;</span><span class="p">,</span><span class="s2">&quot;d&quot;</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;centi&quot;</span><span class="p">,</span><span class="s2">&quot;c&quot;</span><span class="p">,</span><span class="mf">0.01</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;milli&quot;</span><span class="p">,</span><span class="s2">&quot;m&quot;</span><span class="p">,</span><span class="mf">0.001</span><span class="p">),</span>
@@ -330,7 +327,7 @@
                 <span class="p">(</span><span class="s2">&quot;femto&quot;</span><span class="p">,</span><span class="s2">&quot;f&quot;</span><span class="p">,</span><span class="mf">0.000000000000001</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;atto&quot;</span><span class="p">,</span><span class="s2">&quot;a&quot;</span><span class="p">,</span><span class="mf">0.000000000000000001</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        :param factor: anything to look in factors (i.e. factor list with Factor structures).</span>
@@ -338,8 +335,8 @@
 
 <span class="sd">        .. note: A factor structure is of the form (&quot;Name&quot;,&quot;abbreviation&quot;,value)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span> <span class="o">=</span> <span class="n">abbreviate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
@@ -347,25 +344,25 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span>
-    <span class="nd">@factors</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@factors.setter</span>
     <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factorsCache</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">value</span><span class="p">))</span> <span class="c1"># itertools.izip is faster but this operation is one time</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="nd">@factors</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="nd">@factors.deleter</span>
     <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Property cannot be deleted&quot;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">]</span>
-    <span class="nd">@factor</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@factor.setter</span>
     <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFactor</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="c1"># transform units</span>
-    <span class="nd">@factor</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="nd">@factor.deleter</span>
     <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Property cannot be deleted&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FactorConvert.convert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="FactorConvert.convert"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert from actual factor to another factor.</span>
 
@@ -376,7 +373,7 @@
         <span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFactor</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">to</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">to</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">]</span> <span class="c1"># converted value, factor</span></div>
 
-<div class="viewcode-block" id="FactorConvert.convert2sample"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert2sample">[docs]</a>    <span class="k">def</span> <span class="nf">convert2sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="FactorConvert.convert2sample"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.FactorConvert.convert2sample">[docs]</a>    <span class="k">def</span> <span class="nf">convert2sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="n">to</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to resemble sample.</span>
 
@@ -384,8 +381,8 @@
 <span class="sd">        :param to: sample factor.</span>
 <span class="sd">        :return: converted value, units</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">to</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">to</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
-            <span class="n">unit</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">to</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">to</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span> <span class="c1"># calculate as fast as possible</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">unit</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factor</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">to</span>
@@ -421,9 +418,9 @@
 <span class="sd">                    If key is a factor value it will look for the nearest factor value.</span>
 <span class="sd">        :return: factor structure, else raises error.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exactFactorIndex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Factor not found for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Factor not found for {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nearFactorIndex</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span><span class="p">[</span><span class="n">index</span><span class="p">]</span></div>
@@ -449,26 +446,26 @@
 <span class="sd">        :param precision: decimal precision</span>
 <span class="sd">        :return: ([... ,Hundreds, Tens, Ones],[Tenths, ...])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;{{:0.</span><span class="si">{}</span><span class="s2">f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s2">&quot;{{:0.{}f}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]],[]</span></div></div>
 
 <div class="viewcode-block" id="Magnitude"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Magnitude">[docs]</a><span class="k">class</span> <span class="nc">Magnitude</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">unit</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">abbreviate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span> <span class="o">=</span> <span class="n">abbreviate</span>
 <div class="viewcode-block" id="Magnitude.format_value"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Magnitude.format_value">[docs]</a>    <span class="k">def</span> <span class="nf">format_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:f}</span><span class="s2"> </span><span class="si">{}{}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{:f} {}{}&quot;</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{{:0.</span><span class="si">{}</span><span class="s2">f}} {{}}{{}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;{{:0.{}f}} {{}}{{}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">:</span> <span class="c1">#</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">FactorConvert</span><span class="p">(</span>
                         <span class="n">abbreviate</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abbreviate</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">)</span> <span class="o">+</span>
                                      <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">,)))</span>
@@ -496,9 +493,9 @@
 <span class="sd">    :param printfunc: function to print messages. By default it</span>
 <span class="sd">            is sys.stdout.write</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                 <span class="n">abv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endmsg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{time}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">enableMsg</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                 <span class="n">printfunc</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">profiler</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">profile_point</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">factor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">precision</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                 <span class="n">abv</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">endmsg</span> <span class="o">=</span> <span class="s2">&quot;{time}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">enableMsg</span><span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                 <span class="n">printfunc</span><span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">profiler</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">profile_point</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">factor</span> <span class="o">=</span> <span class="n">factor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
@@ -506,43 +503,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span> <span class="o">=</span> <span class="n">endmsg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="o">=</span> <span class="n">enableMsg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="o">=</span> <span class="n">printfunc</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span> <span class="o">=</span> <span class="n">profiler</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="n">profile_point</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">time_start</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span>
-    <span class="nd">@time_end</span><span class="o">.</span><span class="n">setter</span>
+    <span class="nd">@time_end.setter</span>
     <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="nd">@time_end</span><span class="o">.</span><span class="n">deleter</span>
+    <span class="nd">@time_end.deleter</span>
     <span class="k">def</span> <span class="nf">time_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time_end</span>
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span> <span class="c1"># begin chronometer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiler</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="o">*</span><span class="n">msg</span><span class="p">)</span>
@@ -555,12 +552,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">profile_point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="c1"># end chronometer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">t</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">enableMsg</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="c1"># abbreviation</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abv</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span><span class="kc">True</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">abv</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span><span class="bp">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot; seconds&quot;</span><span class="p">,</span><span class="kc">False</span>
+                <span class="n">u</span><span class="p">,</span><span class="n">i</span> <span class="o">=</span> <span class="s2">&quot; seconds&quot;</span><span class="p">,</span><span class="bp">False</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">printfunc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endmsg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">time</span><span class="o">=</span><span class="n">Magnitude</span><span class="p">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">t</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
                 <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">abbreviate</span><span class="o">=</span><span class="n">i</span><span class="p">)))</span></div>
@@ -577,17 +574,17 @@
 <span class="sd">    :parameter points: profile instaces which are divided in &quot;side&quot; or &quot;children&quot; points</span>
 <span class="sd">            according if they are side by side or are inside of the profiler.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">time_start</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{space}{tag}{msg}{time}</span><span class="s2">&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_structure</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="si">{space}</span><span class="s2">[</span><span class="si">{tag}{msg}{time}{child}</span><span class="s2">]</span><span class="si">{side}</span><span class="s2">&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">) &quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span> <span class="o">=</span> <span class="s2">&quot; -&gt; </span><span class="si">{:0.4f}</span><span class="s2"> secs&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{!r}</span><span class="s2">&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_line</span> <span class="o">=</span> <span class="s2">&quot;{space}{tag}{msg}{time}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_structure</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">{space}[{tag}{msg}{time}{child}]{side}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span> <span class="o">=</span> <span class="s2">&quot;({}) &quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span> <span class="o">=</span> <span class="s2">&quot; -&gt; {:0.4f} secs&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span> <span class="o">=</span> <span class="s2">&quot;{!r}&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
@@ -601,7 +598,7 @@
             <span class="n">points_diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">time</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">points_diff</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">points_diff</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">_add_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -611,7 +608,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
             <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">child</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
@@ -627,7 +624,7 @@
         <span class="n">point</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Profiler.open_point"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.open_point">[docs]</a>    <span class="k">def</span> <span class="nf">open_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.open_point"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.open_point">[docs]</a>    <span class="k">def</span> <span class="nf">open_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Open a profiling point to track time.</span>
 
@@ -645,7 +642,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">:</span>
             <span class="n">p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">time_end</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Profiler.formatter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.formatter">[docs]</a>    <span class="k">def</span> <span class="nf">formatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
@@ -659,21 +656,21 @@
 <span class="sd">        :return: formatted (spacing, tag, msg, time)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">tag</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
                 <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="n">time</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
                 <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="p">,</span><span class="n">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="p">,</span><span class="nb">basestring</span><span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_msg</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -681,7 +678,7 @@
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">space</span> <span class="o">*</span> <span class="n">level</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">time</span></div>
 
-    <span class="k">def</span> <span class="nf">_collapse_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_collapse_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Collapse list of profiles (not intended for the user)</span>
 
@@ -691,13 +688,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># collapse them</span>
-        <span class="k">if</span> <span class="n">collapse</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">children</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">collapse</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">children</span><span class="p">:</span>
             <span class="n">new_children</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># init new list of collapsed children</span>
             <span class="n">indexes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> <span class="c1"># keep cache of indexed children</span>
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span> <span class="c1"># loop over children</span>
                 <span class="nb">cmp</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">child</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># comparison and key index</span>
                 <span class="k">if</span> <span class="n">new_children</span> \
-                        <span class="ow">and</span> <span class="p">(</span><span class="n">collapse</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span><span class="p">)</span> \
+                        <span class="ow">and</span> <span class="p">(</span><span class="n">collapse</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span> <span class="ow">or</span> <span class="nb">cmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">collapse</span><span class="p">)</span> \
                         <span class="ow">and</span> <span class="nb">cmp</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="nb">cmp</span><span class="p">]</span> <span class="c1"># return cached index</span>
                     <span class="n">new_children</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">child</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># add time</span>
@@ -724,7 +721,7 @@
             <span class="n">structure</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">children</span>
         <span class="k">return</span> <span class="n">structure</span></div>
 
-<div class="viewcode-block" id="Profiler.structure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.structure"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.structure">[docs]</a>    <span class="k">def</span> <span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        profiling structure.</span>
 
@@ -750,7 +747,7 @@
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">i</span>
 
-<div class="viewcode-block" id="Profiler.lines_unformatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_unformatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.lines_unformatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_unformatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        generate structure lines</span>
 
@@ -759,7 +756,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_lines_unformatted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Profiler.lines_formatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.lines_formatted"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.lines_formatted">[docs]</a>    <span class="k">def</span> <span class="nf">lines_formatted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        generate string lines</span>
 
@@ -797,7 +794,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
-<div class="viewcode-block" id="Profiler.string_structured"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_structured">[docs]</a>    <span class="k">def</span> <span class="nf">string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">structure</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Profiler.string_structured"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.Profiler.string_structured">[docs]</a>    <span class="k">def</span> <span class="nf">string_structured</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collapse</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">structure</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        string with plain structure of profiling</span>
 
@@ -806,7 +803,7 @@
 <span class="sd">                it creates the structure.</span>
 <span class="sd">        :return: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">structure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">structure</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">(</span><span class="n">collapse</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_helper_string_structured</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">restructure</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="n">collapse</span><span class="p">)])</span></div></div>
@@ -826,18 +823,18 @@
 <span class="sd">            controlled by the Controlstdout context.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disable</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">buffer</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disable</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="nb">buffer</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="n">disable</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="nb">buffer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">buffered</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout_old</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutSIM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span> <span class="c1"># in case it is not defined</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># in case it is not defined</span>
                 <span class="kn">import</span> <span class="nn">io</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span> <span class="o">=</span> <span class="n">StdoutMULTI</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span><span class="p">])</span>
@@ -864,7 +861,7 @@
 <span class="sd">            and return True to let it pass and False to suppress it.</span>
 <span class="sd">    :return: return list of files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
+    <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
     <span class="n">fns</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="c1"># special case: Folder</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fns</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
@@ -882,22 +879,22 @@
 
 <div class="viewcode-block" id="globFilter"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.globFilter">[docs]</a><span class="k">class</span> <span class="nc">globFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;glob filter for patterns&#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param include: permitted patterns</span>
 <span class="sd">        :param exclude: excluded patterns. it takes priority over includes</span>
 <span class="sd">        :param case: True or False for case sensitive patterns</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">include</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">include</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">include</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">include</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">include</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">exclude</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">exclude</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span> <span class="o">=</span> <span class="n">ensureList</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">case</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatchcase</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="o">=</span> <span class="n">fnmatch</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">cmp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">cmp</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">         Evaluate filter.</span>
 
@@ -910,18 +907,18 @@
             <span class="n">cmpfunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmpfunc</span> <span class="c1"># prevents from accessing self</span>
             <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude</span><span class="p">:</span> <span class="c1"># if exclude is [] don&#39;t do the test</span>
                 <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-                    <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">return</span> <span class="bp">False</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span> <span class="c1"># test includes</span>
                 <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">include</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">cmpfunc</span><span class="p">(</span><span class="nb">cmp</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
-                        <span class="k">return</span> <span class="kc">True</span>
+                        <span class="k">return</span> <span class="bp">True</span>
             <span class="k">else</span><span class="p">:</span> <span class="c1"># if include is False or None return True anyway i.e. equivalent to [&#39;*&#39;]</span>
-                <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
 
 
-<div class="viewcode-block" id="lookinglob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.lookinglob">[docs]</a><span class="k">def</span> <span class="nf">lookinglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-               <span class="n">filelist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">raiseErr</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="lookinglob"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.lookinglob">[docs]</a><span class="k">def</span> <span class="nf">lookinglob</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">forward</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">filelist</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">aslist</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">raiseErr</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.</span>
 
@@ -937,25 +934,25 @@
 <span class="sd">    :return: matched case if returnAll is False else the list of matched cases</span>
 <span class="sd">            or if no match is found None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">forward</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ext</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">forward</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c1"># filter pure pattern</span>
         <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="c1"># create a list of test with pattern</span>
-        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;*</span><span class="si">{pattern}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{path}{pattern}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">*</span><span class="si">{pattern}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">pattern</span><span class="p">,</span> <span class="s2">&quot;*{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">forward</span><span class="p">:</span>
             <span class="n">tests</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;</span><span class="si">{pattern}</span><span class="s2">*&quot;</span><span class="p">,</span><span class="s2">&quot;*</span><span class="si">{pattern}</span><span class="s2">*&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{path}{pattern}</span><span class="s2">*&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{path}</span><span class="s2">*</span><span class="si">{pattern}</span><span class="s2">*&quot;</span><span class="p">]</span>
+                <span class="p">[</span><span class="s2">&quot;{pattern}*&quot;</span><span class="p">,</span><span class="s2">&quot;*{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}{pattern}*&quot;</span><span class="p">,</span> <span class="s2">&quot;{path}*{pattern}*&quot;</span><span class="p">]</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">ext</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
                 <span class="n">ext</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">+</span><span class="n">ext</span>
             <span class="n">tests</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">ext</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
 
     <span class="n">tests</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span> <span class="c1"># eliminate repeated keys</span>
-    <span class="k">if</span> <span class="n">filelist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">filelist</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="c1"># look in a real path</span>
         <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
@@ -971,55 +968,55 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># look in a simulated path with files in file_list</span>
         <span class="n">include</span> <span class="o">=</span> <span class="p">[</span><span class="n">test</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span> <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">]</span>
-        <span class="n">ress</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">globFilter</span><span class="p">(</span><span class="n">case</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">),</span><span class="n">filelist</span><span class="p">))</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">globFilter</span><span class="p">(</span><span class="n">case</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">),</span><span class="n">filelist</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">aslist</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ress</span> <span class="c1"># return list anyways</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ress</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># return only matched</span>
     <span class="k">elif</span> <span class="n">ress</span> <span class="ow">and</span> <span class="n">raiseErr</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;More than one file with pattern &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;More than one file with pattern &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">raiseErr</span><span class="p">:</span>
         <span class="c1">#if file_list is not None:</span>
         <span class="c1">#    path = file_list</span>
-        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;</span><span class="si">{}</span><span class="s2">&#39; not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;</span><span class="si">{}</span><span class="s2">&#39; not in </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;pattern &#39;{}&#39; not in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">aslist</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ress</span><span class="p">))</span> <span class="c1"># return unique matches</span>
-    <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="bp">None</span></div>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="k">if</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">myfc</span><span class="p">():</span>
             <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="k">return</span> <span class="s2">&quot;======&quot;</span><span class="o">*</span><span class="mi">10000</span>
-        <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">abv</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">abv</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
             <span class="n">myfc</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">False</span><span class="p">:</span>
         <span class="n">fac</span> <span class="o">=</span> <span class="n">FactorConvert</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">parts</span><span class="p">(</span><span class="mf">1001010.01010101</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:f}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert2sample</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">parts</span><span class="p">(</span><span class="mf">1001010.01010101</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{:f} {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert2sample</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">FactorConvert</span><span class="p">(</span><span class="s2">&quot;m&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mf">36797.59</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">fac</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">True</span><span class="p">:</span>
         <span class="n">pf</span> <span class="o">=</span> <span class="n">Profiler</span><span class="p">(</span><span class="s2">&quot;Init&quot;</span><span class="p">)</span>
         <span class="n">p1</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;for loop&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
-            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
                 <span class="k">pass</span>
-            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">TimeCode</span><span class="p">(</span><span class="s2">&quot;loop {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span><span class="n">profiler</span><span class="o">=</span><span class="n">pf</span><span class="p">):</span>
                 <span class="k">pass</span>
         <span class="n">p2</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;in level of p1&quot;</span><span class="p">)</span>
         <span class="n">p1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="n">p3</span> <span class="o">=</span> <span class="n">pf</span><span class="o">.</span><span class="n">open_point</span><span class="p">(</span><span class="s2">&quot;other process&quot;</span><span class="p">)</span>
         <span class="c1">#print pf.string_structured()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">pf</span><span class="o">.</span><span class="n">string_structured</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">pf</span><span class="o">.</span><span class="n">structure</span><span class="p">()))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">pf</span><span class="o">.</span><span class="n">string_structured</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span><span class="n">pf</span><span class="o">.</span><span class="n">structure</span><span class="p">()))</span>
 
 <span class="c1"># ---------------------------- EXCEPTIONS ---------------------------- #</span>
 
@@ -1074,6 +1071,10 @@
 <span class="sd">    Defines objectGetter error: objectGetter cannot create new object.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
+<div class="viewcode-block" id="NotCallable"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NotCallable">[docs]</a><span class="k">class</span> <span class="nc">NotCallable</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines objectGetter error: given object is not callable.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="NoParserFound"><a class="viewcode-back" href="../../../RRtoolbox.lib.html#RRtoolbox.lib.root.NoParserFound">[docs]</a><span class="k">class</span> <span class="nc">NoParserFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1111,11 +1112,14 @@
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1126,8 +1130,8 @@
       &copy;2017, David Toro.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
       
     </div>
 

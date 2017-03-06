@@ -368,13 +368,17 @@ class Cache(object):
         self.func = func # function handle
     # if method simulating getattr
     def __get__(self, instance, owner):  # if trying to get attribute
-        # Build the attribute.
-        cached = self.func(instance) #evaluate function over instance
-        # Cache the value;
-        # Creates variable (name) of value (cached) in (instance).
-        # instance.name = cached
-        setattr(instance, self.func.__name__, cached)
-        return cached
+        if instance is not None: # Class not instantiated if instance is None
+            # Only for instances of Class
+            # Build the attribute.
+            cached = self.func(instance) #evaluate function over instance
+            # Cache the value;
+            # Creates variable (name) of value (cached) in (instance).
+            # instance.name = cached
+            setattr(instance, self.func.__name__, cached)
+            return cached
+        else: # return method signature
+            return self.func
 
 def cachedProperty(watch=[],handle=[]):
     """
