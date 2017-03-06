@@ -39,7 +39,117 @@
             
   <div class="section" id="welcome-to-rrtoolbox-s-documentation">
 <h1>Welcome to RRtoolbox&#8217;s documentation!<a class="headerlink" href="#welcome-to-rrtoolbox-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+<div class="section" id="rrtools-raster-restoration-tools-build-status-docs">
+<h2>RRtools - Raster Restoration Tools  <a class="reference external" href="https://github.com/davtoh/RRtools/releases"><img alt="Build status" src="https://travis-ci.org/pyserial/pyserial.svg?branch=master" /></a> <a class="reference external" href="http://rrtools.readthedocs.io/"><img alt="Documentation" src="https://readthedocs.org/projects/pyserial/badge/?version=latest" /></a><a class="headerlink" href="#rrtools-raster-restoration-tools-build-status-docs" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This module encapsulates algorithms for the restoration of images and it is
+specialized in retinal images.</p>
+<p>RRtoolbox is a python package which contains source code designed to process images built
+mainly using OpenCV.</p>
+<p>RRtoolFC is a development tool using sequential function charts (FC stands for Function Chart)</p>
+<p>Imrestore is an application to restore images in general but in this case is configured to
+restore retinal images. Because it is still in development it is the alpha program for testing
+and to let the users find out about its utilities. Do not hesitate to share it to the world,
+let everyone know how awesome it is!! (be warned that it is for research purposes)</p>
+<p>Stable:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Documentation: <a class="reference external" href="http://pythonhosted.org/rrtoolbox/">http://pythonhosted.org/rrtoolbox/</a></li>
+<li>Download Page: <a class="reference external" href="https://pypi.python.org/pypi/rrtoolbox">https://pypi.python.org/pypi/rrtoolbox</a></li>
+</ul>
+</div></blockquote>
+<p>Latest:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Documentation: <a class="reference external" href="http://rrtools.readthedocs.io/en/latest/">http://rrtools.readthedocs.io/en/latest/</a></li>
+<li>Project Homepage: <a class="reference external" href="https://github.com/davtoh/RRtools">https://github.com/davtoh/RRtools</a></li>
+</ul>
+</div></blockquote>
+<p>BSD license, (C) 2015-2017 David Toro &lt;<a class="reference external" href="mailto:davsamirtor&#37;&#52;&#48;gmail&#46;com">davsamirtor<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>For API documentation, usage and examples see files in the &#8220;documentation&#8221;
+directory.  The &#8221;.rst&#8221; files can be read in any text editor or being converted to
+HTML or PDF using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>. A HTML version is online at
+<a class="reference external" href="http://rrtools.readthedocs.io/en/latest/">http://rrtools.readthedocs.io/en/latest/</a></p>
+<p>Read RRtoolbox (Retinal Restauration Toolbox) <a class="reference external" href="https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/RRtoolbox.pdf">manual</a> or the <a class="reference external" href="https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb">dissertation</a>
+which made this project possible with all the concepts.</p>
+<p>Examples are found in the directory <a class="reference external" href="https://github.com/davtoh/RRtools/tree/master/examples">examples</a> and unit tests in <a class="reference external" href="https://github.com/davtoh/RRtools/tree/master/tests">tests</a>.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">rrtools</span></code> should work for most users.</p>
+<p>The usual setup.py for <a class="reference external" href="http://python.org/">Python</a> libraries is used for the source distribution.
+Windows installers are also available (see download link above).</p>
+</div>
+<div class="section" id="releases">
+<h1>Releases<a class="headerlink" href="#releases" title="Permalink to this headline">¶</a></h1>
+<p>All releases follow semantic rules proposed in <a class="reference external" href="https://www.python.org/dev/peps/pep-0440/">https://www.python.org/dev/peps/pep-0440/</a>
+and <a class="reference external" href="http://semver.org/">http://semver.org/</a></p>
+<p>To create executable from source code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ pyinstaller -p ./ -n imrestore -F ./imrestore.py/ --version-file=version
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing-and-application">
+<h1>Testing and application<a class="headerlink" href="#testing-and-application" title="Permalink to this headline">¶</a></h1>
+<p>To test imrestore script:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ python imrestore.py tests/im1*
+</pre></div>
+</div>
+<p>To test imrestore executable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$./dist/imrestore tests/im1*
+</pre></div>
+</div>
+<p>To test imrestore executable if in dist folder:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>$ ./imrestore ../tests/im1*
+</pre></div>
+</div>
+<p>A basic usage would be typing <code class="docutils literal"><span class="pre">./imrestore</span> <span class="pre">tests/im1*</span> <span class="pre">--lens</span></code> in the terminal which species
+to imrestore to load from the test path images that start with im1 specified by the wildcard
+&#8216;*&#8217; and the option <code class="docutils literal"><span class="pre">--lens</span></code> adds, as its name implies, lens to the retinal area.</p>
+<ul class="simple">
+<li>So, it loads this image which presents some flares and noise:</li>
+</ul>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg"><img alt="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg" src="https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg" /></a>
+<p class="caption"><span class="caption-text">Retina photo 1</span></p>
+</div>
+<ul class="simple">
+<li>The second image is from a different perspective of the same retinal area but has information
+that the other does not have:</li>
+</ul>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg"><img alt="https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg" src="https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg" /></a>
+<p class="caption"><span class="caption-text">Retina photo 2</span></p>
+</div>
+<ul class="simple">
+<li>And Voilà they are merged into one! notice how the flares tend to disappear and the lens were
+added too! Because it is in development it still is not that pretty...</li>
+</ul>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg"><img alt="https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg" src="https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg" /></a>
+<p class="caption"><span class="caption-text">Rethina photo result</span></p>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>For help just type in <code class="docutils literal"><span class="pre">./imrestore</span> <span class="pre">--help</span></code>, it could not be easier than that! but a <a class="reference external" href="https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb">demo</a>
+is available using the jupyter notebook to generate the desired commands to learn or use
+in the console while still running the program.</p>
+<ul class="simple">
+<li>Contributions and bug reports are appreciated.</li>
+<li>author: David Toro</li>
+<li>e-mail: <a class="reference external" href="mailto:davsamirtor&#37;&#52;&#48;gmail&#46;com">davsamirtor<span>&#64;</span>gmail<span>&#46;</span>com</a></li>
+<li>project: <a class="reference external" href="https://github.com/davtoh/RRtools">https://github.com/davtoh/RRtools</a></li>
+</ul>
+</div>
+<div class="section" id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="RRtoolbox.html">RRtoolbox package</a><ul>
@@ -51,7 +161,7 @@
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.config">RRtoolbox.lib.config module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.descriptors">RRtoolbox.lib.descriptors module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.directory">RRtoolbox.lib.directory module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#rrtoolbox-lib-image-module">RRtoolbox.lib.image module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.image">RRtoolbox.lib.image module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.inspector">RRtoolbox.lib.inspector module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.plotter">RRtoolbox.lib.plotter module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="RRtoolbox.lib.html#module-RRtoolbox.lib.root">RRtoolbox.lib.root module</a></li>
@@ -98,7 +208,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to RRtoolbox&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#">Welcome to RRtoolbox&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#rrtools-raster-restoration-tools-build-status-docs">RRtools - Raster Restoration Tools   </a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#releases">Releases</a></li>
+<li><a class="reference internal" href="#testing-and-application">Testing and application</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#contents">Contents</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">
@@ -134,7 +254,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, David Toro.
+      &copy;2017, David Toro.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.6</a>

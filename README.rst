@@ -20,13 +20,13 @@ let everyone know how awesome it is!! (be warned that it is for research purpose
 
 Stable:
 
-	- Documentation: http://pythonhosted.org/rrtoolbox/
-	- Download Page: https://pypi.python.org/pypi/rrtoolbox
+    - Documentation: http://pythonhosted.org/rrtools
+    - Download Page: https://pypi.python.org/pypi/rrtoolbox
 
 Latest:
 
-	- Documentation: http://rrtools.readthedocs.io/en/latest/
-	- Project Homepage: https://github.com/davtoh/RRtools
+    - Documentation: http://rrtools.readthedocs.io/
+    - Project Homepage: https://github.com/davtoh/RRtools
 
 BSD license, (C) 2015-2017 David Toro <davsamirtor@gmail.com>
 
@@ -47,8 +47,22 @@ Installation
 ============
 ``pip install rrtools`` should work for most users.
 
-The usual setup.py for Python_ libraries is used for the source distribution.
-Windows installers are also available (see download link above).
+The usual setup.py for Python_ libraries are used for the source distribution.
+But OpenCV must be installed separately usually compiled from source. However
+RRtoolbox has a mock module for cv2 called cv2_mock to let the user use the
+functions that do not need OpenCV. Notice that this imports RRtoolbox.cv2_mock
+as cv2.
+
+To install OpenCV without much hassle I recommend installing the binaries from
+the `Unofficial Windows Binaries for Python`_ and for Debian distributions I
+provide the bash `OpenCV linux installation`_ so that the user can compile
+openCV (it can take some time). Bear in mind that for Linux it downloads the
+latest 2.9 version instead of the new OpenCV version 3 because it does not
+consent to using non-free sources. So you must accept the terms for OpenCV 2.9.
+
+Once rrtools is successfully installed you can import the toolbox in python as:
+
+    >>>> import RRtoolbox as rr
 
 Releases
 ========
@@ -82,29 +96,28 @@ to imrestore to load from the test path images that start with im1 specified by 
 
 * So, it loads this image which presents some flares and noise:
 
-.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg
-	:align: center
-	:scale: 10%
-	
-	Retina photo 1
+.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_1.jpg:align: center
+    :scale: 10%
+
+    Retina photo 1
 
 * The second image is from a different perspective of the same retinal area but has information 
   that the other does not have:
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/im1_2.jpg
-	:align: center
-	:scale: 10%
-	
-	Retina photo 2
+    :align: center
+    :scale: 10%
+
+    Retina photo 2
 
 * And Voilà they are merged into one! notice how the flares tend to disappear and the lens were 
   added too! Because it is in development it still is not that pretty...
 
 .. figure:: https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg
-	:align: center
-	:scale: 10%
-	
-	Rethina photo result
+    :align: center
+    :scale: 10%
+
+    Rethina photo result
 
 
 Usage
@@ -134,3 +147,5 @@ in the console while still running the program.
 .. _manual: https://github.com/davtoh/RRtools/blob/master/documentation/_build/latex/RRtoolbox.pdf
 .. _dissertation:
 .. _demo: https://github.com/davtoh/RRtools/blob/master/ImRestore_demo.ipynb
+.. _`Unofficial Windows Binaries for Python`: http://www.lfd.uci.edu/~gohlke/pythonlibs/
+.. _`OpenCV linux installation`: https://github.com/davtoh/RRtools/blob/master/install_opencv.sh
