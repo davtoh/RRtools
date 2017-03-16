@@ -30,8 +30,9 @@ standard_library.install_aliases()
 from builtins import zip
 from past.utils import old_div
 from builtins import object
-from .root import NotCallable, NotCreatable, VariableNotSettable, VariableNotDeletable, \
-    CorruptPersistent
+from .root import (NotCallable, NotCreatable, VariableNotSettable,
+                   VariableNotDeletable, CorruptPersistent)
+import fcntl
 
 __license__ = """
 

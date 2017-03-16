@@ -5,10 +5,10 @@ from past.utils import old_div
 
 import cv2
 import numpy as np
-from ..lib.arrayops import normsigmoid, normalize, Bandpass, Bandstop,\
-    findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio, \
-    filterFactory, brightness, background, thresh_biggestCnt, contours2mask, \
-    findContours
+from ..lib.arrayops import (normsigmoid, normalize, Bandpass, Bandstop,
+    findminima, findmaxima, find_near, smooth, getOtsuThresh, convexityRatio,
+    filterFactory, brightness, background, thresh_biggestCnt, contours2mask,
+    findContours)
 
 def _getBrightAlpha(backgray, foregray, window = None):
     """

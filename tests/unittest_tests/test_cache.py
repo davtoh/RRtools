@@ -32,20 +32,32 @@ class TestMemoizer(unittest.TestCase):
 
 class TestMemoizedDisc(unittest.TestCase):
 
+    def setUp(self):
+        """
+        called before test
+        """
+        self.path = persistIn
+        self.mydict = MemoizedDict(persistIn)
+
+    def tearDown(self):
+        """
+        called after test
+        """
+        with TimeCode("cleaning up..."):
+            self.mydict.clear()
+            del self.mydict
+
     def test_session(self):
         """
         test persistence to file
         :return:
         """
-        mydict = MemoizedDict(persistIn).clear()
-        del mydict
-
-        mydict = MemoizedDict(persistIn)
+        mydict = self.mydict
 
         mydict["TextOp"] = TextOp(1)
         del mydict
 
-        mydict = MemoizedDict(persistIn)
+        mydict = MemoizedDict(self.path)
         self.assertEqual(mydict["TextOp"].val,1)
 
     def test_key_times(self):
@@ -53,29 +65,21 @@ class TestMemoizedDisc(unittest.TestCase):
         test how much time memoizeDict takes in saving keys
         :return:
         """
-        mydict = MemoizedDict(persistIn).clear()
-        del mydict
-        mydict = MemoizedDict(persistIn)
+        mydict = self.mydict
         secs = 2
-        try:
-            for i in range(1000):
-                t1 = time()
-                data = (("12"*100)*100)*100
-                mydict[i] = data
-                mytime = time()-t1
-                self.assertTrue(mytime<=secs,"At added data No {} , it takes {} seg which is more than {} seg".format(i,mytime,secs))
-        finally:
-            with TimeCode("cleaning up..."):
-                mydict.clear() # clean up
+        for i in range(1000):
+            t1 = time()
+            data = (("12"*100)*100)*100
+            mydict[i] = data
+            mytime = time()-t1
+            self.assertTrue(mytime <= secs,"At added data No {} , it takes {} seg which is more than {} seg".format(i,mytime,secs))
 
     def test_cleanup(self):
         """
         test how much time memoizeDict takes in cleaning up keys
         :return:
         """
-        mydict = MemoizedDict(persistIn).clear()
-        del mydict
-        mydict = MemoizedDict(persistIn)
+        mydict = self.mydict
         secs = 5
         nokeys = 1000
         with TimeCode("adding {} keys...".format(nokeys)):
@@ -83,20 +87,18 @@ class TestMemoizedDisc(unittest.TestCase):
             for i in range(nokeys):
                 mydict[i] = i
                 print("\rkey {}/{}".format(i+1,nokeys), end=' ')
-        try:
-            t1 = time()
-            mydict.clear()
-            mytime = time()-t1
-            print("cleaning time: {}".format(mytime))
-            self.assertTrue(mytime<=secs,"It took {} to eliminate {} keys where the indended time was {}".format(mytime,nokeys,secs))
-        finally:
-            mydict.clear() # clean up
+        t1 = time()
+        mydict.clear()
+        mytime = time()-t1
+        print("cleaning time: {}".format(mytime))
+        self.assertTrue(mytime <= secs,"It took {} to eliminate {} keys where the indended time was {}".format(mytime,nokeys,secs))
 
     def test_failed_session(self):
-        mydict = MemoizedDict(persistIn).clear()
-        del mydict
+        """
 
-        mydict = MemoizedDict(persistIn)
+        :return:
+        """
+        mydict = self.mydict
 
         class TextOpFail(object):
             # unfortunately all classes that are memoized must be present
@@ -115,6 +117,7 @@ def runTests(tests = None, verbosity=2):
     unittest.TextTestRunner(verbosity=verbosity).run(suite)
 
 if __name__ == '__main__':
+    unittest.main()
     #suite = unittest.TestLoader().loadTestsFromModule(globals())
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestMemoizedDisc)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    #suite = unittest.TestLoader().loadTestsFromTestCase(TestMemoizedDisc)
+    #unittest.TextTestRunner(verbosity=2).run(suite)

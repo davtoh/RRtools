@@ -39,21 +39,23 @@ from .config import FLOAT,INT,MANAGER
 import cv2
 import os
 import numpy as np
-from .arrayops.basic import anorm, polygonArea, im2shapeFormat, angle, vectorsAngles, overlay, \
-    standarizePoints, splitPoints
+from .arrayops.basic import (anorm, polygonArea, im2shapeFormat, angle,
+                             vectorsAngles, overlay,  standarizePoints,
+                             splitPoints)
 from .root import glob
 #from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import name QtOpenGL
 from .cache import Cache, ResourceManager
 from collections import MutableSequence
-from .directory import getData, strdifference, changedir, checkFile, getFileHandle, \
-    increment_if_exits, mkPath
+from .directory import (getData, strdifference, changedir, checkFile,
+                        getFileHandle, increment_if_exits, mkPath)
 import matplotlib.axes
 import matplotlib.figure
 from .plotter import Plotim, limitaxis
 from .serverServices import parseString, string_is_socket_address
 
 
-supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png","pbm","pgm","ppm","sr","ras","tiff","tif")
+supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png",
+                     "pbm","pgm","ppm","sr","ras","tiff","tif")
 
 
 def transposeIm(im):
@@ -557,7 +559,9 @@ class ImFactory(object):
             return cv2.resize(im, dsize, dst, fx, fy, interpolation)
         return {"im":resizeFunc}
 
-    def get_mapFunc(self, flag = None, RGB = None, mpath=None,mode=None,func=None,dsize= None, dst=None, fx=None, fy=None, interpolation=None):
+    def get_mapFunc(self, flag = None, RGB = None, mpath=None,mode=None,
+                    func=None,dsize= None, dst=None, fx=None, fy=None,
+                    interpolation=None):
         def mapFunc(path):
             if mpath == "*": # save mmap in working directory
                 drive,dirname,(filename,ext) = "","",getData(path)[-2:]
@@ -1000,7 +1004,8 @@ class LoaderDict(ResourceManager):
                     if False used memory is only from keptAlive references.
     :param config: (Not Implemented)
     """
-    def __init__(self, loader = None, maxMemory = None, margin = 0.8, unit = "MB", all = True, config = None):
+    def __init__(self, loader = None, maxMemory = None, margin = 0.8,
+                 unit = "MB", all = True, config = None):
         super(LoaderDict, self).__init__(maxMemory, margin, unit, all)
         # create factory functions
         #if config is None: from config import MANAGER as config
@@ -1312,7 +1317,8 @@ class ImCoors(object):
         """
         vs = self.relativeVectors # get all vectors from points.
         vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-        return np.array([angle(vs[i-1],vs[i],deg=self._deg) for i in range(1,len(vs))],self._dtype) # caculate angles
+        return np.array([angle(vs[i-1],vs[i],deg=self._deg)
+                         for i in range(1,len(vs))],self._dtype) # caculate angles
     @Cache
     def pointsAngles(self):
         """
@@ -1560,7 +1566,8 @@ class GetCoors(Plotim):
                       "axes":"self.updatefunc = self.drawcooraxes",
                       "user":"self.updatefunc = self.userupdatefunc",
                       "end":["self.updatecoors()","self.mousefunc()"]})
-        self.cmdlist.extend(["unique","showstats","user","points","polyline","perspective","axes"])
+        self.cmdlist.extend(["unique","showstats","user","points",
+                             "polyline","perspective","axes"])
         #self.coors # return coordinates
 
     @property
@@ -1667,7 +1674,8 @@ class GetCoors(Plotim):
                     self.coordinateText = [[data]]
             self.builtinplot(self.data[int(self.y),int(self.x)])
 
-def getcoors(im, win ="get coordinates", updatefunc=drawcoorpoints, coors = None, prox=8, radius = 3, unique=True, col_out=black, col_in=red):
+def getcoors(im, win ="get coordinates", updatefunc=drawcoorpoints, coors = None,
+             prox=8, radius = 3, unique=True, col_out=black, col_in=red):
     self = GetCoors(im, win, updatefunc, unique=unique, col_out=col_out, col_in=col_in)
     self.radius = radius
     self.prox = prox
