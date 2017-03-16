@@ -13,6 +13,7 @@ from past.builtins import basestring
 from builtins import object
 import sys
 import os
+import io
 import inspect
 import types
 from time import time, sleep
@@ -653,9 +654,10 @@ class Profiler(object):
             indexes = dict() # keep cache of indexed children
             for child in children: # loop over children
                 cmp = tuple(child[:2]) # comparison and key index
-                if new_children \
-                        and (collapse is True or cmp[0] in collapse or cmp[1] in collapse) \
-                        and cmp in indexes:
+                if (new_children and
+                        (collapse is True or cmp[0] in collapse
+                         or cmp[1] in collapse)
+                    and cmp in indexes):
                     index = indexes[cmp] # return cached index
                     new_children[index][2] += child[2] # add time
                     new_children[index][3].extend(child[3]) # add children of child

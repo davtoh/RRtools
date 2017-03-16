@@ -13,6 +13,7 @@ gen
 # ignore executables
 /dist/
 /build/
+/documentation/_build/
 
 # ignore temporal files like caches and memoizations
 /temp/

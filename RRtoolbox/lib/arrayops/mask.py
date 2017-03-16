@@ -9,8 +9,8 @@ from builtins import range
 
 import cv2
 import numpy as np
-from .basic import findminima, im2shapeFormat, getOtsuThresh, findContours, \
-    isnumpy
+from .basic import (findminima, im2shapeFormat, getOtsuThresh, findContours,
+    isnumpy)
 from .filters import smooth
 
 def brightness(img):

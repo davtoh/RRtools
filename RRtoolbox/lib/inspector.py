@@ -121,12 +121,12 @@ class Logger(object):
     """
     eventHandle = None
     file = sys.stdout
-    _msg_report = "\nName: {self.funcname}\n" \
-           "Type: {self.Type_}\n" \
-           "Time of execution: {self.Time_}\n" \
-           "Execution time: {self.exectime} secs\n" \
-           "Inputs: {self.inputs}\n" \
-           "Outputs: {self.outputs}\n"
+    _msg_report = ("\nName: {self.funcname}\n"
+                  "Type: {self.Type_}\n"
+                  "Time of execution: {self.Time_}\n"
+                  "Execution time: {self.exectime} secs\n"
+                  "Inputs: {self.inputs}\n"
+                  "Outputs: {self.outputs}\n")
     _msg_no_executed = "No instance {self.funcname} has been executed"
     _msg_executed = "{self.funcname} has been executed..."
     def __init__(self, **kwargs):

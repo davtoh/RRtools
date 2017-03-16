@@ -48,8 +48,8 @@ except:
         arr_shape = np.array(arr_in.shape)
         arr_in = np.ascontiguousarray(arr_in)
 
-        new_shape = tuple((arr_shape - window_shape) // step + 1) + \
-                    tuple(window_shape)
+        new_shape = (tuple((arr_shape - window_shape) // step + 1) +
+                    tuple(window_shape))
 
         arr_strides = np.array(arr_in.strides)
         new_strides = np.concatenate((arr_strides * step, arr_strides))

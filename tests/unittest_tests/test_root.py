@@ -40,13 +40,22 @@ def reset_stdout():
 
 class TestStdoutLOG(unittest.TestCase):
 
+    def setUp(self):
+        """
+        called before test
+        """
+        sys.stdout = self.stdout = StringIO.StringIO()
+
+    def tearDown(self):
+        """
+        called after test
+        """
+        pass
+
     def test_with_all_contexts(self):
         """
         Test all contexts untouched
         """
-
-        # TEST
-        sys.stdout = stdout = StringIO.StringIO()
 
         with StdoutLOG(StringIO.StringIO(), add_stdout=True) as A:
             A_in = "Inside A"
@@ -75,7 +84,7 @@ class TestStdoutLOG(unittest.TestCase):
             A.close()
 
         # check sys.stdout is left untouched (with first StringIO)
-        self.assertEqual(stdout,sys.stdout)
+        self.assertEqual(self.stdout,sys.stdout)
 
         # check A context
         self.assertEqual("".join([A_in,B_in,C_in,D_in]),A_str)
@@ -112,9 +121,6 @@ class TestStdoutLOG(unittest.TestCase):
         Test when context has add_stdout=False
         """
 
-        # TEST
-        sys.stdout = stdout = StringIO.StringIO()
-
         with StdoutLOG(StringIO.StringIO(), add_stdout=True) as A:
             A_in = "Inside A"
             print(A_in,end="")
@@ -142,7 +148,7 @@ class TestStdoutLOG(unittest.TestCase):
             A.close()
 
         # check sys.stdout is left untouched (with first StringIO)
-        self.assertEqual(stdout,sys.stdout)
+        self.assertEqual(self.stdout,sys.stdout)
 
         # check A context
         self.assertEqual("".join([A_in,D_in]),A_str)
@@ -181,9 +187,6 @@ class TestStdoutLOG(unittest.TestCase):
         Test when context is closed before other contexts
         """
 
-        # TEST
-        sys.stdout = stdout = StringIO.StringIO()
-
         with StdoutLOG(StringIO.StringIO(), add_stdout=True) as A:
             A_in = "Inside A"
             print(A_in,end="")
@@ -210,7 +213,7 @@ class TestStdoutLOG(unittest.TestCase):
                 D_str = D._file.read()
 
         # check sys.stdout is left untouched (with first StringIO)
-        self.assertEqual(stdout,sys.stdout)
+        self.assertEqual(self.stdout,sys.stdout)
 
         # check A context
         self.assertEqual(A_in,A_str)
@@ -319,7 +322,6 @@ class TestStdoutLOG(unittest.TestCase):
 
         # TEST N possibilities
         N = 500 # recursion error is reached around 1000
-        sys.stdout = stdout = StringIO.StringIO()
         logs = []
         strings = []
         strings_confirm = [None for _ in range(N)]
@@ -350,7 +352,7 @@ class TestStdoutLOG(unittest.TestCase):
 
 
         # check sys.stdout is left untouched (with first StringIO)
-        self.assertEqual(stdout,sys.stdout)
+        self.assertEqual(self.stdout, sys.stdout)
 
         references_count = len([log for log in logs if log.file_list])
         self.assertLess(references_count,3)
@@ -363,7 +365,7 @@ class TestStdoutLOG(unittest.TestCase):
 
 
 if __name__ == '__main__':
-
+    unittest.main()
     # test StdoutLOG class from root
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestStdoutLOG)
-    unittest.TextTestRunner(verbosity=2).run(suite)
+    # suite = unittest.TestLoader().loadTestsFromTestCase(TestStdoutLOG)
+    # unittest.TextTestRunner(verbosity=2).run(suite)
