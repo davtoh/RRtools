@@ -13,7 +13,8 @@ __spec__ = None
 
 # functions
 
-def createFreeType2(): # real signature unknown; restored from __doc__
+
+def createFreeType2():  # real signature unknown; restored from __doc__
     """ createFreeType2() -> retval """
     pass
 

@@ -7,28 +7,27 @@ Dependency project: https://github.com/uqfoundation/dill
 """
 
 
-
 try:
     # for security reason read this: http://www.benfrederickson.com/dont-pickle-your-data/
     # download: https://pypi.python.org/pypi/dill#downloads
     # see print dill.license() https://github.com/uqfoundation
-    #import jsonpickle as serializer # http://jsonpickle.github.io/
+    # import jsonpickle as serializer # http://jsonpickle.github.io/
     import cpickle as serializer
-    #import dill as serializer # dill must be >= 0.2.4
+    # import dill as serializer # dill must be >= 0.2.4
     #__license__ = serializer.__license__
-    #dill.detect.trace(True)
+    # dill.detect.trace(True)
 except:
     import pickle as serializer
 
 import types
 import os
 from .root import secure_open
-__excludeType = [types.FunctionType,types.ModuleType,type(None),type,type]
+__excludeType = [types.FunctionType, types.ModuleType, type(None), type, type]
 __excludeVar = []
 __excludePattern = ['__']
 
 
-def getEnviromentSession(enviroment = None):
+def getEnviromentSession(enviroment=None):
     """
     Gets the filtered session from the global variables.
 
@@ -44,7 +43,8 @@ def getEnviromentSession(enviroment = None):
             session[keys] = enviroment[keys]
     return session
 
-def saveSession(filepath, session, helper = None):
+
+def saveSession(filepath, session, helper=None):
     """
     Saves dictionary session to file.
 
@@ -54,13 +54,17 @@ def saveSession(filepath, session, helper = None):
     :return: filename of saved session
     """
     # safely save session file
-    #with os.fdopen(os.open(filepath, os.O_WRONLY | os.O_CREAT, 0600), 'wb') as logger: # http://stackoverflow.com/a/5624691/5288758
+    # with os.fdopen(os.open(filepath, os.O_WRONLY | os.O_CREAT, 0600), 'wb')
+    # as logger: # http://stackoverflow.com/a/5624691/5288758
     with secure_open(filepath, 'wb') as logger:
         if helper:
-            serializer.dump(helper(session), logger, serializer.HIGHEST_PROTOCOL) # save dictionary
+            serializer.dump(helper(session), logger,
+                            serializer.HIGHEST_PROTOCOL)  # save dictionary
         else:
-            serializer.dump(session, logger, serializer.HIGHEST_PROTOCOL) # save dictionary
+            # save dictionary
+            serializer.dump(session, logger, serializer.HIGHEST_PROTOCOL)
         return logger.name
+
 
 def readSession(filepath, helper=None):
     """
@@ -72,11 +76,12 @@ def readSession(filepath, helper=None):
     """
     # safely read session file
     with secure_open(filepath, 'rb') as logger:
-        session = serializer.load(logger) # get session
+        session = serializer.load(logger)  # get session
     if helper:
         return helper(session)
     else:
         return session
+
 
 def updateSession(filepath, session, replace=True, rdhelper=None, svhelper=None):
     """
@@ -89,14 +94,15 @@ def updateSession(filepath, session, replace=True, rdhelper=None, svhelper=None)
     :param svhelper: save helper.
     :return: None
     """
-    current = readSession(filepath,rdhelper)
-    if replace: # update by replacing existing values
+    current = readSession(filepath, rdhelper)
+    if replace:  # update by replacing existing values
         current.update(session)
-    else: # update without replacing existing values
+    else:  # update without replacing existing values
         for key in session:
             if key not in current:
                 current[key] = session[key]
-    saveSession(filepath, current, svhelper) # save updated session
+    saveSession(filepath, current, svhelper)  # save updated session
+
 
 def flushSession(filepath):
     """
@@ -106,7 +112,8 @@ def flushSession(filepath):
     :return:
     """
     readSession(filepath)
-    saveSession(filepath, {}) # save updated session
+    saveSession(filepath, {})  # save updated session
+
 
 def checkFromSession(filepath, varlist):
     """
@@ -117,7 +124,8 @@ def checkFromSession(filepath, varlist):
     :return: list checkLoaded results
     """
     current = readSession(filepath)
-    return [var in current for var in varlist] # checking variables
+    return [var in current for var in varlist]  # checking variables
+
 
 def deleteFromSession(filepath, varlist):
     """
@@ -128,6 +136,6 @@ def deleteFromSession(filepath, varlist):
     :return: None
     """
     current = readSession(filepath)
-    for var in varlist: # deleting variables
+    for var in varlist:  # deleting variables
         del(current[var])
-    saveSession(filepath, current) # save updated session
+    saveSession(filepath, current)  # save updated session

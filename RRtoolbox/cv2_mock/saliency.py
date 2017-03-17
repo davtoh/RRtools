@@ -13,19 +13,23 @@ __spec__ = None
 
 # functions
 
-def MotionSaliencyBinWangApr2014_create(): # real signature unknown; restored from __doc__
+
+def MotionSaliencyBinWangApr2014_create():  # real signature unknown; restored from __doc__
     """ MotionSaliencyBinWangApr2014_create() -> retval """
     pass
 
-def ObjectnessBING_create(): # real signature unknown; restored from __doc__
+
+def ObjectnessBING_create():  # real signature unknown; restored from __doc__
     """ ObjectnessBING_create() -> retval """
     pass
 
-def StaticSaliencyFineGrained_create(): # real signature unknown; restored from __doc__
+
+def StaticSaliencyFineGrained_create():  # real signature unknown; restored from __doc__
     """ StaticSaliencyFineGrained_create() -> retval """
     pass
 
-def StaticSaliencySpectralResidual_create(): # real signature unknown; restored from __doc__
+
+def StaticSaliencySpectralResidual_create():  # real signature unknown; restored from __doc__
     """ StaticSaliencySpectralResidual_create() -> retval """
     pass
 

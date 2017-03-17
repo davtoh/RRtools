@@ -13,7 +13,8 @@ __spec__ = None
 
 # functions
 
-def Index(): # real signature unknown; restored from __doc__
+
+def Index():  # real signature unknown; restored from __doc__
     """ Index() -> <flann_Index object>  or  Index(features, params[, distType]) -> <flann_Index object> """
     pass
 

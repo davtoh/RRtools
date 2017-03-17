@@ -11,12 +11,11 @@ from builtins import range
 import cv2
 import numpy as np
 try:
-    #from skimage.util import view_as_windows, view_as_blocks
-    raise
-except:
+    from skimage.util import view_as_windows, view_as_blocks
+except ImportError:
     from numpy.lib.stride_tricks import as_strided as _ast
 
-    def view_as_blocks(arr_in, block_shape= (3, 3)):
+    def view_as_blocks(arr_in, block_shape=(3, 3)):
         """
         Provide a 2D block_shape view to 2D array. No error checking made.
         Therefore meaningful (as implemented) only for blocks strictly
@@ -29,9 +28,11 @@ except:
         # simple shape and strides computations may seem at first strange
         # unless one is able to recognize the 'tuple additions' involved ;-)
         # http://stackoverflow.com/a/5078155/5288758
-        shape= (int(arr_in.shape[0] / block_shape[0]), int(arr_in.shape[1] / block_shape[1])) + block_shape
-        strides= (int(block_shape[0] * arr_in.strides[0]), int(block_shape[1] * arr_in.strides[1])) + arr_in.strides
-        return _ast(arr_in, shape= shape, strides= strides)
+        shape = (int(arr_in.shape[0] / block_shape[0]),
+                 int(arr_in.shape[1] / block_shape[1])) + block_shape
+        strides = (int(block_shape[0] * arr_in.strides[0]),
+                   int(block_shape[1] * arr_in.strides[1])) + arr_in.strides
+        return _ast(arr_in, shape=shape, strides=strides)
 
     def view_as_windows(arr_in, window_shape, step=1):
         """
@@ -49,7 +50,7 @@ except:
         arr_in = np.ascontiguousarray(arr_in)
 
         new_shape = (tuple((arr_shape - window_shape) // step + 1) +
-                    tuple(window_shape))
+                     tuple(window_shape))
 
         arr_strides = np.array(arr_in.strides)
         new_strides = np.concatenate((arr_strides * step, arr_strides))
@@ -59,8 +60,7 @@ except:
         return arr_out
 
 
-
-################## OVERLAY
+# OVERLAY
 
 
 def axesIntercept(coorSM, maxS, maxM):
@@ -79,17 +79,18 @@ def axesIntercept(coorSM, maxS, maxM):
     :param maxM: value representing end of mobile axis.
     :return: S1,S2,M1,M2.
     """
-    if coorSM<0: # left of the static axis
+    if coorSM < 0:  # left of the static axis
         S1 = 0
-        S2 = np.min((np.max((0,maxM+coorSM)), maxS))
-        M1 = np.min((maxM,-coorSM))
-        M2 = np.min((maxM,S2-coorSM))
-    else: # right of the static axis
-        S1 = np.min((coorSM,maxS))
-        S2 = np.min((maxS,coorSM+maxM))
+        S2 = np.min((np.max((0, maxM + coorSM)), maxS))
+        M1 = np.min((maxM, -coorSM))
+        M2 = np.min((maxM, S2 - coorSM))
+    else:  # right of the static axis
+        S1 = np.min((coorSM, maxS))
+        S2 = np.min((maxS, coorSM + maxM))
         M1 = 0
-        M2 = np.min((maxS-S1,maxM))
-    return S1,S2,M1,M2
+        M2 = np.min((maxS - S1, maxM))
+    return S1, S2, M1, M2
+
 
 def matrixIntercept(x, y, staticm, *mobilem):
     """
@@ -102,15 +103,18 @@ def matrixIntercept(x, y, staticm, *mobilem):
     :param mobilem: mobile matrices.
     :return: ROI of intercepted matrices [staticm,*mobilem].
     """
-    foreshape = np.min([i.shape[0:2] for i in mobilem],axis=0)
-    BminY,BmaxY,FminY,FmaxY = axesIntercept(int(y), staticm.shape[0], foreshape[0])
-    BminX,BmaxX,FminX,FmaxX = axesIntercept(int(x), staticm.shape[1], foreshape[1])
-    ROIs = [staticm[BminY:BmaxY,BminX:BmaxX]]
-    mobilem = [i[FminY:FmaxY,FminX:FmaxX] for i in mobilem]
+    foreshape = np.min([i.shape[0:2] for i in mobilem], axis=0)
+    BminY, BmaxY, FminY, FmaxY = axesIntercept(
+        int(y), staticm.shape[0], foreshape[0])
+    BminX, BmaxX, FminX, FmaxX = axesIntercept(
+        int(x), staticm.shape[1], foreshape[1])
+    ROIs = [staticm[BminY:BmaxY, BminX:BmaxX]]
+    mobilem = [i[FminY:FmaxY, FminX:FmaxX] for i in mobilem]
     ROIs.extend(mobilem)
     return ROIs
 
-def centerSM(coorSM,maxS,maxM):
+
+def centerSM(coorSM, maxS, maxM):
     """
     Center vector coorSM in both S and M axes.
 
@@ -119,9 +123,10 @@ def centerSM(coorSM,maxS,maxM):
     :param maxM: value representing end of mobile axis.
     :return: SM centered coordinate.
     """
-    return int((maxS)/2.0+coorSM-(maxM)/2.0)
+    return int((maxS) / 2.0 + coorSM - (maxM) / 2.0)
 
-def invertSM(coorSM,maxS,maxM):
+
+def invertSM(coorSM, maxS, maxM):
     """
     Invert S and M axes.
 
@@ -130,7 +135,8 @@ def invertSM(coorSM,maxS,maxM):
     :param maxM: value representing end of mobile axis.
     :return: SM coordinate on inverted SM axes.
     """
-    return int(maxS+coorSM-maxM)
+    return int(maxS + coorSM - maxM)
+
 
 def quadrant(coorX, coorY, maxX, maxY, quadrant=0):
     """
@@ -144,23 +150,24 @@ def quadrant(coorX, coorY, maxX, maxY, quadrant=0):
     :return:
     """
     if not quadrant:
-        return coorX,coorY
-    elif quadrant==4:
-        coorX = coorX+maxX/2
-        coorY = coorY+maxY/2
-    elif quadrant==3:
-        coorX = coorX-maxX/2
-        coorY = coorY+maxY/2
-    elif quadrant==2:
-        coorX = coorX-maxX/2
-        coorY = coorY-maxY/2
-    elif quadrant==1:
-        coorX = coorX+maxX/2
-        coorY = coorY-maxY/2
+        return coorX, coorY
+    elif quadrant == 4:
+        coorX = coorX + maxX / 2
+        coorY = coorY + maxY / 2
+    elif quadrant == 3:
+        coorX = coorX - maxX / 2
+        coorY = coorY + maxY / 2
+    elif quadrant == 2:
+        coorX = coorX - maxX / 2
+        coorY = coorY - maxY / 2
+    elif quadrant == 1:
+        coorX = coorX + maxX / 2
+        coorY = coorY - maxY / 2
 
-    return coorX,coorY
+    return coorX, coorY
 
-def angleXY(coorX,coorY,angle):
+
+def angleXY(coorX, coorY, angle):
     """
     Rotate coordinate.
 
@@ -169,12 +176,13 @@ def angleXY(coorX,coorY,angle):
     :param angle: radian angle.
     :return: rotated x,y
     """
-    magnitude = np.sqrt(coorX*coorY)
-    coorX = int(magnitude*np.cos(angle))
-    coorY = int(-magnitude*np.sin(angle)) # y axis is downward
-    return coorX,coorY
+    magnitude = np.sqrt(coorX * coorY)
+    coorX = int(magnitude * np.cos(angle))
+    coorY = int(-magnitude * np.sin(angle))  # y axis is downward
+    return coorX, coorY
 
-def invertM(coorSM,maxM):
+
+def invertM(coorSM, maxM):
     """
     Invert M axis.
 
@@ -183,9 +191,10 @@ def invertM(coorSM,maxM):
     :param maxM: value representing end of mobile axis.
     :return: SM coordinate on S axis and inverted M axis.
     """
-    return int(coorSM-maxM)
+    return int(coorSM - maxM)
 
-def centerS(coor,maxS):
+
+def centerS(coor, maxS):
     """
     Center vector coor in S axis.
 
@@ -193,9 +202,10 @@ def centerS(coor,maxS):
     :param maxS: value representing end of estatic axis
     :return: S centered coordinate
     """
-    return int(maxS/2.0+coor)
+    return int(maxS / 2.0 + coor)
 
-def centerM(coor,maxM):
+
+def centerM(coor, maxM):
     """
     Center vector coor in M axis.
 
@@ -203,9 +213,10 @@ def centerM(coor,maxM):
     :param maxM: value representing end of mobile axis
     :return: M centered coordinate
     """
-    return int(coor-maxM/2.0)
+    return int(coor - maxM / 2.0)
 
-def convertXY(x,y,backshape,foreshape,flag=0,quartile=0,angle=None):
+
+def convertXY(x, y, backshape, foreshape, flag=0, quartile=0, angle=None):
     """
     Convert absolute XY 0,0 coordinates to new system WZ.
 
@@ -228,40 +239,41 @@ def convertXY(x,y,backshape,foreshape,flag=0,quartile=0,angle=None):
     :param angle: angle in radians (defalut=None). if None it does not apply.
     :return: W,Z
     """
-    if flag==0: # left up
+    if flag == 0:  # left up
         pass
-    elif flag==1:
+    elif flag == 1:
         # vector coor to the end of both axes # left down
-        y = invertSM(y,backshape[0],foreshape[0])
-    elif flag==2:
+        y = invertSM(y, backshape[0], foreshape[0])
+    elif flag == 2:
         # vector coor to the end of both axes # right up
-        x = invertSM(x,backshape[1],foreshape[1])
-    elif flag==3:
+        x = invertSM(x, backshape[1], foreshape[1])
+    elif flag == 3:
         # vector coor to the end of both axes # right down
-        x = invertSM(x,backshape[1],foreshape[1])
-        y = invertSM(y,backshape[0],foreshape[0])
-    elif flag==4:
+        x = invertSM(x, backshape[1], foreshape[1])
+        y = invertSM(y, backshape[0], foreshape[0])
+    elif flag == 4:
         # vector coor centered in both axes
-        x = centerSM(x,backshape[1],foreshape[1])
-        y = centerSM(y,backshape[0],foreshape[0])
-    elif flag==5:
+        x = centerSM(x, backshape[1], foreshape[1])
+        y = centerSM(y, backshape[0], foreshape[0])
+    elif flag == 5:
         # vector coor centered in static axis
-        x = centerS(x,backshape[1])
-        y = centerS(y,backshape[0])
-    elif flag==6:
+        x = centerS(x, backshape[1])
+        y = centerS(y, backshape[0])
+    elif flag == 6:
         # vector coor centered in mobile axis
-        x = centerM(x,foreshape[1])
-        y = centerM(y,foreshape[0])
-    elif flag==7:
+        x = centerM(x, foreshape[1])
+        y = centerM(y, foreshape[0])
+    elif flag == 7:
         # vector coor to the S axis and inverted M axis
-        x = invertM(x,foreshape[1])
-        y = invertM(y,foreshape[0])
+        x = invertM(x, foreshape[1])
+        y = invertM(y, foreshape[0])
 
-    x,y=quadrant(x, y, foreshape[1], foreshape[0], quartile)
+    x, y = quadrant(x, y, foreshape[1], foreshape[0], quartile)
     if angle is not None:
-        x,y=angleXY(x,y,angle)
+        x, y = angleXY(x, y, angle)
 
-    return x,y
+    return x, y
+
 
 def im2shapeFormat(im, shape):
     """
@@ -308,7 +320,8 @@ def im2shapeFormat(im, shape):
             im = cv2.cvtColor(im, cv2.COLOR_BGR2BGRA)
     return im
 
-def im2imFormat(src,dst):
+
+def im2imFormat(src, dst):
     """
     Tries to convert source image to destine image format.
 
@@ -317,6 +330,7 @@ def im2imFormat(src,dst):
     :return: reshaped source image.
     """
     return im2shapeFormat(src, dst.shape)
+
 
 def getTransparency(array):
     """
@@ -330,11 +344,12 @@ def getTransparency(array):
         if len(temp) == 3 and temp[2] == 4:  # BGRA or RGBA
             trans = array[:, :, 3]
         else:
-            trans = np.ones(temp[0:2],dtype=np.uint8)
+            trans = np.ones(temp[0:2], dtype=np.uint8)
             #trans = 1
     except:
         trans = 1
     return trans
+
 
 def overlaypng(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     """
@@ -363,26 +378,49 @@ def overlaypng(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     """
     if alpha is None:
         alpha = getTransparency(fore)
-    if np.max(alpha)>1:
+    if np.max(alpha) > 1:
         alpha = alpha / 255.0
 
-    def png(back,fore,dst):
+    def png(back, fore, dst):
         for chanel in range(3):
-            dst[:,:,chanel] = fore[:,:,chanel]*(alpha) + back[:, :, chanel] * (1 - alpha) #(2) without correction
+            dst[:, :, chanel] = (fore[:, :, chanel] *
+                (alpha) + back[:, :, chanel] *
+                (1 - alpha)) # (2) without correction
         temp = dst.shape
-        if not under and len(temp) == 3 and temp[2]>3:
-            if flag==0: dst[:,:,3] = fore[:,:,3] + back[:,:,3]*(1 - alpha) # normally replace inverted transparency of alpha in back (N); (2) superpose alpha in back (V)
-            elif flag==1: dst[:,:,3] = fore[:,:,3]*(alpha) + back[:, :, 3] * (1 - alpha) # bloat and replace inverted transparency of alpha in back; (2) superpose bgr in back (V)
-            elif flag==2: dst[:,:,3] = back[:,:,3]*(1 - alpha) # superpose inverted transparent of alpha in back; (2) superpose inverted transparent COLOR of alpha in back
-            elif flag==3: dst[:,:,3] = fore[:,:,3]*(1 - alpha) # superpose inverted transparent of alpha in back; (2) superpose inverted transparent COLOR of alpha in back
-            elif flag==4: dst[:,:,3] = back[:,:,3]*(alpha) # superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back
-            elif flag==5: dst[:,:,3] = fore[:,:,3]*(alpha) # superpose transparent of alpha in back; (2) superpose transparent COLOR of alpha in back
-            #if under: (1) do nothing; (2) superpose bgr in visible parts of back
+        if not under and len(temp) == 3 and temp[2] > 3:
+            if flag == 0:
+                # normally replace inverted transparency of alpha in back (N);
+                # (2) superpose alpha in back (V)
+                dst[:, :, 3] = fore[:, :, 3] + back[:, :, 3] * (1 - alpha)
+            elif flag == 1:
+                # bloat and replace inverted transparency of alpha in back; (2)
+                # superpose bgr in back (V)
+                dst[:, :, 3] = (fore[:, :, 3] *
+                    (alpha) + back[:, :, 3] * (1 - alpha))
+            elif flag == 2:
+                # superpose inverted transparent of alpha in back; (2)
+                # superpose inverted transparent COLOR of alpha in back
+                dst[:, :, 3] = back[:, :, 3] * (1 - alpha)
+            elif flag == 3:
+                # superpose inverted transparent of alpha in back; (2)
+                # superpose inverted transparent COLOR of alpha in back
+                dst[:, :, 3] = fore[:, :, 3] * (1 - alpha)
+            elif flag == 4:
+                # superpose transparent of alpha in back; (2) superpose
+                # transparent COLOR of alpha in back
+                dst[:, :, 3] = back[:, :, 3] * (alpha)
+            elif flag == 5:
+                # superpose transparent of alpha in back; (2) superpose
+                # transparent COLOR of alpha in back
+                dst[:, :, 3] = fore[:, :, 3] * (alpha)
+            # if under: (1) do nothing; (2) superpose bgr in visible parts of
+            # back
     if alfainverted:
-        png(fore,back,back)
+        png(fore, back, back)
     else:
-        png(back,fore,back)
+        png(back, fore, back)
     return back
+
 
 def overlay(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     """
@@ -411,7 +449,7 @@ def overlay(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     """
     if alpha is None:
         alpha = getTransparency(fore)
-    if np.max(alpha)>1:
+    if np.max(alpha) > 1:
         alpha = alpha / 255.0
     # addWeighted operation
     temp = back.shape
@@ -419,22 +457,26 @@ def overlay(back, fore, alpha=None, alfainverted=False, under=False, flag=0):
     if len(temp) == 2:  # 1 channel
         fore = im2imFormat(fore, back)
         if alfainverted:
-            back[:,:] = fore*(1 - alpha) + back * (alpha)
+            back[:, :] = fore * (1 - alpha) + back * (alpha)
         else:
-            back[:,:] = fore*(alpha) + back * (1 - alpha)
-    elif len(temp) == 3 and temp[2]>=3 and len(temp2) == 3 and temp2[2] > 3: # 4 channels
+            back[:, :] = fore * (alpha) + back * (1 - alpha)
+    # 4 channels
+    elif len(temp) == 3 and temp[2] >= 3 and len(temp2) == 3 and temp2[2] > 3:
         overlaypng(back, fore, alpha, alfainverted, under, flag)
-    elif len(temp) == 3: # more than one channel but 4
+    elif len(temp) == 3:  # more than one channel but 4
         fore = im2imFormat(fore, back)
         if alfainverted:
             for chanel in range(temp[2]):
-                back[:,:,chanel] = fore[:,:,chanel]*(1 - alpha) + back[:, :, chanel] * (alpha)
+                back[:, :, chanel] = (fore[:, :, chanel] *
+                    (1 - alpha) + back[:, :, chanel] * (alpha))
         else:
             for chanel in range(temp[2]):
-                back[:,:,chanel] = fore[:,:,chanel]*(alpha) + back[:, :, chanel] * (1 - alpha)
+                back[:, :, chanel] = (fore[:, :, chanel] *
+                    (alpha) + back[:, :, chanel] * (1 - alpha))
     return back
 
-def overlay2(back,fore):
+
+def overlay2(back, fore):
     """
     Overlay foreground to x,y coordinates in background image.
 
@@ -472,12 +514,14 @@ def overlay2(back,fore):
     .. seealso:: :func:`overlay`
     """
     # addWeighted operation
-    data = fore[:,:,3]/255.0
-    for chanel in (0,1,2):
-        back[:,:,chanel] = fore[:,:,chanel]*data + back[:,:,chanel]*(1-data)
+    data = fore[:, :, 3] / 255.0
+    for chanel in (0, 1, 2):
+        back[:, :, chanel] = (fore[:, :, chanel] *
+            data + back[:, :, chanel] * (1 - data))
     return back
 
-def overlayXY(x,y,back,fore,alfa=None,alfainverted=False,under=False,flag=0):
+
+def overlayXY(x, y, back, fore, alfa=None, alfainverted=False, under=False, flag=0):
     """
     Overlay foreground image to x,y coordinates in background image.
     This function support images of different sizes with formats: BGR background
@@ -504,14 +548,17 @@ def overlayXY(x,y,back,fore,alfa=None,alfainverted=False,under=False,flag=0):
         cv2.destroyAllWindows()
     """
     if type(alfa).__module__ != np.__name__:
-        overlay(*matrixIntercept(x, y, back, fore), alfainverted=alfainverted, under=under, flag=flag)
+        overlay(*matrixIntercept(x, y, back, fore),
+                alfainverted=alfainverted, under=under, flag=flag)
     else:
-        overlay(*matrixIntercept(x, y, back, fore, alfa), alfainverted=alfainverted, under=under, flag=flag)
+        overlay(*matrixIntercept(x, y, back, fore, alfa),
+                alfainverted=alfainverted, under=under, flag=flag)
     return back
 
-################## STITCH
+# STITCH
 
-def getdataVH(array, ypad=0, xpad=0, bgrcolor = None, alfa = None):
+
+def getdataVH(array, ypad=0, xpad=0, bgrcolor=None, alfa=None):
     """
     Get data from array according to padding (Helper function for :func:`padVH`).
 
@@ -520,45 +567,52 @@ def getdataVH(array, ypad=0, xpad=0, bgrcolor = None, alfa = None):
     :param xpad: how much to pad in x axis
     :return: matrix_shapes, grid_div, row_grid, row_gridpad, globalgrid
     """
-    #array = [V1,..,VN] donde VN = [H1,..,HM]
-    matrix_shapes = [] # get image shapes
-    grid_div = [] # get grid divisions
-    row_grid = [] # get grid pixel dimensions
-    row_gridpad = [] # get grid pixel dimensions with pad
-    gy,gx,gc=0,0,0 # for global shape
-    for i in range(len(array)): # rows
+    # array = [V1,..,VN] donde VN = [H1,..,HM]
+    matrix_shapes = []  # get image shapes
+    grid_div = []  # get grid divisions
+    row_grid = []  # get grid pixel dimensions
+    row_gridpad = []  # get grid pixel dimensions with pad
+    gy, gx, gc = 0, 0, 0  # for global shape
+    for i in range(len(array)):  # rows
         matrix_shapes.append([])
-        grid_div.append((1,len(array[i])))
+        grid_div.append((1, len(array[i])))
         row_grid.append([])
         row_gridpad.append([])
-        x=0
-        xp=0
-        for j in range(len(array[i])): # columns
+        x = 0
+        xp = 0
+        for j in range(len(array[i])):  # columns
             if not isnumpy(array[i][j]):
                 array[i][j] = padVH(array[i], ypad, xpad, bgrcolor, alfa)[0]
-            if len(array[i][j].shape)>2: # if more than 1 channel
+            if len(array[i][j].shape) > 2:  # if more than 1 channel
                 matrix_shapes[i].append(array[i][j].shape)
-            else: # if 1 channel
-                matrix_shapes[i].append((array[i][j].shape[0], array[i][j].shape[1]))
-            x+=matrix_shapes[i][j][1] # add x
-            xp+=xpad*2 # add xpad
-        yxc = np.max(matrix_shapes[i],axis=0) # get max column dimensions of row
-        if len(yxc)>2:
-            row_grid[i] = (yxc[0],x,yxc[2]) # assign row dimension
-            row_gridpad[i] = (yxc[0]+ypad*2,x+xp,yxc[2]) # assign row dimension with pad
-            if yxc[2]>gc: gc = yxc[2]
+            else:  # if 1 channel
+                matrix_shapes[i].append(
+                    (array[i][j].shape[0], array[i][j].shape[1]))
+            x += matrix_shapes[i][j][1]  # add x
+            xp += xpad * 2  # add xpad
+        # get max column dimensions of row
+        yxc = np.max(matrix_shapes[i], axis=0)
+        if len(yxc) > 2:
+            row_grid[i] = (yxc[0], x, yxc[2])  # assign row dimension
+            # assign row dimension with pad
+            row_gridpad[i] = (yxc[0] + ypad * 2, x + xp, yxc[2])
+            if yxc[2] > gc:
+                gc = yxc[2]
         else:
-            row_grid[i] = (yxc[0],x) # assign row dimension
-            row_gridpad[i] = (yxc[0]+ypad*2,x+xp) # assign row dimension with pad
-        gy+= row_gridpad[i][0] # add y with ypad
-        if x>gx: gx=x
-    if gc>0:
-        globalgrid = (gy,gx,gc) # assign global dimension of grid with pad
+            row_grid[i] = (yxc[0], x)  # assign row dimension
+            # assign row dimension with pad
+            row_gridpad[i] = (yxc[0] + ypad * 2, x + xp)
+        gy += row_gridpad[i][0]  # add y with ypad
+        if x > gx:
+            gx = x
+    if gc > 0:
+        globalgrid = (gy, gx, gc)  # assign global dimension of grid with pad
     else:
-        globalgrid = (gy,gx) # assign global dimension of grid with pad
-    return matrix_shapes,grid_div,row_grid,row_gridpad,globalgrid
+        globalgrid = (gy, gx)  # assign global dimension of grid with pad
+    return matrix_shapes, grid_div, row_grid, row_gridpad, globalgrid
 
-def makeVis(globalgrid, bgrcolor = None):
+
+def makeVis(globalgrid, bgrcolor=None):
     """
     Make visualization (Helper function for :func:`padVH`)
 
@@ -571,15 +625,17 @@ def makeVis(globalgrid, bgrcolor = None):
             if bgrcolor.shape == globalgrid:
                 graph = bgrcolor
             else:
-                graph = cv2.resize(bgrcolor,(globalgrid[1],globalgrid[0]))
+                graph = cv2.resize(bgrcolor, (globalgrid[1], globalgrid[0]))
         else:
-            graph = np.zeros(globalgrid, np.uint8)  # making visualization image
-            graph[:,:] =  bgrcolor
+            # making visualization image
+            graph = np.zeros(globalgrid, np.uint8)
+            graph[:, :] = bgrcolor
     else:
         graph = np.zeros(globalgrid, np.uint8)  # making visualization image
     return graph
 
-def padVH(imgs, ypad=0, xpad=0, bgrcolor = None, alfa = None):
+
+def padVH(imgs, ypad=0, xpad=0, bgrcolor=None, alfa=None):
     """
     Pad Vertically and Horizontally image or group of images into an array.
 
@@ -593,38 +649,42 @@ def padVH(imgs, ypad=0, xpad=0, bgrcolor = None, alfa = None):
     :param alfa: transparency of imgs over background of bgrcolor color.
     :return: visualization of paded and piled images in imgs.
     """
-    #imgs = [V1,..,VN] donde VN = [H1,..,HM] V=visualization
-    shapes,div,grid,gridpad,globalgrid = getdataVH(imgs, ypad, xpad, bgrcolor, alfa)
+    # imgs = [V1,..,VN] donde VN = [H1,..,HM] V=visualization
+    shapes, div, grid, gridpad, globalgrid = getdataVH(
+        imgs, ypad, xpad, bgrcolor, alfa)
     graph = makeVis(globalgrid, bgrcolor)
     shape = graph.shape
     mask = makeVis(globalgrid[0:2], 0)
-    Ha = 0 # accumulated high
-    for i in range(len(div)): # vertical or rows
+    Ha = 0  # accumulated high
+    for i in range(len(div)):  # vertical or rows
         # WT = W1+...+WN + W_space*(N+1) where N = div[i][1],
         # W1+...+WN = grid[i][1], W_space*(N+1) = globalgrid[1]-grid[i][1]
-        Ws = (globalgrid[1]-grid[i][1])/(div[i][1]+1)
-        Wa = 0 # accumulated Wide
+        Ws = (globalgrid[1] - grid[i][1]) / (div[i][1] + 1)
+        Wa = 0  # accumulated Wide
         for j in range(div[i][1]):
             # HT = HN+H_space*2 where HT = gridpad[i][0]
             Hn = int(shapes[i][j][0])
-            Hs = int(Ha+(gridpad[i][0]-Hn)/2)
-            Wa = int(Wa+Ws)
+            Hs = int(Ha + (gridpad[i][0] - Hn) / 2)
+            Wa = int(Wa + Ws)
             Wn = int(shapes[i][j][1])
             if alfa is None:
-                graph[Hs:Hs+Hn,Wa:Wa+Wn] = im2shapeFormat(imgs[i][j], shape)
+                graph[Hs:Hs + Hn, Wa:Wa +
+                      Wn] = im2shapeFormat(imgs[i][j], shape)
             else:
                 if type(alfa) is list:
-                    overlay(graph[Hs:Hs+Hn,Wa:Wa+Wn], imgs[i][j], alfa[i][j])
+                    overlay(graph[Hs:Hs + Hn, Wa:Wa + Wn],
+                            imgs[i][j], alfa[i][j])
                 else:
-                    overlay(graph[Hs:Hs+Hn,Wa:Wa+Wn], imgs[i][j], alfa)
-            mask[Hs:Hs+Hn,Wa:Wa+Wn] = 1
-            Wa+=Wn
+                    overlay(graph[Hs:Hs + Hn, Wa:Wa + Wn], imgs[i][j], alfa)
+            mask[Hs:Hs + Hn, Wa:Wa + Wn] = 1
+            Wa += Wn
         Ha += gridpad[i][0]
-    return graph,mask
+    return graph, mask
 
-### OTHERS
+# OTHERS
 
-def findContours(*args,**kwargs):
+
+def findContours(*args, **kwargs):
     """
     Compatibility wrapper around cv2.findContour to support both openCV 2 and
     openCV 3.
@@ -632,10 +692,11 @@ def findContours(*args,**kwargs):
     findContours(image, mode, method[, contours[, hierarchy[, offset]]]) -> image, contours, hierarchy
     """
     try:
-        contours, hierarchy = cv2.findContours(*args,**kwargs)
-    except ValueError: # opencv >= 3.2
-        image, contours, hierarchy = cv2.findContours(*args,**kwargs)
+        contours, hierarchy = cv2.findContours(*args, **kwargs)
+    except ValueError:  # opencv >= 3.2
+        image, contours, hierarchy = cv2.findContours(*args, **kwargs)
     return contours, hierarchy
+
 
 def anorm2(a):
     """
@@ -646,6 +707,7 @@ def anorm2(a):
     """
     return (np.square(a)).sum(-1)
 
+
 def anorm(a):
     """
     norm in array.
@@ -655,7 +717,8 @@ def anorm(a):
     """
     return np.sqrt(anorm2(a))
 
-def relativeVectors(pts, all = True):
+
+def relativeVectors(pts, all=True):
     """
     Form vectors from points.
 
@@ -664,10 +727,12 @@ def relativeVectors(pts, all = True):
     :return: array of vectors [V0, ... , (V[n] = x[n+1]-x[n],y[n+1]-y[n])].
     """
     pts = np.array(pts)
-    if all: pts = np.append(pts,[pts[0]],axis=0)
+    if all:
+        pts = np.append(pts, [pts[0]], axis=0)
     return np.stack([np.diff(pts[:, 0]), np.diff(pts[:, 1])], 1)
 
-def vertexesAngles(pts, dtype= None, deg = False):
+
+def vertexesAngles(pts, dtype=None, deg=False):
     """
     Relative angle of vectors formed by vertexes (where vectors cross).
 
@@ -679,11 +744,14 @@ def vertexesAngles(pts, dtype= None, deg = False):
     :param deg: if True angle is in Degrees, else radians.
     :return: angles.
     """
-    vs = relativeVectors(pts, all =True) # get all vectors from points.
-    vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-    return np.array([angle(vs[i-1],vs[i],deg) for i in range(1,len(vs))],dtype) # caculate angles
+    vs = relativeVectors(pts, all=True)  # get all vectors from points.
+    # add last vector to first position
+    vs = np.roll(np.append(vs, [vs[-1]], axis=0), 2)
+    # caculate angles
+    return np.array([angle(vs[i - 1], vs[i], deg) for i in range(1, len(vs))], dtype)
 
-def vectorsAngles(pts, ptaxis=(1, 0), origin=(0, 0), dtype= None, deg = False, absolute = None):
+
+def vectorsAngles(pts, ptaxis=(1, 0), origin=(0, 0), dtype=None, deg=False, absolute=None):
     """
     Angle of formed vectors in Cartesian plane with respect to formed axis vector.
 
@@ -702,12 +770,15 @@ def vectorsAngles(pts, ptaxis=(1, 0), origin=(0, 0), dtype= None, deg = False, a
                     where any Vn angle is positive or negative if counter-clock or clock wise from Vaxis.
     :return:
     """
-    if np.sum(origin)==0: # speed up calculations
-        return np.array([angle2D(v1=ptaxis,v2=i,deg=deg,absolute=absolute) for i in np.float32(pts)], dtype) # caculate angles
+    if np.sum(origin) == 0:  # speed up calculations
+        # caculate angles
+        return np.array([angle2D(v1=ptaxis, v2=i, deg=deg, absolute=absolute) for i in np.float32(pts)], dtype)
     ptaxis = np.float32(ptaxis) - origin
-    return np.array([angle2D(v1=ptaxis,v2=i-origin,deg=deg,absolute=absolute) for i in np.float32(pts)], dtype) # caculate angles
+    # caculate angles
+    return np.array([angle2D(v1=ptaxis, v2=i - origin, deg=deg, absolute=absolute) for i in np.float32(pts)], dtype)
 
-def separePointsByAxis(pts, ptaxis=(1, 0), origin = (0,0)):
+
+def separePointsByAxis(pts, ptaxis=(1, 0), origin=(0, 0)):
     """
     Separate scattered points with respect to axis (splitting line).
 
@@ -718,14 +789,17 @@ def separePointsByAxis(pts, ptaxis=(1, 0), origin = (0,0)):
     """
     angles = np.nan_to_num(vectorsAngles(pts, ptaxis, origin, absolute=False))
     # compare this angles[angles>=0].size+angles[angles<0].size == angles.size but it fails, i suspect it is nan values
-    # update, yup it was Nan values, i used np.nan_to_num to convert to numbers.
+    # update, yup it was Nan values, i used np.nan_to_num to convert to
+    # numbers.
     return pts[angles >= 0], pts[angles < 0]
+
 
 def unit_vector(vector):
     """ Returns the unit vector of the vector.  """
     return vector / np.linalg.norm(vector)
 
-def angle(v1, v2, deg = False):
+
+def angle(v1, v2, deg=False):
     """
     Angle between two N dimmensional vectors.
 
@@ -751,11 +825,12 @@ def angle(v1, v2, deg = False):
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     a = np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
-    if deg: return np.rad2deg(a) # *180.0/np.pi
+    if deg:
+        return np.rad2deg(a)  # *180.0/np.pi
     return a
 
 
-def angle2D(v1,v2, deg = False, absolute= None):
+def angle2D(v1, v2, deg=False, absolute=None):
     """
     Angle between two 2 dimensional vectors.
 
@@ -772,21 +847,22 @@ def angle2D(v1,v2, deg = False, absolute= None):
             and tested in http://onlinemschool.com/math/assistance/vector/angl/
     """
     # implemented according to http://math.stackexchange.com/a/747992
-    cross = np.cross(v1,v2)
-    if cross.size !=1:
+    cross = np.cross(v1, v2)
+    if cross.size != 1:
         raise Exception("angle2D receives only cartesian coordinates")
     mag = 1
     if absolute is not None:
         if cross == 0:
-            for i in np.array(v1)+v2:
-                if i<0:
+            for i in np.array(v1) + v2:
+                if i < 0:
                     mag = -1
                     break
         elif cross < 0:
             mag = -1
-    if absolute and mag<0:
-        return 360.0 - angle(v1=v1,v2=v2,deg=deg)
-    return mag*angle(v1=v1,v2=v2,deg=deg)
+    if absolute and mag < 0:
+        return 360.0 - angle(v1=v1, v2=v2, deg=deg)
+    return mag * angle(v1=v1, v2=v2, deg=deg)
+
 
 def entroyTest(arr):
     """
@@ -795,16 +871,17 @@ def entroyTest(arr):
     :param arr: array MxN of dim 2.
     :return: entropy.
     """
-    N = arr.shape[0] * arr.shape[1] # gray image contains N pixels
+    N = arr.shape[0] * arr.shape[1]  # gray image contains N pixels
     E = 0.0
     for i in range(256):
-        Ni = np.count_nonzero(arr == i) # number of pixels having intensity i
-        if Ni: # if Ni different to 0
-            pi = Ni/N # probability that an arbitrary pixel has intensity i in the image
-            E += -pi*np.log(pi) # calculate entropy
+        Ni = np.count_nonzero(arr == i)  # number of pixels having intensity i
+        if Ni:  # if Ni different to 0
+            pi = Ni / N  # probability that an arbitrary pixel has intensity i in the image
+            E += -pi * np.log(pi)  # calculate entropy
     return E
 
-def transformPoint(p,H):
+
+def transformPoint(p, H):
     """
     Transform individual x,y point with Transformation Matrix.
 
@@ -812,14 +889,15 @@ def transformPoint(p,H):
     :param H: transformation matrix
     :return: transformed x,y point
     """
-    #METHOD 1
+    # METHOD 1
     #x,y = p
     #amp = np.array(H).dot(np.array([x,y,1]))
-    #return (amp/amp[-1])[:-1]
-    #METHOD 2
-    return cv2.perspectiveTransform(np.float32([[p]]), H)[0,0]
+    # return (amp/amp[-1])[:-1]
+    # METHOD 2
+    return cv2.perspectiveTransform(np.float32([[p]]), H)[0, 0]
 
-def transformPoints(p,H):
+
+def transformPoints(p, H):
     """
     Transform x,y points in array with Transformation Matrix.
 
@@ -827,9 +905,10 @@ def transformPoints(p,H):
     :param H: transformation matrix
     :return: transformed array of x,y point
     """
-    return cv2.perspectiveTransform(np.float32([p]), H).reshape(-1,2)
+    return cv2.perspectiveTransform(np.float32([p]), H).reshape(-1, 2)
 
-def getTransformedCorners(shape,H):
+
+def getTransformedCorners(shape, H):
     """
     from shape gets transformed corners of array.
 
@@ -837,10 +916,12 @@ def getTransformedCorners(shape,H):
     :param H: transformation matrix
     :return: upper_left, upper_right, lower_right, lower_lef transformed corners.
     """
-    h,w = shape[:2]
-    corners = [[0, 0], [w, 0], [w, h], [0, h]] # get list of image corners
-    projection = transformPoints(corners, H) # get perspective of corners with transformation matrix
-    return projection # return projection points
+    h, w = shape[:2]
+    corners = [[0, 0], [w, 0], [w, h], [0, h]]  # get list of image corners
+    # get perspective of corners with transformation matrix
+    projection = transformPoints(corners, H)
+    return projection  # return projection points
+
 
 def boxPads(bx, points):
     """
@@ -851,16 +932,21 @@ def boxPads(bx, points):
     :return: [(left,top),(right,bottom)] where bx and points fit.
     """
     points = points
-    minX,minY = np.min(points,0) # left_top
-    maxX,maxY = np.max(points,0) # right_bottom
-    x0,y0 = bx[0] # left_top
-    x1,y1 = bx[1] # right_bottom
-    top,bottom,left,right = 0.0,0.0,0.0,0.0
-    if minX<x0: left = x0-minX
-    if minY<y0: top = y0-minY
-    if maxX>x1: right = maxX-x1
-    if maxY>y1: bottom = maxY-y1
-    return [(left,top),(right,bottom)]
+    minX, minY = np.min(points, 0)  # left_top
+    maxX, maxY = np.max(points, 0)  # right_bottom
+    x0, y0 = bx[0]  # left_top
+    x1, y1 = bx[1]  # right_bottom
+    top, bottom, left, right = 0.0, 0.0, 0.0, 0.0
+    if minX < x0:
+        left = x0 - minX
+    if minY < y0:
+        top = y0 - minY
+    if maxX > x1:
+        right = maxX - x1
+    if maxY > y1:
+        bottom = maxY - y1
+    return [(left, top), (right, bottom)]
+
 
 def pad_to_fit_H(shape1, shape2, H):
     """
@@ -871,12 +957,13 @@ def pad_to_fit_H(shape1, shape2, H):
     :param H: transformation matrix to use in shape1
     :return: [(left,top),(right,bottom)]
     """
-    h,w = shape2[:2] # get hight,width of image
-    bx = [[0,0],[w,h]] # make box
-    corners = getTransformedCorners(shape1,H) # get corners from image
+    h, w = shape2[:2]  # get hight,width of image
+    bx = [[0, 0], [w, h]]  # make box
+    corners = getTransformedCorners(shape1, H)  # get corners from image
     return boxPads(bx, corners)
 
-def superpose(back, fore, H, foreMask= None, grow = True):
+
+def superpose(back, fore, H, foreMask=None, grow=True):
     """
     Superpose foreground image to background image.
 
@@ -896,35 +983,37 @@ def superpose(back, fore, H, foreMask= None, grow = True):
     """
     # fore on top of back
     alpha_shape = fore.shape[:2]
-    if grow: # this makes the images bigger if possible
+    if grow:  # this makes the images bigger if possible
         # fore(x,y)*H = fore(u,v) -> fore(u,v) + back(u,v)
-        ((left,top),(right,bottom)) = pad_to_fit_H(fore.shape, back.shape, H)
-        H_back = np.float32([[1,0,left],[0,1,top],[0,0,1]]) # moved transformation matrix with pad
-        H_fore = H_back.dot(H) # moved transformation matrix with pad
+        ((left, top), (right, bottom)) = pad_to_fit_H(fore.shape, back.shape, H)
+        # moved transformation matrix with pad
+        H_back = np.float32([[1, 0, left], [0, 1, top], [0, 0, 1]])
+        H_fore = H_back.dot(H)  # moved transformation matrix with pad
         # need: top_left, bottom_left, top_right,bottom_right
-        h2,w2 = back.shape[:2]
-        w,h = int(left + right + w2),int(top + bottom + h2)
+        h2, w2 = back.shape[:2]
+        w, h = int(left + right + w2), int(top + bottom + h2)
         # this memory inefficient, image is copied to prevent cross-references
         back = cv2.warpPerspective(back.copy(), H_back, (w, h))
         fore = cv2.warpPerspective(fore.copy(), H_fore, (w, h))
-    else: # this keeps back shape
+    else:  # this keeps back shape
         H_fore = H
         H_back = np.eye(3)
         h, w = back.shape[:2]
         fore = cv2.warpPerspective(fore.copy(), H_fore, (w, h))
 
-    if foreMask is None: # create valid mask for stitching
+    if foreMask is None:  # create valid mask for stitching
         alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
-    elif callable(foreMask): # get alpha with custom function
-        alpha = foreMask(back,fore)
+    elif callable(foreMask):  # get alpha with custom function
+        alpha = foreMask(back, fore)
         if alpha is None:
             alpha = cv2.warpPerspective(np.ones(alpha_shape), H_fore, (w, h))
-    else: # update foreMask to new position
+    else:  # update foreMask to new position
         alpha = cv2.warpPerspective(foreMask, H_fore, (w, h))
-    im = overlay(back, fore, alpha) # overlay fore on top of back
+    im = overlay(back, fore, alpha)  # overlay fore on top of back
     return im, H_back, H_fore
 
-def multiple_superpose(base,fore,H,foremask=None):
+
+def multiple_superpose(base, fore, H, foremask=None):
     """
     Superpose multiple foreground images to a single base image.
 
@@ -935,10 +1024,13 @@ def multiple_superpose(base,fore,H,foremask=None):
     :return: generator of each overlay
     """
     # TODO: not finished?
-    foremask = foremask or (foremask,)*len(fore) # if foremask is None create tuple to match fore
-    for f,h,fm in zip(fore,H,foremask): # all must match otherwise raise error
-        base,H_back,H_fore = superpose(base,f,h,fm) # do not consume more memory than actual process
-        yield base,H_back,H_fore # keep references keptAlive in memory if user wants
+    # if foremask is None create tuple to match fore
+    foremask = foremask or (foremask,) * len(fore)
+    for f, h, fm in zip(fore, H, foremask):  # all must match otherwise raise error
+        # do not consume more memory than actual process
+        base, H_back, H_fore = superpose(base, f, h, fm)
+        yield base, H_back, H_fore  # keep references keptAlive in memory if user wants
+
 
 def recursiveMap(function, sequence):
     """
@@ -964,13 +1056,15 @@ def contoursArea(contours):
     :return: area.
     """
     if isnumpy(contours):
-        contours, _ = findContours(contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    area = 0 # accumulate area
+        contours, _ = findContours(
+            contours.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    area = 0  # accumulate area
     for cnt in contours:
-        area += cv2.contourArea(cnt.astype(np.int32)) # get each contour area
+        area += cv2.contourArea(cnt.astype(np.int32))  # get each contour area
     return area
 
-def points2mask(pts, shape = None, astype = np.bool):
+
+def points2mask(pts, shape=None, astype=np.bool):
     """
     Creates an array with the filled polygon formed by points.
 
@@ -986,16 +1080,17 @@ def points2mask(pts, shape = None, astype = np.bool):
         Plotim("filled",img).show()
     """
     if shape is None:
-        pts = pts-pts.min(0) # shift
-        xmax,ymax = pts.max(0)
-        array = np.zeros((ymax,xmax),astype)
+        pts = pts - pts.min(0)  # shift
+        xmax, ymax = pts.max(0)
+        array = np.zeros((ymax, xmax), astype)
     else:
-        array = np.zeros(shape[:2],astype)
-    #cv2.drawContours(array,[pts.astype(np.int32)],0,1,-1)
-    cv2.fillConvexPoly(array,pts.astype(np.int32),1,0)
+        array = np.zeros(shape[:2], astype)
+    # cv2.drawContours(array,[pts.astype(np.int32)],0,1,-1)
+    cv2.fillConvexPoly(array, pts.astype(np.int32), 1, 0)
     return array
 
-def contours2mask(contours, shape = None, astype = np.bool):
+
+def contours2mask(contours, shape=None, astype=np.bool):
     """
     Creates an array with filled polygons formed by contours.
 
@@ -1004,18 +1099,18 @@ def contours2mask(contours, shape = None, astype = np.bool):
     :param astype: ("bool") numpy type
     :return:
     """
-    ncoors = [] # adequate contours
+    ncoors = []  # adequate contours
     # calculate variables
-    minx,miny = np.inf,np.inf
-    maxx,maxy = -np.inf,-np.inf
+    minx, miny = np.inf, np.inf
+    maxx, maxy = -np.inf, -np.inf
     for coors in contours:
-        coors = standarizePoints(coors,aslist=False).astype(np.int32)
+        coors = standarizePoints(coors, aslist=False).astype(np.int32)
         if coors.size != 0:
             ncoors.append(coors)
             # calculate variables for shape
             if shape is None:
-                pminx,pminy = coors.min(0)
-                pmaxx,pmaxy = coors.max(0)
+                pminx, pminy = coors.min(0)
+                pmaxx, pmaxy = coors.max(0)
                 if pminx < minx:
                     minx = pminx
                 if pminy < miny:
@@ -1025,15 +1120,16 @@ def contours2mask(contours, shape = None, astype = np.bool):
                 if pmaxy > maxy:
                     maxy = pmaxy
     if shape is None:
-        minv = np.array([(minx,miny)])
-        ncoors = [c-minv for c in ncoors] # shift
-        mask = np.zeros((maxy,maxx))
+        minv = np.array([(minx, miny)])
+        ncoors = [c - minv for c in ncoors]  # shift
+        mask = np.zeros((maxy, maxx))
     else:
         mask = np.zeros(shape[:2])
-    #for coors in contours:
+    # for coors in contours:
     #    mask = np.logical_or(mask, points2mask(coors, shape))
-    cv2.drawContours(mask,ncoors,-1,1,-1)
+    cv2.drawContours(mask, ncoors, -1, 1, -1)
     return mask.astype(astype)
+
 
 def polygonArea_contour(pts):
     """
@@ -1046,6 +1142,7 @@ def polygonArea_contour(pts):
     """
     return contoursArea([pts])
 
+
 def polygonArea_fill(pts):
     """
     Area of points using filled polygon and pixel count.
@@ -1057,7 +1154,8 @@ def polygonArea_fill(pts):
     """
     return points2mask(pts).sum()
 
-def splitPoints(pts, aslist = None):
+
+def splitPoints(pts, aslist=None):
     """
     from points get x,y columns
 
@@ -1078,7 +1176,7 @@ def splitPoints(pts, aslist = None):
         splitPoints([(1,2,3,4,5),(1,2,3,4,5)]) # it is processed anyways
         >>> ([1, 2, 3, 4, 5], [1, 2, 3, 4, 5])
     """
-    if aslist is None: # select automatically if not specified
+    if aslist is None:  # select automatically if not specified
         if isnumpy(pts):
             # it is a numpy so it should be array
             aslist = False
@@ -1086,21 +1184,22 @@ def splitPoints(pts, aslist = None):
             # it is something else so it should be list
             aslist = True
 
-    pts = standarizePoints(pts) # standard points
+    pts = standarizePoints(pts)  # standard points
 
     if pts.size == 0:
         # return empty x,y columns
         if aslist:
-            return [],[]
+            return [], []
         else:
-            return np.array([],pts.dtype),np.array([],pts.dtype)
+            return np.array([], pts.dtype), np.array([], pts.dtype)
     else:
-        if aslist: # as lists
+        if aslist:  # as lists
             return list(pts[:, 0]), list(pts[:, 1])
-        else: # as array
+        else:  # as array
             return pts[:, 0], pts[:, 1]
 
-def standarizePoints(pts, aslist = False):
+
+def standarizePoints(pts, aslist=False):
     """
     converts points to a standard form
     :param pts: list or array of points
@@ -1120,18 +1219,19 @@ def standarizePoints(pts, aslist = False):
         standarizePoints([(1,2,3,4,5),(1,2,3,4,5)],True)
         >>> [(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)]
     """
-    #return zip(*splitPoints(pts))
+    # return zip(*splitPoints(pts))
     pts = np.array(pts)
     shape = pts.shape
-    if len(shape)==1 and pts.size == 2:
+    if len(shape) == 1 and pts.size == 2:
         pts = np.array([pts])
         shape = pts.shape
 
-    half = pts.size//2
+    half = pts.size // 2
 
     if pts.size != 0 and (2 not in shape or half not in shape):
-    #if pts.size != 0 and (2 != shape[0] and 2 != shape[-1]):
-        raise Exception("array of shape {} does not seems to correspond to points".format(shape))
+        # if pts.size != 0 and (2 != shape[0] and 2 != shape[-1]):
+        raise Exception(
+            "array of shape {} does not seems to correspond to points".format(shape))
 
     # return empty points
     if pts.size == 0:
@@ -1143,9 +1243,9 @@ def standarizePoints(pts, aslist = False):
     if shape.index(2) < shape.index(half):
         pts = pts.T
 
-    pts =  pts.reshape(half,2)
-    if aslist: # as list
-         return list(map(tuple,pts))
+    pts = pts.reshape(half, 2)
+    if aslist:  # as list
+        return list(map(tuple, pts))
     return pts
 
 
@@ -1162,21 +1262,24 @@ def polygonArea_calcule(pts):
         - Based on http://www.mathopenref.com/coordpolygonarea.html
     """
     pts = standarizePoints(pts)
-    if (pts[0]==pts[-1]).all(): # test if last is the first (closed points)
-        x,y= pts[:, 0], pts[:, 1]
-    else: # complete the points (last point must be the first)
-        x = pts[list(range(len(pts)))+[0],0]
-        y = pts[list(range(len(pts)))+[0],1]
-    xmul = x[:]*np.roll(y, -1) # shifted multiplication in axis x
-    ymul = y[:]*np.roll(x, -1) # shifted multiplication in axis y
-    return np.abs(np.sum(xmul)-np.sum(ymul))/2. # summation and absolute area
+    if (pts[0] == pts[-1]).all():  # test if last is the first (closed points)
+        x, y = pts[:, 0], pts[:, 1]
+    else:  # complete the points (last point must be the first)
+        x = pts[list(range(len(pts))) + [0], 0]
+        y = pts[list(range(len(pts))) + [0], 1]
+    xmul = x[:] * np.roll(y, -1)  # shifted multiplication in axis x
+    ymul = y[:] * np.roll(x, -1)  # shifted multiplication in axis y
+    return np.abs(np.sum(xmul) - np.sum(ymul)) / 2.  # summation and absolute area
+
 
 polygonArea = polygonArea_calcule
 
+
 def normalize(arr):
     """Normalize array to ensure range [0,1]"""
-    arr = np.float32(arr-np.min(arr)) # shift array to 0
-    return arr / np.max(arr) # scales to 1
+    arr = np.float32(arr - np.min(arr))  # shift array to 0
+    return arr / np.max(arr)  # scales to 1
+
 
 def normalize2(arr):
     """
@@ -1186,7 +1289,8 @@ def normalize2(arr):
     """
     return arr / np.max([np.max(arr), -1.0 * np.min(arr)])
 
-def rescale(arr,max=1,min=0):
+
+def rescale(arr, max=1, min=0):
     """
     Rescales array values to range [min,max].
 
@@ -1195,9 +1299,10 @@ def rescale(arr,max=1,min=0):
     :param min: minimum value in range.
     :return: rescaled array.
     """
-    return (max-min)*normalize(arr)+min
+    return (max - min) * normalize(arr) + min
 
-def normalizeCustom(arr, by = np.max, axis = None):
+
+def normalizeCustom(arr, by=np.max, axis=None):
     """
     Normalize array with custom operations.
 
@@ -1209,10 +1314,11 @@ def normalizeCustom(arr, by = np.max, axis = None):
     .. notes:: it does not ensures range [0,1], array must be shifted to 0 to achieve this.
     """
     # max, sum,
-    factor = by(arr,axis=axis)
+    factor = by(arr, axis=axis)
     if axis is None:
         return np.float32(arr) / factor
     return np.float32(arr) / np.expand_dims(factor, axis=axis)
+
 
 def relativeQuadrants(points):
     """
@@ -1222,7 +1328,8 @@ def relativeQuadrants(points):
     :return: quadrants.
     """
     vecs = relativeVectors(points)
-    return np.sign(vecs) #recursiveMap(np.sign, vecs)
+    return np.sign(vecs)  # recursiveMap(np.sign, vecs)
+
 
 def vectorsQuadrants(vecs):
     """
@@ -1231,9 +1338,10 @@ def vectorsQuadrants(vecs):
     :param vecs: array of vectors.
     :return: quadrants.
     """
-    return np.sign(vecs) # recursiveMap(np.sign, vecs)
+    return np.sign(vecs)  # recursiveMap(np.sign, vecs)
 
-def random_points(axes_range = ((-50,50),), nopoints = 4, complete = False):
+
+def random_points(axes_range=((-50, 50),), nopoints=4, complete=False):
     """
     Get random points.
 
@@ -1244,17 +1352,20 @@ def random_points(axes_range = ((-50,50),), nopoints = 4, complete = False):
     """
     def getRange(axes_range):
         xr = yr = axes_range[0]
-        if len(axes_range)>1:
+        if len(axes_range) > 1:
             yr = axes_range[1]
-        return xr,yr
-    def getRandom(rmin,rmax):
-        return np.random.random()*(rmax-rmin)+rmin
-    xr,yr = getRange(axes_range)
-    arr = [(getRandom(*xr),getRandom(*yr)) for _ in range(nopoints)]
-    if complete: arr.append(arr[0])
+        return xr, yr
+
+    def getRandom(rmin, rmax):
+        return np.random.random() * (rmax - rmin) + rmin
+    xr, yr = getRange(axes_range)
+    arr = [(getRandom(*xr), getRandom(*yr)) for _ in range(nopoints)]
+    if complete:
+        arr.append(arr[0])
     return np.array(arr)
 
-def points_generator(shape = (10,10), nopoints = None, convex = False, erratic = False, complete = False):
+
+def points_generator(shape=(10, 10), nopoints=None, convex=False, erratic=False, complete=False):
     """
     generate points.
 
@@ -1264,26 +1375,29 @@ def points_generator(shape = (10,10), nopoints = None, convex = False, erratic =
             else points follow a circular pattern.
     :return:
     """
-    h,w = shape[:2]
+    h, w = shape[:2]
     if nopoints is None:
         nopoints = np.min(shape)
     random = np.random.random
     if convex and erratic:
-        pts = [(w*random(), h*random()) for _ in range(nopoints)]
+        pts = [(w * random(), h * random()) for _ in range(nopoints)]
     else:
-        h2,w2 = h/2.,w/2. # center
-        div = 2*np.pi/float(nopoints) # circle angle division
+        h2, w2 = h / 2., w / 2.  # center
+        div = 2 * np.pi / float(nopoints)  # circle angle division
         subdiv = 0.9
         pts = []
         for i in range(nopoints):
-            if convex and i%2:
-                r = np.sqrt((h2-(h2*subdiv)*random())**2+
-                            (w2-(w2*subdiv)*random())**2)# radius
+            if convex and i % 2:
+                r = np.sqrt((h2 - (h2 * subdiv) * random())**2 +
+                            (w2 - (w2 * subdiv) * random())**2)  # radius
             else:
-                r = np.sqrt((h2)**2+(w2)**2)# radius
-            pts.append((r*np.cos(i*div-div*random()),r*np.sin(i*div-div*random())))
-    if complete: pts.append(pts[0])
+                r = np.sqrt((h2)**2 + (w2)**2)  # radius
+            pts.append((r * np.cos(i * div - div * random()),
+                        r * np.sin(i * div - div * random())))
+    if complete:
+        pts.append(pts[0])
     return pts
+
 
 def isnumpy(arr):
     """
@@ -1294,7 +1408,8 @@ def isnumpy(arr):
     """
     return type(arr).__module__ == np.__name__
 
-def instability_bf(funcs, step = 10, maximum = 300, guess = 0, tolerance=0.01):
+
+def instability_bf(funcs, step=10, maximum=300, guess=0, tolerance=0.01):
     """
     Find the instability of function approaching value by brute force,
 
@@ -1306,19 +1421,20 @@ def instability_bf(funcs, step = 10, maximum = 300, guess = 0, tolerance=0.01):
     :return: (state, updated guess). state is True if successful, else False.
     """
     if guess < maximum:
-        s = 1 # to increase
+        s = 1  # to increase
     else:
-        s = -1 # to decrease
-    step = s*abs(step) # correct step
-    while s*(maximum-guess)>0: # check approximation to maximum
-        val = np.linspace(start=guess,stop=maximum)
+        s = -1  # to decrease
+    step = s * abs(step)  # correct step
+    while s * (maximum - guess) > 0:  # check approximation to maximum
+        val = np.linspace(start=guess, stop=maximum)
         val = np.sum(np.abs(np.diff(np.array([f(val) for f in funcs]))))
-        if val<=tolerance: # check minimization
+        if val <= tolerance:  # check minimization
             return True, guess
-        guess += step # update step
-    return False, guess # not found or limit reached
+        guess += step  # update step
+    return False, guess  # not found or limit reached
 
-def get_x_space(funcs, step = 10, xleft = -300, xright = 300):
+
+def get_x_space(funcs, step=10, xleft=-300, xright=300):
     """
     get X axis space by brute force. This can be used to find the x points
     where the points in the y axis of any number of functions become stable.
@@ -1329,10 +1445,13 @@ def get_x_space(funcs, step = 10, xleft = -300, xright = 300):
     :param xright: maximum right limit
     :return: linspace
     """
-    assert xleft < xright # check data consistency
-    l1 = instability_bf(funcs, step = step, maximum= xleft, guess= 0)[1] # left limit
-    l2 = instability_bf(funcs, step = step, maximum= xright, guess= 0)[1] # right limit
-    return np.linspace(l1,l2,l2-l1) # get array
+    assert xleft < xright  # check data consistency
+    l1 = instability_bf(funcs, step=step, maximum=xleft, guess=0)[
+        1]  # left limit
+    l2 = instability_bf(funcs, step=step, maximum=xright, guess=0)[
+        1]  # right limit
+    return np.linspace(l1, l2, l2 - l1)  # get array
+
 
 def histogram(img):
     """
@@ -1342,15 +1461,17 @@ def histogram(img):
     :return: histogram of every band
     """
     sz = img.shape
-    if len(sz)==2: # it is gray
-        histr = [np.histogram(img.flatten(),256,[0,256])[0]]
+    if len(sz) == 2:  # it is gray
+        histr = [np.histogram(img.flatten(), 256, [0, 256])[0]]
         #histr = [cv2.calcHist([img],[0],None,[256],[0,256])]
-    else: # it has colors
-        histr = [np.histogram(img[:,:,i].flatten(),256,[0,256])[0] for i in range(sz[2])]
+    else:  # it has colors
+        histr = [np.histogram(img[:, :, i].flatten(), 256, [0, 256])[
+            0] for i in range(sz[2])]
         #histr = [cv2.calcHist([img],[i],None,[256],[0,256]) for i in xrange(sz[2])]
     return histr
 
-def find_near(m, thresh = None, side = None):
+
+def find_near(m, thresh=None, side=None):
     """
     helper function for findminima and findmaxima
     :param m: minima or maxima points
@@ -1358,9 +1479,10 @@ def find_near(m, thresh = None, side = None):
     :param side: left or right
     :return: value
     """
-    if thresh is None: return m
+    if thresh is None:
+        return m
     if side == "left":
-        if thresh> m[0]:
+        if thresh > m[0]:
             m = m[m <= thresh]
         else:
             return m[0]
@@ -1370,10 +1492,11 @@ def find_near(m, thresh = None, side = None):
         else:
             return m[-1]
     distances = np.sqrt((m - thresh) ** 2)
-    idx = np.where(np.min(distances)==distances)[0]  # get index
+    idx = np.where(np.min(distances) == distances)[0]  # get index
     return m[idx][0]
 
-def findminima(hist,thresh=None, side = None):
+
+def findminima(hist, thresh=None, side=None):
     """
     Get nearest valley value to a thresh point from a histogram.
 
@@ -1383,10 +1506,11 @@ def findminima(hist,thresh=None, side = None):
     :return:
     """
     # http://stackoverflow.com/a/9667121/5288758
-    mn = (np.diff(np.sign(np.diff(hist))) > 0).nonzero()[0] + 1 # local min
+    mn = (np.diff(np.sign(np.diff(hist))) > 0).nonzero()[0] + 1  # local min
     return find_near(mn, thresh, side)
 
-def findmaxima(hist,thresh=None, side = None):
+
+def findmaxima(hist, thresh=None, side=None):
     """
     Get nearest peak value to a thresh point from a histogram.
 
@@ -1396,8 +1520,9 @@ def findmaxima(hist,thresh=None, side = None):
     :return:
     """
     # http://stackoverflow.com/a/9667121/5288758
-    mn = (np.diff(np.sign(np.diff(hist))) < 0).nonzero()[0] + 1 # local max
+    mn = (np.diff(np.sign(np.diff(hist))) < 0).nonzero()[0] + 1  # local max
     return find_near(mn, thresh, side)
+
 
 def getOtsuThresh(hist):
     """
@@ -1406,34 +1531,35 @@ def getOtsuThresh(hist):
     :param hist: histogram
     :return: otsu threshold value
     """
-    #http://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html
+    # http://docs.opencv.org/master/d7/d4d/tutorial_py_thresholding.html
     # find normalized_histogram, and its cumulative distribution function
-    hist_norm = hist.astype(np.float32).ravel()/hist.max()
-    Q = hist_norm.cumsum() # cumulative distribution function
+    hist_norm = hist.astype(np.float32).ravel() / hist.max()
+    Q = hist_norm.cumsum()  # cumulative distribution function
     bins = np.arange(len(hist_norm))
-    fn_min = np.inf # begin from infinity
-    thresh = -1 # start thresh from invalid value
-    for i in range(1,len(hist_norm)):
-        p1,p2 = np.hsplit(hist_norm,[i]) # probabilities
-        q1,q2 = Q[i],Q[len(hist_norm)-1]-Q[i] # cum sum of classes
-        b1,b2 = np.hsplit(bins,[i]) # weights
+    fn_min = np.inf  # begin from infinity
+    thresh = -1  # start thresh from invalid value
+    for i in range(1, len(hist_norm)):
+        p1, p2 = np.hsplit(hist_norm, [i])  # probabilities
+        q1, q2 = Q[i], Q[len(hist_norm) - 1] - Q[i]  # cum sum of classes
+        b1, b2 = np.hsplit(bins, [i])  # weights
         if q1 == 0 or q2 == 0:
             # explicedly continue when there are Nan values
             # it gives the same result even if this block is not evalauted
             # it is used to not create Invalid Division warnings
             continue
         # finding means and variances
-        m1,m2 = np.sum(p1*b1)/q1, np.sum(p2*b2)/q2
-        v1,v2 = np.sum(((b1-m1)**2)*p1)/q1,np.sum(((b2-m2)**2)*p2)/q2
+        m1, m2 = np.sum(p1 * b1) / q1, np.sum(p2 * b2) / q2
+        v1, v2 = (np.sum(((b1 - m1)**2) * p1) /
+            q1, np.sum(((b2 - m2)**2) * p2) / q2)
         # calculates the minimization function
-        fn = v1*q1 + v2*q2
+        fn = v1 * q1 + v2 * q2
         if fn < fn_min:
             fn_min = fn
             thresh = i
     return thresh
 
 
-def convexityRatio(cnt,hull=None):
+def convexityRatio(cnt, hull=None):
     """
     Ratio to test if contours are irregular
 
@@ -1442,15 +1568,15 @@ def convexityRatio(cnt,hull=None):
     :return: ratio
     """
     if hull is None:
-        hull = cv2.convexHull(cnt) # get convex hull
-    if len(hull.shape)==2: # convert back from indexes
+        hull = cv2.convexHull(cnt)  # get convex hull
+    if len(hull.shape) == 2:  # convert back from indexes
         from .convert import points2contour
         hull = points2contour(cnt[hull])
     ahull = cv2.contourArea(hull)
     acnt = cv2.contourArea(cnt)
-    if ahull == 0: # solves issue dividing by 0
+    if ahull == 0:  # solves issue dividing by 0
         ahull = 0.0000001
-    return acnt/ahull # contour area / hull area
+    return acnt / ahull  # contour area / hull area
 
 
 def noisy(arr, mode):
@@ -1483,13 +1609,13 @@ def noisy(arr, mode):
         num_salt = np.ceil(amount * arr.size * s_vs_p)
         coords = [np.random.randint(0, i - 1, int(num_salt))
                   for i in arr.shape]
-        arr[coords] = 1 # insert salt
+        arr[coords] = 1  # insert salt
 
         # Pepper mode
         num_pepper = np.ceil(amount * arr.size * (1. - s_vs_p))
         coords = [np.random.randint(0, i - 1, int(num_pepper))
                   for i in arr.shape]
-        arr[coords] = 0 # insert pepper
+        arr[coords] = 0  # insert pepper
         return arr
     elif mode == "poisson":
         vals = len(np.unique(arr))
@@ -1502,7 +1628,8 @@ def noisy(arr, mode):
     else:
         raise Exception("mode {} not recognized".format(mode))
 
-def process_as_blocks(arr, func, block_shape = (3, 3), mask = None, asWindows = False):
+
+def process_as_blocks(arr, func, block_shape=(3, 3), mask=None, asWindows=False):
     """
     process with function over an array using blocks (using re-striding).
 
@@ -1520,34 +1647,36 @@ def process_as_blocks(arr, func, block_shape = (3, 3), mask = None, asWindows = 
         blocks_in = view_as_windows(arr, block_shape)
         if mask is not None:
             blocks_mask = view_as_windows(mask, block_shape)
-        sr,sc = blocks_in.shape[:2]
+        sr, sc = blocks_in.shape[:2]
         for row in range(sr):
             for col in range(sc):
-                b_in = blocks_in[row,col]
+                b_in = blocks_in[row, col]
                 if mask is not None:
-                    b_mask = blocks_mask[row,col]
-                    indexes = b_mask==1
+                    b_mask = blocks_mask[row, col]
+                    indexes = b_mask == 1
                     if np.any(indexes):
-                        nrow,ncol = row + block_shape[0] // 2, col + block_shape[1] // 2
-                        result[nrow,ncol] = func(b_in[indexes])
+                        nrow, ncol = (row +
+                            block_shape[0] // 2, col + block_shape[1] // 2)
+                        result[nrow, ncol] = func(b_in[indexes])
                 else:
-                    nrow,ncol = row + block_shape[0] // 2, col + block_shape[1] // 2
-                    result[nrow,ncol] = func(b_in)
+                    nrow, ncol = (row +
+                        block_shape[0] // 2, col + block_shape[1] // 2)
+                    result[nrow, ncol] = func(b_in)
     else:
         blocks_in = view_as_blocks(arr, block_shape)
         blocks_result = view_as_blocks(result, block_shape)
         if mask is not None:
             blocks_mask = view_as_blocks(mask, block_shape)
-        sr,sc = blocks_in.shape[:2]
+        sr, sc = blocks_in.shape[:2]
         for row in range(sr):
             for col in range(sc):
-                b_in = blocks_in[row,col]
-                b_result = blocks_result[row,col]
+                b_in = blocks_in[row, col]
+                b_result = blocks_result[row, col]
                 if mask is not None:
-                    b_mask = blocks_mask[row,col]
-                    indexes = b_mask==1
+                    b_mask = blocks_mask[row, col]
+                    indexes = b_mask == 1
                     if np.any(indexes):
                         b_result[indexes] = func(b_in[indexes])
                 else:
-                    b_result[:,:] = func(b_in)
+                    b_result[:, :] = func(b_in)
     return result

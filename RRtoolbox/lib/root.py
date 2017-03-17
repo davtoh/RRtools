@@ -20,16 +20,18 @@ import inspect
 import types
 from time import time, sleep
 import numpy as np
-from fnmatch import fnmatch,fnmatchcase
+from fnmatch import fnmatch, fnmatchcase
 from itertools import groupby
 from collections import OrderedDict
 from string import Formatter
-formater = Formatter() # string formatter str.format
+formater = Formatter()  # string formatter str.format
 import multiprocessing
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 # TODO implement for windows, consider https://pypi.python.org/pypi/posix_ipc/1.0.0
 # https://pypi.python.org/pypi/portalocker/1.1.0
+
+
 class NamedLock:
     def __init__(self, name):
         self.name = name
@@ -62,13 +64,14 @@ class secure_open(object):
     """Python 2 and Python 3 compatible text file reading.
     Required for single-sourcing the version string.
     """
+
     def __init__(self, file, mode='r', buffering=-1, encoding=None,
                  errors=None, newline=None, closefd=True):
         self.lock = NamedLock(file)
         self.lock.acquire()
         self.file = io.open(file, mode=mode, buffering=buffering,
-                             encoding=encoding, errors=errors,
-                             newline=newline, closefd=closefd)
+                            encoding=encoding, errors=errors,
+                            newline=newline, closefd=closefd)
 
     def __enter__(self):
         return self.file
@@ -78,7 +81,7 @@ class secure_open(object):
         self.lock.release()
 
 
-def load_module(name, code = None, name_path=""):
+def load_module(name, code=None, name_path=""):
     # http://stackoverflow.com/a/30407477/5288758
     import imp
     if code is not None:
@@ -86,7 +89,8 @@ def load_module(name, code = None, name_path=""):
             # Try and create/open the file only if it doesn't exist.
             fd = os.open(name, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
 
-            # Lock the file exclusively to notify other processes we're writing still.
+            # Lock the file exclusively to notify other processes we're writing
+            # still.
             fcntl.flock(fd, fcntl.LOCK_EX)
             with os.fdopen(fd, 'w') as f:
                 f.write(code)
@@ -109,7 +113,8 @@ class StdoutSIM(object):
     """
     Simple logger to simulate stdout output adding a closed control
     """
-    def __init__(self, stdout = None, closed = False):
+
+    def __init__(self, stdout=None, closed=False):
         if stdout is None:
             stdout = sys.stdout
         self.stdout = stdout
@@ -117,7 +122,7 @@ class StdoutSIM(object):
 
     def write(self, text, **kwargs):
         if not self.closed:
-            self.stdout.write(text,**kwargs)
+            self.stdout.write(text, **kwargs)
 
     def printline(self, text, **kwargs):
         if not self.closed:
@@ -143,6 +148,7 @@ class StdoutSIM(object):
     def __exit__(self, type, value, traceback):
         self.close()
 
+
 stdout = StdoutSIM()
 
 
@@ -152,6 +158,7 @@ class StdoutMULTI(object):
 
     :param file_list = list of file-like objects
     """
+
     def __init__(self, file_list):
         self.file_list = file_list
 
@@ -167,11 +174,11 @@ class StdoutMULTI(object):
         for log in self.file_list:
             log.printlines(lines, **kwargs)
 
-    def flush(self,**kwargs):
+    def flush(self, **kwargs):
         for log in self.file_list:
             log.flush(**kwargs)
 
-    def close(self,**kwargs):
+    def close(self, **kwargs):
         for log in self.file_list:
             log.close(**kwargs)
 
@@ -180,6 +187,7 @@ class StdoutMULTI(object):
 
     def __exit__(self, type, value, traceback):
         self.close()
+
 
 class StdoutLOG(StdoutMULTI):
     """
@@ -191,12 +199,13 @@ class StdoutLOG(StdoutMULTI):
     :param add_stdout: if True closes previous logs
             and continues with new log
     """
-    def __init__(self, path, mode = "w+", add_stdout = True):
+
+    def __init__(self, path, mode="w+", add_stdout=True):
         self.closed = False
-        self._old = sys.stdout # register old logger
+        self._old = sys.stdout  # register old logger
         self._cleaned = False
 
-        if hasattr(path,"write"): # must be file-lie
+        if hasattr(path, "write"):  # must be file-lie
             self._file = path
             self._path = None
             self.mode = None
@@ -210,10 +219,10 @@ class StdoutLOG(StdoutMULTI):
             file_list = [self._old, self._file]
         else:
             file_list = [self._file]
-        super(StdoutLOG,self).__init__(file_list=file_list)
-        sys.stdout = self # register log
+        super(StdoutLOG, self).__init__(file_list=file_list)
+        sys.stdout = self  # register log
 
-    def close(self,**kwargs):
+    def close(self, **kwargs):
         """
         Close StdoutLOG but it does not ensures cleanup to
          restore sys.stdout
@@ -245,17 +254,17 @@ class StdoutLOG(StdoutMULTI):
                 # at least this node has been cleaned
                 self._cleaned = True
 
-                try: # try to clean up old references
+                try:  # try to clean up old references
                     self._old._cleanup()
                     # overheats more but deletes circular references
                     if self._old._cleaned and self._old in self.file_list:
                         self.file_list.remove(self._old)
                 except AttributeError:
-                    pass # old node not cleaned
+                    pass  # old node not cleaned
                     # other node must have the old reference
 
 
-def decorateInstanceMethods(self, decorator,excludeMth=("__init__"),includeMth=None):
+def decorateInstanceMethods(self, decorator, excludeMth=("__init__"), includeMth=None):
     """
     Decorate methods in an instance. It should be used in the __init__ method of a class.
 
@@ -270,7 +279,8 @@ def decorateInstanceMethods(self, decorator,excludeMth=("__init__"),includeMth=N
     .. note:: It must be used at instance initialization (i.e. inside __init__ method)
     """
     classmethods = dict(inspect.getmembers(self, predicate=inspect.ismethod))
-    #if "__init__" in classmethods.keys(): del classmethods["__init__"] # init method should not be decorated
+    # if "__init__" in classmethods.keys(): del classmethods["__init__"] #
+    # init method should not be decorated
     for key in classmethods:
         if excludeMth and key in excludeMth:
             continue
@@ -281,7 +291,7 @@ def decorateInstanceMethods(self, decorator,excludeMth=("__init__"),includeMth=N
 
 # ----------------------------DECORATORS---------------------------- #
 
-def addto(instance,funcname=None):
+def addto(instance, funcname=None):
     """
     Decorator: Add function as method to instance.
 
@@ -290,11 +300,13 @@ def addto(instance,funcname=None):
     :return:
     """
     def decorator(fn):
-        fn = types.MethodType(fn, instance, instance.__class__) # convert to bound method
+        # convert to bound method
+        fn = types.MethodType(fn, instance, instance.__class__)
         if funcname:
             setattr(instance, funcname, fn)
         else:
-            setattr(instance, fn.__name__, fn) # set fn method with name fn.func_name in instance
+            # set fn method with name fn.func_name in instance
+            setattr(instance, fn.__name__, fn)
         return fn
     return decorator
 
@@ -303,6 +315,7 @@ def addto(instance,funcname=None):
 # ----------------------------DECORATED FUNCTIONS---------------------------- #
 
 # ----------------------------SPECIALISED FUNCTIONS---------------------------- #
+
 
 def formatOnly(format_string, **kwargs):
     """
@@ -319,7 +332,7 @@ def formatOnly(format_string, **kwargs):
     return format_string.format(**kwargs)
 
 
-def formatConsume(format_string, kwargs, formatter=None, handle = None):
+def formatConsume(format_string, kwargs, formatter=None, handle=None):
     """
     Format with dictionary and consume keys.
 
@@ -329,14 +342,15 @@ def formatConsume(format_string, kwargs, formatter=None, handle = None):
     :param formatter: (None) formatter function to format string
     :return: formatted string
     """
-    keys_in_str = [i[1] for i in formater.parse(format_string) if i[1] is not None]
+    keys_in_str = [i[1]
+                   for i in formater.parse(format_string) if i[1] is not None]
     if formatter is None:
         formatted_string = format_string.format(**kwargs)
     else:
-        formatted_string = formatter(format_string,**kwargs)
+        formatted_string = formatter(format_string, **kwargs)
     for k in keys_in_str:
         if handle is not None:
-            handle(kwargs,k)
+            handle(kwargs, k)
         else:
             try:
                 del kwargs[k]
@@ -350,24 +364,24 @@ class FactorConvert(object):
     Keep track of factor and converts to any available factor.
     """
     _factors = (("exa", "E", 1000000000000000000),
-                ("peta","P",1000000000000000),
-                ("tera","T",1000000000000),
-                ("giga","G",1000000000),
-                ("mega","M",1000000),
-                ("kilo","k",1000),
-                ("hecto","h",100),
-                ("deca","da",10),
-                (None,"",1),
-                ("deci","d",0.1),
-                ("centi","c",0.01),
-                ("milli","m",0.001),
-                ("micro","u",0.000001),
-                ("nano","n",0.000000001),
-                ("pico","p",0.000000000001),
-                ("femto","f",0.000000000000001),
-                ("atto","a",0.000000000000000001))
+                ("peta", "P", 1000000000000000),
+                ("tera", "T", 1000000000000),
+                ("giga", "G", 1000000000),
+                ("mega", "M", 1000000),
+                ("kilo", "k", 1000),
+                ("hecto", "h", 100),
+                ("deca", "da", 10),
+                (None, "", 1),
+                ("deci", "d", 0.1),
+                ("centi", "c", 0.01),
+                ("milli", "m", 0.001),
+                ("micro", "u", 0.000001),
+                ("nano", "n", 0.000000001),
+                ("pico", "p", 0.000000000001),
+                ("femto", "f", 0.000000000000001),
+                ("atto", "a", 0.000000000000000001))
 
-    def __init__(self, factor = None, abbreviate = True):
+    def __init__(self, factor=None, abbreviate=True):
         """
 
         :param factor: anything to look in factors (i.e. factor list with Factor structures).
@@ -384,10 +398,13 @@ class FactorConvert(object):
     @property
     def factors(self):
         return self._factors
+
     @factors.setter
     def factors(self, value):
-        self._factorsCache = list(zip(*value)) # itertools.izip is faster but this operation is one time
+        # itertools.izip is faster but this operation is one time
+        self._factorsCache = list(zip(*value))
         self._factors = value
+
     @factors.deleter
     def factors(self):
         raise Exception("Property cannot be deleted")
@@ -395,14 +412,16 @@ class FactorConvert(object):
     @property
     def factor(self):
         return self._factor[self.abbreviate]
+
     @factor.setter
     def factor(self, value):
-        self._factor = self.getFactor(value) # transform units
+        self._factor = self.getFactor(value)  # transform units
+
     @factor.deleter
     def factor(self):
         raise Exception("Property cannot be deleted")
 
-    def convert(self, factor, to = None):
+    def convert(self, factor, to=None):
         """
         Convert from actual factor to another factor.
 
@@ -411,9 +430,10 @@ class FactorConvert(object):
         :return: converted value, units
         """
         to = self.getFactor(to)
-        return factor * self._factor[2] / float(to[2]), to[self.abbreviate] # converted value, factor
+        # converted value, factor
+        return factor * self._factor[2] / float(to[2]), to[self.abbreviate]
 
-    def convert2sample(self, factor, to = None):
+    def convert2sample(self, factor, to=None):
         """
         Convert to resemble sample.
 
@@ -421,15 +441,15 @@ class FactorConvert(object):
         :param to: sample factor.
         :return: converted value, units
         """
-        if to is None or to==0:
+        if to is None or to == 0:
             unit = None
-        else: # calculate as fast as possible
+        else:  # calculate as fast as possible
             try:
                 unit = factor * self._factor[2] / to
             except:
                 to = self.getFactor(to)[2]
                 unit = factor * self._factor[2] / to
-        return self.convert(factor, unit) # to units.
+        return self.convert(factor, unit)  # to units.
 
     def exactFactorIndex(self, key):
         """
@@ -438,8 +458,9 @@ class FactorConvert(object):
         :param key: anything to look in factors (i.e. factor name, factor value, abbreviation).
         :return: factor structure, else None.
         """
-        for i in self._factorsCache:# try to find it
-            if key in i: return i.index(key)
+        for i in self._factorsCache:  # try to find it
+            if key in i:
+                return i.index(key)
 
     def nearFactorIndex(self, factor):
         """
@@ -460,7 +481,8 @@ class FactorConvert(object):
         """
         if key is None or isinstance(key, basestring):
             index = self.exactFactorIndex(key)
-            if index is None: raise Exception("Factor not found for {}".format(key))
+            if index is None:
+                raise Exception("Factor not found for {}".format(key))
         else:
             index = self.nearFactorIndex(key)
         return self._factors[index]
@@ -474,11 +496,11 @@ class FactorConvert(object):
         :return: integer, fraction
         """
         left = int(value)
-        right = value-left
-        return left,right
+        right = value - left
+        return left, right
 
     @staticmethod
-    def parts(value, precision = 4):
+    def parts(value, precision=4):
         """
         Get number parts.
 
@@ -487,34 +509,37 @@ class FactorConvert(object):
         :return: ([... ,Hundreds, Tens, Ones],[Tenths, ...])
         """
         p = "{{:0.{}f}}".format(precision).format(value).split(".")
-        if len(p)>1:
-            return [int(i) for i in p[0]],[int(i) for i in p[1]]
+        if len(p) > 1:
+            return [int(i) for i in p[0]], [int(i) for i in p[1]]
         else:
-            return [int(i) for i in p[0]],[]
+            return [int(i) for i in p[0]], []
+
 
 class Magnitude(object):
-    def __init__(self, value =0, factor = None, unit = None, precision = None, abbreviate = False):
+    def __init__(self, value=0, factor=None, unit=None, precision=None, abbreviate=False):
         self.value = value
         self.precision = precision
         self.factor = factor
         self.unit = unit
         self.abbreviate = abbreviate
+
     def format_value(self, value):
         if self.precision is None:
             text = "{:f} {}{}"
         else:
             text = "{{:0.{}f}} {{}}{{}}".format(self.precision)
-        if self.factor: #
-            if isinstance(self.factor,basestring):
+        if self.factor:
+            if isinstance(self.factor, basestring):
                 return text.format(*(FactorConvert(
-                        abbreviate= self.abbreviate).convert(value, self.factor) +
-                                     (self.unit,)))
+                    abbreviate=self.abbreviate).convert(value, self.factor) +
+                    (self.unit,)))
             else:
                 return text.format(*(FactorConvert(
-                        abbreviate= self.abbreviate).convert2sample(value, self.factor) +
-                                     (self.unit,)))
+                    abbreviate=self.abbreviate).convert2sample(value, self.factor) +
+                    (self.unit,)))
         else:
             return text.format(value, "", self.unit)
+
     def __str__(self):
         return self.format_value(self.value)
 
@@ -533,9 +558,10 @@ class TimeCode(object):
     :param printfunc: function to print messages. By default it
             is sys.stdout.write
     """
-    def __init__(self, msg = None, factor = None, precision = None,
-                 abv=None, endmsg = "{time}\n", enableMsg= True,
-                 printfunc= None, profiler = None, profile_point = None):
+
+    def __init__(self, msg=None, factor=None, precision=None,
+                 abv=None, endmsg="{time}\n", enableMsg=True,
+                 printfunc=None, profiler=None, profile_point=None):
         self.msg = msg
         self.factor = factor
         self.precision = precision
@@ -553,16 +579,18 @@ class TimeCode(object):
         if self.time_start is None:
             return 0
         else:
-            return time()-self.time_start
+            return time() - self.time_start
 
     @property
     def time_end(self):
         if self._time_end is None:
             return self.time
         return self._time_end
+
     @time_end.setter
-    def time_end(self,value):
+    def time_end(self, value):
         self._time_end = value
+
     @time_end.deleter
     def time_end(self):
         del self._time_end
@@ -572,15 +600,15 @@ class TimeCode(object):
             self.printfunc = sys.stdout.write
         if self.enableMsg and self.msg is not None:
             self.printfunc(self.msg)
-        self.time_start = time() # begin chronometer
+        self.time_start = time()  # begin chronometer
         self.time_end = None
         if self.profiler is not None:
             if self.profile_point is None:
                 msg = self.msg
             else:
                 msg = self.profile_point
-            if isinstance(msg,basestring):
-                self.profile_point = self.profiler.open_point(msg = msg)
+            if isinstance(msg, basestring):
+                self.profile_point = self.profiler.open_point(msg=msg)
             else:
                 self.profile_point = self.profiler.open_point(*msg)
         elif isinstance(self.profile_point, Profiler):
@@ -590,17 +618,18 @@ class TimeCode(object):
     def __exit__(self, type, value, traceback):
         if isinstance(self.profile_point, Profiler):
             self.profile_point.close()
-        t = self.time # end chronometer
+        t = self.time  # end chronometer
         self.time_end = t
         if self.enableMsg and self.endmsg is not None:
             # abbreviation
             if self.abv is True:
-                u,i = "s",True
+                u, i = "s", True
             else:
-                u,i = " seconds",False
+                u, i = " seconds", False
             self.printfunc(self.endmsg.format(
-                time=Magnitude(value = t, precision=self.precision,
-                unit=u, factor=self.factor, abbreviate=i)))
+                time=Magnitude(value=t, precision=self.precision,
+                               unit=u, factor=self.factor, abbreviate=i)))
+
 
 class Profiler(object):
     r"""
@@ -614,7 +643,8 @@ class Profiler(object):
     :parameter points: profile instaces which are divided in "side" or "children" points
             according if they are side by side or are inside of the profiler.
     """
-    def __init__(self, msg = None, tag= None):
+
+    def __init__(self, msg=None, tag=None):
         self.time_start = time()
         self.msg = msg
         self.tag = tag
@@ -633,7 +663,7 @@ class Profiler(object):
         :return: overall time of profiling
         """
         try:
-            return self.time_end -self.time_start
+            return self.time_end - self.time_start
         except:
             points_diff = [i.time for i in self.points if i.time]
             if points_diff:
@@ -664,7 +694,7 @@ class Profiler(object):
         point.close()
         self._add_point(point)
 
-    def open_point(self, msg = None, tag= None):
+    def open_point(self, msg=None, tag=None):
         """
         Open a profiling point to track time.
 
@@ -696,21 +726,21 @@ class Profiler(object):
         :return: formatted (spacing, tag, msg, time)
         """
         if tag:
-            if isinstance(self.format_tag,basestring):
+            if isinstance(self.format_tag, basestring):
                 tag = self.format_tag.format(tag)
             else:
                 tag = self.format_tag(tag)
         else:
             tag = ""
         if time:
-            if isinstance(self.format_time,basestring):
+            if isinstance(self.format_time, basestring):
                 time = self.format_time.format(time)
             else:
                 time = self.format_time(time)
         else:
             time = ""
         if msg:
-            if isinstance(self.format_msg,basestring):
+            if isinstance(self.format_msg, basestring):
                 msg = self.format_msg.format(msg)
             else:
                 msg = self.format_msg(msg)
@@ -718,7 +748,7 @@ class Profiler(object):
             msg = ""
         return self.space * level, tag, msg, time
 
-    def _collapse_structure(self, children, collapse = None):
+    def _collapse_structure(self, children, collapse=None):
         """
         Collapse list of profiles (not intended for the user)
 
@@ -729,21 +759,22 @@ class Profiler(object):
 
         # collapse them
         if collapse is not None and children:
-            new_children = [] # init new list of collapsed children
-            indexes = dict() # keep cache of indexed children
-            for child in children: # loop over children
-                cmp = tuple(child[:2]) # comparison and key index
+            new_children = []  # init new list of collapsed children
+            indexes = dict()  # keep cache of indexed children
+            for child in children:  # loop over children
+                cmp = tuple(child[:2])  # comparison and key index
                 if (new_children and
                         (collapse is True or cmp[0] in collapse
                          or cmp[1] in collapse)
-                    and cmp in indexes):
-                    index = indexes[cmp] # return cached index
-                    new_children[index][2] += child[2] # add time
-                    new_children[index][3].extend(child[3]) # add children of child
-                else: # if not indexed
-                    indexes[cmp] = len(new_children) # cache actual index
-                    new_children.append(child) # append a new child
-            return new_children # replace for new children list
+                        and cmp in indexes):
+                    index = indexes[cmp]  # return cached index
+                    new_children[index][2] += child[2]  # add time
+                    new_children[index][3].extend(
+                        child[3])  # add children of child
+                else:  # if not indexed
+                    indexes[cmp] = len(new_children)  # cache actual index
+                    new_children.append(child)  # append a new child
+            return new_children  # replace for new children list
         return children
 
     def restructure(self, structure, collapse):
@@ -756,13 +787,13 @@ class Profiler(object):
         """
         tag, msg, time, children = structure
         if children:
-            children = self._collapse_structure(children,collapse)
-            for i,child in enumerate(children):
+            children = self._collapse_structure(children, collapse)
+            for i, child in enumerate(children):
                 children[i] = self.restructure(child, collapse)
             structure[3] = children
         return structure
 
-    def structure(self, collapse = None):
+    def structure(self, collapse=None):
         """
         profiling structure.
 
@@ -772,7 +803,8 @@ class Profiler(object):
         # collect structure of children
         children = [point.structure(collapse) for point in self.points]
         children = self._collapse_structure(children, collapse)
-        return [self.tag, self.msg, self.time, children] # permit item assignment
+        # permit item assignment
+        return [self.tag, self.msg, self.time, children]
 
     def _helper_lines_unformatted(self, struct, level=0):
         """
@@ -782,13 +814,13 @@ class Profiler(object):
         :param level: structure level
         :return: generator with outputs (level, tag, msg, time)
         """
-        tag,msg,time,children = struct
+        tag, msg, time, children = struct
         yield (level, tag, msg, time)
         for child in children:
             for i in self._helper_lines_unformatted(child, level + 1):
                 yield i
 
-    def lines_unformatted(self, collapse =None):
+    def lines_unformatted(self, collapse=None):
         """
         generate structure lines
 
@@ -797,7 +829,7 @@ class Profiler(object):
         """
         return self._helper_lines_unformatted(self.structure(collapse))
 
-    def lines_formatted(self, collapse = None):
+    def lines_formatted(self, collapse=None):
         """
         generate string lines
 
@@ -805,9 +837,10 @@ class Profiler(object):
         :return: list of lines
         """
         lns = []
-        for level,tag,msg,time in self.lines_unformatted(collapse):
-            space,tag,msg,time = self.formatter(level,tag,msg,time)
-            lns.append(self.format_line.format(space=space, tag=tag, msg=msg, time=time))
+        for level, tag, msg, time in self.lines_unformatted(collapse):
+            space, tag, msg, time = self.formatter(level, tag, msg, time)
+            lns.append(self.format_line.format(
+                space=space, tag=tag, msg=msg, time=time))
         return lns
 
     def string_lines(self):
@@ -826,16 +859,17 @@ class Profiler(object):
         """
         if structs:
             mystr = self.format_structure
-            tag,msg,time,children = structs[0]
-            space,tag,msg,time = self.formatter(level,tag,msg,time)
+            tag, msg, time, children = structs[0]
+            space, tag, msg, time = self.formatter(level, tag, msg, time)
             mystr = mystr.format(space=space, tag=tag, msg=msg, time=time,
-                                 child=self._helper_string_structured(children, level + 1),
+                                 child=self._helper_string_structured(
+                                     children, level + 1),
                                  side=self._helper_string_structured(structs[1:], level))
             return mystr
         else:
             return ""
 
-    def string_structured(self, collapse = None, structure = None):
+    def string_structured(self, collapse=None, structure=None):
         """
         string with plain structure of profiling
 
@@ -848,6 +882,7 @@ class Profiler(object):
             return self._helper_string_structured([self.structure(collapse)])
         else:
             return self._helper_string_structured([self.restructure(structure, collapse)])
+
 
 class Controlstdout(object):
     """
@@ -864,7 +899,7 @@ class Controlstdout(object):
             controlled by the Controlstdout context.
     """
 
-    def __init__(self, disable = True, buffer = None):
+    def __init__(self, disable=True, buffer=None):
         self.disable = disable
         self.buffer = buffer
         self.buffered = ""
@@ -875,7 +910,7 @@ class Controlstdout(object):
         self.stdout_old = sys.stdout
         self.stdout_new = StdoutSIM(self.disable)
         if self.buffer:
-            if self.buffer is True: # in case it is not defined
+            if self.buffer is True:  # in case it is not defined
                 import io
                 self.buffer = io.StringIO()
             self.stdout_new = StdoutMULTI([self.stdout_new, self.buffer])
@@ -892,7 +927,8 @@ class Controlstdout(object):
                 pass
         sys.stdout = self.stdout_old
 
-def glob(path, contents="*", check = os.path.isfile):
+
+def glob(path, contents="*", check=os.path.isfile):
     """
     Return a list of paths matching a pathname pattern with valid files.
 
@@ -907,28 +943,33 @@ def glob(path, contents="*", check = os.path.isfile):
     # special case: Folder
     if len(fns) == 1 and not os.path.isfile(fns[0]):
         fns = glob(os.path.join(fns[0], contents))
-    return list(filter(check,fns)) # [p for p in fns if check(p)]
+    return list(filter(check, fns))  # [p for p in fns if check(p)]
+
 
 def ensureList(obj):
     """ ensures that object is list """
-    if isinstance(obj,list):
-        return obj # returns original lis
-    elif hasattr(obj, '__iter__'): # for python 2.x check if obj is iterablet
-        return list(obj) # converts to list
+    if isinstance(obj, list):
+        return obj  # returns original lis
+    elif hasattr(obj, '__iter__'):  # for python 2.x check if obj is iterablet
+        return list(obj)  # converts to list
     else:
-        return [obj] # object is returned inside list
+        return [obj]  # object is returned inside list
+
 
 class globFilter(object):
     '''glob filter for patterns'''
-    def __init__(self, include=None, exclude=None, case= False):
+
+    def __init__(self, include=None, exclude=None, case=False):
         """
         :param include: permitted patterns
         :param exclude: excluded patterns. it takes priority over includes
         :param case: True or False for case sensitive patterns
         """
-        if include is None: include = []
+        if include is None:
+            include = []
         self.include = ensureList(include)
-        if exclude is None: exclude = []
+        if exclude is None:
+            exclude = []
         self.exclude = ensureList(exclude)
         if case:
             self.cmpfunc = fnmatchcase
@@ -942,24 +983,26 @@ class globFilter(object):
         :param cmp: iterator or string
         :return: True or false if cmp pass filter test
         """
-        if hasattr(cmp,"__iter__"):
+        if hasattr(cmp, "__iter__"):
             return [self(i) for i in cmp]
         else:
-            cmpfunc = self.cmpfunc # prevents from accessing self
-            for pattern in self.exclude: # if exclude is [] don't do the test
+            cmpfunc = self.cmpfunc  # prevents from accessing self
+            for pattern in self.exclude:  # if exclude is [] don't do the test
                 if cmpfunc(cmp, pattern):
                     return False
-            if self.include: # test includes
+            if self.include:  # test includes
                 for pattern in self.include:
                     if cmpfunc(cmp, pattern):
                         return True
-            else: # if include is False or None return True anyway i.e. equivalent to ['*']
+            # if include is False or None return True anyway i.e. equivalent to
+            # ['*']
+            else:
                 return True
             return False
 
 
 def lookinglob(pattern, path=None, ext=None, forward=None,
-               filelist=None, aslist = False, raiseErr = False):
+               filelist=None, aslist=False, raiseErr=False):
     """
     Look for patterns in Path. It looks as {if path}{if pattern}{if forward}{if ext}.
 
@@ -985,46 +1028,47 @@ def lookinglob(pattern, path=None, ext=None, forward=None,
         tests = [pattern, "*{pattern}", "{path}{pattern}", "{path}*{pattern}"]
         if forward:
             tests.extend(
-                ["{pattern}*","*{pattern}*", "{path}{pattern}*", "{path}*{pattern}*"]
+                ["{pattern}*", "*{pattern}*",
+                    "{path}{pattern}*", "{path}*{pattern}*"]
             )
         if ext is not None and not pattern.endswith(ext):
             if not ext.startswith("."):
-                ext = "."+ext
+                ext = "." + ext
             tests = [i + ext for i in tests]
 
-    tests = set(tests) # eliminate repeated keys
+    tests = set(tests)  # eliminate repeated keys
     if filelist is None:
         # look in a real path
         ress = []
         for test in tests:
             # get list of matches
             res = glob(test.format(path=path, pattern=pattern))
-            if not res: # if not match continue
+            if not res:  # if not match continue
                 continue
             # return first match
-            if not aslist and len(res)==1:
+            if not aslist and len(res) == 1:
                 return res[0]
             # keep acumulatting matches
             ress.extend(res)
     else:
         # look in a simulated path with files in file_list
         include = [test.format(path=path, pattern=pattern) for test in tests]
-        ress = list(filter(globFilter(case=True,include=include),filelist))
+        ress = list(filter(globFilter(case=True, include=include), filelist))
 
-    if len(ress)==1 and aslist:
-        return ress # return list anyways
-    elif len(ress)==1:
-        return ress[0] # return only matched
+    if len(ress) == 1 and aslist:
+        return ress  # return list anyways
+    elif len(ress) == 1:
+        return ress[0]  # return only matched
     elif ress and raiseErr:
         raise Exception("More than one file with pattern '{}'".format(pattern))
     elif raiseErr:
-        #if file_list is not None:
+        # if file_list is not None:
         #    path = file_list
         if path is None:
             raise Exception("pattern '{}' not found".format(pattern))
         raise Exception("pattern '{}' not in {}".format(pattern, path))
     elif aslist:
-        return list(set(ress)) # return unique matches
+        return list(set(ress))  # return unique matches
     return None
 
 
@@ -1033,13 +1077,13 @@ if __name__ == "__main__":
     if False:
         def myfc():
             sleep(1)
-            return "======"*10000
-        with TimeCode("init",100,abv=True):
+            return "======" * 10000
+        with TimeCode("init", 100, abv=True):
             myfc()
 
     if False:
         fac = FactorConvert()
-        print(fac.convert(10,100))
+        print(fac.convert(10, 100))
         print(fac.parts(1001010.01010101))
         print("{:f} {}".format(*FactorConvert("m").convert2sample(36797.59, "m")))
         print(FactorConvert("m").convert(36797.59))
@@ -1049,27 +1093,30 @@ if __name__ == "__main__":
         pf = Profiler("Init")
         p1 = pf.open_point("for loop")
         for i in range(5):
-            with TimeCode("loop {}".format(i),profiler=pf):
+            with TimeCode("loop {}".format(i), profiler=pf):
                 pass
-            with TimeCode("loop {}".format(i),profiler=pf):
+            with TimeCode("loop {}".format(i), profiler=pf):
                 pass
         p2 = pf.open_point("in level of p1")
         p1.close()
         p3 = pf.open_point("other process")
-        #print pf.string_structured()
-        print(pf.string_structured(True,pf.structure()))
+        # print pf.string_structured()
+        print(pf.string_structured(True, pf.structure()))
 
 # ---------------------------- EXCEPTIONS ---------------------------- #
+
 
 class TimeOutException(Exception):
     """
     Raise an exception when a process surpasses the timeout
     """
 
+
 class TransferExeption(Exception):
     """
     Raise an exception when transfered data is corrupt
     """
+
 
 class VariableNotSettable(Exception):
     """
@@ -1112,10 +1159,12 @@ class NotCreatable(Exception):
     Defines objectGetter error: objectGetter cannot create new object.
     """
 
+
 class NotCallable(Exception):
     """
     Defines objectGetter error: given object is not callable.
     """
+
 
 class NoParserFound(Exception):
     """
@@ -1124,16 +1173,18 @@ class NoParserFound(Exception):
     """
 
 
-class CorruptPersistent(EOFError,IOError):
+class CorruptPersistent(EOFError, IOError):
     """
     Used for persistent data read from disk like pickles to denote
     it has been corrupted
     """
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 
+
 class NameSpace(object):
     """
     Used to store variables
     """
+
 
 NO_CPUs = multiprocessing.cpu_count()

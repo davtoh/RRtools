@@ -13,7 +13,8 @@ __spec__ = None
 
 # functions
 
-def createPlot2d(data): # real signature unknown; restored from __doc__
+
+def createPlot2d(data):  # real signature unknown; restored from __doc__
     """ createPlot2d(data) -> retval  or  createPlot2d(dataX, dataY) -> retval """
     pass
 

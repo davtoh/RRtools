@@ -21,7 +21,9 @@ __spec__ = None
 
 # functions
 
-def GrayCodePattern_create(width, height): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def GrayCodePattern_create(width, height):
     """ GrayCodePattern_create(width, height) -> retval """
     pass
 

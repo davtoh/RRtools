@@ -17,15 +17,20 @@ __spec__ = None
 
 # functions
 
-def createRetina(inputSize): # real signature unknown; restored from __doc__
+
+def createRetina(inputSize):  # real signature unknown; restored from __doc__
     """ createRetina(inputSize) -> retval  or  createRetina(inputSize, colorMode[, colorSamplingMethod[, useRetinaLogSampling[, reductionFactor[, samplingStrenght]]]]) -> retval """
     pass
 
-def createRetinaFastToneMapping(inputSize): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createRetinaFastToneMapping(inputSize):
     """ createRetinaFastToneMapping(inputSize) -> retval """
     pass
 
-def createTransientAreasSegmentationModule(inputSize): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTransientAreasSegmentationModule(inputSize):
     """ createTransientAreasSegmentationModule(inputSize) -> retval """
     pass
 

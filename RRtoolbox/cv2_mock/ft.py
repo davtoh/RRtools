@@ -23,43 +23,62 @@ __spec__ = None
 
 # functions
 
-def createKernel(function, radius, chn, kernel=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createKernel(function, radius, chn, kernel=None):
     """ createKernel(function, radius, chn[, kernel]) -> kernel """
     pass
 
-def createKernel1(A, B, chn, kernel=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createKernel1(A, B, chn, kernel=None):
     """ createKernel1(A, B, chn[, kernel]) -> kernel """
     pass
 
-def filter(image, kernel, output=None): # real signature unknown; restored from __doc__
+
+def filter(image, kernel, output=None):  # real signature unknown; restored from __doc__
     """ filter(image, kernel[, output]) -> output """
     pass
 
-def FT02D_components(matrix, kernel, components=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_components(matrix, kernel, components=None):
     """ FT02D_components(matrix, kernel[, components]) -> components """
     pass
 
-def FT02D_components1(matrix, kernel, mask, components=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_components1(matrix, kernel, mask, components=None):
     """ FT02D_components1(matrix, kernel, mask[, components]) -> components """
     pass
 
-def FT02D_inverseFT(components, kernel, width, height, output=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_inverseFT(components, kernel, width, height, output=None):
     """ FT02D_inverseFT(components, kernel, width, height[, output]) -> output """
     pass
 
-def FT02D_iteration(matrix, kernel, mask, firstStop, output=None, maskOutput=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_iteration(matrix, kernel, mask, firstStop, output=None, maskOutput=None):
     """ FT02D_iteration(matrix, kernel, mask, firstStop[, output[, maskOutput]]) -> retval, output, maskOutput """
     pass
 
-def FT02D_process(matrix, kernel, output=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_process(matrix, kernel, output=None):
     """ FT02D_process(matrix, kernel[, output]) -> output """
     pass
 
-def FT02D_process1(matrix, kernel, mask, output=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FT02D_process1(matrix, kernel, mask, output=None):
     """ FT02D_process1(matrix, kernel, mask[, output]) -> output """
     pass
 
-def inpaint(image, mask, radius, function, algorithm, output=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def inpaint(image, mask, radius, function, algorithm, output=None):
     """ inpaint(image, mask, radius, function, algorithm[, output]) -> output """
     pass
 
