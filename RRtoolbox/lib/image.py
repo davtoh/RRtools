@@ -35,7 +35,7 @@ from builtins import range
 from past.builtins import basestring
 from builtins import object
 from .directory import getData, mkPath, getPath, increment_if_exits
-from .config import FLOAT,INT,MANAGER
+from .config import FLOAT, INT, MANAGER
 import cv2
 import os
 import numpy as np
@@ -43,7 +43,8 @@ from .arrayops.basic import (anorm, polygonArea, im2shapeFormat, angle,
                              vectorsAngles, overlay,  standarizePoints,
                              splitPoints)
 from .root import glob
-#from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import name QtOpenGL
+# from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import
+# name QtOpenGL
 from .cache import Cache, ResourceManager
 from collections import MutableSequence
 from .directory import (getData, strdifference, changedir, checkFile,
@@ -54,8 +55,8 @@ from .plotter import Plotim, limitaxis
 from .serverServices import parseString, string_is_socket_address
 
 
-supported_formats = ("bmp","dib","jpeg","jpg","jpe","jp2","png",
-                     "pbm","pgm","ppm","sr","ras","tiff","tif")
+supported_formats = ("bmp", "dib", "jpeg", "jpg", "jpe", "jp2", "png",
+                     "pbm", "pgm", "ppm", "sr", "ras", "tiff", "tif")
 
 
 def transposeIm(im):
@@ -65,6 +66,7 @@ def transposeIm(im):
         return im.transpose(1, 0, 2)
 
 #from matplotlib import colors
+
 
 # colors to use
 green = (0, 255, 0)
@@ -76,15 +78,17 @@ blue = (255, 0, 0)
 
 # dictionary of colors to use
 colors = {
-"blue":blue,
-"green":green,
-"red":red,
-"white":white,
-"orange":orange,
-"black":black}
+    "blue": blue,
+    "green": green,
+    "red": red,
+    "white": white,
+    "orange": orange,
+    "black": black}
 
 # look for these as <numpy array>.dtype.names
-bgra_dtype = np.dtype({'b': (np.uint8, 0), 'g': (np.uint8, 1), 'r': (np.uint8, 2), 'a': (np.uint8, 3)})
+bgra_dtype = np.dtype({'b': (np.uint8, 0), 'g': (
+    np.uint8, 1), 'r': (np.uint8, 2), 'a': (np.uint8, 3)})
+
 
 def plt2bgr(image):
     if isinstance(image, matplotlib.axes.SubplotBase):
@@ -93,12 +97,14 @@ def plt2bgr(image):
         image = fig2bgr(image)
     return image
 
+
 def plt2bgra(image):
     if isinstance(image, matplotlib.axes.SubplotBase):
         image = fig2bgra(image.figure)
     elif isinstance(image, matplotlib.figure.Figure):
         image = fig2bgra(image)
     return image
+
 
 def fig2bgr(fig):
     """
@@ -108,15 +114,19 @@ def fig2bgr(fig):
     :return: RGB image.
     """
     fig.canvas.draw()
-    buf = np.fromstring(fig.canvas.tostring_rgb(), dtype=np.uint8, sep='') # get bgr
+    buf = np.fromstring(fig.canvas.tostring_rgb(),
+                        dtype=np.uint8, sep='')  # get bgr
     return buf.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+
 
 def np2str(arr):
     return arr.tostring()
 
-def str2np(string,shape):
-    buf = np.fromstring(string, dtype=np.uint8, sep='') # get bgr
+
+def str2np(string, shape):
+    buf = np.fromstring(string, dtype=np.uint8, sep='')  # get bgr
     return buf.reshape(shape)
+
 
 def fig2bgra(fig):
     """
@@ -125,16 +135,18 @@ def fig2bgra(fig):
     :param fig: a matplotlib figure
     :return: RGBA image.
     """
-    #http://www.icare.univ-lille1.fr/drupal/node/1141
-    #http://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
+    # http://www.icare.univ-lille1.fr/drupal/node/1141
+    # http://stackoverflow.com/questions/7821518/matplotlib-save-plot-to-numpy-array
     # draw the renderer
     fig.canvas.draw()
     # Get the RGBA buffer from the figure
-    buf = np.fromstring(fig.canvas.tostring_argb(), dtype=np.uint8 ) # get bgra
-    buf = buf.reshape(fig.canvas.get_width_height()[::-1] + (4,)) # reshape to h,w,c
-    return np.roll(buf,3,axis = 2) # correct channels
+    buf = np.fromstring(fig.canvas.tostring_argb(), dtype=np.uint8)  # get bgra
+    buf = buf.reshape(fig.canvas.get_width_height()[
+                      ::-1] + (4,))  # reshape to h,w,c
+    return np.roll(buf, 3, axis=2)  # correct channels
 
-def qi2np(qimage, dtype ='array'):
+
+def qi2np(qimage, dtype='array'):
     """
     Convert QImage to numpy.ndarray.  The dtype defaults to uint8
     for QImage.Format_Indexed8 or `bgra_dtype` (i.e. a record array)
@@ -149,8 +161,8 @@ def qi2np(qimage, dtype ='array'):
     result_shape = (qimage.height(), qimage.width())
     temp_shape = (qimage.height(), qimage.bytesPerLine() * 8 / qimage.depth())
     if qimage.format() in (QtGui.QImage.Format_ARGB32_Premultiplied,
-                            QtGui.QImage.Format_ARGB32,
-                            QtGui.QImage.Format_RGB32):
+                           QtGui.QImage.Format_ARGB32,
+                           QtGui.QImage.Format_RGB32):
         if dtype == 'rec':
             dtype = bgra_dtype
         elif dtype == 'array':
@@ -165,10 +177,11 @@ def qi2np(qimage, dtype ='array'):
     buf = qimage.bits().asstring(qimage.numBytes())
     result = np.frombuffer(buf, dtype).reshape(result_shape)
     if result_shape != temp_shape:
-        result = result[:,:result_shape[1]]
+        result = result[:, :result_shape[1]]
     if qimage.format() == QtGui.QImage.Format_RGB32 and dtype == np.uint8:
-        result = result[...,:3]
+        result = result[..., :3]
     return result
+
 
 def np2qi(array):
     """
@@ -184,6 +197,7 @@ def np2qi(array):
     elif np.ndim(array) == 3:
         return rgb2qi(array)
     raise ValueError("can only convert 2D or 3D arrays")
+
 
 def gray2qi(gray):
     """
@@ -208,11 +222,12 @@ def gray2qi(gray):
     h, w = gray.shape
 
     result = QtGui.QImage(gray.data, w, h, QtGui.QImage.Format_Indexed8)
-    result.ndarray = gray # let object live to avoid garbage collection
+    result.ndarray = gray  # let object live to avoid garbage collection
     """
     for i in xrange(256):
         result.setColor(i, QtGui.QColor(i, i, i).rgb())"""
     return result
+
 
 def rgb2qi(rgb):
     """
@@ -238,22 +253,24 @@ def rgb2qi(rgb):
     h, w, channels = rgb.shape
     # Qt expects 32bit BGRA data for color images:
     bgra = np.empty((h, w, 4), np.uint8, 'C')
-    bgra[:,:,2] = rgb[:,:,2]
-    bgra[:,:,1] = rgb[:,:,1]
-    bgra[:,:,0] = rgb[:,:,0]
+    bgra[:, :, 2] = rgb[:, :, 2]
+    bgra[:, :, 1] = rgb[:, :, 1]
+    bgra[:, :, 0] = rgb[:, :, 0]
     # dstack, dsplit, stack
     if rgb.shape[2] == 3:
-        bgra[...,3].fill(255)
+        bgra[..., 3].fill(255)
         fmt = QtGui.QImage.Format_RGB32
     else:
-        bgra[...,3] = rgb[...,3]
+        bgra[..., 3] = rgb[..., 3]
         fmt = QtGui.QImage.Format_ARGB32
     result = QtGui.QImage(bgra.data, w, h, fmt)
     result.ndarray = bgra  # let object live to avoid garbage collection
     return result
 
 # STABLE FUNCTIONS
-def bgra2bgr(im,bgrcolor = colors["white"]):
+
+
+def bgra2bgr(im, bgrcolor=colors["white"]):
     """
     Convert BGR to BGRA image.
 
@@ -263,15 +280,17 @@ def bgra2bgr(im,bgrcolor = colors["white"]):
     :return:
     """
     # back[chanel] = bgr[chanel]*(bgr[3]/255.0) + back[chanel]*(1-bgr[3]/255.0)
-    temp=im.shape
-    im2 = np.zeros((temp[0],temp[1],3), np.uint8)
-    im2[:,:,:] = bgrcolor
-    for c in range(0,3): #looping over channels
-        im2[:,:,c] = im[:,:,c]*(im[:,:,3]/255.0) + im2[:,:,c]*(1.0-im[:,:,3]/255.0)
+    temp = im.shape
+    im2 = np.zeros((temp[0], temp[1], 3), np.uint8)
+    im2[:, :, :] = bgrcolor
+    for c in range(0, 3):  # looping over channels
+        im2[:, :, c] = (im[:, :, c] * (im[:, :, 3] / 255.0) + im2[:, :, c] *
+                        (1.0 - im[:, :, 3] / 255.0))
     return im2
 
-def convertAs(fns, base = None, folder = None, name=None, ext = None,
-              overwrite = False, loader = None, simulate=False):
+
+def convertAs(fns, base=None, folder=None, name=None, ext=None,
+              overwrite=False, loader=None, simulate=False):
     """
     Reads a file and save as other file based in a pattern.
 
@@ -299,8 +318,8 @@ def convertAs(fns, base = None, folder = None, name=None, ext = None,
     if loader is None:
         loader = loadFunc(1)
     if isinstance(fns, basestring):
-        filelist = glob(fns) # list
-    else: # is an iterator
+        filelist = glob(fns)  # list
+    else:  # is an iterator
         filelist = []
         for f in fns:
             filelist.extend(glob(f))
@@ -308,15 +327,15 @@ def convertAs(fns, base = None, folder = None, name=None, ext = None,
         base = ''
     # ensures that path from base ends with separator
     if base:
-        base = os.path.join(base,"")
-    replaceparts = getData(base) # from base get parts
+        base = os.path.join(base, "")
+    replaceparts = getData(base)  # from base get parts
     # ensures that extension starts with point "."
-    if isinstance(ext,basestring) and not ext.startswith("."):
-        ext = "."+ext # correct extension
+    if isinstance(ext, basestring) and not ext.startswith("."):
+        ext = "." + ext  # correct extension
 
     status = []
     for file in filelist:
-        parts = getData(file) # file parts
+        parts = getData(file)  # file parts
         # replace drive
         if replaceparts[0]:
             parts[0] = replaceparts[0]
@@ -324,16 +343,16 @@ def convertAs(fns, base = None, folder = None, name=None, ext = None,
         if replaceparts[1]:
             if folder is True:
                 parts[1] = os.path.join(replaceparts[1],
-                                        os.path.split(os.path.split(parts[1])[0])[1],"")
-            elif isinstance(folder,basestring):
+                                        os.path.split(os.path.split(parts[1])[0])[1], "")
+            elif isinstance(folder, basestring):
                 parts[1] = os.path.join(replaceparts[1], folder, "")
             else:
                 parts[1] = replaceparts[1]
         # to replace basic name
-        if isinstance(name,basestring):
+        if isinstance(name, basestring):
             parts[2] = name.format(name=parts[2])
-        if isinstance(ext,basestring):
-            parts[3] = ext # replace extension
+        if isinstance(ext, basestring):
+            parts[3] = ext  # replace extension
         newfile = "".join(parts)
         if not overwrite:
             newfile = increment_if_exits(newfile)
@@ -343,27 +362,28 @@ def convertAs(fns, base = None, folder = None, name=None, ext = None,
 
             # image not loaded
             if im is None:
-                status.append((file,1,newfile))
+                status.append((file, 1, newfile))
                 continue
 
             # image successfully saved
             if simulate:
-                status.append((file,0,newfile))
+                status.append((file, 0, newfile))
                 continue
             else:
                 mkPath("".join(parts[:2]))
-                if cv2.imwrite(newfile,im):
-                    status.append((file,0,newfile))
+                if cv2.imwrite(newfile, im):
+                    status.append((file, 0, newfile))
                     continue
 
             # image not saved
-            status.append((file,2,newfile))
+            status.append((file, 2, newfile))
         except:
             # an error in the process
-            status.append((file,3,newfile))
+            status.append((file, 3, newfile))
     return status
 
-def checkLoaded(obj, fn="", raiseError = False):
+
+def checkLoaded(obj, fn="", raiseError=False):
     """
     Simple function to determine if variable is valid.
 
@@ -376,7 +396,9 @@ def checkLoaded(obj, fn="", raiseError = False):
         print(fn, " Loaded...")
     else:
         print(fn, " Could not be loaded...")
-        if raiseError: raise
+        if raiseError:
+            raise
+
 
 def loadcv(path, flags=-1, shape=None):
     """
@@ -399,8 +421,9 @@ def loadcv(path, flags=-1, shape=None):
     """
     im = cv2.imread(path, flags)
     if shape:
-        im = cv2.resize(im,shape)
+        im = cv2.resize(im, shape)
     return im
+
 
 def loadsfrom(path, flags=cv2.IMREAD_COLOR):
     """
@@ -420,16 +443,18 @@ def loadsfrom(path, flags=cv2.IMREAD_COLOR):
                 +-------+------------------------------+--------+
     :return:
     """
-    if isinstance(path,basestring):
-        if path.endswith(".npy"):# reads numpy arrays
+    if isinstance(path, basestring):
+        if path.endswith(".npy"):  # reads numpy arrays
             return np.lib.load(path, None)
-        resp = getFileHandle(path) # download the image
+        resp = getFileHandle(path)  # download the image
     else:
-        resp = path # assume path is a file-like object ie. cStringIO or file
-    #nparr = np.asarray(bytearray(resp.read()), dtype=dtype) # convert it to a NumPy array
+        resp = path  # assume path is a file-like object ie. cStringIO or file
+    # nparr = np.asarray(bytearray(resp.read()), dtype=dtype) # convert it to
+    # a NumPy array
     nparr = np.fromstring(resp.read(), dtype=np.uint8)
-    image = cv2.imdecode(nparr, flags=flags) # decode using OpenCV format
+    image = cv2.imdecode(nparr, flags=flags)  # decode using OpenCV format
     return image
+
 
 def interpretImage(toparse, flags):
     """
@@ -458,21 +483,22 @@ def interpretImage(toparse, flags):
     :return: image or None if not successfull
     """
     # test it is from server
-    if string_is_socket_address(toparse): #process request to server
-        toparse = parseString(toparse,5)
+    if string_is_socket_address(toparse):  # process request to server
+        toparse = parseString(toparse, 5)
     # test is object itself
-    if type(toparse).__module__ == np.__name__: # test numpy array
+    if type(toparse).__module__ == np.__name__:  # test numpy array
         if flags == 1:
-            return im2shapeFormat(toparse,(0,0,3))
+            return im2shapeFormat(toparse, (0, 0, 3))
         if flags == 0:
-            return im2shapeFormat(toparse,(0,0))
+            return im2shapeFormat(toparse, (0, 0))
         return toparse
     # test image in string
     try:
-        return cv2.imdecode(toparse,flags)
+        return cv2.imdecode(toparse, flags)
     except TypeError:
         # test path to file or URL
-        return loadsfrom(toparse,flags)
+        return loadsfrom(toparse, flags)
+
 
 class ImFactory(object):
     """
@@ -482,7 +508,8 @@ class ImFactory(object):
 
     .. warning:: In development.
     """
-    _interpolations = {"nearest": 0, "bilinear":1, "bicubic":2, "area":3, "lanczos":4}
+    _interpolations = {"nearest": 0, "bilinear": 1,
+                       "bicubic": 2, "area": 3, "lanczos": 4}
     _convertions = {}
 
     def __init__(self, **kwargs):
@@ -503,9 +530,9 @@ class ImFactory(object):
         after the image is loaded in a numpy array the image would have shape
         (n,m) = (rows,cols) = (H,W) = im.shape
         """
-        self.path = None # path to use to load image
-        self.mmap_mode = None # mapping file modes
-        self.mmap_path = None # path to create numpy file; None, do not create mapping file
+        self.path = None  # path to use to load image
+        self.mmap_mode = None  # mapping file modes
+        self.mmap_path = None  # path to create numpy file; None, do not create mapping file
         self.w = None
         self.h = None
         self.fx = None
@@ -514,12 +541,12 @@ class ImFactory(object):
         self.interpolation = None
         self.throw = True
         self.update(**kwargs)
-        #TODO not finished
+        # TODO not finished
 
     def update(self, **kwargs):
-        for key,value in kwargs.items():
-            if hasattr(self,key):
-                setattr(self,key,value)
+        for key, value in kwargs.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
             else:
                 raise Exception("Not attribute '{}'".format(key))
 
@@ -540,66 +567,77 @@ class ImFactory(object):
             if throw and im is None:
                 if checkFile(path):
                     if getData(path)[-1] in supported_formats:
-                        raise Exception("Not enough permissions to load '{}'".format(path))
+                        raise Exception(
+                            "Not enough permissions to load '{}'".format(path))
                     else:
-                        raise Exception("Failed to load '{}'. Format not supported".format(path))
+                        raise Exception(
+                            "Failed to load '{}'. Format not supported".format(path))
                 else:
                     raise Exception("Missing file '{}'".format(path))
-        return {None:errorFunc}
+        return {None: errorFunc}
 
     def get_loadFunc(self, flag=None):
         def loadFunc(path):
             return cv2.imread(path, flag)
-        return {"im":loadFunc}
+        return {"im": loadFunc}
 
-    def get_resizeFunc(self, dsize= None, dst=None, fx=None, fy=None, interpolation=None):
-        # see http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#resize
-        fx, fy, interpolation= fx or 0, fy or 0, interpolation or 0
+    def get_resizeFunc(self, dsize=None, dst=None, fx=None, fy=None, interpolation=None):
+        # see
+        # http://docs.opencv.org/2.4/modules/imgproc/doc/geometric_transformations.html#resize
+        fx, fy, interpolation = fx or 0, fy or 0, interpolation or 0
+
         def resizeFunc(im):
             return cv2.resize(im, dsize, dst, fx, fy, interpolation)
-        return {"im":resizeFunc}
+        return {"im": resizeFunc}
 
-    def get_mapFunc(self, flag = None, RGB = None, mpath=None,mode=None,
-                    func=None,dsize= None, dst=None, fx=None, fy=None,
+    def get_mapFunc(self, flag=None, RGB=None, mpath=None, mode=None,
+                    func=None, dsize=None, dst=None, fx=None, fy=None,
                     interpolation=None):
         def mapFunc(path):
-            if mpath == "*": # save mmap in working directory
-                drive,dirname,(filename,ext) = "","",getData(path)[-2:]
-            elif mpath:# save mmap in mpath
-                drive,dirname,filename,ext = getData(changedir(path,mpath))
-            else: # save mmap in image path
-                drive,dirname,filename,ext = getData(path)
+            if mpath == "*":  # save mmap in working directory
+                drive, dirname, (filename, ext) = "", "", getData(path)[-2:]
+            elif mpath:  # save mmap in mpath
+                drive, dirname, filename, ext = getData(changedir(path, mpath))
+            else:  # save mmap in image path
+                drive, dirname, filename, ext = getData(path)
             # THIS CREATES ONE HASHED FILE
-            hashed = hash("{}{}{}{}{}{}".format(flag,RGB,dsize,fx,fy,interpolation))
-            savepath = "{}{}{}{}.{}.npy".format(drive,dirname,filename,ext,hashed)
-            try: # load from map
-                return np.lib.load(savepath,mode) # mapper(savepath,None,mode,True)[0]#
-            except IOError: # create object and map
+            hashed = hash("{}{}{}{}{}{}".format(
+                flag, RGB, dsize, fx, fy, interpolation))
+            savepath = "{}{}{}{}.{}.npy".format(
+                drive, dirname, filename, ext, hashed)
+            try:  # load from map
+                # mapper(savepath,None,mode,True)[0]#
+                return np.lib.load(savepath, mode)
+            except IOError:  # create object and map
                 im = func(path)
-                if im is None: # this is regardless of throw flag
+                if im is None:  # this is regardless of throw flag
                     raise Exception("Failed to load image to map")
-                np.save(savepath,im)
-                return np.lib.load(savepath,mode) # mapper(savepath,im,mode,True)[0]#
-        return {"im":mapFunc}
+                np.save(savepath, im)
+                # mapper(savepath,im,mode,True)[0]#
+                return np.lib.load(savepath, mode)
+        return {"im": mapFunc}
 
     def get_transposeFunc(self):
         def transposeFunc(im):
             if len(im.shape) == 2:
-                return im.transpose(1,0)
+                return im.transpose(1, 0)
             else:
-                return im.transpose(1,0,2) # np.ascontiguousarray? http://stackoverflow.com/a/27601130/5288758
-        return {"im":transposeFunc}
+                # np.ascontiguousarray?
+                # http://stackoverflow.com/a/27601130/5288758
+                return im.transpose(1, 0, 2)
+        return {"im": transposeFunc}
 
     def get_convertionFunc(self, code):
         def convertionFunc(im):
-            return cv2.cvtColor(im,code)
-        return {"im":convertionFunc}
+            return cv2.cvtColor(im, code)
+        return {"im": convertionFunc}
 
     def get_np2qi(self):
-        return {"im":np2qi}
+        return {"im": np2qi}
 
-def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=None,
-             mmode = None, mpath = None, throw = True, keepratio = True):
+
+def loadFunc(flag=0, dsize=None, dst=None, fx=None, fy=None, interpolation=None,
+             mmode=None, mpath=None, throw=True, keepratio=True):
     """
     Creates a function that loads image array from path, url,
     server, string or directly from numpy array (supports databases).
@@ -677,38 +715,41 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
     :return loader function
     """
     # create factory functions
-    def errorFunc(im,path):
+    def errorFunc(im, path):
         if im is None:
             if checkFile(path):
                 if getData(path)[-1][1:] in supported_formats:
-                    raise Exception("Not enough permissions to load '{}'".format(path))
+                    raise Exception(
+                        "Not enough permissions to load '{}'".format(path))
                 else:
-                    raise Exception("Failed to load '{}'. Format not supported".format(path))
+                    raise Exception(
+                        "Failed to load '{}'. Format not supported".format(path))
             else:
                 raise Exception("Missing file '{}'".format(path))
 
     RGB = False
-    if abs(flag)==2: # determine if needs to do conversion from BGR to RGB
-        flag = flag//2 # get normal flag
+    if abs(flag) == 2:  # determine if needs to do conversion from BGR to RGB
+        flag = flag // 2  # get normal flag
         RGB = True
 
     def loadfunc(path):
-        im = interpretImage(path, flag) # load func
-        if throw: errorFunc(im,path) # if not loaded throw error
-        if flag<0 and im.shape[2]!=4:
+        im = interpretImage(path, flag)  # load func
+        if throw:
+            errorFunc(im, path)  # if not loaded throw error
+        if flag < 0 and im.shape[2] != 4:
             if RGB:
-                return cv2.cvtColor(im,cv2.COLOR_BGR2RGBA)
-            return cv2.cvtColor(im,cv2.COLOR_BGR2BGRA)
+                return cv2.cvtColor(im, cv2.COLOR_BGR2RGBA)
+            return cv2.cvtColor(im, cv2.COLOR_BGR2BGRA)
         if RGB:
             if flag < 0:
-                return cv2.cvtColor(im,cv2.COLOR_BGRA2RGBA)
+                return cv2.cvtColor(im, cv2.COLOR_BGRA2RGBA)
             else:
-                return cv2.cvtColor(im,cv2.COLOR_BGR2RGB)
+                return cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
         return im
 
     if dsize or dst or fx or fy:
         if fx is None and fy is None:
-            fx=fy=1.0
+            fx = fy = 1.0
         elif keepratio:
             if fx is not None and fy is None:
                 fy = fx
@@ -719,9 +760,9 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 fy = 1
             elif fy is not None and fx is None:
                 fx = 1
-        interpolation= interpolation or 0
+        interpolation = interpolation or 0
         if keepratio:
-            def calc_dsize(shape,dsize=None):
+            def calc_dsize(shape, dsize=None):
                 """
                 calculates dsize to keep the image's ratio.
 
@@ -729,17 +770,17 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 :param dsize: dsize tuple with a None value
                 :return: calculated dsize
                 """
-                x,y = dsize
-                sy,sx = shape[:2]
+                x, y = dsize
+                sy, sx = shape[:2]
                 if x is not None and y is None:
-                    dsize = x,int(sy*(x*1.0/sx))
+                    dsize = x, int(sy * (x * 1.0 / sx))
                 elif y is not None and x is None:
-                    dsize = int(sx*(y*1.0/sy)),y
+                    dsize = int(sx * (y * 1.0 / sy)), y
                 else:
-                    dsize = sx,sy
+                    dsize = sx, sy
                 return dsize
         else:
-            def calc_dsize(shape,dsize=None):
+            def calc_dsize(shape, dsize=None):
                 """
                 calculates dsize without keeping the image's ratio.
 
@@ -749,7 +790,7 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                 """
                 dsize = list(dsize)
                 ndsize = shape[:2][::-1]
-                for i,val in enumerate(dsize):
+                for i, val in enumerate(dsize):
                     if val is None:
                         dsize[i] = ndsize[i]
                 dsize = tuple(dsize)
@@ -757,23 +798,23 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
         if dsize is not None and None in dsize:
             def resizefunc(path):
                 img = loadfunc(path)
-                return cv2.resize(img,calc_dsize(img.shape,dsize),dst, fx, fy, interpolation)
+                return cv2.resize(img, calc_dsize(img.shape, dsize), dst, fx, fy, interpolation)
         else:
             def resizefunc(path):
-                return cv2.resize(loadfunc(path),dsize, dst, fx, fy, interpolation)
+                return cv2.resize(loadfunc(path), dsize, dst, fx, fy, interpolation)
         func = resizefunc
     else:
         func = loadfunc
 
-    if mmode or mpath is not None: # if there is a mmode, or mpath is string
+    if mmode or mpath is not None:  # if there is a mmode, or mpath is string
 
         def mapfunc(path):
-            if mpath == "*": # save mmap in working directory
-                drive,dirname,(filename,ext) = "","",getData(path)[-2:]
-            elif mpath:# save mmap in mpath
-                drive,dirname,filename,ext = getData(changedir(path,mpath))
-            else: # save mmap in image path
-                drive,dirname,filename,ext = getData(path)
+            if mpath == "*":  # save mmap in working directory
+                drive, dirname, (filename, ext) = "", "", getData(path)[-2:]
+            elif mpath:  # save mmap in mpath
+                drive, dirname, filename, ext = getData(changedir(path, mpath))
+            else:  # save mmap in image path
+                drive, dirname, filename, ext = getData(path)
             """
             # THIS CREATES A FOLDER TO MEMOIZE
             def dummy(path,flag=0,dsize=0,fx=0,fy=0,interpolation=0):
@@ -810,24 +851,30 @@ def loadFunc(flag = 0, dsize= None, dst=None, fx=None, fy=None, interpolation=No
                     raise Exception("Failed to load image to map")
                 return mapper(savepath,im,mmode)[0]"""
             # THIS CREATES ONE HASHED FILE
-            hashed = hash("{}{}{}{}{}{}".format(flag,RGB,dsize,fx,fy,interpolation))
-            savepath = "{}{}{}{}.{}.npy".format(drive,dirname,filename,ext,hashed)
-            try: # load from map
-                return np.lib.load(savepath, mmode) # mapper(savepath,None,mmode,True)[0]#
-            except IOError: # create object and map
+            hashed = hash("{}{}{}{}{}{}".format(
+                flag, RGB, dsize, fx, fy, interpolation))
+            savepath = "{}{}{}{}.{}.npy".format(
+                drive, dirname, filename, ext, hashed)
+            try:  # load from map
+                # mapper(savepath,None,mmode,True)[0]#
+                return np.lib.load(savepath, mmode)
+            except IOError:  # create object and map
                 im = func(path)
-                if im is None: # this is regardless of throw flag
+                if im is None:  # this is regardless of throw flag
                     raise Exception("Failed to load image to map")
-                np.save(savepath,im)
-                return np.lib.load(savepath, mmode) # mapper(savepath,im,mmode,True)[0]#
-        func = mapfunc # factory function
+                np.save(savepath, im)
+                # mapper(savepath,im,mmode,True)[0]#
+                return np.lib.load(savepath, mmode)
+        func = mapfunc  # factory function
+
     def loader(path):
         try:
             return func(path)
         except Exception as e:
             if throw:
                 raise
-    return loader # factory function
+    return loader  # factory function
+
 
 class ImLoader(object):
     """
@@ -903,8 +950,9 @@ class ImLoader(object):
              It is useful to create physical copy of data to keep loading from (data can be reloaded
              even if original file is moved or deleted).
     """
-    def __init__(self,path, flag = 0, dsize= None, dst=None, fx=None, fy=None,
-                 interpolation=None, mmode = None, mpath = None, throw = True):
+
+    def __init__(self, path, flag=0, dsize=None, dst=None, fx=None, fy=None,
+                 interpolation=None, mmode=None, mpath=None, throw=True):
 
         self.path = path
         self._flag = flag
@@ -916,14 +964,16 @@ class ImLoader(object):
         self._mmode = mmode
         self._mpath = mpath
         self._throw = throw
-        self.load = loadFunc(flag, dsize, dst, fx, fy, interpolation, mmode, mpath, throw)
+        self.load = loadFunc(flag, dsize, dst, fx, fy,
+                             interpolation, mmode, mpath, throw)
 
     #i = loadFunc.__doc__.find(":param")
     #__init__.__doc__ = loadFunc.__doc__[:i] + __init__.__doc__ + loadFunc.__doc__[i:] # builds documentation dynamically
-    #del i # job done, delete
+    # del i # job done, delete
     def __call__(self):
         return self.load(self.path)
-    def getConfiguration(self,**kwargs):
+
+    def getConfiguration(self, **kwargs):
         """
         Get Custom configuration from default configuration.
 
@@ -931,21 +981,25 @@ class ImLoader(object):
                     If no key is provided default configuration is returned.
         :return: dictionary of configuration
         """
-        temp = {"flag":self._flag,"dsize":self._dsize,"dst":self._dst,"fx":self._fx,"fy":self._fy,
-                "interpolation":self._interpolation,"mmode":self._mmode,"mpath":self._mpath,"throw":self._throw}
-        if kwargs: temp.update(kwargs)
+        temp = {"flag": self._flag, "dsize": self._dsize, "dst": self._dst, "fx": self._fx, "fy": self._fy,
+                "interpolation": self._interpolation, "mmode": self._mmode, "mpath": self._mpath, "throw": self._throw}
+        if kwargs:
+            temp.update(kwargs)
         return temp
-    def temp(self,**kwargs):
+
+    def temp(self, **kwargs):
         """
         loads from temporal loader created with customized and default parameters.
 
         :param kwargs: keys to customize default configuration.
         :return: loaded image.
         """
-        if len(kwargs)==1 and "path" in kwargs:
+        if len(kwargs) == 1 and "path" in kwargs:
             return self.load(kwargs["path"])
-        path = kwargs.get("path",self.path) # get path
-        return loadFunc(**self.getConfiguration(**kwargs))(path) # build a new loader and load path
+        path = kwargs.get("path", self.path)  # get path
+        # build a new loader and load path
+        return loadFunc(**self.getConfiguration(**kwargs))(path)
+
 
 class PathLoader(MutableSequence):
     """
@@ -963,7 +1017,8 @@ class PathLoader(MutableSequence):
         print imgs[0] # loads image in path 0
         print imgs[1] # loads image in path 1
     """
-    def __init__(self, fns = None, loader = None):
+
+    def __init__(self, fns=None, loader=None):
         # create factory functions
         self._fns = fns or []
         self._loader = loader or loadFunc()
@@ -987,7 +1042,8 @@ class PathLoader(MutableSequence):
         return len(self._fns)
 
     def insert(self, index, value):
-        self._fns.insert(index,value)
+        self._fns.insert(index, value)
+
 
 class LoaderDict(ResourceManager):
     """
@@ -1004,15 +1060,16 @@ class LoaderDict(ResourceManager):
                     if False used memory is only from keptAlive references.
     :param config: (Not Implemented)
     """
-    def __init__(self, loader = None, maxMemory = None, margin = 0.8,
-                 unit = "MB", all = True, config = None):
+
+    def __init__(self, loader=None, maxMemory=None, margin=0.8,
+                 unit="MB", all=True, config=None):
         super(LoaderDict, self).__init__(maxMemory, margin, unit, all)
         # create factory functions
         #if config is None: from config import MANAGER as config
         #self._config = config
         self._default_loader = loader or loadFunc()
 
-    def register(self, key, path = None, method=None):
+    def register(self, key, path=None, method=None):
         if method is not None:
             def func(): return method(func.path)
         else:
@@ -1020,7 +1077,8 @@ class LoaderDict(ResourceManager):
         func.path = path
         super(LoaderDict, self).register(key=key, method=func)
 
-def try_loads(fns, func = cv2.imread, paths = None, debug = False, addpath=False):
+
+def try_loads(fns, func=cv2.imread, paths=None, debug=False, addpath=False):
     """
     Try to load images from paths.
 
@@ -1034,28 +1092,31 @@ def try_loads(fns, func = cv2.imread, paths = None, debug = False, addpath=False
     default = ("", str(MANAGER["TESTPATH"]))
     if paths is None:
         paths = []
-    if isinstance(paths,basestring):
+    if isinstance(paths, basestring):
         paths = [paths]
     paths = list(paths)
     for i in default:
-        if i not in paths: paths.append(i)
+        if i not in paths:
+            paths.append(i)
 
     for fn in fns:
         for path in paths:
             try:
-                if path[-1] not in ("/","\\"): # ensures path
+                if path[-1] not in ("/", "\\"):  # ensures path
                     path += "/"
             except:
                 pass
             path += fn
-            im = func(path) # foreground
+            im = func(path)  # foreground
             if im is not None:
-                if debug: print(path, " Loaded...")
+                if debug:
+                    print(path, " Loaded...")
                 if addpath:
-                    return im,path
+                    return im, path
                 return im
 
-def hist_match(source, template, alpha = None):
+
+def hist_match(source, template, alpha=None):
     """
     Adjust the pixel values of an image to match those of a template image.
 
@@ -1069,10 +1130,10 @@ def hist_match(source, template, alpha = None):
     # http://fourier.eng.hmc.edu/e161/lectures/contrast_transform/node3.html
     # based on implementation http://stackoverflow.com/a/33047048/5288758
     # see http://www.mathworks.com/help/images/ref/imhistmatch.html
-    if len(source.shape)>2:
+    if len(source.shape) > 2:
         matched = np.zeros_like(source)
         for i in range(3):
-            matched[:,:,i] = hist_match(source[:,:,i], template[:,:,i])
+            matched[:, :, i] = hist_match(source[:, :, i], template[:, :, i])
         return matched
     else:
         oldshape = source.shape
@@ -1097,11 +1158,12 @@ def hist_match(source, template, alpha = None):
         # that correspond most closely to the quantiles in the source image
         interp_t_values = np.interp(s_quantiles, t_quantiles, t_values)
 
-        return interp_t_values[bin_idx].reshape(oldshape) # reconstruct image
+        return interp_t_values[bin_idx].reshape(oldshape)  # reconstruct image
 
-############################# GETCOORS ############################################
+############################# GETCOORS ###################################
 # http://docs.opencv.org/master/db/d5b/tutorial_py_mouse_handling.html
 # http://docs.opencv.org/modules/highgui/doc/qt_new_functions.html
+
 
 class ImCoors(object):
     """
@@ -1117,6 +1179,7 @@ class ImCoors(object):
         print a.__dict__
         print "mean and all its dependencies are processed again: ", a.mean
     """
+
     def __init__(self, pts, dtype=FLOAT, deg=False):
         """
         Initiliazes ImCoors.
@@ -1124,32 +1187,40 @@ class ImCoors(object):
         :param pts: list of points
         :param dtype: return data as dtype. Default is config.FLOAT
         """
-        self._pts = pts # supports bigger numbers
+        self._pts = pts  # supports bigger numbers
         self._dtype = dtype
         self._deg = deg
+
     @property
     def pts(self):
         return self._pts
+
     @pts.setter
     def pts(self, value):
-        getattr(self,"__dict__").clear()
+        getattr(self, "__dict__").clear()
         self._pts = value
+
     @pts.deleter
     def pts(self):
         raise Exception("Cannot delete attribute")
+
     @property
     def dtype(self):
         return self._dtype
+
     @dtype.setter
-    def dtype(self,value):
-        getattr(self,"__dict__").clear()
+    def dtype(self, value):
+        getattr(self, "__dict__").clear()
         self._dtype = value
+
     @dtype.deleter
     def dtype(self):
         raise Exception("Cannot delete attribute")
     # DATA METHODS
+
     def __len__(self):
         return len(self._pts)
+
     @Cache
     def max(self):
         """
@@ -1159,6 +1230,7 @@ class ImCoors(object):
         """
         #self.max_x, self.max_y = np.max(self.data,0)
         return tuple(np.max(self._pts, 0))
+
     @Cache
     def min(self):
         """
@@ -1168,6 +1240,7 @@ class ImCoors(object):
         """
         #self.min_x, self.min_y = np.min(self.data,0)
         return tuple(np.min(self._pts, 0))
+
     @Cache
     def rectbox(self):
         """
@@ -1175,7 +1248,8 @@ class ImCoors(object):
 
         :return: (x0,y0),(x,y)
         """
-        return (self.min,self.max)
+        return (self.min, self.max)
+
     @Cache
     def boundingRect(self):
         """
@@ -1191,9 +1265,11 @@ class ImCoors(object):
         :return: x0,y0,w,h
         """
         return cv2.boundingRect(self._pts)
+
     @Cache
     def minAreaRect(self):
         return cv2.minAreaRect(self._pts)
+
     @Cache
     def rotatedBox(self):
         """
@@ -1201,10 +1277,11 @@ class ImCoors(object):
 
         :return: 4 points.
         """
-        try: # opencv 2
+        try:  # opencv 2
             return self._dtype(cv2.cv.BoxPoints(self.minAreaRect))
-        except AttributeError: # opencv 3
+        except AttributeError:  # opencv 3
             return self._dtype(cv2.boxPoints(self.minAreaRect))
+
     @Cache
     def boxCenter(self):
         """
@@ -1214,9 +1291,10 @@ class ImCoors(object):
         """
         #self.mean_x = (self.max_x+self.min_x)/2
         #self.mean_y = (self.max_y+self.min_y)/2
-        xX,xY = self.max
-        nX,nY = self.min
+        xX, xY = self.max
+        nX, nY = self.min
         return tuple(self._dtype((xX + nX, xY + nY)) / 2)
+
     @Cache
     def mean(self):
         """
@@ -1226,10 +1304,11 @@ class ImCoors(object):
         # http://hyperphysics.phy-astr.gsu.edu/hbase/cm.html
         # https://www.grc.nasa.gov/www/K-12/airplane/cg.html
         #self.center_x, self.center_y = np.sum(self.data,axis=0)/len(self.data)
-        #map(int,np.mean(self.data,0))
-        #tuple(np.sum(self.data,axis=0)/len(self.data))
-        return tuple(np.mean(self._pts, 0, dtype = self._dtype))
+        # map(int,np.mean(self.data,0))
+        # tuple(np.sum(self.data,axis=0)/len(self.data))
+        return tuple(np.mean(self._pts, 0, dtype=self._dtype))
     center = mean
+
     @Cache
     def area(self):
         """
@@ -1238,6 +1317,7 @@ class ImCoors(object):
         :return: area number
         """
         return polygonArea(self._pts)
+
     @Cache
     def rectangularArea(self):
         """
@@ -1245,9 +1325,10 @@ class ImCoors(object):
 
         :return: area number
         """
-        #method 1, it is not precise in rotation
-        (x0,y0),(x,y) = self.rectbox
-        return self.dtype(np.abs((x-x0)*(y-y0)))
+        # method 1, it is not precise in rotation
+        (x0, y0), (x, y) = self.rectbox
+        return self.dtype(np.abs((x - x0) * (y - y0)))
+
     @Cache
     def rotatedRectangularArea(self):
         """
@@ -1256,6 +1337,7 @@ class ImCoors(object):
         :return: area number
         """
         return polygonArea(self.rotatedBox)
+
     @Cache
     def rectangularity(self):
         """
@@ -1263,12 +1345,13 @@ class ImCoors(object):
 
         :return: ratio from 1 to 0, 1 representing a perfect rectangle.
         """
-        #method 1
+        # method 1
         #cx,cy = self.center
-        #bcx,bcy=self.boxCenter
-        #return (cx)/bcx,(cy)/bcy # x_ratio, y_ratio
-        #method 2
-        return self.dtype(self.area/self.rectangularArea)
+        # bcx,bcy=self.boxCenter
+        # return (cx)/bcx,(cy)/bcy # x_ratio, y_ratio
+        # method 2
+        return self.dtype(self.area / self.rectangularArea)
+
     @Cache
     def rotatedRectangularity(self):
         """
@@ -1278,10 +1361,11 @@ class ImCoors(object):
         """
         # prevent unstable values
         if self.area < 1:
-            area = 0 # needed to prevent false values
+            area = 0  # needed to prevent false values
         else:
             area = self.area
-        return self.dtype(area/self.rotatedRectangularArea)
+        return self.dtype(area / self.rotatedRectangularArea)
+
     @Cache
     def regularity(self):
         """
@@ -1292,9 +1376,11 @@ class ImCoors(object):
         :return:
         """
         # TODO this algorithm is still imperfect
-        pi = angle((1,0),(0,1),deg=self._deg) # get pi value in radian or degrees
+        # get pi value in radian or degrees
+        pi = angle((1, 0), (0, 1), deg=self._deg)
         av = self.vertexesAngles
-        return pi*(len(av))/np.sum(av) # pi*number_agles/sum_angles
+        return pi * (len(av)) / np.sum(av)  # pi*number_agles/sum_angles
+
     @Cache
     def relativeVectors(self):
         """
@@ -1303,8 +1389,10 @@ class ImCoors(object):
         :return: array of vectors [V0, ... , (V[n] = x[n+1]-x[n],y[n+1]-y[n])].
         """
         pts = np.array(self._pts)
-        pts = np.append(pts,[pts[0]],axis=0) # adds last vector from last and first point.
+        # adds last vector from last and first point.
+        pts = np.append(pts, [pts[0]], axis=0)
         return np.stack([np.diff(pts[:, 0]), np.diff(pts[:, 1])], 1)
+
     @Cache
     def vertexesAngles(self):
         """
@@ -1315,10 +1403,12 @@ class ImCoors(object):
 
         :return: angles.
         """
-        vs = self.relativeVectors # get all vectors from points.
-        vs = np.roll(np.append(vs,[vs[-1]],axis=0),2) # add last vector to first position
-        return np.array([angle(vs[i-1],vs[i],deg=self._deg)
-                         for i in range(1,len(vs))],self._dtype) # caculate angles
+        vs = self.relativeVectors  # get all vectors from points.
+        # add last vector to first position
+        vs = np.roll(np.append(vs, [vs[-1]], axis=0), 2)
+        return np.array([angle(vs[i - 1], vs[i], deg=self._deg)
+                         for i in range(1, len(vs))], self._dtype)  # caculate angles
+
     @Cache
     def pointsAngles(self):
         """
@@ -1328,8 +1418,9 @@ class ImCoors(object):
 
         :return: angles.
         """
-        vs = self.relativeVectors # get all vectors from points.
+        vs = self.relativeVectors  # get all vectors from points.
         return vectorsAngles(pts=vs, dtype=self._dtype, deg=self._deg)
+
     @Cache
     def vectorsAngles(self):
         """
@@ -1338,9 +1429,10 @@ class ImCoors(object):
         i.e. angle between vector "v0" (formed by point "p0" and the origin) and vector unity in axis x.
         :return: angles.
         """
-        return np.array([angle((1,0),i,deg=self._deg) for i in self._pts],self._dtype) # caculate angles with respect to x axis
+        return np.array([angle((1, 0), i, deg=self._deg) for i in self._pts], self._dtype)  # caculate angles with respect to x axis
 
-def drawcoorpoints(vis,points,col_out=black,col_in=red,radius=2):
+
+def drawcoorpoints(vis, points, col_out=black, col_in=red, radius=2):
     """
     Funtion to draw points.
 
@@ -1351,12 +1443,13 @@ def drawcoorpoints(vis,points,col_out=black,col_in=red,radius=2):
     :param radius: radius of drawn points.
     :return:
     """
-    points = np.array(points,INT)
-    radius_in = radius-1
-    for x,y in points:
-        cv2.circle(vis, (x,y), radius, col_out, -1)
-        cv2.circle(vis, (x,y), radius_in, col_in, -1)
+    points = np.array(points, INT)
+    radius_in = radius - 1
+    for x, y in points:
+        cv2.circle(vis, (x, y), radius, col_out, -1)
+        cv2.circle(vis, (x, y), radius_in, col_in, -1)
     return vis
+
 
 def myline(img, pt1, pt2, color, thickness=None):
     """
@@ -1370,17 +1463,18 @@ def myline(img, pt1, pt2, color, thickness=None):
     :return:
     """
     # y=m*x+b
-    x1,y1=np.array(pt1,dtype=FLOAT)
-    x2,y2=np.array(pt2,dtype=FLOAT)
-    m = (y2-y1)/(x2-x1)
-    xmin,xmax = np.sort([x1,x2])
-    xvect = np.arange(xmin,xmax+1).astype('int')
-    yvect = np.array(xvect*m+int(y1-x1*m),dtype=np.int)
-    for i in zip(yvect,xvect):
-        #img.itemset(i,color)
-        img[i]=color
+    x1, y1 = np.array(pt1, dtype=FLOAT)
+    x2, y2 = np.array(pt2, dtype=FLOAT)
+    m = (y2 - y1) / (x2 - x1)
+    xmin, xmax = np.sort([x1, x2])
+    xvect = np.arange(xmin, xmax + 1).astype('int')
+    yvect = np.array(xvect * m + int(y1 - x1 * m), dtype=np.int)
+    for i in zip(yvect, xvect):
+        # img.itemset(i,color)
+        img[i] = color
 
-def drawcooraxes(vis,points,col_out=black,col_in=green,radius=2):
+
+def drawcooraxes(vis, points, col_out=black, col_in=green, radius=2):
     """
     Function to draw axes instead of points.
 
@@ -1391,20 +1485,21 @@ def drawcooraxes(vis,points,col_out=black,col_in=green,radius=2):
     :param radius: radius of drawn points.
     :return:
     """
-    points = np.array(points,INT)
-    thickness = radius-1
+    points = np.array(points, INT)
+    thickness = radius - 1
     h1, w1 = vis.shape[:2]  # obtaining image dimensions
     for i in points:
-        h1pt1 = (0,i[1])
-        h1pt2 = (w1,i[1])
-        w2pt1 = (i[0],0)
-        w2pt2 = (i[0],h1)
+        h1pt1 = (0, i[1])
+        h1pt2 = (w1, i[1])
+        w2pt1 = (i[0], 0)
+        w2pt2 = (i[0], h1)
         cv2.line(vis, h1pt1, h1pt2, col_in, thickness)
         cv2.line(vis, w2pt1, w2pt2, col_in, thickness)
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     return vis
 
-def drawcoorpolyline(vis,points,col_out=black,col_in=red,radius=2):
+
+def drawcoorpolyline(vis, points, col_out=black, col_in=red, radius=2):
     """
     Function to draw interaction with points to obtain polygonal.
 
@@ -1416,20 +1511,21 @@ def drawcoorpolyline(vis,points,col_out=black,col_in=red,radius=2):
     :return:
     """
 
-    thickness = radius-1
-    if len(points)>1:
-        points = np.array(points,INT)
-        cv2.polylines(vis,[points],False, col_in, thickness)
+    thickness = radius - 1
+    if len(points) > 1:
+        points = np.array(points, INT)
+        cv2.polylines(vis, [points], False, col_in, thickness)
         """
         for i in range(len(points)-1):
             pt1 = (points[i][0], points[i][1])
             pt2 = (points[i+1][0], points[i+1][1])
             cv2.line(vis, pt1, pt2, col_in, thickness)"""
     else:
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     return vis
 
-def drawcoorarea(vis,points,col_out=black,col_in=red,radius=2):
+
+def drawcoorarea(vis, points, col_out=black, col_in=red, radius=2):
     """
     Function to draw interaction with points to obtain area.
 
@@ -1442,14 +1538,16 @@ def drawcoorarea(vis,points,col_out=black,col_in=red,radius=2):
     """
     if len(points) > 2:
         mask = np.zeros(vis.shape[:2])
-        cv2.drawContours(mask,[np.array(points,np.int32)],0,1,-1)
-        vis = overlay(vis,np.array([(0,)*len(col_in),col_in])[mask.astype(int)],alpha=mask*0.5)
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        cv2.drawContours(mask, [np.array(points, np.int32)], 0, 1, -1)
+        vis = overlay(vis, np.array(
+            [(0,) * len(col_in), col_in])[mask.astype(int)], alpha=mask * 0.5)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     else:
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     return vis
 
-def drawcoorpolyArrow(vis,points,col_out=black,col_in=red,radius=2):
+
+def drawcoorpolyArrow(vis, points, col_out=black, col_in=red, radius=2):
     """
     Function to draw interaction with vectors to obtain polygonal.
 
@@ -1460,19 +1558,21 @@ def drawcoorpolyArrow(vis,points,col_out=black,col_in=red,radius=2):
     :param radius: radius of drawn points.
     :return:
     """
-    points = np.array(points,INT)
-    thickness = radius-1
-    if len(points)>1:
-        for i in range(len(points)-1):
+    points = np.array(points, INT)
+    thickness = radius - 1
+    if len(points) > 1:
+        for i in range(len(points) - 1):
             pt1 = (points[i][0], points[i][1])
-            pt2 = (points[i+1][0], points[i+1][1])
+            pt2 = (points[i + 1][0], points[i + 1][1])
             cv2.arrowedLine(vis, pt1, pt2, col_in, thickness)
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius) # draw points
+        vis = drawcoorpoints(vis, points, col_out, col_in,
+                             radius)  # draw points
     else:
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     return vis
 
-def drawcoorperspective(vis,points,col_out=black,col_in=red,radius=2):
+
+def drawcoorperspective(vis, points, col_out=black, col_in=red, radius=2):
     """
     Function to draw interaction with points to obtain perspective.
 
@@ -1483,29 +1583,31 @@ def drawcoorperspective(vis,points,col_out=black,col_in=red,radius=2):
     :param radius: radius of drawn points.
     :return:
     """
-    points = np.array(points,INT)
-    thickness = radius-1
-    if len(points)>1 and len(points)<5:
-        for i in range(len(points)-1):
-            if i%2:
-                for j in range(i+1,min(len(points),i+3)):
-                    if j%2:
-                        #print "i=",i," j=",j
+    points = np.array(points, INT)
+    thickness = radius - 1
+    if len(points) > 1 and len(points) < 5:
+        for i in range(len(points) - 1):
+            if i % 2:
+                for j in range(i + 1, min(len(points), i + 3)):
+                    if j % 2:
+                        # print "i=",i," j=",j
                         pt1 = (points[i][0], points[i][1])
                         pt2 = (points[j][0], points[j][1])
                         cv2.arrowedLine(vis, pt1, pt2, col_in, thickness)
             else:
-                for j in range(i+1,min(len(points),i+3)):
-                    #print "i=",i," j=",j
+                for j in range(i + 1, min(len(points), i + 3)):
+                    # print "i=",i," j=",j
                     pt1 = (points[i][0], points[i][1])
                     pt2 = (points[j][0], points[j][1])
                     cv2.arrowedLine(vis, pt1, pt2, col_in, thickness)
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius) # draw points
+        vis = drawcoorpoints(vis, points, col_out, col_in,
+                             radius)  # draw points
     else:
-        vis = drawcoorpoints(vis,points,col_out,col_in,radius)
+        vis = drawcoorpoints(vis, points, col_out, col_in, radius)
     return vis
 
-def limitaxispoints(c,maxc,minc=0):
+
+def limitaxispoints(c, maxc, minc=0):
     """
     Limit a point in axis.
 
@@ -1514,10 +1616,11 @@ def limitaxispoints(c,maxc,minc=0):
     :param minc: minimum value of point.
     :return: return limited points.
     """
-    x = np.zeros(len(c),dtype=np.int)
-    for i,j in enumerate(c):
-        x[i] = limitaxis(j,maxc,minc)
+    x = np.zeros(len(c), dtype=np.int)
+    for i, j in enumerate(c):
+        x[i] = limitaxis(j, maxc, minc)
     return tuple(x)
+
 
 class GetCoors(Plotim):
     """
@@ -1534,7 +1637,8 @@ class GetCoors(Plotim):
     :param col_out: outer color of point.
     :param col_in: inner color of point.
     """
-    def __init__(self, im, win = "get coordinates", updatefunc=drawcoorpoints,
+
+    def __init__(self, im, win="get coordinates", updatefunc=drawcoorpoints,
                  unique=True, col_out=black, col_in=red):
         # functions
         super(GetCoors, self).__init__(win, im)
@@ -1548,35 +1652,37 @@ class GetCoors(Plotim):
         self.col_out = col_out
         self.col_in = col_in
         # initialize control variables
-        self.interpolation=cv2.INTER_AREA
+        self.interpolation = cv2.INTER_AREA
         self._coors = []
-        self.rcoors = [] # rendered coordinates
+        self.rcoors = []  # rendered coordinates
         self.coorlen = 0
         self.showstats = False
-        self.mapdata2 = [None,None,None]
-        self.data2 = np.zeros((self.rH,self.rW,1),dtype=np.uint8)
+        self.mapdata2 = [None, None, None]
+        self.data2 = np.zeros((self.rH, self.rW, 1), dtype=np.uint8)
         self.drawcooraxes = drawcooraxes
         self.drawcoorperspective = drawcoorperspective
         self.drawcoorpolyline = drawcoorpolyline
         self.drawcoorpoints = drawcoorpoints
         self.controlText[0].extend([" No. coordinates: {self.coorlen}. "])
-        self.cmdeval.update({"points":"self.updatefunc = self.drawcoorpoints",
-                      "polyline":"self.updatefunc = self.drawcoorpolyline",
-                      "perspective":"self.updatefunc = self.drawcoorperspective",
-                      "axes":"self.updatefunc = self.drawcooraxes",
-                      "user":"self.updatefunc = self.userupdatefunc",
-                      "end":["self.updatecoors()","self.mousefunc()"]})
-        self.cmdlist.extend(["unique","showstats","user","points",
-                             "polyline","perspective","axes"])
-        #self.coors # return coordinates
+        self.cmdeval.update({"points": "self.updatefunc = self.drawcoorpoints",
+                             "polyline": "self.updatefunc = self.drawcoorpolyline",
+                             "perspective": "self.updatefunc = self.drawcoorperspective",
+                             "axes": "self.updatefunc = self.drawcooraxes",
+                             "user": "self.updatefunc = self.userupdatefunc",
+                             "end": ["self.updatecoors()", "self.mousefunc()"]})
+        self.cmdlist.extend(["unique", "showstats", "user", "points",
+                             "polyline", "perspective", "axes"])
+        # self.coors # return coordinates
 
     @property
     def coors(self):
         return self._coors
+
     @coors.setter
-    def coors(self,value):
+    def coors(self, value):
         self._coors = value
         self.updatecoors()
+
     @coors.deleter
     def coors(self):
         self._coors = []
@@ -1594,13 +1700,14 @@ class GetCoors(Plotim):
         """
         vis = self.rimg
         p = ImCoors(points)
-        self.data2 = np.zeros((vis.shape[0],vis.shape[1],1),dtype=np.uint8)
-        drawcooraxes(vis,[p.boxCenter],col_out,col_in,radius)
-        drawcooraxes(self.data2,[p.boxCenter],1,1,self.prox)
-        drawcooraxes(vis,[p.mean],col_in,col_out,radius)
-        drawcooraxes(self.data2,[p.mean],2,2,self.prox)
+        self.data2 = np.zeros((vis.shape[0], vis.shape[1], 1), dtype=np.uint8)
+        drawcooraxes(vis, [p.boxCenter], col_out, col_in, radius)
+        drawcooraxes(self.data2, [p.boxCenter], 1, 1, self.prox)
+        drawcooraxes(vis, [p.mean], col_in, col_out, radius)
+        drawcooraxes(self.data2, [p.mean], 2, 2, self.prox)
         p1 = ImCoors(self.coors)
-        self.mapdata2 = [None,"center at "+str(p1.boxCenter),"mean at "+str(p1.mean)]
+        self.mapdata2 = [None, "center at " +
+                         str(p1.boxCenter), "mean at " + str(p1.mean)]
 
     def updatecoors(self):
         """
@@ -1613,12 +1720,13 @@ class GetCoors(Plotim):
         if self.coors != []:
             self.rcoors = self.coors[:]
             newc = self.coors[:]
-            for j,i in enumerate(self.coors):
-                newc[j] = self.real2render(i[0],i[1])
-                self.rcoors[j] = limitaxispoints(newc[j],10000,-10000)
+            for j, i in enumerate(self.coors):
+                newc[j] = self.real2render(i[0], i[1])
+                self.rcoors[j] = limitaxispoints(newc[j], 10000, -10000)
             if self.showstats:
                 self.drawstats(newc, radius=self.radius)
-            self.rimg = self.updatefunc(self.rimg,newc,self.col_out,self.col_in,self.radius)
+            self.rimg = self.updatefunc(
+                self.rimg, newc, self.col_out, self.col_in, self.radius)
         else:
             self.data2[:] = 0
             self.coordinateText = [["xy({self.x},{self.y})"]]
@@ -1636,29 +1744,32 @@ class GetCoors(Plotim):
         # get nearest coordinate to pointer
         isnear = False
         if self.coors != [] and self.rx is not None and self.ry is not None:
-            # vals = anorm(np.int32(self.coors) - (self.x, self.y))  # relative to real coordinates
-            vals = anorm(np.int32(self.rcoors) - (self.rx, self.ry))  # relative to rendered coordinates
+            # vals = anorm(np.int32(self.coors) - (self.x, self.y))  # relative
+            # to real coordinates
+            # relative to rendered coordinates
+            vals = anorm(np.int32(self.rcoors) - (self.rx, self.ry))
             near_point = np.logical_and(vals < self.prox, vals == np.min(vals))
-            if np.any(near_point): # if near point
+            if np.any(near_point):  # if near point
                 idx = np.where(near_point)[0]  # get index
                 isnear = True
                 val = self.coors[idx[0]]
                 count = self.coors.count(val)
-                self.coordinateText = [["point "+str(idx[0])+" at "+str(val)+"x"+str(count)]]
+                self.coordinateText = [
+                    ["point " + str(idx[0]) + " at " + str(val) + "x" + str(count)]]
             else:
                 self.coordinateText = [["xy({self.x},{self.y})"]]
 
         # coordinate system
         if not controlled and bool(self.flags):
-            if self.event== cv2.EVENT_RBUTTONDBLCLK:  # if middle button DELETE ALL COORDINATES
+            if self.event == cv2.EVENT_RBUTTONDBLCLK:  # if middle button DELETE ALL COORDINATES
                 self.coors = []
                 self.img = self.data.copy()
                 drawed = True
-            elif isnear and self.event== cv2.EVENT_RBUTTONDOWN:  # if right button DELETE NEAREST COORDINATE
+            elif isnear and self.event == cv2.EVENT_RBUTTONDOWN:  # if right button DELETE NEAREST COORDINATE
                 self.coors.pop(idx[0])  # if more than one point delete first
                 drawed = True
-            elif self.event== cv2.EVENT_LBUTTONDOWN:  # if left button ADD COORDINATE
-                val = (self.x,self.y)
+            elif self.event == cv2.EVENT_LBUTTONDOWN:  # if left button ADD COORDINATE
+                val = (self.x, self.y)
                 if not self.coors.count(val) or not self.unique:
                     self.coors.append(val)
                 drawed = True
@@ -1669,22 +1780,25 @@ class GetCoors(Plotim):
 
         if self.y is not None and self.x is not None:
             if self.showstats:
-                data = self.mapdata2[self.data2[self.ry,self.rx]]
+                data = self.mapdata2[self.data2[self.ry, self.rx]]
                 if not isnear and data is not None:
                     self.coordinateText = [[data]]
-            self.builtinplot(self.data[int(self.y),int(self.x)])
+            self.builtinplot(self.data[int(self.y), int(self.x)])
 
-def getcoors(im, win ="get coordinates", updatefunc=drawcoorpoints, coors = None,
-             prox=8, radius = 3, unique=True, col_out=black, col_in=red):
-    self = GetCoors(im, win, updatefunc, unique=unique, col_out=col_out, col_in=col_in)
+
+def getcoors(im, win="get coordinates", updatefunc=drawcoorpoints, coors=None,
+             prox=8, radius=3, unique=True, col_out=black, col_in=red):
+    self = GetCoors(im, win, updatefunc, unique=unique,
+                    col_out=col_out, col_in=col_in)
     self.radius = radius
     self.prox = prox
     if coors is not None:
-        self.coors = standarizePoints(coors,aslist=True)
+        self.coors = standarizePoints(coors, aslist=True)
     self.show(clean=False)
     coors = self.coors
     self.clean()
     return coors
+
 
 def separe(values, sep, axis=0):
     """
@@ -1695,13 +1809,13 @@ def separe(values, sep, axis=0):
     :param axis: axis in each value
     :return: lists of greater values, list of lesser values
     """
-    greater,lesser = [],[]
+    greater, lesser = [], []
     for i in values:
-        if i[axis]>sep:
+        if i[axis] > sep:
             greater.append(i)
         else:
             lesser.append(i)
-    return greater,lesser
+    return greater, lesser
 
 
 def getrectcoors(*data):
@@ -1712,20 +1826,21 @@ def getrectcoors(*data):
     :return: [Top_left,Top_right,Bottom_left,Bottom_right]
     """
     #[Top_left,Top_right,Bottom_left,Bottom_right]
-    #img, win = "get pixel coordinates", updatefunc = drawpoint
-    if len(data)==1:  # points
+    # img, win = "get pixel coordinates", updatefunc = drawpoint
+    if len(data) == 1:  # points
         points = data[0]
     else:  # img, win
         points = getcoors(*data)
 
     p = ImCoors(points)
-    min_x,min_y = p.min
-    max_x,max_y = p.max
-    Top_left = (min_x,min_y)
-    Top_right = (max_x,min_y)
-    Bottom_left = (min_x,max_y)
-    Bottom_right = (max_x,max_y)
-    return [Top_left,Top_right,Bottom_left,Bottom_right]
+    min_x, min_y = p.min
+    max_x, max_y = p.max
+    Top_left = (min_x, min_y)
+    Top_right = (max_x, min_y)
+    Bottom_left = (min_x, max_y)
+    Bottom_right = (max_x, max_y)
+    return [Top_left, Top_right, Bottom_left, Bottom_right]
+
 
 def quadrants(points):
     """
@@ -1738,25 +1853,26 @@ def quadrants(points):
     # [Top_left,Top_right,Bottom_left,Bottom_right]
     p = ImCoors(points)  # points data x,y -> (width,height)
     mean_x, mean_y = p.mean
-    Bottom,Top = separe(points,mean_y,axis=1)
-    Top_right,Top_left = separe(Top,mean_x,axis=0)
-    Bottom_right,Bottom_left = separe(Bottom,mean_x,axis=0)
-    return [Top_left,Top_right,Bottom_left,Bottom_right]
+    Bottom, Top = separe(points, mean_y, axis=1)
+    Top_right, Top_left = separe(Top, mean_x, axis=0)
+    Bottom_right, Bottom_left = separe(Bottom, mean_x, axis=0)
+    return [Top_left, Top_right, Bottom_left, Bottom_right]
+
 
 def getgeometrycoors(*data):
     """
     Get filled object coordinates. (function in progress)
     """
     #[Top_left,Top_right,Bottom_left,Bottom_right]
-    #img, win = "get pixel coordinates", updatefunc = drawpoint
-    if len(data)==1:  # points
+    # img, win = "get pixel coordinates", updatefunc = drawpoint
+    if len(data) == 1:  # points
         points = data[0]
     else:  # img, win
         points = getcoors(*data)
     return points
 
 
-def random_color(channels = 1, min=0, max=256):
+def random_color(channels=1, min=0, max=256):
     """
     Random color.
 
@@ -1765,25 +1881,26 @@ def random_color(channels = 1, min=0, max=256):
     :param max: max color in any channel
     :return: random color
     """
-    return [np.random.randint(min,max) for i in range(channels)]
+    return [np.random.randint(min, max) for i in range(channels)]
 
 
 class Image(object):
     """
     Structure to load and save images
     """
+
     def __init__(self, name=None, ext=None, path=None, shape=None, verbosity=False):
-        self._loader = loadFunc(-1,dsize=None,throw=False)
+        self._loader = loadFunc(-1, dsize=None, throw=False)
         self._shape = None
-        self.shape=shape # it is the inverted of dsize
-        self.ext=ext
-        self.name=name
-        self.path=path
-        self._RGB=None
+        self.shape = shape  # it is the inverted of dsize
+        self.ext = ext
+        self.name = name
+        self.path = path
+        self._RGB = None
         self._RGBA = None
-        self._gray=None
-        self._BGRA=None
-        self._BGR=None
+        self._gray = None
+        self._BGRA = None
+        self._BGR = None
         self.overwrite = False
         self.verbosity = verbosity
         self.log_saved = None
@@ -1793,13 +1910,16 @@ class Image(object):
     @property
     def shape(self):
         return self._shape
+
     @shape.setter
-    def shape(self,value):
+    def shape(self, value):
         if value != self._shape:
             if value is not None:
-                value = value[1],value[0] # invert, for value is shape and we need dsize
-            self._loader = loadFunc(-1,dsize=value,throw=False)
+                # invert, for value is shape and we need dsize
+                value = value[1], value[0]
+            self._loader = loadFunc(-1, dsize=value, throw=False)
         self._shape = value
+
     @shape.deleter
     def shape(self):
         del self._shape
@@ -1809,14 +1929,16 @@ class Image(object):
         if self._ext is None:
             return ""
         return self._ext
+
     @ext.setter
-    def ext(self,value):
+    def ext(self, value):
         try:
-            if not value.startswith("."): # ensures path
-                value = "."+value
+            if not value.startswith("."):  # ensures path
+                value = "." + value
         except:
             pass
         self._ext = value
+
     @ext.deleter
     def ext(self):
         del self._ext
@@ -1826,14 +1948,16 @@ class Image(object):
         if self._path is None:
             return ""
         return self._path
+
     @path.setter
-    def path(self,value):
+    def path(self, value):
         try:
-            if value[-1] not in ("/","\\"): # ensures path
+            if value[-1] not in ("/", "\\"):  # ensures path
                 value += "/"
         except:
             pass
         self._path = value
+
     @path.deleter
     def path(self):
         del self._path
@@ -1843,9 +1967,11 @@ class Image(object):
         if self._BGRA is None:
             self.load()
         return self._BGRA
+
     @BGRA.setter
-    def BGRA(self,value):
+    def BGRA(self, value):
         self._BGRA = value
+
     @BGRA.deleter
     def BGRA(self):
         self._BGRA = None
@@ -1855,9 +1981,11 @@ class Image(object):
         if self._BGR is None:
             self.load()
         return self._BGR
+
     @BGR.setter
-    def BGR(self,value):
+    def BGR(self, value):
         self._BGR = value
+
     @BGR.deleter
     def BGR(self):
         self._BGR = None
@@ -1867,9 +1995,11 @@ class Image(object):
         if self._RGB is None:
             self._RGB = cv2.cvtColor(self.BGR, cv2.COLOR_BGR2RGB)
         return self._RGB
+
     @RGB.setter
-    def RGB(self,value):
+    def RGB(self, value):
         self._RGB = value
+
     @RGB.deleter
     def RGB(self):
         self._RGB = None
@@ -1879,9 +2009,11 @@ class Image(object):
         if self._RGBA is None:
             self._RGBA = cv2.cvtColor(self.BGRA, cv2.COLOR_BGRA2RGBA)
         return self._RGBA
+
     @RGBA.setter
-    def RGBA(self,value):
+    def RGBA(self, value):
         self._RGBA = value
+
     @RGBA.deleter
     def RGBA(self):
         self._RGBA = None
@@ -1891,14 +2023,16 @@ class Image(object):
         if self._gray is None:
             self._gray = cv2.cvtColor(self.BGR, cv2.COLOR_BGR2GRAY)
         return self._gray
+
     @gray.setter
-    def gray(self,value):
+    def gray(self, value):
         self._gray = value
+
     @gray.deleter
     def gray(self):
         self._gray = None
 
-    def save(self, name=None, image=None, overwrite = None):
+    def save(self, name=None, image=None, overwrite=None):
         """
         save restored image in path.
 
@@ -1929,8 +2063,9 @@ class Image(object):
         data = getData(name.format(path="".join((bbase, bpath)),
                                    name=bname, ext=bext))
         # complete any data lacking in path
-        for i,(n,b) in enumerate(zip(data,(bbase, bpath, bname, bext))):
-            if not n: data[i] = b
+        for i, (n, b) in enumerate(zip(data, (bbase, bpath, bname, bext))):
+            if not n:
+                data[i] = b
         # joint parts to get string
         fn = "".join(data)
         mkPath(getPath(fn))
@@ -1938,40 +2073,47 @@ class Image(object):
         if not overwrite:
             fn = increment_if_exits(fn)
 
-        if cv2.imwrite(fn,image):
-            if self.verbosity: print("Saved: {}".format(fn))
-            if self.log_saved is not None: self.log_saved.append(fn)
+        if cv2.imwrite(fn, image):
+            if self.verbosity:
+                print("Saved: {}".format(fn))
+            if self.log_saved is not None:
+                self.log_saved.append(fn)
             return fn, True
         else:
-            if self.verbosity: print("{} could not be saved".format(fn))
+            if self.verbosity:
+                print("{} could not be saved".format(fn))
             return fn, False
 
-    def load(self, name = None, path = None, shape = None):
+    def load(self, name=None, path=None, shape=None):
         if name is None:
             name = self.name
-        if path is None: path = self.path
-        if path is None: path = ""
+        if path is None:
+            path = self.path
+        if path is None:
+            path = ""
         if shape is not None:
             self.shape = shape
 
-        data = try_loads([name,name+self.ext], paths=path, func= self._loader, addpath=True)
+        data = try_loads([name, name + self.ext], paths=path,
+                         func=self._loader, addpath=True)
         if data is None:
             raise Exception("Image not Loaded")
 
         img, last_loaded = data
-        if self.log_loaded is not None: self.log_loaded.append(last_loaded)
+        if self.log_loaded is not None:
+            self.log_loaded.append(last_loaded)
         if self.verbosity:
             print("loaded: {}".format(last_loaded))
         self.last_loaded = last_loaded
 
-        self._RGB=None
+        self._RGB = None
         self._RGBA = None
-        self._gray=None
+        self._gray = None
 
         if img.shape[2] == 3:
             self.BGR = img
-            self.BGRA = cv2.cvtColor(img,cv2.COLOR_BGR2BGRA)
+            self.BGRA = cv2.cvtColor(img, cv2.COLOR_BGR2BGRA)
         else:
             self.BGRA = img
-            self.BGR = cv2.cvtColor(img,cv2.COLOR_BGRA2BGR)
+            self.BGR = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
         return self

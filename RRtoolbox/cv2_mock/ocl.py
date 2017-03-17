@@ -140,27 +140,33 @@ __spec__ = None
 
 # functions
 
-def finish(): # real signature unknown; restored from __doc__
+
+def finish():  # real signature unknown; restored from __doc__
     """ finish() -> None """
     pass
 
-def haveAmdBlas(): # real signature unknown; restored from __doc__
+
+def haveAmdBlas():  # real signature unknown; restored from __doc__
     """ haveAmdBlas() -> retval """
     pass
 
-def haveAmdFft(): # real signature unknown; restored from __doc__
+
+def haveAmdFft():  # real signature unknown; restored from __doc__
     """ haveAmdFft() -> retval """
     pass
 
-def haveOpenCL(): # real signature unknown; restored from __doc__
+
+def haveOpenCL():  # real signature unknown; restored from __doc__
     """ haveOpenCL() -> retval """
     pass
 
-def setUseOpenCL(flag): # real signature unknown; restored from __doc__
+
+def setUseOpenCL(flag):  # real signature unknown; restored from __doc__
     """ setUseOpenCL(flag) -> None """
     pass
 
-def useOpenCL(): # real signature unknown; restored from __doc__
+
+def useOpenCL():  # real signature unknown; restored from __doc__
     """ useOpenCL() -> retval """
     pass
 

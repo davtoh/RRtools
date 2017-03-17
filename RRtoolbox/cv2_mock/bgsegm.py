@@ -13,11 +13,15 @@ __spec__ = None
 
 # functions
 
-def createBackgroundSubtractorGMG(initializationFrames=None, decisionThreshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createBackgroundSubtractorGMG(initializationFrames=None, decisionThreshold=None):
     """ createBackgroundSubtractorGMG([, initializationFrames[, decisionThreshold]]) -> retval """
     pass
 
-def createBackgroundSubtractorMOG(history=None, nmixtures=None, backgroundRatio=None, noiseSigma=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createBackgroundSubtractorMOG(history=None, nmixtures=None, backgroundRatio=None, noiseSigma=None):
     """ createBackgroundSubtractorMOG([, history[, nmixtures[, backgroundRatio[, noiseSigma]]]]) -> retval """
     pass
 

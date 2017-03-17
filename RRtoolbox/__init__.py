@@ -11,7 +11,7 @@ __author__ = "David Toro"
 #__copyright__ = "Copyright 2017, The <name> Project"
 #__credits__ = [""]
 __license__ = "BSD-3-Clause"
-__version__ = '1.1.0a1.post1' # jump from '1.0.0a2.post3' when cv2_mock added
+__version__ = '1.2.0'  # jump from '1.1.0a1.post1' when secure_open added
 __email__ = "davsamirtor@gmail.com"
 #__status__ = "Pre-release"
 
@@ -36,9 +36,9 @@ except ImportError:
     # this is done so it can be documented in readthedocs.org and
     # in the future it will be replaced with binaries to
     # facilitate users that do not know how to install openCV
-    if os.name == 'nt': # for windows
+    if os.name == 'nt':  # for windows
         sys.modules["cv2"] = cv2_mock
-    elif os.name == 'posix': # for unix
+    elif os.name == 'posix':  # for unix
         sys.modules["cv2"] = cv2_mock
-    else: # for other OS
+    else:  # for other OS
         sys.modules["cv2"] = cv2_mock

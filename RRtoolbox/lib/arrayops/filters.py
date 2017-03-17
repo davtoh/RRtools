@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 try:
     from sympy.functions import exp
-except ImportError: # if not sympy installed
+except ImportError:  # if not sympy installed
     #from math import exp
     exp = np.exp
 
@@ -17,9 +17,8 @@ except ImportError: # if not sympy installed
 #from RRtoolbox.lib.config import MANAGER
 
 
-
 #@memoize(MANAGER["TEMPPATH"]) # convert cv2.bilateralfilter to memoized bilateral filter
-def bilateralFilter(im,d,sigmaColor,sigmaSpace):
+def bilateralFilter(im, d, sigmaColor, sigmaSpace):
     """
     Apply bilateral Filter.
 
@@ -29,7 +28,8 @@ def bilateralFilter(im,d,sigmaColor,sigmaSpace):
     :param sigmaSpace:
     :return: filtered image
     """
-    return cv2.bilateralFilter(im,d,sigmaColor,sigmaSpace)
+    return cv2.bilateralFilter(im, d, sigmaColor, sigmaSpace)
+
 
 def normsigmoid(x, alpha, beta):
     """
@@ -41,15 +41,17 @@ def normsigmoid(x, alpha, beta):
     :return: filtered values normalized to range [-1 if x<0, 1 if x>=0]
     """
     try:
-        return 1/(np.exp((beta-x) / alpha) + 1)
+        return 1 / (np.exp((beta - x) / alpha) + 1)
     except:
-        return 1/(exp((beta-x) / alpha) + 1)
+        return 1 / (exp((beta - x) / alpha) + 1)
+
 
 class FilterBase(object):
     """
     base filter to create custom filters
     """
-    def __init__(self, alpha=None, beta1=None, beta2 = None):
+
+    def __init__(self, alpha=None, beta1=None, beta2=None):
         """
 
         :param alpha:
@@ -60,17 +62,22 @@ class FilterBase(object):
         self._alpha = alpha
         self._beta1 = beta1
         self._beta2 = beta2
-        if alpha is not None: self.alpha = alpha
-        if beta1 is not None: self.beta1 = beta1
-        if beta2 is not None: self.beta2 = beta2
+        if alpha is not None:
+            self.alpha = alpha
+        if beta1 is not None:
+            self.beta1 = beta1
+        if beta2 is not None:
+            self.beta2 = beta2
 
     @property
     def alpha(self):
         return self._alpha
+
     @alpha.setter
-    def alpha(self,value):
+    def alpha(self, value):
         self._test_alpha(value)
         self._alpha = value
+
     @alpha.deleter
     def alpha(self):
         del self._alpha
@@ -78,11 +85,13 @@ class FilterBase(object):
     @property
     def beta1(self):
         return self._beta1
+
     @beta1.setter
-    def beta1(self,value):
+    def beta1(self, value):
         if self._beta2 is not None:
             self._test_beta1(value)
         self._beta1 = value
+
     @beta1.deleter
     def beta1(self):
         del self._beta1
@@ -90,86 +99,107 @@ class FilterBase(object):
     @property
     def beta2(self):
         return self._beta2
+
     @beta2.setter
-    def beta2(self,value):
+    def beta2(self, value):
         if self._beta1 is not None:
             self._test_beta2(value)
         self._beta2 = value
+
     @beta2.deleter
     def beta2(self):
         del self._beta2
 
     def _test_alpha(self, value):
-        assert value>0
+        assert value > 0
+
     def _test_beta1(self, value):
-        assert self.beta2>value
+        assert self.beta2 > value
+
     def _test_beta2(self, value):
-        assert value>self._beta1
+        assert value > self._beta1
 
     def __call__(self, levels):
         raise NotImplementedError
+
 
 class Lowpass(FilterBase):
     """
     Lowpass filter (recommended to use float types)
     """
+
     def __init__(self, alpha, beta1):
         super(Lowpass, self).__init__(alpha=alpha, beta1=beta1)
 
     def _test_beta1(self, value):
         pass
+
     def _test_beta2(self, value):
         raise Exception("Lowpass filter does not implement beta2")
 
     def __call__(self, levels):
         return normsigmoid(levels, -self._alpha, self._beta1)
 
+
 class Highpass(FilterBase):
     """
     Highpass filter (recommended to use float types)
     """
+
     def __init__(self, alpha, beta1):
         super(Highpass, self).__init__(alpha=alpha, beta1=beta1)
 
     def _test_beta1(self, value):
         pass
+
     def _test_beta2(self, value):
         raise Exception("Highpass filter does not implement beta2")
 
     def __call__(self, levels):
         return normsigmoid(levels, self.alpha, self._beta1)
 
+
 class Bandstop(FilterBase):
     """
     Bandstop filter (recommended to use float types)
     """
+
     def __init__(self, alpha, beta1, beta2):
         super(Bandstop, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+
     def __call__(self, levels):
         return normsigmoid(levels, -self._alpha, self._beta1) - normsigmoid(levels, -self._alpha, self._beta2) + 1.0
+
 
 class Bandpass(FilterBase):
     """
     Bandpass filter (recommended to use float types)
     """
+
     def __init__(self, alpha, beta1, beta2):
         super(Bandpass, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+
     def __call__(self, levels):
-        return normsigmoid(levels,self._alpha,self._beta1)-normsigmoid(levels,self._alpha,self._beta2)
+        return normsigmoid(levels, self._alpha, self._beta1) - normsigmoid(levels, self._alpha, self._beta2)
+
 
 class InvertedBandstop(Bandstop):
     """
     inverted Bandstop filter (recommended to use float types)
     """
+
     def __call__(self, levels):
-        return normsigmoid(levels,-self._alpha,self._beta2)-normsigmoid(levels,-self._alpha,self._beta1)-1.0
+        return normsigmoid(levels, -self._alpha, self._beta2) - normsigmoid(levels, -self._alpha, self._beta1) - 1.0
+
 
 class InvertedBandpass(Bandpass):
     """
     inverted Bandpass filter (recommended to use float types)
     """
+
     def __call__(self, levels):
-        return normsigmoid(levels,self._alpha,self._beta2)-normsigmoid(levels,self._alpha,self._beta1)
+        return normsigmoid(levels, self._alpha, self._beta2) - normsigmoid(levels, self._alpha, self._beta1)
+
 
 def filterFactory(alpha, beta1, beta2=None):
     """
@@ -196,27 +226,28 @@ def filterFactory(alpha, beta1, beta2=None):
         print myfilter,type(myfilter)
         print myfilter.alpha,myfilter.beta1,myfilter.beta2
     """
-    #http://en.wikipedia.org/wiki/Filter_%28signal_processing%29
+    # http://en.wikipedia.org/wiki/Filter_%28signal_processing%29
     if beta2 is None:
-        if alpha < 0: # low pass
+        if alpha < 0:  # low pass
             func = Lowpass(alpha=-alpha, beta1=beta1)
-        else: # high pass
+        else:  # high pass
             func = Highpass(alpha=alpha, beta1=beta1)
     else:
-        if beta2>beta1:
-            if alpha < 0: # band stop
+        if beta2 > beta1:
+            if alpha < 0:  # band stop
                 func = Bandstop(alpha=-alpha, beta1=beta1, beta2=beta2)
-            else: # band pass
+            else:  # band pass
                 func = Bandpass(alpha=alpha, beta1=beta1, beta2=beta2)
-        else: # inverted
-            beta1,beta2 = beta2,beta1
-            if alpha < 0: # inverted band stop
+        else:  # inverted
+            beta1, beta2 = beta2, beta1
+            if alpha < 0:  # inverted band stop
                 func = InvertedBandstop(alpha=-alpha, beta1=beta1, beta2=beta2)
-            else: # inverted band pass
+            else:  # inverted band pass
                 func = InvertedBandpass(alpha=alpha, beta1=beta1, beta2=beta2)
     return func
 
-def sigmoid(x,alpha,beta,max=255,min=0):
+
+def sigmoid(x, alpha, beta, max=255, min=0):
     """
     Apply sigmoid filter.
 
@@ -229,10 +260,13 @@ def sigmoid(x,alpha,beta,max=255,min=0):
 
     .. note:: Based from http://www.itk.org/Doxygen/html/classitk_1_1SigmoidImageFilter.html
     """
-    if min: return (max-min)*normsigmoid(x,alpha,beta)+min
-    else: return max*normsigmoid(x,alpha,beta)  # speeds up operation
+    if min:
+        return (max - min) * normsigmoid(x, alpha, beta) + min
+    else:
+        return max * normsigmoid(x, alpha, beta)  # speeds up operation
 
-def smooth(x,window_len=11,window='hanning', correct = False):
+
+def smooth(x, window_len=11, window='hanning', correct=False):
     """
     Smooth the data using a window with requested size.
 
@@ -260,7 +294,7 @@ def smooth(x,window_len=11,window='hanning', correct = False):
 
     .. note:: length(output) != length(input), to correct this: return y[(window_len/2-1):-(window_len/2)] instead of just y.
     """
-    #TODO: the window parameter could be the window itself if an array instead of a string
+    # instead of a string
 
     if x.ndim != 1:
         raise ValueError("smooth only accepts 1 dimension arrays.")
@@ -268,38 +302,46 @@ def smooth(x,window_len=11,window='hanning', correct = False):
     if x.size < window_len:
         raise ValueError("Input vector needs to be bigger than window size.")
 
-    if window_len<3:
+    if window_len < 3:
         return x
 
     if not window in ['flat', 'hanning', 'hamming', 'bartlett', 'blackman']:
-        raise ValueError("Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
+        raise ValueError(
+            "Window is on of 'flat', 'hanning', 'hamming', 'bartlett', 'blackman'")
 
-    s=np.r_[x[window_len-1:0:-1],x,x[-1:-window_len:-1]]
-    #print(len(s))
-    if window == 'flat': #moving average
-        w=np.ones(window_len,'d')
+    s = np.r_[x[window_len - 1:0:-1], x, x[-1:-window_len:-1]]
+    # print(len(s))
+    if window == 'flat':  # moving average
+        w = np.ones(window_len, 'd')
     else:
-        w=eval('np.'+window+'(window_len)')
+        w = eval('np.' + window + '(window_len)')
 
-    y=np.convolve(w/w.sum(),s,mode='valid')
+    y = np.convolve(w / w.sum(), s, mode='valid')
 
     if correct:
-        displaced = len(y) - len(x) # how much it was expanded, increased or displaced
-        y = y[displaced // 2:len(y) - (displaced - displaced // 2)] # adjusted to original size
+        # how much it was expanded, increased or displaced
+        displaced = len(y) - len(x)
+        # adjusted to original size
+        y = y[displaced // 2:len(y) - (displaced - displaced // 2)]
     return y
+
 
 class BilateraParameter(Bandstop):
     """
     bilateral parameter
     """
-    def __init__(self, scale, shift = 33, name=None, alpha=100, beta1=-400, beta2=200):
-        super(BilateraParameter, self).__init__(alpha=alpha, beta1=beta1, beta2=beta2)
+
+    def __init__(self, scale, shift=33, name=None, alpha=100, beta1=-400, beta2=200):
+        super(BilateraParameter, self).__init__(
+            alpha=alpha, beta1=beta1, beta2=beta2)
         self.scale = scale
         self.shift = shift
         self.name = name
+
     def __call__(self, levels):
         return np.int32(super(BilateraParameter, self).__call__(
             levels) * self.scale + self.shift)
+
 
 class BilateralParameters(object):
     """
@@ -316,11 +358,12 @@ class BilateralParameters(object):
     :param sigmaSpace: sigma in space
 
     """
-    d = BilateraParameter(scale = 31, shift=15, alpha=150, beta1 = 60, beta2=800, name ="d")
-    sigmaColor = BilateraParameter(scale = 50, name ="sigmaColor")
-    sigmaSpace = BilateraParameter(scale = 25, name ="sigmaSpace")
+    d = BilateraParameter(scale=31, shift=15, alpha=150,
+                          beta1=60, beta2=800, name="d")
+    sigmaColor = BilateraParameter(scale=50, name="sigmaColor")
+    sigmaSpace = BilateraParameter(scale=25, name="sigmaSpace")
 
-    def __init__(self,d=None,sigmaColor=None,sigmaSpace=None):
+    def __init__(self, d=None, sigmaColor=None, sigmaSpace=None):
         """
         replace bilateral limit parameters. It can be a
         instance from BilateraParameter or a value.
@@ -339,11 +382,11 @@ class BilateralParameters(object):
         """
         def create_func(val):
             def custom_val(x):
-                return np.ones_like(x)*val
+                return np.ones_like(x) * val
             custom_val.name = "Custom value {}".format(val)
             return custom_val
         fs = []
-        for i,f in enumerate((self.d, self.sigmaColor, self.sigmaSpace)):
+        for i, f in enumerate((self.d, self.sigmaColor, self.sigmaSpace)):
             if callable(f):
                 fs.append(f)
             elif i == 0:
@@ -363,7 +406,8 @@ class BilateralParameters(object):
         """
         return [i(np.min(shape[:2])) for i in self.filters]
 
-def getBilateralParameters(shape=None,mode=None):
+
+def getBilateralParameters(shape=None, mode=None):
     """
     Calculate from shape bilateral parameters.
 
@@ -371,19 +415,19 @@ def getBilateralParameters(shape=None,mode=None):
     :param mode: "mild", "heavy" or "normal" to process noise
     :return: instance or parameters
     """
-    #15,82,57 # 21,75,75 # faster and for low noise
+    # 15,82,57 # 21,75,75 # faster and for low noise
     if mode == "mild" or mode is None:
         mode = 9
     elif mode == "heavy":
         mode = None
     elif mode == "normal":
         mode = 27
-    elif isinstance(mode,(int,float)):
+    elif isinstance(mode, (int, float)):
         pass
     else:
-        raise Exception("Bilateral Parameter mode '{}' not recognised".format(mode))
+        raise Exception(
+            "Bilateral Parameter mode '{}' not recognised".format(mode))
     bp = BilateralParameters(mode)
     if shape is None:
         return bp
     return bp(shape[:2])
-

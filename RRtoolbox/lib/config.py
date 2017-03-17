@@ -35,7 +35,6 @@ else:
         raise exc_value
 
 
-
 # ----------------------------GLOBAL VARIABLES---------------------------- #
 # FLAGS
 FLAG_MEMOIZE = True
@@ -46,6 +45,7 @@ INT = int32
 
 # ----------------------------ConfigTool FUNCTIONS---------------------------- #
 
+
 def getPackagePath(package):
     """
     Get the path of a package object.
@@ -53,12 +53,13 @@ def getPackagePath(package):
     :param package: package object or path (str).
     :return: path to the package.
     """
-    if isinstance(package,str): # if path
+    if isinstance(package, str):  # if path
         return package
-    else: # if imported package
+    else:  # if imported package
         return package.__path__[0]
 
-def findModules(package, exclude = None):
+
+def findModules(package, exclude=None):
     """
     Find modules from a package.
 
@@ -71,12 +72,16 @@ def findModules(package, exclude = None):
     for importer, modname, ispkg in pkgutil.walk_packages([path]):
         if exclude and modname in exclude:
             continue
-        modules[modname] = importer,ispkg
-        if FLAG_DEBUG: print("Found submodule {0} (is a package: {1})".format(modname, ispkg))
-    if FLAG_DEBUG and modules == {}: print("No modules have been found")
+        modules[modname] = importer, ispkg
+        if FLAG_DEBUG:
+            print("Found submodule {0} (is a package: {1})".format(
+                modname, ispkg))
+    if FLAG_DEBUG and modules == {}:
+        print("No modules have been found")
     return modules
 
-def getModules(package, exclude = None):
+
+def getModules(package, exclude=None):
     """
     Import modules from a package.
 
@@ -89,13 +94,16 @@ def getModules(package, exclude = None):
         if exclude and modname in exclude:
             continue
         modules[modname] = importer.find_module(modname).load_module(modname)
-        if FLAG_DEBUG: print("Imported submodule {0}...".format(modname, ispkg))
+        if FLAG_DEBUG:
+            print("Imported submodule {0}...".format(modname, ispkg))
     return modules
 
 # TODO> make a function to update fields in the config file
-# TODO> make a function just to update the MAINPATH relative to the config file for the other direcoties to update too
+# TODO> make a function just to update the MAINPATH relative to the config
+# file for the other direcoties to update too
 
 # ----------------------------CLASSES---------------------------- #
+
 
 class DirectoryManager(object):
     """
@@ -108,7 +116,8 @@ class DirectoryManager(object):
     .. note:: Any attribute that is not in ConfigFile returns None.
               Use raiseError to control this behaviour.
     """
-    def __init__(self, path = None, raiseError = True, autosave = False):
+
+    def __init__(self, path=None, raiseError=True, autosave=False):
         """
         Initializes ConfigFile.
         """
@@ -116,9 +125,9 @@ class DirectoryManager(object):
             path = str(_directory('ConfigFile.pkl') - self.default["MAINPATH"])
 
         self._path = str(path)
-        self._raiseError = raiseError # raise error if not directory found
-        self.autosave = autosave # flag to save at each change
-        self._loaded = {} # directories
+        self._raiseError = raiseError  # raise error if not directory found
+        self.autosave = autosave  # flag to save at each change
+        self._loaded = {}  # directories
         self.load()
 
     @property
@@ -135,11 +144,12 @@ class DirectoryManager(object):
         # where package is located, if package is installed this can be converted
         # to a virtual folder which does not exists physically and cannot be found
         # in disk
-        SOURCEPATH = _directory(_correctPath(__file__, -1), notes ="don't change!")
+        SOURCEPATH = _directory(_correctPath(
+            __file__, -1), notes="don't change!")
         # lib path is inside package
         LIBPATH = _directory("lib") - SOURCEPATH
         # where additional folders will be located, what holds SOURCEPATH
-        MAINPATH = _directory(_resource_path(), notes ="don't change!")
+        MAINPATH = _directory(_resource_path(), notes="don't change!")
         # add more tools to this folder, iniside package is a tools folder too
         TOOLPATH = _directory("tools") - MAINPATH
         # place temporal files in this folder
@@ -148,8 +158,9 @@ class DirectoryManager(object):
         TESTPATH = _directory("tests") - MAINPATH
         # save path is where results are placed
         SAVEPATH = TESTPATH.copy()
-        #return {key:val for key,val in locals().iteritems() if isinstance(val, _directory)}
-        return {key:val for key,val in locals().items() if key != "self"}
+        # return {key:val for key,val in locals().iteritems() if
+        # isinstance(val, _directory)}
+        return {key: val for key, val in locals().items() if key != "self"}
 
     def reset(self):
         """
@@ -161,7 +172,8 @@ class DirectoryManager(object):
 
         .. warning:: ConfigFile is purposely not updated. Call manually method load()
         """
-        if FLAG_DEBUG: print("Creating default '{}' file...".format(self._path))
+        if FLAG_DEBUG:
+            print("Creating default '{}' file...".format(self._path))
         try:
             data = _saveSession(str(self._path), self.default)
             if FLAG_DEBUG:
@@ -180,32 +192,36 @@ class DirectoryManager(object):
 
         .. warning:: Unsaved instance variables will be replaced by configuration file variables.
         """
-        if FLAG_DEBUG: print("Loading '{}'...".format(self._path))
+        if FLAG_DEBUG:
+            print("Loading '{}'...".format(self._path))
         error = False
         try:
             vars = _readSession(str(self._path))
         except IOError:
-            if FLAG_DEBUG: print("'{}' not found...".format(self._path))
+            if FLAG_DEBUG:
+                print("'{}' not found...".format(self._path))
             error = True
         except AttributeError:
-            if FLAG_DEBUG: print("'{}' structure is old...".format(self._path))
+            if FLAG_DEBUG:
+                print("'{}' structure is old...".format(self._path))
             error = True
 
         if error:
             # not tolerable as error and should not be caught
             data = self.reset()
             try:
-                vars =  _readSession(str(self._path))
+                vars = _readSession(str(self._path))
             except Exception as e:
                 # http://stackoverflow.com/questions/6062576/adding-information-to-an-exception
                 reraise(type(e), type(e)(str(e) + "Trying to read '{}' with writted "
-                                "session as '{}'".format(self._path,data)), sys.exc_info()[2])
+                                         "session as '{}'".format(self._path, data)), sys.exc_info()[2])
 
-        if FLAG_DEBUG: print("Default '{}' read successfully...".format(self._path))
+        if FLAG_DEBUG:
+            print("Default '{}' read successfully...".format(self._path))
         self._loaded.update(vars)
         return vars
 
-    def save(self, mode = 0):
+    def save(self, mode=0):
         """
         saves configuration file.
 
@@ -217,7 +233,7 @@ class DirectoryManager(object):
             if mode:
                 _updateSession(str(self._path), self._loaded, replace=mode - 1)
                 return True
-            else: # to delete and replace
+            else:  # to delete and replace
                 _saveSession(str(self._path), self._loaded)
                 return True
         except IOError as e:
@@ -261,7 +277,9 @@ class DirectoryManager(object):
         """
         return self[item]'''
 
-MANAGER = DirectoryManager() # configure directories
+
+MANAGER = DirectoryManager()  # configure directories
+
 
 class ConfigTool(object):
     """
@@ -272,20 +290,14 @@ class ConfigTool(object):
     _init_tool = _FileDirectory(["""
 
     import sys
-    sys.path.append('""", MANAGER["LIBPATH"],"""')
-    sys.path.append('""", MANAGER["MAINPATH"],"""')"""]
-                            , notes ="contents of __init__.py file in TOOLPATH directory"
-                            , filename = "__init__.py"
-                            , path = MANAGER["TOOLPATH"])
+    sys.path.append('""", MANAGER["LIBPATH"], """')
+    sys.path.append('""", MANAGER["MAINPATH"], """')"""], notes="contents of __init__.py file in TOOLPATH directory", filename="__init__.py", path=MANAGER["TOOLPATH"])
 
     _init_box = _FileDirectory(["""
 
     import sys
-    sys.path.append('""", MANAGER["LIBPATH"],"""')
-    sys.path.append('""", MANAGER["TOOLPATH"],"""')"""]
-                           , notes ="contents of __init__.py file in MAINPATH directory"
-                           , filename = "__init__.py"
-                           , path = MANAGER["MAINPATH"])
+    sys.path.append('""", MANAGER["LIBPATH"], """')
+    sys.path.append('""", MANAGER["TOOLPATH"], """')"""], notes="contents of __init__.py file in MAINPATH directory", filename="__init__.py", path=MANAGER["MAINPATH"])
 
     @staticmethod
     def getTools(package):
@@ -296,22 +308,26 @@ class ConfigTool(object):
         :return: a dictionary of imported modules.
         """
         path = getPackagePath(package)
-        #sys.path.insert(0,path)
+        # sys.path.insert(0,path)
         modname = "__init__"
         try:
-            pkgutil.get_importer(path).find_module(modname).load_module(modname)
+            pkgutil.get_importer(path).find_module(
+                modname).load_module(modname)
         except AttributeError as e:
-            if FLAG_DEBUG: print("No "+modname+" file found at "+path)
+            if FLAG_DEBUG:
+                print("No " + modname + " file found at " + path)
             raise e
         except Exception as e:
-            if FLAG_DEBUG: print(modname+" could not be loaded from "+path)
+            if FLAG_DEBUG:
+                print(modname + " could not be loaded from " + path)
             raise e
-        return getModules(path,exclude=[modname])
+        return getModules(path, exclude=[modname])
+
 
 if __name__ == '__main__':
     #MANAGER._default = {}
-    #print MANAGER.TEMPPATH
+    # print MANAGER.TEMPPATH
     MANAGER.reset()
     #tools = ConfigTool()
-    #tools._init_tool.makeFile()
-    #tools._init_box.makeFile()
+    # tools._init_tool.makeFile()
+    # tools._init_box.makeFile()

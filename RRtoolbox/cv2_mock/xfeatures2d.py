@@ -67,59 +67,87 @@ __spec__ = None
 
 # functions
 
-def BoostDesc_create(desc=None, use_scale_orientation=None, scale_factor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BoostDesc_create(desc=None, use_scale_orientation=None, scale_factor=None):
     """ BoostDesc_create([, desc[, use_scale_orientation[, scale_factor]]]) -> retval """
     pass
 
-def BriefDescriptorExtractor_create(bytes=None, use_orientation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BriefDescriptorExtractor_create(bytes=None, use_orientation=None):
     """ BriefDescriptorExtractor_create([, bytes[, use_orientation]]) -> retval """
     pass
 
-def DAISY_create(radius=None, q_radius=None, q_theta=None, q_hist=None, norm=None, H=None, interpolation=None, use_orientation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def DAISY_create(radius=None, q_radius=None, q_theta=None, q_hist=None, norm=None, H=None, interpolation=None, use_orientation=None):
     """ DAISY_create([, radius[, q_radius[, q_theta[, q_hist[, norm[, H[, interpolation[, use_orientation]]]]]]]]) -> retval """
     pass
 
-def FREAK_create(orientationNormalized=None, scaleNormalized=None, patternScale=None, nOctaves=None, selectedPairs=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FREAK_create(orientationNormalized=None, scaleNormalized=None, patternScale=None, nOctaves=None, selectedPairs=None):
     """ FREAK_create([, orientationNormalized[, scaleNormalized[, patternScale[, nOctaves[, selectedPairs]]]]]) -> retval """
     pass
 
-def LATCH_create(bytes=None, rotationInvariance=None, half_ssd_size=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def LATCH_create(bytes=None, rotationInvariance=None, half_ssd_size=None):
     """ LATCH_create([, bytes[, rotationInvariance[, half_ssd_size]]]) -> retval """
     pass
 
-def LUCID_create(lucid_kernel=None, blur_kernel=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def LUCID_create(lucid_kernel=None, blur_kernel=None):
     """ LUCID_create([, lucid_kernel[, blur_kernel]]) -> retval """
     pass
 
-def PCTSignaturesSQFD_create(distanceFunction=None, similarityFunction=None, similarityParameter=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCTSignaturesSQFD_create(distanceFunction=None, similarityFunction=None, similarityParameter=None):
     """ PCTSignaturesSQFD_create([, distanceFunction[, similarityFunction[, similarityParameter]]]) -> retval """
     pass
 
-def PCTSignatures_create(initSampleCount=None, initSeedCount=None, pointDistribution=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCTSignatures_create(initSampleCount=None, initSeedCount=None, pointDistribution=None):
     """ PCTSignatures_create([, initSampleCount[, initSeedCount[, pointDistribution]]]) -> retval  or  PCTSignatures_create(initSamplingPoints, initSeedCount) -> retval  or  PCTSignatures_create(initSamplingPoints, initClusterSeedIndexes) -> retval """
     pass
 
-def PCTSignatures_drawSignature(source, signature, result=None, radiusToShorterSideRatio=None, borderThickness=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCTSignatures_drawSignature(source, signature, result=None, radiusToShorterSideRatio=None, borderThickness=None):
     """ PCTSignatures_drawSignature(source, signature[, result[, radiusToShorterSideRatio[, borderThickness]]]) -> result """
     pass
 
-def PCTSignatures_generateInitPoints(initPoints, count, pointDistribution): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCTSignatures_generateInitPoints(initPoints, count, pointDistribution):
     """ PCTSignatures_generateInitPoints(initPoints, count, pointDistribution) -> None """
     pass
 
-def SIFT_create(nfeatures=None, nOctaveLayers=None, contrastThreshold=None, edgeThreshold=None, sigma=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SIFT_create(nfeatures=None, nOctaveLayers=None, contrastThreshold=None, edgeThreshold=None, sigma=None):
     """ SIFT_create([, nfeatures[, nOctaveLayers[, contrastThreshold[, edgeThreshold[, sigma]]]]]) -> retval """
     pass
 
-def StarDetector_create(maxSize=None, responseThreshold=None, lineThresholdProjected=None, lineThresholdBinarized=None, suppressNonmaxSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def StarDetector_create(maxSize=None, responseThreshold=None, lineThresholdProjected=None, lineThresholdBinarized=None, suppressNonmaxSize=None):
     """ StarDetector_create([, maxSize[, responseThreshold[, lineThresholdProjected[, lineThresholdBinarized[, suppressNonmaxSize]]]]]) -> retval """
     pass
 
-def SURF_create(hessianThreshold=None, nOctaves=None, nOctaveLayers=None, extended=None, upright=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SURF_create(hessianThreshold=None, nOctaves=None, nOctaveLayers=None, extended=None, upright=None):
     """ SURF_create([, hessianThreshold[, nOctaves[, nOctaveLayers[, extended[, upright]]]]]) -> retval """
     pass
 
-def VGG_create(desc=None, isigma=None, img_normalize=None, use_scale_orientation=None, scale_factor=None, dsc_normalize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def VGG_create(desc=None, isigma=None, img_normalize=None, use_scale_orientation=None, scale_factor=None, dsc_normalize=None):
     """ VGG_create([, desc[, isigma[, img_normalize[, use_scale_orientation[, scale_factor[, dsc_normalize]]]]]]) -> retval """
     pass
 

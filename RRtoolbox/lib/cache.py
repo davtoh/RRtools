@@ -70,7 +70,7 @@ __license__ = """
 
 """
 
-## READ: https://wiki.python.org/moin/PythonDecoratorLibrary
+# READ: https://wiki.python.org/moin/PythonDecoratorLibrary
 
 import joblib
 from functools import wraps
@@ -79,18 +79,21 @@ from collections import MutableMapping
 from time import time
 from numpy.lib import load as numpyLoad, save as numpySave
 import os
-#print "using joblib version", joblib.__version__
+# print "using joblib version", joblib.__version__
+
 
 class NotMemorizedFunc(joblib.memory.NotMemorizedFunc):
     pass
 
+
 class MemorizedFunc(joblib.memory.MemorizedFunc):
     pass
 
+
 class DynamicMemoizedFunc(object):
-    def __init__(self, func, cachedir = None, ignore=None, mmap_mode=None,
-                 compress=False, verbose=1, timestamp=None, banned = False):
-        self._func = func # the only one that should not be able to change
+    def __init__(self, func, cachedir=None, ignore=None, mmap_mode=None,
+                 compress=False, verbose=1, timestamp=None, banned=False):
+        self._func = func  # the only one that should not be able to change
         self._mmap_mode = mmap_mode
         self._ignore = ignore
         self._verbose = verbose
@@ -100,24 +103,29 @@ class DynamicMemoizedFunc(object):
         self._enabled = banned
         self._use = None
         self._build()
+
     def _build(self):
         if self._cachedir is None or not self._enabled:
             self._use = NotMemorizedFunc(self._func)
         else:
-            self._use = MemorizedFunc(func=self._func,cachedir= self._cachedir, ignore=self._ignore,
-                                      mmap_mode=self._mmap_mode,compress=self._compress,
-                                      verbose=self._verbose, timestamp=self._timestamp)
+            self._use = MemorizedFunc(func=self._func, cachedir=self._cachedir,
+                                      ignore=self._ignore, mmap_mode=self._mmap_mode,
+                                      compress=self._compress, verbose=self._verbose,
+                                      timestamp=self._timestamp)
             self.__doc__ = self._use.__doc__
+
     @property
     def func(self):
         return self._func
+
     @func.setter
-    def func(self,value):
+    def func(self, value):
         if value != self._func:
-            if isinstance(value, (MemorizedFunc,NotMemorizedFunc,DynamicMemoizedFunc)):
+            if isinstance(value, (MemorizedFunc, NotMemorizedFunc, DynamicMemoizedFunc)):
                 value = value.func
             self._func = value
             self._build()
+
     @func.deleter
     def func(self):
         raise Exception("property cannot be deleted")
@@ -125,11 +133,13 @@ class DynamicMemoizedFunc(object):
     @property
     def mmap_mode(self):
         return self._mmap_mode
+
     @mmap_mode.setter
-    def mmap_mode(self,value):
+    def mmap_mode(self, value):
         if value != self._mmap_mode:
             self._mmap_mode = value
             self._build()
+
     @mmap_mode.deleter
     def mmap_mode(self):
         raise Exception("property cannot be deleted")
@@ -137,11 +147,13 @@ class DynamicMemoizedFunc(object):
     @property
     def ignore(self):
         return self._ignore
+
     @ignore.setter
-    def ignore(self,value):
+    def ignore(self, value):
         if value != self._ignore:
             self._ignore = value
             self._build()
+
     @ignore.deleter
     def ignore(self):
         raise Exception("property cannot be deleted")
@@ -149,11 +161,13 @@ class DynamicMemoizedFunc(object):
     @property
     def verbose(self):
         return self._verbose
+
     @verbose.setter
-    def verbose(self,value):
+    def verbose(self, value):
         if value != self._verbose:
             self._verbose = value
             self._build()
+
     @verbose.deleter
     def verbose(self):
         raise Exception("property cannot be deleted")
@@ -161,11 +175,13 @@ class DynamicMemoizedFunc(object):
     @property
     def cachedir(self):
         return self._cachedir
+
     @cachedir.setter
-    def cachedir(self,value):
+    def cachedir(self, value):
         if self._cachedir != value:
             self._cachedir = value
             self._build()
+
     @cachedir.deleter
     def cachedir(self):
         raise Exception("property cannot be deleted")
@@ -173,11 +189,13 @@ class DynamicMemoizedFunc(object):
     @property
     def compress(self):
         return self._compress
+
     @compress.setter
-    def compress(self,value):
+    def compress(self, value):
         if self._compress != value:
             self._compress = value
             self._build()
+
     @compress.deleter
     def compress(self):
         raise Exception("property cannot be deleted")
@@ -185,11 +203,13 @@ class DynamicMemoizedFunc(object):
     @property
     def enabled(self):
         return self._enabled
+
     @enabled.setter
     def enabled(self, value):
         if self._enabled != value:
             self._enabled = value
             self._build()
+
     @enabled.deleter
     def enabled(self):
         raise Exception("property cannot be deleted")
@@ -205,15 +225,18 @@ class DynamicMemoizedFunc(object):
 
     def __repr__(self):
         return self._use.__repr__()
+
     def clear(self, warn=True):
         return self._use.clear(warn=warn)
+
 
 class Memory(joblib.Memory):
     """
     A wrapper to joblib Memory to have better control.
     """
+
     def __init__(self, cachedir, mmap_mode=None, compress=False, verbose=1):
-        super(Memory,self).__init__(None, mmap_mode, compress, verbose)
+        super(Memory, self).__init__(None, mmap_mode, compress, verbose)
         if cachedir is None:
             self.cachedir = None
         else:
@@ -267,31 +290,37 @@ class Memory(joblib.Memory):
                                    timestamp=self.timestamp)'''
     __call__ = joblib.Memory.cache
 
+
 class Memoizer(object):
     memoizers = {}
+
     def __init__(self, ignore=(), ignoreAll=False):
         self._ignore = None
         self.ignoreAll = ignoreAll
         self.ignore = ignore
-        self.memoized = {} # FOR CLEANING UP handle # flag = True is safe to remove, flag = False is unsafe to remove
+        # FOR CLEANING UP handle # flag = True is safe to remove, flag = False
+        # is unsafe to remove
+        self.memoized = {}
         Memoizer.memoizers[id(self)] = ref(self)
 
     @property
     def ignore(self):
         return self._ignore
+
     @ignore.setter
-    def ignore(self,value):
+    def ignore(self, value):
         temp = set()
         for f in value:
             if not callable(f):
                 raise Exception("{} must be callable".format(f))
             temp.add(id(f))
         self._ignore = temp
+
     @ignore.deleter
     def ignore(self):
         self._ignore = set()
 
-    def makememory(self,cachedir = None, mmap_mode=None, compress=False, verbose=0):
+    def makememory(self, cachedir=None, mmap_mode=None, compress=False, verbose=0):
         """
         Make memory for :func:`memoize` decorator.
 
@@ -328,27 +357,30 @@ class Memoizer(object):
         :return: decorator
         """
         def decorator(fn):
-            if isinstance(memory,joblib.Memory): # use provided memory
-                memoizedfn = memory.cache(fn,ignore,verbose, mmap_mode)
+            if isinstance(memory, joblib.Memory):  # use provided memory
+                memoizedfn = memory.cache(fn, ignore, verbose, mmap_mode)
             else:
-                #memoizedfn = DynamicMemoizedFunc(func=fn,cachedir=str(memory),
-                #                ignore=ignore,verbose=verbose, mmap_mode=mmap_mode)
+                # memoizedfn = DynamicMemoizedFunc(func=fn,cachedir=str(memory),
+                # ignore=ignore,verbose=verbose, mmap_mode=mmap_mode)
                 memoizedfn = self.makememory(cachedir=str(memory)).cache(func=fn,
-                                ignore=ignore,verbose=verbose, mmap_mode=mmap_mode)
+                                                                         ignore=ignore, verbose=verbose, mmap_mode=mmap_mode)
+
             @wraps(fn)
-            def wrapper(*args,**kwargs):
-                # TODO solve this, how to test quickly to ignore memoization
-                #perhaps it is better to use dynamicMemoizedFuciton  to prevent comparitions when ignoring a memoization
+            def wrapper(*args, **kwargs):
+                # perhaps it is better to use dynamicMemoizedFuciton  to
+                # prevent comparision when ignoring a memoization
                 if not self.ignoreAll and id(fn) not in self._ignore and id(wrapper) not in self._ignore:
-                    return memoizedfn(*args,**kwargs)
+                    return memoizedfn(*args, **kwargs)
                 else:
-                    return fn(*args,**kwargs)
-            self.memoized[id(fn)] = ref(memoizedfn) # safe to remove
+                    return fn(*args, **kwargs)
+            self.memoized[id(fn)] = ref(memoizedfn)  # safe to remove
             return wrapper
         return decorator
     __call__ = memoize
 
-memoize = Memoizer() # make memoizer manager
+
+memoize = Memoizer()  # make memoizer manager
+
 
 class Cache(object):
     """
@@ -363,26 +395,29 @@ class Cache(object):
 
     .. note:: Cached data can be deleted in the decorated object to recalculate its value.
     """
+
     def __init__(self, func):
         """
         Initialize cache with a property function.
         """
-        self.func = func # function handle
+        self.func = func  # function handle
     # if method simulating getattr
+
     def __get__(self, instance, owner):  # if trying to get attribute
-        if instance is not None: # Class not instantiated if instance is None
+        if instance is not None:  # Class not instantiated if instance is None
             # Only for instances of Class
             # Build the attribute.
-            cached = self.func(instance) #evaluate function over instance
+            cached = self.func(instance)  # evaluate function over instance
             # Cache the value;
             # Creates variable (name) of value (cached) in (instance).
             # instance.name = cached
             setattr(instance, self.func.__name__, cached)
             return cached
-        else: # return method signature
+        else:  # return method signature
             return self.func
 
-def cachedProperty(watch=[],handle=[]):
+
+def cachedProperty(watch=[], handle=[]):
     """
     A memoize decorator of @property decorator specifying what to trigger caching.
 
@@ -391,20 +426,22 @@ def cachedProperty(watch=[],handle=[]):
                 handle were data is stored for the method and where a clear() function is provided.
     :return:
     """
-    #http://code.activestate.com/recipes/576563-cached-property/
+    # http://code.activestate.com/recipes/576563-cached-property/
     class Memo(object):
         """ Memo function for cache """
+
         def __init__(self):
-            self._cache ={}
+            self._cache = {}
             self._input_cache = {}
+
         def clear(self):
-            self._cache ={}
+            self._cache = {}
             self._input_cache = {}
 
     this = Memo()
     handle.append(this)
 
-    def noargs(f): # if not watch use this funciton
+    def noargs(f):  # if not watch use this funciton
         @wraps(f)
         def get(self):
             try:
@@ -417,16 +454,16 @@ def cachedProperty(watch=[],handle=[]):
             return ret
         return property(get)
 
-    def withargs(f): # if watch use this function
+    def withargs(f):  # if watch use this function
         @wraps(f)
         def get(self):
-            input_values = dict((key,getattr(self,key)) for key in watch )
+            input_values = dict((key, getattr(self, key)) for key in watch)
             try:
                 x = this._cache[f]
                 if input_values == this._input_cache[f]:
                     return x
             except AttributeError:
-                this._cache ={}
+                this._cache = {}
                 this._input_cache = {}
             except KeyError:
                 pass
@@ -435,9 +472,9 @@ def cachedProperty(watch=[],handle=[]):
             return x
         return property(get)
 
-    if type(watch) is not list: # if not arguments
+    if type(watch) is not list:  # if not arguments
         return noargs(watch)
-    elif watch==[]:
+    elif watch == []:
         return noargs
     return withargs
 
@@ -446,7 +483,8 @@ class ObjectGetter(object):
     """
     Creates or get instance object depending if it is alive.
     """
-    def __init__(self, callfunc = None, obj=None, callback=None,  **annotations):
+
+    def __init__(self, callfunc=None, obj=None, callback=None,  **annotations):
         """
         :param callfunc: function to create object
         :param obj: (optional) alive object already obtained from callfunc
@@ -474,29 +512,33 @@ class ObjectGetter(object):
         self._ref = None
         self._callfunc = None
         self._callback = None
-        self.update(obj=obj, callback=callback, callfunc = callfunc, **annotations)
+        self.update(obj=obj, callback=callback,
+                    callfunc=callfunc, **annotations)
 
     def update(self, **kwargs):
-        callfunc = kwargs.pop("callfunc",None)
+        callfunc = kwargs.pop("callfunc", None)
         if callfunc:
             if not callable(callfunc):
-                raise NotCallable("callfunc {} is not callable".format(callfunc))
+                raise NotCallable(
+                    "callfunc {} is not callable".format(callfunc))
             self._callfunc = callfunc
         obj = kwargs.pop("obj", None)
         callback = kwargs.pop("callback", None)
         if obj is not None or callback is not None:
-            if callback is not None: self._callback = callback
+            if callback is not None:
+                self._callback = callback
             self._ref = ref(obj, self._callback)
         for k, v in kwargs.items():
             setattr(self, k, v)
 
-    def getObj(self, throw = False):
+    def getObj(self, throw=False):
         ob = self.raw()
-        if ob is None: ob = self.create(throw)
+        if ob is None:
+            ob = self.create(throw)
         return ob
     __call__ = getObj
 
-    def create(self, throw = False):
+    def create(self, throw=False):
         """
         Creates an object and keep reference.
 
@@ -507,7 +549,7 @@ class ObjectGetter(object):
 
         .. note:: Recommended only to use when object from current reference is dead.
         """
-        if self.isCreatable(): # to create
+        if self.isCreatable():  # to create
             ob = self._callfunc()
             self._ref = ref(ob, self._callback)
             return ob
@@ -519,7 +561,7 @@ class ObjectGetter(object):
         get object from reference.
         :return: None if object is dead, object itself if is alive.
         """
-        if self._ref: # if in references
+        if self._ref:  # if in references
             ob = self._ref()
             return ob
 
@@ -541,15 +583,17 @@ class ObjectGetter(object):
         """
         return self.isCreatable() or self.isAlive()
 
+
 class Retriever(MutableMapping):
     """
     keep track of references and create objects on demand if needed.
     """
+
     def __init__(self):
         self.references = {}
         self._lastKey = None
 
-    def register(self, key, method = None, instance = None):
+    def register(self, key, method=None, instance=None):
         """
         Register object to retrieve.
 
@@ -577,7 +621,7 @@ class Retriever(MutableMapping):
             print list(ret.iteritems()) # get items
         """
         self.references[key] = ObjectGetter(obj=instance, callfunc=method)
-        self._lastKey = key # register last key
+        self._lastKey = key  # register last key
 
     def __call__(self):
         return self[self._lastKey]
@@ -599,6 +643,7 @@ class Retriever(MutableMapping):
     def __len__(self):
         return len(self.references)
 
+
 class LazyDict(MutableMapping):
     """
     Create objects on demand if needed. call the instance with keys to prevent it
@@ -607,9 +652,11 @@ class LazyDict(MutableMapping):
     instead of self[key]). In addition use self.isLazy flag to enable or disable lazy
     operations to prevent possible recursions when getter is called.
     """
+
     def __init__(self, getter, dictionary=None):
         if not callable(getter):
-            raise NotCallable("getter must be a callable function to process keys")
+            raise NotCallable(
+                "getter must be a callable function to process keys")
         if dictionary is None:
             dictionary = {}
         self.getter = getter
@@ -618,7 +665,7 @@ class LazyDict(MutableMapping):
         self.isLazy = True
         self.cached = True
 
-    def __call__(self, key = None):
+    def __call__(self, key=None):
         if key is None:
             return self[self._lastKey]
         else:
@@ -629,7 +676,7 @@ class LazyDict(MutableMapping):
             if self.cached:
                 # try to use cached data
                 data = self.dictionary[key]
-            else: # always compute data
+            else:  # always compute data
                 data = self.getter(key)
                 self.dictionary[key] = data
         except Exception as e:
@@ -656,12 +703,13 @@ class LazyDict(MutableMapping):
 
     def __contains__(self, key):
         try:
-            #self[key] # It can create a recursion
+            # self[key] # It can create a recursion
             self.dictionary[key]
         except KeyError:
             return False
         else:
             return True
+
 
 class ResourceManager(Retriever):
     """
@@ -676,28 +724,33 @@ class ResourceManager(Retriever):
     :param all: if True used memory is from all alive references,
                     if False used memory is only from keptAlive references.
     """
-    def __init__(self, maxMemory = None, margin = 0.8, unit = "MB", all = True):
+
+    def __init__(self, maxMemory=None, margin=0.8, unit="MB", all=True):
         super(ResourceManager, self).__init__()
-        #self.references is a dictionary containing all the references
-        #self._lastkey is effectively the last key to use when Manager is called
-        self._keptMemory = 0 # used memory in bytes of references
-        self._refMemory = 0 # used memory in bytes of keptAlive
-        self._maxMemory = None # maximum memory in bytes
-        self._unit = None # unit of memory
-        self._conv = 1 # convert to any unit: equivalence with bytes from unit
-        self._margin = None # private data of margin
-        self._limit = None # private data representing _maxMemory*_margin in bytes
+        # self.references is a dictionary containing all the references
+        # self._lastkey is effectively the last key to use when Manager is
+        # called
+        self._keptMemory = 0  # used memory in bytes of references
+        self._refMemory = 0  # used memory in bytes of keptAlive
+        self._maxMemory = None  # maximum memory in bytes
+        self._unit = None  # unit of memory
+        self._conv = 1  # convert to any unit: equivalence with bytes from unit
+        self._margin = None  # private data of margin
+        self._limit = None  # private data representing _maxMemory*_margin in bytes
         self._all = all
-        self.blacklist = set() # key of objects likely to destroy
-        self.whitelist = set() # key of objects likely to keep in memory and only delete in extreme cases
-        self.keptAlive = {} # objects currently being kept alive
-        self.verbosity = True # if true print debugging messages
-        self.invert = False # invert any order made by user
-        self.methods = {} # mapping methods for user defined fields
-        self.method = None # ("size","_call","_fail","_mean")
-        self.unit = unit # set units
-        self.margin = margin # margin of percentage (0 to 1) of memory
-        if maxMemory is not None: self.maxMemory = maxMemory # set maximum memory
+        self.blacklist = set()  # key of objects likely to destroy
+        # key of objects likely to keep in memory and only delete in extreme
+        # cases
+        self.whitelist = set()
+        self.keptAlive = {}  # objects currently being kept alive
+        self.verbosity = True  # if true print debugging messages
+        self.invert = False  # invert any order made by user
+        self.methods = {}  # mapping methods for user defined fields
+        self.method = None  # ("size","_call","_fail","_mean")
+        self.unit = unit  # set units
+        self.margin = margin  # margin of percentage (0 to 1) of memory
+        if maxMemory is not None:
+            self.maxMemory = maxMemory  # set maximum memory
 
     def __getitem__(self, key):
         """
@@ -705,63 +758,65 @@ class ResourceManager(Retriever):
         """
         t1 = time()
         getter = self.references[key]
-        getter._iddleT = (t1 - getter._iddleT) # iddle time
+        getter._iddleT = (t1 - getter._iddleT)  # iddle time
         wasAlive = getter.isAlive()
-        wasAtFail = getter._fails>0
+        wasAtFail = getter._fails > 0
         try:
-            obj = getter(throw = True)
-            if wasAtFail: self.resetGetter(getter)
+            obj = getter(throw=True)
+            if wasAtFail:
+                self.resetGetter(getter)
         except NotCreatable:
             obj = None
-            getter._fails += 1 # keep accumulating fails
-        getter._calls += 1 # actual calls
+            getter._fails += 1  # keep accumulating fails
+        getter._calls += 1  # actual calls
         # time it and increase _calls
-        if getter._calls: # get successive times
-            getter._processT = old_div((time()-t1 + getter._processT),2) # process time
-        else: # if first call then get first profile time
-            getter._processT = time()-t1
+        if getter._calls:  # get successive times
+            getter._processT = old_div(
+                (time() - t1 + getter._processT), 2)  # process time
+        else:  # if first call then get first profile time
+            getter._processT = time() - t1
 
         if key not in self.keptAlive:
-            toWhiteList =  getter._fails==0 and key not in self.whitelist and getter._processT > 3
-            if not wasAlive: # it was not alive but now it was created
-                self.optimizeObject(key,getter,toWhiteList=toWhiteList)
+            toWhiteList = getter._fails == 0 and key not in self.whitelist and getter._processT > 3
+            if not wasAlive:  # it was not alive but now it was created
+                self.optimizeObject(key, getter, toWhiteList=toWhiteList)
 
-        self._lastKey = key # update key once finished
+        self._lastKey = key  # update key once finished
         return obj
 
     def __setitem__(self, key, value):
         self.register(key, value)
 
     def __delitem__(self, key):
-        self._free(key) # tries to _free if kept alive
-        del self.references[key] # delete entry
-        if key in self.blacklist: # clear form black list
+        self._free(key)  # tries to _free if kept alive
+        del self.references[key]  # delete entry
+        if key in self.blacklist:  # clear form black list
             self.blacklist.remove(key)
-        if key in self.whitelist: # clear form white list
+        if key in self.whitelist:  # clear form white list
             self.whitelist.remove(key)
 
     def getSizeOf(self, item):
-        return item.__sizeof__()#getsizeof(item,0)
+        return item.__sizeof__()  # getsizeof(item,0)
 
-    def optimizeObject(self, key, getter, toWhiteList = False):
+    def optimizeObject(self, key, getter, toWhiteList=False):
         if getter.isAlive():
             obj = getter.raw()
             if obj is None:
                 raise Exception("given a dead reference")
-            flag = self.keepAlive(key,obj)
+            flag = self.keepAlive(key, obj)
             if flag and toWhiteList:
                 self.whitelist.add(key)
             return flag
 
     def keepAlive(self, key, obj):
         if key in self.keptAlive:
-            #self._free(key)
+            # self._free(key)
             raise Exception("Already ketp alive")
-        s = self.getSizeOf(obj)# needed memory to allocate
+        s = self.getSizeOf(obj)  # needed memory to allocate
         flag = self._optimizeMemory(needed=s)
-        if flag is not None and flag<=0: # manage memory to allocate new object
+        if flag is not None and flag <= 0:  # manage memory to allocate new object
             self.keptAlive[key] = obj
-            self._keptMemory += s # update kept memory
+            self._keptMemory += s  # update kept memory
             return True
 
     def _free(self, key):
@@ -772,20 +827,20 @@ class ResourceManager(Retriever):
         """
         s = self.getSizeOf(self.keptAlive[key])
         del self.keptAlive[key]
-        self._keptMemory -= s # update kept memory
+        self._keptMemory -= s  # update kept memory
         return s
 
-    def bytes2units(self,value):
+    def bytes2units(self, value):
         """
         converts value from bytes to user units
         """
-        return old_div(value,self._conv)
+        return old_div(value, self._conv)
 
-    def units2bytes(self,value):
+    def units2bytes(self, value):
         """
         converts value from user units two bytes
         """
-        return value*self._conv
+        return value * self._conv
 
     @property
     def usedMemory(self):
@@ -810,9 +865,9 @@ class ResourceManager(Retriever):
             self._limit = None
             self._maxMemory = None
         else:
-            print("WARNING: maximum memory is {} {}".format(value,self.unit))
-            self._maxMemory = self.units2bytes(value) # pass in bytes
-            self._limit = self._maxMemory * self.margin # re calculate limit
+            print("WARNING: maximum memory is {} {}".format(value, self.unit))
+            self._maxMemory = self.units2bytes(value)  # pass in bytes
+            self._limit = self._maxMemory * self.margin  # re calculate limit
         self._optimizeMemory()
 
     @property
@@ -824,9 +879,10 @@ class ResourceManager(Retriever):
 
     @margin.setter
     def margin(self, value):
-        if value<0 or value>1: raise Exception("Margin must be between 0 and 1")
+        if value < 0 or value > 1:
+            raise Exception("Margin must be between 0 and 1")
         if value is None:
-            self._limit = self._maxMemory # set limit to maxMemory
+            self._limit = self._maxMemory  # set limit to maxMemory
         else:
             if self._maxMemory is None:
                 self._limit = None
@@ -848,7 +904,7 @@ class ResourceManager(Retriever):
     def all(self, flag):
         if self._all != flag:
             self._all = flag
-            # TODO  recaculate usedMemory every time all changes
+            # TODO  recalculate usedMemory every time all changes
 
     @property
     def unit(self):
@@ -859,12 +915,12 @@ class ResourceManager(Retriever):
 
     @unit.setter
     def unit(self, unit):
-        if unit.lower() in ("b","bytes","byte"):
+        if unit.lower() in ("b", "bytes", "byte"):
             self._conv = 1
-        elif unit.lower() in ("m","mb","megabytes","megas","mega"):
+        elif unit.lower() in ("m", "mb", "megabytes", "megas", "mega"):
             self._conv = 2**20
-        elif unit.lower() in ("g","gb","gigas","gigabytes","giga","gigabyte"):
-            self._conv =  1000*2**20
+        elif unit.lower() in ("g", "gb", "gigas", "gigabytes", "giga", "gigabyte"):
+            self._conv = 1000 * 2**20
         else:
             raise Exception("unit '{}' not supported".format(unit))
         self._unit = unit
@@ -876,12 +932,12 @@ class ResourceManager(Retriever):
 
         :param getter: any instance of objectGetter
         """
-        getter._fails = 0 # init fail count
-        getter._calls = 0 # init call count
-        getter._processT = 0 # init mean of retrieving time
+        getter._fails = 0  # init fail count
+        getter._calls = 0  # init call count
+        getter._processT = 0  # init mean of retrieving time
         getter._iddleT = time()
 
-    def register(self, key, method = None, instance = None):
+    def register(self, key, method=None, instance=None):
         """
         Register object to retrieve.
 
@@ -912,15 +968,17 @@ class ResourceManager(Retriever):
         """
         if key in self.references:
             getter = self.references[key]
-            getter.update(obj = instance, callfunc=method)
+            getter.update(obj=instance, callfunc=method)
         else:
-            getter = ObjectGetter(obj = instance, callfunc=method)
+            getter = ObjectGetter(obj=instance, callfunc=method)
             self.resetGetter(getter)
             self.references[key] = getter
-        if instance: self.optimizeObject(key,getter,toWhiteList= not getter.isCreatable())
-        self._lastKey = key # register last key
+        if instance:
+            self.optimizeObject(
+                key, getter, toWhiteList=not getter.isCreatable())
+        self._lastKey = key  # register last key
 
-    def _checkMemory(self, needed = 0):
+    def _checkMemory(self, needed=0):
         """
         check if memory needs to be optimized.
 
@@ -932,18 +990,19 @@ class ResourceManager(Retriever):
         limit = self._limit
 
         if limit is not None:
-            if needed> self._maxMemory:
-                return # indicates not capacity
-            if needed> limit: limit = self._maxMemory
+            if needed > self._maxMemory:
+                return  # indicates not capacity
+            if needed > limit:
+                limit = self._maxMemory
             if self._all:
                 val = self._keptMemory + self._refMemory + needed
             else:
                 val = self._keptMemory + needed
             return val - limit
         else:
-            return 0 # return 0 bytes to free
+            return 0  # return 0 bytes to free
 
-    def _getOrderedData(self, method = None, all = None):
+    def _getOrderedData(self, method=None, all=None):
         """
         Construct list of alive objects.
 
@@ -956,35 +1015,36 @@ class ResourceManager(Retriever):
         :return: list with items (key,size,calculated)
         """
         method = method or self.method
-        if all is None: all = self._all # let user data pass or choose default
+        if all is None:
+            all = self._all  # let user data pass or choose default
         usemethod = method is not None and method != "size" and self.methods[method]
 
-        data = [] # frame: key, size, calls, fails
+        data = []  # frame: key, size, calls, fails
         if all:
-            for key,getter in self.references.items():
+            for key, getter in self.references.items():
                 if getter.isAlive():
                     val = getter.raw()
                     size = self.getSizeOf(val)
                     if usemethod:
-                        data.append((key,size,usemethod(val)))
+                        data.append((key, size, usemethod(val)))
                     else:
-                        data.append((key,size))
+                        data.append((key, size))
         else:
-            for key,val in self.keptAlive.items():
+            for key, val in self.keptAlive.items():
                 size = self.getSizeOf(val)
                 if size:
                     if usemethod:
-                        data.append((key,size,usemethod(val)))
+                        data.append((key, size, usemethod(val)))
                     else:
-                        data.append((key,size))
+                        data.append((key, size))
 
-        if method == "size": # sort just by size
-            data.sort(key=lambda x:x[1],reverse=self.invert)
-        elif usemethod: # sort by user defined val
-            data.sort(key=lambda x:x[2],reverse=self.invert)
+        if method == "size":  # sort just by size
+            data.sort(key=lambda x: x[1], reverse=self.invert)
+        elif usemethod:  # sort by user defined val
+            data.sort(key=lambda x: x[2], reverse=self.invert)
         return data
 
-    def _optimizeMemory(self, needed = 0):
+    def _optimizeMemory(self, needed=0):
         """
         :param ret: dictionary or retriever
         :param _limit: _limit of memory
@@ -997,66 +1057,84 @@ class ResourceManager(Retriever):
         # if limit< total > limit*percent then eliminate
         # methods: None, by ascendant, by descendant, by creations
         tofree = self._checkMemory(needed=needed)
-        if tofree is None: return # nothing to do, not capacity to allocate
+        if tofree is None:
+            return  # nothing to do, not capacity to allocate
 
-        if tofree<=0:
-            return tofree # successful
+        if tofree <= 0:
+            return tofree  # successful
 
         c = self.bytes2units
         unit = self.unit
         if self.verbosity:
-            print("{1} {0} used of {2} {0}.".format(unit,self.usedMemory,self.maxMemory))
-            print("{1} {0} needs to be freed to allocate {2} {0}.".format(unit,c(tofree),c(needed)))
+            print("{1} {0} used of {2} {0}.".format(
+                unit, self.usedMemory, self.maxMemory))
+            print("{1} {0} needs to be freed to allocate {2} {0}.".format(
+                unit, c(tofree), c(needed)))
 
         # FIRST STAGE
         blacklist = list(self.blacklist)
         # first eliminate in black list
         freed = 0
-        while len(blacklist) and freed>=tofree:
+        while len(blacklist) and freed >= tofree:
             key = blacklist.pop()
             if key in self.keptAlive:
                 size = self._free(key)
                 freed += size
-                if self.verbosity: print("Eliminated '{}' of size {} {}".format(key,c(size),unit))
-                self.blacklist.pop(key) # liminate in real black list
+                if self.verbosity:
+                    print("Eliminated '{}' of size {} {}".format(
+                        key, c(size), unit))
+                self.blacklist.pop(key)  # liminate in real black list
 
         tofree -= freed
-        if tofree<=0:
-            if self.verbosity: print("{0} {1} where freed".format(c(freed),unit))
-            return tofree # successful
+        if tofree <= 0:
+            if self.verbosity:
+                print("{0} {1} where freed".format(c(freed), unit))
+            return tofree  # successful
 
         # SECOND STAGE: if it did not work keep freeing
-        data = self._getOrderedData(all=False) # get only in keptAlive
+        data = self._getOrderedData(all=False)  # get only in keptAlive
         if data:
-            keys,sizes = zip(*data)[:2] # just needed keys and sizes
-            total = sum(sizes) # total used memory in bytes
-            if abs(total - self._keptMemory) > 10: # difference of 10 bytes
+            keys, sizes = zip(*data)[:2]  # just needed keys and sizes
+            total = sum(sizes)  # total used memory in bytes
+            if abs(total - self._keptMemory) > 10:  # difference of 10 bytes
                 self._keptMemory = total
                 tofree = self._checkMemory(needed=needed)
                 print("WARNING: data was not well collected")
-            if tofree>0:
+            if tofree > 0:
                 #ratios = np.array(sizes)/total
                 freed = 0
-                for key,size in zip(keys,sizes): # free only normal ones
-                    if freed>=tofree:
+                for key, size in zip(keys, sizes):  # free only normal ones
+                    if freed >= tofree:
                         break
                     if key not in self.whitelist and key in self.keptAlive:
                         size2 = self._free(key)
                         freed += size2
                         if size2 != size:
-                            print("DEBUG: key {0} had size {1} but was freed {2}".format(key,size,size2))
-                        if self.verbosity: print("Eliminated '{}' of size {} {}".format(key,c(size),unit))
-                tofree-= freed
-                if tofree>0:
-                    if self.verbosity: print("WARNING: {} {} not adequately freed".format(c(tofree),unit))
-                if self.verbosity: print("{0} {2} where freed, remaining {1} {2}".format(c(freed),c(total-freed),unit))
+                            print("DEBUG: key {0} had size {1} but was freed {2}".format(
+                                key, size, size2))
+                        if self.verbosity:
+                            print("Eliminated '{}' of size {} {}".format(
+                                key, c(size), unit))
+                tofree -= freed
+                if tofree > 0:
+                    if self.verbosity:
+                        print("WARNING: {} {} not adequately freed".format(
+                            c(tofree), unit))
+                if self.verbosity:
+                    print("{0} {2} where freed, remaining {1} {2}".format(
+                        c(freed), c(total - freed), unit))
             else:
-                if self.verbosity: print("{} {} is an optimal memory. Not optimized.".format(c(total),unit))
+                if self.verbosity:
+                    print("{} {} is an optimal memory. Not optimized.".format(
+                        c(total), unit))
         else:
-            if self.verbosity: print("{} {} is considered low memory. Not optimized.".format(self.usedMemory, unit))
-        return tofree # this means: > 0 bytes not able to free; < 0 bytes over freed; == 0 successful
+            if self.verbosity:
+                print("{} {} is considered low memory. Not optimized.".format(
+                    self.usedMemory, unit))
+        return tofree  # this means: > 0 bytes not able to free; < 0 bytes over freed; == 0 successful
 
-def mapper(path, obj = None, mode =None, onlynumpy = False):
+
+def mapper(path, obj=None, mode=None, onlynumpy=False):
     """
     Save and load or map live objects to disk to free RAM memory.
 
@@ -1069,15 +1147,16 @@ def mapper(path, obj = None, mode =None, onlynumpy = False):
     names = None
     if onlynumpy:
         if not path.endswith(".npy"):
-            path += ".npy" # correct path
+            path += ".npy"  # correct path
         if obj is not None:
-            numpySave(path,obj) # save numpy array
-            names = [path] # simulates answer as onlynumpy = False
-        return numpyLoad(path,mode),names
+            numpySave(path, obj)  # save numpy array
+            names = [path]  # simulates answer as onlynumpy = False
+        return numpyLoad(path, mode), names
     else:
         if obj is not None:
-            names = joblib.dump(obj, path) # dump object to file for mapping
+            names = joblib.dump(obj, path)  # dump object to file for mapping
         return joblib.load(path, mmap_mode=mode), names
+
 
 class MemoizedDict(MutableMapping):
     """
@@ -1099,23 +1178,27 @@ class MemoizedDict(MutableMapping):
         Some data structures cannot be memoize, so this structure is not save yet.
         Use at your own risk.
     """
-    def __init__(self, path, mode = None):
+
+    def __init__(self, path, mode=None):
         #from directory import checkFile, checkDir, mkPath, rmFile
         from .directory import mkPath
         import pickle
         # TODO: change serializer to use json (it seems it is more reliable and compatible)
         # TODO: It is slow load key per key, consider making a way to load al de dictionary keys quickly
-        # TODO: when clear is called, delete all memoized folder instead each key. it could be dangerous but faster
-        self._map_serializer = pickle # serializer for keys
-        self._path = mkPath(path) # path to memoized keys and values
-        self._map_file = os.path.join(self._path, "metadata") # file containing the keys
-        #self._map = self._load_map() or {} # keeps the map to persistent files
+        # TODO: when clear is called, delete all memoized folder instead each
+        # key. it could be dangerous but faster
+        self._map_serializer = pickle  # serializer for keys
+        self._path = mkPath(path)  # path to memoized keys and values
+        self._map_file = os.path.join(
+            self._path, "metadata")  # file containing the keys
+        # self._map = self._load_map() or {} # keeps the map to persistent
+        # files
         self._map_old = None
-        self._mode = mode # mode to read the values
-        self._loader = joblib.load # loader for values
-        self._saver = joblib.dump # saver for values
-        self._hasher = hash # function to hash the keys
-        self._secure = False # this is an option to use dangerous and secure routines
+        self._mode = mode  # mode to read the values
+        self._loader = joblib.load  # loader for values
+        self._saver = joblib.dump  # saver for values
+        self._hasher = hash  # function to hash the keys
+        self._secure = False  # this is an option to use dangerous and secure routines
 
     @property
     def _map(self):
@@ -1123,9 +1206,11 @@ class MemoizedDict(MutableMapping):
         if self._map_old is None:
             self._map_old = {}
         return self._map_old
+
     @_map.setter
-    def _map(self,value):
+    def _map(self, value):
         raise VariableNotSettable("_map cannot be set")
+
     @_map.deleter
     def _map(self):
         raise VariableNotDeletable("_map cannot be deleted")
@@ -1145,12 +1230,12 @@ class MemoizedDict(MutableMapping):
         :param key: hashable key.
         :return: value stored in key.
         """
-        hashed,files = self._map[key]
+        hashed, files = self._map[key]
         filename = os.path.join(self._path, hashed)
         if os.path.isfile(filename):
             try:
                 return self._loader(filename, self._mode)
-            except (EOFError,IOError):
+            except (EOFError, IOError):
                 raise CorruptPersistent("Persistent data is corrupt")
         else:
             raise KeyError
@@ -1164,12 +1249,14 @@ class MemoizedDict(MutableMapping):
         :return: None
         """
         try:
-            hashed,files = self._map[key]
-            for file in files: # remove old keys
+            hashed, files = self._map[key]
+            for file in files:  # remove old keys
                 try:
-                    os.remove(file) # FIXME enclose in try/except, who knows files could be deleted
+                    # FIXME enclose in try/except, who knows files could be
+                    # deleted
+                    os.remove(file)
                 except OSError:
-                    pass # file could have been deleted
+                    pass  # file could have been deleted
             del self._map_old[key]
         except KeyError:
             hashed = self._getHash(key)
@@ -1177,8 +1264,9 @@ class MemoizedDict(MutableMapping):
         filename = os.path.join(self._path, hashed)
         try:
             # TODO: Consider implementing a set to keep track of hashes so that a hash is not repeated
-            # TODO: though add overloads, consider persisting the key along the value too for recovery purposes.
-            self._map_old[key] = (hashed,self._saver(value, filename))
+            # TODO: though add overloads, consider persisting the key along the
+            # value too for recovery purposes.
+            self._map_old[key] = (hashed, self._saver(value, filename))
             self._save_map()
         except OSError:
             print(" Race condition in the creation of the directory ")
@@ -1188,8 +1276,9 @@ class MemoizedDict(MutableMapping):
         persist dictionary map to file (metadata).
         """
         if self._map_old is not None:
-            with secure_open(self._map_file, 'wb') as f: # FIXME: consumes too much time
-                return self._map_serializer.dump(self._map_old, f) # save dictionary
+            with secure_open(self._map_file, 'wb') as f:  # FIXME: consumes too much time
+                # save dictionary
+                return self._map_serializer.dump(self._map_old, f)
 
     def _load_map(self):
         """
@@ -1197,18 +1286,18 @@ class MemoizedDict(MutableMapping):
         """
         try:
             with secure_open(self._map_file, 'rb') as f:
-                return self._map_serializer.load(f) # get session
+                return self._map_serializer.load(f)  # get session
         except IOError as e:
-            return # file does not exist
+            return  # file does not exist
         except EOFError as e:
             if os.stat(self._map_file).st_size == 0:
-                return # file exists but it is empty
+                return  # file exists but it is empty
             e, msg, traceback = sys.exc_info()
             msg.args = (
                 msg.args[0] + ". Memoized data appears to be corrupt.",)
             raise_(e, msg, traceback)
 
-    def clear(self): # overloads clear in the abc class
+    def clear(self):  # overloads clear in the abc class
         """
         Remove all items from D.
         """
@@ -1237,18 +1326,19 @@ class MemoizedDict(MutableMapping):
         """
 
     def __setitem__(self, key, value):
-        self._save(key,value)
+        self._save(key, value)
 
     def __getitem__(self, key):
         return self._load(key)
 
     def __delitem__(self, key):
         hashed, files = self._map[key]
-        for file in files: # remove old keys
+        for file in files:  # remove old keys
             try:
-                os.remove(file) # FIXME enclose in try/except, who knows files could be deleted
+                # FIXME enclose in try/except, who knows files could be deleted
+                os.remove(file)
             except OSError:
-                pass # file could have been deleted
+                pass  # file could have been deleted
         del self._map_old[key]
         self._save_map()
 
@@ -1260,9 +1350,9 @@ class MemoizedDict(MutableMapping):
 
     def __contains__(self, key):
         try:
-            #self[key] # It has to load values taking too long
-            hashed,files = self._map[key] # test that key is in map
-            for file in files: # test that key really exists in disk
+            # self[key] # It has to load values taking too long
+            hashed, files = self._map[key]  # test that key is in map
+            for file in files:  # test that key really exists in disk
                 if not os.path.exists(file):
                     raise KeyError
         except KeyError:

@@ -13,7 +13,8 @@ from __future__ import absolute_import
 # no doc
 
 # imports
-from . import segmentation as segmentation # <module 'cv2.ximgproc.segmentation'>
+# <module 'cv2.ximgproc.segmentation'>
+from . import segmentation as segmentation
 
 # Variables with simple values
 
@@ -66,107 +67,156 @@ __spec__ = None
 
 # functions
 
-def AdaptiveManifoldFilter_create(): # real signature unknown; restored from __doc__
+
+def AdaptiveManifoldFilter_create():  # real signature unknown; restored from __doc__
     """ AdaptiveManifoldFilter_create() -> retval """
     pass
 
-def amFilter(joint, src, sigma_s, sigma_r, dst=None, adjust_outliers=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def amFilter(joint, src, sigma_s, sigma_r, dst=None, adjust_outliers=None):
     """ amFilter(joint, src, sigma_s, sigma_r[, dst[, adjust_outliers]]) -> dst """
     pass
 
-def bilateralTextureFilter(src, dst=None, fr=None, numIter=None, sigmaAlpha=None, sigmaAvg=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def bilateralTextureFilter(src, dst=None, fr=None, numIter=None, sigmaAlpha=None, sigmaAvg=None):
     """ bilateralTextureFilter(src[, dst[, fr[, numIter[, sigmaAlpha[, sigmaAvg]]]]]) -> dst """
     pass
 
-def covarianceEstimation(src, windowRows, windowCols, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def covarianceEstimation(src, windowRows, windowCols, dst=None):
     """ covarianceEstimation(src, windowRows, windowCols[, dst]) -> dst """
     pass
 
-def createAMFilter(sigma_s, sigma_r, adjust_outliers=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createAMFilter(sigma_s, sigma_r, adjust_outliers=None):
     """ createAMFilter(sigma_s, sigma_r[, adjust_outliers]) -> retval """
     pass
 
-def createDisparityWLSFilter(matcher_left): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createDisparityWLSFilter(matcher_left):
     """ createDisparityWLSFilter(matcher_left) -> retval """
     pass
 
-def createDisparityWLSFilterGeneric(use_confidence): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createDisparityWLSFilterGeneric(use_confidence):
     """ createDisparityWLSFilterGeneric(use_confidence) -> retval """
     pass
 
-def createDTFilter(guide, sigmaSpatial, sigmaColor, mode=None, numIters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createDTFilter(guide, sigmaSpatial, sigmaColor, mode=None, numIters=None):
     """ createDTFilter(guide, sigmaSpatial, sigmaColor[, mode[, numIters]]) -> retval """
     pass
 
-def createEdgeAwareInterpolator(): # real signature unknown; restored from __doc__
+
+def createEdgeAwareInterpolator():  # real signature unknown; restored from __doc__
     """ createEdgeAwareInterpolator() -> retval """
     pass
 
-def createFastGlobalSmootherFilter(guide, lambda_, sigma_color, lambda_attenuation=None, num_iter=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createFastGlobalSmootherFilter(guide, lambda_, sigma_color, lambda_attenuation=None, num_iter=None):
     """ createFastGlobalSmootherFilter(guide, lambda, sigma_color[, lambda_attenuation[, num_iter]]) -> retval """
     pass
 
-def createFastLineDetector(_length_threshold=None, _distance_threshold=None, _canny_th1=None, _canny_th2=None, _canny_aperture_size=None, _do_merge=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createFastLineDetector(_length_threshold=None, _distance_threshold=None, _canny_th1=None, _canny_th2=None, _canny_aperture_size=None, _do_merge=None):
     """ createFastLineDetector([, _length_threshold[, _distance_threshold[, _canny_th1[, _canny_th2[, _canny_aperture_size[, _do_merge]]]]]]) -> retval """
     pass
 
-def createGuidedFilter(guide, radius, eps): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createGuidedFilter(guide, radius, eps):
     """ createGuidedFilter(guide, radius, eps) -> retval """
     pass
 
-def createRFFeatureGetter(): # real signature unknown; restored from __doc__
+
+def createRFFeatureGetter():  # real signature unknown; restored from __doc__
     """ createRFFeatureGetter() -> retval """
     pass
 
-def createRightMatcher(matcher_left): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createRightMatcher(matcher_left):
     """ createRightMatcher(matcher_left) -> retval """
     pass
 
-def createStructuredEdgeDetection(model, howToGetFeatures=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createStructuredEdgeDetection(model, howToGetFeatures=None):
     """ createStructuredEdgeDetection(model[, howToGetFeatures]) -> retval """
     pass
 
-def createSuperpixelLSC(image, region_size=None, ratio=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createSuperpixelLSC(image, region_size=None, ratio=None):
     """ createSuperpixelLSC(image[, region_size[, ratio]]) -> retval """
     pass
 
-def createSuperpixelSEEDS(image_width, image_height, image_channels, num_superpixels, num_levels, prior=None, histogram_bins=None, double_step=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createSuperpixelSEEDS(image_width, image_height, image_channels, num_superpixels, num_levels, prior=None, histogram_bins=None, double_step=None):
     """ createSuperpixelSEEDS(image_width, image_height, image_channels, num_superpixels, num_levels[, prior[, histogram_bins[, double_step]]]) -> retval """
     pass
 
-def createSuperpixelSLIC(image, algorithm=None, region_size=None, ruler=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createSuperpixelSLIC(image, algorithm=None, region_size=None, ruler=None):
     """ createSuperpixelSLIC(image[, algorithm[, region_size[, ruler]]]) -> retval """
     pass
 
-def dtFilter(guide, src, sigmaSpatial, sigmaColor, dst=None, mode=None, numIters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def dtFilter(guide, src, sigmaSpatial, sigmaColor, dst=None, mode=None, numIters=None):
     """ dtFilter(guide, src, sigmaSpatial, sigmaColor[, dst[, mode[, numIters]]]) -> dst """
     pass
 
-def fastGlobalSmootherFilter(guide, src, lambda_, sigma_color, dst=None, lambda_attenuation=None, num_iter=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fastGlobalSmootherFilter(guide, src, lambda_, sigma_color, dst=None, lambda_attenuation=None, num_iter=None):
     """ fastGlobalSmootherFilter(guide, src, lambda, sigma_color[, dst[, lambda_attenuation[, num_iter]]]) -> dst """
     pass
 
-def guidedFilter(guide, src, radius, eps, dst=None, dDepth=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def guidedFilter(guide, src, radius, eps, dst=None, dDepth=None):
     """ guidedFilter(guide, src, radius, eps[, dst[, dDepth]]) -> dst """
     pass
 
-def jointBilateralFilter(joint, src, d, sigmaColor, sigmaSpace, dst=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def jointBilateralFilter(joint, src, d, sigmaColor, sigmaSpace, dst=None, borderType=None):
     """ jointBilateralFilter(joint, src, d, sigmaColor, sigmaSpace[, dst[, borderType]]) -> dst """
     pass
 
-def l0Smooth(src, dst=None, lambda_=None, kappa=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def l0Smooth(src, dst=None, lambda_=None, kappa=None):
     """ l0Smooth(src[, dst[, lambda[, kappa]]]) -> dst """
     pass
 
-def niBlackThreshold(_src, maxValue, type, blockSize, delta, _dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def niBlackThreshold(_src, maxValue, type, blockSize, delta, _dst=None):
     """ niBlackThreshold(_src, maxValue, type, blockSize, delta[, _dst]) -> _dst """
     pass
 
-def rollingGuidanceFilter(src, dst=None, d=None, sigmaColor=None, sigmaSpace=None, numOfIter=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def rollingGuidanceFilter(src, dst=None, d=None, sigmaColor=None, sigmaSpace=None, numOfIter=None, borderType=None):
     """ rollingGuidanceFilter(src[, dst[, d[, sigmaColor[, sigmaSpace[, numOfIter[, borderType]]]]]]) -> dst """
     pass
 
-def thinning(src, dst=None, thinningType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def thinning(src, dst=None, thinningType=None):
     """ thinning(src[, dst[, thinningType]]) -> dst """
     pass
 

@@ -63,107 +63,149 @@ __spec__ = None
 
 # functions
 
-def AbsLayer_create(): # real signature unknown; restored from __doc__
+
+def AbsLayer_create():  # real signature unknown; restored from __doc__
     """ AbsLayer_create() -> retval """
     pass
 
-def BNLLLayer_create(): # real signature unknown; restored from __doc__
+
+def BNLLLayer_create():  # real signature unknown; restored from __doc__
     """ BNLLLayer_create() -> retval """
     pass
 
-def ConcatLayer_create(axis=None): # real signature unknown; restored from __doc__
+
+def ConcatLayer_create(axis=None):  # real signature unknown; restored from __doc__
     """ ConcatLayer_create([, axis]) -> retval """
     pass
 
-def ConvolutionLayer_create(kernel=None, stride=None, pad=None, dilation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ConvolutionLayer_create(kernel=None, stride=None, pad=None, dilation=None):
     """ ConvolutionLayer_create([, kernel[, stride[, pad[, dilation]]]]) -> retval """
     pass
 
-def createCaffeImporter(prototxt, caffeModel=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createCaffeImporter(prototxt, caffeModel=None):
     """ createCaffeImporter(prototxt[, caffeModel]) -> retval """
     pass
 
-def createTorchImporter(filename, isBinary=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTorchImporter(filename, isBinary=None):
     """ createTorchImporter(filename[, isBinary]) -> retval """
     pass
 
-def DeconvolutionLayer_create(kernel=None, stride=None, pad=None, dilation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def DeconvolutionLayer_create(kernel=None, stride=None, pad=None, dilation=None):
     """ DeconvolutionLayer_create([, kernel[, stride[, pad[, dilation]]]]) -> retval """
     pass
 
-def initModule(): # real signature unknown; restored from __doc__
+
+def initModule():  # real signature unknown; restored from __doc__
     """ initModule() -> None """
     pass
 
-def InnerProductLayer_create(axis=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def InnerProductLayer_create(axis=None):
     """ InnerProductLayer_create([, axis]) -> retval """
     pass
 
-def LRNLayer_create(type=None, size=None, alpha=None, beta=None, bias=None, normBySize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def LRNLayer_create(type=None, size=None, alpha=None, beta=None, bias=None, normBySize=None):
     """ LRNLayer_create([, type[, size[, alpha[, beta[, bias[, normBySize]]]]]]) -> retval """
     pass
 
-def LSTMLayer_create(): # real signature unknown; restored from __doc__
+
+def LSTMLayer_create():  # real signature unknown; restored from __doc__
     """ LSTMLayer_create() -> retval """
     pass
 
-def MVNLayer_create(normVariance=None, acrossChannels=None, eps=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def MVNLayer_create(normVariance=None, acrossChannels=None, eps=None):
     """ MVNLayer_create([, normVariance[, acrossChannels[, eps]]]) -> retval """
     pass
 
-def Net(): # real signature unknown; restored from __doc__
+
+def Net():  # real signature unknown; restored from __doc__
     """ Net() -> <dnn_Net object> """
     pass
 
-def PoolingLayer_create(type=None, kernel=None, stride=None, pad=None, padMode=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PoolingLayer_create(type=None, kernel=None, stride=None, pad=None, padMode=None):
     """ PoolingLayer_create([, type[, kernel[, stride[, pad[, padMode]]]]]) -> retval """
     pass
 
-def PoolingLayer_createGlobal(type=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PoolingLayer_createGlobal(type=None):
     """ PoolingLayer_createGlobal([, type]) -> retval """
     pass
 
-def PowerLayer_create(power=None, scale=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PowerLayer_create(power=None, scale=None, shift=None):
     """ PowerLayer_create([, power[, scale[, shift]]]) -> retval """
     pass
 
-def readNetFromCaffe(prototxt, caffeModel=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def readNetFromCaffe(prototxt, caffeModel=None):
     """ readNetFromCaffe(prototxt[, caffeModel]) -> retval """
     pass
 
-def readTorchBlob(filename, isBinary=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def readTorchBlob(filename, isBinary=None):
     """ readTorchBlob(filename[, isBinary]) -> retval """
     pass
 
-def ReLULayer_create(negativeSlope=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ReLULayer_create(negativeSlope=None):
     """ ReLULayer_create([, negativeSlope]) -> retval """
     pass
 
-def ReshapeLayer_create(newShape, applyingRange=None, enableReordering=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ReshapeLayer_create(newShape, applyingRange=None, enableReordering=None):
     """ ReshapeLayer_create(newShape[, applyingRange[, enableReordering]]) -> retval """
     pass
 
-def RNNLayer_create(): # real signature unknown; restored from __doc__
+
+def RNNLayer_create():  # real signature unknown; restored from __doc__
     """ RNNLayer_create() -> retval """
     pass
 
-def SigmoidLayer_create(): # real signature unknown; restored from __doc__
+
+def SigmoidLayer_create():  # real signature unknown; restored from __doc__
     """ SigmoidLayer_create() -> retval """
     pass
 
-def SliceLayer_create(axis): # real signature unknown; restored from __doc__
+
+def SliceLayer_create(axis):  # real signature unknown; restored from __doc__
     """ SliceLayer_create(axis) -> retval  or  SliceLayer_create(axis, sliceIndices) -> retval """
     pass
 
-def SoftmaxLayer_create(axis=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SoftmaxLayer_create(axis=None):
     """ SoftmaxLayer_create([, axis]) -> retval """
     pass
 
-def SplitLayer_create(outputsCount=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SplitLayer_create(outputsCount=None):
     """ SplitLayer_create([, outputsCount]) -> retval """
     pass
 
-def TanHLayer_create(): # real signature unknown; restored from __doc__
+
+def TanHLayer_create():  # real signature unknown; restored from __doc__
     """ TanHLayer_create() -> retval """
     pass
 

@@ -13,7 +13,8 @@ __spec__ = None
 
 # functions
 
-def open(HDF5Filename): # real signature unknown; restored from __doc__
+
+def open(HDF5Filename):  # real signature unknown; restored from __doc__
     """ open(HDF5Filename) -> retval """
     pass
 

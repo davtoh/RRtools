@@ -35,111 +35,163 @@ __spec__ = None
 
 # functions
 
-def Board_create(objPoints, dictionary, ids): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Board_create(objPoints, dictionary, ids):
     """ Board_create(objPoints, dictionary, ids) -> retval """
     pass
 
-def calibrateCameraAruco(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCameraAruco(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None):
     """ calibrateCameraAruco(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, flags[, criteria]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs """
     pass
 
-def calibrateCameraArucoExtended(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCameraArucoExtended(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None):
     """ calibrateCameraArucoExtended(corners, ids, counter, board, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, stdDeviationsIntrinsics[, stdDeviationsExtrinsics[, perViewErrors[, flags[, criteria]]]]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs, stdDeviationsIntrinsics, stdDeviationsExtrinsics, perViewErrors """
     pass
 
-def calibrateCameraCharuco(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCameraCharuco(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None):
     """ calibrateCameraCharuco(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, flags[, criteria]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs """
     pass
 
-def calibrateCameraCharucoExtended(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCameraCharucoExtended(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None):
     """ calibrateCameraCharucoExtended(charucoCorners, charucoIds, board, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, stdDeviationsIntrinsics[, stdDeviationsExtrinsics[, perViewErrors[, flags[, criteria]]]]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs, stdDeviationsIntrinsics, stdDeviationsExtrinsics, perViewErrors """
     pass
 
-def CharucoBoard_create(squaresX, squaresY, squareLength, markerLength, dictionary): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def CharucoBoard_create(squaresX, squaresY, squareLength, markerLength, dictionary):
     """ CharucoBoard_create(squaresX, squaresY, squareLength, markerLength, dictionary) -> retval """
     pass
 
-def custom_dictionary(nMarkers, markerSize): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def custom_dictionary(nMarkers, markerSize):
     """ custom_dictionary(nMarkers, markerSize) -> retval """
     pass
 
-def custom_dictionary_from(nMarkers, markerSize, baseDictionary): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def custom_dictionary_from(nMarkers, markerSize, baseDictionary):
     """ custom_dictionary_from(nMarkers, markerSize, baseDictionary) -> retval """
     pass
 
-def detectCharucoDiamond(image, markerCorners, markerIds, squareMarkerLengthRate, diamondCorners=None, diamondIds=None, cameraMatrix=None, distCoeffs=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def detectCharucoDiamond(image, markerCorners, markerIds, squareMarkerLengthRate, diamondCorners=None, diamondIds=None, cameraMatrix=None, distCoeffs=None):
     """ detectCharucoDiamond(image, markerCorners, markerIds, squareMarkerLengthRate[, diamondCorners[, diamondIds[, cameraMatrix[, distCoeffs]]]]) -> diamondCorners, diamondIds """
     pass
 
-def detectMarkers(image, dictionary, corners=None, ids=None, parameters=None, rejectedImgPoints=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def detectMarkers(image, dictionary, corners=None, ids=None, parameters=None, rejectedImgPoints=None):
     """ detectMarkers(image, dictionary[, corners[, ids[, parameters[, rejectedImgPoints]]]]) -> corners, ids, rejectedImgPoints """
     pass
 
-def DetectorParameters_create(): # real signature unknown; restored from __doc__
+
+def DetectorParameters_create():  # real signature unknown; restored from __doc__
     """ DetectorParameters_create() -> retval """
     pass
 
-def Dictionary_create(nMarkers, markerSize): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Dictionary_create(nMarkers, markerSize):
     """ Dictionary_create(nMarkers, markerSize) -> retval """
     pass
 
-def Dictionary_create_from(nMarkers, markerSize, baseDictionary): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Dictionary_create_from(nMarkers, markerSize, baseDictionary):
     """ Dictionary_create_from(nMarkers, markerSize, baseDictionary) -> retval """
     pass
 
-def Dictionary_get(dict): # real signature unknown; restored from __doc__
+
+def Dictionary_get(dict):  # real signature unknown; restored from __doc__
     """ Dictionary_get(dict) -> retval """
     pass
 
-def drawAxis(image, cameraMatrix, distCoeffs, rvec, tvec, length): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawAxis(image, cameraMatrix, distCoeffs, rvec, tvec, length):
     """ drawAxis(image, cameraMatrix, distCoeffs, rvec, tvec, length) -> image """
     pass
 
-def drawDetectedCornersCharuco(image, charucoCorners, charucoIds=None, cornerColor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawDetectedCornersCharuco(image, charucoCorners, charucoIds=None, cornerColor=None):
     """ drawDetectedCornersCharuco(image, charucoCorners[, charucoIds[, cornerColor]]) -> image """
     pass
 
-def drawDetectedDiamonds(image, diamondCorners, diamondIds=None, borderColor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawDetectedDiamonds(image, diamondCorners, diamondIds=None, borderColor=None):
     """ drawDetectedDiamonds(image, diamondCorners[, diamondIds[, borderColor]]) -> image """
     pass
 
-def drawDetectedMarkers(image, corners, ids=None, borderColor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawDetectedMarkers(image, corners, ids=None, borderColor=None):
     """ drawDetectedMarkers(image, corners[, ids[, borderColor]]) -> image """
     pass
 
-def drawMarker(dictionary, id, sidePixels, img=None, borderBits=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawMarker(dictionary, id, sidePixels, img=None, borderBits=None):
     """ drawMarker(dictionary, id, sidePixels[, img[, borderBits]]) -> img """
     pass
 
-def drawPlanarBoard(board, outSize, img=None, marginSize=None, borderBits=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawPlanarBoard(board, outSize, img=None, marginSize=None, borderBits=None):
     """ drawPlanarBoard(board, outSize[, img[, marginSize[, borderBits]]]) -> img """
     pass
 
-def estimatePoseBoard(corners, ids, board, cameraMatrix, distCoeffs, rvec=None, tvec=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimatePoseBoard(corners, ids, board, cameraMatrix, distCoeffs, rvec=None, tvec=None):
     """ estimatePoseBoard(corners, ids, board, cameraMatrix, distCoeffs[, rvec[, tvec]]) -> retval, rvec, tvec """
     pass
 
-def estimatePoseCharucoBoard(charucoCorners, charucoIds, board, cameraMatrix, distCoeffs, rvec=None, tvec=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimatePoseCharucoBoard(charucoCorners, charucoIds, board, cameraMatrix, distCoeffs, rvec=None, tvec=None):
     """ estimatePoseCharucoBoard(charucoCorners, charucoIds, board, cameraMatrix, distCoeffs[, rvec[, tvec]]) -> retval, rvec, tvec """
     pass
 
-def estimatePoseSingleMarkers(corners, markerLength, cameraMatrix, distCoeffs, rvecs=None, tvecs=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimatePoseSingleMarkers(corners, markerLength, cameraMatrix, distCoeffs, rvecs=None, tvecs=None):
     """ estimatePoseSingleMarkers(corners, markerLength, cameraMatrix, distCoeffs[, rvecs[, tvecs]]) -> rvecs, tvecs """
     pass
 
-def getPredefinedDictionary(dict): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getPredefinedDictionary(dict):
     """ getPredefinedDictionary(dict) -> retval """
     pass
 
-def GridBoard_create(markersX, markersY, markerLength, markerSeparation, dictionary, firstMarker=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def GridBoard_create(markersX, markersY, markerLength, markerSeparation, dictionary, firstMarker=None):
     """ GridBoard_create(markersX, markersY, markerLength, markerSeparation, dictionary[, firstMarker]) -> retval """
     pass
 
-def interpolateCornersCharuco(markerCorners, markerIds, image, board, charucoCorners=None, charucoIds=None, cameraMatrix=None, distCoeffs=None, minMarkers=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def interpolateCornersCharuco(markerCorners, markerIds, image, board, charucoCorners=None, charucoIds=None, cameraMatrix=None, distCoeffs=None, minMarkers=None):
     """ interpolateCornersCharuco(markerCorners, markerIds, image, board[, charucoCorners[, charucoIds[, cameraMatrix[, distCoeffs[, minMarkers]]]]]) -> retval, charucoCorners, charucoIds """
     pass
 
-def refineDetectedMarkers(image, board, detectedCorners, detectedIds, rejectedCorners, cameraMatrix=None, distCoeffs=None, minRepDistance=None, errorCorrectionRate=None, checkAllOrders=None, recoveredIdxs=None, parameters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def refineDetectedMarkers(image, board, detectedCorners, detectedIds, rejectedCorners, cameraMatrix=None, distCoeffs=None, minRepDistance=None, errorCorrectionRate=None, checkAllOrders=None, recoveredIdxs=None, parameters=None):
     """ refineDetectedMarkers(image, board, detectedCorners, detectedIds, rejectedCorners[, cameraMatrix[, distCoeffs[, minRepDistance[, errorCorrectionRate[, checkAllOrders[, recoveredIdxs[, parameters]]]]]]]) -> detectedCorners, detectedIds, rejectedCorners, recoveredIdxs """
     pass
 

@@ -5,41 +5,42 @@
 """ Python wrapper for OpenCV. """
 from __future__ import absolute_import
 # imports
-#import cv2  # <module 'cv2'>
+# import cv2  # <module 'cv2'>
 from builtins import object
-from . import bioinspired as bioinspired # <module 'cv2.bioinspired'>
-from . import saliency as saliency # <module 'cv2.saliency'>
-from . import text as text # <module 'cv2.text'>
-from . import omnidir as omnidir # <module 'cv2.omnidir'>
-from . import fisheye as fisheye # <module 'cv2.fisheye'>
-from . import detail as detail # <module 'cv2.detail'>
-from . import motempl as motempl # <module 'cv2.motempl'>
-from . import bgsegm as bgsegm # <module 'cv2.bgsegm'>
-from . import face as face # <module 'cv2.face'>
-from . import hdf as hdf # <module 'cv2.hdf'>
-from . import ocl as ocl # <module 'cv2.ocl'>
-from . import cuda as cuda # <module 'cv2.cuda'>
-from . import plot as plot # <module 'cv2.plot'>
-from . import Error as Error # <module 'cv2.Error'>
-from . import ximgproc as ximgproc # <module 'cv2.ximgproc'>
-from . import rgbd as rgbd # <module 'cv2.rgbd'>
-from . import ppf_match_3d as ppf_match_3d # <module 'cv2.ppf_match_3d'>
-from . import dnn as dnn # <module 'cv2.dnn'>
-from . import xfeatures2d as xfeatures2d # <module 'cv2.xfeatures2d'>
-from . import flann as flann # <module 'cv2.flann'>
-from . import videostab as videostab # <module 'cv2.videostab'>
-from . import line_descriptor as line_descriptor # <module 'cv2.line_descriptor'>
-from . import multicalib as multicalib # <module 'cv2.multicalib'>
-from . import aruco as aruco # <module 'cv2.aruco'>
-from . import freetype as freetype # <module 'cv2.freetype'>
-from . import ft as ft # <module 'cv2.ft'>
-from . import instr as instr # <module 'cv2.instr'>
-from . import optflow as optflow # <module 'cv2.optflow'>
-from . import ml as ml # <module 'cv2.ml'>
-from . import xphoto as xphoto # <module 'cv2.xphoto'>
-from . import structured_light as structured_light # <module 'cv2.structured_light'>
-from . import ogl as ogl # <module 'cv2.ogl'>
-from . import datasets as datasets # <module 'cv2.datasets'>
+from . import bioinspired as bioinspired  # <module 'cv2.bioinspired'>
+from . import saliency as saliency  # <module 'cv2.saliency'>
+from . import text as text  # <module 'cv2.text'>
+from . import omnidir as omnidir  # <module 'cv2.omnidir'>
+from . import fisheye as fisheye  # <module 'cv2.fisheye'>
+from . import detail as detail  # <module 'cv2.detail'>
+from . import motempl as motempl  # <module 'cv2.motempl'>
+from . import bgsegm as bgsegm  # <module 'cv2.bgsegm'>
+from . import face as face  # <module 'cv2.face'>
+from . import hdf as hdf  # <module 'cv2.hdf'>
+from . import ocl as ocl  # <module 'cv2.ocl'>
+from . import cuda as cuda  # <module 'cv2.cuda'>
+from . import plot as plot  # <module 'cv2.plot'>
+from . import Error as Error  # <module 'cv2.Error'>
+from . import ximgproc as ximgproc  # <module 'cv2.ximgproc'>
+from . import rgbd as rgbd  # <module 'cv2.rgbd'>
+from . import ppf_match_3d as ppf_match_3d  # <module 'cv2.ppf_match_3d'>
+from . import dnn as dnn  # <module 'cv2.dnn'>
+from . import xfeatures2d as xfeatures2d  # <module 'cv2.xfeatures2d'>
+from . import flann as flann  # <module 'cv2.flann'>
+from . import videostab as videostab  # <module 'cv2.videostab'>
+from . import line_descriptor as line_descriptor  # <module 'cv2.line_descriptor'>
+from . import multicalib as multicalib  # <module 'cv2.multicalib'>
+from . import aruco as aruco  # <module 'cv2.aruco'>
+from . import freetype as freetype  # <module 'cv2.freetype'>
+from . import ft as ft  # <module 'cv2.ft'>
+from . import instr as instr  # <module 'cv2.instr'>
+from . import optflow as optflow  # <module 'cv2.optflow'>
+from . import ml as ml  # <module 'cv2.ml'>
+from . import xphoto as xphoto  # <module 'cv2.xphoto'>
+# <module 'cv2.structured_light'>
+from . import structured_light as structured_light
+from . import ogl as ogl  # <module 'cv2.ogl'>
+from . import datasets as datasets  # <module 'cv2.datasets'>
 
 # Variables with simple values
 
@@ -2054,1524 +2055,2145 @@ __version__ = '3.2.0'
 
 # functions
 
-def absdiff(src1, src2, dst=None): # real signature unknown; restored from __doc__
+
+def absdiff(src1, src2, dst=None):  # real signature unknown; restored from __doc__
     """ absdiff(src1, src2[, dst]) -> dst """
     pass
 
-def accumulate(src, dst, mask=None): # real signature unknown; restored from __doc__
+
+def accumulate(src, dst, mask=None):  # real signature unknown; restored from __doc__
     """ accumulate(src, dst[, mask]) -> dst """
     pass
 
-def accumulateProduct(src1, src2, dst, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def accumulateProduct(src1, src2, dst, mask=None):
     """ accumulateProduct(src1, src2, dst[, mask]) -> dst """
     pass
 
-def accumulateSquare(src, dst, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def accumulateSquare(src, dst, mask=None):
     """ accumulateSquare(src, dst[, mask]) -> dst """
     pass
 
-def accumulateWeighted(src, dst, alpha, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def accumulateWeighted(src, dst, alpha, mask=None):
     """ accumulateWeighted(src, dst, alpha[, mask]) -> dst """
     pass
 
-def adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None):
     """ adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C[, dst]) -> dst """
     pass
 
-def add(src1, src2, dst=None, mask=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def add(src1, src2, dst=None, mask=None, dtype=None):
     """ add(src1, src2[, dst[, mask[, dtype]]]) -> dst """
     pass
 
-def addText(img, text, org, nameFont, pointSize=None, color=None, weight=None, style=None, spacing=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def addText(img, text, org, nameFont, pointSize=None, color=None, weight=None, style=None, spacing=None):
     """ addText(img, text, org, nameFont[, pointSize[, color[, weight[, style[, spacing]]]]]) -> None """
     pass
 
-def addWeighted(src1, alpha, src2, beta, gamma, dst=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def addWeighted(src1, alpha, src2, beta, gamma, dst=None, dtype=None):
     """ addWeighted(src1, alpha, src2, beta, gamma[, dst[, dtype]]) -> dst """
     pass
 
-def AgastFeatureDetector_create(threshold=None, nonmaxSuppression=None, type=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def AgastFeatureDetector_create(threshold=None, nonmaxSuppression=None, type=None):
     """ AgastFeatureDetector_create([, threshold[, nonmaxSuppression[, type]]]) -> retval """
     pass
 
-def AKAZE_create(descriptor_type=None, descriptor_size=None, descriptor_channels=None, threshold=None, nOctaves=None, nOctaveLayers=None, diffusivity=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def AKAZE_create(descriptor_type=None, descriptor_size=None, descriptor_channels=None, threshold=None, nOctaves=None, nOctaveLayers=None, diffusivity=None):
     """ AKAZE_create([, descriptor_type[, descriptor_size[, descriptor_channels[, threshold[, nOctaves[, nOctaveLayers[, diffusivity]]]]]]]) -> retval """
     pass
 
-def applyColorMap(src, colormap, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def applyColorMap(src, colormap, dst=None):
     """ applyColorMap(src, colormap[, dst]) -> dst """
     pass
 
-def approxPolyDP(curve, epsilon, closed, approxCurve=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def approxPolyDP(curve, epsilon, closed, approxCurve=None):
     """ approxPolyDP(curve, epsilon, closed[, approxCurve]) -> approxCurve """
     pass
 
-def arcLength(curve, closed): # real signature unknown; restored from __doc__
+
+def arcLength(curve, closed):  # real signature unknown; restored from __doc__
     """ arcLength(curve, closed) -> retval """
     pass
 
-def arrowedLine(img, pt1, pt2, color, thickness=None, line_type=None, shift=None, tipLength=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def arrowedLine(img, pt1, pt2, color, thickness=None, line_type=None, shift=None, tipLength=None):
     """ arrowedLine(img, pt1, pt2, color[, thickness[, line_type[, shift[, tipLength]]]]) -> img """
     pass
 
-def batchDistance(src1, src2, dtype, dist=None, nidx=None, normType=None, K=None, mask=None, update=None, crosscheck=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def batchDistance(src1, src2, dtype, dist=None, nidx=None, normType=None, K=None, mask=None, update=None, crosscheck=None):
     """ batchDistance(src1, src2, dtype[, dist[, nidx[, normType[, K[, mask[, update[, crosscheck]]]]]]]) -> dist, nidx """
     pass
 
-def BFMatcher(normType=None, crossCheck=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BFMatcher(normType=None, crossCheck=None):
     """ BFMatcher([, normType[, crossCheck]]) -> <BFMatcher object> """
     pass
 
-def BFMatcher_create(normType=None, crossCheck=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BFMatcher_create(normType=None, crossCheck=None):
     """ BFMatcher_create([, normType[, crossCheck]]) -> retval """
     pass
 
-def bilateralFilter(src, d, sigmaColor, sigmaSpace, dst=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def bilateralFilter(src, d, sigmaColor, sigmaSpace, dst=None, borderType=None):
     """ bilateralFilter(src, d, sigmaColor, sigmaSpace[, dst[, borderType]]) -> dst """
     pass
 
-def bitwise_and(src1, src2, dst=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def bitwise_and(src1, src2, dst=None, mask=None):
     """ bitwise_and(src1, src2[, dst[, mask]]) -> dst """
     pass
 
-def bitwise_not(src, dst=None, mask=None): # real signature unknown; restored from __doc__
+
+def bitwise_not(src, dst=None, mask=None):  # real signature unknown; restored from __doc__
     """ bitwise_not(src[, dst[, mask]]) -> dst """
     pass
 
-def bitwise_or(src1, src2, dst=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def bitwise_or(src1, src2, dst=None, mask=None):
     """ bitwise_or(src1, src2[, dst[, mask]]) -> dst """
     pass
 
-def bitwise_xor(src1, src2, dst=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def bitwise_xor(src1, src2, dst=None, mask=None):
     """ bitwise_xor(src1, src2[, dst[, mask]]) -> dst """
     pass
 
-def blur(src, ksize, dst=None, anchor=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def blur(src, ksize, dst=None, anchor=None, borderType=None):
     """ blur(src, ksize[, dst[, anchor[, borderType]]]) -> dst """
     pass
 
-def borderInterpolate(p, len, borderType): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def borderInterpolate(p, len, borderType):
     """ borderInterpolate(p, len, borderType) -> retval """
     pass
 
-def boundingRect(points): # real signature unknown; restored from __doc__
+
+def boundingRect(points):  # real signature unknown; restored from __doc__
     """ boundingRect(points) -> retval """
     pass
 
-def BOWImgDescriptorExtractor(dextractor, dmatcher): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BOWImgDescriptorExtractor(dextractor, dmatcher):
     """ BOWImgDescriptorExtractor(dextractor, dmatcher) -> <BOWImgDescriptorExtractor object> """
     pass
 
-def BOWKMeansTrainer(clusterCount, termcrit=None, attempts=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BOWKMeansTrainer(clusterCount, termcrit=None, attempts=None, flags=None):
     """ BOWKMeansTrainer(clusterCount[, termcrit[, attempts[, flags]]]) -> <BOWKMeansTrainer object> """
     pass
 
-def boxFilter(src, ddepth, ksize, dst=None, anchor=None, normalize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def boxFilter(src, ddepth, ksize, dst=None, anchor=None, normalize=None, borderType=None):
     """ boxFilter(src, ddepth, ksize[, dst[, anchor[, normalize[, borderType]]]]) -> dst """
     pass
 
-def boxPoints(box, points=None): # real signature unknown; restored from __doc__
+
+def boxPoints(box, points=None):  # real signature unknown; restored from __doc__
     """ boxPoints(box[, points]) -> points """
     pass
 
-def BRISK_create(thresh=None, octaves=None, patternScale=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def BRISK_create(thresh=None, octaves=None, patternScale=None):
     """ BRISK_create([, thresh[, octaves[, patternScale]]]) -> retval  or  BRISK_create(radiusList, numberList[, dMax[, dMin[, indexChange]]]) -> retval """
     pass
 
-def buildOpticalFlowPyramid(img, winSize, maxLevel, pyramid=None, withDerivatives=None, pyrBorder=None, derivBorder=None, tryReuseInputImage=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def buildOpticalFlowPyramid(img, winSize, maxLevel, pyramid=None, withDerivatives=None, pyrBorder=None, derivBorder=None, tryReuseInputImage=None):
     """ buildOpticalFlowPyramid(img, winSize, maxLevel[, pyramid[, withDerivatives[, pyrBorder[, derivBorder[, tryReuseInputImage]]]]]) -> retval, pyramid """
     pass
 
-def calcBackProject(images, channels, hist, ranges, scale, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcBackProject(images, channels, hist, ranges, scale, dst=None):
     """ calcBackProject(images, channels, hist, ranges, scale[, dst]) -> dst """
     pass
 
-def calcCovarMatrix(samples, mean, flags, covar=None, ctype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcCovarMatrix(samples, mean, flags, covar=None, ctype=None):
     """ calcCovarMatrix(samples, mean, flags[, covar[, ctype]]) -> covar, mean """
     pass
 
-def calcHist(images, channels, mask, histSize, ranges, hist=None, accumulate=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcHist(images, channels, mask, histSize, ranges, hist=None, accumulate=None):
     """ calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]]) -> hist """
     pass
 
-def calcOpticalFlowFarneback(prev, next, flow, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcOpticalFlowFarneback(prev, next, flow, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags):
     """ calcOpticalFlowFarneback(prev, next, flow, pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags) -> flow """
     pass
 
-def calcOpticalFlowPyrLK(prevImg, nextImg, prevPts, nextPts, status=None, err=None, winSize=None, maxLevel=None, criteria=None, flags=None, minEigThreshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcOpticalFlowPyrLK(prevImg, nextImg, prevPts, nextPts, status=None, err=None, winSize=None, maxLevel=None, criteria=None, flags=None, minEigThreshold=None):
     """ calcOpticalFlowPyrLK(prevImg, nextImg, prevPts, nextPts[, status[, err[, winSize[, maxLevel[, criteria[, flags[, minEigThreshold]]]]]]]) -> nextPts, status, err """
     pass
 
-def calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, flags=None, criteria=None):
     """ calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, flags[, criteria]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs """
     pass
 
-def calibrateCameraExtended(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrateCameraExtended(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs, rvecs=None, tvecs=None, stdDeviationsIntrinsics=None, stdDeviationsExtrinsics=None, perViewErrors=None, flags=None, criteria=None):
     """ calibrateCameraExtended(objectPoints, imagePoints, imageSize, cameraMatrix, distCoeffs[, rvecs[, tvecs[, stdDeviationsIntrinsics[, stdDeviationsExtrinsics[, perViewErrors[, flags[, criteria]]]]]]]) -> retval, cameraMatrix, distCoeffs, rvecs, tvecs, stdDeviationsIntrinsics, stdDeviationsExtrinsics, perViewErrors """
     pass
 
-def calibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight):
     """ calibrationMatrixValues(cameraMatrix, imageSize, apertureWidth, apertureHeight) -> fovx, fovy, focalLength, principalPoint, aspectRatio """
     pass
 
-def CamShift(probImage, window, criteria): # real signature unknown; restored from __doc__
+
+def CamShift(probImage, window, criteria):  # real signature unknown; restored from __doc__
     """ CamShift(probImage, window, criteria) -> retval, window """
     pass
 
-def Canny(image, threshold1, threshold2, edges=None, apertureSize=None, L2gradient=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Canny(image, threshold1, threshold2, edges=None, apertureSize=None, L2gradient=None):
     """ Canny(image, threshold1, threshold2[, edges[, apertureSize[, L2gradient]]]) -> edges  or  Canny(dx, dy, threshold1, threshold2[, edges[, L2gradient]]) -> edges """
     pass
 
-def cartToPolar(x, y, magnitude=None, angle=None, angleInDegrees=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cartToPolar(x, y, magnitude=None, angle=None, angleInDegrees=None):
     """ cartToPolar(x, y[, magnitude[, angle[, angleInDegrees]]]) -> magnitude, angle """
     pass
 
-def CascadeClassifier(filename=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def CascadeClassifier(filename=None):
     """ CascadeClassifier([filename]) -> <CascadeClassifier object> """
     pass
 
-def CascadeClassifier_convert(oldcascade, newcascade): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def CascadeClassifier_convert(oldcascade, newcascade):
     """ CascadeClassifier_convert(oldcascade, newcascade) -> retval """
     pass
 
-def checkHardwareSupport(feature): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def checkHardwareSupport(feature):
     """ checkHardwareSupport(feature) -> retval """
     pass
 
-def checkRange(a, quiet=None, minVal=None, maxVal=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def checkRange(a, quiet=None, minVal=None, maxVal=None):
     """ checkRange(a[, quiet[, minVal[, maxVal]]]) -> retval, pos """
     pass
 
-def circle(img, center, radius, color, thickness=None, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def circle(img, center, radius, color, thickness=None, lineType=None, shift=None):
     """ circle(img, center, radius, color[, thickness[, lineType[, shift]]]) -> img """
     pass
 
-def clipLine(imgRect, pt1, pt2): # real signature unknown; restored from __doc__
+
+def clipLine(imgRect, pt1, pt2):  # real signature unknown; restored from __doc__
     """ clipLine(imgRect, pt1, pt2) -> retval, pt1, pt2 """
     pass
 
-def colorChange(src, mask, dst=None, red_mul=None, green_mul=None, blue_mul=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def colorChange(src, mask, dst=None, red_mul=None, green_mul=None, blue_mul=None):
     """ colorChange(src, mask[, dst[, red_mul[, green_mul[, blue_mul]]]]) -> dst """
     pass
 
-def compare(src1, src2, cmpop, dst=None): # real signature unknown; restored from __doc__
+
+def compare(src1, src2, cmpop, dst=None):  # real signature unknown; restored from __doc__
     """ compare(src1, src2, cmpop[, dst]) -> dst """
     pass
 
-def compareHist(H1, H2, method): # real signature unknown; restored from __doc__
+
+def compareHist(H1, H2, method):  # real signature unknown; restored from __doc__
     """ compareHist(H1, H2, method) -> retval """
     pass
 
-def completeSymm(mtx, lowerToUpper=None): # real signature unknown; restored from __doc__
+
+def completeSymm(mtx, lowerToUpper=None):  # real signature unknown; restored from __doc__
     """ completeSymm(mtx[, lowerToUpper]) -> mtx """
     pass
 
-def composeRT(rvec1, tvec1, rvec2, tvec2, rvec3=None, tvec3=None, dr3dr1=None, dr3dt1=None, dr3dr2=None, dr3dt2=None, dt3dr1=None, dt3dt1=None, dt3dr2=None, dt3dt2=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def composeRT(rvec1, tvec1, rvec2, tvec2, rvec3=None, tvec3=None, dr3dr1=None, dr3dt1=None, dr3dr2=None, dr3dt2=None, dt3dr1=None, dt3dt1=None, dt3dr2=None, dt3dt2=None):
     """ composeRT(rvec1, tvec1, rvec2, tvec2[, rvec3[, tvec3[, dr3dr1[, dr3dt1[, dr3dr2[, dr3dt2[, dt3dr1[, dt3dt1[, dt3dr2[, dt3dt2]]]]]]]]]]) -> rvec3, tvec3, dr3dr1, dr3dt1, dr3dr2, dr3dt2, dt3dr1, dt3dt1, dt3dr2, dt3dt2 """
     pass
 
-def computeCorrespondEpilines(points, whichImage, F, lines=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def computeCorrespondEpilines(points, whichImage, F, lines=None):
     """ computeCorrespondEpilines(points, whichImage, F[, lines]) -> lines """
     pass
 
-def connectedComponents(image, labels=None, connectivity=None, ltype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def connectedComponents(image, labels=None, connectivity=None, ltype=None):
     """ connectedComponents(image[, labels[, connectivity[, ltype]]]) -> retval, labels """
     pass
 
-def connectedComponentsWithAlgorithm(image, connectivity, ltype, ccltype, labels=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def connectedComponentsWithAlgorithm(image, connectivity, ltype, ccltype, labels=None):
     """ connectedComponentsWithAlgorithm(image, connectivity, ltype, ccltype[, labels]) -> retval, labels """
     pass
 
-def connectedComponentsWithStats(image, labels=None, stats=None, centroids=None, connectivity=None, ltype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def connectedComponentsWithStats(image, labels=None, stats=None, centroids=None, connectivity=None, ltype=None):
     """ connectedComponentsWithStats(image[, labels[, stats[, centroids[, connectivity[, ltype]]]]]) -> retval, labels, stats, centroids """
     pass
 
-def connectedComponentsWithStatsWithAlgorithm(image, connectivity, ltype, ccltype, labels=None, stats=None, centroids=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def connectedComponentsWithStatsWithAlgorithm(image, connectivity, ltype, ccltype, labels=None, stats=None, centroids=None):
     """ connectedComponentsWithStatsWithAlgorithm(image, connectivity, ltype, ccltype[, labels[, stats[, centroids]]]) -> retval, labels, stats, centroids """
     pass
 
-def contourArea(contour, oriented=None): # real signature unknown; restored from __doc__
+
+def contourArea(contour, oriented=None):  # real signature unknown; restored from __doc__
     """ contourArea(contour[, oriented]) -> retval """
     pass
 
-def convertFp16(src, dst=None): # real signature unknown; restored from __doc__
+
+def convertFp16(src, dst=None):  # real signature unknown; restored from __doc__
     """ convertFp16(src[, dst]) -> dst """
     pass
 
-def convertMaps(map1, map2, dstmap1type, dstmap1=None, dstmap2=None, nninterpolation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convertMaps(map1, map2, dstmap1type, dstmap1=None, dstmap2=None, nninterpolation=None):
     """ convertMaps(map1, map2, dstmap1type[, dstmap1[, dstmap2[, nninterpolation]]]) -> dstmap1, dstmap2 """
     pass
 
-def convertPointsFromHomogeneous(src, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convertPointsFromHomogeneous(src, dst=None):
     """ convertPointsFromHomogeneous(src[, dst]) -> dst """
     pass
 
-def convertPointsToHomogeneous(src, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convertPointsToHomogeneous(src, dst=None):
     """ convertPointsToHomogeneous(src[, dst]) -> dst """
     pass
 
-def convertScaleAbs(src, dst=None, alpha=None, beta=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convertScaleAbs(src, dst=None, alpha=None, beta=None):
     """ convertScaleAbs(src[, dst[, alpha[, beta]]]) -> dst """
     pass
 
-def convexHull(points, hull=None, clockwise=None, returnPoints=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convexHull(points, hull=None, clockwise=None, returnPoints=None):
     """ convexHull(points[, hull[, clockwise[, returnPoints]]]) -> hull """
     pass
 
-def convexityDefects(contour, convexhull, convexityDefects=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def convexityDefects(contour, convexhull, convexityDefects=None):
     """ convexityDefects(contour, convexhull[, convexityDefects]) -> convexityDefects """
     pass
 
-def copyMakeBorder(src, top, bottom, left, right, borderType, dst=None, value=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def copyMakeBorder(src, top, bottom, left, right, borderType, dst=None, value=None):
     """ copyMakeBorder(src, top, bottom, left, right, borderType[, dst[, value]]) -> dst """
     pass
 
-def cornerEigenValsAndVecs(src, blockSize, ksize, dst=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cornerEigenValsAndVecs(src, blockSize, ksize, dst=None, borderType=None):
     """ cornerEigenValsAndVecs(src, blockSize, ksize[, dst[, borderType]]) -> dst """
     pass
 
-def cornerHarris(src, blockSize, ksize, k, dst=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cornerHarris(src, blockSize, ksize, k, dst=None, borderType=None):
     """ cornerHarris(src, blockSize, ksize, k[, dst[, borderType]]) -> dst """
     pass
 
-def cornerMinEigenVal(src, blockSize, dst=None, ksize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cornerMinEigenVal(src, blockSize, dst=None, ksize=None, borderType=None):
     """ cornerMinEigenVal(src, blockSize[, dst[, ksize[, borderType]]]) -> dst """
     pass
 
-def cornerSubPix(image, corners, winSize, zeroZone, criteria): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cornerSubPix(image, corners, winSize, zeroZone, criteria):
     """ cornerSubPix(image, corners, winSize, zeroZone, criteria) -> corners """
     pass
 
-def correctMatches(F, points1, points2, newPoints1=None, newPoints2=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def correctMatches(F, points1, points2, newPoints1=None, newPoints2=None):
     """ correctMatches(F, points1, points2[, newPoints1[, newPoints2]]) -> newPoints1, newPoints2 """
     pass
 
-def countNonZero(src): # real signature unknown; restored from __doc__
+
+def countNonZero(src):  # real signature unknown; restored from __doc__
     """ countNonZero(src) -> retval """
     pass
 
-def createAffineTransformer(fullAffine): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createAffineTransformer(fullAffine):
     """ createAffineTransformer(fullAffine) -> retval """
     pass
 
-def createAlignMTB(max_bits=None, exclude_range=None, cut=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createAlignMTB(max_bits=None, exclude_range=None, cut=None):
     """ createAlignMTB([, max_bits[, exclude_range[, cut]]]) -> retval """
     pass
 
-def createBackgroundSubtractorKNN(history=None, dist2Threshold=None, detectShadows=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createBackgroundSubtractorKNN(history=None, dist2Threshold=None, detectShadows=None):
     """ createBackgroundSubtractorKNN([, history[, dist2Threshold[, detectShadows]]]) -> retval """
     pass
 
-def createBackgroundSubtractorMOG2(history=None, varThreshold=None, detectShadows=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createBackgroundSubtractorMOG2(history=None, varThreshold=None, detectShadows=None):
     """ createBackgroundSubtractorMOG2([, history[, varThreshold[, detectShadows]]]) -> retval """
     pass
 
-def createButton(buttonName, onChange, userData=None, buttonType=None, initialButtonState=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createButton(buttonName, onChange, userData=None, buttonType=None, initialButtonState=None):
     """ createButton(buttonName, onChange [, userData, buttonType, initialButtonState]) -> None """
     pass
 
-def createCalibrateDebevec(samples=None, lambda_=None, random=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createCalibrateDebevec(samples=None, lambda_=None, random=None):
     """ createCalibrateDebevec([, samples[, lambda[, random]]]) -> retval """
     pass
 
-def createCalibrateRobertson(max_iter=None, threshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createCalibrateRobertson(max_iter=None, threshold=None):
     """ createCalibrateRobertson([, max_iter[, threshold]]) -> retval """
     pass
 
-def createChiHistogramCostExtractor(nDummies=None, defaultCost=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createChiHistogramCostExtractor(nDummies=None, defaultCost=None):
     """ createChiHistogramCostExtractor([, nDummies[, defaultCost]]) -> retval """
     pass
 
-def createCLAHE(clipLimit=None, tileGridSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createCLAHE(clipLimit=None, tileGridSize=None):
     """ createCLAHE([, clipLimit[, tileGridSize]]) -> retval """
     pass
 
-def createEMDHistogramCostExtractor(flag=None, nDummies=None, defaultCost=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createEMDHistogramCostExtractor(flag=None, nDummies=None, defaultCost=None):
     """ createEMDHistogramCostExtractor([, flag[, nDummies[, defaultCost]]]) -> retval """
     pass
 
-def createEMDL1HistogramCostExtractor(nDummies=None, defaultCost=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createEMDL1HistogramCostExtractor(nDummies=None, defaultCost=None):
     """ createEMDL1HistogramCostExtractor([, nDummies[, defaultCost]]) -> retval """
     pass
 
-def createHanningWindow(winSize, type, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createHanningWindow(winSize, type, dst=None):
     """ createHanningWindow(winSize, type[, dst]) -> dst """
     pass
 
-def createHausdorffDistanceExtractor(distanceFlag=None, rankProp=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createHausdorffDistanceExtractor(distanceFlag=None, rankProp=None):
     """ createHausdorffDistanceExtractor([, distanceFlag[, rankProp]]) -> retval """
     pass
 
-def createLineSegmentDetector(_refine=None, _scale=None, _sigma_scale=None, _quant=None, _ang_th=None, _log_eps=None, _density_th=None, _n_bins=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createLineSegmentDetector(_refine=None, _scale=None, _sigma_scale=None, _quant=None, _ang_th=None, _log_eps=None, _density_th=None, _n_bins=None):
     """ createLineSegmentDetector([, _refine[, _scale[, _sigma_scale[, _quant[, _ang_th[, _log_eps[, _density_th[, _n_bins]]]]]]]]) -> retval """
     pass
 
-def createMergeDebevec(): # real signature unknown; restored from __doc__
+
+def createMergeDebevec():  # real signature unknown; restored from __doc__
     """ createMergeDebevec() -> retval """
     pass
 
-def createMergeMertens(contrast_weight=None, saturation_weight=None, exposure_weight=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createMergeMertens(contrast_weight=None, saturation_weight=None, exposure_weight=None):
     """ createMergeMertens([, contrast_weight[, saturation_weight[, exposure_weight]]]) -> retval """
     pass
 
-def createMergeRobertson(): # real signature unknown; restored from __doc__
+
+def createMergeRobertson():  # real signature unknown; restored from __doc__
     """ createMergeRobertson() -> retval """
     pass
 
-def createNormHistogramCostExtractor(flag=None, nDummies=None, defaultCost=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createNormHistogramCostExtractor(flag=None, nDummies=None, defaultCost=None):
     """ createNormHistogramCostExtractor([, flag[, nDummies[, defaultCost]]]) -> retval """
     pass
 
-def createOptFlow_DualTVL1(): # real signature unknown; restored from __doc__
+
+def createOptFlow_DualTVL1():  # real signature unknown; restored from __doc__
     """ createOptFlow_DualTVL1() -> retval """
     pass
 
-def createShapeContextDistanceExtractor(nAngularBins=None, nRadialBins=None, innerRadius=None, outerRadius=None, iterations=None, comparer=None, transformer=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createShapeContextDistanceExtractor(nAngularBins=None, nRadialBins=None, innerRadius=None, outerRadius=None, iterations=None, comparer=None, transformer=None):
     """ createShapeContextDistanceExtractor([, nAngularBins[, nRadialBins[, innerRadius[, outerRadius[, iterations[, comparer[, transformer]]]]]]]) -> retval """
     pass
 
-def createStitcher(try_use_gpu=None): # real signature unknown; restored from __doc__
+
+def createStitcher(try_use_gpu=None):  # real signature unknown; restored from __doc__
     """ createStitcher([, try_use_gpu]) -> retval """
     pass
 
-def createThinPlateSplineShapeTransformer(regularizationParameter=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createThinPlateSplineShapeTransformer(regularizationParameter=None):
     """ createThinPlateSplineShapeTransformer([, regularizationParameter]) -> retval """
     pass
 
-def createTonemap(gamma=None): # real signature unknown; restored from __doc__
+
+def createTonemap(gamma=None):  # real signature unknown; restored from __doc__
     """ createTonemap([, gamma]) -> retval """
     pass
 
-def createTonemapDrago(gamma=None, saturation=None, bias=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTonemapDrago(gamma=None, saturation=None, bias=None):
     """ createTonemapDrago([, gamma[, saturation[, bias]]]) -> retval """
     pass
 
-def createTonemapDurand(gamma=None, contrast=None, saturation=None, sigma_space=None, sigma_color=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTonemapDurand(gamma=None, contrast=None, saturation=None, sigma_space=None, sigma_color=None):
     """ createTonemapDurand([, gamma[, contrast[, saturation[, sigma_space[, sigma_color]]]]]) -> retval """
     pass
 
-def createTonemapMantiuk(gamma=None, scale=None, saturation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTonemapMantiuk(gamma=None, scale=None, saturation=None):
     """ createTonemapMantiuk([, gamma[, scale[, saturation]]]) -> retval """
     pass
 
-def createTonemapReinhard(gamma=None, intensity=None, light_adapt=None, color_adapt=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTonemapReinhard(gamma=None, intensity=None, light_adapt=None, color_adapt=None):
     """ createTonemapReinhard([, gamma[, intensity[, light_adapt[, color_adapt]]]]) -> retval """
     pass
 
-def createTrackbar(trackbarName, windowName, value, count, onChange): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def createTrackbar(trackbarName, windowName, value, count, onChange):
     """ createTrackbar(trackbarName, windowName, value, count, onChange) -> None """
     pass
 
-def cubeRoot(val): # real signature unknown; restored from __doc__
+
+def cubeRoot(val):  # real signature unknown; restored from __doc__
     """ cubeRoot(val) -> retval """
     pass
 
-def cvtColor(src, code, dst=None, dstCn=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def cvtColor(src, code, dst=None, dstCn=None):
     """ cvtColor(src, code[, dst[, dstCn]]) -> dst """
     pass
 
-def dct(src, dst=None, flags=None): # real signature unknown; restored from __doc__
+
+def dct(src, dst=None, flags=None):  # real signature unknown; restored from __doc__
     """ dct(src[, dst[, flags]]) -> dst """
     pass
 
-def decolor(src, grayscale=None, color_boost=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def decolor(src, grayscale=None, color_boost=None):
     """ decolor(src[, grayscale[, color_boost]]) -> grayscale, color_boost """
     pass
 
-def decomposeEssentialMat(E, R1=None, R2=None, t=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def decomposeEssentialMat(E, R1=None, R2=None, t=None):
     """ decomposeEssentialMat(E[, R1[, R2[, t]]]) -> R1, R2, t """
     pass
 
-def decomposeHomographyMat(H, K, rotations=None, translations=None, normals=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def decomposeHomographyMat(H, K, rotations=None, translations=None, normals=None):
     """ decomposeHomographyMat(H, K[, rotations[, translations[, normals]]]) -> retval, rotations, translations, normals """
     pass
 
-def decomposeProjectionMatrix(projMatrix, cameraMatrix=None, rotMatrix=None, transVect=None, rotMatrixX=None, rotMatrixY=None, rotMatrixZ=None, eulerAngles=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def decomposeProjectionMatrix(projMatrix, cameraMatrix=None, rotMatrix=None, transVect=None, rotMatrixX=None, rotMatrixY=None, rotMatrixZ=None, eulerAngles=None):
     """ decomposeProjectionMatrix(projMatrix[, cameraMatrix[, rotMatrix[, transVect[, rotMatrixX[, rotMatrixY[, rotMatrixZ[, eulerAngles]]]]]]]) -> cameraMatrix, rotMatrix, transVect, rotMatrixX, rotMatrixY, rotMatrixZ, eulerAngles """
     pass
 
-def demosaicing(_src, code, _dst=None, dcn=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def demosaicing(_src, code, _dst=None, dcn=None):
     """ demosaicing(_src, code[, _dst[, dcn]]) -> _dst """
     pass
 
-def denoise_TVL1(observations, result, lambda_=None, niters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def denoise_TVL1(observations, result, lambda_=None, niters=None):
     """ denoise_TVL1(observations, result[, lambda[, niters]]) -> None """
     pass
 
-def DescriptorMatcher_create(descriptorMatcherType): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def DescriptorMatcher_create(descriptorMatcherType):
     """ DescriptorMatcher_create(descriptorMatcherType) -> retval  or  DescriptorMatcher_create(matcherType) -> retval """
     pass
 
-def destroyAllWindows(): # real signature unknown; restored from __doc__
+
+def destroyAllWindows():  # real signature unknown; restored from __doc__
     """ destroyAllWindows() -> None """
     pass
 
-def destroyWindow(winname): # real signature unknown; restored from __doc__
+
+def destroyWindow(winname):  # real signature unknown; restored from __doc__
     """ destroyWindow(winname) -> None """
     pass
 
-def detailEnhance(src, dst=None, sigma_s=None, sigma_r=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def detailEnhance(src, dst=None, sigma_s=None, sigma_r=None):
     """ detailEnhance(src[, dst[, sigma_s[, sigma_r]]]) -> dst """
     pass
 
-def determinant(mtx): # real signature unknown; restored from __doc__
+
+def determinant(mtx):  # real signature unknown; restored from __doc__
     """ determinant(mtx) -> retval """
     pass
 
-def dft(src, dst=None, flags=None, nonzeroRows=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def dft(src, dst=None, flags=None, nonzeroRows=None):
     """ dft(src[, dst[, flags[, nonzeroRows]]]) -> dst """
     pass
 
-def dilate(src, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def dilate(src, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None):
     """ dilate(src, kernel[, dst[, anchor[, iterations[, borderType[, borderValue]]]]]) -> dst """
     pass
 
-def displayOverlay(winname, text, delayms=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def displayOverlay(winname, text, delayms=None):
     """ displayOverlay(winname, text[, delayms]) -> None """
     pass
 
-def displayStatusBar(winname, text, delayms=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def displayStatusBar(winname, text, delayms=None):
     """ displayStatusBar(winname, text[, delayms]) -> None """
     pass
 
-def distanceTransform(src, distanceType, maskSize, dst=None, dstType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def distanceTransform(src, distanceType, maskSize, dst=None, dstType=None):
     """ distanceTransform(src, distanceType, maskSize[, dst[, dstType]]) -> dst """
     pass
 
-def distanceTransformWithLabels(src, distanceType, maskSize, dst=None, labels=None, labelType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def distanceTransformWithLabels(src, distanceType, maskSize, dst=None, labels=None, labelType=None):
     """ distanceTransformWithLabels(src, distanceType, maskSize[, dst[, labels[, labelType]]]) -> dst, labels """
     pass
 
-def divide(src1, src2, dst=None, scale=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def divide(src1, src2, dst=None, scale=None, dtype=None):
     """ divide(src1, src2[, dst[, scale[, dtype]]]) -> dst  or  divide(scale, src2[, dst[, dtype]]) -> dst """
     pass
 
-def DMatch(): # real signature unknown; restored from __doc__
+
+def DMatch():  # real signature unknown; restored from __doc__
     """ DMatch() -> <DMatch object>  or  DMatch(_queryIdx, _trainIdx, _distance) -> <DMatch object>  or  DMatch(_queryIdx, _trainIdx, _imgIdx, _distance) -> <DMatch object> """
     pass
 
-def drawChessboardCorners(image, patternSize, corners, patternWasFound): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawChessboardCorners(image, patternSize, corners, patternWasFound):
     """ drawChessboardCorners(image, patternSize, corners, patternWasFound) -> image """
     pass
 
-def drawContours(image, contours, contourIdx, color, thickness=None, lineType=None, hierarchy=None, maxLevel=None, offset=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawContours(image, contours, contourIdx, color, thickness=None, lineType=None, hierarchy=None, maxLevel=None, offset=None):
     """ drawContours(image, contours, contourIdx, color[, thickness[, lineType[, hierarchy[, maxLevel[, offset]]]]]) -> image """
     pass
 
-def drawKeypoints(image, keypoints, outImage, color=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawKeypoints(image, keypoints, outImage, color=None, flags=None):
     """ drawKeypoints(image, keypoints, outImage[, color[, flags]]) -> outImage """
     pass
 
-def drawMarker(img, position, color, markerType=None, markerSize=None, thickness=None, line_type=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawMarker(img, position, color, markerType=None, markerSize=None, thickness=None, line_type=None):
     """ drawMarker(img, position, color[, markerType[, markerSize[, thickness[, line_type]]]]) -> img """
     pass
 
-def drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, matchColor=None, singlePointColor=None, matchesMask=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg, matchColor=None, singlePointColor=None, matchesMask=None, flags=None):
     """ drawMatches(img1, keypoints1, img2, keypoints2, matches1to2, outImg[, matchColor[, singlePointColor[, matchesMask[, flags]]]]) -> outImg """
     pass
 
-def drawMatchesKnn(img1, keypoints1, img2, keypoints2, matches1to2, outImg, matchColor=None, singlePointColor=None, matchesMask=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def drawMatchesKnn(img1, keypoints1, img2, keypoints2, matches1to2, outImg, matchColor=None, singlePointColor=None, matchesMask=None, flags=None):
     """ drawMatchesKnn(img1, keypoints1, img2, keypoints2, matches1to2, outImg[, matchColor[, singlePointColor[, matchesMask[, flags]]]]) -> outImg """
     pass
 
-def DualTVL1OpticalFlow_create(tau=None, lambda_=None, theta=None, nscales=None, warps=None, epsilon=None, innnerIterations=None, outerIterations=None, scaleStep=None, gamma=None, medianFiltering=None, useInitialFlow=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def DualTVL1OpticalFlow_create(tau=None, lambda_=None, theta=None, nscales=None, warps=None, epsilon=None, innnerIterations=None, outerIterations=None, scaleStep=None, gamma=None, medianFiltering=None, useInitialFlow=None):
     """ DualTVL1OpticalFlow_create([, tau[, lambda[, theta[, nscales[, warps[, epsilon[, innnerIterations[, outerIterations[, scaleStep[, gamma[, medianFiltering[, useInitialFlow]]]]]]]]]]]]) -> retval """
     pass
 
-def edgePreservingFilter(src, dst=None, flags=None, sigma_s=None, sigma_r=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def edgePreservingFilter(src, dst=None, flags=None, sigma_s=None, sigma_r=None):
     """ edgePreservingFilter(src[, dst[, flags[, sigma_s[, sigma_r]]]]) -> dst """
     pass
 
-def eigen(src, eigenvalues=None, eigenvectors=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def eigen(src, eigenvalues=None, eigenvectors=None):
     """ eigen(src[, eigenvalues[, eigenvectors]]) -> retval, eigenvalues, eigenvectors """
     pass
 
-def ellipse(img, center, axes, angle, startAngle, endAngle, color, thickness=None, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ellipse(img, center, axes, angle, startAngle, endAngle, color, thickness=None, lineType=None, shift=None):
     """ ellipse(img, center, axes, angle, startAngle, endAngle, color[, thickness[, lineType[, shift]]]) -> img  or  ellipse(img, box, color[, thickness[, lineType]]) -> img """
     pass
 
-def ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta):
     """ ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta) -> pts """
     pass
 
-def equalizeHist(src, dst=None): # real signature unknown; restored from __doc__
+
+def equalizeHist(src, dst=None):  # real signature unknown; restored from __doc__
     """ equalizeHist(src[, dst]) -> dst """
     pass
 
-def erode(src, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def erode(src, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None):
     """ erode(src, kernel[, dst[, anchor[, iterations[, borderType[, borderValue]]]]]) -> dst """
     pass
 
-def estimateAffine2D(from_, to, inliers=None, method=None, ransacReprojThreshold=None, maxIters=None, confidence=None, refineIters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimateAffine2D(from_, to, inliers=None, method=None, ransacReprojThreshold=None, maxIters=None, confidence=None, refineIters=None):
     """ estimateAffine2D(from, to[, inliers[, method[, ransacReprojThreshold[, maxIters[, confidence[, refineIters]]]]]]) -> retval, inliers """
     pass
 
-def estimateAffine3D(src, dst, out=None, inliers=None, ransacThreshold=None, confidence=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimateAffine3D(src, dst, out=None, inliers=None, ransacThreshold=None, confidence=None):
     """ estimateAffine3D(src, dst[, out[, inliers[, ransacThreshold[, confidence]]]]) -> retval, out, inliers """
     pass
 
-def estimateAffinePartial2D(from_, to, inliers=None, method=None, ransacReprojThreshold=None, maxIters=None, confidence=None, refineIters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimateAffinePartial2D(from_, to, inliers=None, method=None, ransacReprojThreshold=None, maxIters=None, confidence=None, refineIters=None):
     """ estimateAffinePartial2D(from, to[, inliers[, method[, ransacReprojThreshold[, maxIters[, confidence[, refineIters]]]]]]) -> retval, inliers """
     pass
 
-def estimateRigidTransform(src, dst, fullAffine): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def estimateRigidTransform(src, dst, fullAffine):
     """ estimateRigidTransform(src, dst, fullAffine) -> retval """
     pass
 
-def exp(src, dst=None): # real signature unknown; restored from __doc__
+
+def exp(src, dst=None):  # real signature unknown; restored from __doc__
     """ exp(src[, dst]) -> dst """
     pass
 
-def extractChannel(src, coi, dst=None): # real signature unknown; restored from __doc__
+
+def extractChannel(src, coi, dst=None):  # real signature unknown; restored from __doc__
     """ extractChannel(src, coi[, dst]) -> dst """
     pass
 
-def FarnebackOpticalFlow_create(numLevels=None, pyrScale=None, fastPyramids=None, winSize=None, numIters=None, polyN=None, polySigma=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FarnebackOpticalFlow_create(numLevels=None, pyrScale=None, fastPyramids=None, winSize=None, numIters=None, polyN=None, polySigma=None, flags=None):
     """ FarnebackOpticalFlow_create([, numLevels[, pyrScale[, fastPyramids[, winSize[, numIters[, polyN[, polySigma[, flags]]]]]]]]) -> retval """
     pass
 
-def fastAtan2(y, x): # real signature unknown; restored from __doc__
+
+def fastAtan2(y, x):  # real signature unknown; restored from __doc__
     """ fastAtan2(y, x) -> retval """
     pass
 
-def FastFeatureDetector_create(threshold=None, nonmaxSuppression=None, type=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FastFeatureDetector_create(threshold=None, nonmaxSuppression=None, type=None):
     """ FastFeatureDetector_create([, threshold[, nonmaxSuppression[, type]]]) -> retval """
     pass
 
-def fastNlMeansDenoising(src, dst=None, h=None, templateWindowSize=None, searchWindowSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fastNlMeansDenoising(src, dst=None, h=None, templateWindowSize=None, searchWindowSize=None):
     """ fastNlMeansDenoising(src[, dst[, h[, templateWindowSize[, searchWindowSize]]]]) -> dst  or  fastNlMeansDenoising(src, h[, dst[, templateWindowSize[, searchWindowSize[, normType]]]]) -> dst """
     pass
 
-def fastNlMeansDenoisingColored(src, dst=None, h=None, hColor=None, templateWindowSize=None, searchWindowSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fastNlMeansDenoisingColored(src, dst=None, h=None, hColor=None, templateWindowSize=None, searchWindowSize=None):
     """ fastNlMeansDenoisingColored(src[, dst[, h[, hColor[, templateWindowSize[, searchWindowSize]]]]]) -> dst """
     pass
 
-def fastNlMeansDenoisingColoredMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize, dst=None, h=None, hColor=None, templateWindowSize=None, searchWindowSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fastNlMeansDenoisingColoredMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize, dst=None, h=None, hColor=None, templateWindowSize=None, searchWindowSize=None):
     """ fastNlMeansDenoisingColoredMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize[, dst[, h[, hColor[, templateWindowSize[, searchWindowSize]]]]]) -> dst """
     pass
 
-def fastNlMeansDenoisingMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize, dst=None, h=None, templateWindowSize=None, searchWindowSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fastNlMeansDenoisingMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize, dst=None, h=None, templateWindowSize=None, searchWindowSize=None):
     """ fastNlMeansDenoisingMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize[, dst[, h[, templateWindowSize[, searchWindowSize]]]]) -> dst  or  fastNlMeansDenoisingMulti(srcImgs, imgToDenoiseIndex, temporalWindowSize, h[, dst[, templateWindowSize[, searchWindowSize[, normType]]]]) -> dst """
     pass
 
-def FileNode(): # real signature unknown; restored from __doc__
+
+def FileNode():  # real signature unknown; restored from __doc__
     """ FileNode() -> <FileNode object> """
     pass
 
-def FileStorage(source=None, flags=None, encoding=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FileStorage(source=None, flags=None, encoding=None):
     """ FileStorage([source, flags[, encoding]]) -> <FileStorage object> """
     pass
 
-def fillConvexPoly(img, points, color, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fillConvexPoly(img, points, color, lineType=None, shift=None):
     """ fillConvexPoly(img, points, color[, lineType[, shift]]) -> img """
     pass
 
-def fillPoly(img, pts, color, lineType=None, shift=None, offset=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fillPoly(img, pts, color, lineType=None, shift=None, offset=None):
     """ fillPoly(img, pts, color[, lineType[, shift[, offset]]]) -> img """
     pass
 
-def filter2D(src, ddepth, kernel, dst=None, anchor=None, delta=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def filter2D(src, ddepth, kernel, dst=None, anchor=None, delta=None, borderType=None):
     """ filter2D(src, ddepth, kernel[, dst[, anchor[, delta[, borderType]]]]) -> dst """
     pass
 
-def filterSpeckles(img, newVal, maxSpeckleSize, maxDiff, buf=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def filterSpeckles(img, newVal, maxSpeckleSize, maxDiff, buf=None):
     """ filterSpeckles(img, newVal, maxSpeckleSize, maxDiff[, buf]) -> img, buf """
     pass
 
-def findChessboardCorners(image, patternSize, corners=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findChessboardCorners(image, patternSize, corners=None, flags=None):
     """ findChessboardCorners(image, patternSize[, corners[, flags]]) -> retval, corners """
     pass
 
-def findCirclesGrid(image, patternSize, centers=None, flags=None, blobDetector=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findCirclesGrid(image, patternSize, centers=None, flags=None, blobDetector=None):
     """ findCirclesGrid(image, patternSize[, centers[, flags[, blobDetector]]]) -> retval, centers """
     pass
 
-def findContours(image, mode, method, contours=None, hierarchy=None, offset=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findContours(image, mode, method, contours=None, hierarchy=None, offset=None):
     """ findContours(image, mode, method[, contours[, hierarchy[, offset]]]) -> image, contours, hierarchy """
     pass
 
-def findEssentialMat(points1, points2, cameraMatrix, method=None, prob=None, threshold=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findEssentialMat(points1, points2, cameraMatrix, method=None, prob=None, threshold=None, mask=None):
     """ findEssentialMat(points1, points2, cameraMatrix[, method[, prob[, threshold[, mask]]]]) -> retval, mask  or  findEssentialMat(points1, points2[, focal[, pp[, method[, prob[, threshold[, mask]]]]]]) -> retval, mask """
     pass
 
-def findFundamentalMat(points1, points2, method=None, param1=None, param2=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findFundamentalMat(points1, points2, method=None, param1=None, param2=None, mask=None):
     """ findFundamentalMat(points1, points2[, method[, param1[, param2[, mask]]]]) -> retval, mask """
     pass
 
-def findHomography(srcPoints, dstPoints, method=None, ransacReprojThreshold=None, mask=None, maxIters=None, confidence=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findHomography(srcPoints, dstPoints, method=None, ransacReprojThreshold=None, mask=None, maxIters=None, confidence=None):
     """ findHomography(srcPoints, dstPoints[, method[, ransacReprojThreshold[, mask[, maxIters[, confidence]]]]]) -> retval, mask """
     pass
 
-def findNonZero(src, idx=None): # real signature unknown; restored from __doc__
+
+def findNonZero(src, idx=None):  # real signature unknown; restored from __doc__
     """ findNonZero(src[, idx]) -> idx """
     pass
 
-def findTransformECC(templateImage, inputImage, warpMatrix, motionType=None, criteria=None, inputMask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def findTransformECC(templateImage, inputImage, warpMatrix, motionType=None, criteria=None, inputMask=None):
     """ findTransformECC(templateImage, inputImage, warpMatrix[, motionType[, criteria[, inputMask]]]) -> retval, warpMatrix """
     pass
 
-def fitEllipse(points): # real signature unknown; restored from __doc__
+
+def fitEllipse(points):  # real signature unknown; restored from __doc__
     """ fitEllipse(points) -> retval """
     pass
 
-def fitLine(points, distType, param, reps, aeps, line=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def fitLine(points, distType, param, reps, aeps, line=None):
     """ fitLine(points, distType, param, reps, aeps[, line]) -> line """
     pass
 
-def FlannBasedMatcher(indexParams=None, searchParams=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def FlannBasedMatcher(indexParams=None, searchParams=None):
     """ FlannBasedMatcher([, indexParams[, searchParams]]) -> <FlannBasedMatcher object> """
     pass
 
-def FlannBasedMatcher_create(): # real signature unknown; restored from __doc__
+
+def FlannBasedMatcher_create():  # real signature unknown; restored from __doc__
     """ FlannBasedMatcher_create() -> retval """
     pass
 
-def flip(src, flipCode, dst=None): # real signature unknown; restored from __doc__
+
+def flip(src, flipCode, dst=None):  # real signature unknown; restored from __doc__
     """ flip(src, flipCode[, dst]) -> dst """
     pass
 
-def floodFill(image, mask, seedPoint, newVal, loDiff=None, upDiff=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def floodFill(image, mask, seedPoint, newVal, loDiff=None, upDiff=None, flags=None):
     """ floodFill(image, mask, seedPoint, newVal[, loDiff[, upDiff[, flags]]]) -> retval, image, mask, rect """
     pass
 
-def GaussianBlur(src, ksize, sigmaX, dst=None, sigmaY=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def GaussianBlur(src, ksize, sigmaX, dst=None, sigmaY=None, borderType=None):
     """ GaussianBlur(src, ksize, sigmaX[, dst[, sigmaY[, borderType]]]) -> dst """
     pass
 
-def gemm(src1, src2, alpha, src3, beta, dst=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def gemm(src1, src2, alpha, src3, beta, dst=None, flags=None):
     """ gemm(src1, src2, alpha, src3, beta[, dst[, flags]]) -> dst """
     pass
 
-def getAffineTransform(src, dst): # real signature unknown; restored from __doc__
+
+def getAffineTransform(src, dst):  # real signature unknown; restored from __doc__
     """ getAffineTransform(src, dst) -> retval """
     pass
 
-def getBuildInformation(): # real signature unknown; restored from __doc__
+
+def getBuildInformation():  # real signature unknown; restored from __doc__
     """ getBuildInformation() -> retval """
     pass
 
-def getCPUTickCount(): # real signature unknown; restored from __doc__
+
+def getCPUTickCount():  # real signature unknown; restored from __doc__
     """ getCPUTickCount() -> retval """
     pass
 
-def getDefaultNewCameraMatrix(cameraMatrix, imgsize=None, centerPrincipalPoint=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getDefaultNewCameraMatrix(cameraMatrix, imgsize=None, centerPrincipalPoint=None):
     """ getDefaultNewCameraMatrix(cameraMatrix[, imgsize[, centerPrincipalPoint]]) -> retval """
     pass
 
-def getDerivKernels(dx, dy, ksize, kx=None, ky=None, normalize=None, ktype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getDerivKernels(dx, dy, ksize, kx=None, ky=None, normalize=None, ktype=None):
     """ getDerivKernels(dx, dy, ksize[, kx[, ky[, normalize[, ktype]]]]) -> kx, ky """
     pass
 
-def getGaborKernel(ksize, sigma, theta, lambd, gamma, psi=None, ktype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getGaborKernel(ksize, sigma, theta, lambd, gamma, psi=None, ktype=None):
     """ getGaborKernel(ksize, sigma, theta, lambd, gamma[, psi[, ktype]]) -> retval """
     pass
 
-def getGaussianKernel(ksize, sigma, ktype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getGaussianKernel(ksize, sigma, ktype=None):
     """ getGaussianKernel(ksize, sigma[, ktype]) -> retval """
     pass
 
-def getNumberOfCPUs(): # real signature unknown; restored from __doc__
+
+def getNumberOfCPUs():  # real signature unknown; restored from __doc__
     """ getNumberOfCPUs() -> retval """
     pass
 
-def getNumThreads(): # real signature unknown; restored from __doc__
+
+def getNumThreads():  # real signature unknown; restored from __doc__
     """ getNumThreads() -> retval """
     pass
 
-def getOptimalDFTSize(vecsize): # real signature unknown; restored from __doc__
+
+def getOptimalDFTSize(vecsize):  # real signature unknown; restored from __doc__
     """ getOptimalDFTSize(vecsize) -> retval """
     pass
 
-def getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha, newImgSize=None, centerPrincipalPoint=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha, newImgSize=None, centerPrincipalPoint=None):
     """ getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha[, newImgSize[, centerPrincipalPoint]]) -> retval, validPixROI """
     pass
 
-def getPerspectiveTransform(src, dst): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getPerspectiveTransform(src, dst):
     """ getPerspectiveTransform(src, dst) -> retval """
     pass
 
-def getRectSubPix(image, patchSize, center, patch=None, patchType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getRectSubPix(image, patchSize, center, patch=None, patchType=None):
     """ getRectSubPix(image, patchSize, center[, patch[, patchType]]) -> patch """
     pass
 
-def getRotationMatrix2D(center, angle, scale): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getRotationMatrix2D(center, angle, scale):
     """ getRotationMatrix2D(center, angle, scale) -> retval """
     pass
 
-def getStructuringElement(shape, ksize, anchor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getStructuringElement(shape, ksize, anchor=None):
     """ getStructuringElement(shape, ksize[, anchor]) -> retval """
     pass
 
-def getTextSize(text, fontFace, fontScale, thickness): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getTextSize(text, fontFace, fontScale, thickness):
     """ getTextSize(text, fontFace, fontScale, thickness) -> retval, baseLine """
     pass
 
-def getThreadNum(): # real signature unknown; restored from __doc__
+
+def getThreadNum():  # real signature unknown; restored from __doc__
     """ getThreadNum() -> retval """
     pass
 
-def getTickCount(): # real signature unknown; restored from __doc__
+
+def getTickCount():  # real signature unknown; restored from __doc__
     """ getTickCount() -> retval """
     pass
 
-def getTickFrequency(): # real signature unknown; restored from __doc__
+
+def getTickFrequency():  # real signature unknown; restored from __doc__
     """ getTickFrequency() -> retval """
     pass
 
-def getTrackbarPos(trackbarname, winname): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getTrackbarPos(trackbarname, winname):
     """ getTrackbarPos(trackbarname, winname) -> retval """
     pass
 
-def getValidDisparityROI(roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getValidDisparityROI(roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize):
     """ getValidDisparityROI(roi1, roi2, minDisparity, numberOfDisparities, SADWindowSize) -> retval """
     pass
 
-def getWindowProperty(winname, prop_id): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def getWindowProperty(winname, prop_id):
     """ getWindowProperty(winname, prop_id) -> retval """
     pass
 
-def GFTTDetector_create(maxCorners=None, qualityLevel=None, minDistance=None, blockSize=None, useHarrisDetector=None, k=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def GFTTDetector_create(maxCorners=None, qualityLevel=None, minDistance=None, blockSize=None, useHarrisDetector=None, k=None):
     """ GFTTDetector_create([, maxCorners[, qualityLevel[, minDistance[, blockSize[, useHarrisDetector[, k]]]]]]) -> retval """
     pass
 
-def goodFeaturesToTrack(image, maxCorners, qualityLevel, minDistance, corners=None, mask=None, blockSize=None, useHarrisDetector=None, k=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def goodFeaturesToTrack(image, maxCorners, qualityLevel, minDistance, corners=None, mask=None, blockSize=None, useHarrisDetector=None, k=None):
     """ goodFeaturesToTrack(image, maxCorners, qualityLevel, minDistance[, corners[, mask[, blockSize[, useHarrisDetector[, k]]]]]) -> corners """
     pass
 
-def grabCut(img, mask, rect, bgdModel, fgdModel, iterCount, mode=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def grabCut(img, mask, rect, bgdModel, fgdModel, iterCount, mode=None):
     """ grabCut(img, mask, rect, bgdModel, fgdModel, iterCount[, mode]) -> mask, bgdModel, fgdModel """
     pass
 
-def groupRectangles(rectList, groupThreshold, eps=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def groupRectangles(rectList, groupThreshold, eps=None):
     """ groupRectangles(rectList, groupThreshold[, eps]) -> rectList, weights """
     pass
 
-def haveOpenVX(): # real signature unknown; restored from __doc__
+
+def haveOpenVX():  # real signature unknown; restored from __doc__
     """ haveOpenVX() -> retval """
     pass
 
-def hconcat(src, dst=None): # real signature unknown; restored from __doc__
+
+def hconcat(src, dst=None):  # real signature unknown; restored from __doc__
     """ hconcat(src[, dst]) -> dst """
     pass
 
-def HOGDescriptor(): # real signature unknown; restored from __doc__
+
+def HOGDescriptor():  # real signature unknown; restored from __doc__
     """ HOGDescriptor() -> <HOGDescriptor object>  or  HOGDescriptor(_winSize, _blockSize, _blockStride, _cellSize, _nbins[, _derivAperture[, _winSigma[, _histogramNormType[, _L2HysThreshold[, _gammaCorrection[, _nlevels[, _signedGradient]]]]]]]) -> <HOGDescriptor object>  or  HOGDescriptor(filename) -> <HOGDescriptor object> """
     pass
 
-def HOGDescriptor_getDaimlerPeopleDetector(): # real signature unknown; restored from __doc__
+
+def HOGDescriptor_getDaimlerPeopleDetector():  # real signature unknown; restored from __doc__
     """ HOGDescriptor_getDaimlerPeopleDetector() -> retval """
     pass
 
-def HOGDescriptor_getDefaultPeopleDetector(): # real signature unknown; restored from __doc__
+
+def HOGDescriptor_getDefaultPeopleDetector():  # real signature unknown; restored from __doc__
     """ HOGDescriptor_getDefaultPeopleDetector() -> retval """
     pass
 
-def HoughCircles(image, method, dp, minDist, circles=None, param1=None, param2=None, minRadius=None, maxRadius=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def HoughCircles(image, method, dp, minDist, circles=None, param1=None, param2=None, minRadius=None, maxRadius=None):
     """ HoughCircles(image, method, dp, minDist[, circles[, param1[, param2[, minRadius[, maxRadius]]]]]) -> circles """
     pass
 
-def HoughLines(image, rho, theta, threshold, lines=None, srn=None, stn=None, min_theta=None, max_theta=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def HoughLines(image, rho, theta, threshold, lines=None, srn=None, stn=None, min_theta=None, max_theta=None):
     """ HoughLines(image, rho, theta, threshold[, lines[, srn[, stn[, min_theta[, max_theta]]]]]) -> lines """
     pass
 
-def HoughLinesP(image, rho, theta, threshold, lines=None, minLineLength=None, maxLineGap=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def HoughLinesP(image, rho, theta, threshold, lines=None, minLineLength=None, maxLineGap=None):
     """ HoughLinesP(image, rho, theta, threshold[, lines[, minLineLength[, maxLineGap]]]) -> lines """
     pass
 
-def HuMoments(m, hu=None): # real signature unknown; restored from __doc__
+
+def HuMoments(m, hu=None):  # real signature unknown; restored from __doc__
     """ HuMoments(m[, hu]) -> hu """
     pass
 
-def idct(src, dst=None, flags=None): # real signature unknown; restored from __doc__
+
+def idct(src, dst=None, flags=None):  # real signature unknown; restored from __doc__
     """ idct(src[, dst[, flags]]) -> dst """
     pass
 
-def idft(src, dst=None, flags=None, nonzeroRows=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def idft(src, dst=None, flags=None, nonzeroRows=None):
     """ idft(src[, dst[, flags[, nonzeroRows]]]) -> dst """
     pass
 
-def illuminationChange(src, mask, dst=None, alpha=None, beta=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def illuminationChange(src, mask, dst=None, alpha=None, beta=None):
     """ illuminationChange(src, mask[, dst[, alpha[, beta]]]) -> dst """
     pass
 
-def imdecode(buf, flags): # real signature unknown; restored from __doc__
+
+def imdecode(buf, flags):  # real signature unknown; restored from __doc__
     """ imdecode(buf, flags) -> retval """
     pass
 
-def imencode(ext, img, params=None): # real signature unknown; restored from __doc__
+
+def imencode(ext, img, params=None):  # real signature unknown; restored from __doc__
     """ imencode(ext, img[, params]) -> retval, buf """
     pass
 
-def imread(filename, flags=None): # real signature unknown; restored from __doc__
+
+def imread(filename, flags=None):  # real signature unknown; restored from __doc__
     """ imread(filename[, flags]) -> retval """
     pass
 
-def imreadmulti(filename, mats, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def imreadmulti(filename, mats, flags=None):
     """ imreadmulti(filename, mats[, flags]) -> retval """
     pass
 
-def imshow(winname, mat): # real signature unknown; restored from __doc__
+
+def imshow(winname, mat):  # real signature unknown; restored from __doc__
     """ imshow(winname, mat) -> None """
     pass
 
-def imwrite(filename, img, params=None): # real signature unknown; restored from __doc__
+
+def imwrite(filename, img, params=None):  # real signature unknown; restored from __doc__
     """ imwrite(filename, img[, params]) -> retval """
     pass
 
-def initCameraMatrix2D(objectPoints, imagePoints, imageSize, aspectRatio=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def initCameraMatrix2D(objectPoints, imagePoints, imageSize, aspectRatio=None):
     """ initCameraMatrix2D(objectPoints, imagePoints, imageSize[, aspectRatio]) -> retval """
     pass
 
-def initUndistortRectifyMap(cameraMatrix, distCoeffs, R, newCameraMatrix, size, m1type, map1=None, map2=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def initUndistortRectifyMap(cameraMatrix, distCoeffs, R, newCameraMatrix, size, m1type, map1=None, map2=None):
     """ initUndistortRectifyMap(cameraMatrix, distCoeffs, R, newCameraMatrix, size, m1type[, map1[, map2]]) -> map1, map2 """
     pass
 
-def initWideAngleProjMap(cameraMatrix, distCoeffs, imageSize, destImageWidth, m1type, map1=None, map2=None, projType=None, alpha=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def initWideAngleProjMap(cameraMatrix, distCoeffs, imageSize, destImageWidth, m1type, map1=None, map2=None, projType=None, alpha=None):
     """ initWideAngleProjMap(cameraMatrix, distCoeffs, imageSize, destImageWidth, m1type[, map1[, map2[, projType[, alpha]]]]) -> retval, map1, map2 """
     pass
 
-def inpaint(src, inpaintMask, inpaintRadius, flags, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def inpaint(src, inpaintMask, inpaintRadius, flags, dst=None):
     """ inpaint(src, inpaintMask, inpaintRadius, flags[, dst]) -> dst """
     pass
 
-def inRange(src, lowerb, upperb, dst=None): # real signature unknown; restored from __doc__
+
+def inRange(src, lowerb, upperb, dst=None):  # real signature unknown; restored from __doc__
     """ inRange(src, lowerb, upperb[, dst]) -> dst """
     pass
 
-def insertChannel(src, dst, coi): # real signature unknown; restored from __doc__
+
+def insertChannel(src, dst, coi):  # real signature unknown; restored from __doc__
     """ insertChannel(src, dst, coi) -> dst """
     pass
 
-def integral(src, sum=None, sdepth=None): # real signature unknown; restored from __doc__
+
+def integral(src, sum=None, sdepth=None):  # real signature unknown; restored from __doc__
     """ integral(src[, sum[, sdepth]]) -> sum """
     pass
 
-def integral2(src, sum=None, sqsum=None, sdepth=None, sqdepth=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def integral2(src, sum=None, sqsum=None, sdepth=None, sqdepth=None):
     """ integral2(src[, sum[, sqsum[, sdepth[, sqdepth]]]]) -> sum, sqsum """
     pass
 
-def integral3(src, sum=None, sqsum=None, tilted=None, sdepth=None, sqdepth=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def integral3(src, sum=None, sqsum=None, tilted=None, sdepth=None, sqdepth=None):
     """ integral3(src[, sum[, sqsum[, tilted[, sdepth[, sqdepth]]]]]) -> sum, sqsum, tilted """
     pass
 
-def intersectConvexConvex(_p1, _p2, _p12=None, handleNested=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def intersectConvexConvex(_p1, _p2, _p12=None, handleNested=None):
     """ intersectConvexConvex(_p1, _p2[, _p12[, handleNested]]) -> retval, _p12 """
     pass
 
-def invert(src, dst=None, flags=None): # real signature unknown; restored from __doc__
+
+def invert(src, dst=None, flags=None):  # real signature unknown; restored from __doc__
     """ invert(src[, dst[, flags]]) -> retval, dst """
     pass
 
-def invertAffineTransform(M, iM=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def invertAffineTransform(M, iM=None):
     """ invertAffineTransform(M[, iM]) -> iM """
     pass
 
-def isContourConvex(contour): # real signature unknown; restored from __doc__
+
+def isContourConvex(contour):  # real signature unknown; restored from __doc__
     """ isContourConvex(contour) -> retval """
     pass
 
-def KalmanFilter(dynamParams=None, measureParams=None, controlParams=None, type=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def KalmanFilter(dynamParams=None, measureParams=None, controlParams=None, type=None):
     """ KalmanFilter([dynamParams, measureParams[, controlParams[, type]]]) -> <KalmanFilter object> """
     pass
 
-def KAZE_create(extended=None, upright=None, threshold=None, nOctaves=None, nOctaveLayers=None, diffusivity=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def KAZE_create(extended=None, upright=None, threshold=None, nOctaves=None, nOctaveLayers=None, diffusivity=None):
     """ KAZE_create([, extended[, upright[, threshold[, nOctaves[, nOctaveLayers[, diffusivity]]]]]]) -> retval """
     pass
 
-def KeyPoint(x=None, y=None, _size=None, _angle=None, _response=None, _octave=None, _class_id=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def KeyPoint(x=None, y=None, _size=None, _angle=None, _response=None, _octave=None, _class_id=None):
     """ KeyPoint([x, y, _size[, _angle[, _response[, _octave[, _class_id]]]]]) -> <KeyPoint object> """
     pass
 
-def KeyPoint_convert(keypoints, keypointIndexes=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def KeyPoint_convert(keypoints, keypointIndexes=None):
     """ KeyPoint_convert(keypoints[, keypointIndexes]) -> points2f  or  KeyPoint_convert(points2f[, size[, response[, octave[, class_id]]]]) -> keypoints """
     pass
 
-def KeyPoint_overlap(kp1, kp2): # real signature unknown; restored from __doc__
+
+def KeyPoint_overlap(kp1, kp2):  # real signature unknown; restored from __doc__
     """ KeyPoint_overlap(kp1, kp2) -> retval """
     pass
 
-def kmeans(data, K, bestLabels, criteria, attempts, flags, centers=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def kmeans(data, K, bestLabels, criteria, attempts, flags, centers=None):
     """ kmeans(data, K, bestLabels, criteria, attempts, flags[, centers]) -> retval, bestLabels, centers """
     pass
 
-def Laplacian(src, ddepth, dst=None, ksize=None, scale=None, delta=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Laplacian(src, ddepth, dst=None, ksize=None, scale=None, delta=None, borderType=None):
     """ Laplacian(src, ddepth[, dst[, ksize[, scale[, delta[, borderType]]]]]) -> dst """
     pass
 
-def line(img, pt1, pt2, color, thickness=None, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def line(img, pt1, pt2, color, thickness=None, lineType=None, shift=None):
     """ line(img, pt1, pt2, color[, thickness[, lineType[, shift]]]) -> img """
     pass
 
-def linearPolar(src, center, maxRadius, flags, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def linearPolar(src, center, maxRadius, flags, dst=None):
     """ linearPolar(src, center, maxRadius, flags[, dst]) -> dst """
     pass
 
-def log(src, dst=None): # real signature unknown; restored from __doc__
+
+def log(src, dst=None):  # real signature unknown; restored from __doc__
     """ log(src[, dst]) -> dst """
     pass
 
-def logPolar(src, center, M, flags, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def logPolar(src, center, M, flags, dst=None):
     """ logPolar(src, center, M, flags[, dst]) -> dst """
     pass
 
-def LUT(src, lut, dst=None): # real signature unknown; restored from __doc__
+
+def LUT(src, lut, dst=None):  # real signature unknown; restored from __doc__
     """ LUT(src, lut[, dst]) -> dst """
     pass
 
-def magnitude(x, y, magnitude=None): # real signature unknown; restored from __doc__
+
+def magnitude(x, y, magnitude=None):  # real signature unknown; restored from __doc__
     """ magnitude(x, y[, magnitude]) -> magnitude """
     pass
 
-def Mahalanobis(v1, v2, icovar): # real signature unknown; restored from __doc__
+
+def Mahalanobis(v1, v2, icovar):  # real signature unknown; restored from __doc__
     """ Mahalanobis(v1, v2, icovar) -> retval """
     pass
 
-def matchShapes(contour1, contour2, method, parameter): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def matchShapes(contour1, contour2, method, parameter):
     """ matchShapes(contour1, contour2, method, parameter) -> retval """
     pass
 
-def matchTemplate(image, templ, method, result=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def matchTemplate(image, templ, method, result=None, mask=None):
     """ matchTemplate(image, templ, method[, result[, mask]]) -> result """
     pass
 
-def matMulDeriv(A, B, dABdA=None, dABdB=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def matMulDeriv(A, B, dABdA=None, dABdB=None):
     """ matMulDeriv(A, B[, dABdA[, dABdB]]) -> dABdA, dABdB """
     pass
 
-def max(src1, src2, dst=None): # real signature unknown; restored from __doc__
+
+def max(src1, src2, dst=None):  # real signature unknown; restored from __doc__
     """ max(src1, src2[, dst]) -> dst """
     pass
 
-def mean(src, mask=None): # real signature unknown; restored from __doc__
+
+def mean(src, mask=None):  # real signature unknown; restored from __doc__
     """ mean(src[, mask]) -> retval """
     pass
 
-def meanShift(probImage, window, criteria): # real signature unknown; restored from __doc__
+
+def meanShift(probImage, window, criteria):  # real signature unknown; restored from __doc__
     """ meanShift(probImage, window, criteria) -> retval, window """
     pass
 
-def meanStdDev(src, mean=None, stddev=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def meanStdDev(src, mean=None, stddev=None, mask=None):
     """ meanStdDev(src[, mean[, stddev[, mask]]]) -> mean, stddev """
     pass
 
-def medianBlur(src, ksize, dst=None): # real signature unknown; restored from __doc__
+
+def medianBlur(src, ksize, dst=None):  # real signature unknown; restored from __doc__
     """ medianBlur(src, ksize[, dst]) -> dst """
     pass
 
-def merge(mv, dst=None): # real signature unknown; restored from __doc__
+
+def merge(mv, dst=None):  # real signature unknown; restored from __doc__
     """ merge(mv[, dst]) -> dst """
     pass
 
-def min(src1, src2, dst=None): # real signature unknown; restored from __doc__
+
+def min(src1, src2, dst=None):  # real signature unknown; restored from __doc__
     """ min(src1, src2[, dst]) -> dst """
     pass
 
-def minAreaRect(points): # real signature unknown; restored from __doc__
+
+def minAreaRect(points):  # real signature unknown; restored from __doc__
     """ minAreaRect(points) -> retval """
     pass
 
-def minEnclosingCircle(points): # real signature unknown; restored from __doc__
+
+def minEnclosingCircle(points):  # real signature unknown; restored from __doc__
     """ minEnclosingCircle(points) -> center, radius """
     pass
 
-def minEnclosingTriangle(points, triangle=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def minEnclosingTriangle(points, triangle=None):
     """ minEnclosingTriangle(points[, triangle]) -> retval, triangle """
     pass
 
-def minMaxLoc(src, mask=None): # real signature unknown; restored from __doc__
+
+def minMaxLoc(src, mask=None):  # real signature unknown; restored from __doc__
     """ minMaxLoc(src[, mask]) -> minVal, maxVal, minLoc, maxLoc """
     pass
 
-def mixChannels(src, dst, fromTo): # real signature unknown; restored from __doc__
+
+def mixChannels(src, dst, fromTo):  # real signature unknown; restored from __doc__
     """ mixChannels(src, dst, fromTo) -> dst """
     pass
 
-def moments(array, binaryImage=None): # real signature unknown; restored from __doc__
+
+def moments(array, binaryImage=None):  # real signature unknown; restored from __doc__
     """ moments(array[, binaryImage]) -> retval """
     pass
 
-def morphologyEx(src, op, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def morphologyEx(src, op, kernel, dst=None, anchor=None, iterations=None, borderType=None, borderValue=None):
     """ morphologyEx(src, op, kernel[, dst[, anchor[, iterations[, borderType[, borderValue]]]]]) -> dst """
     pass
 
-def moveWindow(winname, x, y): # real signature unknown; restored from __doc__
+
+def moveWindow(winname, x, y):  # real signature unknown; restored from __doc__
     """ moveWindow(winname, x, y) -> None """
     pass
 
-def MSER_create(_delta=None, _min_area=None, _max_area=None, _max_variation=None, _min_diversity=None, _max_evolution=None, _area_threshold=None, _min_margin=None, _edge_blur_size=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def MSER_create(_delta=None, _min_area=None, _max_area=None, _max_variation=None, _min_diversity=None, _max_evolution=None, _area_threshold=None, _min_margin=None, _edge_blur_size=None):
     """ MSER_create([, _delta[, _min_area[, _max_area[, _max_variation[, _min_diversity[, _max_evolution[, _area_threshold[, _min_margin[, _edge_blur_size]]]]]]]]]) -> retval """
     pass
 
-def mulSpectrums(a, b, flags, c=None, conjB=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def mulSpectrums(a, b, flags, c=None, conjB=None):
     """ mulSpectrums(a, b, flags[, c[, conjB]]) -> c """
     pass
 
-def multiply(src1, src2, dst=None, scale=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def multiply(src1, src2, dst=None, scale=None, dtype=None):
     """ multiply(src1, src2[, dst[, scale[, dtype]]]) -> dst """
     pass
 
-def MultiTracker(trackerType=None): # real signature unknown; restored from __doc__
+
+def MultiTracker(trackerType=None):  # real signature unknown; restored from __doc__
     """ MultiTracker([, trackerType]) -> <MultiTracker object> """
     pass
 
-def mulTransposed(src, aTa, dst=None, delta=None, scale=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def mulTransposed(src, aTa, dst=None, delta=None, scale=None, dtype=None):
     """ mulTransposed(src, aTa[, dst[, delta[, scale[, dtype]]]]) -> dst """
     pass
 
-def namedWindow(winname, flags=None): # real signature unknown; restored from __doc__
+
+def namedWindow(winname, flags=None):  # real signature unknown; restored from __doc__
     """ namedWindow(winname[, flags]) -> None """
     pass
 
-def norm(src1, normType=None, mask=None): # real signature unknown; restored from __doc__
+
+def norm(src1, normType=None, mask=None):  # real signature unknown; restored from __doc__
     """ norm(src1[, normType[, mask]]) -> retval  or  norm(src1, src2[, normType[, mask]]) -> retval """
     pass
 
-def normalize(src, dst, alpha=None, beta=None, norm_type=None, dtype=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def normalize(src, dst, alpha=None, beta=None, norm_type=None, dtype=None, mask=None):
     """ normalize(src, dst[, alpha[, beta[, norm_type[, dtype[, mask]]]]]) -> dst """
     pass
 
-def ORB_create(nfeatures=None, scaleFactor=None, nlevels=None, edgeThreshold=None, firstLevel=None, WTA_K=None, scoreType=None, patchSize=None, fastThreshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def ORB_create(nfeatures=None, scaleFactor=None, nlevels=None, edgeThreshold=None, firstLevel=None, WTA_K=None, scoreType=None, patchSize=None, fastThreshold=None):
     """ ORB_create([, nfeatures[, scaleFactor[, nlevels[, edgeThreshold[, firstLevel[, WTA_K[, scoreType[, patchSize[, fastThreshold]]]]]]]]]) -> retval """
     pass
 
-def patchNaNs(a, val=None): # real signature unknown; restored from __doc__
+
+def patchNaNs(a, val=None):  # real signature unknown; restored from __doc__
     """ patchNaNs(a[, val]) -> a """
     pass
 
-def PCABackProject(data, mean, eigenvectors, result=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCABackProject(data, mean, eigenvectors, result=None):
     """ PCABackProject(data, mean, eigenvectors[, result]) -> result """
     pass
 
-def PCACompute(data, mean, eigenvectors=None, maxComponents=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCACompute(data, mean, eigenvectors=None, maxComponents=None):
     """ PCACompute(data, mean[, eigenvectors[, maxComponents]]) -> mean, eigenvectors  or  PCACompute(data, mean, retainedVariance[, eigenvectors]) -> mean, eigenvectors """
     pass
 
-def PCAProject(data, mean, eigenvectors, result=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def PCAProject(data, mean, eigenvectors, result=None):
     """ PCAProject(data, mean, eigenvectors[, result]) -> result """
     pass
 
-def pencilSketch(src, dst1=None, dst2=None, sigma_s=None, sigma_r=None, shade_factor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def pencilSketch(src, dst1=None, dst2=None, sigma_s=None, sigma_r=None, shade_factor=None):
     """ pencilSketch(src[, dst1[, dst2[, sigma_s[, sigma_r[, shade_factor]]]]]) -> dst1, dst2 """
     pass
 
-def perspectiveTransform(src, m, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def perspectiveTransform(src, m, dst=None):
     """ perspectiveTransform(src, m[, dst]) -> dst """
     pass
 
-def phase(x, y, angle=None, angleInDegrees=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def phase(x, y, angle=None, angleInDegrees=None):
     """ phase(x, y[, angle[, angleInDegrees]]) -> angle """
     pass
 
-def phaseCorrelate(src1, src2, window=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def phaseCorrelate(src1, src2, window=None):
     """ phaseCorrelate(src1, src2[, window]) -> retval, response """
     pass
 
-def pointPolygonTest(contour, pt, measureDist): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def pointPolygonTest(contour, pt, measureDist):
     """ pointPolygonTest(contour, pt, measureDist) -> retval """
     pass
 
-def polarToCart(magnitude, angle, x=None, y=None, angleInDegrees=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def polarToCart(magnitude, angle, x=None, y=None, angleInDegrees=None):
     """ polarToCart(magnitude, angle[, x[, y[, angleInDegrees]]]) -> x, y """
     pass
 
-def polylines(img, pts, isClosed, color, thickness=None, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def polylines(img, pts, isClosed, color, thickness=None, lineType=None, shift=None):
     """ polylines(img, pts, isClosed, color[, thickness[, lineType[, shift]]]) -> img """
     pass
 
-def pow(src, power, dst=None): # real signature unknown; restored from __doc__
+
+def pow(src, power, dst=None):  # real signature unknown; restored from __doc__
     """ pow(src, power[, dst]) -> dst """
     pass
 
-def preCornerDetect(src, ksize, dst=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def preCornerDetect(src, ksize, dst=None, borderType=None):
     """ preCornerDetect(src, ksize[, dst[, borderType]]) -> dst """
     pass
 
-def projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints=None, jacobian=None, aspectRatio=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints=None, jacobian=None, aspectRatio=None):
     """ projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs[, imagePoints[, jacobian[, aspectRatio]]]) -> imagePoints, jacobian """
     pass
 
-def PSNR(src1, src2): # real signature unknown; restored from __doc__
+
+def PSNR(src1, src2):  # real signature unknown; restored from __doc__
     """ PSNR(src1, src2) -> retval """
     pass
 
-def putText(img, text, org, fontFace, fontScale, color, thickness=None, lineType=None, bottomLeftOrigin=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def putText(img, text, org, fontFace, fontScale, color, thickness=None, lineType=None, bottomLeftOrigin=None):
     """ putText(img, text, org, fontFace, fontScale, color[, thickness[, lineType[, bottomLeftOrigin]]]) -> img """
     pass
 
-def pyrDown(src, dst=None, dstsize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def pyrDown(src, dst=None, dstsize=None, borderType=None):
     """ pyrDown(src[, dst[, dstsize[, borderType]]]) -> dst """
     pass
 
-def pyrMeanShiftFiltering(src, sp, sr, dst=None, maxLevel=None, termcrit=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def pyrMeanShiftFiltering(src, sp, sr, dst=None, maxLevel=None, termcrit=None):
     """ pyrMeanShiftFiltering(src, sp, sr[, dst[, maxLevel[, termcrit]]]) -> dst """
     pass
 
-def pyrUp(src, dst=None, dstsize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def pyrUp(src, dst=None, dstsize=None, borderType=None):
     """ pyrUp(src[, dst[, dstsize[, borderType]]]) -> dst """
     pass
 
-def randn(dst, mean, stddev): # real signature unknown; restored from __doc__
+
+def randn(dst, mean, stddev):  # real signature unknown; restored from __doc__
     """ randn(dst, mean, stddev) -> dst """
     pass
 
-def randShuffle(dst, iterFactor=None): # real signature unknown; restored from __doc__
+
+def randShuffle(dst, iterFactor=None):  # real signature unknown; restored from __doc__
     """ randShuffle(dst[, iterFactor]) -> dst """
     pass
 
-def randu(dst, low, high): # real signature unknown; restored from __doc__
+
+def randu(dst, low, high):  # real signature unknown; restored from __doc__
     """ randu(dst, low, high) -> dst """
     pass
 
-def recoverPose(E, points1, points2, cameraMatrix, R=None, t=None, mask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def recoverPose(E, points1, points2, cameraMatrix, R=None, t=None, mask=None):
     """ recoverPose(E, points1, points2, cameraMatrix[, R[, t[, mask]]]) -> retval, R, t, mask  or  recoverPose(E, points1, points2[, R[, t[, focal[, pp[, mask]]]]]) -> retval, R, t, mask """
     pass
 
-def rectangle(img, pt1, pt2, color, thickness=None, lineType=None, shift=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def rectangle(img, pt1, pt2, color, thickness=None, lineType=None, shift=None):
     """ rectangle(img, pt1, pt2, color[, thickness[, lineType[, shift]]]) -> img """
     pass
 
-def rectify3Collinear(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, cameraMatrix3, distCoeffs3, imgpt1, imgpt3, imageSize, R12, T12, R13, T13, alpha, newImgSize, flags, R1=None, R2=None, R3=None, P1=None, P2=None, P3=None, Q=None): # real signature unknown; restored from __doc__
+
+def rectify3Collinear(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, cameraMatrix3, distCoeffs3, imgpt1, imgpt3, imageSize, R12, T12, R13, T13, alpha, newImgSize, flags, R1=None, R2=None, R3=None, P1=None, P2=None, P3=None, Q=None):  # real signature unknown; restored from __doc__
     """ rectify3Collinear(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, cameraMatrix3, distCoeffs3, imgpt1, imgpt3, imageSize, R12, T12, R13, T13, alpha, newImgSize, flags[, R1[, R2[, R3[, P1[, P2[, P3[, Q]]]]]]]) -> retval, R1, R2, R3, P1, P2, P3, Q, roi1, roi2 """
     pass
 
-def reduce(src, dim, rtype, dst=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def reduce(src, dim, rtype, dst=None, dtype=None):
     """ reduce(src, dim, rtype[, dst[, dtype]]) -> dst """
     pass
 
-def remap(src, map1, map2, interpolation, dst=None, borderMode=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def remap(src, map1, map2, interpolation, dst=None, borderMode=None, borderValue=None):
     """ remap(src, map1, map2, interpolation[, dst[, borderMode[, borderValue]]]) -> dst """
     pass
 
-def repeat(src, ny, nx, dst=None): # real signature unknown; restored from __doc__
+
+def repeat(src, ny, nx, dst=None):  # real signature unknown; restored from __doc__
     """ repeat(src, ny, nx[, dst]) -> dst """
     pass
 
-def reprojectImageTo3D(disparity, Q, _3dImage=None, handleMissingValues=None, ddepth=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def reprojectImageTo3D(disparity, Q, _3dImage=None, handleMissingValues=None, ddepth=None):
     """ reprojectImageTo3D(disparity, Q[, _3dImage[, handleMissingValues[, ddepth]]]) -> _3dImage """
     pass
 
-def resize(src, dsize, dst=None, fx=None, fy=None, interpolation=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def resize(src, dsize, dst=None, fx=None, fy=None, interpolation=None):
     """ resize(src, dsize[, dst[, fx[, fy[, interpolation]]]]) -> dst """
     pass
 
-def resizeWindow(winname, width, height): # real signature unknown; restored from __doc__
+
+def resizeWindow(winname, width, height):  # real signature unknown; restored from __doc__
     """ resizeWindow(winname, width, height) -> None """
     pass
 
-def Rodrigues(src, dst=None, jacobian=None): # real signature unknown; restored from __doc__
+
+def Rodrigues(src, dst=None, jacobian=None):  # real signature unknown; restored from __doc__
     """ Rodrigues(src[, dst[, jacobian]]) -> dst, jacobian """
     pass
 
-def rotate(src, rotateCode, dst=None): # real signature unknown; restored from __doc__
+
+def rotate(src, rotateCode, dst=None):  # real signature unknown; restored from __doc__
     """ rotate(src, rotateCode[, dst]) -> dst """
     pass
 
-def rotatedRectangleIntersection(rect1, rect2, intersectingRegion=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def rotatedRectangleIntersection(rect1, rect2, intersectingRegion=None):
     """ rotatedRectangleIntersection(rect1, rect2[, intersectingRegion]) -> retval, intersectingRegion """
     pass
 
-def RQDecomp3x3(src, mtxR=None, mtxQ=None, Qx=None, Qy=None, Qz=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def RQDecomp3x3(src, mtxR=None, mtxQ=None, Qx=None, Qy=None, Qz=None):
     """ RQDecomp3x3(src[, mtxR[, mtxQ[, Qx[, Qy[, Qz]]]]]) -> retval, mtxR, mtxQ, Qx, Qy, Qz """
     pass
 
-def sampsonDistance(pt1, pt2, F): # real signature unknown; restored from __doc__
+
+def sampsonDistance(pt1, pt2, F):  # real signature unknown; restored from __doc__
     """ sampsonDistance(pt1, pt2, F) -> retval """
     pass
 
-def scaleAdd(src1, alpha, src2, dst=None): # real signature unknown; restored from __doc__
+
+def scaleAdd(src1, alpha, src2, dst=None):  # real signature unknown; restored from __doc__
     """ scaleAdd(src1, alpha, src2[, dst]) -> dst """
     pass
 
-def Scharr(src, ddepth, dx, dy, dst=None, scale=None, delta=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Scharr(src, ddepth, dx, dy, dst=None, scale=None, delta=None, borderType=None):
     """ Scharr(src, ddepth, dx, dy[, dst[, scale[, delta[, borderType]]]]) -> dst """
     pass
 
-def seamlessClone(src, dst, mask, p, flags, blend=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def seamlessClone(src, dst, mask, p, flags, blend=None):
     """ seamlessClone(src, dst, mask, p, flags[, blend]) -> blend """
     pass
 
-def selectROI(img, fromCenter=None): # real signature unknown; restored from __doc__
+
+def selectROI(img, fromCenter=None):  # real signature unknown; restored from __doc__
     """ selectROI(img[, fromCenter]) -> retval  or  selectROI(windowName, img[, showCrossair[, fromCenter]]) -> retval  or  selectROI(windowName, img, boundingBox[, fromCenter]) -> None """
     pass
 
-def sepFilter2D(src, ddepth, kernelX, kernelY, dst=None, anchor=None, delta=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def sepFilter2D(src, ddepth, kernelX, kernelY, dst=None, anchor=None, delta=None, borderType=None):
     """ sepFilter2D(src, ddepth, kernelX, kernelY[, dst[, anchor[, delta[, borderType]]]]) -> dst """
     pass
 
-def setIdentity(mtx, s=None): # real signature unknown; restored from __doc__
+
+def setIdentity(mtx, s=None):  # real signature unknown; restored from __doc__
     """ setIdentity(mtx[, s]) -> mtx """
     pass
 
-def setMouseCallback(windowName, onMouse, param=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def setMouseCallback(windowName, onMouse, param=None):
     """ setMouseCallback(windowName, onMouse [, param]) -> None """
     pass
 
-def setNumThreads(nthreads): # real signature unknown; restored from __doc__
+
+def setNumThreads(nthreads):  # real signature unknown; restored from __doc__
     """ setNumThreads(nthreads) -> None """
     pass
 
-def setRNGSeed(seed): # real signature unknown; restored from __doc__
+
+def setRNGSeed(seed):  # real signature unknown; restored from __doc__
     """ setRNGSeed(seed) -> None """
     pass
 
-def setTrackbarMax(trackbarname, winname, maxval): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def setTrackbarMax(trackbarname, winname, maxval):
     """ setTrackbarMax(trackbarname, winname, maxval) -> None """
     pass
 
-def setTrackbarMin(trackbarname, winname, minval): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def setTrackbarMin(trackbarname, winname, minval):
     """ setTrackbarMin(trackbarname, winname, minval) -> None """
     pass
 
-def setTrackbarPos(trackbarname, winname, pos): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def setTrackbarPos(trackbarname, winname, pos):
     """ setTrackbarPos(trackbarname, winname, pos) -> None """
     pass
 
-def setUseOpenVX(flag): # real signature unknown; restored from __doc__
+
+def setUseOpenVX(flag):  # real signature unknown; restored from __doc__
     """ setUseOpenVX(flag) -> None """
     pass
 
-def setUseOptimized(onoff): # real signature unknown; restored from __doc__
+
+def setUseOptimized(onoff):  # real signature unknown; restored from __doc__
     """ setUseOptimized(onoff) -> None """
     pass
 
-def setWindowProperty(winname, prop_id, prop_value): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def setWindowProperty(winname, prop_id, prop_value):
     """ setWindowProperty(winname, prop_id, prop_value) -> None """
     pass
 
-def setWindowTitle(winname, title): # real signature unknown; restored from __doc__
+
+def setWindowTitle(winname, title):  # real signature unknown; restored from __doc__
     """ setWindowTitle(winname, title) -> None """
     pass
 
-def SimpleBlobDetector_create(parameters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SimpleBlobDetector_create(parameters=None):
     """ SimpleBlobDetector_create([, parameters]) -> retval """
     pass
 
-def SimpleBlobDetector_Params(): # real signature unknown; restored from __doc__
+
+def SimpleBlobDetector_Params():  # real signature unknown; restored from __doc__
     """ SimpleBlobDetector_Params() -> <SimpleBlobDetector_Params object> """
     pass
 
-def Sobel(src, ddepth, dx, dy, dst=None, ksize=None, scale=None, delta=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def Sobel(src, ddepth, dx, dy, dst=None, ksize=None, scale=None, delta=None, borderType=None):
     """ Sobel(src, ddepth, dx, dy[, dst[, ksize[, scale[, delta[, borderType]]]]]) -> dst """
     pass
 
-def solve(src1, src2, dst=None, flags=None): # real signature unknown; restored from __doc__
+
+def solve(src1, src2, dst=None, flags=None):  # real signature unknown; restored from __doc__
     """ solve(src1, src2[, dst[, flags]]) -> retval, dst """
     pass
 
-def solveCubic(coeffs, roots=None): # real signature unknown; restored from __doc__
+
+def solveCubic(coeffs, roots=None):  # real signature unknown; restored from __doc__
     """ solveCubic(coeffs[, roots]) -> retval, roots """
     pass
 
-def solveLP(Func, Constr, z): # real signature unknown; restored from __doc__
+
+def solveLP(Func, Constr, z):  # real signature unknown; restored from __doc__
     """ solveLP(Func, Constr, z) -> retval """
     pass
 
-def solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec=None, tvec=None, useExtrinsicGuess=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec=None, tvec=None, useExtrinsicGuess=None, flags=None):
     """ solvePnP(objectPoints, imagePoints, cameraMatrix, distCoeffs[, rvec[, tvec[, useExtrinsicGuess[, flags]]]]) -> retval, rvec, tvec """
     pass
 
-def solvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec=None, tvec=None, useExtrinsicGuess=None, iterationsCount=None, reprojectionError=None, confidence=None, inliers=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def solvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, rvec=None, tvec=None, useExtrinsicGuess=None, iterationsCount=None, reprojectionError=None, confidence=None, inliers=None, flags=None):
     """ solvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs[, rvec[, tvec[, useExtrinsicGuess[, iterationsCount[, reprojectionError[, confidence[, inliers[, flags]]]]]]]]) -> retval, rvec, tvec, inliers """
     pass
 
-def solvePoly(coeffs, roots=None, maxIters=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def solvePoly(coeffs, roots=None, maxIters=None):
     """ solvePoly(coeffs[, roots[, maxIters]]) -> retval, roots """
     pass
 
-def sort(src, flags, dst=None): # real signature unknown; restored from __doc__
+
+def sort(src, flags, dst=None):  # real signature unknown; restored from __doc__
     """ sort(src, flags[, dst]) -> dst """
     pass
 
-def sortIdx(src, flags, dst=None): # real signature unknown; restored from __doc__
+
+def sortIdx(src, flags, dst=None):  # real signature unknown; restored from __doc__
     """ sortIdx(src, flags[, dst]) -> dst """
     pass
 
-def SparsePyrLKOpticalFlow_create(winSize=None, maxLevel=None, crit=None, flags=None, minEigThreshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SparsePyrLKOpticalFlow_create(winSize=None, maxLevel=None, crit=None, flags=None, minEigThreshold=None):
     """ SparsePyrLKOpticalFlow_create([, winSize[, maxLevel[, crit[, flags[, minEigThreshold]]]]]) -> retval """
     pass
 
-def spatialGradient(src, dx=None, dy=None, ksize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def spatialGradient(src, dx=None, dy=None, ksize=None, borderType=None):
     """ spatialGradient(src[, dx[, dy[, ksize[, borderType]]]]) -> dx, dy """
     pass
 
-def split(m, mv=None): # real signature unknown; restored from __doc__
+
+def split(m, mv=None):  # real signature unknown; restored from __doc__
     """ split(m[, mv]) -> mv """
     pass
 
-def sqrBoxFilter(_src, ddepth, ksize, _dst=None, anchor=None, normalize=None, borderType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def sqrBoxFilter(_src, ddepth, ksize, _dst=None, anchor=None, normalize=None, borderType=None):
     """ sqrBoxFilter(_src, ddepth, ksize[, _dst[, anchor[, normalize[, borderType]]]]) -> _dst """
     pass
 
-def sqrt(src, dst=None): # real signature unknown; restored from __doc__
+
+def sqrt(src, dst=None):  # real signature unknown; restored from __doc__
     """ sqrt(src[, dst]) -> dst """
     pass
 
-def startWindowThread(): # real signature unknown; restored from __doc__
+
+def startWindowThread():  # real signature unknown; restored from __doc__
     """ startWindowThread() -> retval """
     pass
 
-def StereoBM_create(numDisparities=None, blockSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def StereoBM_create(numDisparities=None, blockSize=None):
     """ StereoBM_create([, numDisparities[, blockSize]]) -> retval """
     pass
 
-def stereoCalibrate(objectPoints, imagePoints1, imagePoints2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R=None, T=None, E=None, F=None, flags=None, criteria=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def stereoCalibrate(objectPoints, imagePoints1, imagePoints2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R=None, T=None, E=None, F=None, flags=None, criteria=None):
     """ stereoCalibrate(objectPoints, imagePoints1, imagePoints2, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize[, R[, T[, E[, F[, flags[, criteria]]]]]]) -> retval, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, R, T, E, F """
     pass
 
-def stereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T, R1=None, R2=None, P1=None, P2=None, Q=None, flags=None, alpha=None, newImageSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def stereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T, R1=None, R2=None, P1=None, P2=None, Q=None, flags=None, alpha=None, newImageSize=None):
     """ stereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T[, R1[, R2[, P1[, P2[, Q[, flags[, alpha[, newImageSize]]]]]]]]) -> R1, R2, P1, P2, Q, validPixROI1, validPixROI2 """
     pass
 
-def stereoRectifyUncalibrated(points1, points2, F, imgSize, H1=None, H2=None, threshold=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def stereoRectifyUncalibrated(points1, points2, F, imgSize, H1=None, H2=None, threshold=None):
     """ stereoRectifyUncalibrated(points1, points2, F, imgSize[, H1[, H2[, threshold]]]) -> retval, H1, H2 """
     pass
 
-def StereoSGBM_create(minDisparity, numDisparities, blockSize, P1=None, P2=None, disp12MaxDiff=None, preFilterCap=None, uniquenessRatio=None, speckleWindowSize=None, speckleRange=None, mode=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def StereoSGBM_create(minDisparity, numDisparities, blockSize, P1=None, P2=None, disp12MaxDiff=None, preFilterCap=None, uniquenessRatio=None, speckleWindowSize=None, speckleRange=None, mode=None):
     """ StereoSGBM_create(minDisparity, numDisparities, blockSize[, P1[, P2[, disp12MaxDiff[, preFilterCap[, uniquenessRatio[, speckleWindowSize[, speckleRange[, mode]]]]]]]]) -> retval """
     pass
 
-def stylization(src, dst=None, sigma_s=None, sigma_r=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def stylization(src, dst=None, sigma_s=None, sigma_r=None):
     """ stylization(src[, dst[, sigma_s[, sigma_r]]]) -> dst """
     pass
 
-def Subdiv2D(rect=None): # real signature unknown; restored from __doc__
+
+def Subdiv2D(rect=None):  # real signature unknown; restored from __doc__
     """ Subdiv2D([rect]) -> <Subdiv2D object> """
     pass
 
-def subtract(src1, src2, dst=None, mask=None, dtype=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def subtract(src1, src2, dst=None, mask=None, dtype=None):
     """ subtract(src1, src2[, dst[, mask[, dtype]]]) -> dst """
     pass
 
-def sumElems(src): # real signature unknown; restored from __doc__
+
+def sumElems(src):  # real signature unknown; restored from __doc__
     """ sumElems(src) -> retval """
     pass
 
-def SVBackSubst(w, u, vt, rhs, dst=None): # real signature unknown; restored from __doc__
+
+def SVBackSubst(w, u, vt, rhs, dst=None):  # real signature unknown; restored from __doc__
     """ SVBackSubst(w, u, vt, rhs[, dst]) -> dst """
     pass
 
-def SVDecomp(src, w=None, u=None, vt=None, flags=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def SVDecomp(src, w=None, u=None, vt=None, flags=None):
     """ SVDecomp(src[, w[, u[, vt[, flags]]]]) -> w, u, vt """
     pass
 
-def textureFlattening(src, mask, dst=None, low_threshold=None, high_threshold=None, kernel_size=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def textureFlattening(src, mask, dst=None, low_threshold=None, high_threshold=None, kernel_size=None):
     """ textureFlattening(src, mask[, dst[, low_threshold[, high_threshold[, kernel_size]]]]) -> dst """
     pass
 
-def threshold(src, thresh, maxval, type, dst=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def threshold(src, thresh, maxval, type, dst=None):
     """ threshold(src, thresh, maxval, type[, dst]) -> retval, dst """
     pass
 
-def TickMeter(): # real signature unknown; restored from __doc__
+
+def TickMeter():  # real signature unknown; restored from __doc__
     """ TickMeter() -> <TickMeter object> """
     pass
 
-def trace(mtx): # real signature unknown; restored from __doc__
+
+def trace(mtx):  # real signature unknown; restored from __doc__
     """ trace(mtx) -> retval """
     pass
 
-def Tracker_create(trackerType): # real signature unknown; restored from __doc__
+
+def Tracker_create(trackerType):  # real signature unknown; restored from __doc__
     """ Tracker_create(trackerType) -> retval """
     pass
 
-def transform(src, m, dst=None): # real signature unknown; restored from __doc__
+
+def transform(src, m, dst=None):  # real signature unknown; restored from __doc__
     """ transform(src, m[, dst]) -> dst """
     pass
 
-def transpose(src, dst=None): # real signature unknown; restored from __doc__
+
+def transpose(src, dst=None):  # real signature unknown; restored from __doc__
     """ transpose(src[, dst]) -> dst """
     pass
 
-def triangulatePoints(projMatr1, projMatr2, projPoints1, projPoints2, points4D=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def triangulatePoints(projMatr1, projMatr2, projPoints1, projPoints2, points4D=None):
     """ triangulatePoints(projMatr1, projMatr2, projPoints1, projPoints2[, points4D]) -> points4D """
     pass
 
-def undistort(src, cameraMatrix, distCoeffs, dst=None, newCameraMatrix=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def undistort(src, cameraMatrix, distCoeffs, dst=None, newCameraMatrix=None):
     """ undistort(src, cameraMatrix, distCoeffs[, dst[, newCameraMatrix]]) -> dst """
     pass
 
-def undistortPoints(src, cameraMatrix, distCoeffs, dst=None, R=None, P=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def undistortPoints(src, cameraMatrix, distCoeffs, dst=None, R=None, P=None):
     """ undistortPoints(src, cameraMatrix, distCoeffs[, dst[, R[, P]]]) -> dst """
     pass
 
-def useOpenVX(): # real signature unknown; restored from __doc__
+
+def useOpenVX():  # real signature unknown; restored from __doc__
     """ useOpenVX() -> retval """
     pass
 
-def useOptimized(): # real signature unknown; restored from __doc__
+
+def useOptimized():  # real signature unknown; restored from __doc__
     """ useOptimized() -> retval """
     pass
 
-def validateDisparity(disparity, cost, minDisparity, numberOfDisparities, disp12MaxDisp=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def validateDisparity(disparity, cost, minDisparity, numberOfDisparities, disp12MaxDisp=None):
     """ validateDisparity(disparity, cost, minDisparity, numberOfDisparities[, disp12MaxDisp]) -> disparity """
     pass
 
-def vconcat(src, dst=None): # real signature unknown; restored from __doc__
+
+def vconcat(src, dst=None):  # real signature unknown; restored from __doc__
     """ vconcat(src[, dst]) -> dst """
     pass
 
-def VideoCapture(): # real signature unknown; restored from __doc__
+
+def VideoCapture():  # real signature unknown; restored from __doc__
     """ VideoCapture() -> <VideoCapture object>  or  VideoCapture(filename) -> <VideoCapture object>  or  VideoCapture(filename, apiPreference) -> <VideoCapture object>  or  VideoCapture(index) -> <VideoCapture object> """
     pass
 
-def VideoWriter(filename=None, fourcc=None, fps=None, frameSize=None, isColor=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def VideoWriter(filename=None, fourcc=None, fps=None, frameSize=None, isColor=None):
     """ VideoWriter([filename, fourcc, fps, frameSize[, isColor]]) -> <VideoWriter object> """
     pass
 
-def VideoWriter_fourcc(c1, c2, c3, c4): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def VideoWriter_fourcc(c1, c2, c3, c4):
     """ VideoWriter_fourcc(c1, c2, c3, c4) -> retval """
     pass
 
-def waitKey(delay=None): # real signature unknown; restored from __doc__
+
+def waitKey(delay=None):  # real signature unknown; restored from __doc__
     """ waitKey([, delay]) -> retval """
     pass
 
-def waitKeyEx(delay=None): # real signature unknown; restored from __doc__
+
+def waitKeyEx(delay=None):  # real signature unknown; restored from __doc__
     """ waitKeyEx([, delay]) -> retval """
     pass
 
-def warpAffine(src, M, dsize, dst=None, flags=None, borderMode=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def warpAffine(src, M, dsize, dst=None, flags=None, borderMode=None, borderValue=None):
     """ warpAffine(src, M, dsize[, dst[, flags[, borderMode[, borderValue]]]]) -> dst """
     pass
 
-def warpPerspective(src, M, dsize, dst=None, flags=None, borderMode=None, borderValue=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def warpPerspective(src, M, dsize, dst=None, flags=None, borderMode=None, borderValue=None):
     """ warpPerspective(src, M, dsize[, dst[, flags[, borderMode[, borderValue]]]]) -> dst """
     pass
 
-def watershed(image, markers): # real signature unknown; restored from __doc__
+
+def watershed(image, markers):  # real signature unknown; restored from __doc__
     """ watershed(image, markers) -> markers """
     pass
 
 # classes
 
+
 class error(Exception):
     # no doc
-    def __init__(self, *args, **kwargs): # real signature unknown
+    def __init__(self, *args, **kwargs):  # real signature unknown
         pass
 
-    __weakref__ = property(lambda self: object(), lambda self, v: None, lambda self: None)  # default
+    __weakref__ = property(lambda self: object(), lambda self,
+                           v: None, lambda self: None)  # default
     """list of weak references to the object (if defined)"""
-
 
 
 class UMat(object):
     """ OpenCV 3 UMat wrapper. Used for T-API support. """
-    def get(self, *args, **kwargs): # real signature unknown
+
+    def get(self, *args, **kwargs):  # real signature unknown
         """ Returns numpy array """
         pass
 
-    def __init__(self, *args, **kwargs): # real signature unknown
+    def __init__(self, *args, **kwargs):  # real signature unknown
         pass
 
-    @staticmethod # known case of __new__
-    def __new__(*args, **kwargs): # real signature unknown
+    @staticmethod  # known case of __new__
+    def __new__(*args, **kwargs):  # real signature unknown
         """ Create and return a new object.  See help(type) for accurate signature. """
         pass
 
 
 # variables with complex values
 
-__loader__ = None # (!) real value is ''
+__loader__ = None  # (!) real value is ''
 
-__spec__ = None # (!) real value is ''
-
+__spec__ = None  # (!) real value is ''

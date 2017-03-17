@@ -13,19 +13,27 @@ __spec__ = None
 
 # functions
 
-def calcGlobalOrientation(orientation, mask, mhi, timestamp, duration): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcGlobalOrientation(orientation, mask, mhi, timestamp, duration):
     """ calcGlobalOrientation(orientation, mask, mhi, timestamp, duration) -> retval """
     pass
 
-def calcMotionGradient(mhi, delta1, delta2, mask=None, orientation=None, apertureSize=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def calcMotionGradient(mhi, delta1, delta2, mask=None, orientation=None, apertureSize=None):
     """ calcMotionGradient(mhi, delta1, delta2[, mask[, orientation[, apertureSize]]]) -> mask, orientation """
     pass
 
-def segmentMotion(mhi, timestamp, segThresh, segmask=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def segmentMotion(mhi, timestamp, segThresh, segmask=None):
     """ segmentMotion(mhi, timestamp, segThresh[, segmask]) -> segmask, boundingRects """
     pass
 
-def updateMotionHistory(silhouette, mhi, timestamp, duration): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def updateMotionHistory(silhouette, mhi, timestamp, duration):
     """ updateMotionHistory(silhouette, mhi, timestamp, duration) -> mhi """
     pass
 

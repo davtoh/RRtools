@@ -9,6 +9,7 @@ from ..lib.plotter import fastplt
 import cv2
 import numpy as np
 
+
 def drawEllipse(array, cnt, color=0):
     """
     project ellipse over array.
@@ -18,10 +19,11 @@ def drawEllipse(array, cnt, color=0):
     :param color: color of lens
     :return: array
     """
-    ellipse = cv2.fitEllipse(cnt) # get ellipse
+    ellipse = cv2.fitEllipse(cnt)  # get ellipse
     # project ellipse over array
     cv2.ellipse(array, ellipse, color, -1)
     return array
+
 
 def drawCircle(array, cnt, color=0):
     """
@@ -32,12 +34,13 @@ def drawCircle(array, cnt, color=0):
     :param color: color of lens
     :return: array
     """
-    center, radius = cv2.minEnclosingCircle(cnt) # get circle
+    center, radius = cv2.minEnclosingCircle(cnt)  # get circle
     # project circle over array
     cv2.circle(array, tuple(map(int, center)), int(radius), color, -1)
     return array
 
-def fitLens(img, mask, color = 0, asEllipse = False, addmask = False):
+
+def fitLens(img, mask, color=0, asEllipse=False, addmask=False):
     """
     Place lens-like object in image.
 
@@ -49,34 +52,36 @@ def fitLens(img, mask, color = 0, asEllipse = False, addmask = False):
     :return: image with simulated lens
     """
     # scaling operation
-    sz = img.shape[:2] # get original image size
+    sz = img.shape[:2]  # get original image size
     pshape = mask.shape
     if sz != pshape:
         # make rescaling function: scaled point -to- original point function
-        scalepoints = spoint2opointfunc(pshape,sz)
+        scalepoints = spoint2opointfunc(pshape, sz)
     else:
-        scalepoints = lambda x: x # return the same points
+        def scalepoints(x): return x  # return the same points
     # find biggest area and contour
     cnt = thresh_biggestCnt(mask)
     # rescale contour to original image contour
     cnt2 = np.int32(scalepoints(cnt))
 
-    mask_lens = np.ones(sz,dtype=np.uint8) # create mask
+    mask_lens = np.ones(sz, dtype=np.uint8)  # create mask
     if asEllipse:
         # get ellipse for original image to simulate lens
-        drawEllipse(mask_lens,cnt2)
+        drawEllipse(mask_lens, cnt2)
     else:
         # get circle for original image to simulate lens
-        drawCircle(mask_lens,cnt2)
+        drawCircle(mask_lens, cnt2)
 
     # simulate lens
-    img[mask_lens>0] = color # use mask to project black color over original image
+    # use mask to project black color over original image
+    img[mask_lens > 0] = color
 
     if addmask:
         return img, mask_lens
     return img
 
-def simulateLens(img, threshfunc = None, pshape = (300, 300), color = 0, asEllipse=True):
+
+def simulateLens(img, threshfunc=None, pshape=(300, 300), color=0, asEllipse=True):
     """
     Place lens-like object in image.
 
@@ -89,7 +94,7 @@ def simulateLens(img, threshfunc = None, pshape = (300, 300), color = 0, asEllip
     """
     # scaling operation
     if pshape is not None:
-        img_resized = cv2.resize(img, pshape) # resize to scaled image
+        img_resized = cv2.resize(img, pshape)  # resize to scaled image
     else:
         img_resized = img
     # select threshold function

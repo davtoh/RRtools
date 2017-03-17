@@ -158,59 +158,75 @@ __spec__ = None
 
 # functions
 
-def ANN_MLP_create(): # real signature unknown; restored from __doc__
+
+def ANN_MLP_create():  # real signature unknown; restored from __doc__
     """ ANN_MLP_create() -> retval """
     pass
 
-def ANN_MLP_load(filepath): # real signature unknown; restored from __doc__
+
+def ANN_MLP_load(filepath):  # real signature unknown; restored from __doc__
     """ ANN_MLP_load(filepath) -> retval """
     pass
 
-def Boost_create(): # real signature unknown; restored from __doc__
+
+def Boost_create():  # real signature unknown; restored from __doc__
     """ Boost_create() -> retval """
     pass
 
-def DTrees_create(): # real signature unknown; restored from __doc__
+
+def DTrees_create():  # real signature unknown; restored from __doc__
     """ DTrees_create() -> retval """
     pass
 
-def EM_create(): # real signature unknown; restored from __doc__
+
+def EM_create():  # real signature unknown; restored from __doc__
     """ EM_create() -> retval """
     pass
 
-def KNearest_create(): # real signature unknown; restored from __doc__
+
+def KNearest_create():  # real signature unknown; restored from __doc__
     """ KNearest_create() -> retval """
     pass
 
-def LogisticRegression_create(): # real signature unknown; restored from __doc__
+
+def LogisticRegression_create():  # real signature unknown; restored from __doc__
     """ LogisticRegression_create() -> retval """
     pass
 
-def NormalBayesClassifier_create(): # real signature unknown; restored from __doc__
+
+def NormalBayesClassifier_create():  # real signature unknown; restored from __doc__
     """ NormalBayesClassifier_create() -> retval """
     pass
 
-def RTrees_create(): # real signature unknown; restored from __doc__
+
+def RTrees_create():  # real signature unknown; restored from __doc__
     """ RTrees_create() -> retval """
     pass
 
-def SVMSGD_create(): # real signature unknown; restored from __doc__
+
+def SVMSGD_create():  # real signature unknown; restored from __doc__
     """ SVMSGD_create() -> retval """
     pass
 
-def SVM_create(): # real signature unknown; restored from __doc__
+
+def SVM_create():  # real signature unknown; restored from __doc__
     """ SVM_create() -> retval """
     pass
 
-def SVM_load(filepath): # real signature unknown; restored from __doc__
+
+def SVM_load(filepath):  # real signature unknown; restored from __doc__
     """ SVM_load(filepath) -> retval """
     pass
 
-def TrainData_create(samples, layout, responses, varIdx=None, sampleIdx=None, sampleWeights=None, varType=None): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def TrainData_create(samples, layout, responses, varIdx=None, sampleIdx=None, sampleWeights=None, varType=None):
     """ TrainData_create(samples, layout, responses[, varIdx[, sampleIdx[, sampleWeights[, varType]]]]) -> retval """
     pass
 
-def TrainData_getSubVector(vec, idx): # real signature unknown; restored from __doc__
+
+# real signature unknown; restored from __doc__
+def TrainData_getSubVector(vec, idx):
     """ TrainData_getSubVector(vec, idx) -> retval """
     pass
 

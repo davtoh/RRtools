@@ -201,14 +201,14 @@ from RRtoolbox.lib.arrayops.mask import brightness, foreground, thresh_biggestCn
 from multiprocessing.pool import ThreadPool as Pool
 from RRtoolbox.tools.selectors import hist_map, hist_comp, entropy
 from RRtoolbox.tools.segmentation import get_bright_alpha, retinal_mask, get_layered_alpha
-from RRtoolbox.lib.root import TimeCode, glob, lookinglob, Profiler, VariableNotSettable, \
-    NameSpace
+from RRtoolbox.lib.root import (TimeCode, glob, lookinglob, Profiler, VariableNotSettable,
+    NameSpace)
 from RRtoolbox.lib.descriptors import Feature, inlineRatio
 from RRtoolbox.lib.plotter import MatchExplorer, Plotim, fastplt
 from RRtoolbox.lib.arrayops.filters import getBilateralParameters
 from RRtoolbox.lib.arrayops.convert import getSOpointRelation, dict2keyPoint
-from RRtoolbox.lib.arrayops.basic import getTransformedCorners, transformPoint, \
-    im2shapeFormat, contours2mask, pad_to_fit_H, overlay
+from RRtoolbox.lib.arrayops.basic import (getTransformedCorners, transformPoint,
+    im2shapeFormat, contours2mask, pad_to_fit_H, overlay)
 from RRtoolbox.shell import tuple_creator, string_interpreter
 
 
