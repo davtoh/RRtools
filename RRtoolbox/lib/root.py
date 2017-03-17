@@ -13,6 +13,8 @@ from past.builtins import basestring
 from builtins import object
 import sys
 import os
+import errno
+import fcntl
 import io
 import inspect
 import types
@@ -23,7 +25,84 @@ from itertools import groupby
 from collections import OrderedDict
 from string import Formatter
 formater = Formatter() # string formatter str.format
+import multiprocessing
 # ----------------------------BASIC FUNCTIONS---------------------------- #
+
+# TODO implement for windows, consider https://pypi.python.org/pypi/posix_ipc/1.0.0
+# https://pypi.python.org/pypi/portalocker/1.1.0
+class NamedLock:
+    def __init__(self, name):
+        self.name = name
+        # create file if nonexistent
+        self.descriptor = os.open(name, os.O_CREAT)
+
+    def acquire(self):
+        fcntl.flock(self.descriptor, fcntl.LOCK_EX)
+
+    def release(self):
+        fcntl.flock(self.descriptor, fcntl.LOCK_UN)
+
+    def close(self):
+        os.close(self.descriptor)
+
+    def __enter__(self):
+        self.acquire()
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.release()
+        self.close()
+
+    def __del__(self):
+        self.release()
+        self.close()
+
+
+class secure_open(object):
+    """Python 2 and Python 3 compatible text file reading.
+    Required for single-sourcing the version string.
+    """
+    def __init__(self, file, mode='r', buffering=-1, encoding=None,
+                 errors=None, newline=None, closefd=True):
+        self.lock = NamedLock(file)
+        self.lock.acquire()
+        self.file = io.open(file, mode=mode, buffering=buffering,
+                             encoding=encoding, errors=errors,
+                             newline=newline, closefd=closefd)
+
+    def __enter__(self):
+        return self.file
+
+    def __exit__(self, type, value, traceback):
+        self.file.close()
+        self.lock.release()
+
+
+def load_module(name, code = None, name_path=""):
+    # http://stackoverflow.com/a/30407477/5288758
+    import imp
+    if code is not None:
+        try:
+            # Try and create/open the file only if it doesn't exist.
+            fd = os.open(name, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+
+            # Lock the file exclusively to notify other processes we're writing still.
+            fcntl.flock(fd, fcntl.LOCK_EX)
+            with os.fdopen(fd, 'w') as f:
+                f.write(code)
+
+        except OSError as e:
+            # If the error wasn't EEXIST we should raise it.
+            if e.errno != errno.EEXIST:
+                raise
+
+    # The file existed, so let's open it for reading and then try and
+    # lock it. This will block on the LOCK_EX above if it's held by
+    # the writing process.
+    with open(name, "r") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+
+    return imp.load_dynamic(name, name_path)
 
 
 class StdoutSIM(object):
@@ -1056,3 +1135,5 @@ class NameSpace(object):
     """
     Used to store variables
     """
+
+NO_CPUs = multiprocessing.cpu_count()

@@ -22,6 +22,7 @@ except:
 
 import types
 import os
+from .root import secure_open
 __excludeType = [types.FunctionType,types.ModuleType,type(None),type,type]
 __excludeVar = []
 __excludePattern = ['__']
@@ -54,7 +55,7 @@ def saveSession(filepath, session, helper = None):
     """
     # safely save session file
     #with os.fdopen(os.open(filepath, os.O_WRONLY | os.O_CREAT, 0600), 'wb') as logger: # http://stackoverflow.com/a/5624691/5288758
-    with open(filepath, 'wb') as logger:
+    with secure_open(filepath, 'wb') as logger:
         if helper:
             serializer.dump(helper(session), logger, serializer.HIGHEST_PROTOCOL) # save dictionary
         else:
@@ -70,7 +71,7 @@ def readSession(filepath, helper=None):
     :return: session
     """
     # safely read session file
-    with open(filepath, 'rb') as logger:
+    with secure_open(filepath, 'rb') as logger:
         session = serializer.load(logger) # get session
     if helper:
         return helper(session)

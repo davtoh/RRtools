@@ -15,11 +15,12 @@ import numpy as np
 from .config import MANAGER, FLAG_DEBUG
 #from cache import memoize
 from .arrayops import SimKeyPoint, normsigmoid
+from .root import NO_CPUs
 
 # ----------------------------    GLOBALS    ---------------------------- #
-NO_CPUs = cv2.getNumberOfCPUs()
 if FLAG_DEBUG: print("configured to use {} CPUs".format(NO_CPUs))
-pool = Pool(processes = NO_CPUs) # DO NOT USE IT when module is imported and this runs with it. It creates a deadlock"
+# DO NOT USE _pool when module is imported and this runs within it. It creates a deadlock"
+_pool = Pool(processes = NO_CPUs)
 feature_name = 'sift-flann'
 
 # ----------------------------SPECIALIZED FUNCTIONS---------------------------- #
@@ -32,7 +33,7 @@ class Feature(object):
     :param useASIFT: if True adds Affine perspectives to the detector.
     :param debug: if True prints to the stdout debug messages.
     """
-    def __init__(self,pool=pool,useASIFT = True, debug = True):
+    def __init__(self, pool=_pool, useASIFT = True, debug = True):
         self.pool=pool
         self.detector = None
         self.matcher = None
@@ -251,7 +252,7 @@ def affine_skew(tilt, phi, img, mask=None):
     return img, mask, Ai
 
 #@memoize(MANAGER["TEMPPATH"],ignore=["pool"])
-def ASIFT(feature_name, img, mask=None, pool=pool):
+def ASIFT(feature_name, img, mask=None, pool=_pool):
     """
     asift(feature_name, img, mask=None, pool=None) -> keypoints, descrs
 
@@ -309,7 +310,7 @@ def ASIFT_iter(imgs, feature_name=feature_name):
     :return: [(kp1,desc1),...,(kpN,descN)]
     """
     #print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
-    for img in imgs: yield ASIFT(feature_name, img, pool=pool)
+    for img in imgs: yield ASIFT(feature_name, img, pool=_pool)
 
 def ASIFT_multiple(imgs, feature_name=feature_name):
     """
@@ -320,7 +321,7 @@ def ASIFT_multiple(imgs, feature_name=feature_name):
     :return: [(kp1,desc1),...,(kpN,descN)]
     """
     #print 'imgf - %d features, imgb - %d features' % (len(kp1), len(kp2))
-    return [ASIFT(feature_name, img, pool=pool) for img in imgs]
+    return [ASIFT(feature_name, img, pool=_pool) for img in imgs]
 
 def filter_matches(kp1, kp2, matches, ratio = 0.75):
     """
