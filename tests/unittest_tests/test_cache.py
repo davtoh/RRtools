@@ -26,10 +26,6 @@ def tomemoize(val):
     tomemoize_processed.append(val) # this confirms if tomemize processed val
     return val
 
-class TestMemoizer(unittest.TestCase):
-    def test_works(self):
-        pass
-
 class TestMemoizedDisc(unittest.TestCase):
 
     def setUp(self):
@@ -50,48 +46,108 @@ class TestMemoizedDisc(unittest.TestCase):
     def test_session(self):
         """
         test persistence to file
-        :return:
         """
         mydict = self.mydict
 
-        mydict["TextOp"] = TextOp(1)
-        del mydict
+        # original data
+        to_memoize = TextOp(1)
+        internal_data = to_memoize.val
 
+        # memoize
+        mydict["TextOp"] = to_memoize
+
+        # simulate other session
+        del mydict
         mydict = MemoizedDict(self.path)
-        self.assertEqual(mydict["TextOp"].val,1)
+
+        # test internal data is the same
+        self.assertEqual(mydict["TextOp"].val, internal_data)
+
+        # test objects are the same
+        self.assertNotEqual(to_memoize, mydict["TextOp"])
 
     def test_key_times(self):
         """
-        test how much time memoizeDict takes in saving keys
-        :return:
+        test how much time memoizeDict takes in saving keys when they are
+        added each time.
         """
         mydict = self.mydict
-        secs = 2
-        for i in range(1000):
-            t1 = time()
-            data = (("12"*100)*100)*100
-            mydict[i] = data
-            mytime = time()-t1
-            self.assertTrue(mytime <= secs,"At added data No {} , it takes {} seg which is more than {} seg".format(i,mytime,secs))
+        len_keys = 1000
+        to_mean = 10
+        data = (("12"*100)*100)*100
 
-    def test_cleanup(self):
+        # calculate expected time of writing
+        time_write_expected = time()
+        for i in range(1, to_mean):
+            mydict[-i] = data
+        time_write_expected = (time() - time_write_expected)/to_mean
+        mydict.clear()
+
+        for i in range(len_keys):
+            time_write = time()
+            mydict[i] = data
+            time_write = time()-time_write
+
+            # check in each iteration
+            self.assertAlmostEqual(
+                time_write,
+                time_write_expected,
+                delta=time_write_expected * 0.2, # permissive seconds
+                msg="At added data No {}, it takes {} seg which is not close to "
+                    "{} seg".format(i,time_write,time_write_expected)
+            )
+
+    def test_operation_times(self):
         """
-        test how much time memoizeDict takes in cleaning up keys
+        test how much time memoizeDict takes in writing and cleaning up keys
         :return:
         """
         mydict = self.mydict
-        secs = 5
-        nokeys = 1000
-        with TimeCode("adding {} keys...".format(nokeys)):
+        len_keys = 1000
+        to_mean = 10
+
+        # calculate expected time of writing
+        time_write_expected = time()
+        for i in range(1, to_mean):
+            mydict[-i] = -i
+        time_write_expected = (time() - time_write_expected)/to_mean
+
+        # take writing time
+        time_write = time()
+        with TimeCode("adding {} keys...".format(len_keys)):
             print("")
-            for i in range(nokeys):
+            for i in range(len_keys):
                 mydict[i] = i
-                print("\rkey {}/{}".format(i+1,nokeys), end=' ')
-        t1 = time()
+                print("\rkey {}/{}".format(i+1,len_keys), end=' ')
+
+        time_write = time() - time_write
+        print("memoizing time: {}".format(time_write ))
+        self.assertAlmostEqual(
+            time_write,
+            time_write_expected,
+            delta=len_keys * 0.2, # permissive seconds
+            msg="It took {} to create {} keys where the intended time was {}"
+                .format(time_write, len_keys, time_write_expected)
+        )
+
+        # calculate expected time of eliminating keys
+        time_cleanup_expected = time()
+        for i in range(1, to_mean):
+            del mydict[-i]
+        time_cleanup_expected = ((time() - time_cleanup_expected) * len_keys)/to_mean
+
+        # take eliminating time
+        time_cleanup = time()
         mydict.clear()
-        mytime = time()-t1
-        print("cleaning time: {}".format(mytime))
-        self.assertTrue(mytime <= secs,"It took {} to eliminate {} keys where the indended time was {}".format(mytime,nokeys,secs))
+        time_cleanup = time() - time_cleanup
+        print("cleaning time: {}".format(time_cleanup))
+        self.assertAlmostEqual(
+            time_cleanup,
+            time_cleanup_expected,
+            delta=len_keys*0.2, # permissive seconds
+            msg="It took {} to eliminate {} keys where the intended time was {}"
+                .format(time_cleanup, len_keys, time_cleanup_expected)
+        )
 
     def test_failed_session(self):
         """

@@ -17,3 +17,4 @@ gen
 
 # ignore temporal files like caches and memoizations
 /temp/
+!/tests/unittest_tests/*.py

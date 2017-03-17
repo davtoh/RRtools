@@ -36,7 +36,9 @@ except ImportError:
     # this is done so it can be documented in readthedocs.org and
     # in the future it will be replaced with binaries to
     # facilitate users that do not know how to install openCV
-    if os.name == 'nt':
+    if os.name == 'nt': # for windows
         sys.modules["cv2"] = cv2_mock
-    elif os.name == 'posix':
+    elif os.name == 'posix': # for unix
+        sys.modules["cv2"] = cv2_mock
+    else: # for other OS
         sys.modules["cv2"] = cv2_mock

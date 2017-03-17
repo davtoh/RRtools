@@ -14,15 +14,14 @@ from time import time
 
 import numpy as np
 
-from .root import TimeOutException, TransferExeption
+from .root import TimeOutException, TransferExeption, NO_CPUs
 from .config import FLAG_DEBUG, serializer
 
 
-
+# read more https://docs.python.org/2/howto/sockets.html
 host ='localhost'
 port = 50007
 addr = (host,port)
-NUM_CORES = 4
 
 
 def ping(host, port):
@@ -49,7 +48,7 @@ def scan_ports(host):
     :return: generator
     """
     # http://codereview.stackexchange.com/questions/38452/python-port-scanner
-    p = Pool(NUM_CORES)
+    p = Pool(NO_CPUs)
     ping_host = partial(ping, host)
     return list(filter(bool, p.map(ping_host, list(range(1, 65536)))))
 

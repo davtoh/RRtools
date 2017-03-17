@@ -30,9 +30,10 @@ standard_library.install_aliases()
 from builtins import zip
 from past.utils import old_div
 from builtins import object
+from future.utils import raise_
 from .root import (NotCallable, NotCreatable, VariableNotSettable,
-                   VariableNotDeletable, CorruptPersistent)
-import fcntl
+                   VariableNotDeletable, CorruptPersistent, secure_open)
+import sys
 
 __license__ = """
 
@@ -1187,7 +1188,7 @@ class MemoizedDict(MutableMapping):
         persist dictionary map to file (metadata).
         """
         if self._map_old is not None:
-            with open(self._map_file, 'wb') as f: # FIXME: consumes too much time
+            with secure_open(self._map_file, 'wb') as f: # FIXME: consumes too much time
                 return self._map_serializer.dump(self._map_old, f) # save dictionary
 
     def _load_map(self):
@@ -1195,12 +1196,17 @@ class MemoizedDict(MutableMapping):
         loads metadata of dictionary map from persisted file.
         """
         try:
-            with open(self._map_file, 'rb') as f:
+            with secure_open(self._map_file, 'rb') as f:
                 return self._map_serializer.load(f) # get session
         except IOError as e:
-            return
+            return # file does not exist
         except EOFError as e:
-            raise e
+            if os.stat(self._map_file).st_size == 0:
+                return # file exists but it is empty
+            e, msg, traceback = sys.exc_info()
+            msg.args = (
+                msg.args[0] + ". Memoized data appears to be corrupt.",)
+            raise_(e, msg, traceback)
 
     def clear(self): # overloads clear in the abc class
         """
@@ -1237,7 +1243,7 @@ class MemoizedDict(MutableMapping):
         return self._load(key)
 
     def __delitem__(self, key):
-        hashed,files = self._map[key]
+        hashed, files = self._map[key]
         for file in files: # remove old keys
             try:
                 os.remove(file) # FIXME enclose in try/except, who knows files could be deleted
