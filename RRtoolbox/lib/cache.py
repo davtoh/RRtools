@@ -31,7 +31,7 @@ from builtins import zip
 from past.utils import old_div
 from builtins import object
 from future.utils import raise_
-from .root import (NotCallable, NotCreatable, VariableNotSettable,
+from root import (NotCallable, NotCreatable, VariableNotSettable,
                    VariableNotDeletable, CorruptPersistent, secure_open)
 import sys
 
@@ -382,7 +382,7 @@ class Memoizer(object):
 memoize = Memoizer()  # make memoizer manager
 
 
-class Cache(object):
+class cache(object):
     """
     Descriptor (non-data) for building an attribute on-demand at first use.
     @cache decorator is used for class methods without inputs (only self reference to the object)
@@ -395,6 +395,7 @@ class Cache(object):
 
     .. note:: Cached data can be deleted in the decorated object to recalculate its value.
     """
+    __slots__ = ('func',)
 
     def __init__(self, func):
         """

@@ -42,6 +42,7 @@ FLAG_DEBUG = False
 # global variables
 FLOAT = float32
 INT = int32
+PY3 = sys.version_info[0] == 3
 
 # ----------------------------ConfigTool FUNCTIONS---------------------------- #
 

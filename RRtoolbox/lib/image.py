@@ -45,7 +45,7 @@ from .arrayops.basic import (anorm, polygonArea, im2shapeFormat, angle,
 from .root import glob
 # from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import
 # name QtOpenGL
-from .cache import Cache, ResourceManager
+from .cache import cache, ResourceManager
 from collections import MutableSequence
 from .directory import (getData, strdifference, changedir, checkFile,
                         getFileHandle, increment_if_exits, mkPath)
@@ -1221,7 +1221,7 @@ class ImCoors(object):
     def __len__(self):
         return len(self._pts)
 
-    @Cache
+    @cache
     def max(self):
         """
         Maximum in each axis.
@@ -1231,7 +1231,7 @@ class ImCoors(object):
         #self.max_x, self.max_y = np.max(self.data,0)
         return tuple(np.max(self._pts, 0))
 
-    @Cache
+    @cache
     def min(self):
         """
         Minimum in each axis.
@@ -1241,7 +1241,7 @@ class ImCoors(object):
         #self.min_x, self.min_y = np.min(self.data,0)
         return tuple(np.min(self._pts, 0))
 
-    @Cache
+    @cache
     def rectbox(self):
         """
         Rectangular box enclosing points (origin and end point or rectangle).
@@ -1250,7 +1250,7 @@ class ImCoors(object):
         """
         return (self.min, self.max)
 
-    @Cache
+    @cache
     def boundingRect(self):
         """
         Rectangular box dimensions enclosing points.
@@ -1266,11 +1266,11 @@ class ImCoors(object):
         """
         return cv2.boundingRect(self._pts)
 
-    @Cache
+    @cache
     def minAreaRect(self):
         return cv2.minAreaRect(self._pts)
 
-    @Cache
+    @cache
     def rotatedBox(self):
         """
         Rotated rectangular box enclosing points.
@@ -1282,7 +1282,7 @@ class ImCoors(object):
         except AttributeError:  # opencv 3
             return self._dtype(cv2.boxPoints(self.minAreaRect))
 
-    @Cache
+    @cache
     def boxCenter(self):
         """
         Mean in each axis.
@@ -1295,7 +1295,7 @@ class ImCoors(object):
         nX, nY = self.min
         return tuple(self._dtype((xX + nX, xY + nY)) / 2)
 
-    @Cache
+    @cache
     def mean(self):
         """
         Center or mean.
@@ -1309,7 +1309,7 @@ class ImCoors(object):
         return tuple(np.mean(self._pts, 0, dtype=self._dtype))
     center = mean
 
-    @Cache
+    @cache
     def area(self):
         """
         Area of points.
@@ -1318,7 +1318,7 @@ class ImCoors(object):
         """
         return polygonArea(self._pts)
 
-    @Cache
+    @cache
     def rectangularArea(self):
         """
         Area of rectangle enclosing points aligned with x,y axes.
@@ -1329,7 +1329,7 @@ class ImCoors(object):
         (x0, y0), (x, y) = self.rectbox
         return self.dtype(np.abs((x - x0) * (y - y0)))
 
-    @Cache
+    @cache
     def rotatedRectangularArea(self):
         """
         Area of Rotated rectangle enclosing points.
@@ -1338,7 +1338,7 @@ class ImCoors(object):
         """
         return polygonArea(self.rotatedBox)
 
-    @Cache
+    @cache
     def rectangularity(self):
         """
         Ratio that represent a perfect square aligned with x,y axes.
@@ -1352,7 +1352,7 @@ class ImCoors(object):
         # method 2
         return self.dtype(self.area / self.rectangularArea)
 
-    @Cache
+    @cache
     def rotatedRectangularity(self):
         """
         Ratio that represent a perfect rotated square fitting points.
@@ -1366,7 +1366,7 @@ class ImCoors(object):
             area = self.area
         return self.dtype(area / self.rotatedRectangularArea)
 
-    @Cache
+    @cache
     def regularity(self):
         """
         Ratio of forms with similar measurements and angles.
@@ -1381,7 +1381,7 @@ class ImCoors(object):
         av = self.vertexesAngles
         return pi * (len(av)) / np.sum(av)  # pi*number_agles/sum_angles
 
-    @Cache
+    @cache
     def relativeVectors(self):
         """
         Form vectors from points.
@@ -1393,7 +1393,7 @@ class ImCoors(object):
         pts = np.append(pts, [pts[0]], axis=0)
         return np.stack([np.diff(pts[:, 0]), np.diff(pts[:, 1])], 1)
 
-    @Cache
+    @cache
     def vertexesAngles(self):
         """
         Relative angle of vectors formed by vertexes.
@@ -1409,7 +1409,7 @@ class ImCoors(object):
         return np.array([angle(vs[i - 1], vs[i], deg=self._deg)
                          for i in range(1, len(vs))], self._dtype)  # caculate angles
 
-    @Cache
+    @cache
     def pointsAngles(self):
         """
         Angle of vectors formed by points in Cartesian plane with respect to x axis.
@@ -1421,7 +1421,7 @@ class ImCoors(object):
         vs = self.relativeVectors  # get all vectors from points.
         return vectorsAngles(pts=vs, dtype=self._dtype, deg=self._deg)
 
-    @Cache
+    @cache
     def vectorsAngles(self):
         """
         Angle of vectors in Cartesian plane with respect to x axis.
