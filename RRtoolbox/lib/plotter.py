@@ -21,7 +21,7 @@ from builtins import chr
 from builtins import range
 from past.builtins import basestring
 from builtins import object
-from .config import FLOAT, FLAG_DEBUG
+from .config import FLOAT, FLAG_DEBUG, PY3
 import copy  # copy lists
 import sys
 import os
@@ -48,7 +48,8 @@ wins = [0]  # keeps track of image number through different processes
 # plt.rcParams['image.cmap'] = 'gray'  # change default colormap
 
 
-def fastplt(image, cmap=None, title="visualazor", win=None, block=False, daemon=False):
+def fastplt(image, cmap=None, title="visualazor", win=None, block=False, daemon=False,
+            mode="socket",**kwargs):
     """
     Fast plot.
 
@@ -59,6 +60,9 @@ def fastplt(image, cmap=None, title="visualazor", win=None, block=False, daemon=
     :param block: if True it wait for window close, else it detaches (Experimental)
     :param daemon: if True window closes if main thread ends, else windows
                 must be closed to main thread to end (Experimental)
+    :param mode: the way non-blocking windows are executed. By default it
+                is "socket" which sends data to a different program using
+                sockets thus being slower but thread safe.
     :return: plt
 
     .. note::
@@ -84,7 +88,7 @@ def fastplt(image, cmap=None, title="visualazor", win=None, block=False, daemon=
             f = plt.figure()
             # Normally this will always be "Figure 1" since it's the first
             # figure created by this process. So do something about it.
-            plt.imshow(image, cmap)
+            plt.imshow(image, cmap, **kwargs)
             if title:
                 plt.title(title)
             plt.xticks([]), plt.yticks([])
@@ -102,36 +106,51 @@ def fastplt(image, cmap=None, title="visualazor", win=None, block=False, daemon=
             print("showed...")
     if block:
         myplot()
-    elif __name__ == "__main__":  # if called from shell or directly
-        if FLAG_DEBUG:
-            print("multiprocessing...")
-        p = Process(target=myplot)  # FIXME i shoud call a miniprogram
-        p.daemon = daemon
-        p.start()
-    else:  # Workaround to solve problem multiprocessing with matplotlib this sends to shell
-        from .serverServices import generateServer, sendPickle
-        s, addr = generateServer()
-        props = ['python "{script}"'.format(script=os.path.abspath(__file__))]
-        props.append("{}:{}".format(*addr))
-        if FLAG_DEBUG:
-            print("generated server at {}".format(addr))
-        d = dict(cmap=cmap, title=title, win=win, num=wins[0])
-        props.extend(['--{} "{}"'.format(key, val)
-                      for key, val in list(d.items()) if val is not None])
-        if block:
+    else:
+        if mode == "socket":
+            # Workaround to solve problem multiprocessing with matplotlib this sends to shell
+            from .serverServices import generateServer, sendPickle
+            s, addr = generateServer()
+            # FIXME this should call directly the same python
+            # this could potentially call the wrong python
+            props = ['{py} "{script}"'.format(
+                py=sys.executable,
+                script=os.path.join(os.path.abspath(os.path.join(
+                    os.path.realpath(__file__), "../../../")),"fastplt.py"))]
+            props.append("{}:{}".format(*addr))
+            if FLAG_DEBUG:
+                print("generated server at {}".format(addr))
+            d = dict(cmap=cmap, title=title, win=win, num=wins[0])
+            props.extend(['--{} "{}"'.format(key, val)
+                          for key, val in list(d.items()) if val is not None])
+            # important to send this to not create bucle
             props.append("--block")
-        if daemon:
-            props.append("--daemon")
-        txt = " ".join(props)
-        sendPickle(image, s, timeout=servertimeout, threaded=True)
-        if FLAG_DEBUG:
-            print("sending", txt)
+            if daemon:
+                props.append("--daemon")
+            txt = " ".join(props)
+            sendPickle((image,kwargs), s, timeout=servertimeout, threaded=True)
+            if FLAG_DEBUG:
+                print("sending", txt)
 
-        # FIXME under windows this cannot be pickled thus multiprocessed
-        def myplot(): os.system(txt)
-        p = Process(target=myplot)  # FIXME i shoud call a miniprogram
-        p.daemon = daemon
-        p.start()
+            from subprocess import Popen
+            import shlex
+            kwargs2 = {}
+            if os.name == "nt":
+                # this should make it detach on windows
+                DETACHED_PROCESS = 0x00000008
+                kwargs2["creationflags"] = DETACHED_PROCESS
+            # https://docs.python.org/3/library/subprocess.html#replacing-os-system
+            # https://stackoverflow.com/a/6700359/5288758
+            # https://stackoverflow.com/a/2251026/5288758
+            p = Popen(shlex.split(txt), shell=False,
+                      stdin=None, stdout=None, stderr=None,
+                      close_fds=True, **kwargs2)
+        else:  # if called from shell or directly
+            if FLAG_DEBUG:
+                print("multiprocessing...")
+            p = Process(target=myplot)  # FIXME i shoud call a miniprogram
+            p.daemon = daemon
+            p.start()
     if FLAG_DEBUG:
         print("left fastplt...")
 
@@ -2480,40 +2499,3 @@ class Imtester(Plotim):
         # UPDATE PLOT #
         self.updatevisualization(
             image, chimg, self.th, items, thresh1, thresh2)
-
-
-if __name__ == "__main__":
-    # FIXME: not working for relative imports use fastplt(block=True)
-    import argparse
-    from .serverServices import parseString as _parseString
-    #import sys
-    # if FLAG_DEBUG: print sys.argv
-    parser = argparse.ArgumentParser(description='fast plot of images.')
-    parser.add_argument('image', metavar='N',  # action='append',
-                        help='path to image or numpy string', nargs="+")
-    parser.add_argument('-m', '--cmap', dest='cmap', action='store',
-                        help='map to use in matplotlib')
-    parser.add_argument('-t', '--title', dest='title', action='store', default="visualazor",
-                        help='title of subplot')
-    parser.add_argument('-w', '--win', dest='win', action='store',
-                        help='title of window')
-    parser.add_argument('-n', '--num', dest='num', action='store', type=int, default=0,
-                        help='number of Figure')
-    parser.add_argument('-f', '--frames', dest='frames', action='store', type=int, default=None,
-                        help='number of Figure')
-    parser.add_argument('-b', '--block', dest='block', action='store_true', default=False,
-                        help='number of Figure')
-    parser.add_argument('-d', '--daemon', dest='daemon', action='store_true', default=False,
-                        help='number of Figure')
-    args = parser.parse_args()
-    images = _parseString(args.image, servertimeout)
-    wins[-1] = args.num - 1
-    for image in images:
-        # pickled, so normal comparisons do not work
-        if type(image).__name__ == Plotim.__name__:
-            image.show(args.frames, args.block, args.daemon)
-        else:
-            fastplt(image, args.cmap, args.title,
-                    args.win, args.block, args.daemon)
-    if FLAG_DEBUG:
-        print("leaving plotter module...")

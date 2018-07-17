@@ -14,7 +14,7 @@ from builtins import object
 import sys
 import os
 import errno
-import fcntl
+import portalocker # fcntl  # FIXME this doesn't work in windows, consider deliting this dependency altogether
 import io
 import inspect
 import types
@@ -26,6 +26,7 @@ from collections import OrderedDict
 from string import Formatter
 formater = Formatter()  # string formatter str.format
 import multiprocessing
+from collections import Iterable
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 # TODO implement for windows, consider https://pypi.python.org/pypi/posix_ipc/1.0.0
@@ -37,12 +38,15 @@ class NamedLock:
         self.name = name
         # create file if nonexistent
         self.descriptor = os.open(name, os.O_CREAT)
+        self.file = os.fdopen(self.descriptor, 'w')
 
     def acquire(self):
-        fcntl.flock(self.descriptor, fcntl.LOCK_EX)
+        # fcntl.flock(self.descriptor, fcntl.LOCK_EX)
+        portalocker.lock(self.file, portalocker.LOCK_EX)
 
     def release(self):
-        fcntl.flock(self.descriptor, fcntl.LOCK_UN)
+        # fcntl.flock(self.descriptor, fcntl.LOCK_UN)
+        portalocker.unlock(self.file)
 
     def close(self):
         os.close(self.descriptor)
@@ -67,8 +71,8 @@ class secure_open(object):
 
     def __init__(self, file, mode='r', buffering=-1, encoding=None,
                  errors=None, newline=None, closefd=True):
-        self.lock = NamedLock(file)
-        self.lock.acquire()
+        #self.lock = NamedLock(file)
+        #self.lock.acquire()
         self.file = io.open(file, mode=mode, buffering=buffering,
                             encoding=encoding, errors=errors,
                             newline=newline, closefd=closefd)
@@ -77,21 +81,24 @@ class secure_open(object):
         return self.file
 
     def __exit__(self, type, value, traceback):
+        #self.lock.release()
         self.file.close()
-        self.lock.release()
 
 
 def load_module(name, code=None, name_path=""):
     # http://stackoverflow.com/a/30407477/5288758
-    import imp
+    try:
+        import importlib
+    except ImportError:
+        import imp as importlib
+
     if code is not None:
         try:
             # Try and create/open the file only if it doesn't exist.
             fd = os.open(name, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
 
-            # Lock the file exclusively to notify other processes we're writing
-            # still.
-            fcntl.flock(fd, fcntl.LOCK_EX)
+            # Lock the file exclusively to notify other processes we're still writing
+            portalocker.lock(fd, portalocker.LOCK_EX)  # fcntl.flock(fd, fcntl.LOCK_EX)
             with os.fdopen(fd, 'w') as f:
                 f.write(code)
 
@@ -104,9 +111,9 @@ def load_module(name, code=None, name_path=""):
     # lock it. This will block on the LOCK_EX above if it's held by
     # the writing process.
     with open(name, "r") as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+        portalocker.lock(f, portalocker.LOCK_EX)  # fcntl.flock(f, fcntl.LOCK_EX)
 
-    return imp.load_dynamic(name, name_path)
+    return importlib.import_module(name, name_path)
 
 
 class StdoutSIM(object):
@@ -115,6 +122,10 @@ class StdoutSIM(object):
     """
 
     def __init__(self, stdout=None, closed=False):
+        """
+        :param stdout: file-like object to write
+        :param closed: If True disables output. Else prints normally.
+        """
         if stdout is None:
             stdout = sys.stdout
         self.stdout = stdout
@@ -381,11 +392,12 @@ class FactorConvert(object):
                 ("femto", "f", 0.000000000000001),
                 ("atto", "a", 0.000000000000000001))
 
-    def __init__(self, factor=None, abbreviate=True):
+    def __init__(self, factor=None, abbreviate=None):
         """
 
         :param factor: anything to look in factors (i.e. factor list with Factor structures).
         :param abbreviate: index to return from Factor structure when factor is asked.
+            if None, it is selected if it match from factor or False if not.
 
         .. note: A factor structure is of the form ("Name","abbreviation",value)
         """
@@ -405,21 +417,15 @@ class FactorConvert(object):
         self._factorsCache = list(zip(*value))
         self._factors = value
 
-    @factors.deleter
-    def factors(self):
-        raise Exception("Property cannot be deleted")
-
     @property
     def factor(self):
         return self._factor[self.abbreviate]
 
     @factor.setter
     def factor(self, value):
-        self._factor = self.getFactor(value)  # transform units
-
-    @factor.deleter
-    def factor(self):
-        raise Exception("Property cannot be deleted")
+        self._factor = t = self.getFactor(value)  # transform units
+        if self.abbreviate is None and value in t:
+            self.abbreviate = t.index(value)
 
     def convert(self, factor, to=None):
         """
@@ -516,7 +522,18 @@ class FactorConvert(object):
 
 
 class Magnitude(object):
-    def __init__(self, value=0, factor=None, unit=None, precision=None, abbreviate=False):
+    def __init__(self, value=0, factor=None, unit=None, precision=None, abbreviate=None):
+        """
+
+        :param value: value of magnitude e.g. 10, 0.00005, etc
+        :param factor: factor of magnitude, its name or conversion
+            e.g. 1000 or k, 0.001 or milli, giga, etc
+        :param unit: unit of magnitude e.g. seconds, meters, etc
+        :param precision: precision of value of magnitude
+            e.g. 1 for 0.1, 2 for 0.01, etc.
+        :param abbreviate: True to abbreviate factor name
+            i.e. from "milli" to "m"
+        """
         self.value = value
         self.precision = precision
         self.factor = factor
@@ -529,13 +546,14 @@ class Magnitude(object):
         else:
             text = "{{:0.{}f}} {{}}{{}}".format(self.precision)
         if self.factor:
+            # force to detect abbreviation if None
+            f = FactorConvert(abbreviate=self.abbreviate, factor=self.factor)
+            f.factor = None  # real factor which is considered 1
             if isinstance(self.factor, basestring):
-                return text.format(*(FactorConvert(
-                    abbreviate=self.abbreviate).convert(value, self.factor) +
+                return text.format(*(f.convert(value, self.factor) +
                     (self.unit,)))
             else:
-                return text.format(*(FactorConvert(
-                    abbreviate=self.abbreviate).convert2sample(value, self.factor) +
+                return text.format(*(f.convert2sample(value, self.factor) +
                     (self.unit,)))
         else:
             return text.format(value, "", self.unit)
@@ -561,7 +579,8 @@ class TimeCode(object):
 
     def __init__(self, msg=None, factor=None, precision=None,
                  abv=None, endmsg="{time}\n", enableMsg=True,
-                 printfunc=None, profiler=None, profile_point=None):
+                 printfunc=None, profiler=None, profile_point=None,
+                 previous_time=None, i=None):
         self.msg = msg
         self.factor = factor
         self.precision = precision
@@ -571,6 +590,9 @@ class TimeCode(object):
         self.printfunc = printfunc
         self.time_start = None
         self.time_end = None
+        if isinstance(previous_time, TimeCode):
+            previous_time = previous_time.time_cummulative
+        self.time_cummulative = previous_time
         self.profiler = profiler
         self.profile_point = profile_point
 
@@ -594,6 +616,15 @@ class TimeCode(object):
     @time_end.deleter
     def time_end(self):
         del self._time_end
+
+    def start_cummulative(self):
+        if self.time_cummulative is None:
+            self.time_cummulative = 0
+        self.time_start = time()  # begin chronometer
+
+    def end_cummulative(self):
+        self.time_end = t = self.time
+        self.time_cummulative += t
 
     def __enter__(self):
         if self.printfunc is None:
@@ -619,13 +650,17 @@ class TimeCode(object):
         if isinstance(self.profile_point, Profiler):
             self.profile_point.close()
         t = self.time  # end chronometer
-        self.time_end = t
+        if self.time_end is None:
+            self.time_end = t
+        elif self.time_cummulative is not None:
+            t = self.time_cummulative  # time given by cummylative
+
         if self.enableMsg and self.endmsg is not None:
             # abbreviation
             if self.abv is True:
                 u, i = "s", True
             else:
-                u, i = " seconds", False
+                u, i = "seconds", False
             self.printfunc(self.endmsg.format(
                 time=Magnitude(value=t, precision=self.precision,
                                unit=u, factor=self.factor, abbreviate=i)))
@@ -908,7 +943,7 @@ class Controlstdout(object):
 
     def __enter__(self):
         self.stdout_old = sys.stdout
-        self.stdout_new = StdoutSIM(self.disable)
+        self.stdout_new = StdoutSIM(closed=self.disable)
         if self.buffer:
             if self.buffer is True:  # in case it is not defined
                 import io
@@ -983,7 +1018,7 @@ class globFilter(object):
         :param cmp: iterator or string
         :return: True or false if cmp pass filter test
         """
-        if hasattr(cmp, "__iter__"):
+        if not isinstance(cmp, basestring) and isinstance(cmp, Iterable): # iterators except strings
             return [self(i) for i in cmp]
         else:
             cmpfunc = self.cmpfunc  # prevents from accessing self

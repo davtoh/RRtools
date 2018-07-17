@@ -11,7 +11,7 @@ __author__ = "David Toro"
 #__copyright__ = "Copyright 2017, The <name> Project"
 #__credits__ = [""]
 __license__ = "BSD-3-Clause"
-__version__ = '1.2.0'  # jump from '1.1.0a1.post1' when secure_open added
+__version__ = '1.3.1'  # jump from '1.3.0' when compatibilities improved
 __email__ = "davsamirtor@gmail.com"
 #__status__ = "Pre-release"
 

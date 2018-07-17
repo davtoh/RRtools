@@ -15,7 +15,7 @@ from time import time
 import numpy as np
 
 from .root import TimeOutException, TransferExeption, NO_CPUs
-from .config import FLAG_DEBUG, serializer
+from .config import FLAG_DEBUG, serializer, PY3
 
 
 # read more https://docs.python.org/2/howto/sockets.html
@@ -54,7 +54,7 @@ def scan_ports(host):
     return list(filter(bool, p.map(ping_host, list(range(1, 65536)))))
 
 
-class Conection(object):
+class Connection(object):
     """
     represent a connection to interchange objects between servers and clients.
     """
@@ -70,10 +70,16 @@ class Conection(object):
         while ans != "True":  # get length of recipient for length
             if ans == "False":
                 txt = "({},)".format(length)
-                dest.send(txt)
+                if PY3:
+                    dest.sendall(txt.encode("utf-8"))
+                else:
+                    dest.sendall(txt)
                 if FLAG_DEBUG:
                     print("size", txt, "sent")
-                ans = dest.recvfrom(5)[0]  # get True or False
+                if PY3:
+                    ans = dest.recvfrom(5)[0].decode("utf-8")  # get True or False
+                else:
+                    ans = dest.recvfrom(5)[0]  # get True or False
                 if FLAG_DEBUG:
                     print("received", ans)
             if timeout is not None and time() - t1 > timeout:
@@ -87,15 +93,24 @@ class Conection(object):
             try:
                 if FLAG_DEBUG:
                     print("waiting size...")
-                size = eval(source.recvfrom(1024)[0])
+                if PY3:
+                    size = eval(source.recvfrom(1024)[0].decode("utf-8"))
+                else:
+                    size = eval(source.recvfrom(1024)[0])
                 if FLAG_DEBUG:
                     print("received size", size)
             except Exception as e:
                 print(e)
-            if isinstance(size, tuple):
-                source.send("True")
+            if PY3:
+                if isinstance(size, tuple):
+                    source.send("True".encode("utf-8"))
+                else:
+                    source.send("False".encode("utf-8"))
             else:
-                source.send("False")
+                if isinstance(size, tuple):
+                    source.send("True")
+                else:
+                    source.send("False")
             if timeout is not None and time() - t1 > timeout:
                 raise TimeOutException(
                     "Timeout of {} receiving length".format(timeout))
@@ -111,7 +126,10 @@ class Conection(object):
                 break
             buf.append(newbuf)
             l = self.len = l - len(newbuf)
-        return "".join(buf)
+        if PY3:
+            return b"".join(buf)
+        else:
+            return "".join(buf)
 
     def send(self, obj):
         pass
@@ -120,9 +138,9 @@ class Conection(object):
         pass
 
 
-def initServer(addr):
+def init_server(addr):
     """
-    Inits a simple server from address.
+    Init a simple server from address.
 
     :param addr: (host, port)
     :return: socket
@@ -136,9 +154,10 @@ def initServer(addr):
     return s  # conn, addr = s.accept()
 
 
-def initClient(addr, timeout=None):
+def init_client(addr, timeout=None):
     """
     Inits a simple client from address.
+
     :param addr: (host, port)
     :return: socket
     """
@@ -189,19 +208,25 @@ def recv_into(viewable, socket):
         view = view[nrecv:]
 
 
-def generateServer(host=host, to=63342):
+def generateServer(host=host, max_port=63342, tries=3):
     """
     generates a simple Server in available address.
 
-    :param to: until port.
+    :param max_port: randomize socket from 1000 to max_port.
+    :param tries: number of tries, if None it is indefinitely
     :return: socket, address
     """
+    assert max_port > 1000
+    assert tries >= 0
     s = None
-    while True:
-        port = int(np.random.rand() * to)
+    i = -1
+    while i < tries:
+        if tries is not None:
+            i+=1
+        port = int(1000 + np.random.rand() * (max_port - 1000))
         addr = (host, port)
         try:
-            s = initServer(addr)
+            s = init_server(addr)
             return s, addr
         except:
             try:
@@ -227,7 +252,7 @@ def sendPickle(obj, addr=addr, timeout=None, threaded=False):
     else:
         if FLAG_DEBUG:
             print("initializing Server at {}".format(addr))
-        s = initServer(addr)
+        s = init_server(addr)
 
     def helper():
         try:
@@ -241,10 +266,10 @@ def sendPickle(obj, addr=addr, timeout=None, threaded=False):
             tosend = serializer.dumps(obj)
             if FLAG_DEBUG:
                 print("waiting to confirm sending len")
-            Conection(conn).sendLen(len(tosend), timeout=timeout)
+            Connection(conn).sendLen(len(tosend), timeout=timeout)
             if FLAG_DEBUG:
                 print("sending data")
-            conn.send(tosend)
+            conn.sendall(tosend)
             return True
         except Exception as e:
             raise e
@@ -256,7 +281,9 @@ def sendPickle(obj, addr=addr, timeout=None, threaded=False):
                     pass
     if threaded:
         t = threading.Thread(target=helper)
-        t.daemon = True
+        # deamon is False to let the process finish
+        # even if the program reached the end making it wait.
+        t.daemon = False
         t.start()
     else:
         return helper()
@@ -276,12 +303,12 @@ def rcvPickle(addr=addr, timeout=None):
     else:
         if FLAG_DEBUG:
             print("initializing client at {}".format(addr))
-        s = initClient(addr, timeout)
+        s = init_client(addr, timeout)
     try:
         # s.settimeout(timeout)
         if FLAG_DEBUG:
             print("creating connection...")
-        c = Conection(s)
+        c = Connection(s)
         length = c.getLen(timeout=timeout)
         if FLAG_DEBUG:
             print("loading data...")
@@ -327,6 +354,6 @@ def parseString(string, timeout=3):
         return [parseString(i, timeout=timeout) for i in string]
 
 
-if __name__ == "__main__":
-    initClient(addr, 3)
+#if __name__ == "__main__":
+    #init_client(addr, 3)
     # print generateServer(to = 63342)

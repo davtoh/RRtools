@@ -94,7 +94,7 @@ setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords='sample setuptools development',
+    keywords='development, images, restoration',
     platforms='any',
     install_requires=[#'opencv-python>=2.4.11,<3', # for image manipulation
                         'packaging>=16.8',
@@ -109,7 +109,7 @@ setup(
                         'matplotlib>=1.4',
                         'pyperclip>=1.5',
                       ],
-    #scripts=['imrestore.py'],
+    scripts=['imrestore.py','expert.py', 'fastplt.py'],
     entry_points={
         'console_scripts': [
             'imrestore = RRtools.imrestore:shell',

@@ -9,3 +9,4 @@ pyqtgraph>=0.9 # for image array visualization and visual interfaces (it got pyq
 sympy>=1.0
 matplotlib>=1.4
 pyperclip>=1.5
+opencv-contrib-python>=3.4
