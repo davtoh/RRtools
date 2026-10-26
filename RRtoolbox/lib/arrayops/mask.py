@@ -2,9 +2,7 @@
 """
     This module contains all basic masking and pre-processing (as in segmenting phase) methods
 """
-from __future__ import division
-from __future__ import absolute_import
-from builtins import range
+
 
 
 import cv2

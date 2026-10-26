@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import filter
-from builtins import range
-from past.builtins import basestring
-from builtins import object
+
 import socket
 import threading
 from errno import ECONNREFUSED

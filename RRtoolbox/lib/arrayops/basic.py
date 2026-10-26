@@ -2,12 +2,7 @@
 """
     This module contains simple array operation methods
 """
-from __future__ import division
-from __future__ import absolute_import
 
-from builtins import zip
-from builtins import map
-from builtins import range
 import cv2
 import numpy as np
 try:

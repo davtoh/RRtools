@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # add relativity to script
 import sys
 import os

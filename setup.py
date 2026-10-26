@@ -81,14 +81,12 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
         #'Operating System :: MacOS :: MacOS X',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Topic :: Education',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Software Development :: Libraries',
@@ -96,19 +94,18 @@ setup(
     ],
     keywords='development, images, restoration',
     platforms='any',
-    install_requires=[#'opencv-python>=2.4.11,<3', # for image manipulation
-                        'packaging>=16.8',
-                        'appdirs>=1.4',
-                        'future>=0.16',
-                        'numpy>=1.9', # for array manipulation and Memory-mapped file
-                        'dill>=0.2', # for serializing manipulation
-                        'joblib>=0.8', # for memoization and Memory-mapped file
-                        'pycallgraph>=1',
-                        'pyqtgraph>=0.9', # for image array visualization and visual interfaces (it got pyqt in it)
-                        'sympy>=1',
-                        'matplotlib>=1.4',
-                        'pyperclip>=1.5',
-                      ],
+    install_requires=[
+        'packaging>=20.0',
+        'appdirs>=1.4',
+        'numpy>=1.20',
+        'scipy>=1.8',
+        'dill>=0.3',
+        'joblib>=1.0',
+        'sympy>=1.8',
+        'matplotlib>=3.5',
+        'pyperclip>=1.8',
+        'opencv-contrib-python>=4.5',
+    ],
     scripts=['imrestore.py','expert.py', 'fastplt.py'],
     entry_points={
         'console_scripts': [

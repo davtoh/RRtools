@@ -11,30 +11,13 @@ keywords:
 *dirname*: the path to a folder
 *url*: Universal Resource Locator
 """
-from __future__ import print_function
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import range
-
-
 import os
 import sys
 from functools import wraps
 import shutil
 from glob import glob
-#from urlparse import urlparse
-#import urllib
-#import urllib2
-#import urllib3
-#import requests
-
-try:
-    # urllib.urlopen disappears in python 3
-    from urllib.request import urlopen, URLError
-except ImportError:
-    from urllib.request import urlopen
-    from urllib.error import URLError
+from urllib.request import urlopen
+from urllib.error import URLError
 
 
 def resource_path(relative_path=""):

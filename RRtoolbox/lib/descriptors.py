@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 # ----------------------------    IMPORTS    ---------------------------- #
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-# multiprocessing
-from builtins import zip
-from builtins import object
+
 import itertools as it
 from multiprocessing.pool import ThreadPool as Pool
 # three-party

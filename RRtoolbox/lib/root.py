@@ -2,19 +2,13 @@
 """
 This module holds core-like methods for library modules but not for the hole package
 """
-from __future__ import print_function
-# system
-from future import standard_library
-standard_library.install_aliases()
-from builtins import filter
-from builtins import zip
-from builtins import range
-from past.builtins import basestring
-from builtins import object
 import sys
 import os
 import errno
-import portalocker # fcntl  # FIXME this doesn't work in windows, consider deliting this dependency altogether
+try:
+    import portalocker  # FIXME this doesn't work in windows, consider deliting this dependency altogether
+except ImportError:
+    portalocker = None
 import io
 import inspect
 import types
@@ -23,10 +17,10 @@ import numpy as np
 from fnmatch import fnmatch, fnmatchcase
 from itertools import groupby
 from collections import OrderedDict
+from collections.abc import Iterable
 from string import Formatter
 formater = Formatter()  # string formatter str.format
 import multiprocessing
-from collections import Iterable
 # ----------------------------BASIC FUNCTIONS---------------------------- #
 
 # TODO implement for windows, consider https://pypi.python.org/pypi/posix_ipc/1.0.0
@@ -42,11 +36,13 @@ class NamedLock:
 
     def acquire(self):
         # fcntl.flock(self.descriptor, fcntl.LOCK_EX)
-        portalocker.lock(self.file, portalocker.LOCK_EX)
+        if portalocker is not None:
+            portalocker.lock(self.file, portalocker.LOCK_EX)
 
     def release(self):
         # fcntl.flock(self.descriptor, fcntl.LOCK_UN)
-        portalocker.unlock(self.file)
+        if portalocker is not None:
+            portalocker.unlock(self.file)
 
     def close(self):
         os.close(self.descriptor)

@@ -22,18 +22,13 @@ where metadata is generated to disk for persistence.
 Made by Davtoh, powered by joblib.
 Dependent project: https://github.com/joblib/joblib
 """
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import zip
-from past.utils import old_div
-from builtins import object
-from future.utils import raise_
-from root import (NotCallable, NotCreatable, VariableNotSettable,
-                   VariableNotDeletable, CorruptPersistent, secure_open)
 import sys
+try:
+    from .root import (NotCallable, NotCreatable, VariableNotSettable,
+                       VariableNotDeletable, CorruptPersistent, secure_open)
+except (ImportError, ValueError):
+    from root import (NotCallable, NotCreatable, VariableNotSettable,
+                       VariableNotDeletable, CorruptPersistent, secure_open)
 
 __license__ = """
 
@@ -75,9 +70,9 @@ __license__ = """
 import joblib
 from functools import wraps
 from weakref import ref
-from collections import MutableMapping
+from collections.abc import MutableMapping
 from time import time
-from numpy.lib import load as numpyLoad, save as numpySave
+from numpy import load as numpyLoad, save as numpySave
 import os
 # print "using joblib version", joblib.__version__
 

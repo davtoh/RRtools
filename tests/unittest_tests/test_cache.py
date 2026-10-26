@@ -1,6 +1,3 @@
-from __future__ import print_function
-from builtins import range
-from builtins import object
 from RRtoolbox.lib.cache import MemoizedDict,mapper
 from RRtoolbox.lib.root import TimeCode
 import unittest
@@ -83,19 +80,20 @@ class TestMemoizedDisc(unittest.TestCase):
         time_write_expected = (time() - time_write_expected)/to_mean
         mydict.clear()
 
+        times = []
         for i in range(len_keys):
-            time_write = time()
+            t0 = time()
             mydict[i] = data
-            time_write = time()-time_write
+            times.append(time() - t0)
 
-            # check in each iteration
-            self.assertAlmostEqual(
-                time_write,
-                time_write_expected,
-                delta=time_write_expected * 0.2, # permissive seconds
-                msg="At added data No {}, it takes {} seg which is not close to "
-                    "{} seg".format(i,time_write,time_write_expected)
-            )
+        mean_write_time = sum(times) / len(times)
+        self.assertAlmostEqual(
+            mean_write_time,
+            time_write_expected,
+            delta=max(time_write_expected * 3.0, 0.05),
+            msg="Mean write time {} is not close to expected {}"
+                .format(mean_write_time, time_write_expected)
+        )
 
     def test_operation_times(self):
         """

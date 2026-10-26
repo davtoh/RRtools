@@ -3,11 +3,6 @@
 interface with users. (This is inspired in the way SymPy converts expressions
 to the adequate Tex constructs)
 """
-from __future__ import print_function
-from __future__ import absolute_import
-
-from past.builtins import basestring
-from builtins import object
 
 
 import getopt

@@ -163,18 +163,7 @@ Notes:
         post-processing method applied for better appeal of the image
         depending on the tastes of the user.
 '''
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-# TODO install openCV 2.4.12 as described in http://stackoverflow.com/a/37283690/5288758
-# to solve the error Process finished with exit code 139
-# UPDATE: openCV 2.4.12 does not solve the error Process finished with exit code 139
 
-from future import standard_library
-standard_library.install_aliases()
-from builtins import zip
-from past.builtins import basestring
-from builtins import object
 
 __author__ = 'David Toro'
 

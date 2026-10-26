@@ -7,10 +7,7 @@
 
 This module contains all config data to the package.
 """
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import object
+
 from .directory import Directory as _directory
 from .directory import FileDirectory as _FileDirectory
 from .directory import correctPath as _correctPath

@@ -13,14 +13,6 @@ plot.show()
 # http://docs.opencv.org/2.4.9/modules/highgui/doc/highgui.html
 # https://docs.python.org/3/library/string.html
 # http://stackoverflow.com/questions/101128/how-do-i-read-text-from-the-windows-clipboard-from-python
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import zip
-from builtins import chr
-from builtins import range
-from past.builtins import basestring
-from builtins import object
 from .config import FLOAT, FLAG_DEBUG, PY3
 import copy  # copy lists
 import sys

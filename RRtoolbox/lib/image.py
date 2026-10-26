@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+r"""
 Bundle of methods for handling images. Rather than manipulating specialized
 operations in images methods in this module are used for loading, outputting
 and format-converting methods, as well as color manipulation.
@@ -27,13 +27,6 @@ see http://docs.opencv.org/2.4/modules/highgui/doc/reading_and_writing_images_an
 +---------------------------+--------------------------------------------------+
 """
 from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-
-from builtins import zip
-from builtins import range
-from past.builtins import basestring
-from builtins import object
 from .directory import getData, mkPath, getPath, increment_if_exits
 from .config import FLOAT, INT, MANAGER
 import cv2
@@ -46,7 +39,7 @@ from .root import glob
 # from pyqtgraph import QtGui #BUG in pydev ImportError: cannot import
 # name QtOpenGL
 from .cache import cache, ResourceManager
-from collections import MutableSequence
+from collections.abc import MutableSequence
 from .directory import (getData, strdifference, changedir, checkFile,
                         getFileHandle, increment_if_exits, mkPath)
 import matplotlib.axes

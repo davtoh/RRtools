@@ -1,20 +1,75 @@
-# IntelliJ project files
-.idea/
-*.iml
-out
-gen
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
 
-# ignore thesis work
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Project-specific ignores
+/temp/
+mydict/
+!/tests/unittest_tests/*.py
 /thesis/
-
-# ignore .pyc binaries
-*.pyc
-
-# ignore executables
-/dist/
-/build/
 /documentation/_build/
 
-# ignore temporal files like caches and memoizations
-/temp/
-!/tests/unittest_tests/*.py
+# Caching & Memoization (RRtoolbox runtime artifacts)
+descriptors/
+descriptors_c/
+**/_expert/
+**/_restoration_data/
+
+# Intermediate test artifacts
+tests/_restored_im1_1_[1-4].jpg
+
+# Results datasets & archives (demo assets are preserved in assets/demo/)
+results/test3/
+results/set15/_restored_20150730_092752.jpg
+*.zip
+
+# Local developer scratchpad
+_developer_notes.txt
+
+# Notebook checkpoints & testing caches
+.ipynb_checkpoints/
+.pytest_cache/
+*.coverage
+htmlcov/
+
+# Logs and databases
+*.log
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+out/
+gen/
+
+# OS & Temp
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*.xlsx
+~$*.docx

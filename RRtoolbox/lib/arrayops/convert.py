@@ -2,9 +2,7 @@
 """
     This module unlike common and basic array operations classifies just the from-to-conversions methods
 """
-from __future__ import division
-from builtins import map
-from builtins import object
+
 import numpy as np
 import cv2
 

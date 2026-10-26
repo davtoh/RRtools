@@ -7,9 +7,6 @@ Made by Davtoh. Powered partially by pycallgraph.
 Dependent project: https://github.com/gak/pycallgraph/#python-call-graph
 """
 
-from __future__ import print_function
-from __future__ import absolute_import
-from builtins import object
 import sys
 import os
 import tempfile
@@ -18,32 +15,52 @@ import functools
 import time
 import re
 import inspect
-from pycallgraph.output import GraphvizOutput
-import pycallgraph  # PyCallGraph
-from pycallgraph.tracer import AsyncronousTracer, SyncronousTracer
 from importlib import import_module
 
-__license__ = (pycallgraph.__license__ +
-    " see https://github.com/gak/pycallgraph/blob/develop/LICENSE")
+try:
+    from pycallgraph.output import GraphvizOutput
+    import pycallgraph  # PyCallGraph
+    from pycallgraph.tracer import AsyncronousTracer, SyncronousTracer
+    __license__ = (pycallgraph.__license__ +
+        " see https://github.com/gak/pycallgraph/blob/develop/LICENSE")
+except ImportError:
+    GraphvizOutput = object
+    class _MockPyCallGraph:
+        PyCallGraph = object
+    pycallgraph = _MockPyCallGraph()
+    AsyncronousTracer = SyncronousTracer = object
+    __license__ = "BSD-3-Clause"
 
 from . import directory as dr
 
 
 def funcData(func):
-    argspec = inspect.getargspec(func)  # get function data
+    try:
+        argspec = inspect.getfullargspec(func)
+        keywords = argspec.varkw
+    except AttributeError:
+        argspec = inspect.getargspec(func)
+        keywords = argspec.keywords
     args = argspec.args
     defaults = argspec.defaults
     if defaults:  # get args with their values
         defaults = {args[i - len(defaults)]: val for i,
                     val in enumerate(defaults)}
-    name = func.__name__
+    name = getattr(func, '__name__', str(func))
     doc = func.__doc__
     # get path of source, unlike getfile that even gets compiled
-    sourcefile = inspect.getsourcefile(func)
-    lines, line = inspect.getsourcelines(func)  # get source
-    imp_from = inspect.getmodule(func).__name__
+    try:
+        sourcefile = inspect.getsourcefile(func)
+    except Exception:
+        sourcefile = None
+    try:
+        lines, line = inspect.getsourcelines(func)  # get source
+    except Exception:
+        lines, line = [], 0
+    mod = inspect.getmodule(func)
+    imp_from = mod.__name__ if mod else ""
     toreturn = dict(name=name, args=args, defaults=defaults, doc=doc,
-                    keywords=argspec.keywords, varargs=argspec.varargs,
+                    keywords=keywords, varargs=argspec.varargs,
                     lines=lines, line=line, sourcefile=sourcefile, imp_from=imp_from)
     return toreturn
 

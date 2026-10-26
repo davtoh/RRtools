@@ -2,9 +2,7 @@
 """
     This module contains custom 1D adn 2D-array filters and pre-processing (as in filtering phase) methods
 """
-from __future__ import division
 
-from builtins import object
 import cv2
 import numpy as np
 try:

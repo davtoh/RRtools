@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
-from past.builtins import basestring
-from past.utils import old_div
+
 import cv2
 import numpy as np
 from ..lib.arrayops import entroyTest
