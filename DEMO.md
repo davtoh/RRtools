@@ -18,6 +18,7 @@ Welcome to the **RRtools Showcase and Visual Guide**! This document provides an 
   - [Input Views & Perspective Composite](#panoramic-comparison)
   - [How It Works](#panoramic-algorithm)
   - [Reproduce with CLI](#panoramic-cli)
+- [System Architecture & UML Diagrams (`documentation/architecture/`)](documentation/architecture/README.md)
 - [Algorithmic Walkthrough (`RRtools_steps.ipynb` & `imrestore_steps.py`)](#algorithmic-walkthrough)
   - [Phase-by-Phase Breakdown](#phase-by-phase-breakdown)
   - [Running the Interactive Steps Notebook](#running-steps-notebook)
@@ -27,7 +28,7 @@ Welcome to the **RRtools Showcase and Visual Guide**! This document provides an 
 <a name="interactive-parameter-studio"></a>
 ## Interactive Parameter Studio (`ImRestore_demo.html` / `ImRestore_demo.ipynb`)
 
-RRtools provides an interactive visual control panel built with Jupyter Widgets (`ipywidgets`). It allows researchers and clinicians to interactively adjust computer vision parameters, visualize intermediate steps, and **automatically generate the exact command-line syntax** for batch execution.
+RRtools provides an interactive visual control panel and showcase available in both a standalone zero-dependency web interface ([ImRestore_demo.html](ImRestore_demo.html)) and a Jupyter Notebook ([ImRestore_demo.ipynb](ImRestore_demo.ipynb)). It allows researchers, developers, and clinicians to interactively compare before/after restoration states, adjust computer vision parameters, and **automatically generate the exact command-line syntax** for batch execution.
 
 ![Interactive Parameter Studio](assets/demo/imrestore_gui.png)
 

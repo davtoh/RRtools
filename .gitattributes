@@ -1,0 +1,10 @@
+# Automatically strip execution counts and output blobs from Jupyter Notebooks before commit
+*.ipynb filter=nbstripout
+*.ipynb diff=ipynb
+
+# Ensure text files use LF line endings
+*.py text eol=lf
+*.rst text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.json text eol=lf

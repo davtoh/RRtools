@@ -79,3 +79,7 @@ Thumbs.db
 desktop.ini
 ~$*.xlsx
 ~$*.docx
+
+# Legacy diagram exports
+dev_tracker/
+documentation/architecture/legacy_staruml_html/
