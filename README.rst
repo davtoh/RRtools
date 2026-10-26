@@ -118,14 +118,26 @@ A basic usage would be typing ``./imrestore tests/im1* --lens`` in the terminal 
 
     Retina photo 2
 
-* And Voilà they are merged into one. Notice how the flares tend to disappear and the lens were
-  added too! Of course, because it is still on development the images are not that pretty...
+* And Voilà they are merged into one. Notice how the flares disappear, hidden vascular details
+  are reconstructed, and the simulated lens aperture is added!
 
-.. figure:: https://github.com/davtoh/RRtools/blob/master/tests/_restored_im1_1.jpg
+.. figure:: https://github.com/davtoh/RRtools/blob/master/assets/demo/retina_restored.jpg?raw=true
     :align: center
     :scale: 10%
 
-    Retina photo result
+    Retina photo result (Restored with glare suppression and lens simulation)
+
+
+Demos and Visual Guides
+=======================
+
+* **Showcase & Parameter Studio Guide**: See `DEMO.md`_ for full before/after comparisons,
+  panoramic indoor stitching, and the interactive command generator.
+* **Interactive Parameter Studio**: Open ``ImRestore_demo.html`` in your browser or run
+  ``jupyter notebook ImRestore_demo.ipynb`` to visually tune parameters and automatically
+  generate CLI commands.
+* **Algorithmic Steps Walkthrough**: Explore ``RRtools_steps.ipynb`` for a step-by-step
+  diagnostic breakdown of each phase of the restoration pipeline.
 
 
 Help
@@ -141,6 +153,7 @@ the code or would like to have additional features.
 - e-mail: davsamirtor@gmail.com
 - project: https://github.com/davtoh/RRtools
 
+.. _`DEMO.md`: https://github.com/davtoh/RRtools/blob/master/DEMO.md
 .. _`documentation/index.rst`: https://github.com/davtoh/RRtools/blob/master/documentation/index.rst
 .. _examples: https://github.com/davtoh/RRtools/tree/master/examples
 .. _tests: https://github.com/davtoh/RRtools/tree/master/tests

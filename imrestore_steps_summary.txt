@@ -1,0 +1,59 @@
+1. Call __init__ to Initialize varibales:
+	- start profiler: Logs the time for each process
+	- get list of images to restore
+	- start pool of precesses (if asked): Multitreading and Multiprocessing supporting pool to speedup processing
+	- start feature class and configurations
+	- initialize selection methods
+	- get distanceThresh (default = 0.75): Used in the ratio test to filter out matches as suggested by D. Lowe
+	- get inlineThresh (default = 0.2; range[0-1]): Threshold for testing number of inlines respect with total matches
+	- get rectangularityThresh (default = 0.5; range[0-1]): Threshold for testing transformed corners of merging image $I_m$ transformed by homography
+	- get ransacReprojThreshold (default = 5.0): Maximum allowed reprojection error to treat a point pair as an inlier for homography $\| \texttt{dstPoints} _i -  \texttt{convertPointsHomogeneous} ( \texttt{H} * \texttt{srcPoints} _i) \|  >  \texttt{ransacReprojThreshold}$ http://docs.opencv.org/2.4/modules/calib3d/doc/camera_calibration_and_3d_reconstruction.html#findhomography
+	- get minKps (default = 4): minimun number of keypoints in image to process
+	- get baseImage Instructions: Image from which the restored image
+2. Call restore(self)
+	- self.pre_selection()
+		- Select baseImage based on keypoints (VARIANTS)
+			- compute key-points running for each path self.compute_keypoint(path) 
+				- check and get from cache or do:
+					- Create mask using mod_retinal_mask which process using retinal mask if background (<20) pixels sum is less than the 10% of the image size or returns None
+					- apply detectAndCompute(image, mask) : (Using ASIFT) (VARIANTS) http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_matcher/py_matcher.html
+						- (ASIFT) create more affine transformations for the image $T_t$ making translations $t$ every $t = 2^(0.5*n)$ where n=[1-6] and rotations $\phi$ from 0 to 180 every $72/t$ steps. That is transform the image, its mask (if any) and keep the transformation matrix $TM$ to transform back to the original image $I$.
+						- for each new affine transformation from ASIFT detect image keypoints and detect the features using any feature detector.
+						- Transform keypoin positions ASIFT additional images using $TM$ to move these keypoints back to the domain of the original image $I$.
+					- save into cache
+				- Transform points using getSOpointRelation and cv2.perspectiveTransform
+		- add baseImage to USED list
+		- assign baseImage as restored image $I_r$ which will be updated later
+	- self.matching()
+		- Organize matching images based on most matched keypoints (VARIANTS)
+			- Apply ratio test as D. Lowe suggestion in raw matches
+			- make list of paths of ordered images from Most matches to least
+	- Find Homography $H$ from ordered list and matches
+	- Test Homography was found
+	- Get transformed corners of merging image $I_m$
+	- Test using inlineThresh for inline ratio and rectangularityThresh for rotatedRectangularity
+	- Merge merging image $I_m$ into restored image $I_r$
+		- Transform $I_m$ using $H$
+		- Get foregraound mask using post_process_fore_Mask(self, back, fore):
+			- Resize $back$ and $fore$ to small images to improve processing times
+			- get $alpha_{mask}$ using :func:`get_layered_alpha`(back, fore)
+				-
+			- if GROW_SCENE adpat alpha mask as $alpha_{mask}[n<20] = max(alpha_{mask})$
+			- Resize $alpha_{mask}$ back to the original sizes
+		- Apply :func:`Overlay` as $back = fore*alpha_{mask} + back*(1-alpha_{mask})$ and assign to $I_r$
+		- Update $fore$ and $back$ keypoints to be transformed in the space of $I_r$
+			- get getTransformedCorners from $H$
+			- use cv2.pointPolygonTest to know which are inside $fore$ to be transformed or $back$ to be left untouched
+			- update self.kps_base and self.desc_base which contain $I_r$ keypoints and descriptors
+		- add $I_m$ path to USED list
+	- Check other images to merge in loop
+3. Call post_process_restoration(self, image)
+	- denoise $I_r$ using cv2.bilateralFilter with automatic parameters from :func:`getBilateralParameters`
+	- if lens use :func:`simulateLens` function
+		-
+	- if enclose (or crop where object is)
+        	- convert to gray using :func:`brightness`(image)
+        	- get object mask using :func:`foreground`(gray)
+            	- get contour of biggest area using :func:`thresh_biggestCnt`(mask)
+            	- crop where biggest area is
+4. Save image

@@ -42,8 +42,7 @@ descriptors_c/
 tests/_restored_im1_1_[1-4].jpg
 
 # Results datasets & archives (demo assets are preserved in assets/demo/)
-results/test3/
-results/set15/_restored_20150730_092752.jpg
+/results/
 *.zip
 
 # Local developer scratchpad
