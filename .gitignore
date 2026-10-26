@@ -39,11 +39,18 @@ descriptors_c/
 **/_restoration_data/
 
 # Intermediate test artifacts
-tests/_restored_im1_1_[1-4].jpg
+tests/_restored_*
+tests/*Result*.png
+tests/asift2*.png
+tests/resource_vs_psutil*.png
+tests/time_*_measurements.png
 
-# Results datasets & archives (demo assets are preserved in assets/demo/)
+# Results datasets, document drafts & archives (demo assets are preserved in assets/demo/)
 /results/
 *.zip
+*.pdf
+*.pptx
+*.docx
 
 # Local developer scratchpad
 _developer_notes.txt
