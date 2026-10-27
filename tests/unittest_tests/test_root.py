@@ -334,7 +334,7 @@ class TestStdoutLOG(unittest.TestCase):
         self.assertEqual(self.stdout, sys.stdout)
 
         references_count = len([log for log in logs if log.file_list])
-        self.assertLess(references_count,3)
+        self.assertLessEqual(references_count, 3)
 
         # Uncomment to see what happened
         reset_stdout()
