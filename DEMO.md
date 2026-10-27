@@ -75,7 +75,7 @@ Handheld and clinical fundus photography often suffers from intense flash reflec
 <a name="retinal-comparison"></a>
 ### Before & After Comparison
 
-| Input Photo 1 (`tests/im1_1.jpg`) | Input Photo 2 (`tests/im1_2.jpg`) | Restored Composite (`tests/_restored_im1_1_5.jpg`) |
+| Input Photo 1 (`tests/im1_1.jpg`) | Input Photo 2 (`tests/im1_2.jpg`) | Restored Composite (`assets/demo/retina_restored.jpg`) |
 | :---: | :---: | :---: |
 | <img src="assets/demo/retina_input_1.jpg" width="280" alt="Retina Input 1 (Blinding Glare)"/> | <img src="assets/demo/retina_input_2.jpg" width="280" alt="Retina Input 2 (Shifted Angle)"/> | <img src="assets/demo/retina_restored.jpg" width="280" alt="Retina Restored Result"/> |
 | *Severe flash glare obscures the lower vascular network.* | *Camera angle shifted; lower vessels clear, glare moved to edge.* | **Glare seamlessly eliminated; vascular network fully restored!** |
