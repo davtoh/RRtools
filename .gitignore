@@ -51,6 +51,7 @@ tests/time_*_measurements.png
 *.pdf
 *.pptx
 *.docx
+*.bundle
 
 # Local developer scratchpad
 _developer_notes.txt
