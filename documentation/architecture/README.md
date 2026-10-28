@@ -145,9 +145,9 @@ classDiagram
 
 This directory also retains the historical reference diagram files:
 
-* [RRtoolbox.svg](file:///c:/dev/projects/products/rrtools/documentation/architecture/RRtoolbox.svg): Monolithic 25,871 × 6,974 px diagram generated via PyCharm's yFiles (ySVG) export engine.
-* [RRtoolbox.uml](file:///c:/dev/projects/products/rrtools/documentation/architecture/RRtoolbox.uml): PyCharm's XML UML diagram file.
-* [legacy_staruml_html/](file:///c:/dev/projects/products/rrtools/documentation/architecture/legacy_staruml_html): Historical StarUML HTML documentation export for the "Object counter" and "MOSSE" milestones.
+* [RRtoolbox.svg](RRtoolbox.svg): Monolithic 25,871 × 6,974 px diagram generated via PyCharm's yFiles (ySVG) export engine.
+* [RRtoolbox.uml](RRtoolbox.uml): PyCharm's XML UML diagram file.
+* [legacy_staruml_html/](legacy_staruml_html/): Historical StarUML HTML documentation export for the "Object counter" and "MOSSE" milestones.
 
 ### How to Regenerate Class Diagrams with `pyreverse`
 Instead of manually drawing diagrams, generate fresh, code-synchronized UML using `pyreverse` (included with `pylint`):

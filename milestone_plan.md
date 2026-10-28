@@ -2,10 +2,10 @@
 
 > **Vision:** Transform RRtools from a 10-year-old classical 2D retinal stitcher (SIFT/ASIFT, RANSAC 3x3 homography, alpha masks) into a modern, multi-modal vision and scene restoration platform featuring Multi-Frame Burst Super-Resolution, 360° Spherical Panoramas, 3D Gaussian Splatting scene reconstruction, and an autonomous FastAPI restorer microservice integrating seamlessly with `davtoh/enterprise-website` and `davtoh/intelligent-tracker`.
 >
-> **Working directory:** `c:\dev\projects\products\rrtools`
-> **Active venv:** `.\.venv\` (Python 3.12.10 64-bit, Windows)
-> **Hardware Profile:** NVIDIA GeForce RTX 2070 (8GB VRAM, CUDA Driver 616.64) + CPU Fallback
-> **Test command:** `.\.venv\Scripts\pytest tests\test_super_resolution.py -v`
+> **Working directory:** `<workspace-root>`
+> **Active Environment:** Python 3.10+ (compatible with Python 3.12 64-bit)
+> **Hardware Profile:** CUDA-capable GPU + CPU Fallback
+> **Test command:** `pytest tests/test_super_resolution.py -v`
 
 ---
 
