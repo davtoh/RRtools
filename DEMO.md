@@ -100,36 +100,70 @@ python imrestore.py tests/im1_1.jpg tests/im1_2.jpg -v 1 -f a-sift-flann --dista
 ---
 
 <a name="showcase-2-wide-field-indoor-panoramic-stitching"></a>
-## Showcase 2: Wide-Field Indoor Panoramic Stitching
+## Showcase 2: Multi-Angle 360° Spherical Panoramic Stitching
 
 <a name="panoramic-problem-statement"></a>
 ### Problem Statement
-When capturing wide indoor scenes with complex industrial equipment, depth variations and perspective changes easily cause misalignment, double edges, and seam artifacts when using conventional panorama stitchers.
+When capturing wide indoor scenes with complex industrial equipment, depth variations and perspective changes easily cause severe misalignment, double edges, and tearing when using conventional planar $3\times3$ homography stitchers. Furthermore, camera auto-exposure changes across angles create visible brightness seams.
 
 <a name="panoramic-comparison"></a>
 ### Input Views & Perspective Composite
 
-| View 1: Left Workstation (`IMG_20170206_162014.jpg`) | View 2: Right Hallway (`IMG_20170206_162020.jpg`) |
+| View 1: Left Workstation (`assets/demo/panorama_input_1.jpg`) | View 2: Right Hallway (`assets/demo/panorama_input_2.jpg`) |
 | :---: | :---: |
 | <img src="assets/demo/panorama_input_1.jpg" width="400" alt="Lab View 1"/> | <img src="assets/demo/panorama_input_2.jpg" width="400" alt="Lab View 2"/> |
 | *Lower factory floor, stairs, and control stations.* | *Panned view: lockers, air ducts, and conference table.* |
 
-#### Unified Wide-Field Composite (`_restored_IMG_20170206_162014_1.jpg`)
+#### Unified Wide-Field Composite (`assets/demo/panorama_restored.jpg`)
 <img src="assets/demo/panorama_restored.jpg" width="820" alt="Restored Wide Panorama"/>
 
-*Seamless homography warping and scene accumulation (`--grow`) align the structural ceiling conduits, steel railings, and floor grid into a single wide-angle projection.*
+*Equirectangular spherical projection and multi-band Laplacian pyramid blending align the ceiling ducts, steel railings, and floor grid into a continuous panorama without tearing or seam boundaries.*
 
 <a name="panoramic-algorithm"></a>
 ### How It Works
-1. **Homography Estimation**: Keypoints are matched across overlapping ceiling ducts, pillar edges, and railings.
-2. **Geometric Sanity Check**: `rectangularityThresh` validates that the estimated projection matrix does not introduce excessive perspective distortion.
-3. **Scene Canvas Growth (`--grow`)**: The bounding canvas dynamically expands to accommodate the warped footprint of View 2 without clipping.
-4. **Gradient-Aware Fusion**: Overlapping boundaries are smoothed to eliminate visible seams under varying lighting.
+
+1. **Modern Feature Engine & Ratio Matching (`RRtoolbox/geometry/features.py`)**:
+   - High-throughput SIFT/FLANN matcher with Lowe's ratio test ($d_1 / d_2 \le 0.75$).
+   - Benchmarked at **399 ms** on indoor views (replacing legacy 20-second ASIFT).
+   - Robust RANSAC estimation and pluggable neural correspondence hooks (`register_neural_matcher()`).
+2. **Equirectangular & Cylindrical Coordinate Remapping (`RRtoolbox/geometry/panoramic.py`)**:
+   - Remaps planar camera views into spherical surface coordinates:
+     $$x' = f \tan^{-1}(X/Z) + c_x, \quad y' = f \frac{Y}{\sqrt{X^2+Z^2}} + c_y$$
+   - Transforms complex non-linear 3D camera panning rotations into pure translations in spherical space, eliminating the extreme distortion and tearing of planar homographies.
+3. **Multi-Band Laplacian Pyramid Seam Blending (Burt & Adelson)**:
+   - Decomposes overlapping frames into octave spatial frequency bands.
+   - **Low spatial frequencies** (ambient illumination and color temperature) are blended smoothly over a broad transition to eliminate exposure jumps.
+   - **High spatial frequencies** (sharp structural details, conduits, railings) transition sharply at the Voronoi seam, preventing double lines, blurring, or ghosting.
+4. **Dynamic Canvas Bounding & Bundle Alignment**:
+   - Chains transformations across arbitrary numbers of overlapping angles ($N \ge 2$), expanding the bounding canvas dynamically to prevent clipping.
 
 <a name="panoramic-cli"></a>
 ### Reproduce with CLI
+
+#### Modern 360° Spherical Panoramic Stitcher (Recommended):
 ```bash
-python imrestore.py results/test3/IMG_20170206_162014.jpg results/test3/IMG_20170206_162020.jpg --grow
+python -m RRtoolbox panorama assets/demo/panorama_input_1.jpg assets/demo/panorama_input_2.jpg --projection spherical --blend multiband -o panorama_restored.jpg
+```
+
+**Key Parameters**:
+* `--projection {spherical,cylindrical,planar}`: Geometric projection model (default: `spherical`).
+* `--blend {multiband,feather,linear,none}`: Seam blending strategy (default: `multiband`).
+* `--fov <degrees>`: Horizontal Field of View (default: `65.0`).
+* `--levels <int>`: Laplacian pyramid decomposition levels (default: `4`).
+
+#### Python API:
+```python
+from RRtoolbox.geometry import PanoramicStitcher
+
+stitcher = PanoramicStitcher(projection="spherical", blend_mode="multiband")
+result = stitcher.stitch(["assets/demo/panorama_input_1.jpg", "assets/demo/panorama_input_2.jpg"])
+result.save("panorama_restored.jpg")
+print(f"Stitched {result.output_shape} with {result.inlier_count} inliers in {result.elapsed_ms:.1f}ms")
+```
+
+#### Classical Planar Baseline (Legacy `imrestore`):
+```bash
+python imrestore.py assets/demo/panorama_input_1.jpg assets/demo/panorama_input_2.jpg --grow
 ```
 
 ---

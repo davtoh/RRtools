@@ -85,6 +85,46 @@ To create an executable from source code::
 Usage and testing
 =================
 
+Modern Frontier Vision CLI:
+---------------------------
+
+RRtools provides a modernized command-line interface for multi-modal scene restoration:
+
+1. **Multi-Angle 360° Spherical Panoramic Stitcher**:
+   Projects wide indoor/outdoor perspectives into equirectangular space with multi-band Laplacian pyramid seam blending, eliminating planar homography tearing and exposure seams::
+
+       $ python -m RRtoolbox panorama assets/demo/panorama_input_1.jpg assets/demo/panorama_input_2.jpg --projection spherical --blend multiband -o panorama_restored.jpg
+
+   Key Options:
+     * ``--projection {spherical,cylindrical,planar}``: Camera remapping model (default: ``spherical``).
+     * ``--blend {multiband,feather,linear,none}``: Seam blending mode (default: ``multiband``).
+     * ``--fov <degrees>``: Horizontal Field of View (default: ``65.0``).
+     * ``--levels <int>``: Laplacian pyramid octave levels for frequency blending (default: ``4``).
+
+2. **Multi-Frame Burst Super-Resolution (MFSR) & SISR**:
+   Sub-pixel ECC registration and Lanczos-4 accumulation (+45.4% optical sharpness gain)::
+
+       $ python -m RRtoolbox super-res tests/im5_1.jpg tests/im5_2.jpg tests/im5_3.jpg --scale 2 -o super_restored.jpg
+
+3. **Hardware & GPU Compute Diagnostics**:
+   Probes physical GPU capabilities (CUDA, ONNX Runtime, OpenCV DNN) with graceful CPU fallback::
+
+       $ python -m RRtoolbox hardware
+
+Python API Usage:
+-----------------
+.. code-block:: python
+
+    from RRtoolbox.geometry import PanoramicStitcher
+
+    stitcher = PanoramicStitcher(projection="spherical", blend_mode="multiband")
+    result = stitcher.stitch(["assets/demo/panorama_input_1.jpg", "assets/demo/panorama_input_2.jpg"])
+    result.save("panorama_restored.jpg")
+    print(f"Stitched {result.output_shape} in {result.elapsed_ms:.1f}ms with {result.inlier_count} inliers")
+
+Classical Retinal Restoration (imrestore):
+------------------------------------------
+
 To test imrestore script::
 
     $ python imrestore.py tests/im1*

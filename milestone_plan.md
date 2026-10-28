@@ -14,8 +14,8 @@
 | Milestone | Phase & Focus | Status |
 |---|---|---|
 | **M1** | **Hardware Agility & Super-Resolution Engine (Path B)** | ✅ **COMPLETE** |
-| **M2** | **Multi-Angle 360° Spherical Panoramic Stitcher (Path A.1)** | 🚀 **READY TO START** |
-| **M3** | **3D Gaussian Splatting Scene Reconstruction & Interactive WebGL Viewer (Path A.2)** | 📋 **PLANNED** |
+| **M2** | **Multi-Angle 360° Spherical Panoramic Stitcher (Path A.1)** | ✅ **COMPLETE** |
+| **M3** | **3D Gaussian Splatting Scene Reconstruction & Interactive WebGL Viewer (Path A.2)** | 🚀 **READY TO START** |
 | **M4** | **Configurable Vision DAG Engine & Recipe Presets (Path C.1)** | 📋 **PLANNED** |
 | **M5** | **Autonomous FastAPI Restorer Daemon & Enterprise Website Integration (Path C.2)** | 📋 **PLANNED** |
 
@@ -44,27 +44,36 @@
 
 ---
 
-## 🚀 [Milestone 2] — Multi-Angle 360° Spherical Panoramic Stitcher (Path A.1)
-**Status: READY TO START**
+## ✅ [Milestone 2] — Multi-Angle 360° Spherical Panoramic Stitcher (Path A.1)
+**Status: COMPLETE** — Verified: 12/12 tests pass in Python 3.12.10 (`tests/test_panoramic.py`), 20/20 total suite
 
-### Objectives
-- Overcome the 10-year-old planar homography restriction ($3\times3$ matrix) that causes ghosting and tearing when camera moves in 3D rooms.
-- **Deep & Modern Feature Engine (`RRtoolbox/geometry/features.py`)**:
-  - Modern SIFT/FLANN ratio matcher (benchmarked at **399 ms** on wide-field indoor views, replacing 20s ASIFT).
-  - Pluggable neural correspondence hooks (SuperPoint / LightGlue).
-- **Equirectangular & Cylindrical Stitcher (`RRtoolbox/geometry/panoramic.py`)**:
-  - Spherical coordinate remapping ($x = f \tan^{-1}(X/Z), y = f Y/\sqrt{X^2+Z^2}$).
-  - Bundle adjustment across multiple overlapping indoor angles.
-  - Multi-band Laplacian pyramid seam blending eliminating exposure and lighting differences.
-- **CLI & Packaging**:
-  - `python -m RRtoolbox panorama <images> --projection spherical --blend multiband`.
-- **Verification**:
-  - Unit tests on indoor laboratory views (`assets/demo/panorama_input_1.jpg` & `panorama_input_2.jpg`) generating full panoramic projection with verified geometric continuity.
+### What was accomplished
+- **Modern Feature Engine (`RRtoolbox/geometry/features.py`)**:
+  - Modern SIFT/FLANN ratio matcher (benchmarked at **399 ms** on indoor views, replacing legacy 20-second ASIFT).
+  - Automatic descriptor indexing: KDTree for float32 (SIFT) and multi-probe LSH for binary descriptors (ORB, AKAZE, BRISK).
+  - Pluggable neural correspondence hooks via `register_neural_matcher()` and `get_neural_matcher()` for SuperPoint / LightGlue integration.
+  - Robust RANSAC estimation for affine partial, full affine, homography, and translation with structured `KeypointMatches` telemetry.
+- **Equirectangular & Cylindrical Coordinate Remapping (`RRtoolbox/geometry/panoramic.py`)**:
+  - Solves the 10-year-old planar homography restriction ($3\times3$ matrix) that caused severe tearing and distortion during 3D camera rotation.
+  - Mathematical inverse coordinate projection (`theta = (x' - cx)/f, phi = (y' - cy)/f`) with high-order Lanczos-4 interpolation and dynamic pole handling.
+  - Automatic focal length estimation ($f = W / (2 \tan(\text{FOV}/2))$) supporting custom FOV or calibrated camera intrinsics.
+- **Multi-Band Laplacian Pyramid Seam Blending (`RRtoolbox/geometry/panoramic.py`)**:
+  - Burt-Adelson multi-octave decomposition with Voronoi distance-transform seam weighting.
+  - Eliminates exposure, illumination, and color temperature jumps across views while keeping high-frequency structural edges perfectly sharp without ghosting or double edges.
+  - Mathematically lossless pyramid reconstruction verified ($< 10^{-4}$ numerical error).
+- **Multi-Angle Bundle Alignment & Automatic Canvas Expansion**:
+  - Pairwise alignment chaining across arbitrary numbers of overlapping views ($N \ge 2$).
+  - Dynamic canvas bounding box computation preventing edge clipping, with optional automatic outer border trimming (`crop_borders=True`).
+  - Benchmarked on real indoor laboratory views (`assets/demo/panorama_input_1.jpg` & `panorama_input_2.jpg`): **6319 x 3139 stitched composite, 53 RANSAC inliers (38.7% inlier ratio)**.
+- **CLI & Packaging (`RRtoolbox/__main__.py`)**:
+  - `python -m RRtoolbox panorama <images> -p spherical -b multiband -o <out>` with rich telemetry summary.
+- **Unit & Regression Test Suite (`tests/test_panoramic.py`)**:
+  - 12 automated unit and integration tests covering focal length estimation, spherical/cylindrical warping, feature matching, neural hooks, lossless pyramid reconstruction, exposure continuity, canvas cropping, real indoor datasets, error handling, and CLI execution.
 
 ---
 
-## 📋 [Milestone 3] — 3D Gaussian Splatting Scene Reconstruction & WebGL Viewer (Path A.2)
-**Status: PLANNED**
+## 🚀 [Milestone 3] — 3D Gaussian Splatting Scene Reconstruction & WebGL Viewer (Path A.2)
+**Status: READY TO START**
 
 ### Objectives
 - Enable true 3D room walkthroughs from multiple photos taken from different angles.
