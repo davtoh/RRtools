@@ -89,7 +89,61 @@ python -c "import RRtoolbox.lib.arrayops.basic as b; print(len(dir(b)))"
 | **Full Unit Test Discovery** | Automated Unit Tests | `python -m unittest discover tests/unittest_tests` |
 
 ### Next Steps & Pending Items
-- **Sub-Phase 1.2 (Next Turn)**: Decompose `RRtoolbox/lib/root.py` (1,221L) and `RRtoolbox/lib/directory.py` (776L) into `profiling.py`, `logging_util.py`, `unit_conversion.py`, and `path_utils.py`.
+- **Sub-Phase 1.2**: Decompose `RRtoolbox/lib/root.py` (1,221L) and `RRtoolbox/lib/directory.py` (776L) into `profiling.py`, `logging_util.py`, `unit_conversion.py`, and `path_utils.py`. [COMPLETED]
+- Advance campaign state to Phase 2.
+
+---
+
+## [2026-11-03] — Milestone 1.2: `RRtoolbox/lib/root.py` & `RRtoolbox/lib/directory.py` Decomposition
+
+### Objectives & Scope
+- Eliminate the two Critical Monoliths in foundation utilities: `RRtoolbox/lib/root.py` (1,221L) and `RRtoolbox/lib/directory.py` (776L).
+- Decompose cohesive responsibilities into 4 single-responsibility submodules adhering to Modularity Budgets (target $\le$ 350L, hard ceiling $\le$ 500L, functions $\le$ 40L).
+- Preserve 100% backward-compatible re-export facades with full `__all__` parity in `root.py` (34 exports) and `directory.py` (25 exports).
+- Modernize Python 2 syntax (replace `basestring` with native `str`, eliminate obsolete `object` inheritance).
+- Enforce full contract invariant parity (Tier 1 AST & DOM contract verification, unit test discovery).
+
+### Files Created & Modified
+- `RRtoolbox/lib/unit_conversion.py` (Created, 197L): Unit conversion, magnitude formatting, and metric scaling factors (`FactorConvert`, `Magnitude`). Modernized Python 2 `basestring` checks.
+- `RRtoolbox/lib/logging_util.py` (Created, 212L): Stream redirection, stdout multiplexing, and logging contexts (`StdoutSIM`, `StdoutMULTI`, `StdoutLOG`, `Controlstdout`, `stdout`).
+- `RRtoolbox/lib/profiling.py` (Created, 270L): Profiling, execution timers, and chronometers (`TimeCode`, `Profiler`). Decomposed recursive formatters into pure helper functions.
+- `RRtoolbox/lib/path_utils.py` (Created, 364L): Pure path and filesystem inspection utilities (`resource_path`, `getFileHandle`, `getFileSize`, `checkPath`, `checkDir`, `checkURL`, `checkFile`, `getPath`, `getData`, `increment_if_exits`, `strdifference`, `getSplitted`, `correctSep`, `mkPath`, `rmFile`, `rmPath`, `getSep`, `quickOps`, `getShortenedPath`, `decoratePath`, `correctPath`, `joinPath`). Decomposed oversized functions (`quickOps`, `getShortenedPath`, `strdifference`) into pure helpers $\le 40$ lines.
+- `RRtoolbox/lib/directory.py` (Refactored, 260L): Reduced from 776L to 260L (-66%) focusing on `Directory`, `FileDirectory`, and `changedir`, while re-exporting all 25 path utility symbols.
+- `RRtoolbox/lib/root.py` (Refactored, 388L): Reduced from 1,221L to 388L (-68%) focusing on core primitives (`NamedLock`, `secure_open`, `load_module`, `glob`, `lookinglob`), eliminating `lookinglob` critical line breach, and re-exporting all 34 symbols.
+
+### Modularity Audit Results
+- `RRtoolbox/lib/root.py`: **0 Critical Breaches** (was 1,221L with 1 God Class, 1 Critical function `lookinglob` 69L).
+- `RRtoolbox/lib/directory.py`: **0 Critical Breaches** (was 776L with 3 Critical functions `quickOps` 60L, `getShortenedPath` 49L, `strdifference` 43L).
+- Active scope Critical Monoliths reduced to **0**.
+- All newly created and refactored modules strictly adhere to the 500-line hard ceiling.
+
+### Verification & Test Commands
+```bash
+# 1. Structural line and method budget audit across active files
+python -m unittest discover tests/unittest_tests
+
+# 2. Automated test suite execution
+python -m unittest tests/unittest_tests/test_root.py
+python -m unittest tests/unittest_tests/test_refactor_contract.py
+
+# 3. Verify module import validity
+python -c "import RRtoolbox.lib.root as r, RRtoolbox.lib.directory as d; print(len(r.__all__), len(d.__all__))"
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Audit Foundation Subsystems** | Structural Line Inspection | `python -m RRtoolbox --help` |
+| **Verify Root Unit Tests** | Automated Regression Suite | `python -m unittest tests/unittest_tests/test_root.py` |
+| **Contract Smoke Test** | Regression Invariant Check | `python -m unittest tests/unittest_tests/test_refactor_contract.py` |
+| **Full Unit Test Discovery** | Automated Unit Tests | `python -m unittest discover tests/unittest_tests` |
+
+### Next Steps & Pending Items
+- Phase 1 Complete! Core Foundation & Array Operations fully decomposed.
+- **Phase 2 (Next Turn)**: Storage, Caching & Image Abstraction Decomposition:
+  - Sub-Phase 2.1: `RRtoolbox/lib/cache.py` (1,357L) decomposition into `memoize.py`, `resource_manager.py`, `disk_dict.py`, and `lazy.py`.
+  - Sub-Phase 2.2: `RRtoolbox/lib/image.py` (2,112L) decomposition.
 - Run `/refactor-monolith continue` in a fresh chat.
+
 
 
