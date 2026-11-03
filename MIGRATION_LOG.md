@@ -198,8 +198,74 @@ python -c "import RRtoolbox.lib.cache as c; print(len(c.__all__))"
 
 ### Next Steps & Pending Items
 - Sub-Phase 2.1 Complete! `RRtoolbox/lib/cache.py` successfully decomposed into `RRtoolbox/lib/cache/`.
-- **Sub-Phase 2.2 (Next Turn)**: `RRtoolbox/lib/image.py` (2,112L) decomposition into `conversions.py`, `io.py`, `loaders.py`, `coordinates.py`, `interactive.py`, and `core.py`.
-- Run `/refactor-monolith continue` in a fresh chat.
+- Sub-Phase 2.2: `RRtoolbox/lib/image.py` (2,112L) decomposition into `conversions.py`, `io.py`, `loaders.py`, `coordinates.py`, `interactive.py`, and `core.py`. [COMPLETED]
+
+---
+
+## [2026-11-03] — Milestone 2.2: `RRtoolbox/lib/image.py` Decomposition & Phase 2 Completion
+
+### Objectives & Scope
+- Eliminate the 2,112-line Critical Monolith `RRtoolbox/lib/image.py` (Rank 2 production monolith).
+- Decompose cohesive responsibilities into 6 single-responsibility submodules and 1 package facade under `RRtoolbox/lib/image/`:
+  - `conversions.py` (array/color conversions, Qt formats, Matplotlib figure bridges, histogram matching)
+  - `io.py` (file/URL loading, format interpretation, OpenCV bridges, batch conversion pipeline)
+  - `loaders.py` (ImFactory, loadFunc, ImLoader, PathLoader, LoaderDict, try_loads)
+  - `coordinates.py` (ImCoors geometric analytics and drawing primitives)
+  - `interactive.py` (GetCoors OpenCV GUI selector and point grouping helpers)
+  - `core.py` (Image high-level object with lazy color channel properties and persistence)
+  - `__init__.py` (authoritative re-export facade with complete `__all__` export parity)
+- Adhere strictly to Modularity Budgets (target $\le$ 350L, hard ceiling $\le$ 500L, functions $\le$ 40L).
+- Modernize Python 2 / legacy syntax: replace `basestring` checks with `(str, bytes)`, update deprecated `np.int` aliases to native `int`, ensure NumPy 2.x `tobytes()` compatibility.
+- Maintain 100% backward-compatible re-export facade with full `__all__` parity (50 public symbols).
+- Enforce full contract invariant parity (Tier 1 AST & DOM contract verification, permanent smoke test, and automated unit test suite).
+
+### Files Created & Modified
+- `RRtoolbox/lib/image/conversions.py` (Created, 294L): Array/color conversions, Qt image transitions, Matplotlib bridges, and histogram matching (`transposeIm`, `plt2bgr`, `plt2bgra`, `fig2bgr`, `fig2bgra`, `qi2np`, `np2qi`, `gray2qi`, `rgb2qi`, `bgra2bgr`, `hist_match`, color maps).
+- `RRtoolbox/lib/image/io.py` (Created, 223L): Image reading, writing, and loading pipelines (`checkLoaded`, `loadcv`, `loadsfrom`, `interpretImage`, `convertAs`).
+- `RRtoolbox/lib/image/loaders.py` (Created, 375L): Dynamic loader factory, lazy path loading, and memory-managed dicts (`ImFactory`, `loadFunc`, `ImLoader`, `PathLoader`, `LoaderDict`, `try_loads`).
+- `RRtoolbox/lib/image/coordinates.py` (Created, 442L): Coordinate analytics and drawing helpers (`ImCoors`, `drawcoorpoints`, `myline`, `drawcooraxes`, `drawcoorpolyline`, `drawcoorarea`, `drawcoorpolyArrow`, `drawcoorperspective`, `limitaxispoints`).
+- `RRtoolbox/lib/image/interactive.py` (Created, 238L): OpenCV interactive point selector and grouping algorithms (`GetCoors`, `getcoors`, `separe`, `getrectcoors`, `quadrants`, `getgeometrycoors`, `random_color`).
+- `RRtoolbox/lib/image/core.py` (Created, 243L): High-level Image class with lazy multi-channel color access and disk saving (`Image`).
+- `RRtoolbox/lib/image/__init__.py` (Created, 89L): Re-export facade preserving all legacy imports and symbols with complete `__all__` export parity.
+- `RRtoolbox/lib/image.py` (Deleted, 2,112L): Superseded monolith cleanly replaced by `RRtoolbox/lib/image/` package.
+- `tests/unittest_tests/test_image.py` (Created, 125L): Comprehensive automated unit test suite covering facade parity, color conversions, ImCoors geometric analytics, and loaders.
+
+### Modularity Audit Results
+- `RRtoolbox/lib/image/`: **0 Critical Monoliths** (was 1 Critical Monolith of 2,112L with 2 God classes).
+- **0 files exceeding the 500-line hard ceiling**: All submodules safely within quantitative budgets (442L, 375L, 294L, 243L, 238L, 223L, 89L).
+- **Full Unit Test Suite**: 21/21 tests passing (100% green).
+
+### Verification & Test Commands
+```bash
+# 1. Structural line and method budget audit across image package
+python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolbox/lib/image/ --show-methods
+
+# 2. Automated test suite execution
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_image.py -v
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- discover tests/unittest_tests
+
+# 3. Verify module import validity
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -c "import RRtoolbox.lib.image as img; print(len(img.__all__))"
+
+# 4. Strict contract verification against baseline snapshot
+python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Audit Image Subsystem** | Structural Line Inspection | `python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolbox/lib/image/ --show-methods` |
+| **Verify Image Unit Tests** | Automated Regression Suite | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_image.py -v` |
+| **Contract Smoke Test** | Regression Invariant Check | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_refactor_contract.py -v` |
+| **Full Unit Test Discovery** | Automated Unit Tests | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- discover tests/unittest_tests` |
+| **Strict Contract Verification** | Invariant Parity Check | `python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict` |
+
+### Next Steps & Pending Items
+- **Phase 2 Complete!** Both `cache.py` (Sub-Phase 2.1) and `image.py` (Sub-Phase 2.2) successfully decomposed into cohesive packages with 0 critical breaches.
+- **Phase 3 (Next Turn)**: Visualization, Panoramic & Restoration Decomposition.
+  - Sub-Phase 3.1: `RRtoolbox/lib/plotter.py` (2,493L) decomposition into `RRtoolbox/lib/visualization/`.
+  - Sub-Phase 3.2: `RRtoolbox/geometry/panoramic.py` (719L) and `RRtoolbox/restoration/super_resolution.py` (511L).
+- To continue Phase 3 in a fresh chat, tell the agent: `/refactor-monolith continue`.
 
 
 
