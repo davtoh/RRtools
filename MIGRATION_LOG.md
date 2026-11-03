@@ -140,10 +140,67 @@ python -c "import RRtoolbox.lib.root as r, RRtoolbox.lib.directory as d; print(l
 
 ### Next Steps & Pending Items
 - Phase 1 Complete! Core Foundation & Array Operations fully decomposed.
-- **Phase 2 (Next Turn)**: Storage, Caching & Image Abstraction Decomposition:
-  - Sub-Phase 2.1: `RRtoolbox/lib/cache.py` (1,357L) decomposition into `memoize.py`, `resource_manager.py`, `disk_dict.py`, and `lazy.py`.
+- **Phase 2 (Active)**: Storage, Caching & Image Abstraction Decomposition:
+  - Sub-Phase 2.1: `RRtoolbox/lib/cache.py` (1,357L) decomposition into `memoize.py`, `resource_manager.py`, `disk_dict.py`, and `lazy.py`. [COMPLETED]
   - Sub-Phase 2.2: `RRtoolbox/lib/image.py` (2,112L) decomposition.
 - Run `/refactor-monolith continue` in a fresh chat.
+
+---
+
+## [2026-11-03] — Milestone 2.1: `RRtoolbox/lib/cache.py` Decomposition
+
+### Objectives & Scope
+- Eliminate the 1,357-line Critical Monolith `RRtoolbox/lib/cache.py` (Rank 4 production monolith).
+- Decompose cohesive responsibilities into 4 single-responsibility submodules and 1 package facade under `RRtoolbox/lib/cache/`:
+  - `lazy.py` (ObjectGetter, Retriever, LazyDict)
+  - `memoize.py` (DynamicMemoizedFunc, MemorizedFunc, NotMemorizedFunc, Memory, Memoizer, cache, cachedProperty, Memo, memoize)
+  - `resource_manager.py` (ResourceManager, memory eviction pipelines, memory unit parser)
+  - `disk_dict.py` (mapper, MemoizedDict)
+  - `__init__.py` (re-export facade with complete `__all__` export parity)
+- Adhere strictly to Modularity Budgets (target $\le$ 350L, hard ceiling $\le$ 500L, functions $\le$ 40L).
+- Modernize Python 2 / legacy syntax: eliminate `old_div` shim in favor of native `/`, replace legacy `raise_` with modern exception chaining `raise CorruptPersistent(...) from e`.
+- Maintain 100% backward-compatible re-export facade with full `__all__` parity (21 public symbols).
+- Enforce full contract invariant parity (Tier 1 AST & DOM contract verification, permanent smoke test, unit tests).
+
+### Files Created & Modified
+- `RRtoolbox/lib/cache/lazy.py` (Created, 252L): Lazy evaluation, reference tracking, and dictionary retrieval (`ObjectGetter`, `Retriever`, `LazyDict`).
+- `RRtoolbox/lib/cache/memoize.py` (Created, 349L): Memoization decorators and descriptors (`NotMemorizedFunc`, `MemorizedFunc`, `DynamicMemoizedFunc`, `Memory`, `Memoizer`, `cache`, `cachedProperty`, `Memo`, `memoize`). Decomposed `cachedProperty` into focused helpers $\le 25$ lines.
+- `RRtoolbox/lib/cache/resource_manager.py` (Created, 309L): Dynamic object lifecycle, reference tracking, and RAM optimization (`ResourceManager`, `parse_memory_unit`). Decomposed `_optimizeMemory` into multi-stage eviction helpers (`_evict_blacklist_items`, `_evict_unwhitelisted_items`) $\le 25$ lines each.
+- `RRtoolbox/lib/cache/disk_dict.py` (Created, 215L): File-backed key-value persistence and memory-mapped array helpers (`mapper`, `MemoizedDict`). Modernized exception handling.
+- `RRtoolbox/lib/cache/__init__.py` (Created, 77L): Authoritative package re-export facade with full `__all__` parity.
+- `RRtoolbox/lib/cache.py` (Deleted, 1,357L): Replaced by `RRtoolbox/lib/cache/` package.
+
+### Modularity Audit Results
+- `RRtoolbox/lib/cache/`: **0 Critical Monoliths** (was 1 Critical Monolith of 1,357L with 3 God classes).
+- **0 Warning-level file breaches**: All submodules strictly below the 350-line target (349L, 309L, 252L, 215L, 77L).
+- **0 functions exceeding 40 lines** across the entire package.
+
+### Verification & Test Commands
+```bash
+# 1. Structural line and method budget audit across cache package
+python -m unittest discover tests/unittest_tests
+
+# 2. Automated test suite execution
+python -m unittest tests/unittest_tests/test_cache.py
+python -m unittest tests/unittest_tests/test_refactor_contract.py
+
+# 3. Verify module import validity
+python -c "import RRtoolbox.lib.cache as c; print(len(c.__all__))"
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Audit Cache Subsystem** | Structural Line Inspection | `python -m unittest tests/unittest_tests/test_refactor_contract.py` |
+| **Verify Cache Unit Tests** | Automated Regression Suite | `python -m unittest tests/unittest_tests/test_cache.py` |
+| **Contract Smoke Test** | Regression Invariant Check | `python -m unittest tests/unittest_tests/test_refactor_contract.py` |
+| **Full Unit Test Discovery** | Automated Unit Tests | `python -m unittest discover tests/unittest_tests` |
+
+### Next Steps & Pending Items
+- Sub-Phase 2.1 Complete! `RRtoolbox/lib/cache.py` successfully decomposed into `RRtoolbox/lib/cache/`.
+- **Sub-Phase 2.2 (Next Turn)**: `RRtoolbox/lib/image.py` (2,112L) decomposition into `conversions.py`, `io.py`, `loaders.py`, `coordinates.py`, `interactive.py`, and `core.py`.
+- Run `/refactor-monolith continue` in a fresh chat.
+
 
 
 
