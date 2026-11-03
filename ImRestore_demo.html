@@ -1188,6 +1188,13 @@
     // Initialize
     updateSplit(50);
     updateCommand();
+
+    // Export handlers to window for inline HTML attributes
+    window.switchShowcase = switchShowcase;
+    window.updateSplit = updateSplit;
+    window.applyPreset = applyPreset;
+    window.updateCommand = updateCommand;
+    window.copyCommand = copyCommand;
   </script>
 </body>
 </html>

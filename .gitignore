@@ -84,3 +84,6 @@ desktop.ini
 # Legacy diagram exports
 dev_tracker/
 documentation/architecture/legacy_staruml_html/
+
+# Root CLI & Benchmark outputs
+/*.jpg
