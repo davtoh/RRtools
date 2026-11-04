@@ -337,9 +337,61 @@ python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --stri
 
 ### Next Steps & Pending Items
 - Sub-Phase 3.1 Complete! The Rank 1 Monolith `RRtoolbox/lib/plotter.py` (2,493L) is fully decomposed.
-- **Sub-Phase 3.2 (Next Turn)**: Modern Vision Decomposition (`RRtoolbox/geometry/panoramic.py` 719L into `warping.py` and `blending.py`, and `RRtoolbox/restoration/super_resolution.py` 511L into `registration.py`).
-- Advance campaign state to Phase 4 upon completion of Sub-Phase 3.2.
-- To continue Sub-Phase 3.2 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+- Sub-Phase 3.2 Complete! Modern Vision Decomposition (`panoramic.py` and `super_resolution.py`) fully decomposed.
+- Phase 3 Complete! Active phase advanced to Phase 4.
+
+---
+
+## [2026-11-04] — Milestone 3.2: Modern Vision Decomposition (`panoramic.py` & `super_resolution.py`)
+
+### Objectives & Scope
+- Decompose the two remaining critical vision monoliths in Phase 3:
+  - `RRtoolbox/geometry/panoramic.py` (719L, Rank 8 monolith)
+  - `RRtoolbox/restoration/super_resolution.py` (511L, Rank 11 monolith)
+- Modularize into cohesive single-responsibility submodules:
+  - `RRtoolbox/geometry/warping.py`: Spherical and cylindrical coordinate remapping and focal length estimation.
+  - `RRtoolbox/geometry/blending.py`: Multi-band Laplacian pyramid and feathered seam blending.
+  - `RRtoolbox/geometry/panoramic.py`: Focused `PanoramicStitcher` orchestrator and re-export facade with full `__all__` parity.
+  - `RRtoolbox/restoration/registration.py`: Sub-pixel ECC registration, frame inverse warping accumulation, and bilateral detail boosting.
+  - `RRtoolbox/restoration/super_resolution.py`: Single-image and multi-frame burst restoration orchestrator with full backward-compatible re-exports.
+- Adhere strictly to Modularity Budgets (all files $\le$ 350 lines, functions $\le$ 40 lines, classes $\le$ 10 methods).
+- Maintain 100% backward-compatible imports, math comments, and invariant parity across all tests.
+
+### Files Created & Modified
+- `RRtoolbox/geometry/warping.py` (Created, 120L): Extracted `estimate_focal_length`, `spherical_warp`, and `cylindrical_warp` with shared `_apply_warp_and_mask`.
+- `RRtoolbox/geometry/blending.py` (Created, 157L): Extracted `build_gaussian_pyramid`, `build_laplacian_pyramid`, `reconstruct_from_laplacian`, `multiband_blend`, `feather_blend`, and `crop_panorama_canvas`.
+- `RRtoolbox/geometry/panoramic.py` (Refactored, 349L): Reduced from 719L to 349L (-51.5%). Decomposed `PanoramicStitcher.stitch` (236L -> 40L) and `PanoramicStitcher` class (315L -> 145L, 6 methods).
+- `RRtoolbox/restoration/registration.py` (Created, 124L): Extracted `align_ecc_subpixel`, `accumulate_warped_frame`, `boost_high_frequency_details`, and `align_and_fuse_frames`.
+- `RRtoolbox/restoration/super_resolution.py` (Refactored, 332L): Reduced from 511L to 332L (-35.0%). Decomposed `restore` (99L -> 35L) and `process` with 100% backward compatibility.
+- `RRtoolbox/restoration/__init__.py` (Updated, 31L): Preserved and exposed full registration and super-resolution API in `__all__`.
+
+### Modularity Audit Results
+- `RRtoolbox/geometry/`: **0 Critical File Breaches** across all decomposed files (`panoramic.py` 349L, `warping.py` 120L, `blending.py` 157L).
+- `RRtoolbox/restoration/`: **0 Critical File Breaches** across all files (`super_resolution.py` 332L, `registration.py` 124L).
+- **0 functions exceeding 40 lines** across both decomposed subsystems.
+- All classes $\le$ 6 methods.
+- **Verification Tests**:
+  - `pytest tests/test_panoramic.py tests/test_super_resolution.py`: 20/20 passed (100% green).
+  - `python -m unittest discover tests/unittest_tests`: 32/32 passed (100% green).
+  - Contract Verification: Zero regressions detected.
+
+### Verification & Test Commands
+```bash
+# 1. Automated regression test suites
+pytest tests/test_panoramic.py tests/test_super_resolution.py -v
+python -m unittest discover tests/unittest_tests
+
+# 2. Verify module imports and __all__ export parity
+python -c "import RRtoolbox.geometry.panoramic as p, RRtoolbox.restoration.super_resolution as sr; print(len(p.__all__), len(sr.__all__))"
+```
+
+### Next Steps & Pending Items
+- **Phase 3 Complete!** Both `plotter.py` (Sub-Phase 3.1) and `panoramic.py` / `super_resolution.py` (Sub-Phase 3.2) are fully decomposed.
+- **Phase 4 (Pending Next Turn)**: Computational Graph Engine (`RRtoolFC`) & Test Suite Curation:
+  - Sub-Phase 4.1: Decouple `Flowchart.py` (935L), `Node.py` (648L), `Terminal.py` (637L) DAG logic from PyQt UI.
+  - Sub-Phase 4.2: Curate `tests/` into `tests/unittest_tests/` vs deprecated legacy prototypes.
+- To continue Phase 4 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+
 
 
 

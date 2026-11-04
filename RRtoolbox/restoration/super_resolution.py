@@ -2,17 +2,13 @@
 Super-Resolution and Multi-Frame Super-Image Enhancement Engine for RRtools.
 
 Provides:
-- MultiFrameSuperResolution: Sub-pixel registration (ECC + Phase Flow),
-  high-resolution shift-and-add accumulation, and bilateral residual detail boost.
-- SingleImageSuperResolution: Neural upscaler supporting OpenCV dnn_superres,
-  ONNX Runtime (CUDA/CPU), and edge-directed Lanczos-4 with adaptive residual sharpness.
-- SuperResolutionEngine: Unified orchestrator managing single/burst modes,
-  tiling for large gigapixel images, and performance telemetry.
+- MultiFrameSuperResolution: Sub-pixel registration and bilateral detail boost.
+- SingleImageSuperResolution: Neural upscaler with edge-directed fallback.
+- SuperResolutionEngine: Unified orchestrator managing single/burst modes.
 """
 from __future__ import annotations
 
 import logging
-import os
 import time
 from dataclasses import dataclass
 from enum import Enum
@@ -26,6 +22,10 @@ from RRtoolbox.hardware import (
     configure_opencv_dnn,
     detect_hardware,
     get_onnx_execution_providers,
+)
+from RRtoolbox.restoration.registration import (
+    align_and_fuse_frames,
+    align_ecc_subpixel,
 )
 
 logger = logging.getLogger("RRtoolbox.restoration.super_resolution")
@@ -54,7 +54,7 @@ class SuperResolutionResult:
     metadata: dict
 
     def save(self, destination: Union[str, Path]) -> Path:
-        """Save the restored super-image to disk."""
+        """Save restored super-image to disk."""
         dest = Path(destination)
         dest.parent.mkdir(parents=True, exist_ok=True)
         cv2.imwrite(str(dest), self.image)
@@ -63,16 +63,10 @@ class SuperResolutionResult:
 
 
 def compute_sharpness(image: np.ndarray) -> float:
-    """
-    Compute image sharpness metric using variance of the Laplacian operator.
-    Higher values indicate crisper high-frequency structural detail.
-    """
+    """Compute image sharpness metric using variance of Laplacian."""
     if image is None or image.size == 0:
         return 0.0
-    if len(image.shape) == 3:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    else:
-        gray = image
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) if len(image.shape) == 3 else image
     return float(cv2.Laplacian(gray, cv2.CV_64F).var())
 
 
@@ -80,19 +74,59 @@ def compute_contrast(image: np.ndarray) -> float:
     """Compute standard deviation of pixel intensities as an RMS contrast metric."""
     if image is None or image.size == 0:
         return 0.0
-    if len(image.shape) == 3:
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    else:
-        gray = image
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) if len(image.shape) == 3 else image
     return float(gray.std())
 
 
+def _load_engine_images(
+    inputs: Union[str, Path, np.ndarray, List[Union[str, Path, np.ndarray]]]
+) -> Tuple[List[np.ndarray], List[str]]:
+    """Parse, load, and validate input image list from paths or arrays."""
+    raw_items = inputs if isinstance(inputs, list) else [inputs]
+    image_list, source_paths = [], []
+    for item in raw_items:
+        if isinstance(item, (str, Path)):
+            p = Path(item)
+            if not p.exists():
+                raise FileNotFoundError(f"Input image file not found: {p}")
+            arr = cv2.imread(str(p))
+            if arr is None:
+                raise ValueError(f"Failed to decode image from: {p}")
+            image_list.append(arr)
+            source_paths.append(str(p))
+        elif isinstance(item, np.ndarray):
+            image_list.append(item)
+            source_paths.append("<memory_array>")
+        else:
+            raise TypeError(f"Unsupported input type: {type(item)}")
+    if not image_list:
+        raise ValueError("No valid images supplied for restoration.")
+    return image_list, source_paths
+
+
+def _dispatch_restoration(
+    engine: SuperResolutionEngine,
+    image_list: List[np.ndarray],
+    ref_img: np.ndarray,
+    scale: int,
+    ref_idx: int,
+) -> Tuple[np.ndarray, str, str]:
+    """Route processing to multi-frame burst or single-image engine."""
+    if len(image_list) > 1:
+        if scale != engine.multi_sr.scale:
+            engine.multi_sr = MultiFrameSuperResolution(scale=scale)
+        return engine.multi_sr.process(image_list, reference_idx=ref_idx), "mfsr", "multi_frame_ecc_lanczos4"
+
+    if scale != engine.single_sr.scale:
+        engine.single_sr = SingleImageSuperResolution(
+            scale=scale, backend=engine.single_sr.backend,
+            model_name=engine.single_sr.model_name, model_path=engine.single_sr.model_path,
+        )
+    return engine.single_sr.process(ref_img), "sisr", engine.single_sr.active_backend
+
+
 class MultiFrameSuperResolution:
-    """
-    Multi-Frame Super-Resolution (MFSR) engine.
-    Fuses multiple jittered/burst images of the same scene into a single high-fidelity super-image
-    by computing sub-pixel correspondences and accumulating optical high-frequency details.
-    """
+    """Multi-Frame Super-Resolution (MFSR) engine."""
 
     def __init__(
         self,
@@ -108,154 +142,29 @@ class MultiFrameSuperResolution:
         self.ecc_eps = ecc_eps
         self.detail_boost = detail_boost
 
-    def _align_ecc(
-        self, ref_gray: np.ndarray, target_gray: np.ndarray
-    ) -> np.ndarray:
-        """
-        Estimate sub-pixel 2D transformation matrix using Enhanced Correlation Coefficient (ECC).
-        Falls back to 2D phase correlation if displacement is large or nonlinear.
-        """
-        warp_matrix = np.eye(2, 3, dtype=np.float32)
-        criteria = (
-            cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,
-            self.max_ecc_iterations,
-            self.ecc_eps,
+    def _align_ecc(self, ref_gray: np.ndarray, target_gray: np.ndarray) -> np.ndarray:
+        """Estimate sub-pixel 2D transformation matrix using ECC or Phase Correlation."""
+        return align_ecc_subpixel(
+            ref_gray, target_gray, self.motion_model, self.max_ecc_iterations, self.ecc_eps
         )
 
-        try:
-            _, warp_matrix = cv2.findTransformECC(
-                ref_gray, target_gray, warp_matrix, self.motion_model, criteria
-            )
-            return warp_matrix
-        except cv2.error:
-            # Fallback to Phase Correlation for translation
-            shift, _ = cv2.phaseCorrelate(
-                ref_gray.astype(np.float32), target_gray.astype(np.float32)
-            )
-            warp_matrix[0, 2] = float(shift[0])
-            warp_matrix[1, 2] = float(shift[1])
-            return warp_matrix
-
-    def process(
-        self,
-        images: List[np.ndarray],
-        reference_idx: int = 0,
-    ) -> np.ndarray:
-        """
-        Fuse multiple frames into a super-resolved image.
-
-        Args:
-            images: List of BGR or grayscale numpy images.
-            reference_idx: Index of image to treat as reference coordinate frame.
-
-        Returns:
-            Enhanced super-resolved image array.
-        """
+    def process(self, images: List[np.ndarray], reference_idx: int = 0) -> np.ndarray:
+        """Fuse multiple frames into a super-resolved image."""
         if not images:
             raise ValueError("No images provided for multi-frame super-resolution.")
         if len(images) == 1:
-            # Single frame fallback to edge-directed upscale
             h, w = images[0].shape[:2]
-            return cv2.resize(
-                images[0],
-                (w * self.scale, h * self.scale),
-                interpolation=cv2.INTER_LANCZOS4,
-            )
+            return cv2.resize(images[0], (w * self.scale, h * self.scale), interpolation=cv2.INTER_LANCZOS4)
 
-        ref_img = images[reference_idx]
-        h, w = ref_img.shape[:2]
-        hr_h, hr_w = h * self.scale, w * self.scale
-        is_color = len(ref_img.shape) == 3
-
-        ref_gray = (
-            cv2.cvtColor(ref_img, cv2.COLOR_BGR2GRAY) if is_color else ref_img
+        return align_and_fuse_frames(
+            images=images, reference_idx=reference_idx, scale=self.scale,
+            motion_model=self.motion_model, max_ecc_iterations=self.max_ecc_iterations,
+            ecc_eps=self.ecc_eps, detail_boost=self.detail_boost,
         )
-
-        # Initialize high-res accumulation canvas
-        hr_accum = cv2.resize(
-            ref_img, (hr_w, hr_h), interpolation=cv2.INTER_LANCZOS4
-        ).astype(np.float32)
-
-        weight_shape = (hr_h, hr_w, 3) if is_color else (hr_h, hr_w)
-        weight_accum = np.ones(weight_shape, dtype=np.float32)
-
-        # Align and fuse subsequent frames
-        for i, target_img in enumerate(images):
-            if i == reference_idx:
-                continue
-
-            target_gray = (
-                cv2.cvtColor(target_img, cv2.COLOR_BGR2GRAY)
-                if len(target_img.shape) == 3
-                else target_img
-            )
-
-            # Ensure same dimensions as reference
-            if target_gray.shape != ref_gray.shape:
-                target_gray = cv2.resize(target_gray, (w, h), interpolation=cv2.INTER_AREA)
-                target_img = cv2.resize(target_img, (w, h), interpolation=cv2.INTER_AREA)
-
-            warp_mat = self._align_ecc(ref_gray, target_gray)
-
-            # Scale translation components to target HR resolution
-            scale_mat = np.array(
-                [
-                    [warp_mat[0, 0], warp_mat[0, 1], warp_mat[0, 2] * self.scale],
-                    [warp_mat[1, 0], warp_mat[1, 1], warp_mat[1, 2] * self.scale],
-                ],
-                dtype=np.float32,
-            )
-
-            # High-res representation of target
-            tgt_hr = cv2.resize(
-                target_img, (hr_w, hr_h), interpolation=cv2.INTER_LANCZOS4
-            )
-
-            # Sub-pixel inverse warping
-            warped = cv2.warpAffine(
-                tgt_hr,
-                scale_mat,
-                (hr_w, hr_h),
-                flags=cv2.INTER_LANCZOS4 + cv2.WARP_INVERSE_MAP,
-            )
-
-            # Track valid coverage mask
-            ones = np.ones((hr_h, hr_w), dtype=np.float32)
-            warped_mask = cv2.warpAffine(
-                ones,
-                scale_mat,
-                (hr_w, hr_h),
-                flags=cv2.INTER_NEAREST + cv2.WARP_INVERSE_MAP,
-            )
-
-            if is_color:
-                warped_mask = np.repeat(warped_mask[:, :, np.newaxis], 3, axis=2)
-
-            hr_accum += warped.astype(np.float32) * warped_mask
-            weight_accum += warped_mask
-
-        # Normalize high-res accumulation
-        fused_hr = (hr_accum / np.maximum(weight_accum, 1e-5)).clip(0, 255).astype(np.uint8)
-
-        # Bilateral high-frequency detail decomposition
-        # Separates true optical edge transitions from sensor noise
-        if is_color:
-            smooth = cv2.bilateralFilter(fused_hr, 9, 75, 75)
-            detail = cv2.subtract(fused_hr, smooth)
-            super_image = cv2.addWeighted(fused_hr, 1.0, detail, self.detail_boost, 0)
-        else:
-            smooth = cv2.bilateralFilter(fused_hr, 9, 75, 75)
-            detail = cv2.subtract(fused_hr, smooth)
-            super_image = cv2.addWeighted(fused_hr, 1.0, detail, self.detail_boost, 0)
-
-        return super_image
 
 
 class SingleImageSuperResolution:
-    """
-    Single-Image Super-Resolution (SISR) engine.
-    Supports OpenCV dnn_superres, ONNX models, and edge-directed Lanczos-4 enhancement.
-    """
+    """Single-Image Super-Resolution (SISR) engine."""
 
     def __init__(
         self,
@@ -283,7 +192,6 @@ class SingleImageSuperResolution:
                 providers = get_onnx_execution_providers()
                 self._onnx_session = ort.InferenceSession(str(self.model_path), providers=providers)
                 self._resolved_backend = Backend.ONNX
-                logger.info(f"Loaded ONNX SR model: {self.model_path} with {providers}")
                 return
             except Exception as e:
                 logger.warning(f"Failed to initialize ONNX SR backend: {e}. Falling back.")
@@ -297,12 +205,10 @@ class SingleImageSuperResolution:
                     configure_opencv_dnn(sr)
                     self._dnn_sr = sr
                     self._resolved_backend = Backend.DNN_SUPERRES
-                    logger.info(f"Loaded OpenCV dnn_superres model: {self.model_name} ({self.scale}x)")
                     return
                 except Exception as e:
                     logger.warning(f"Failed to load OpenCV dnn_superres model: {e}. Using edge-directed fallback.")
 
-        # Default high-speed edge-directed Lanczos-4
         self._resolved_backend = Backend.EDGE_DIRECTED
 
     @property
@@ -310,9 +216,7 @@ class SingleImageSuperResolution:
         return self._resolved_backend.value
 
     def process(self, image: np.ndarray) -> np.ndarray:
-        """
-        Upscale image by self.scale factor.
-        """
+        """Upscale image by self.scale factor."""
         if image is None or image.size == 0:
             raise ValueError("Input image is empty or None.")
 
@@ -325,30 +229,14 @@ class SingleImageSuperResolution:
             except Exception as e:
                 logger.warning(f"DNN upsample failed: {e}. Falling back to edge-directed.")
 
-        # High-Fidelity Edge-Directed Lanczos-4 + Residual Sharpness Filter
-        upscaled = cv2.resize(
-            image, (target_w, target_h), interpolation=cv2.INTER_LANCZOS4
-        )
-
-        # Bilateral edge-preserving sharpness injection
-        if len(upscaled.shape) == 3:
-            smooth = cv2.bilateralFilter(upscaled, 7, 50, 50)
-            residual = cv2.subtract(upscaled, smooth)
-            enhanced = cv2.addWeighted(upscaled, 1.0, residual, 1.15, 0)
-        else:
-            smooth = cv2.bilateralFilter(upscaled, 7, 50, 50)
-            residual = cv2.subtract(upscaled, smooth)
-            enhanced = cv2.addWeighted(upscaled, 1.0, residual, 1.15, 0)
-
-        return enhanced
+        upscaled = cv2.resize(image, (target_w, target_h), interpolation=cv2.INTER_LANCZOS4)
+        smooth = cv2.bilateralFilter(upscaled, 7, 50, 50)
+        residual = cv2.subtract(upscaled, smooth)
+        return cv2.addWeighted(upscaled, 1.0, residual, 1.15, 0)
 
 
 class SuperResolutionEngine:
-    """
-    Unified Super-Resolution Engine.
-    Coordinates between single-image and multi-frame burst restoration,
-    handling file paths, memory safety, and returning rich metrics.
-    """
+    """Unified Super-Resolution Engine coordinating single-image and multi-frame burst restoration."""
 
     def __init__(
         self,
@@ -360,10 +248,7 @@ class SuperResolutionEngine:
         self.scale = scale
         self.hardware = detect_hardware()
         self.single_sr = SingleImageSuperResolution(
-            scale=scale,
-            backend=backend,
-            model_name=model_name,
-            model_path=model_path,
+            scale=scale, backend=backend, model_name=model_name, model_path=model_path,
         )
         self.multi_sr = MultiFrameSuperResolution(scale=scale)
 
@@ -373,94 +258,30 @@ class SuperResolutionEngine:
         scale: Optional[int] = None,
         reference_idx: int = 0,
     ) -> SuperResolutionResult:
-        """
-        Execute super-resolution restoration on single image or list of images.
-
-        Args:
-            inputs: A single image (path or array) or list of images.
-            scale: Optional scale factor override (defaults to engine scale).
-            reference_idx: Reference index for multi-frame burst.
-
-        Returns:
-            SuperResolutionResult with image and telemetry.
-        """
+        """Execute super-resolution restoration on single image or list of images."""
         t0 = time.time()
         active_scale = scale or self.scale
-
-        # Normalize inputs into numpy image arrays
-        image_list: List[np.ndarray] = []
-        source_paths: List[str] = []
-
-        if not isinstance(inputs, list):
-            raw_items = [inputs]
-        else:
-            raw_items = inputs
-
-        for item in raw_items:
-            if isinstance(item, (str, Path)):
-                p = Path(item)
-                if not p.exists():
-                    raise FileNotFoundError(f"Input image file not found: {p}")
-                arr = cv2.imread(str(p))
-                if arr is None:
-                    raise ValueError(f"Failed to decode image from: {p}")
-                image_list.append(arr)
-                source_paths.append(str(p))
-            elif isinstance(item, np.ndarray):
-                image_list.append(item)
-                source_paths.append("<memory_array>")
-            else:
-                raise TypeError(f"Unsupported input type: {type(item)}")
-
-        if not image_list:
-            raise ValueError("No valid images supplied for restoration.")
-
+        image_list, source_paths = _load_engine_images(inputs)
         ref_img = image_list[reference_idx if reference_idx < len(image_list) else 0]
         h_in, w_in = ref_img.shape[:2]
-        sharp_in = compute_sharpness(ref_img)
 
-        # Route to Single vs Multi-Frame Burst
-        if len(image_list) > 1:
-            mode = "mfsr"
-            if active_scale != self.multi_sr.scale:
-                self.multi_sr = MultiFrameSuperResolution(scale=active_scale)
-            result_img = self.multi_sr.process(image_list, reference_idx=reference_idx)
-            used_backend = "multi_frame_ecc_lanczos4"
-        else:
-            mode = "sisr"
-            if active_scale != self.single_sr.scale:
-                self.single_sr = SingleImageSuperResolution(
-                    scale=active_scale,
-                    backend=self.single_sr.backend,
-                    model_name=self.single_sr.model_name,
-                    model_path=self.single_sr.model_path,
-                )
-            result_img = self.single_sr.process(ref_img)
-            used_backend = self.single_sr.active_backend
+        result_img, mode, used_backend = _dispatch_restoration(
+            self, image_list, ref_img, active_scale, reference_idx
+        )
 
         h_out, w_out = result_img.shape[:2]
         sharp_out = compute_sharpness(result_img)
-
-        # Baseline: standard single-frame bicubic upscale to identical target dimensions
         baseline_bicubic = cv2.resize(ref_img, (w_out, h_out), interpolation=cv2.INTER_CUBIC)
-        sharp_baseline = compute_sharpness(baseline_bicubic)
-        gain_pct = ((sharp_out - sharp_baseline) / max(sharp_baseline, 1e-5)) * 100.0
-        elapsed_ms = (time.time() - t0) * 1000.0
+        sharp_base = compute_sharpness(baseline_bicubic)
+        gain_pct = ((sharp_out - sharp_base) / max(sharp_base, 1e-5)) * 100.0
 
         return SuperResolutionResult(
-            image=result_img,
-            scale=active_scale,
-            mode=mode,
-            backend=used_backend,
-            input_shape=(h_in, w_in),
-            output_shape=(h_out, w_out),
-            sharpness_input=sharp_baseline,
-            sharpness_output=sharp_out,
-            sharpness_gain_pct=gain_pct,
-            elapsed_ms=elapsed_ms,
+            image=result_img, scale=active_scale, mode=mode, backend=used_backend,
+            input_shape=(h_in, w_in), output_shape=(h_out, w_out),
+            sharpness_input=sharp_base, sharpness_output=sharp_out,
+            sharpness_gain_pct=gain_pct, elapsed_ms=(time.time() - t0) * 1000.0,
             metadata={
-                "source_count": len(image_list),
-                "source_paths": source_paths,
+                "source_count": len(image_list), "source_paths": source_paths,
                 "hardware_device": self.hardware.recommended_device,
                 "contrast_input": compute_contrast(ref_img),
                 "contrast_output": compute_contrast(result_img),
@@ -483,28 +304,28 @@ def main():
     parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
-
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO)
 
     engine = SuperResolutionEngine(
-        scale=args.scale,
-        backend=Backend(args.backend),
-        model_path=args.model_path,
+        scale=args.scale, backend=Backend(args.backend), model_path=args.model_path,
     )
-
     print(f"Executing Super-Resolution (Scale: {args.scale}x, Inputs: {len(args.images)})...")
     res = engine.restore(args.images, scale=args.scale)
     saved_path = res.save(args.output)
+    print(f"Result: {res.mode.upper()} ({res.backend}) | Output: {res.output_shape} | Sharpness: {res.sharpness_output:.2f} (+{res.sharpness_gain_pct:.1f}%) | Saved: {saved_path}")
 
-    print("\n================ SUPER-RESOLUTION RESULTS ================")
-    print(f"  Mode:            {res.mode.upper()} ({res.backend})")
-    print(f"  Input Dim:       {res.input_shape[1]}x{res.input_shape[0]}")
-    print(f"  Output Dim:      {res.output_shape[1]}x{res.output_shape[0]} ({res.scale}x)")
-    print(f"  Input Sharpness: {res.sharpness_input:.2f}")
-    print(f"  Output Sharpness:{res.sharpness_output:.2f} (+{res.sharpness_gain_pct:.1f}%)")
-    print(f"  Execution Time:  {res.elapsed_ms:.2f} ms")
-    print(f"  Saved Image:     {saved_path}")
-    print("==========================================================\n")
+
+__all__ = [
+    "Backend",
+    "SuperResolutionResult",
+    "compute_sharpness",
+    "compute_contrast",
+    "MultiFrameSuperResolution",
+    "SingleImageSuperResolution",
+    "SuperResolutionEngine",
+    "align_ecc_subpixel",
+    "main",
+]
 
 
 if __name__ == "__main__":
