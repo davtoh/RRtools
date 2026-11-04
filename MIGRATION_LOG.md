@@ -262,10 +262,84 @@ python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --stri
 
 ### Next Steps & Pending Items
 - **Phase 2 Complete!** Both `cache.py` (Sub-Phase 2.1) and `image.py` (Sub-Phase 2.2) successfully decomposed into cohesive packages with 0 critical breaches.
-- **Phase 3 (Next Turn)**: Visualization, Panoramic & Restoration Decomposition.
-  - Sub-Phase 3.1: `RRtoolbox/lib/plotter.py` (2,493L) decomposition into `RRtoolbox/lib/visualization/`.
+- **Phase 3 (Active)**: Visualization, Panoramic & Restoration Decomposition.
+  - Sub-Phase 3.1: `RRtoolbox/lib/plotter.py` (2,493L) decomposition into `RRtoolbox/lib/visualization/`. [COMPLETED]
   - Sub-Phase 3.2: `RRtoolbox/geometry/panoramic.py` (719L) and `RRtoolbox/restoration/super_resolution.py` (511L).
-- To continue Phase 3 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+- To continue Sub-Phase 3.2 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+
+---
+
+## [2026-11-03] — Milestone 3.1: `RRtoolbox/lib/plotter.py` Decomposition
+
+### Objectives & Scope
+- Eliminate the 2,493-line Critical Monolith `RRtoolbox/lib/plotter.py` (Rank 1 production monolith in `rrtools`).
+- Decompose cohesive responsibilities into single-responsibility submodules and mixins under `RRtoolbox/lib/visualization/`:
+  - `helpers.py` (echo, background, limitaxis, convert2bgr, convert2bgra)
+  - `matplotlib_helpers.py` (fastplt, graph_filter, plotPointsContour, wins, servertimeout)
+  - `commands.py` (CommandMixin with cmdfunc, formatcmd, builtincmd, keystroke dispatch, clipboard integration)
+  - `overlays.py` (OverlayMixin with makeoverlay, plotatpointer, plotatxy, plotintime, builtinplot)
+  - `coordinates_mixin.py` (CoordinateMixin with real2render, render2real, and reactive coordinate boundaries)
+  - `viewer.py` (Plotim core OpenCV window lifecycle, zoom, pan, waitKey loop)
+  - `match_explorer.py` (MatchExplorer interactive keypoint correspondence viewer)
+  - `edger.py` (Edger Canny edge detection tuner with OpenCV trackbars)
+  - `imtester.py` (Imtester threshold and filter visualizer with Otsu and adaptive thresholding)
+  - `__init__.py` (authoritative package re-export facade with complete export parity)
+- Retain `RRtoolbox/lib/plotter.py` as an authoritative backward-compatible re-export facade (reduced from 2,493L to 59L, -97.6%).
+- Adhere strictly to Modularity Budgets (target $\le$ 350L, hard ceiling $\le$ 500L, functions $\le$ 40L).
+- Modernize Python 2 syntax: replace `basestring` with `(str, bytes)`, modernize integer division, ensure Python 3 compatibility.
+- Maintain 100% backward-compatible re-export facade with full `__all__` parity (14 exports in `plotter.py`, 17 in `visualization/__init__.py`).
+- Enforce full contract invariant parity (Tier 1 AST & DOM contract verification, permanent smoke test, and automated unit test suite).
+
+### Files Created & Modified
+- `RRtoolbox/lib/visualization/helpers.py` (Created, 130L): Window format and coordinate utilities (`echo`, `background`, `limitaxis`, `convert2bgr`, `convert2bgra`).
+- `RRtoolbox/lib/visualization/matplotlib_helpers.py` (Created, 290L): Matplotlib plotting utilities and filter response visualizers (`fastplt`, `graph_filter`, `plotPointsContour`, `wins`, `servertimeout`). Decomposed filter response pipeline into pure helpers $\le 25$ lines.
+- `RRtoolbox/lib/visualization/commands.py` (Created, 178L): Keystroke parsing, command history, and clipboard bridges (`CommandMixin`).
+- `RRtoolbox/lib/visualization/overlays.py` (Created, 165L): Text HUD badges, pixel color swatches, and overlay compositing (`OverlayMixin`).
+- `RRtoolbox/lib/visualization/coordinates_mixin.py` (Created, 117L): Window coordinate boundaries and real-to-render projections (`CoordinateMixin`).
+- `RRtoolbox/lib/visualization/viewer.py` (Created, 267L): Core OpenCV window lifecycle, zoom/pan navigation, and event loop (`Plotim`).
+- `RRtoolbox/lib/visualization/match_explorer.py` (Created, 163L): Feature correspondence visualizer (`MatchExplorer`).
+- `RRtoolbox/lib/visualization/edger.py` (Created, 280L): Canny edge tuning with OpenCV trackbars (`Edger`).
+- `RRtoolbox/lib/visualization/imtester.py` (Created, 237L): Threshold and filter inspector (`Imtester`).
+- `RRtoolbox/lib/visualization/__init__.py` (Created, 51L): Package re-export facade with complete `__all__` parity.
+- `RRtoolbox/lib/plotter.py` (Refactored, 59L): Reduced from 2,493L to 59L (-97.6%) as a clean re-export facade.
+- `tests/unittest_tests/test_plotter.py` (Created, 98L): Comprehensive automated unit test suite covering facade parity, conversion helpers, Plotim coordinate transforms, formatcmd, and static helpers.
+
+### Modularity Audit Results
+- `RRtoolbox/lib/visualization/`: **0 Critical File Breaches** (all files $\le 290$ lines, well below the 350-line target and 500-line hard ceiling).
+- **0 functions exceeding 40 lines** across the entire package.
+- `RRtoolbox/lib/plotter.py`: Reduced to 59 lines (was 2,493L with 2 God classes).
+- **Full Unit Test Suite**: 32/32 tests passing (100% green).
+
+### Verification & Test Commands
+```bash
+# 1. Structural line and method budget audit across visualization package
+python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolbox/lib/visualization/ RRtoolbox/lib/plotter.py --show-methods
+
+# 2. Automated unit test suite execution
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_plotter.py -v
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- discover tests/unittest_tests
+
+# 3. Verify module import validity
+python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -c "import RRtoolbox.lib.plotter as p, RRtoolbox.lib.visualization as v; print(len(p.__all__), len(v.__all__))"
+
+# 4. Strict contract verification against baseline snapshot
+python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Audit Visualization Subsystem** | Structural Line Inspection | `python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolbox/lib/visualization/ RRtoolbox/lib/plotter.py --show-methods` |
+| **Verify Plotter Unit Tests** | Automated Regression Suite | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_plotter.py -v` |
+| **Contract Smoke Test** | Regression Invariant Check | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- tests/unittest_tests/test_refactor_contract.py -v` |
+| **Full Unit Test Discovery** | Automated Unit Tests | `python "<skill_dir>/scripts/contract_snapshot.py" run-tests --path . -- discover tests/unittest_tests` |
+| **Strict Contract Verification** | Invariant Parity Check | `python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict` |
+
+### Next Steps & Pending Items
+- Sub-Phase 3.1 Complete! The Rank 1 Monolith `RRtoolbox/lib/plotter.py` (2,493L) is fully decomposed.
+- **Sub-Phase 3.2 (Next Turn)**: Modern Vision Decomposition (`RRtoolbox/geometry/panoramic.py` 719L into `warping.py` and `blending.py`, and `RRtoolbox/restoration/super_resolution.py` 511L into `registration.py`).
+- Advance campaign state to Phase 4 upon completion of Sub-Phase 3.2.
+- To continue Sub-Phase 3.2 in a fresh chat, tell the agent: `/refactor-monolith continue`.
 
 
 
