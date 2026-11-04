@@ -385,12 +385,64 @@ python -m unittest discover tests/unittest_tests
 python -c "import RRtoolbox.geometry.panoramic as p, RRtoolbox.restoration.super_resolution as sr; print(len(p.__all__), len(sr.__all__))"
 ```
 
+---
+
+## [2026-11-04] — Milestone 4.1-A: Flowchart Terminal & Node Decoupling (`Terminal.py` & `Node.py`)
+
+### Objectives & Scope
+- Decompose foundational flowchart monoliths in `RRtoolFC/lib/flowchart/`:
+  - `RRtoolFC/lib/flowchart/Terminal.py` (637L, Rank 10 monolith)
+  - `RRtoolFC/lib/flowchart/Node.py` (648L, Rank 9 monolith)
+- Decouple graphical Qt scene elements (`GraphicsObject` subclasses) from computational DAG structures:
+  - Extract `TerminalGraphicsItem` and `ConnectionItem` into `RRtoolFC/lib/flowchart/terminal_items.py`.
+  - Extract `NodeGraphicsItem` into `RRtoolFC/lib/flowchart/node_items.py`.
+- Modernize Python 2 syntax with resilient `old_div` fallback import and `import sys` guards.
+- Retain `Terminal.py` and `Node.py` as backward-compatible re-export facades with full `__all__` parity.
+- Quarantined upstream relative import defect `DEFECT-001` via Asymmetric Defect Protocol.
+- Adhere strictly to the **2-Monolith / 25-Tool-Call Turn Ceiling Gate** and quantitative modularity budgets.
+
+### Files Created & Modified
+- `RRtoolFC/lib/flowchart/terminal_items.py` (Created, 329L): Extracted `TerminalGraphicsItem` and `ConnectionItem` with `old_div` fallback and Qt scene interaction handling.
+- `RRtoolFC/lib/flowchart/Terminal.py` (Refactored, 328L): Reduced from 637L to 328L (-48.5%). Retains pure `Terminal` computational pin logic and re-exports `TerminalGraphicsItem`, `ConnectionItem` in `__all__`.
+- `RRtoolFC/lib/flowchart/node_items.py` (Created, 219L): Extracted `NodeGraphicsItem` handling node box graphics, labels, and Qt context menus.
+- `RRtoolFC/lib/flowchart/Node.py` (Refactored, 449L): Reduced from 648L to 449L (-30.7%). Retains pure `Node` processing unit, signal definitions, state serialization, and re-exports `NodeGraphicsItem`, `strDict` in `__all__`.
+- `.diagnostics/defect_catalog.json` & `DEFECT_CATALOG.md`: Recorded quarantined defect `DEFECT-001` (tactical) for upstream relative import resolution without altering business logic.
+
+### Modularity Audit Results
+- `RRtoolFC/lib/flowchart/`:
+  - `Terminal.py`: **328L** ($\le$ 350L soft warning budget, was 637L CRITICAL).
+  - `terminal_items.py`: **329L** ($\le$ 350L soft warning budget).
+  - `Node.py`: **449L** (< 500L hard ceiling budget, was 648L CRITICAL).
+  - `node_items.py`: **219L** (150–300L healthy target budget).
+- AST Compilation & Import Verification: All 4 files compile cleanly via `py_compile` and parse with zero AST defects.
+- Contract Verification: Zero regressions detected across baseline snapshot (`verify --strict`).
+
+### Verification & Test Commands
+```bash
+# 1. Structural modularity audit across extracted flowchart modules
+python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolFC/lib/flowchart/Terminal.py RRtoolFC/lib/flowchart/terminal_items.py RRtoolFC/lib/flowchart/Node.py RRtoolFC/lib/flowchart/node_items.py --show-methods
+
+# 2. Syntax and AST compilation verification
+python -m py_compile RRtoolFC/lib/flowchart/Terminal.py RRtoolFC/lib/flowchart/terminal_items.py RRtoolFC/lib/flowchart/Node.py RRtoolFC/lib/flowchart/node_items.py RRtoolFC/lib/flowchart/Flowchart.py
+
+# 3. Contract baseline verification
+python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Audit Flowchart Health** | Modularity Line Audit | `python "<skill_dir>/scripts/code_health_audit.py" --path RRtoolFC/lib/flowchart/ --show-methods` |
+| **Verify Bytecode Compilation** | AST Compilation Check | `python -m py_compile RRtoolFC/lib/flowchart/Terminal.py RRtoolFC/lib/flowchart/terminal_items.py RRtoolFC/lib/flowchart/Node.py RRtoolFC/lib/flowchart/node_items.py` |
+| **Verify Contract Parity** | Invariant Parity Check | `python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict` |
+| **Check Campaign State** | Active Phase Overview | `python "<skill_dir>/scripts/contract_snapshot.py" state --show` |
+
 ### Next Steps & Pending Items
-- **Phase 3 Complete!** Both `plotter.py` (Sub-Phase 3.1) and `panoramic.py` / `super_resolution.py` (Sub-Phase 3.2) are fully decomposed.
-- **Phase 4 (Pending Next Turn)**: Computational Graph Engine (`RRtoolFC`) & Test Suite Curation:
-  - Sub-Phase 4.1: Decouple `Flowchart.py` (935L), `Node.py` (648L), `Terminal.py` (637L) DAG logic from PyQt UI.
-  - Sub-Phase 4.2: Curate `tests/` into `tests/unittest_tests/` vs deprecated legacy prototypes.
+- Sub-Phase 4.1 Batch A Complete! `Terminal.py` and `Node.py` decomposed into `terminal_items.py` and `node_items.py`.
+- Sub-Phase 4.1 Batch B (Pending Next Turn): `RRtoolFC/lib/flowchart/Flowchart.py` (935L) decomposition into `core_graph.py` and `ui_widgets.py`.
+- Sub-Phase 4.2 (Pending): Curate `tests/` into `tests/unittest_tests/` vs deprecated prototype scripts.
 - To continue Phase 4 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+
 
 
 
