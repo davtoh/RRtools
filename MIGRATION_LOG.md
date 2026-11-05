@@ -439,9 +439,112 @@ python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --stri
 
 ### Next Steps & Pending Items
 - Sub-Phase 4.1 Batch A Complete! `Terminal.py` and `Node.py` decomposed into `terminal_items.py` and `node_items.py`.
-- Sub-Phase 4.1 Batch B (Pending Next Turn): `RRtoolFC/lib/flowchart/Flowchart.py` (935L) decomposition into `core_graph.py` and `ui_widgets.py`.
-- Sub-Phase 4.2 (Pending): Curate `tests/` into `tests/unittest_tests/` vs deprecated prototype scripts.
-- To continue Phase 4 in a fresh chat, tell the agent: `/refactor-monolith continue`.
+- Sub-Phase 4.1 Batch B Complete! `Flowchart.py` decomposed into `core_graph.py`, `ui_widgets.py`, `execution.py`, and `flowchart_items.py`.
+- Sub-Phase 4.2 Complete! Curated prototype scripts and consolidated 52 unit tests into `tests/unittest_tests/`.
+
+---
+
+## [2026-11-04] — Milestone 4.1-B: Flowchart Engine & PyQt UI Decoupling (`Flowchart.py`)
+
+### Objectives & Scope
+- Eliminate the Rank 6 monolith `RRtoolFC/lib/flowchart/Flowchart.py` (935L).
+- Decouple headless computational DAG graph execution from PyQt interactive widgets and scene items.
+- Extract domain submodules adhering to Modularity Budgets (target $\le$ 350L, hard ceiling $\le$ 500L):
+  - `RRtoolFC/lib/flowchart/flowchart_items.py` (51L): Visual `FlowchartGraphicsItem` item.
+  - `RRtoolFC/lib/flowchart/execution.py` (192L): Pure headless `FlowchartExecutionMixin` handling topological execution, terminal data routing, and change propagation.
+  - `RRtoolFC/lib/flowchart/ui_widgets.py` (310L): PyQt interactive widgets (`FlowchartCtrlWidget`, `FlowchartWidget`).
+  - `RRtoolFC/lib/flowchart/core_graph.py` (308L): Computational graph engine (`Flowchart`, `FlowchartNode`, `strDict`).
+- Retain `RRtoolFC/lib/flowchart/Flowchart.py` as an authoritative re-export facade (28L, -97.0% reduction) with full `__all__` parity.
+- Preserved 100% backward compatibility for all DAG graph nodes and flowchart controllers.
+
+### Files Created & Modified
+- `RRtoolFC/lib/flowchart/flowchart_items.py` (Created, 51L): Graphics item for flowchart bounding rect and scene interaction.
+- `RRtoolFC/lib/flowchart/execution.py` (Created, 192L): Headless DAG execution mixin with cycle detection, topological sorting, and node dependency evaluation.
+- `RRtoolFC/lib/flowchart/ui_widgets.py` (Created, 310L): PyQt GUI components and control panels.
+- `RRtoolFC/lib/flowchart/core_graph.py` (Created, 308L): Core computational graph engine and terminal mapping.
+- `RRtoolFC/lib/flowchart/Flowchart.py` (Refactored, 28L): Reduced from 935L to 28L (-97.0%) as backward-compatible re-export facade.
+
+### Modularity Audit Results
+- `RRtoolFC/lib/flowchart/Flowchart.py`: **28L** (was 935L CRITICAL).
+- All extracted submodules $\le$ 310 lines (well within healthy budget $\le$ 350L).
+- All classes $\le$ 27 methods; headless execution decoupled cleanly from Qt rendering.
+
+---
+
+## [2026-11-04] — Milestone 4.2: Test Suite & Experimental Script Curation
+
+### Objectives & Scope
+- Relocate historical prototype experiments and monolithic scripts out of `tests/` root:
+  - `tests/prototype_image.py` (1,321L) -> `tests/deprecated/prototype_image.py`
+  - `tests/tesisfunctions.py` (867L) -> `tests/deprecated/tesisfunctions.py`
+  - `tests/prototype_restoration.py` (857L) -> `tests/deprecated/prototype_restoration.py`
+  - `tests/experimental_restoration.py` (781L) -> `tests/deprecated/experimental_restoration.py`
+- Retain 100% backward-compatible re-export facades at `tests/<module>.py` ($\le$ 8L each) to ensure zero broken imports across 51 legacy test scripts and example drivers (`examples/ex_restoration.py`).
+- Consolidate automated unit test suites into `tests/unittest_tests/`:
+  - `tests/unittest_tests/test_panoramic.py` (285L): 12 tests across `TestPanoramicGeometry` and `TestPanoramicBlendingAndStitching`.
+  - `tests/unittest_tests/test_super_resolution.py` (167L): 8 tests in `TestSuperResolution`.
+- Ensure dual test runner compatibility: 100% green under both `pytest tests/unittest_tests` and `python -m unittest discover tests/unittest_tests`.
+- Provide thin forwarding wrappers at `tests/test_panoramic.py` and `tests/test_super_resolution.py`.
+- Re-export `plt` from `RRtoolbox/lib/visualization/__init__.py` and `RRtoolbox/lib/plotter.py` to ensure complete global export compatibility.
+
+### Files Created & Modified
+- `tests/deprecated/prototype_image.py` (Created, 1,321L): Relocated historical image prototype module.
+- `tests/deprecated/prototype_restoration.py` (Created, 861L): Relocated restoration prototype with resilient `old_div` fallback.
+- `tests/deprecated/experimental_restoration.py` (Created, 789L): Relocated experimental restoration module with `basestring` / `old_div` fallback.
+- `tests/deprecated/tesisfunctions.py` (Created, 878L): Relocated thesis functions with multi-tier `recommended` import fallback.
+- `tests/deprecated/__init__.py` (Updated, 12L): Exposed deprecated prototype modules in package `__all__`.
+- `tests/prototype_image.py` (Refactored, 7L): Reduced from 1,321L to 7L (-99.5%) as backward-compatible re-export facade.
+- `tests/prototype_restoration.py` (Refactored, 7L): Reduced from 857L to 7L (-99.2%) as backward-compatible re-export facade.
+- `tests/experimental_restoration.py` (Refactored, 7L): Reduced from 781L to 7L (-99.1%) as backward-compatible re-export facade.
+- `tests/tesisfunctions.py` (Refactored, 7L): Reduced from 867L to 7L (-99.2%) as backward-compatible re-export facade.
+- `tests/unittest_tests/test_panoramic.py` (Created, 285L): Consolidated 12 unit and integration tests (focal estimation, warping, SIFT/neural feature matching, Laplacian pyramids, multi-band/feather blending, and CLI).
+- `tests/unittest_tests/test_super_resolution.py` (Created, 167L): Consolidated 8 unit and regression tests (hardware detection, ONNX providers, SISR, MFSR, sharpness/contrast, and CLI).
+- `tests/test_panoramic.py` (Refactored, 9L): Thin backward-compatible forwarding wrapper.
+- `tests/test_super_resolution.py` (Refactored, 9L): Thin backward-compatible forwarding wrapper.
+- `RRtoolbox/lib/visualization/__init__.py` (Modified): Re-exported `plt` for legacy plotter callers.
+- `RRtoolbox/lib/plotter.py` (Modified): Re-exported `plt` in `__all__`.
+
+### Modularity Audit Results
+- `tests/` top-level: **0 Critical File Monoliths** exceeding 350L (was 4 Critical Monoliths totaling 3,826L).
+- `tests/unittest_tests/`:
+  - `test_panoramic.py`: **285L** (Target $\le$ 350L, classes $\le$ 7 methods).
+  - `test_super_resolution.py`: **167L** (Target $\le$ 350L, class $\le$ 9 methods).
+  - All unit test files safely within quantitative modularity budgets.
+- **Verification Tests**:
+  - `pytest tests/unittest_tests`: **52/52 passed** (100% green in 68s).
+  - `python -m unittest discover tests/unittest_tests`: **52/52 passed** (100% green).
+  - Contract Verification: Zero regressions detected across baseline snapshot (`verify --strict`).
+
+### Verification & Test Commands
+```bash
+# 1. Automated regression test suites (52 unit tests)
+pytest tests/unittest_tests -v
+python -m unittest discover tests/unittest_tests
+
+# 2. Structural modularity audit across curated test modules
+python "<skill_dir>/scripts/code_health_audit.py" --path tests/unittest_tests/ tests/test_panoramic.py tests/test_super_resolution.py tests/prototype_image.py tests/prototype_restoration.py tests/experimental_restoration.py tests/tesisfunctions.py --show-methods
+
+# 3. Contract baseline verification
+python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict
+python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolFC --strict
+```
+
+### Scenario Combinations Matrix
+| Objective | Mode / Flags | Exact Runnable Command |
+|---|---|---|
+| **Run All Unit Tests (pytest)** | Virtualenv Discovery | `pytest tests/unittest_tests -v` |
+| **Run All Unit Tests (unittest)** | Standard Discovery | `python -m unittest discover tests/unittest_tests` |
+| **Audit Curated Test Files** | Modularity Health Check | `python "<skill_dir>/scripts/code_health_audit.py" --path tests/unittest_tests/ --show-methods` |
+| **Strict Contract Verification** | Baseline Invariant Parity | `python "<skill_dir>/scripts/contract_snapshot.py" verify --path RRtoolbox --strict` |
+| **Check Campaign State** | Active Phase Overview | `python "<skill_dir>/scripts/contract_snapshot.py" state --show` |
+
+### Campaign Completion Summary
+All 4 Phases of the RRtools Codebase Modularity & Architectural Refactoring Campaign are now **COMPLETE**:
+- ✅ **Phase 1: Core Foundation & Array Operations** (`arrayops/basic.py` 1,677L -> 175L, `root.py` 1,221L -> 118L, `directory.py` 776L -> 106L)
+- ✅ **Phase 2: Storage, Caching & Image Abstraction** (`cache.py` 1,357L -> 95L, `image.py` 2,112L -> 106L)
+- ✅ **Phase 3: Visualization, Panoramic & Restoration** (`plotter.py` 2,493L -> 61L, `panoramic.py` 719L -> 349L, `super_resolution.py` 511L -> 332L)
+- ✅ **Phase 4: Flowchart Engine & Test Curation** (`Flowchart.py` 935L -> 28L, `Terminal.py` 637L -> 328L, `Node.py` 648L -> 449L, test curation: 4 test monoliths totaling 3,826L relocated with 7L facades, 52 unit tests consolidated)
+
 
 
 

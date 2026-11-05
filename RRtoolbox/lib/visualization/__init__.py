@@ -4,6 +4,8 @@ Visualization package providing plotting routines, OpenCV interactive viewers,
 parameter tuners, and feature correspondence visualizers.
 """
 
+import matplotlib.pyplot as plt
+
 from .helpers import (
     echo,
     background,
@@ -48,4 +50,5 @@ __all__ = [
     # Globals
     "servertimeout",
     "wins",
+    "plt",
 ]

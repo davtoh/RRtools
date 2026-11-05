@@ -36,6 +36,7 @@ from .visualization import (
     # Globals
     servertimeout,
     wins,
+    plt,
 )
 
 __all__ = [
@@ -56,4 +57,5 @@ __all__ = [
     # Globals
     "servertimeout",
     "wins",
+    "plt",
 ]
