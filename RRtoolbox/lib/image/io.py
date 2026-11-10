@@ -79,7 +79,11 @@ def loadsfrom(path, flags=cv2.IMREAD_COLOR):
         resp = getFileHandle(path)  # download the image
     else:
         resp = path  # assume path is a file-like object ie. cStringIO or file
-    nparr = np.fromstring(resp.read(), dtype=np.uint8)
+    content = resp.read()
+    if hasattr(np, "frombuffer"):
+        nparr = np.frombuffer(content, dtype=np.uint8)
+    else:
+        nparr = np.fromstring(content, dtype=np.uint8)
     image = cv2.imdecode(nparr, flags=flags)  # decode using OpenCV format
     return image
 
@@ -123,7 +127,7 @@ def interpretImage(toparse, flags):
     # test image in string
     try:
         return cv2.imdecode(toparse, flags)
-    except TypeError:
+    except (TypeError, cv2.error):
         # test path to file or URL
         return loadsfrom(toparse, flags)
 

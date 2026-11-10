@@ -71,8 +71,11 @@ def fig2bgr(fig):
     :return: RGB image.
     """
     fig.canvas.draw()
-    buf = np.fromstring(fig.canvas.tostring_rgb(),
-                        dtype=np.uint8, sep='')  # get bgr
+    if hasattr(np, "frombuffer"):
+        buf = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+    else:
+        buf = np.fromstring(fig.canvas.tostring_rgb(),
+                            dtype=np.uint8, sep='')  # get bgr
     return buf.reshape(fig.canvas.get_width_height()[::-1] + (3,))
 
 
@@ -102,7 +105,10 @@ def fig2bgra(fig):
     # draw the renderer
     fig.canvas.draw()
     # Get the RGBA buffer from the figure
-    buf = np.fromstring(fig.canvas.tostring_argb(), dtype=np.uint8)  # get bgra
+    if hasattr(np, "frombuffer"):
+        buf = np.frombuffer(fig.canvas.tostring_argb(), dtype=np.uint8)
+    else:
+        buf = np.fromstring(fig.canvas.tostring_argb(), dtype=np.uint8)  # get bgra
     buf = buf.reshape(fig.canvas.get_width_height()[
                       ::-1] + (4,))  # reshape to h,w,c
     return np.roll(buf, 3, axis=2)  # correct channels

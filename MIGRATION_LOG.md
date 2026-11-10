@@ -545,6 +545,39 @@ All 4 Phases of the RRtools Codebase Modularity & Architectural Refactoring Camp
 - ✅ **Phase 3: Visualization, Panoramic & Restoration** (`plotter.py` 2,493L -> 61L, `panoramic.py` 719L -> 349L, `super_resolution.py` 511L -> 332L)
 - ✅ **Phase 4: Flowchart Engine & Test Curation** (`Flowchart.py` 935L -> 28L, `Terminal.py` 637L -> 328L, `Node.py` 648L -> 449L, test curation: 4 test monoliths totaling 3,826L relocated with 7L facades, 52 unit tests consolidated)
 
+---
+
+## [2026-11-05] — Demonstration & Notebook Modernization Remediation
+
+### Objectives & Scope
+- Remediate and modernize demo entrypoints (`imrestore.py`, `imrestore_steps.py`, `ImRestore_demo.html`, `ImRestore_demo.ipynb`, and `RRtools_steps.ipynb`).
+- Modernize OpenCV 4/5 compatibility (`cv2.SIFT_create`, `cv2.imdecode` error trapping, `frombuffer`).
+- Replace Python 2 legacy `basestring` checks and obsolete tuple indexing by boolean values.
+- Enforce cross-platform OS-agnostic paths in demo notebooks (`pathlib.Path` / `os.path.join`).
+
+### Files Modified
+- `ImRestore_demo.html`: Corrected CLI flag generator (`--grow` -> `--grow_scene`).
+- `ImRestore_demo.ipynb`: Replaced deprecated `pylab` with `matplotlib.pyplot`; added graceful detection and direct-execution fallback for environments without `ipywidgets`.
+- `RRtools_steps.ipynb`: Replaced hardcoded machine paths with repository-relative paths; added graceful fallback for thesis graphs; guarded figure buffer indexes.
+- `imrestore.py`: Purged dead `basestring` shim and obsolete executable imports (`six`); normalized string checks to idiomatic `isinstance(..., str)`; modernized `if __name__ == "__main__":` to accept `sys.argv[1:]` CLI flags; fixed boolean tuple indexing (`int(Test)` / ternary).
+- `imrestore_steps.py`: Purged dead `basestring` shim and obsolete executable imports (`six`); normalized string checks to `isinstance(..., str)`; tightened thesis graph import exception handling to `(ImportError, ModuleNotFoundError)`.
+- `RRtoolbox/tools/selectors.py`: Migrated `basestring` checks to `str`; replaced legacy `old_div` with true division `/`; resolved NumPy 2.x scalar indexing in `entropy()`.
+- `RRtoolbox/tools/segmentation.py`: Replaced unimported `old_div` with true division.
+- `RRtoolbox/tools/sticher.py`: Replaced unimported `old_div` with true division.
+- `RRtoolbox/shell.py`: Migrated `basestring` check to `str`.
+- `RRtoolbox/lib/serverServices.py`: Migrated `basestring` check to `str`.
+- `expert.py`: Migrated `basestring` checks to `str`.
+- `RRtoolbox/lib/descriptors.py`: Modernized OpenCV feature creation (`cv2.SIFT_create`, `ORB_create`, `BRISK_create`) to prevent uninitialized class constructor invocation in OpenCV 5.
+- `RRtoolbox/lib/image/io.py`: Trapped `cv2.error` in `interpretImage` to ensure fallback to `loadsfrom`; migrated `np.fromstring` to `np.frombuffer` for NumPy 2.x compatibility.
+- `RRtoolbox/lib/image/conversions.py`: Migrated `fig2bgr` and `fig2bgra` to use `np.frombuffer` for NumPy 2.x compatibility.
+
+### Verification & Test Results
+- Automated unit test suite: **52/52 tests passing** via `pytest tests/unittest_tests`.
+- Contract regression test: **3/3 checks passing** via `tests/unittest_tests/test_refactor_contract.py`.
+- End-to-end CLI restoration: `python imrestore.py tests/im1* -v 1 -f a-sift-flann --distanceThresh 0.75 --inlineThresh 0.20 -z RetinalRestore --lens` completed successfully and produced restored output image.
+- Both notebooks (`ImRestore_demo.ipynb` and `RRtools_steps.ipynb`) executed cell-by-cell with 100% success.
+
+
 
 
 

@@ -7,14 +7,6 @@ replacing them to yield graphs and their respective steps.
 '''
 
 
-# needed for installing executable
-import six ### DO NOT DELETE used for executable
-import packaging ### DO NOT DELETE used for executable
-import packaging.specifiers ### DO NOT DELETE used for executable
-import packaging.requirements ### DO NOT DELETE used for executable
-import appdirs ### DO NOT DELETE used for executable
-import six ### DO NOT DELETE used for executable
-import tkinter.filedialog ### DO NOT DELETE used for executable
 # program imports
 import os
 import cv2
@@ -152,11 +144,11 @@ class ImRestore(object):
             #if self.verbosity: print("Looking in DEMO path '{}'".format(test))
             #fns = glob(test + "*",check=check_valid)
             raise Exception("List of filenames is Empty")
-        elif isinstance(filenames, basestring):
+        elif isinstance(filenames, str):
             # if string assume it is a path
             if self.verbosity: print("Looking as '{}'".format(filenames))
             fns = glob(filenames, check=check_valid)
-        elif not isinstance(filenames, basestring) and \
+        elif not isinstance(filenames, str) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
             if self.verbosity: print("Looking as '{}'".format(filenames))
@@ -237,7 +229,7 @@ class ImRestore(object):
 
         # to select base image ahead of any process
         baseImage = opts.pop("baseImage", None)
-        if isinstance(baseImage, basestring):
+        if isinstance(baseImage, str):
             if baseImage not in fns:
                 base, path, name, ext = getData(baseImage)
                 if not path: # if name is incomplete look for it
@@ -485,7 +477,7 @@ class ImRestore(object):
         # initialization and base image selection
         if baseImage is None: # select first image as baseImage
            _, _, baseImage, self.kps_base, self.desc_base = self.feature_list[0]
-        elif isinstance(baseImage, basestring):
+        elif isinstance(baseImage, str):
             self.kps_base, self.desc_base, _ = self.feature_dict[baseImage]
         elif baseImage is True: # sort images
             self.feature_list.sort(reverse=True) # descendant: from bigger to least
@@ -661,7 +653,7 @@ class ImRestore(object):
                             text = "inlines/lines: {}/{}={}, " \
                                    "rectangularity: {}, test: {}".format(
                                 inlines, lines, inlineratio, c.rotatedRectangularity,
-                                ("failed", "succeeded")[Test])
+                                ("succeeded" if Test else "failed"))
 
                             if self.verbosity>1: print(text)
 
@@ -743,7 +735,7 @@ class ImRestore(object):
             overwrite = self.overwrite
 
         bbase, bpath, bname, bext = getData(self.used[0])
-        if isinstance(path, basestring):
+        if isinstance(path, str):
             # format path if user has specified so
             data = getData(self.save.format(path="".join((bbase,  bpath)),
                                             name=bname, ext=bext))

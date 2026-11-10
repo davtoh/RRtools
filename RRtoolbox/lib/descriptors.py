@@ -114,31 +114,32 @@ class Feature(object):
             self.useASIFT = True
             index += 1
         if chunks[index].lower() == 'sift':
-            try:  # opencv 2
-                detector = cv2.SIFT()  # Scale-invariant feature transform
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'SIFT_create'):
+                detector = cv2.SIFT_create()
+            elif hasattr(cv2, 'xfeatures2d') and hasattr(cv2.xfeatures2d, 'SIFT_create'):
                 detector = cv2.xfeatures2d.SIFT_create()
+            else:
+                detector = cv2.SIFT()
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'surf':
-            try:  # opencv 2
-                # Hessian Threshold to 800, 500 #
-                # http://stackoverflow.com/a/18891668/5288758
-                detector = cv2.SURF()
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'xfeatures2d') and hasattr(cv2.xfeatures2d, 'SURF_create'):
                 detector = cv2.xfeatures2d.SURF_create()
-            # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
+            elif hasattr(cv2, 'SURF_create'):
+                detector = cv2.SURF_create()
+            else:
+                detector = cv2.SURF()
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'orb':
-            try:  # opencv 2
-                detector = cv2.ORB()  # around 400, binary string based descriptors
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'ORB_create'):
                 detector = cv2.ORB_create()
+            else:
+                detector = cv2.ORB()
             norm = cv2.NORM_HAMMING  # Hamming distance
         elif chunks[index].lower() == 'brisk':
-            try:  # opencv 2
-                detector = cv2.BRISK()
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'BRISK_create'):
                 detector = cv2.BRISK_create()
+            else:
+                detector = cv2.BRISK()
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
             raise Exception(
@@ -185,31 +186,32 @@ def init_feature(name, separator="-", features={}):  # dictionary caches the fea
         chunks = name.split(separator)
         index = 0
         if chunks[index].lower() == 'sift':
-            try:  # opencv 2
-                detector = cv2.SIFT()  # Scale-invariant feature transform
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'SIFT_create'):
+                detector = cv2.SIFT_create()
+            elif hasattr(cv2, 'xfeatures2d') and hasattr(cv2.xfeatures2d, 'SIFT_create'):
                 detector = cv2.xfeatures2d.SIFT_create()
+            else:
+                detector = cv2.SIFT()
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'surf':
-            try:  # opencv 2
-                # Hessian Threshold to 800, 500 #
-                # http://stackoverflow.com/a/18891668/5288758
-                detector = cv2.SURF()
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'xfeatures2d') and hasattr(cv2.xfeatures2d, 'SURF_create'):
                 detector = cv2.xfeatures2d.SURF_create()
-            # http://docs.opencv.org/2.4/modules/nonfree/doc/feature_detection.html
+            elif hasattr(cv2, 'SURF_create'):
+                detector = cv2.SURF_create()
+            else:
+                detector = cv2.SURF()
             norm = cv2.NORM_L2  # distance measurement to be used
         elif chunks[index].lower() == 'orb':
-            try:  # opencv 2
-                detector = cv2.ORB()  # around 400, binary string based descriptors
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'ORB_create'):
                 detector = cv2.ORB_create()
+            else:
+                detector = cv2.ORB()
             norm = cv2.NORM_HAMMING  # Hamming distance
         elif chunks[index].lower() == 'brisk':
-            try:  # opencv 2
-                detector = cv2.BRISK()
-            except AttributeError:  # opencv 3
+            if hasattr(cv2, 'BRISK_create'):
                 detector = cv2.BRISK_create()
+            else:
+                detector = cv2.BRISK()
             norm = cv2.NORM_HAMMING  # Hamming distance
         else:
             raise Exception(

@@ -1164,7 +1164,7 @@
 
       let cmd = `python imrestore.py ${data.cliPattern} -v 1 -f ${featFlag} --distanceThresh ${dist} --inlineThresh ${inline} -z ${restorer}`;
       if (lens) cmd += ' --lens';
-      if (grow) cmd += ' --grow';
+      if (grow) cmd += ' --grow_scene';
 
       document.getElementById('terminal-command').textContent = cmd;
     }

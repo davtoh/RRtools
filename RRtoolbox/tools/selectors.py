@@ -40,7 +40,7 @@ def entropy(imlist, loadfunc=None, invert=False):
     E = np.zeros(len(imlist), FLOAT)  # pre-allocate array
     for num, im in enumerate(imlist):  # for each image get data
 
-        if isinstance(im, basestring):
+        if isinstance(im, str):
             if loadfunc is None:
                 def loadfunc(im):
                     return cv2.imread(im, 0)
@@ -49,12 +49,12 @@ def entropy(imlist, loadfunc=None, invert=False):
             gray_img = im
         E[num] = entroyTest(gray_img)
 
-    RMS = np.sqrt(old_div(np.sum(E**2), len(imlist)))  # get root mean square
+    RMS = np.sqrt(np.sum(E**2) / len(imlist))  # get root mean square
     D = np.abs(E - RMS)  # absolute difference error
     sortedD = np.sort(D)  # sort errors # order from minor to greater
     if invert:
         sortedD = sortedD[::-1]  # order from greater to minor
-    sortedImlist = [imlist[np.where(D == s)[0]]
+    sortedImlist = [imlist[int(np.where(D == s)[0][0])]
                     for s in sortedD]  # get sorted images
     return sortedD, sortedImlist, D, imlist
 
@@ -70,7 +70,7 @@ def hist_comp(imlist, loadfunc=None, method="correlation"):
     #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     # assert(len(fns)>=2) # no images to compare. There must be 2 or more
     def helper(im, loadfunc=loadfunc):
-        if isinstance(im, basestring):
+        if isinstance(im, str):
             if loadfunc is None:
                 def loadfunc(im):
                     return cv2.imread(im)
@@ -109,7 +109,7 @@ class EntropyPlot(Plotim):
         self.init()
 
     def getImage(self, im):
-        if isinstance(im, basestring):  # list is reference to image
+        if isinstance(im, str):  # list is reference to image
             return self.loadfunc(im)
         elif type(im) in (float, int):  # is entropy value
             return self.getImage(self.sortedImages[self.sortedD.index(im)])
@@ -117,7 +117,7 @@ class EntropyPlot(Plotim):
             return im
 
     def getData(self, im):
-        if isinstance(im, basestring):  # list is reference to image
+        if isinstance(im, str):  # list is reference to image
             name = "".join(getData(im)[2:])
             number = str(1 + self.index)
             D = str(self.sortedD[self.sortedImages.index(im)])
