@@ -1164,7 +1164,7 @@
 
       let cmd = `python imrestore.py ${data.cliPattern} -v 1 -f ${featFlag} --distanceThresh ${dist} --inlineThresh ${inline} -z ${restorer}`;
       if (lens) cmd += ' --lens';
-      if (grow) cmd += ' --grow';
+      if (grow) cmd += ' --grow_scene';
 
       document.getElementById('terminal-command').textContent = cmd;
     }
@@ -1188,6 +1188,13 @@
     // Initialize
     updateSplit(50);
     updateCommand();
+
+    // Export handlers to window for inline HTML attributes
+    window.switchShowcase = switchShowcase;
+    window.updateSplit = updateSplit;
+    window.applyPreset = applyPreset;
+    window.updateCommand = updateCommand;
+    window.copyCommand = copyCommand;
   </script>
 </body>
 </html>

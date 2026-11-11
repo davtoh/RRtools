@@ -167,14 +167,6 @@ Notes:
 
 __author__ = 'David Toro'
 
-# needed for installing executable
-import six ### DO NOT DELETE used for executable
-import packaging ### DO NOT DELETE used for executable
-import packaging.specifiers ### DO NOT DELETE used for executable
-import packaging.requirements ### DO NOT DELETE used for executable
-import appdirs ### DO NOT DELETE used for executable
-import six ### DO NOT DELETE used for executable
-import tkinter.filedialog ### DO NOT DELETE used for executable
 # program imports
 import os
 import cv2
@@ -314,11 +306,11 @@ class ImRestore(object):
             #if self.verbosity: print("Looking in DEMO path '{}'".format(test))
             #fns = glob(test + "*",check=check_valid)
             raise Exception("List of filenames is Empty")
-        elif isinstance(filenames, basestring):
+        elif isinstance(filenames, str):
             # if string assume it is a path
             if self.verbosity: print("Looking as '{}'".format(filenames))
             fns = glob(filenames, check=check_valid)
-        elif not isinstance(filenames, basestring) and \
+        elif not isinstance(filenames, str) and \
                         len(filenames) == 1 and "*" in filenames[0]:
             filenames = filenames[0] # get string
             if self.verbosity: print("Looking as '{}'".format(filenames))
@@ -399,7 +391,7 @@ class ImRestore(object):
 
         # to select base image ahead of any process
         baseImage = opts.pop("baseImage", None)
-        if isinstance(baseImage, basestring):
+        if isinstance(baseImage, str):
             if baseImage not in fns:
                 base, path, name, ext = getData(baseImage)
                 if not path: # if name is incomplete look for it
@@ -648,7 +640,7 @@ class ImRestore(object):
         # initialization and base image selection
         if baseImage is None: # select first image as baseImage
            _, _, baseImage, self.kps_base, self.desc_base = self.feature_list[0]
-        elif isinstance(baseImage, basestring):
+        elif isinstance(baseImage, str):
             self.kps_base, self.desc_base, _ = self.feature_dict[baseImage]
         elif baseImage is True: # sort images
             self.feature_list.sort(reverse=True) # descendant: from bigger to least
@@ -824,7 +816,7 @@ class ImRestore(object):
                             text = "inlines/lines: {}/{}={}, " \
                                    "rectangularity: {}, test: {}".format(
                                 inlines, lines, inlineratio, c.rotatedRectangularity,
-                                ("failed", "succeeded")[Test])
+                                ("succeeded" if Test else "failed"))
 
                             if self.verbosity>1: print(text)
 
@@ -906,7 +898,7 @@ class ImRestore(object):
             overwrite = self.overwrite
 
         bbase, bpath, bname, bext = getData(self.used[0])
-        if isinstance(path, basestring):
+        if isinstance(path, str):
             # format path if user has specified so
             data = getData(self.save.format(path="".join((bbase,  bpath)),
                                             name=bname, ext=bext))
@@ -1517,10 +1509,11 @@ def shell(args=None, namespace=None, restorers = None):
     return namespace # return given namespace
 
 if __name__ == "__main__":
-    #shell() # run the shell
-    #shell(" tests/im1* --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --grow_scene --denoise mild --lens --enclose --restorer RetinalRestore".split())
-    #shell(' /home/davtoh/Downloads/test/*.jpg --verbosity 1 --feature a-sift-flann --loader 1, --distanceThresh 0.75 --inlineThresh 0.2 --rectangularityThresh 0.5 --ransacReprojThreshold 10.0 --restorer RetinalRestore'.split())
-    #shell("-z ImRestore /home/davtoh/Downloads/test/*.jpg -g -l 800,800 -t".split())
-    shell("tests/im1*".split()) # run this for testing
+    import sys
+    if len(sys.argv) > 1:
+        shell()
+    else:
+        # Default demo execution on test images when invoked with no arguments
+        shell("tests/im1*".split())
     # TODO visualizator for alpha mask
     # TODO implement standard deviation in bright areas to detect optic disk

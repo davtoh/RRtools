@@ -342,7 +342,7 @@ def parseString(string, timeout=3):
     :param timeout:
     :return:
     """
-    if isinstance(string, basestring):
+    if isinstance(string, str):
         host, addr = string.split(":")
         return rcvPickle((host, int(addr)), timeout=timeout)
     else:

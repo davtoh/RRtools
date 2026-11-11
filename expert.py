@@ -17,7 +17,7 @@ from imrestore import check_valid
 
 class ImageExpert(Image):
     def __init__(self, data, shape = None):
-        if isinstance(data,basestring):
+        if isinstance(data, str):
             fn = data
             data = {"fn":fn,"shape":shape}
         else:
@@ -93,7 +93,7 @@ class Expert(object):
         :param contents:
         :param filter: function to filter out files
         """
-        if isinstance(path, basestring):
+        if isinstance(path, str):
             path = os.path.abspath(path) # ensures absolute path
             self.fns = fns = glob(path, contents=contents, check=filter)
         else:
@@ -106,7 +106,7 @@ class Expert(object):
         # mode 2 lets is used to change the fields in the cached data
         if data is None:
             data = {}
-        elif isinstance(data,basestring):
+        elif isinstance(data, str):
             data = MemoizedDict(data)
         else: # it should be dictionary
             pass

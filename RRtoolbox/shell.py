@@ -85,7 +85,7 @@ class Shell(object):
         return parser
 
     def getParser(self, func):
-        if isinstance(func, basestring):
+        if isinstance(func, str):
             name = func  # it is the name
         else:
             name = func.__name__  # get name from object

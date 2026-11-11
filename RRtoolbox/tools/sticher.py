@@ -56,7 +56,7 @@ def stich(**opts):
                     H, status, kp_pairs = MATCH(
                         feature_name, kp1, desc1, kp2, desc2)
                     inlines, lines = np.sum(status), len(status)
-                    pro = old_div(float(inlines), lines)
+                    pro = float(inlines) / lines
                     test = pro > 0.5  # do test to see if both match
                     win = '{0}({2}) - {1}({3}) inliers({4})/matched({5}) rate({6}) pass({7})'.format(
                         i, j, len(kp1), len(kp2), inlines, lines, pro, test)
